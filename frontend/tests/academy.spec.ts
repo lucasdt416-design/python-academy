@@ -84,12 +84,12 @@ test('real Python returns correct output and useful syntax errors', async ({page
     await page.getByRole('button',{name:new RegExp(lesson)}).click();
     await page.getByLabel('Your Python code').fill(code);
     await page.getByRole('button',{name:/Run Python/}).click();
-    await expect(page.locator('.output')).toHaveText(expected,{timeout:20000});
+    await expect(page.locator('.output[aria-live]')).toHaveText(expected,{timeout:20000});
     await expect(page.getByText('Your output matches. Nicely done!')).toBeVisible();
   }
   await page.getByLabel('Your Python code').fill('print(');
   await page.getByRole('button',{name:/Run Python/}).click();
-  await expect(page.locator('.output')).toContainText('SyntaxError',{timeout:20000});
+  await expect(page.locator('.output[aria-live]')).toContainText('SyntaxError',{timeout:20000});
 });
 
 test('endless Python loop can be stopped and editor stays responsive', async ({page}) => {
@@ -98,7 +98,7 @@ test('endless Python loop can be stopped and editor stays responsive', async ({p
   await page.getByLabel('Your Python code').fill('while True:\n    pass');
   await page.getByRole('button',{name:/Run Python/}).click();
   await page.getByRole('button',{name:'Stop',exact:true}).click();
-  await expect(page.locator('.output')).toHaveText('Execution stopped.');
+  await expect(page.locator('.output[aria-live]')).toHaveText('Execution stopped.');
   await expect(page.getByRole('button',{name:/Run Python/})).toBeEnabled();
 });
 
@@ -108,7 +108,7 @@ test('endless loop automatically times out without freezing the page', async ({p
   await page.goto('/');
   await page.getByLabel('Your Python code').fill('while True:\n    pass');
   await page.getByRole('button',{name:/Run Python/}).click();
-  await expect(page.locator('.output')).toContainText('Execution stopped after 15 seconds',{timeout:20000});
+  await expect(page.locator('.output[aria-live]')).toContainText('Execution stopped after 15 seconds',{timeout:20000});
   await expect(page.getByRole('button',{name:/Run Python/})).toBeEnabled();
 });
 
