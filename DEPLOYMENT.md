@@ -18,9 +18,11 @@ Deployed on 2026-10-24.
 
 The frontend and API have live deployments. The app homepage, proxied /health, /api/lessons and Python worker return HTTP 200. Anonymous /api/me returns 401. PostgreSQL contains users, invitations, events and attempts tables. Local validation passed 15 backend tests, 8 Chromium tests and a production build. The initial Render frontend build omitted development dependencies; the build now explicitly runs npm ci --include=dev.
 
-## Remaining: Google sign-in
+## Google sign-in: configured and verified
 
-Google Cloud Console was unavailable in the agent browser. No Google OAuth client was created, and the live sign-in endpoint intentionally returns 503 until configured.
+The owner created the Google OAuth Web application client and entered its credentials directly in Render. The API redeployed successfully. The production OAuth flow redirected to Google with state and nonce, completed Google verification and consent, returned to the app, and created one persistent account with a signed_in audit event. Parent enrollment is still pending the owner's date of birth. No client secret is stored in this repository.
+
+The following steps document configuration for future maintenance:
 
 1. Open https://console.cloud.google.com/auth/overview and select or create the application's project.
 2. Configure Google Auth Platform branding as Python Academy, using the owner's support email. For initial testing, use an External audience in Testing and add the intended parent and learner test accounts.
