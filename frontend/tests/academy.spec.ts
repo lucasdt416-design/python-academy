@@ -119,3 +119,19 @@ test('mobile welcome fits the viewport', async ({page}) => {
   await expect(page.getByRole('link',{name:/Continue with Google/})).toBeVisible();
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
 });
+
+
+test('opening lesson teaches prediction, editing, hints and execution order', async ({page}) => {
+  await mockApi(page,'student');
+  await page.goto('/');
+  await expect(page.getByRole('region',{name:'Lesson one guide'})).toBeVisible();
+  await page.getByRole('button',{name:'The dragon message',exact:true}).click();
+  await expect(page.getByText(/castle message appears first because/)).toBeVisible();
+  await page.getByRole('button',{name:'Try the example in the editor'}).click();
+  await expect(page.getByLabel('Your Python code')).toHaveValue('print("You stand outside a mysterious castle.")\nprint("A tiny dragon opens the gate.")');
+  for(let i=0;i<3;i++) await page.getByRole('button',{name:'Show next hint',exact:true}).click();
+  await expect(page.getByRole('button',{name:'All hints shown'})).toBeDisabled();
+  await page.getByRole('button',{name:'Both at once',exact:true}).click();
+  await expect(page.getByText(/These two statements run one after the other/)).toBeVisible();
+  await expect(page.getByText('Your output should contain your two story messages in order. Your wording is your choice.')).toBeVisible();
+});

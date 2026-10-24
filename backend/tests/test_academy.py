@@ -73,7 +73,7 @@ def test_csrf_and_role_restrictions():
 def test_practice_checks_and_persistence():
     signin('student')
     assert post('attempts',{'lesson_id':'hello','code':'print("wrong")','output':'wrong\n'}).json()['passed'] is False
-    assert post('attempts',{'lesson_id':'hello','code':LESSONS[0]['starter'],'output':'Hello, Python!\n'}).json()['passed'] is True
+    assert post('attempts',{'lesson_id':'hello','code':'print("A forest.")\nprint("A dragon!")','output':'A forest.\nA dragon!\n'}).json()['passed'] is True
     assert post('attempts',{'lesson_id':'hello','code':'pass','output':'Hello, Python!'}).json()['passed'] is False
     assert post('attempts',{'lesson_id':'missing','code':'','output':''}).status_code ==404
     with Session(engine) as db:
@@ -100,7 +100,11 @@ def test_reference_curriculum(lesson):
     stream=io.StringIO()
     with contextlib.redirect_stdout(stream):
         exec(solutions[lesson['id']],{})
-    assert stream.getvalue()==lesson['expected']
+    if lesson['id'] == 'hello':
+        from app.main import check_opening
+        assert check_opening('print("A forest.")\nprint("A dragon!")', 'A forest.\nA dragon!\n')[0]
+    else:
+        assert stream.getvalue()==lesson['expected']
 
 def test_expired_invitation_and_exact_student_boundary():
     from datetime import datetime,timedelta,timezone
@@ -157,3 +161,23 @@ def test_google_callback_records_account_and_rotates_session(monkeypatch):
     assert response.headers['location'] == 'http://localhost:3000'
     assert client.get('/api/me').json()['email'] == 'user@example.com'
     assert client.get('/api/history').json()[0]['action'] == 'signed_in'
+
+
+
+@pytest.mark.parametrize('code,output,passed', [
+    ('print("Mars")\nprint("A robot waves")', 'Mars\nA robot waves\n', True),
+    ("print('Ocean')\nprint('A fish speaks')", 'Ocean\nA fish speaks\n', True),
+    ('# Scene\nprint("Moon")\nprint("Footsteps")', 'Moon\nFootsteps\n', True),
+    ('print("Mars")\nprint("A robot waves")', 'A robot waves\nMars\n', False),
+    ('print("Only one")', 'Only one\n', False),
+    ('print("Unclosed)', '', False),
+    ('print("")\nprint("Surprise")', '\nSurprise\n', False),
+    ('print("A", "B")\nprint("C")', 'A B\nC\n', False),
+    ('import os\nprint("A")', 'A\n', False),
+    ('print("A")\nprint("B", end="")', 'A\nB', False),
+])
+def test_opening_accepts_creativity_and_explains_mistakes(code, output, passed):
+    from app.main import check_opening
+    result, feedback = check_opening(code, output)
+    assert result is passed
+    assert feedback

@@ -1,3 +1,4 @@
+import ast
 import hashlib
 import os
 import secrets
@@ -65,6 +66,35 @@ LESSONS = [
     {'id': 'variables', 'title': 'Your first variable', 'concept': 'Variables', 'description': 'Store 7 in a variable called stars. Print stars multiplied by 3.', 'starter': 'stars = 7\n# Print stars multiplied by 3', 'expected': '21\n'},
     {'id': 'loop', 'title': 'Make a loop', 'concept': 'Loops', 'description': 'Use a loop to print the numbers 1 through 5, each on its own line.', 'starter': 'for number in range(1, 6):\n    # Print number\n    pass', 'expected': '1\n2\n3\n4\n5\n'},
 ]
+
+# Keep the lesson ID stable for existing practice history.
+LESSONS[0].update({
+    'title': 'Your Adventure Begins',
+    'description': 'Write two print statements: one describes a location, the other introduces something unexpected. Choose your own story text.',
+    'starter': '# Describe your location with print()\n# On the next line, print something unexpected\n',
+    'expected': None,
+})
+
+def check_opening(code, output):
+    """Inspect syntax without executing untrusted learner code on the server."""
+    try:
+        tree = ast.parse(code)
+    except SyntaxError:
+        return False, 'Python could not read your code. Check that each message has matching quotation marks and each print call has matching parentheses.'
+    if len(tree.body) != 2:
+        return False, 'Write two print statements on separate lines: a location, then a surprise.'
+    messages = []
+    for statement in tree.body:
+        call = statement.value if isinstance(statement, ast.Expr) else None
+        if not (isinstance(call, ast.Call) and isinstance(call.func, ast.Name) and call.func.id == 'print' and len(call.args) == 1 and not call.keywords and isinstance(call.args[0], ast.Constant) and isinstance(call.args[0].value, str)):
+            return False, 'For this first challenge, use print("your message") twice, with one quoted message in each call.'
+        message = call.args[0].value
+        if not message.strip() or '\n' in message or '\r' in message:
+            return False, 'Give each print statement a nonempty message on a single output line.'
+        messages.append(message)
+    if output.replace('\r\n', '\n') != ''.join(message + '\n' for message in messages):
+        return False, 'Run your current code again. Its output should show your two messages in the same order.'
+    return True, 'Your opening scene works! Both messages appear in order. You used print() to tell your own story.'
 
 Base.metadata.create_all(engine)
 app = FastAPI(title='Python Academy')
@@ -213,8 +243,13 @@ def attempt(data: Submission, request: Request):
         if not lesson:
             raise HTTPException(404, 'Unknown lesson')
         # Browser execution is practice feedback, not tamper-resistant assessment.
-        passed = data.output.replace('\r\n', '\n') == lesson['expected']
+        if lesson['id'] == 'hello':
+            passed, feedback = check_opening(data.code, data.output)
+        else:
+            passed = data.output.replace('\r\n', '\n') == lesson['expected']
+            feedback = 'Your output matches. Nicely done!' if passed else 'Keep going. Compare your output with the expected result.'
         db.add(Attempt(user_id=u.id, lesson_id=data.lesson_id, code=data.code, output=data.output, passed=passed))
         audit(db, u, 'practice_saved', data.lesson_id)
         db.commit()
-        return {'passed': passed, 'assessment': 'browser_practice'}
+        return {'passed': passed, 'feedback': feedback, 'assessment': 'browser_practice'}
+
