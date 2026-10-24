@@ -135,3 +135,18 @@ test('opening lesson teaches prediction, editing, hints and execution order', as
   await expect(page.getByText(/These two statements run one after the other/)).toBeVisible();
   await expect(page.getByText('Your output should contain your two story messages in order. Your wording is your choice.')).toBeVisible();
 });
+
+
+test('public preview jumps to lessons without account access', async ({page}) => {
+ const privateRequests:string[]=[];
+ page.on('request', r=>{if(/\/api\/(me|history|family|attempts)$/.test(new URL(r.url()).pathname))privateRequests.push(r.url());});
+ await mockApi(page,null);
+ await page.goto('/preview?lesson=loop');
+ await expect(page.getByText('Content preview',{exact:true})).toBeVisible();
+ await expect(page.getByLabel('Your Python code')).toHaveValue(lessons[2].starter);
+ await page.getByRole('button',{name:/Say hello/}).click();
+ await expect(page.getByRole('region',{name:'Lesson one guide'})).toBeVisible();
+ await expect(page).toHaveURL(/lesson=hello/);
+ await expect(page.getByRole('button',{name:'Sign out'})).toHaveCount(0);
+ expect(privateRequests).toEqual([]);
+});
