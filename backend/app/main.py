@@ -1,6 +1,5 @@
-import json
-from pathlib import Path
-from .lesson_checks import check_story
+from . import content
+from .lesson_checks import assess, check_story
 import hashlib
 import os
 import secrets
@@ -63,7 +62,8 @@ class Attempt(Base):
     output: Mapped[str] = mapped_column(Text)
     passed: Mapped[bool] = mapped_column(default=False)
 
-LESSONS = json.loads(Path(__file__).with_name('curriculum.json').read_text())
+CATALOG, CONTENT = content.load()
+LESSONS = content.legacy_lessons(CATALOG, CONTENT)
 
 def check_opening(code, output):
     return check_story('hello', code, output, [])
@@ -223,11 +223,11 @@ def attempt(data: Submission, request: Request):
         if not lesson:
             raise HTTPException(404, 'Unknown lesson')
         # Safe, bounded checks of taught syntax; learner code never executes here.
-        passed, feedback = check_story(data.lesson_id, data.code, data.output, data.inputs)
-        db.add(Attempt(user_id=u.id, lesson_id=data.lesson_id, code=data.code, output=data.output, passed=passed))
+        result, feedback = assess(data.lesson_id, data.code, data.output, data.inputs)
+        db.add(Attempt(user_id=u.id, lesson_id=data.lesson_id, code=data.code, output=data.output, passed=result == 'passed'))
         audit(db, u, 'practice_saved', data.lesson_id)
         db.commit()
-        return {'passed': passed, 'feedback': feedback, 'assessment': 'browser_practice'}
+        return {'passed': result == 'passed', 'result': result, 'feedback': feedback, 'assessment': 'browser_practice'}
 
 
 
@@ -235,8 +235,8 @@ def attempt(data: Submission, request: Request):
 def check_preview(data: Submission):
     if not any(lesson['id'] == data.lesson_id for lesson in LESSONS):
         raise HTTPException(404, 'Unknown lesson')
-    passed, feedback = check_story(data.lesson_id, data.code, data.output, data.inputs)
-    return {'passed': passed, 'feedback': feedback, 'assessment': 'browser_practice'}
+    result, feedback = assess(data.lesson_id, data.code, data.output, data.inputs)
+    return {'passed': result == 'passed', 'result': result, 'feedback': feedback, 'assessment': 'browser_practice'}
 
 @app.get('/api/progress')
 def progress(request: Request):

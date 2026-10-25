@@ -1,0 +1,125 @@
+{
+  "version": 1,
+  "courses": [
+    {
+      "id": "py",
+      "version": 1,
+      "title": "Python Foundations",
+      "summary": "Write your first programs, then grow them into tested, organized projects.",
+      "status": "released",
+      "prerequisites": {"required": [], "suggested": []},
+      "units": [
+        {"id": "py.u01", "title": "Build Your Own Adventure", "summary": "Output, variables, input, and choices in one connected story.", "status": "released", "lessons": ["hello", "variables", "input", "choices", "adventure"]},
+        {"id": "py.u02", "title": "Numbers and decisions", "summary": "Arithmetic, conversion, comparison, and Boolean logic.", "status": "coming_soon", "lessons": []},
+        {"id": "py.u03", "title": "Repeat and explore", "summary": "while and for loops that always finish.", "status": "coming_soon", "lessons": []},
+        {"id": "py.u04", "title": "Keep track of a world", "summary": "Lists, dictionaries, and sets.", "status": "coming_soon", "lessons": []},
+        {"id": "py.u05", "title": "Organize your code", "summary": "Functions, parameters, return values, and scope.", "status": "coming_soon", "lessons": []},
+        {"id": "py.u06", "title": "Recover and investigate", "summary": "Tracebacks, debugging, and exceptions.", "status": "coming_soon", "lessons": []},
+        {"id": "py.u07", "title": "Libraries and modules", "summary": "Importing and using the standard library.", "status": "coming_soon", "lessons": []},
+        {"id": "py.u08", "title": "Trust your changes", "summary": "Tests, boundaries, and refactoring.", "status": "coming_soon", "lessons": []},
+        {"id": "py.u09", "title": "Save and load", "summary": "Text files, JSON, and CSV.", "status": "coming_soon", "lessons": []},
+        {"id": "py.u10", "title": "Patterns in text", "summary": "String methods and regular expressions.", "status": "coming_soon", "lessons": []},
+        {"id": "py.u11", "title": "Model a larger program", "summary": "Classes and composition.", "status": "coming_soon", "lessons": []},
+        {"id": "py.u12", "title": "Final project", "summary": "Plan, build, test, and explain a project of your own.", "status": "coming_soon", "lessons": []}
+      ]
+    },
+    {
+      "id": "hack",
+      "version": 1,
+      "title": "Hackathon Ready",
+      "summary": "Scope, build, and demo a small working project with a team, against the clock.",
+      "status": "coming_soon",
+      "prerequisites": {"required": ["py.u01", "py.u02", "py.u03", "py.u04", "py.u05", "py.u06", "py.u07"], "suggested": ["git", "web"]},
+      "units": [
+        {"id": "hack.u01", "title": "Idea to MVP", "summary": "Cut an idea down to a minimum viable product.", "status": "coming_soon", "lessons": []},
+        {"id": "hack.u02", "title": "Time-boxing", "summary": "Plan in fixed time blocks and know what to drop.", "status": "coming_soon", "lessons": []},
+        {"id": "hack.u03", "title": "Teamwork with Git branches", "summary": "Feature branches, small pull requests, and reviews.", "status": "coming_soon", "lessons": []},
+        {"id": "hack.u04", "title": "Using public APIs safely", "summary": "Rate limits, terms of use, and keeping keys out of frontend code.", "status": "coming_soon", "lessons": []},
+        {"id": "hack.u05", "title": "Quick UI prototyping", "summary": "From a paper sketch to a minimal working interface.", "status": "coming_soon", "lessons": []},
+        {"id": "hack.u06", "title": "Demo and pitching", "summary": "A two-minute demo that shows what works.", "status": "coming_soon", "lessons": []},
+        {"id": "hack.u07", "title": "Judging criteria", "summary": "How projects are judged, and assessing your own honestly.", "status": "coming_soon", "lessons": []}
+      ]
+    },
+    {
+      "id": "git",
+      "version": 1,
+      "title": "Git and GitHub Essentials",
+      "summary": "Track changes, work on branches, and open your first pull request.",
+      "status": "coming_soon",
+      "prerequisites": {"required": ["py.u01"], "suggested": ["py.u05"]},
+      "units": []
+    },
+    {
+      "id": "web",
+      "version": 1,
+      "title": "Web Foundations: HTML and CSS",
+      "summary": "Build an accessible, responsive personal website.",
+      "status": "coming_soon",
+      "prerequisites": {"required": ["py.u01", "py.u02", "py.u03"], "suggested": ["git"]},
+      "units": []
+    },
+    {
+      "id": "js",
+      "version": 1,
+      "title": "JavaScript and the DOM",
+      "summary": "Make web pages interactive with events and state.",
+      "status": "coming_soon",
+      "prerequisites": {"required": ["web", "py.u01", "py.u02", "py.u03", "py.u04", "py.u05"], "suggested": ["git"]},
+      "units": []
+    },
+    {
+      "id": "sql",
+      "version": 1,
+      "title": "Data and SQL",
+      "summary": "Ask questions of real tables with queries, joins, and constraints.",
+      "status": "coming_soon",
+      "prerequisites": {"required": ["py.u01", "py.u02", "py.u03", "py.u04"], "suggested": ["web"]},
+      "units": []
+    },
+    {
+      "id": "data",
+      "version": 1,
+      "title": "Data Investigation with Python",
+      "summary": "Answer an original question with a documented dataset.",
+      "status": "coming_soon",
+      "prerequisites": {"required": ["py.u01", "py.u02", "py.u03", "py.u04", "py.u05", "py.u06", "py.u07", "py.u08", "py.u09", "sql"], "suggested": ["cs"]},
+      "units": []
+    },
+    {
+      "id": "cs",
+      "version": 1,
+      "title": "Computer Science Foundations",
+      "summary": "Representation, searching, sorting, complexity, and recursion.",
+      "status": "coming_soon",
+      "prerequisites": {"required": ["py.u01", "py.u02", "py.u03", "py.u04", "py.u05"], "suggested": ["py.u06", "py.u07", "py.u08"]},
+      "units": []
+    },
+    {
+      "id": "node",
+      "version": 1,
+      "title": "Node.js and APIs",
+      "summary": "Build an API with routes, validation, and a database.",
+      "status": "coming_soon",
+      "prerequisites": {"required": ["js", "sql"], "suggested": ["git"]},
+      "units": []
+    },
+    {
+      "id": "fullstack",
+      "version": 1,
+      "title": "Full-Stack Builder",
+      "summary": "Ship a client, API, and database project with automated checks.",
+      "status": "coming_soon",
+      "prerequisites": {"required": ["node", "git"], "suggested": ["cs"]},
+      "units": []
+    },
+    {
+      "id": "ce",
+      "version": 1,
+      "title": "Engineering Depth",
+      "summary": "Electives in C and memory, discrete foundations, numerical methods, and embedded simulation.",
+      "status": "coming_soon",
+      "prerequisites": {"required": ["cs", "py"], "suggested": []},
+      "units": []
+    }
+  ]
+}

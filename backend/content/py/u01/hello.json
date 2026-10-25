@@ -1,0 +1,64 @@
+{
+  "id": "hello",
+  "version": 1,
+  "course": "py",
+  "unit": "py.u01",
+  "title": "Open the story",
+  "concept": "Output · print()",
+  "description": "Give your adventure a setting and a surprise.",
+  "badge": {
+    "id": "py.badge.story-spark",
+    "version": 1,
+    "title": "Story spark",
+    "category": "practice"
+  },
+  "tasks": [
+    {
+      "id": "hello.discover",
+      "type": "discover",
+      "title": "Your story starts with one instruction",
+      "body": "A program is a set of instructions. Python follows these instructions from top to bottom. Use print() to display words on the screen.",
+      "detail": "Put text inside matching quotation marks, then put that string inside the parentheses. Use lowercase print. The quotation marks do not appear in the output."
+    },
+    {
+      "id": "hello.example",
+      "type": "example",
+      "code": "print(\"You arrive at a moonlit castle.\")\nprint(\"A tiny dragon opens the gate.\")",
+      "output": "You arrive at a moonlit castle.\nA tiny dragon opens the gate.",
+      "note": "Each print() adds a new line. Two instructions give you two lines of story.",
+      "inputs": []
+    },
+    {
+      "id": "hello.predict",
+      "type": "predict",
+      "question": "Which message appears first?",
+      "options": [
+        "The castle message",
+        "The dragon message"
+      ],
+      "answer": 0,
+      "why": "Python runs the first print statement before the second. Swapping the code lines swaps the messages."
+    },
+    {
+      "id": "hello.guided",
+      "type": "guided",
+      "prompt": "Change the dragon into a different creature. Keep the matching quotes and parentheses, then run your story."
+    },
+    {
+      "id": "hello.challenge",
+      "type": "challenge",
+      "prompt": "Write two print statements: describe a location, then introduce a surprise. Choose any two nonempty story messages, each on its own line.",
+      "starter": "# Describe a location with print()\n# On the next line, print an unexpected event\n",
+      "hints": [
+        "Start with lowercase print, followed by parentheses.",
+        "Put one message in matching quotes inside each print call.",
+        "Example: print(\"You land on Mars.\")\nprint(\"A robot offers you tea.\")"
+      ],
+      "input_labels": [],
+      "validator": {
+        "id": "bounded-story",
+        "version": 1
+      }
+    }
+  ]
+}

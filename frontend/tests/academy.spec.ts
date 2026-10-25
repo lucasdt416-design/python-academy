@@ -1,5 +1,6 @@
 import {test, expect, Page} from '@playwright/test';
-import lessons from '../../backend/app/curriculum.json';
+// Same JSON that /api/lessons serves; backend tests assert they are identical.
+import lessons from '../../backend/tests/fixtures/legacy_lessons_v1.json';
 async function mockApi(page:Page,initialRole:string|null){
  let role=initialRole;const completed:string[]=[];
  await page.route('**/api/**',async route=>{

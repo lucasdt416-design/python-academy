@@ -1,0 +1,68 @@
+{
+  "id": "choices",
+  "version": 1,
+  "course": "py",
+  "unit": "py.u01",
+  "title": "Choose a path",
+  "concept": "Decisions · if / else",
+  "description": "Make the story respond to a choice.",
+  "badge": {
+    "id": "py.badge.path-finder",
+    "version": 1,
+    "title": "Path finder",
+    "category": "practice"
+  },
+  "tasks": [
+    {
+      "id": "choices.discover",
+      "type": "discover",
+      "title": "Give your story two possible paths",
+      "body": "An if statement runs an indented block only when its condition is true. == compares two values. An else block runs when that condition is false.",
+      "detail": "Use a colon after the if condition and after else. Indent the instructions inside each block by four spaces. Our example compares exact lowercase text: left. Any other reply takes the else path."
+    },
+    {
+      "id": "choices.example",
+      "type": "example",
+      "code": "path = input(\"Left or right? \")\nif path == \"left\":\n    print(\"You discover a waterfall.\")\nelse:\n    print(\"You find a hidden library.\")",
+      "output": "You discover a waterfall.",
+      "note": "With left as the reply, only the waterfall line runs. With right, only the library line runs.",
+      "inputs": [
+        "left"
+      ]
+    },
+    {
+      "id": "choices.predict",
+      "type": "predict",
+      "question": "Which block runs when path is \"right\"?",
+      "options": [
+        "The if block",
+        "The else block"
+      ],
+      "answer": 1,
+      "why": "\"right\" == \"left\" is false, so Python skips the if block and runs the else block."
+    },
+    {
+      "id": "choices.guided",
+      "type": "guided",
+      "prompt": "Give both paths new discoveries. Run with left, then with right. Confirm that the discoveries differ."
+    },
+    {
+      "id": "choices.challenge",
+      "type": "challenge",
+      "prompt": "Ask the player to choose left or right. Use if and else to print a different nonempty discovery for each choice. Keep the replies as lowercase left and right; invent your own discoveries.",
+      "starter": "path = input(\"Left or right? \")\nif path == \"left\":\n    # Print one discovery\n    pass\nelse:\n    # Print a different discovery\n    pass\n",
+      "hints": [
+        "Compare path with \"left\" using two equals signs: ==.",
+        "Both if and else need a colon. Their print statements need indentation.",
+        "Replace each pass with print(\"your discovery\"). Make the two discoveries different."
+      ],
+      "input_labels": [
+        "Path: left or right"
+      ],
+      "validator": {
+        "id": "bounded-story",
+        "version": 1
+      }
+    }
+  ]
+}

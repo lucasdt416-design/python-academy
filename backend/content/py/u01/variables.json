@@ -1,0 +1,64 @@
+{
+  "id": "variables",
+  "version": 1,
+  "course": "py",
+  "unit": "py.u01",
+  "title": "Create your hero",
+  "concept": "Variables · strings",
+  "description": "Give the adventure a hero and a useful tool.",
+  "badge": {
+    "id": "py.badge.character-creator",
+    "version": 1,
+    "title": "Character creator",
+    "category": "practice"
+  },
+  "tasks": [
+    {
+      "id": "variables.discover",
+      "type": "discover",
+      "title": "Remember a detail with a variable",
+      "body": "A variable is a name that refers to a value. Write hero = \"Nova\" to store a name. Later, use hero without quotes to read the value.",
+      "detail": "The equals sign assigns a value; it does not print anything. print(\"hero\") displays the word hero. print(hero) displays the value stored under that name. Define a variable before you use it."
+    },
+    {
+      "id": "variables.example",
+      "type": "example",
+      "code": "hero = \"Nova\"\ntool = \"lantern\"\nprint(hero)\nprint(tool)",
+      "output": "Nova\nlantern",
+      "note": "Changing the two assignments updates the character details without changing the print instructions.",
+      "inputs": []
+    },
+    {
+      "id": "variables.predict",
+      "type": "predict",
+      "question": "What does print(hero) display after hero = \"Nova\"?",
+      "options": [
+        "hero",
+        "Nova"
+      ],
+      "answer": 1,
+      "why": "Without quotes, hero means “use the value stored in this variable.” That value is the string Nova."
+    },
+    {
+      "id": "variables.guided",
+      "type": "guided",
+      "prompt": "Change Nova to your hero’s name and lantern to a tool of your choice. Run the code to see both values."
+    },
+    {
+      "id": "variables.challenge",
+      "type": "challenge",
+      "prompt": "Store a nonempty hero name in hero and a nonempty tool in tool. Print both values by using the variables. You may add labels or combine them into a sentence.",
+      "starter": "hero = \"\"\ntool = \"\"\n# Print hero and tool, using the variables\n",
+      "hints": [
+        "Give hero and tool your own quoted text values.",
+        "Use print(hero) and print(tool), without quotes around the variable names.",
+        "You can also combine values: print(hero + \" carries a \" + tool)"
+      ],
+      "input_labels": [],
+      "validator": {
+        "id": "bounded-story",
+        "version": 1
+      }
+    }
+  ]
+}

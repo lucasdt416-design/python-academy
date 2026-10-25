@@ -49,7 +49,8 @@ Important source locations:
 
 | Path | Purpose |
 | --- | --- |
-| `backend/app/curriculum.json` | Current authored lesson content |
+| `backend/content/` | Versioned course catalog and lesson content (format: `backend/content/README.md`) |
+| `backend/app/content.py` | Content schema, load-time validation, and the original `/api/lessons` shape |
 | `backend/app/lesson_checks.py` | Current bounded chapter checker |
 | `backend/app/main.py` | API, identity, family records, attempts, progress |
 | `frontend/app/adventure.tsx` | Card flow, lesson navigation, editor, current rewards |

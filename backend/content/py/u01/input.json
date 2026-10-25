@@ -1,0 +1,68 @@
+{
+  "id": "input",
+  "version": 1,
+  "course": "py",
+  "unit": "py.u01",
+  "title": "Meet the player",
+  "concept": "Interaction · input()",
+  "description": "Let someone else name the hero.",
+  "badge": {
+    "id": "py.badge.conversation-starter",
+    "version": 1,
+    "title": "Conversation starter",
+    "category": "practice"
+  },
+  "tasks": [
+    {
+      "id": "input.discover",
+      "type": "discover",
+      "title": "Ask the player a question",
+      "body": "input(\"What is your name? \") displays a prompt and returns the text the player types. Store that returned text in a variable so your story can use it.",
+      "detail": "Here, player = input(...) saves the response. A plus sign joins strings: \"Welcome, \" + player. In this academy, fill in Player replies before running; Python reads those replies in order."
+    },
+    {
+      "id": "input.example",
+      "type": "example",
+      "code": "player = input(\"What is your name? \")\nprint(\"Welcome, \" + player + \"!\")",
+      "output": "Welcome, Nova!",
+      "note": "With Nova as the player reply, the welcome includes Nova. Try a different reply and the story changes.",
+      "inputs": [
+        "Nova"
+      ]
+    },
+    {
+      "id": "input.predict",
+      "type": "predict",
+      "question": "If the player replies Kai, what will the example display?",
+      "options": [
+        "Welcome, player!",
+        "Welcome, Kai!"
+      ],
+      "answer": 1,
+      "why": "input() returns Kai. The variable player remembers that text, and print() joins it to the greeting."
+    },
+    {
+      "id": "input.guided",
+      "type": "guided",
+      "prompt": "Change the welcome message. Run once with Nova as the reply, then change the reply to Kai and run again."
+    },
+    {
+      "id": "input.challenge",
+      "type": "challenge",
+      "prompt": "Ask for the player’s name with input(), store the reply, and print a greeting that includes that reply. It should work for different names without editing the code.",
+      "starter": "player = input(\"What is your name? \")\n# Print a welcome that uses player\n",
+      "hints": [
+        "Store the returned text: player = input(\"Name? \").",
+        "Join your message to player: print(\"Welcome, \" + player).",
+        "Another valid option is an f-string: print(f\"Ready for adventure, {player}?\")"
+      ],
+      "input_labels": [
+        "Player name"
+      ],
+      "validator": {
+        "id": "bounded-story",
+        "version": 1
+      }
+    }
+  ]
+}
