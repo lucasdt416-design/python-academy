@@ -44,13 +44,15 @@ Next.js/TypeScript frontend, FastAPI backend, SQLAlchemy/PostgreSQL, Google Open
 
 ## Validation
 
-Backend: `cd backend && python -m pytest -q`.
+Backend: `cd backend && python -m pytest -q`. Migration tests also run on PostgreSQL when `TEST_POSTGRES_URL` points at a server (CI provides one).
+
+Database schema changes are Alembic migrations in `backend/migrations/`, applied automatically when the API starts. Write one with `cd backend && alembic revision -m "describe the change"`, keep it additive so the previous version keeps working during a deploy, and add a test in `backend/tests/test_migrations.py`.
 Frontend: `cd frontend && npm run build`. Browser checks: `npm run test:e2e` (install Chromium with `npx playwright install chromium` first).
 CI runs backend, production build, and Chromium browser checks on pushes and pull requests. Browser account responses are mocked; the Python execution checks use real Pyodide. Live Google OAuth and Render are configured. A full accessibility audit remains pending. The reference curriculum tests execute only trusted authored solutions, never learner programs.
 
 ## Before broader release
 
-Add schema migrations (initial tables currently created on startup), rate limiting/invitation quotas, retention/deletion workflows, operational monitoring, backup/restore drills, a complete privacy notice, deeper exercise validators and security/accessibility reviews. Keep initial use to test accounts until these gaps are addressed.
+Add rate limiting/invitation quotas, retention/deletion workflows, operational monitoring, backup/restore drills, a complete privacy notice, deeper exercise validators and security/accessibility reviews. Keep initial use to test accounts until these gaps are addressed.
 
 
 ## Content review

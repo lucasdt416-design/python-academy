@@ -53,6 +53,8 @@ Important source locations:
 | `backend/app/content.py` | Content schema, load-time validation, and the original `/api/lessons` shape |
 | `backend/app/lesson_checks.py` | Current bounded chapter checker |
 | `backend/app/main.py` | API, identity, family records, attempts, progress |
+| `backend/app/db.py`, `backend/migrations/` | Tables and Alembic migrations, applied automatically at startup (`backend/app/migrate.py`) |
+| `backend/app/awards.py` | Idempotent XP and badge awards |
 | `frontend/app/adventure.tsx` | Card flow, lesson navigation, editor, current rewards |
 | `frontend/app/academy.tsx` | Account and family experience |
 | `frontend/public/python-worker.js` | Browser Python execution and input adaptation |
