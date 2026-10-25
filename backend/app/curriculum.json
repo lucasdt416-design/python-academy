@@ -1,0 +1,171 @@
+[
+  {
+    "id": "hello",
+    "title": "Open the story",
+    "concept": "Output \u00b7 print()",
+    "badge": "Story spark",
+    "description": "Give your adventure a setting and a surprise.",
+    "learnTitle": "Your story starts with one instruction",
+    "learn": "A program is a set of instructions. Python follows these instructions from top to bottom. Use print() to display words on the screen.",
+    "detail": "Put text inside matching quotation marks, then put that string inside the parentheses. Use lowercase print. The quotation marks do not appear in the output.",
+    "example": "print(\"You arrive at a moonlit castle.\")\nprint(\"A tiny dragon opens the gate.\")",
+    "exampleOutput": "You arrive at a moonlit castle.\nA tiny dragon opens the gate.",
+    "exampleNote": "Each print() adds a new line. Two instructions give you two lines of story.",
+    "question": "Which message appears first?",
+    "options": [
+      "The castle message",
+      "The dragon message"
+    ],
+    "answer": 0,
+    "why": "Python runs the first print statement before the second. Swapping the code lines swaps the messages.",
+    "guided": "Change the dragon into a different creature. Keep the matching quotes and parentheses, then run your story.",
+    "starter": "# Describe a location with print()\n# On the next line, print an unexpected event\n",
+    "challenge": "Write two print statements: describe a location, then introduce a surprise. Choose any two nonempty story messages, each on its own line.",
+    "hints": [
+      "Start with lowercase print, followed by parentheses.",
+      "Put one message in matching quotes inside each print call.",
+      "Example: print(\"You land on Mars.\")\nprint(\"A robot offers you tea.\")"
+    ],
+    "inputs": [],
+    "exampleInputs": [],
+    "expected": null
+  },
+  {
+    "id": "variables",
+    "title": "Create your hero",
+    "concept": "Variables \u00b7 strings",
+    "badge": "Character creator",
+    "description": "Give the adventure a hero and a useful tool.",
+    "learnTitle": "Remember a detail with a variable",
+    "learn": "A variable is a name that refers to a value. Write hero = \"Nova\" to store a name. Later, use hero without quotes to read the value.",
+    "detail": "The equals sign assigns a value; it does not print anything. print(\"hero\") displays the word hero. print(hero) displays the value stored under that name. Define a variable before you use it.",
+    "example": "hero = \"Nova\"\ntool = \"lantern\"\nprint(hero)\nprint(tool)",
+    "exampleOutput": "Nova\nlantern",
+    "exampleNote": "Changing the two assignments updates the character details without changing the print instructions.",
+    "question": "What does print(hero) display after hero = \"Nova\"?",
+    "options": [
+      "hero",
+      "Nova"
+    ],
+    "answer": 1,
+    "why": "Without quotes, hero means \u201cuse the value stored in this variable.\u201d That value is the string Nova.",
+    "guided": "Change Nova to your hero\u2019s name and lantern to a tool of your choice. Run the code to see both values.",
+    "starter": "hero = \"\"\ntool = \"\"\n# Print hero and tool, using the variables\n",
+    "challenge": "Store a nonempty hero name in hero and a nonempty tool in tool. Print both values by using the variables. You may add labels or combine them into a sentence.",
+    "hints": [
+      "Give hero and tool your own quoted text values.",
+      "Use print(hero) and print(tool), without quotes around the variable names.",
+      "You can also combine values: print(hero + \" carries a \" + tool)"
+    ],
+    "inputs": [],
+    "exampleInputs": [],
+    "expected": null
+  },
+  {
+    "id": "input",
+    "title": "Meet the player",
+    "concept": "Interaction \u00b7 input()",
+    "badge": "Conversation starter",
+    "description": "Let someone else name the hero.",
+    "learnTitle": "Ask the player a question",
+    "learn": "input(\"What is your name? \") displays a prompt and returns the text the player types. Store that returned text in a variable so your story can use it.",
+    "detail": "Here, player = input(...) saves the response. A plus sign joins strings: \"Welcome, \" + player. In this academy, fill in Player replies before running; Python reads those replies in order.",
+    "example": "player = input(\"What is your name? \")\nprint(\"Welcome, \" + player + \"!\")",
+    "exampleOutput": "Welcome, Nova!",
+    "exampleNote": "With Nova as the player reply, the welcome includes Nova. Try a different reply and the story changes.",
+    "question": "If the player replies Kai, what will the example display?",
+    "options": [
+      "Welcome, player!",
+      "Welcome, Kai!"
+    ],
+    "answer": 1,
+    "why": "input() returns Kai. The variable player remembers that text, and print() joins it to the greeting.",
+    "guided": "Change the welcome message. Run once with Nova as the reply, then change the reply to Kai and run again.",
+    "starter": "player = input(\"What is your name? \")\n# Print a welcome that uses player\n",
+    "challenge": "Ask for the player\u2019s name with input(), store the reply, and print a greeting that includes that reply. It should work for different names without editing the code.",
+    "hints": [
+      "Store the returned text: player = input(\"Name? \").",
+      "Join your message to player: print(\"Welcome, \" + player).",
+      "Another valid option is an f-string: print(f\"Ready for adventure, {player}?\")"
+    ],
+    "inputs": [
+      "Player name"
+    ],
+    "exampleInputs": [
+      "Nova"
+    ],
+    "expected": null
+  },
+  {
+    "id": "choices",
+    "title": "Choose a path",
+    "concept": "Decisions \u00b7 if / else",
+    "badge": "Path finder",
+    "description": "Make the story respond to a choice.",
+    "learnTitle": "Give your story two possible paths",
+    "learn": "An if statement runs an indented block only when its condition is true. == compares two values. An else block runs when that condition is false.",
+    "detail": "Use a colon after the if condition and after else. Indent the instructions inside each block by four spaces. Our example compares exact lowercase text: left. Any other reply takes the else path.",
+    "example": "path = input(\"Left or right? \")\nif path == \"left\":\n    print(\"You discover a waterfall.\")\nelse:\n    print(\"You find a hidden library.\")",
+    "exampleOutput": "You discover a waterfall.",
+    "exampleNote": "With left as the reply, only the waterfall line runs. With right, only the library line runs.",
+    "question": "Which block runs when path is \"right\"?",
+    "options": [
+      "The if block",
+      "The else block"
+    ],
+    "answer": 1,
+    "why": "\"right\" == \"left\" is false, so Python skips the if block and runs the else block.",
+    "guided": "Give both paths new discoveries. Run with left, then with right. Confirm that the discoveries differ.",
+    "starter": "path = input(\"Left or right? \")\nif path == \"left\":\n    # Print one discovery\n    pass\nelse:\n    # Print a different discovery\n    pass\n",
+    "challenge": "Ask the player to choose left or right. Use if and else to print a different nonempty discovery for each choice. Keep the replies as lowercase left and right; invent your own discoveries.",
+    "hints": [
+      "Compare path with \"left\" using two equals signs: ==.",
+      "Both if and else need a colon. Their print statements need indentation.",
+      "Replace each pass with print(\"your discovery\"). Make the two discoveries different."
+    ],
+    "inputs": [
+      "Path: left or right"
+    ],
+    "exampleInputs": [
+      "left"
+    ],
+    "expected": null
+  },
+  {
+    "id": "adventure",
+    "title": "Launch your adventure",
+    "concept": "Combine your skills",
+    "badge": "Adventure maker",
+    "description": "Bring a player, a setting, and a choice into one small game.",
+    "learnTitle": "Connect the pieces into a game",
+    "learn": "You now know how to display a scene, store a value, ask for input, and choose a path. Combine them in order: set the scene, ask for a name, ask for a direction, then reveal an ending.",
+    "detail": "Keep each input response in its own variable. Use the player\u2019s name in a printed message. Then use if/else to give left and right different endings. Test both paths before sharing your game.",
+    "example": "print(\"A floating island appears.\")\nhero = input(\"Your name? \")\nprint(\"Welcome aboard, \" + hero)\npath = input(\"Left or right? \")\nif path == \"left\":\n    print(\"You befriend a cloud dragon.\")\nelse:\n    print(\"You discover a sky garden.\")",
+    "exampleOutput": "A floating island appears.\nWelcome aboard, Nova\nYou befriend a cloud dragon.",
+    "exampleNote": "The same code welcomes different players and produces two endings. That is your first interactive adventure.",
+    "question": "What should you test before sharing the adventure?",
+    "options": [
+      "Only the left path",
+      "Different names and both paths"
+    ],
+    "answer": 1,
+    "why": "Different replies exercise different behavior. Testing names and both paths catches mistakes a single run might miss.",
+    "guided": "Remix the floating island into your own world. Change both endings and try different player replies.",
+    "starter": "# Print your opening scene\nhero = input(\"Your name? \")\n# Welcome your hero by name\npath = input(\"Left or right? \")\n# Use if/else for two different endings\n",
+    "challenge": "Build your own adventure. Print an opening scene, ask for a name and welcome that player, then ask for left or right and use if/else for different endings. Your story words are up to you.",
+    "hints": [
+      "Start with print(\"your opening scene\"). Then greet the hero variable.",
+      "Ask for the name first and the path second, matching Player replies.",
+      "Use if path == \"left\": and else:, with a different indented print in each block."
+    ],
+    "inputs": [
+      "Player name",
+      "Path: left or right"
+    ],
+    "exampleInputs": [
+      "Nova",
+      "left"
+    ],
+    "expected": null
+  }
+]

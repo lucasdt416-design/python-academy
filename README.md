@@ -1,4 +1,4 @@
-# Python Academy — initial implementation
+# Python Academy — Build Your Own Adventure
 
 Next.js/TypeScript frontend, FastAPI backend, SQLAlchemy/PostgreSQL, Google OpenID Connect, Render Blueprint, GitHub Actions.
 
@@ -8,7 +8,9 @@ Next.js/TypeScript frontend, FastAPI backend, SQLAlchemy/PostgreSQL, Google Open
 - Self-declared date of birth: parents strictly over 25, students 13 or older. This is an age gate, not identity verification.
 - Parent-created, email-bound, hashed, single-use invitations expiring after seven days. Parent shares links manually; email delivery is not configured.
 - Family records, account event history, student practice history and parent progress view.
-- Three authored Python lessons and exact-output feedback. Browser-reported output is not a trusted grade or proof of comprehension.
+- Five original connected adventure quests: output, variables, input, if/else, and a combined story. Each quest has five separate cards: discover, example, prediction, guided practice, and independent challenge. Only the active card is rendered.
+- Coding cards pair instructions with an editor; gradual hints, illustrated scenes, subtle motion, 100 XP and one badge per completed quest. Reduced-motion preferences disable animation. Student completions persist; preview progress stays in memory.
+- Bounded AST interpretation checks the taught syntax without executing learner code on the server. Different names and both left/right choices are tested; creative story wording is accepted. Supported syntax is explicit, and browser practice is not a trusted grade or proof of comprehension.
 - Python executes in a dedicated Pyodide web worker, with a 15-second termination control, output limit, and worker CSP restricting network connections to the runtime CDN. Student programs never execute on the application server. This is an initial browser execution design, not a certified security sandbox; perform a security review before opening registration broadly.
 - Responsive light UI, semantic labels, keyboard focus, skip navigation, live output and stop control. WCAG 2.2 AA conformance has not yet been audited.
 
@@ -44,8 +46,19 @@ Next.js/TypeScript frontend, FastAPI backend, SQLAlchemy/PostgreSQL, Google Open
 
 Backend: `cd backend && python -m pytest -q`.
 Frontend: `cd frontend && npm run build`. Browser checks: `npm run test:e2e` (install Chromium with `npx playwright install chromium` first).
-CI runs backend, production build, and Chromium browser checks on pushes and pull requests. Browser account responses are mocked; the Python execution checks use real Pyodide. Live Google OAuth, Render deployment, and a full accessibility audit remain pending. The reference curriculum tests execute only trusted authored solutions, never learner programs.
+CI runs backend, production build, and Chromium browser checks on pushes and pull requests. Browser account responses are mocked; the Python execution checks use real Pyodide. Live Google OAuth and Render are configured. A full accessibility audit remains pending. The reference curriculum tests execute only trusted authored solutions, never learner programs.
 
 ## Before broader release
 
 Add schema migrations (initial tables currently created on startup), rate limiting/invitation quotas, retention/deletion workflows, operational monitoring, backup/restore drills, a complete privacy notice, deeper exercise validators and security/accessibility reviews. Keep initial use to test accounts until these gaps are addressed.
+
+
+## Content review
+
+Open `/preview?lesson=hello&card=1`. Preview navigation jumps to any of the five cards of any quest, with no family or student record access. Public `/api/check` returns feedback without saving. `/api/attempts` and `/api/progress` require a student session.
+
+Original lesson text follows basic Python sequencing: explanation, worked example, prediction, guided modification, independent challenge. Python syntax reference: https://docs.python.org/3/tutorial/introduction.html and https://docs.python.org/3/tutorial/controlflow.html.
+
+Player replies are supplied before a run, in input-call order. In the classroom runtime, input prompts do not appear in Output; only printed story messages do. This deliberate browser adaptation is explained on the input card.
+
+Loop practice from the initial prototype is replaced by the connected adventure chapter. Existing account and practice records are retained. Badges reflect completed independent practice, not navigating through cards.
