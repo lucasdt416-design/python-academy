@@ -1,7 +1,7 @@
 # Python Academy backlog
 
 Last updated: 2026-10-25 (America/Toronto)  
-Status: **proposed**; decisions 11, 12, 13, 16, 18, 21, 22 and 23 answered by the owner on 2026-10-25. Status words follow `build.md` section 18: proposed, ready, in_progress, in_review, verified, blocked, deferred. Priorities: **Now**, **Next**, **Later**, plus the timing words `build.md` section 13 already uses (for example "Before broader use").  
+Status: **proposed**; decisions 11, 12, 13, 16, 18, 19, 21, 22 and 23 answered by the owner on 2026-10-25. Status words follow `build.md` section 18: proposed, ready, in_progress, in_review, verified, blocked, deferred. Priorities: **Now**, **Next**, **Later**, plus the timing words `build.md` section 13 already uses (for example "Before broader use").  
 Related: [`build.md`](../../build.md), [`docs/plan/course-catalog.md`](course-catalog.md), [`docs/plan/feedback-security.md`](feedback-security.md).
 
 **This file is the source of truth for the order of work.** IDs and what they mean follow `build.md` section 13; where this file and `build.md` disagree on an ID, its meaning, or its priority, `build.md` wins until one is deliberately updated (section 8 lists the differences found when this file was added). A backlog item becomes `verified` only with linked evidence (PR, commit, test results, live check).
@@ -17,12 +17,13 @@ Decision numbers continue the sequence in `docs/plan/course-catalog.md` section 
 | 2. ENG-02 | Migrations, XP and badge ledgers | verified live (PR #7) for this stage; the rest of ENG-02 is open (section 5) |
 | 3. Catalog UI | Catalog, course pages, lesson sidebar | verified live (PR #8) |
 | 4. Goals and recommendations | Goal card, rule-based recommendation | in_review: merged (PR #9, 2026-10-25); owner's live check not yet recorded |
-| 5. Backlog and feature plans | This file, feature specs, feedback security | in_review (documentation only) |
+| 5. Backlog and feature plans | This file, feature specs, feedback security | verified (PR #10, documentation only) |
+| 6. SEC-01 and SEC-04 | Rate limits; security headers with the page CSP in Report-Only mode | in_review (handoff 06) |
 
 ## 2. Suggested order
 
 1. Record the stage 4 live check.
-2. **SEC-01 and SEC-04** (rate limits, security headers). Feedback adds a new place where users can send text, so limits come first.
+2. **SEC-01 and SEC-04** (rate limits, security headers). Feedback adds a new place where users can send text, so limits come first. In review (stage 6); after the owner's live check, switch the page CSP to enforce mode (handoff 06 section 4).
 3. **FB-01 to FB-07**: admin, testers, feedback button, admin inbox (security plan: `docs/plan/feedback-security.md`).
 4. **PILOT-01**: invite the first learner and collect feedback through the new button.
 5. **ENG-03**: browser behaviour checks, then **EDU-04** (Python unit 2) with its first **unit check**.
@@ -42,7 +43,7 @@ Recorded in the plan as section 11 of `docs/plan/course-catalog.md`; threats and
 - **Inbox (admin).** List with filters (status, type, lesson). Statuses: new, triaged, in_progress, fixed, wont_fix. Internal notes. A field for a GitHub issue link. A "Copy digest" button that produces plain text for pasting into Claude Code or ChatGPT, with IDs and no email addresses.
 - **Safety.** Plain text only and escaped on display. Server-side length limits. Sign-in required. Rate limited per user. Existing origin (CSRF) checks apply. A short notice in the form: do not include passwords or personal details.
 - **Anonymous but signed in (decision 12).** Sign-in is required only to stop bots. The stored feedback has **no user ID, name or email**, so the admin cannot see who sent it. Per-user rate limits use a separate counter table that holds no message text and expires within a day. Trade-off: the admin cannot reply to or follow up with a tester, and testers cannot see the status of their own items (FB-08 dropped).
-- **Privacy.** Only the admin sees feedback. Parents do not see it (decision 19, proposed). Because optional code and free text could still identify someone, the form warns not to include names or personal details, and the admin view never shows account data.
+- **Privacy.** Only the admin sees feedback. Parents never see it (decision 19, answered 2026-10-25, following decision 23). Because optional code and free text could still identify someone, the form warns not to include names or personal details, and the admin view never shows account data.
 - **Retention and cap (decision 18).** Items are deleted 50 days after creation at the latest, and the inbox holds at most 90 items at a time. When it is full, the oldest resolved items are deleted first; if none are resolved, the new item is rejected with a clear message. "Resolved" means status `fixed` or `wont_fix` (decision 18).
 
 **Acceptance tests (real accounts, not mocks, per `build.md` section 12):** a non-admin gets 403 on every admin route; only an admin can set the tester flag, and only on student accounts; parents never see the button or can send feedback; emoji and unusual characters are stored and shown safely; over-length and over-rate submissions are rejected; optional code is only sent when the box is checked; a full inbox drops the oldest resolved item, or rejects the new one when nothing is resolved.
@@ -76,14 +77,15 @@ Recorded in the plan as section 12 of `docs/plan/course-catalog.md`.
 
 | ID | Priority | Item | Depends on | Status |
 | --- | --- | --- | --- | --- |
-| SEC-01 | Now | Rate limits and quotas on write endpoints: `/api/check`, invitations, attempts, and the future feedback endpoint | None | proposed |
+| SEC-01 | Now | Rate limits and quotas on write endpoints: `/api/check`, invitations, attempts, enrolment, goal changes and sign-in (done in stage 6; counters in memory, see handoff 06), and the future feedback endpoint (its own database counters, `feedback-security.md` section 7) | None | in_review |
 | SEC-02 | Next | Make the API a private Render service with no public URL; confirm the frontend proxy still works | None | proposed |
 | SEC-03 | Next | Logout revokes the session on the server (today a stolen cookie works up to 24 hours); required before the admin inbox (FB-06) ships, see `feedback-security.md` | Migration | proposed |
-| SEC-04 | Now | Security headers: Content-Security-Policy and HSTS on the main app | None | proposed |
+| SEC-04 | Now | Security headers: Content-Security-Policy and HSTS on the main app. Stage 6 adds HSTS, `frame-ancestors 'none'` (enforced) and the page CSP in Report-Only mode; the item is verified once the CSP is switched to enforce mode after a clean live check | None | in_review |
 | SEC-05 | Later | Pyodide and CDN integrity: self-host or pin with integrity checks where possible | None | proposed |
 | SEC-06 | Later | Keep invitation tokens out of URLs and request logs | None | proposed |
 | SEC-07 | Next | Branch protection on `main` requiring passing checks (owner action; may need a paid GitHub plan, otherwise merge only on all-green) | Owner | proposed |
 | SEC-08 | Later | Pin CI actions to commit SHAs; routine dependency updates | None | proposed |
+| SEC-09 | Next | Replace `'unsafe-inline'` in the page CSP's `script-src` with per-request nonces (a Next.js proxy file and dynamic rendering), so injected inline script is blocked; proposed as a dependency of the admin inbox (FB-06), owner to confirm | SEC-04 | proposed |
 | OPS-01 | Before broad rollout | Confirm staging, recovery, privacy, quotas and alerts (umbrella item; OPS-02 to OPS-04 are parts of it) | OPS-02, OPS-03, OPS-04 | proposed |
 | OPS-02 | Next | Part of OPS-01: confirm backups and a restore drill; add staging | None | proposed |
 | OPS-03 | Later | Part of OPS-01: operational alerts | OPS-02 | proposed |
@@ -94,7 +96,7 @@ Recorded in the plan as section 12 of `docs/plan/course-catalog.md`.
 
 | ID | Priority | Item | Depends on | Status |
 | --- | --- | --- | --- | --- |
-| FB-01 | Next | Decide admin identity (email allowlist) and record it in the plan; tester rules are decided (students only, decision 23) | Decisions 14, 17, 19; ID-01 | proposed |
+| FB-01 | Next | Decide admin identity (email allowlist) and record it in the plan; tester rules (students only, decision 23) and parents' access (none, decision 19) are decided | Decisions 14, 17; ID-01 | proposed |
 | FB-02 | Next | Migration: anonymous `feedback` table (no user ID), tester flag, short-lived rate-limit counters, 50-day cleanup, 90-item cap | FB-01 | proposed |
 | FB-03 | Next | Admin role and server-side guard, with tests for 403 on every admin route | FB-01 | proposed |
 | FB-04 | Next | Admin page to mark students as testers (student accounts only) | FB-03 | proposed |
@@ -165,7 +167,7 @@ Numbers continue from `docs/plan/course-catalog.md` section 9.
 | 16 | Does the check replace the unit project milestone? | No. The unit project keeps its 200 XP; passing the check awards a skill badge and no extra XP; a unit is complete when both the project and the check are done (answered 2026-10-25) |
 | 17 | Does feedback include the learner's code? | Only with an opt-in checkbox (proposed) |
 | 18 | Feedback retention | Delete after 50 days; at most 90 items. When full, delete the oldest resolved items first (resolved means `fixed` or `wont_fix`); if none are resolved, reject the new item with a clear message (answered 2026-10-25) |
-| 19 | Do parents see feedback? | No (proposed) |
+| 19 | Do parents see feedback? | No. Parents never see the feedback button or any feedback, which follows from decision 23 (answered 2026-10-25) |
 | 20 | Capstone for each goal | As proposed in UI-06 (proposed) |
 | 21 | How is the unit-check variant chosen? | Variants by a self-chosen learner level (high school, university). The level is never derived from, and never asks for, a birthdate. The enrolment age gate is unchanged (answered 2026-10-25) |
 | 22 | What happens to learners who already completed unit 1? | They keep unit 1 as complete. The unit 1 check is optional for them and earns the badge (answered 2026-10-25) |

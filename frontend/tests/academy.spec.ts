@@ -32,6 +32,15 @@ async function mockApi(page:Page,initialRole:string|null,done:string[]=[],initia
   await route.fulfill({status,contentType:'application/json',body:JSON.stringify(body)});
  });
 }
+// Every test also checks the Report-Only page policy (SEC-04): anything it would block fails the test,
+// so the policy can be switched to enforce mode without breaking these flows.
+const violations=new WeakMap<Page,string[]>();
+test.beforeEach(async({page})=>{
+ const found:string[]=[];violations.set(page,found);
+ await page.exposeFunction('reportCspViolation',(v:string)=>found.push(v));
+ await page.addInitScript(()=>document.addEventListener('securitypolicyviolation',e=>(window as unknown as {reportCspViolation:(v:string)=>void}).reportCspViolation(`${e.effectiveDirective} blocked ${e.blockedURI||'inline'} on ${location.pathname}`)));
+});
+test.afterEach(async({page})=>{expect(violations.get(page)).toEqual([]);});
 test('welcome provides Google sign-in and keyboard skip navigation',async({page})=>{
  await mockApi(page,null);await page.goto('/');
  await expect(page.getByRole('link',{name:/Continue with Google/})).toHaveAttribute('href','/auth/google');
@@ -197,4 +206,26 @@ test('goal card fits a phone',async({page})=>{
  await page.setViewportSize({width:375,height:812});await mockApi(page,'student',[],{goal:null,chosen:false,asked:false});await page.goto('/');
  await expect(page.getByRole('radio',{name:/Just explore/})).toBeVisible();expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
  const [a,b]=await Promise.all([page.locator('.goal-option').nth(0).boundingBox(),page.locator('.goal-option').nth(1).boundingBox()]);expect(b!.y).toBeGreaterThan(a!.y);
+});
+test('the lesson page runs Python with the security headers on',async({page})=>{
+ await mockApi(page,null);const response=await page.goto('/preview?lesson=hello&card=5');const headers=response!.headers();
+ expect(headers['strict-transport-security']).toBe('max-age=31536000; includeSubDomains');expect(headers['x-content-type-options']).toBe('nosniff');
+ expect(headers['referrer-policy']).toBe('no-referrer');expect(headers['content-security-policy']).toContain("frame-ancestors 'none'");
+ // Passes in Report-Only mode now and after the switch to enforce mode (handoff 06 section 4).
+ expect(headers['content-security-policy-report-only']??headers['content-security-policy']).toContain("default-src 'self'; script-src 'self' 'unsafe-inline'");
+ const worker=await page.request.get('/python-worker.js');expect(worker.headers()['content-security-policy']).toContain('https://cdn.jsdelivr.net');
+ await page.getByLabel('Your Python code').fill('print("A forest.")\nprint("A dragon!")');await page.getByRole('button',{name:'Run & check challenge'}).click();
+ await expect(page.locator('.execution-output')).toHaveText('A forest.\nA dragon!',{timeout:25000});await expect(page.getByText('Story spark badge earned!',{exact:true})).toBeVisible();
+});
+test('the app refuses to be shown inside a frame',async({page})=>{
+ // frame-ancestors 'none' blocks every framing page, even our own origin (Chromium blocks a fake outside site earlier, for other reasons).
+ await page.route('**/framing-test',route=>route.fulfill({contentType:'text/html',body:'<iframe src="/"></iframe>'}));
+ const refused=page.waitForEvent('console',m=>m.text().includes(`violates the following Content Security Policy directive: "frame-ancestors 'none'"`));
+ await page.goto('/framing-test');await refused;await expect.poll(()=>page.frames()[1]?.url()).toMatch(/^chrome-error:/);
+});
+test('rate-limited checks explain the wait and keep the draft',async({page})=>{
+ await mockApi(page,null);await page.route('**/api/check',route=>route.fulfill({status:429,headers:{'Retry-After':'42'},contentType:'application/json',body:JSON.stringify({detail:'Too many checks for now. Please wait 42 seconds and try again. Your code is unchanged.'})}));
+ const code='print("A forest.")\nprint("A dragon!")';await page.goto('/preview?lesson=hello&card=5');await page.getByLabel('Your Python code').fill(code);await page.getByRole('button',{name:'Run & check challenge'}).click();
+ await expect(page.locator('.notice[role=alert]')).toHaveText('Too many checks for now. Please wait 42 seconds and try again. Your code is unchanged.',{timeout:25000});
+ await expect(page.getByLabel('Your Python code')).toHaveValue(code);await expect(page.getByRole('button',{name:'Run & check challenge'})).toBeEnabled();await expect(page.getByText(/badge earned!/)).toHaveCount(0);
 });

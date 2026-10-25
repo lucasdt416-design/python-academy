@@ -2,7 +2,7 @@
 
 Last updated: 2026-10-25 (America/Toronto)  
 Status: **proposed**. Nothing here is implemented. It is the security plan for backlog items FB-01 to FB-07 and the feature in `docs/plan/course-catalog.md` section 11.  
-Owner decisions this plan must respect (2026-10-25): the button is for testers, who are students only, and the admin; parents never see it (11, 23); stored anonymously, with sign-in only to stop bots (12); deleted after 50 days, at most 90 items, oldest resolved (`fixed` or `wont_fix`) deleted first, otherwise reject (18).
+Owner decisions this plan must respect (2026-10-25): the button is for testers, who are students only, and the admin; parents never see it or any feedback (11, 19, 23); stored anonymously, with sign-in only to stop bots (12); deleted after 50 days, at most 90 items, oldest resolved (`fixed` or `wont_fix`) deleted first, otherwise reject (18).
 
 Every control below is enforced **on the server**. The browser can hide a button, but it is never trusted to decide who is an admin, who is a tester, what gets stored, or how often.
 
@@ -11,7 +11,7 @@ Every control below is enforced **on the server**. The browser can hide a button
 | # | Threat | Main server-side controls |
 | --- | --- | --- |
 | 1 | Admin takeover | Admin decided only from a server setting; one guard on every admin route, tested by enumerating routes; no endpoint grants admin; shorter admin sessions; SEC-03 before launch |
-| 2 | Stored XSS | Plain text only, rendered as text; strict link validation; control and direction characters removed; CSP (SEC-04) |
+| 2 | Stored XSS | Plain text only, rendered as text; strict link validation; control and direction characters removed; CSP (SEC-04, with nonces from SEC-09) |
 | 3 | Spam and bots | Google sign-in plus tester flag; per-account and global rate limits; length limits; the 90-item cap |
 | 4 | Optional code leaking | Off by default, shown before sending, size-limited, never run, never logged, excluded from the digest by default, deleted with the item |
 | 5 | Personal details in free text | Notice in the form; server-side removal of email addresses and phone numbers; admin-only access; 50-day deletion |
@@ -31,7 +31,7 @@ Two further risks to anonymity are covered in section 8 (logs and timing, and th
 - All admin endpoints live under one path (for example `/api/admin/…`) behind one guard. A test enumerates every registered route under that path and checks that a student, a parent, a tester, and a signed-out visitor each get 401 or 403. A new route that forgets the guard fails CI.
 - No endpoint can grant admin. The only privileged write available to the admin is the tester flag.
 - Shorter sessions for admins (for example 8 hours instead of 24), and server-side session revocation (backlog SEC-03, now Next and a dependency of the admin inbox, FB-06), so logging out or a lost device ends the session.
-- Admin pages get the Content-Security-Policy from SEC-04, which limits what injected script could do.
+- Admin pages get the Content-Security-Policy from SEC-04, which limits where injected script could load from or send data to. It only blocks injected *inline* script once SEC-09 replaces `'unsafe-inline'` with nonces.
 - Admin actions (tester flag changes, status changes, deletions) are written to the account history under the admin's own account. That is allowed because it records the admin, not a tester.
 
 **Tests:** route enumeration (above); a tester cannot set the tester flag; changing the email in the browser or request body has no effect; an admin session past its lifetime is refused.
@@ -46,7 +46,7 @@ Two further risks to anonymity are covered in section 8 (logs and timing, and th
 - The only link the inbox shows is the GitHub issue field, which only the admin sets. The server accepts only `https://github.com/torontojohn/python-academy/issues/<number>` or `/pull/<number>`; anything else (including `javascript:`) is rejected. The link opens with `rel="noopener noreferrer"`.
 - On input, the server removes control characters (except new lines and tabs) and Unicode direction-override characters, which can make text display differently from what it says.
 - Server-side length limits: message at most 2,000 characters, optional code at most 20,000, notes at most 2,000.
-- The CSP from SEC-04 blocks inline script on admin pages as a second layer. API responses are JSON with `X-Content-Type-Options: nosniff`, as today.
+- The CSP from SEC-04 is a second layer: it stops scripts loading from other sites and data being sent to them (`connect-src 'self'`). Stage 6 found that Next.js needs `'unsafe-inline'` scripts, so the policy does **not** yet block injected inline script; SEC-09 (nonces) fixes that and is proposed before the inbox ships. API responses are JSON with `X-Content-Type-Options: nosniff` and their own `default-src 'none'` policy.
 - "Copy digest" copies plain text to the clipboard; it never builds HTML.
 
 **Tests:** messages containing `<script>`, `<img onerror>`, `javascript:` URLs, emoji, right-to-left text and direction overrides are stored safely and shown as literal text; a `javascript:` issue link is rejected.
@@ -62,7 +62,7 @@ Two further risks to anonymity are covered in section 8 (logs and timing, and th
 - Length limits (section 2), and a type that must be one of the five listed.
 - The 90-item cap (decision 18): when full, the oldest resolved item (`fixed` or `wont_fix`) is deleted; if none are resolved, the new item is rejected with a clear message. Trade-off: a flood of unresolved items blocks new feedback until the admin resolves or deletes some. The rate limits bound how fast one tester can cause that.
 - Because feedback is anonymous, the admin cannot remove one person's items. The response to abuse is to untick their tester flag, which stops new submissions immediately.
-- Depends on SEC-01 (rate limiting across the app).
+- Depends on SEC-01. Stage 6 rate-limits the existing endpoints with in-memory counters, which reset on redeploy. The feedback limits here need the database counters of section 7 instead, so the daily and global limits survive restarts.
 
 **Tests:** parents and non-tester students get 403, and the admin can send; the sixth item in an hour is rejected; the global limit applies; a full inbox with nothing resolved rejects new items; a full inbox with resolved items deletes the oldest resolved one.
 
@@ -88,7 +88,7 @@ Two further risks to anonymity are covered in section 8 (logs and timing, and th
 
 - The form says, next to the message box: do not include passwords, names, or other personal details.
 - Before storing, the server replaces anything that looks like an email address or phone number with `[email removed]` or `[number removed]`. This is best-effort: it cannot reliably detect names or addresses.
-- Only the admin can read feedback; parents cannot (decision 19, proposed). The inbox never shows account data alongside feedback.
+- Only the admin can read feedback; parents cannot (decision 19). The inbox never shows account data alongside feedback.
 - Everything is deleted within 50 days, and the admin can delete an item immediately.
 - The admin reviews a digest before pasting it into any assistant (section 8).
 
@@ -143,8 +143,8 @@ Two further risks to anonymity are covered in section 8 (logs and timing, and th
 
 ## 10. Order of work
 
-1. SEC-01 (rate limiting) and SEC-04 (CSP and HSTS).
+1. SEC-01 (rate limiting) and SEC-04 (CSP and HSTS): in review (stage 6). SEC-09 (CSP nonces) before the inbox ships.
 2. SEC-03 (server-side session revocation), before the admin inbox ships.
-3. FB-01 (decisions 14, 17, 19).
+3. FB-01 (decisions 14 and 17).
 4. FB-02 and FB-03, with the route-enumeration test and the "no user data in feedback rows" test.
 5. FB-04 to FB-07.
