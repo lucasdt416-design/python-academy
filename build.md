@@ -65,6 +65,9 @@ Important source locations:
 | `frontend/tests/academy.spec.ts` | Browser flows and real Python execution |
 | `.github/workflows/ci.yml` | Automated build and test workflow |
 | `render.yaml`, `DEPLOYMENT.md`, `README.md` | Service definition, deployment notes, setup |
+| `docs/plan/backlog.md` | Ordered backlog: source of truth for the order of work |
+| `docs/plan/course-catalog.md`, `docs/plan/feedback-security.md` | Catalog, goals, recommendations and feature plans; feedback threat model |
+| `docs/handoffs/` | One handoff per completed step, for reviewers without repository access |
 
 ## 3. What success means
 
@@ -361,6 +364,8 @@ Use milestone exit criteria rather than ambitious calendar promises. The first-y
 M1 and placement design can overlap conceptually, but implementation should stay in small separate PRs. Do not block a carefully scoped placement pilot on a complete platform rewrite. Finish one useful vertical slice before expanding multiple tracks.
 
 ### Next-session backlog
+
+**The ordered, current backlog is [`docs/plan/backlog.md`](docs/plan/backlog.md). It is the source of truth for the order of work and each item's status.** The IDs below, and what they mean, stay defined here: where the backlog disagrees on an ID, its meaning, or its priority, this table wins until one of them is deliberately updated.
 
 | ID | Priority | Task | Dependencies / definition of done |
 | --- | --- | --- | --- |
