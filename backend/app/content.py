@@ -272,3 +272,22 @@ def legacy_lessons(catalog, lessons):
             'expected': None,
         })
     return result
+
+
+def lesson_order(catalog):
+    """Lesson IDs in catalog order (course, then unit, then lesson)."""
+    return [lesson_id for course in catalog.courses for unit in course.units for lesson_id in unit.lessons]
+
+
+def catalog_view(catalog, lessons):
+    """Public catalog for /api/catalog: every course and unit, with short lesson summaries."""
+    def lesson_summary(lesson_id):
+        lesson = lessons[lesson_id]
+        return {'id': lesson.id, 'title': lesson.title, 'concept': lesson.concept, 'description': lesson.description,
+                'badge': lesson.badge.title if lesson.badge else None}
+    return {'version': catalog.version, 'courses': [{
+        'id': course.id, 'title': course.title, 'summary': course.summary, 'status': course.status,
+        'prerequisites': course.prerequisites.model_dump(),
+        'units': [{'id': unit.id, 'title': unit.title, 'summary': unit.summary, 'status': unit.status,
+                   'lessons': [lesson_summary(i) for i in unit.lessons]} for unit in course.units],
+    } for course in catalog.courses]}

@@ -28,9 +28,12 @@ def signin(role='pending', email='learner@example.com', parent_id=None):
         db.add(u)
         db.commit()
         uid = u.id
+    login_as(uid)
+    return uid
+
+def login_as(uid):
     cookie = TimestampSigner(os.environ['SESSION_SECRET']).sign(base64.b64encode(json.dumps({'uid':uid}).encode())).decode()
     client.cookies.set('session',cookie,domain='testserver.local',path='/')
-    return uid
 
 def post(path, data):
     return client.post('/api/'+path, json=data, headers=HEADERS)
@@ -271,6 +274,48 @@ def test_new_task_or_badge_version_does_not_award_again():
         db.commit()
         assert [(a.task_version, a.xp) for a in db.scalars(select(XpAward))] == [(1, 100)]
         assert [b.badge_version for b in db.scalars(select(BadgeAward))] == [1]
+
+def pass_lesson(lesson_id):
+    lesson = next(l for l in LESSONS if l['id'] == lesson_id)
+    replies = list(lesson['exampleInputs'])
+    response = post('attempts', {'lesson_id': lesson_id, 'code': lesson['example'], 'output': lesson['exampleOutput'] + '\n', 'inputs': replies})
+    assert response.json()['result'] == 'passed'
+
+def test_catalog_is_public_and_frozen_for_the_interface():
+    from pathlib import Path
+    fixture = Path(__file__).with_name('fixtures') / 'catalog_v1.json'
+    response = client.get('/api/catalog')
+    assert response.status_code == 200
+    assert response.json() == json.loads(fixture.read_text())
+    py = response.json()['courses'][0]
+    assert [l['id'] for l in py['units'][0]['lessons']] == ['hello', 'variables', 'input', 'choices', 'adventure']
+    assert all(u['lessons'] == [] for u in py['units'][1:])
+
+def test_awards_are_private_to_the_student_and_in_catalog_order():
+    assert client.get('/api/awards').status_code == 401
+    signin('parent', 'parent@example.com')
+    assert client.get('/api/awards').status_code == 403
+    signin('student')
+    assert client.get('/api/awards').json() == {'xp': 0, 'completed': [], 'badges': []}
+    pass_lesson('adventure')
+    pass_lesson('hello')
+    pass_lesson('hello')
+    assert client.get('/api/awards').json() == {
+        'xp': 200, 'completed': ['hello', 'adventure'],
+        'badges': [{'id': 'py.badge.story-spark', 'title': 'Story spark'}, {'id': 'py.badge.adventure-maker', 'title': 'Adventure maker'}]}
+    assert client.get('/api/progress').json() == ['hello', 'adventure']
+
+def test_family_completed_lessons_come_from_the_ledger():
+    parent = signin('parent', 'parent@example.com')
+    child = signin('student', 'child@example.com', parent)
+    pass_lesson('hello')
+    with Session(engine) as db:
+        db.add(Attempt(user_id=child, lesson_id='variables', code='stars=7\nprint(stars*3)', output='21\n', passed=True))
+        db.commit()
+    login_as(parent)
+    [learner] = client.get('/api/family').json()
+    assert len(learner['attempts']) == 2
+    assert learner['completed'] == ['hello']
 
 def test_player_replies_are_bounded():
     assert post('check', {'lesson_id':'input','code':'','output':'','inputs':['x'*501]}).status_code == 422

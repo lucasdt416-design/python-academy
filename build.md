@@ -55,7 +55,8 @@ Important source locations:
 | `backend/app/main.py` | API, identity, family records, attempts, progress |
 | `backend/app/db.py`, `backend/migrations/` | Tables and Alembic migrations, applied automatically at startup (`backend/app/migrate.py`) |
 | `backend/app/awards.py` | Idempotent XP and badge awards |
-| `frontend/app/adventure.tsx` | Card flow, lesson navigation, editor, current rewards |
+| `frontend/app/adventure.tsx` | Lesson page: card flow, unit sidebar, editor, current rewards |
+| `frontend/app/catalog.tsx`, `frontend/app/course.tsx`, `frontend/app/catalog-data.ts` | Course catalog, course pages, and shared catalog/progress helpers |
 | `frontend/app/academy.tsx` | Account and family experience |
 | `frontend/public/python-worker.js` | Browser Python execution and input adaptation |
 | `frontend/app/style.css` | Visual design, responsive rules, reduced motion |

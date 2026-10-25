@@ -1,5 +1,6 @@
 'use client';
 import {useEffect, useRef, useState} from 'react';
+import {type Course,type Unit,unitNumber} from './catalog-data';
 
 type Lesson = {id:string;title:string;concept:string;badge:string;description:string;learnTitle:string;learn:string;detail:string;example:string;exampleOutput:string;exampleNote:string;question:string;options:string[];answer:number;why:string;guided:string;starter:string;challenge:string;hints:string[];inputs:string[];exampleInputs:string[]};
 const stages=['Discover','See it work','Predict','Try it','Your challenge'];
@@ -28,22 +29,22 @@ function World({chapter}:{chapter:number}){
  </svg>;
 }
 
-export default function Adventure({preview,onSaved}:{preview:boolean;onSaved:()=>void}){
- const [lessons,setLessons]=useState<Lesson[]>([]),[selected,setSelected]=useState(0),[stage,setStage]=useState(0),[code,setCode]=useState(''),[output,setOutput]=useState(''),[feedback,setFeedback]=useState(''),[error,setError]=useState(''),[prediction,setPrediction]=useState<number|null>(null),[hints,setHints]=useState(0),[replies,setReplies]=useState<string[]>([]),[done,setDone]=useState<string[]>([]),[running,setRunning]=useState(false),[passed,setPassed]=useState(false),[drafts,setDrafts]=useState<Record<string,string>>({});
- const worker=useRef<Worker|null>(null),timer=useRef<ReturnType<typeof setTimeout>|null>(null),heading=useRef<HTMLHeadingElement>(null),questMap=useRef<HTMLElement>(null),version=useRef(0);
+export default function Adventure({preview,onSaved,lessonId}:{preview:boolean;onSaved:()=>void;lessonId?:string}){
+ const [lessons,setLessons]=useState<Lesson[]>([]),[selected,setSelected]=useState(0),[stage,setStage]=useState(0),[code,setCode]=useState(''),[output,setOutput]=useState(''),[feedback,setFeedback]=useState(''),[error,setError]=useState(''),[prediction,setPrediction]=useState<number|null>(null),[hints,setHints]=useState(0),[replies,setReplies]=useState<string[]>([]),[done,setDone]=useState<string[]>([]),[running,setRunning]=useState(false),[passed,setPassed]=useState(false),[drafts,setDrafts]=useState<Record<string,string>>({}),[place,setPlace]=useState<{course:Course;unit:Unit}|null>(null),[menuOpen,setMenuOpen]=useState(false);
+ const worker=useRef<Worker|null>(null),timer=useRef<ReturnType<typeof setTimeout>|null>(null),heading=useRef<HTMLHeadingElement>(null),version=useRef(0);
  const lesson=lessons[selected];
- useEffect(()=>{const nav=questMap.current,active=nav?.children[selected] as HTMLElement|undefined;if(nav&&active&&nav.scrollWidth>nav.clientWidth)nav.scrollLeft+=active.getBoundingClientRect().left-nav.getBoundingClientRect().left-(nav.clientWidth-active.clientWidth)/2;},[selected,lessons]);
  useEffect(()=>{
   let active=true;
-  api('lessons').then((items:Lesson[])=>{if(!active)return;setLessons(items);const query=new URLSearchParams(location.search);const index=Math.max(0,items.findIndex(l=>l.id===query.get('lesson')));setSelected(index);setCode(items[index].example);setReplies(items[index].exampleInputs);if(preview){const target=Number(query.get('card'));if(target>=1&&target<=5)setStage(target-1);if(target===5)setCode(items[index].starter);}}).catch(()=>setError('Lessons could not load. Please reload to try again.'));
+  api('lessons').then((items:Lesson[])=>{if(!active)return;setLessons(items);const query=new URLSearchParams(location.search);const index=Math.max(0,items.findIndex(l=>l.id===(lessonId??query.get('lesson'))));setSelected(index);setCode(items[index].example);setReplies(items[index].exampleInputs);if(preview){const target=Number(query.get('card'));if(target>=1&&target<=5)setStage(target-1);if(target===5)setCode(items[index].starter);}
+   api('catalog').then((catalog:{courses:Course[]})=>{if(!active)return;for(const course of catalog.courses)for(const unit of course.units)if(unit.lessons.some(l=>l.id===items[0].id))setPlace({course,unit});}).catch(()=>{});}).catch(()=>setError('Lessons could not load. Please reload to try again.'));
   if(!preview)api('progress').then(x=>{if(active)setDone(x)}).catch(()=>setError('Saved progress could not load. Your lessons are still available.'));
   return()=>{active=false;worker.current?.terminate();if(timer.current)clearTimeout(timer.current);version.current++;};
- },[preview]);
+ },[preview,lessonId]);
  function stop(){worker.current?.terminate();worker.current=null;if(timer.current)clearTimeout(timer.current);timer.current=null;setRunning(false);version.current++;}
  function focusCard(){requestAnimationFrame(()=>heading.current?.focus());}
- function address(index:number,card:number){if(preview)window.history.replaceState({},'',`/preview?lesson=${lessons[index].id}&card=${card+1}`);}
+ function address(index:number,card:number){window.history.replaceState({},'',preview?`/preview?lesson=${lessons[index].id}&card=${card+1}`:`/learn/${lessons[index].id}`);}
  function move(card:number){stop();setStage(card);setFeedback('');setError('');setOutput('');setHints(0);setPassed(false);if(card===4)setCode(drafts[lesson.id+':4']??lesson.starter);else if(card===3)setCode(drafts[lesson.id+':3']??lesson.example);address(selected,card);focusCard();}
- function choose(index:number){stop();setSelected(index);setStage(0);setCode(lessons[index].example);setReplies(lessons[index].exampleInputs);setOutput('');setError('');setFeedback('');setHints(0);setPrediction(null);setPassed(false);address(index,0);focusCard();}
+ function choose(index:number){stop();setMenuOpen(false);setSelected(index);setStage(0);setCode(lessons[index].example);setReplies(lessons[index].exampleInputs);setOutput('');setError('');setFeedback('');setHints(0);setPrediction(null);setPassed(false);address(index,0);focusCard();}
  function edit(value:string){setCode(value);setPassed(false);setFeedback('');setDrafts(old=>({...old,[lesson.id+':'+stage]:value}));}
  async function run(){
   stop();setRunning(true);setFeedback('');setError('');setOutput('Starting Python…');setPassed(false);
@@ -71,9 +72,20 @@ export default function Adventure({preview,onSaved}:{preview:boolean;onSaved:()=
  if(!lesson)return <section className="card" role="status">{error||'Preparing your adventure…'}</section>;
  const completed=lessons.filter(l=>done.includes(l.id)).length;
  return <section className="adventure" aria-label="Build Your Own Adventure">
-  <div className="chapter-heading"><div><p className="eyebrow">CHAPTER 01 · BUILD SOMETHING THAT IS YOURS</p><h1>Build Your Own <span>Adventure.</span></h1><p>Five small quests. One story only you could make.</p></div><div className="xp"><strong>{completed*100} XP</strong><span>{completed} of 5 badges earned{preview?' · preview session':''}</span></div></div>
-  {preview&&<aside className="preview-banner"><strong>Content preview</strong><span>Jump to any lesson or card. Practice and badges stay in this session; they are not saved.</span><a href="/">Return to your account</a></aside>}
-  <nav ref={questMap} className="quest-map" aria-label="Lessons">{lessons.map((item,index)=><button key={item.id} className={selected===index?'quest active':'quest'} aria-current={selected===index?'step':undefined} onClick={()=>choose(index)}><span className="quest-number" aria-hidden="true">{done.includes(item.id)?'✓':String(index+1).padStart(2,'0')}</span><span>{item.title}<small>{item.concept}</small>{done.includes(item.id)&&<small>Badge earned</small>}</span></button>)}</nav>
+  {place&&<nav className="breadcrumb" aria-label="Breadcrumb"><ol><li><a href="/courses">Courses</a></li><li><a href={`/courses/${place.course.id}`}>{place.course.title}</a></li><li aria-current="page">Unit {unitNumber(place.unit)}: {place.unit.title}</li></ol></nav>}
+  <div className="chapter-heading"><div><p className="eyebrow">UNIT 01 · BUILD SOMETHING THAT IS YOURS</p><h1>Build Your Own <span>Adventure.</span></h1><p>Five small quests. One story only you could make.</p></div><div className="xp"><strong>{completed*100} XP</strong><span>{completed} of 5 badges earned{preview?' · preview session':''}</span></div></div>
+  {preview&&<div className="preview-banner" role="note"><strong>Content preview</strong><span>Jump to any lesson or card. Practice and badges stay in this session; they are not saved.</span><a href="/">Return to your account</a></div>}
+  <div className="lesson-layout">
+  <nav className="unit-nav" aria-label="Lessons in this unit">
+   <button className="unit-nav-toggle" aria-expanded={menuOpen} aria-controls="unit-lessons" onClick={()=>setMenuOpen(open=>!open)}><span><strong>Lesson {selected+1} of {lessons.length}</strong> · {completed} complete</span><span aria-hidden="true">{menuOpen?'▴':'▾'}</span></button>
+   <div id="unit-lessons" className={menuOpen?'unit-nav-body open':'unit-nav-body'}>
+    <p className="eyebrow">UNIT {place?unitNumber(place.unit):1}</p><p className="unit-nav-title">{place?.unit.title??'Build Your Own Adventure'}</p>
+    <progress className="meter" value={completed} max={lessons.length} aria-label="Unit progress"/><p className="unit-nav-count">{completed} of {lessons.length} lessons complete</p>
+    <ol className="unit-lessons">{lessons.map((item,index)=>{const finished=done.includes(item.id),current=index===selected;return <li key={item.id}><a href={preview?`/preview?lesson=${item.id}`:`/learn/${item.id}`} className={'unit-lesson'+(finished?' done':'')+(current?' current':'')} aria-current={current?'page':undefined} onClick={event=>{event.preventDefault();choose(index);}}><span className="unit-lesson-mark" aria-hidden="true">{finished?'✓':index+1}</span><span className="unit-lesson-text">{item.title}<small>{item.concept}</small></span><span className="visually-hidden">{finished?'Completed':current?'Current lesson':'Not started'}</span></a></li>;})}</ol>
+    {place&&<a className="unit-nav-course" href={`/courses/${place.course.id}`}>All units in {place.course.title}</a>}
+   </div>
+  </nav>
+  <div className="lesson-main">
   <div className="card-progress"><span>Quest {selected+1} of 5 · {lesson.badge}</span><span>Card {stage+1} of 5</span></div>
   <div className="stage-track" aria-label="Card progress">{stages.map((name,i)=>preview?<button key={name} aria-current={stage===i?'step':undefined} className={stage===i?'current':''} onClick={()=>move(i)}>{i+1}. {name}</button>:<span key={name} aria-current={stage===i?'step':undefined} className={stage===i?'current':''}>{i+1}. {name}</span>)}</div>
   <article className={'quest-card '+(stage>=3?'with-editor':'')} aria-label="Current learning card">
@@ -93,6 +105,8 @@ export default function Adventure({preview,onSaved}:{preview:boolean;onSaved:()=
    {passed&&stage===4&&<div className="badge-earned" role="status"><span className="badge-icon" aria-hidden="true">✦</span><div><strong>{lesson.badge} badge earned!</strong><p>{done.includes(lesson.id)?'100 XP for this quest. Repeating it does not add extra XP.':''}{preview?' Preview badge: not saved.':' Your practice is saved.'}</p></div></div>}
    <div className="card-controls"><button disabled={stage===0||running} onClick={()=>move(stage-1)}>← Back</button><span>{stage===4?'Your story. Your pace.':'One idea at a time.'}</span>{stage<4?<button className="primary" disabled={running||(stage===2&&prediction!==lesson.answer)} onClick={()=>move(stage+1)}>{stage===3?'Start my challenge':'Continue →'}</button>:<button className="primary" disabled={!passed||running} onClick={()=>selected<lessons.length-1?choose(selected+1):move(0)}>{selected<lessons.length-1?'Next quest →':'Revisit this quest'}</button>}</div>
   </article>
-  {completed===5&&<section className="chapter-complete"><h2>You made an adventure.</h2><p>Five badges. Four Python skills. Keep remixing your story, or invite someone to play it.</p></section>}
+  {completed===lessons.length&&<section className="chapter-complete"><h2>You made an adventure.</h2><p>Five badges. Four Python skills. Keep remixing your story, or invite someone to play it.</p></section>}
+  </div>
+  </div>
  </section>;
 }

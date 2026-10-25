@@ -44,6 +44,7 @@ sa.Table('attempts', LEGACY,
 HELLO = ('print("A forest.")\nprint("A dragon!")', 'A forest.\nA dragon!\n')
 VARIABLES = ('hero="Kai"\ntool="rope"\nprint(f"{hero} carries {tool}")', 'Kai carries rope\n')
 ARITHMETIC = ('stars=7\nprint(stars*3)', '21\n')  # legacy exercise under the variables ID
+HEAD = '0004'
 
 
 @pytest.fixture(params=['sqlite', 'postgresql'])
@@ -122,7 +123,7 @@ EXPECTED_BADGES = [
 
 def test_fresh_database_built_by_migrations_matches_the_models(engine):
     migrate.upgrade(engine)
-    assert migrate.current(engine) == '0003'
+    assert migrate.current(engine) == HEAD
     with engine.connect() as conn:
         assert compare_metadata(MigrationContext.configure(conn), Base.metadata) == []
 
@@ -137,7 +138,7 @@ def test_existing_database_is_adopted_without_changing_learner_data(engine):
     seed_legacy(engine)
     before = table_rows(engine, ['users', 'invitations', 'events', 'attempts'])
     migrate.upgrade(engine)
-    assert migrate.current(engine) == '0003'
+    assert migrate.current(engine) == HEAD
     assert table_rows(engine, ['users', 'invitations', 'events', 'attempts']) == before
     with engine.connect() as conn:
         assert conn.exec_driver_sql('SELECT count(*) FROM attempts WHERE result IS NOT NULL').scalar() == 0
@@ -151,6 +152,19 @@ def test_backfill_matches_progress_rules_and_is_idempotent(engine):
     assert awards(engine) == (EXPECTED_XP, EXPECTED_BADGES)
     migrate.upgrade(engine)
     assert awards(engine) == (EXPECTED_XP, EXPECTED_BADGES)
+
+
+def test_backfill_rerun_awards_passes_saved_by_pre_ledger_code_during_deploy(engine):
+    seed_legacy(engine)
+    migrate.upgrade(engine, '0003')
+    # The previous app version, which wrote no awards, saves a pass while the new one starts.
+    with engine.begin() as conn:
+        conn.execute(LEGACY.tables['attempts'].insert(), [dict(id=10, user_id=2, lesson_id='input', code='n=input()\nprint(n)', output='Nova\n', passed=True)])
+    assert (2, 'input.challenge', 1, 100, 10, 'backfill') not in awards(engine)[0]
+    migrate.upgrade(engine)
+    xp, badges = awards(engine)
+    assert xp == sorted(EXPECTED_XP + [(2, 'input.challenge', 1, 100, 10, 'backfill')])
+    assert badges == sorted(EXPECTED_BADGES + [(2, 'py.badge.conversation-starter', 1, 10, 'backfill')])
 
 
 def test_unexpected_existing_tables_are_left_untouched(engine):

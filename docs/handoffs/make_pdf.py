@@ -29,6 +29,8 @@ pre { background: #f1f4f2; padding: 8pt; border-radius: 4pt; white-space: pre-wr
 pre code { background: none; padding: 0; }
 blockquote { margin: 8pt 0; padding: 6pt 10pt; background: #fbf5e9; border-left: 3pt solid #d9b56b; }
 a { color: #2c6a58; }
+img { max-width: 100%; border: 1px solid #cfd9d4; border-radius: 4pt; margin: 4pt 0 10pt; }
+img.phone { max-width: 45%; }
 """
 
 PRINT = """
@@ -51,7 +53,8 @@ def main(source):
     text = source.read_text()
     title = text.splitlines()[0].lstrip('# ').strip()
     body = markdown.markdown(text, extensions=['tables', 'fenced_code', 'sane_lists'])
-    page = f'<!doctype html><html><head><meta charset="utf-8"><title>{html.escape(title)}</title><style>{STYLE}</style></head><body>{body}</body></html>'
+    # The base URL lets the Markdown reference images next to it, e.g. images/03-home.png.
+    page = f'<!doctype html><html><head><meta charset="utf-8"><base href="{source.parent.as_uri()}/"><title>{html.escape(title)}</title><style>{STYLE}</style></head><body>{body}</body></html>'
     target = source.with_suffix('.pdf')
     with tempfile.NamedTemporaryFile('w', suffix='.html', delete=False) as tmp:
         tmp.write(page)

@@ -1,11 +1,14 @@
 import {test, expect, Page} from '@playwright/test';
 // Same JSON that /api/lessons serves; backend tests assert they are identical.
 import lessons from '../../backend/tests/fixtures/legacy_lessons_v1.json';
-async function mockApi(page:Page,initialRole:string|null){
- let role=initialRole;const completed:string[]=[];
+import catalog from '../../backend/tests/fixtures/catalog_v1.json';
+async function mockApi(page:Page,initialRole:string|null,done:string[]=[]){
+ let role=initialRole;const completed:string[]=[...done];
  await page.route('**/api/**',async route=>{
   const path=new URL(route.request().url()).pathname;let body:unknown={},status=200;
   if(path==='/api/lessons')body=lessons;
+  else if(path==='/api/catalog')body=catalog;
+  else if(path==='/api/awards')body={xp:completed.length*100,completed,badges:[]};
   else if(path==='/api/me'){status=role?200:401;body=role?{id:1,email:'test@example.com',role}:{detail:'Sign in to continue'};}
   else if(path==='/api/history'||path==='/api/family')body=[];
   else if(path==='/api/progress')body=completed;
@@ -30,7 +33,7 @@ test('invitation survives redirect and enrolls a student',async({page})=>{
  const request=page.waitForRequest(r=>r.url().endsWith('/api/enroll'));
  await page.getByRole('button',{name:'Complete registration'}).click();
  expect((await request).postDataJSON().invitation).toBe('private-token');
- await expect(page.getByRole('heading',{name:'Your story starts with one instruction'})).toBeVisible();
+ await expect(page.getByRole('heading',{name:'Your first course is ready.'})).toBeVisible();await expect(page.getByRole('link',{name:/^Start/})).toHaveAttribute('href','/learn/hello');
  expect(await page.evaluate(()=>sessionStorage.getItem('academy-invite'))).toBeNull();
 });
 test('parent creates an invitation, previews lessons, and returns to family',async({page})=>{
@@ -44,7 +47,7 @@ test('parent creates an invitation, previews lessons, and returns to family',asy
  await page.getByRole('button',{name:'Sign out'}).click();await expect(page.getByRole('link',{name:/Continue with Google/})).toBeVisible();
 });
 test('student sees one card at a time and predicts before coding',async({page})=>{
- await mockApi(page,'student');await page.goto('/');
+ await mockApi(page,'student');await page.goto('/learn/hello');
  await expect(page.getByRole('article',{name:'Current learning card'})).toHaveCount(1);
  await expect(page.getByLabel('Your Python code')).toHaveCount(0);await expect(page.getByText('Card 1 of 5')).toBeVisible();
  await page.getByRole('button',{name:'Continue →',exact:true}).click();
@@ -65,7 +68,7 @@ test('preview jumps to any card without private API requests',async({page})=>{
  await mockApi(page,null);await page.goto('/preview?lesson=choices&card=5');
  await expect(page.getByText('Card 5 of 5')).toBeVisible();await expect(page.getByLabel('Your Python code')).toHaveValue(lessons[3].starter);
  await page.getByRole('button',{name:'1. Discover',exact:true}).click();await expect(page.getByLabel('Your Python code')).toHaveCount(0);
- await page.getByRole('button',{name:/Launch your adventure/}).click();await expect(page.getByRole('heading',{name:'Connect the pieces into a game'})).toBeVisible();expect(requests).toEqual([]);
+ await page.getByRole('link',{name:/Launch your adventure/}).click();await expect(page.getByRole('heading',{name:'Connect the pieces into a game'})).toBeVisible();expect(requests).toEqual([]);
 });
 test('drafts survive card navigation and hints are gradual',async({page})=>{
  await mockApi(page,null);await page.goto('/preview?lesson=variables&card=5');
@@ -99,9 +102,49 @@ test('checker service errors keep the draft, award nothing, and allow a retry',a
  await expect(page.getByRole('status').filter({hasText:'Unable to assess this right now'})).toBeVisible({timeout:25000});await expect(page.getByText(/badge earned!/)).toHaveCount(0);
  await expect(page.getByLabel('Your Python code')).toHaveValue(code);await expect(page.getByRole('button',{name:'Run & check challenge'})).toBeEnabled();await expect(page.getByText('0 XP',{exact:true})).toBeVisible();
 });
-test('mobile classroom fits and respects reduced motion',async({page})=>{
+test('mobile classroom fits, collapses the unit menu, and respects reduced motion',async({page})=>{
  await page.setViewportSize({width:375,height:812});await page.emulateMedia({reducedMotion:'reduce'});await mockApi(page,null);await page.goto('/preview?lesson=adventure&card=4');
  await expect(page.getByLabel('Your Python code')).toBeVisible();expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
- const active=await page.locator('.quest.active').boundingBox();expect(active!.x).toBeGreaterThanOrEqual(0);expect(active!.x+active!.width).toBeLessThanOrEqual(375);
+ const toggle=page.getByRole('button',{name:/Lesson 5 of 5/});await expect(toggle).toHaveAttribute('aria-expanded','false');await expect(page.getByRole('link',{name:/Launch your adventure/})).toBeHidden();
+ await toggle.click();await expect(toggle).toHaveAttribute('aria-expanded','true');const current=page.getByRole('link',{name:/Launch your adventure/});await expect(current).toHaveAttribute('aria-current','page');
+ const box=await current.boundingBox();expect(box!.x).toBeGreaterThanOrEqual(0);expect(box!.x+box!.width).toBeLessThanOrEqual(375);
+ await page.getByRole('link',{name:/Open the story/}).click();await expect(toggle).toHaveCount(0);await expect(page.getByRole('button',{name:/Lesson 1 of 5/})).toHaveAttribute('aria-expanded','false');
  expect(await page.locator('.world-spark').evaluateAll(elements=>elements.every(el=>getComputedStyle(el).animationName==='none'))).toBe(true);
+});
+test('catalog shows every course, with coming-soon courses labelled and not startable',async({page})=>{
+ await mockApi(page,null);await page.goto('/courses');
+ const courses=page.getByRole('list',{name:'Courses'}).getByRole('listitem');await expect(courses).toHaveCount(catalog.courses.length);
+ const python=page.getByRole('article',{name:'Python Foundations'});await expect(python.getByText('Available',{exact:true})).toBeVisible();await expect(python.getByText('5 lessons ready to try')).toBeVisible();
+ await expect(page.getByText('Coming soon',{exact:true})).toHaveCount(catalog.courses.length-1);
+ await expect(page.getByRole('article',{name:'Hackathon Ready'}).getByText('Builds on Python Foundations units 1–7.')).toBeVisible();
+ await page.getByRole('link',{name:'Hackathon Ready'}).click();await expect(page).toHaveURL('/courses/hack');
+ await expect(page.getByText('This course is coming soon and cannot be started yet.')).toBeVisible();await expect(page.getByRole('link',{name:/^(Start|Continue)/})).toHaveCount(0);
+ await expect(page.getByRole('list',{name:'Units'}).getByRole('listitem')).toHaveCount(7);await expect(page.locator('.unit-card a')).toHaveCount(0);
+});
+test('course page shows unit progress and continues where the student left off',async({page})=>{
+ await mockApi(page,'student',['hello']);await page.goto('/courses/py');
+ await expect(page.getByRole('heading',{level:1,name:'Python Foundations'})).toBeVisible();await expect(page.getByText('1 of 5 available lessons complete')).toBeVisible();
+ const unit=page.getByRole('article',{name:'Build Your Own Adventure'});
+ await expect(unit.getByRole('link',{name:/Open the story.*Completed/})).toHaveAttribute('href','/learn/hello');
+ await expect(unit.getByRole('link',{name:/Create your hero.*Up next/})).toBeVisible();await expect(unit.getByRole('link',{name:/Choose a path.*Not started/})).toBeVisible();
+ await expect(page.getByRole('article',{name:'Numbers and decisions'}).getByText('Coming soon')).toBeVisible();
+ await page.getByRole('link',{name:/Continue: Create your hero/}).click();await expect(page).toHaveURL('/learn/variables');
+ await expect(page.getByRole('heading',{name:'Remember a detail with a variable'})).toBeVisible();
+});
+test('lesson sidebar shows done, current, and not started, and works from the keyboard',async({page})=>{
+ await mockApi(page,'student',['hello']);await page.goto('/learn/choices');
+ const nav=page.getByRole('navigation',{name:'Lessons in this unit'});await expect(nav.getByText('1 of 5 lessons complete')).toBeVisible();
+ await expect(nav.getByRole('link',{name:/Open the story.*Completed/})).toBeVisible();await expect(nav.getByRole('link',{name:/Choose a path.*Current lesson/})).toHaveAttribute('aria-current','page');
+ await expect(nav.getByRole('link',{name:/Launch your adventure.*Not started/})).toBeVisible();
+ await expect(page.getByRole('navigation',{name:'Breadcrumb'}).getByRole('link',{name:'Python Foundations'})).toHaveAttribute('href','/courses/py');
+ await nav.getByRole('link',{name:/Create your hero/}).focus();await page.keyboard.press('Enter');
+ await expect(page).toHaveURL('/learn/variables');await expect(nav.getByRole('link',{name:/Create your hero/})).toHaveAttribute('aria-current','page');
+ await expect(page.getByRole('heading',{name:'Remember a detail with a variable'})).toBeFocused();
+});
+test('student home offers the next lesson and shows XP',async({page})=>{
+ await mockApi(page,'student',['hello','variables']);await page.goto('/');
+ await expect(page.getByRole('heading',{name:'Welcome back. Keep building.'})).toBeVisible();
+ const next=page.getByRole('region',{name:'Meet the player'});await expect(next.getByText('200 XP')).toBeVisible();
+ await expect(next.getByRole('link',{name:/Continue/})).toHaveAttribute('href','/learn/input');
+ await expect(page.getByRole('article',{name:'Python Foundations'}).getByText('2 of 5 lessons complete')).toBeVisible();
 });
