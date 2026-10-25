@@ -150,3 +150,15 @@ test('public preview jumps to lessons without account access', async ({page}) =>
  await expect(page.getByRole('button',{name:'Sign out'})).toHaveCount(0);
  expect(privateRequests).toEqual([]);
 });
+
+test('parent can try lessons and return to their family session', async ({page}) => {
+ await mockApi(page,'parent');
+ await page.goto('/');
+ await page.getByRole('link',{name:/Try the lessons/}).click();
+ await expect(page).toHaveURL(/\/preview\?lesson=hello/);
+ await expect(page.getByRole('region',{name:'Lesson one guide'})).toBeVisible();
+ await expect(page.getByText('Content preview',{exact:true})).toBeVisible();
+ await page.getByRole('link',{name:'Return to sign-in'}).click();
+ await expect(page.getByRole('heading',{name:'Help their curiosity grow.'})).toBeVisible();
+ await expect(page.getByRole('button',{name:'Sign out'})).toBeVisible();
+});
