@@ -59,6 +59,8 @@ Add rate limiting/invitation quotas, retention/deletion workflows, operational m
 
 The course catalog is at `/courses`, each course at `/courses/<id>` (for example `/courses/py`), and students learn at `/learn/<lesson>`. Courses without released content are labelled Coming soon and cannot be started. Everyone except signed-in students opens lessons as a preview that saves nothing.
 
+After enrolling, a student is asked once for a goal (it can be skipped, which means "Learn to code from scratch", and changed later from their home). The goal only changes the rule-based recommendation on their home (`backend/app/recommend.py`, plan section 4); every released course stays open. Parents see each learner's goal.
+
 Open `/preview?lesson=hello&card=1`. Preview navigation jumps to any of the five cards of any quest, with no family or student record access. Public `/api/check` returns feedback without saving. `/api/attempts` and `/api/progress` require a student session.
 
 Original lesson text follows basic Python sequencing: explanation, worked example, prediction, guided modification, independent challenge. Python syntax reference: https://docs.python.org/3/tutorial/introduction.html and https://docs.python.org/3/tutorial/controlflow.html.

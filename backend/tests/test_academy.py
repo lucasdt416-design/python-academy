@@ -317,6 +317,44 @@ def test_family_completed_lessons_come_from_the_ledger():
     assert len(learner['attempts']) == 2
     assert learner['completed'] == ['hello']
 
+def test_goals_are_public_and_frozen_for_the_interface():
+    from pathlib import Path
+    fixture = Path(__file__).with_name('fixtures') / 'goals_v1.json'
+    assert client.get('/api/goals').json() == json.loads(fixture.read_text())
+    assert [g['id'] for g in client.get('/api/goals').json()] == ['scratch', 'hackathon', 'university', 'websites', 'data', 'explore']
+
+def test_only_students_choose_goals_and_skipping_gives_the_default():
+    assert client.get('/api/goal').status_code == 401
+    assert post('goal', {'goal': 'data'}).status_code == 401
+    signin('parent', 'parent@example.com')
+    assert client.get('/api/goal').status_code == 403
+    assert post('goal', {'goal': 'data'}).status_code == 403
+    signin('student')
+    assert client.get('/api/goal').json() == {'goal': None, 'chosen': False, 'asked': False}
+    assert post('goal', {'goal': 'astronaut'}).status_code == 422
+    assert post('goal', {}).json() == {'goal': 'scratch', 'chosen': False, 'asked': True}
+    assert post('goal', {'goal': 'hackathon'}).json() == {'goal': 'hackathon', 'chosen': True, 'asked': True}
+    assert [(e['action'], e['detail']) for e in client.get('/api/history').json()[:2]] == [('goal_chosen', 'hackathon'), ('goal_skipped', 'scratch')]
+
+def test_recommendation_follows_the_goal_and_progress():
+    assert client.get('/api/recommendation').status_code == 401
+    signin('student')
+    first = client.get('/api/recommendation').json()
+    assert (first['kind'], first['lesson'], first['reason']) == ('start', 'hello', 'Start of your Learn to code path.')
+    post('goal', {'goal': 'hackathon'})
+    assert client.get('/api/recommendation').json()['reason'] == 'Start of your hackathon path.'
+    pass_lesson('hello')
+    after = client.get('/api/recommendation').json()
+    assert (after['kind'], after['lesson'], after['reason']) == ('continue', 'variables', "You're partway through Python Foundations.")
+    assert after['rules_version'] == 1
+
+def test_parents_see_their_learners_goal():
+    parent = signin('parent', 'parent@example.com')
+    signin('student', 'child@example.com', parent)
+    post('goal', {'goal': 'university'})
+    login_as(parent)
+    assert client.get('/api/family').json()[0]['goal'] == 'Prepare for university CS or engineering'
+
 def test_player_replies_are_bounded():
     assert post('check', {'lesson_id':'input','code':'','output':'','inputs':['x'*501]}).status_code == 422
 

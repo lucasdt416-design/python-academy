@@ -1,8 +1,9 @@
 from . import content, migrate
 from . import awards
 from .awards import award_challenge
-from .db import Attempt, Base, Event, Invitation, User, engine
+from .db import Attempt, Base, Event, Invitation, LearnerGoal, User, engine
 from .lesson_checks import assess, check_story
+from .recommend import DEFAULT_GOAL, GOALS, recommend
 import hashlib
 import logging
 import os
@@ -156,7 +157,9 @@ def family(request: Request):
         u = current(request, db, 'parent')
         return [{'id': s.id, 'email': s.email,
                  'attempts': [{'lesson_id': a.lesson_id, 'passed': a.passed} for a in db.scalars(select(Attempt).where(Attempt.user_id == s.id))],
-                 'completed': awards.completed_lessons(db, s.id, CONTENT, LESSON_ORDER)}
+                 'completed': awards.completed_lessons(db, s.id, CONTENT, LESSON_ORDER),
+                 # Decision 2: parents see the learner's goal (never placement answers).
+                 'goal': goal_label(db.get(LearnerGoal, s.id))}
                 for s in db.scalars(select(User).where(User.parent_id == u.id))]
 
 @app.get('/api/history')
@@ -172,6 +175,51 @@ def lessons():
 @app.get('/api/catalog')
 def catalog():
     return CATALOG_VIEW
+
+@app.get('/api/goals')
+def goals():
+    return [{'id': g.id, 'label': g.label, 'description': g.description} for g in GOALS.values()]
+
+def goal_label(row):
+    return GOALS[row.goal].label if row and row.goal in GOALS else None
+
+def goal_state(db, user_id):
+    row = db.get(LearnerGoal, user_id)
+    return {'goal': row.goal if row else None, 'chosen': bool(row and row.chosen), 'asked': row is not None}
+
+class GoalChoice(BaseModel):
+    # None means the learner skipped the goal card; they get the default goal.
+    goal: str | None = Field(default=None, max_length=20)
+
+@app.get('/api/goal')
+def my_goal(request: Request):
+    with Session(engine) as db:
+        u = current(request, db, 'student')
+        return goal_state(db, u.id)
+
+@app.post('/api/goal')
+def set_goal(data: GoalChoice, request: Request):
+    with Session(engine) as db:
+        u = current(request, db, 'student')
+        if data.goal is not None and data.goal not in GOALS:
+            raise HTTPException(422, 'Choose one of the listed goals')
+        goal, chosen = (data.goal, True) if data.goal else (DEFAULT_GOAL, False)
+        row = db.get(LearnerGoal, u.id)
+        if row:
+            row.goal, row.chosen = goal, chosen
+        else:
+            db.add(LearnerGoal(user_id=u.id, goal=goal, chosen=chosen))
+        audit(db, u, 'goal_chosen' if chosen else 'goal_skipped', goal)
+        db.commit()
+        return goal_state(db, u.id)
+
+@app.get('/api/recommendation')
+def next_recommendation(request: Request):
+    with Session(engine) as db:
+        u = current(request, db, 'student')
+        row = db.get(LearnerGoal, u.id)
+        done = awards.completed_lessons(db, u.id, CONTENT, LESSON_ORDER)
+        return recommend(row.goal if row else DEFAULT_GOAL, CATALOG, done).as_dict()
 
 @app.get('/api/awards')
 def my_awards(request: Request):

@@ -55,9 +55,10 @@ Important source locations:
 | `backend/app/main.py` | API, identity, family records, attempts, progress |
 | `backend/app/db.py`, `backend/migrations/` | Tables and Alembic migrations, applied automatically at startup (`backend/app/migrate.py`) |
 | `backend/app/awards.py` | Idempotent XP and badge awards |
+| `backend/app/recommend.py` | Learner goals and the rule-based "recommended next" function |
 | `frontend/app/adventure.tsx` | Lesson page: card flow, unit sidebar, editor, current rewards |
 | `frontend/app/catalog.tsx`, `frontend/app/course.tsx`, `frontend/app/catalog-data.ts` | Course catalog, course pages, and shared catalog/progress helpers |
-| `frontend/app/academy.tsx` | Account and family experience |
+| `frontend/app/academy.tsx`, `frontend/app/goal-card.tsx` | Account and family experience, and the learner goal card |
 | `frontend/public/python-worker.js` | Browser Python execution and input adaptation |
 | `frontend/app/style.css` | Visual design, responsive rules, reduced motion |
 | `backend/tests/test_academy.py` | Backend and authored-reference checks |
