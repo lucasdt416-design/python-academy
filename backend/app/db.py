@@ -108,3 +108,13 @@ def insert_once(db, model, **values):
     insert = postgresql_insert if db.get_bind().dialect.name == 'postgresql' else sqlite_insert
     statement = insert(model.__table__).values(**values).on_conflict_do_nothing().returning(model.__table__.c.id)
     return db.execute(statement).first() is not None
+
+
+class LearnerGoal(Base):
+    """A student's current goal (plan section 2). Changes are also recorded as account events."""
+    __tablename__ = 'learner_goals'
+    user_id: Mapped[int] = mapped_column(ForeignKey('users.id'), primary_key=True)
+    goal: Mapped[str] = mapped_column(String(20))
+    # False when the learner skipped the goal card and got the default.
+    chosen: Mapped[bool] = mapped_column(default=True)
+    updated: Mapped[str] = mapped_column(String(40), default=now, onupdate=now)

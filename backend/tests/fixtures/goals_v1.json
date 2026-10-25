@@ -1,0 +1,32 @@
+[
+  {
+    "id": "scratch",
+    "label": "Learn to code from scratch",
+    "description": "Start with your first program and build up one small step at a time."
+  },
+  {
+    "id": "hackathon",
+    "label": "Get ready for hackathons",
+    "description": "Learn to scope, build, and demo a small working project with a team."
+  },
+  {
+    "id": "university",
+    "label": "Prepare for university CS or engineering",
+    "description": "Build depth in programming, algorithms, and how computers work."
+  },
+  {
+    "id": "websites",
+    "label": "Build websites and apps",
+    "description": "Make things people can use in a browser, from pages to a full app."
+  },
+  {
+    "id": "data",
+    "label": "Work with data",
+    "description": "Ask questions of real data with Python and SQL."
+  },
+  {
+    "id": "explore",
+    "label": "Just explore",
+    "description": "No plan yet. Try the first unit, then pick whatever looks interesting."
+  }
+]
