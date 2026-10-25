@@ -1,7 +1,7 @@
 # Course catalog, learner goals, and recommendations
 
 Last updated: 2026-10-24 (America/Toronto)  
-Status: **proposed**. Nothing in this document is implemented unless it is explicitly labelled as existing.  
+Status: **proposed**, with maintainer decisions recorded in section 9 on 2026-10-24. Nothing in this document is implemented unless it is explicitly labelled as existing.  
 Base commit: `a293798` on `main`.  
 Related: [`build.md`](../../build.md) sections 3, 5, 9, 10, 11 and 13; [Issue #4](https://github.com/torontojohn/python-academy/issues/4) (optional skills check).
 
@@ -27,9 +27,9 @@ Everything below is **proposed**.
 ### When and how the goal is asked (proposed)
 
 - Asked once, right after a student completes enrolment, on a single card. It can be skipped; skipping defaults to "Learn to code from scratch". It can be changed at any time from the learner's account page.
-- One primary goal is required for recommendations. Allowing a secondary goal is an open decision (section 9).
+- One primary goal is used for recommendations. There is no secondary goal in the pilot (decision 1, section 9).
 - The goal only changes **recommendations and ordering**. It never locks or hides a course, and it never changes the existing age rules or roles.
-- Parents do not choose goals for learners. Whether a parent can see a learner's goal is an open decision linked to `build.md` backlog item ID-01.
+- Parents do not choose goals for learners. Parents can see a learner's goal and completed courses, but not placement answers (decision 2, section 9). The details are finalized with `build.md` backlog item ID-01.
 - Preview sessions may try the goal card, but the choice stays in session memory and is not saved, matching existing preview behaviour.
 - Independent adult learners (for example, the first-year maintainer) depend on ID-01 and are out of scope here. The goal design should work for them unchanged once that role exists.
 
@@ -40,13 +40,15 @@ Course IDs are defined in section 3. "Recommended path" is an ordered list, and 
 | Goal (shown to learner) | Closest `build.md` mode | Recommended path | Why this order |
 | --- | --- | --- | --- |
 | Learn to code from scratch | Complete beginner | `py` → `git` → `web` → `js` → `sql` | Python gives a gentle first program; tools and web follow once basics are solid |
-| Get ready for hackathons | Practical builder | `py` (through unit 7) → `git` → `web` → `js` → `node` → `sql` | Hackathons reward shipping a small working app with a team: Git, a web front end, and an API matter early. Units 8 to 12 of `py` are still recommended later |
+| Get ready for hackathons | Practical builder | `py` (through unit 7) → `hack` → `git` → `web` → `js` → `node` → `sql` | Hackathons reward scoping and shipping a small working app with a team. `hack` comes straight after Python unit 7, then Git, a web front end, and an API deepen the same skills. Units 8 to 12 of `py` are still recommended later |
 | Prepare for university CS/engineering | First-year CS/engineering learner | `py` → `git` → `cs` → `sql` → `ce` electives | Depth and transfer: algorithms, representation, and C/memory build on solid Python |
 | Build websites and apps | Practical builder | `py` (through unit 7) → `web` → `js` → `git` → `sql` → `node` → `fullstack` | Follows `build.md` stages 5 to 7 toward a deployed client/API/database project |
 | Work with data | Practical builder | `py` → `sql` → `data` → `git` | SQL and Python data work answer real questions about a dataset |
 | Just explore | Returning beginner / explorer | `py` unit 1, then a choice screen of every course whose prerequisites are met | No commitment; shows the breadth of the catalog |
 
-Every goal starts with `py`, consistent with "Python is the entry point" in `build.md` section 1. The optional skills check (section 4.3) can move a learner's starting point **within** `py`, but it does not skip the course outright.
+"`py` (through unit 7)" means the recommendation moves on once `py.u01` to `py.u07` are complete; units 8 to 12 stay in the learner's path and are recommended again after the following course.
+
+Every goal starts with `py`, consistent with "Python is the entry point" in `build.md` section 1. The optional skills check (section 4.2) can move a learner's starting point **within** `py`, but it does not skip the course outright.
 
 ## 3. Catalog structure
 
@@ -66,9 +68,9 @@ Modelled on the Khan Academy course > unit > lesson > exercise pattern, adapted 
 ### 3.2 Stable IDs (proposed)
 
 - IDs are lowercase ASCII, globally unique within their level, and **never reused** for different content. A meaning change gets a new ID; a wording or bug fix gets a new **version** of the same ID.
-- Course IDs are short slugs: `py`, `git`, `web`, `js`, `sql`, `node`, `cs`, `data`, `fullstack`, `ce`.
+- Course IDs are short slugs: `py`, `hack`, `git`, `web`, `js`, `sql`, `node`, `cs`, `data`, `fullstack`, `ce`.
 - Unit IDs: `<course>.u<NN>`, for example `py.u03`.
-- Lesson IDs: the five existing lessons keep `hello`, `variables`, `input`, `choices`, `adventure` exactly, because `attempts.lesson_id` already stores them. New lessons use `<course>.<slug>`, for example `py.while-loops`.
+- Lesson IDs: the five existing lessons keep `hello`, `variables`, `input`, `choices`, `adventure` exactly and permanently, with no `py.`-prefixed alias, because `attempts.lesson_id` already stores them (decision 5). New lessons use `<course>.<slug>`, for example `py.while-loops`.
 - Task IDs: `<lesson id>.<task slug>`, for example `hello.challenge`, `py.while-loops.predict`.
 - Content records carry a `version` integer. Progress, evidence, and awards store both ID and version (`build.md` section 10, version changes).
 
@@ -96,11 +98,14 @@ Example lesson record (illustrative format, not final):
 
 ### 3.3 Catalog (proposed)
 
-Courses map to `build.md` section 5 stages. Only part of `py` unit 1 exists today.
+Courses map to `build.md` section 5 stages. Only `py` unit 1 exists today.
+
+Every course appears in the catalog. A course without released content is labelled **Coming soon** and cannot be started; its card can show the title, description, and planned units only (decision 8).
 
 | Course ID | Title | `build.md` stage | Status |
 | --- | --- | --- | --- |
 | `py` | Python Foundations | 1 to 3 | proposed (unit 1 existing) |
+| `hack` | Hackathon Ready | Not a `build.md` stage; applies the practical-builder projects and tools of sections 7 and 8 under time pressure | proposed (maintainer-approved addition; see 5.5) |
 | `git` | Git and GitHub Essentials | 8 (introductory) and section 8 tutorials | proposed |
 | `web` | Web Foundations: HTML and CSS | 5 | proposed |
 | `js` | JavaScript and the DOM | 5 | proposed |
@@ -120,29 +125,36 @@ Two kinds of prerequisite:
 
 Prerequisites can name a whole course or specific units. Unit-level prerequisites let a learner branch after the common foundation, as `build.md` section 5 allows.
 
+The diagram is an overview; the table below it is authoritative.
+
 ```mermaid
 graph LR
-  py_core["py units 1–5<br/>(basics, loops, collections, functions)"] --> py_rest["py units 6–12"]
+  py_core["py units 1–5<br/>(basics, loops, collections, functions)"] --> py_mid["py units 6–7<br/>(errors, libraries)"]
+  py_mid --> py_late["py units 8–12"]
   py_core --> git
   py_core --> web
   py_core --> sql
   py_core --> cs
+  py_mid --> hack
+  git -.suggested.-> hack
+  web -.suggested.-> hack
   web --> js
   py_core -.suggested.-> js
   js --> node
   sql --> node
-  py_rest --> data
+  py_late -->|through u09| data
   sql --> data
   node --> fullstack
   git --> fullstack
-  py_rest -.suggested.-> cs
+  py_mid -.suggested.-> cs
   cs --> ce
-  py_rest --> ce
+  py_late --> ce
 ```
 
 | Course | Required | Suggested |
 | --- | --- | --- |
 | `py` | None | None |
+| `hack` | `py.u01` to `py.u07` | `git`, `web` |
 | `git` | `py.u01` (so the learner has a file worth versioning) | `py.u05` |
 | `web` | `py.u01` to `py.u03` (basic programming; HTML may start earlier per `build.md`) | `git` |
 | `js` | `web`, plus `py.u01` to `py.u05` | `git` |
@@ -175,6 +187,7 @@ Content validation (section 7.1) must check that every referenced course or unit
 | Placement evidence | Optional skills check (Issue #4) | Skill states per `build.md` section 9: unknown, introduced, practiced, independently demonstrated, due for review |
 | In-progress course | Most recent learning activity | Paused courses are excluded if the learner paused them |
 | Dismissed recommendations | Learner action | "Not now" hides a course from recommendations until the goal changes or the learner restores it |
+| Release status | Course content files | Only released courses can be recommended as "start"; unreleased ones are "Coming soon" |
 
 A prerequisite unit counts as **satisfied** when it is completed, **or** when placement shows every skill it teaches as "independently demonstrated". That means both a concept question and a different applied task show the skill, which is the pilot rule in `build.md` section 9. Conflicting evidence leaves the prerequisite unsatisfied and adds a refresher suggestion.
 
@@ -186,7 +199,10 @@ recommend(learner):
        recommend "continue <course> at <next unit/lesson>".
        Reason: "You're partway through <course>."
   2. candidates = goal path − completed courses − dismissed courses
-  3. For each candidate, in goal-path order:
+     If the first candidate is not yet released, note it:
+       "<course> is next on your path and is coming soon."
+     Then continue with released candidates only.
+  3. For each released candidate, in goal-path order:
        if all required prerequisites are satisfied:
          recommend it.
          Reason: "Next on your <goal> path, and you've finished <prereq>."
@@ -197,9 +213,12 @@ recommend(learner):
   4. If no candidate is ready, take the first candidate and walk back
      through its unmet required prerequisites until one is ready.
        Reason: "<course> needs <prereq> first."
-  5. If the goal path is exhausted: offer every unstarted course whose
-     prerequisites are met, plus the capstone for that goal.
+  5. If the goal path is exhausted: offer every unstarted released
+     course whose prerequisites are met, plus the capstone for that goal.
        Reason: "You've completed your <goal> path."
+     If nothing released remains: recommend revisiting completed work
+     and show the Coming soon courses on the path.
+       Reason: "You've finished everything available on your path so far."
 ```
 
 Implementation notes (proposed):
@@ -210,7 +229,7 @@ Implementation notes (proposed):
 
 ### 4.4 Override behaviour
 
-- Every course page has a "Start this course" action, whatever the recommendation says.
+- Every released course page has a "Start this course" action, whatever the recommendation says. Coming soon courses have no start action and cannot be started by override.
 - If required prerequisites are unmet, show which ones and offer a short recap, then let the learner continue anyway.
 - Overrides are recorded as a learner choice, so a product measure can review "placement override/refresher use" (`build.md` section 12).
 
@@ -219,7 +238,8 @@ Implementation notes (proposed):
 | Learner | Inputs | Recommendation |
 | --- | --- | --- |
 | New student, goal "from scratch", no skills check | Nothing completed | `py` starting at unit 1, Reason: "Start of your Learn to code path." |
-| Student, goal "hackathons", finished `py.u01`–`py.u07` | `git` not started | `git`. Reason: "Next on your hackathon path, and you've finished Python units 1–7." |
+| Student, goal "hackathons", finished `py.u01`–`py.u07` | `hack` released, not started | `hack`. Reason: "Next on your hackathon path, and you've finished Python units 1–7." |
+| Same student, but `hack` not yet released | `git` released | Note: "Hackathon Ready is next on your path and is coming soon." Then `git`, the next released course on the path |
 | Student, goal "websites", placement showed print/variables/input/if-else independently | Nothing completed | `py` starting at unit 2 with a recap card. No unit 1 badges or XP awarded |
 | Student, goal "data", finished `py`, overrides to start `node` | `sql` and `js` not done | Learner may start `node`; note: "Node.js usually comes after JavaScript and SQL" with recap links |
 
@@ -248,7 +268,7 @@ Every unit ends with a **project milestone** in three versions: guided build, in
 | `py.u07` | Libraries and modules | `py.import`, `py.random`, `py.math-module`, `py.datetime`, `py.own-modules`, `py.packages-local` (local setup tutorial) | Quiz and spaced-practice tool, first version | Imports of an allowlisted standard library; seeded `random` |
 | `py.u08` | Trust your changes | `py.assert-tests`, `py.test-cases`, `py.boundaries`, `py.type-hints`, `py.refactor` | Add tests that catch an intentionally broken version of the quiz tool | Run learner tests against correct and broken references |
 | `py.u09` | Save and load | `py.text-files`, `py.json`, `py.csv`, `py.missing-data`, `py.environments` | Save and load the game or study tracker | Pyodide virtual filesystem with fixtures; explained file limits |
-| `py.u10` | Patterns in text | `py.string-methods`, `py.regex-basics`, `py.regex-groups`, `py.validate-formats` | Validate and extract data such as course codes from text | Regex behaviour checks |
+| `py.u10` | Patterns in text (core, skippable via placement; decision 7) | `py.string-methods`, `py.regex-basics`, `py.regex-groups`, `py.validate-formats` | Validate and extract data such as course codes from text | Regex behaviour checks |
 | `py.u11` | Model a larger program | `py.classes`, `py.methods`, `py.composition`, `py.when-not-oop` | Inventory or simulation model, explaining why the abstraction helps | Object behaviour checks |
 | `py.u12` | Final project | `py.final-brief`, `py.final-milestones`, `py.final-review` | Independent project: README, tests, demo, tradeoff explanation | Rubric (`build.md` section 7), not automated pass/fail alone |
 
@@ -269,7 +289,29 @@ Library and network exercises stay after fundamentals, with deterministic fixtur
 
 ### 5.4 Path into later courses
 
-After `py.u05`, the learner can branch to `git`, `web`, `sql`, or `cs` (section 3.4) while finishing `py`. The recommendation engine suggests the branch that matches the learner's goal.
+After `py.u05`, the learner can branch to `git`, `web`, `sql`, or `cs` (section 3.4) while finishing `py`; after `py.u07`, `hack` also opens. The recommendation engine suggests the branch that matches the learner's goal.
+
+### 5.5 Hackathon Ready (`hack`) outline
+
+Status: proposed, approved for the catalog by the maintainer on 2026-10-24. Not a `build.md` section 5 stage; it is a short, practical course that applies Python foundations and the developer-tool tutorials (`build.md` section 8) to a time-boxed team project. It does not require attending a real hackathon, public posting, or paid hosting to earn its badges (`build.md` section 7).
+
+Required: `py.u01` to `py.u07`. Suggested: `git`, `web`.
+
+| Unit | Title | Focus | Evidence |
+| --- | --- | --- | --- |
+| `hack.u01` | Idea to MVP | Pick a problem and user; cut an idea down to a minimum viable product; write a one-paragraph scope and an explicit "not doing" list | Scope statement reviewed against a checklist |
+| `hack.u02` | Time-boxing | Break the MVP into tasks that fit fixed time blocks; decide what to drop when time runs out | A time-boxed plan with a cut list |
+| `hack.u03` | Teamwork with Git branches | One branch per feature, small pull requests, reviewing a teammate's diff, resolving a small conflict | Practice repository with two merged branches and one resolved conflict (simulation alone earns a lower evidence label, per `build.md` section 8) |
+| `hack.u04` | Using public APIs safely | Reading API documentation, rate limits and terms of use; keeping keys out of frontend and source code; preferring keyless APIs or a small server-side proxy; handling offline and error responses | Project calls a keyless API or reads a key from an environment variable on the server; no key in source or browser code; works against a saved fixture when offline |
+| `hack.u05` | Quick UI prototyping | Paper sketch, then a minimal working interface: a command-line flow first, or a simple web page if `web` is complete; accessibility basics still apply | Prototype a tester can complete one task with |
+| `hack.u06` | Demo and pitching | A two-minute demo script: problem, live demo, what works, what's next; a backup recording or screenshots | Demo script and recorded or written walkthrough |
+| `hack.u07` | Judging criteria | How typical criteria (impact, technical difficulty, design, completeness, presentation) are applied; self-assessing a project honestly | Self-assessment of the course project against a published rubric |
+
+Assessment notes:
+
+- Public API exercises use deterministic fixtures for any automated check, and never grade against a live public API (`build.md` section 5).
+- Most `hack` evidence is a rubric-assessed project, not an automated pass/fail. Browser checks are used only where a task has deterministic behaviour.
+- No learner code runs on the server; Git work happens in the learner's own practice repository.
 
 ## 6. XP and badge rules
 
@@ -301,7 +343,7 @@ Badge categories match `build.md` section 10. Each badge has a stable ID and ver
 | Skill | Number wrangler (u02), Loop navigator (u03), World keeper (u04), Function builder (u05) | Independent challenge plus a later, different variation of the skill |
 | Project | Adventure v2 (u05), Quiz tool builder (u07), Data keeper (u09) | Published project rubric met; private demo or local delivery is acceptable |
 | Engineering habit | Bug detective (u06), Test writer (u08) | Explain a real failure and add a meaningful regression check |
-| Collaboration | First reviewed contribution (`git`) | A reviewed practice or project pull request, not account linking |
+| Collaboration | First reviewed contribution (`git`), Team shipper (`hack.u03`) | A reviewed practice or project pull request, not account linking |
 | Capstone | Python independent builder (u12) | Working project, tests, documentation, and explanation |
 
 - Awarded once per `(learner, badge id, badge version)` under a database unique constraint.
@@ -341,10 +383,10 @@ The existing checker (`backend/app/lesson_checks.py`) is a bounded interpreter f
 - Handle `try`/`except`, `raise`, `import`, file I/O, regular expressions, or classes.
 - Verify output independently: it re-interprets the code and compares the result with the output the browser reports, so it is not tamper-resistant.
 
-`build.md` section 11 says not to grow this into a pretend full Python implementation. Proposed direction, to be decided (section 9):
+`build.md` section 11 says not to grow this into a pretend full Python implementation. Decided direction (decision 4, section 9):
 
 - **Keep** the bounded checker for unit 1 and as a fast structural check.
-- **Add** behaviour checks run in the learner's browser through Pyodide. The worker runs the learner's code, then calls their functions or replays inputs against test cases defined in the content file, with step/time limits and a result state. This is practice-level evidence only.
+- **Add** behaviour checks run in the learner's browser through the existing Pyodide worker. The worker runs the learner's code, then calls their functions or replays inputs against test cases defined in the content file, with step/time limits and a result state. This is practice-level evidence only, and learner code still never runs on the server.
 - **Defer** any hosted evaluation service. It needs its own isolation, network restrictions, quotas, tests, and cost review, and must never run inside the main API service.
 
 ### 7.4 Database migrations (ENG-02)
@@ -371,33 +413,46 @@ The existing checker (`backend/app/lesson_checks.py`) is a bounded interpreter f
 2. ENG-02: migration baseline, then XP/badge ledgers with a backfill.
 3. EDU-01 / Issue #4: placement questions for unit 1 skills.
 4. Goal card and recommendation function, behind the existing student flow.
-5. EDU-03: unit 3 loops (or unit 2 first; see open decisions), with browser behaviour checks.
+5. `py.u02` Numbers and decisions (decision 3), with browser behaviour checks; then EDU-03, unit 3 loops.
 
 Each step is a separate small PR, per `build.md` section 13.
+
+The maintainer's approved build order for the first stages (2026-10-24) is:
+
+1. ENG-01: content format and result states; the five existing lessons behave exactly as before.
+2. ENG-02: Alembic baseline, then XP and badge ledgers with a backfill; existing accounts survive.
+3. Catalog interface: course catalog page (course cards with title, short description, progress, and Coming soon labels), course page with units and lessons, and a lesson page that keeps the one-card-at-a-time flow with a unit sidebar showing done, current, and not-started lessons (a collapsible menu on mobile).
+4. Goal card at sign-up and the recommendation function, with tests.
+
+Each stage is its own branch and pull request, reviewed by the maintainer before the next starts. Nothing is merged to `main` or deployed without the maintainer.
 
 ## 8. Risks and limits
 
 - Browser-reported results remain practice evidence; nothing here makes grading tamper-resistant.
-- A long catalog risks implying courses exist. The UI should mark unreleased courses as "coming later" or hide them.
+- A long catalog risks implying courses exist. Unreleased courses are shown, clearly labelled Coming soon, and cannot be started (decision 8).
 - XP values and badge thresholds are starting proposals to pilot, not measured educational targets.
 - Goal data and placement results are learner data. Retention, deletion, and parent visibility need decisions before storage (`build.md` section 12, broader-release gate).
 
-## 9. Open decisions for the maintainer
+## 9. Maintainer decisions
 
-| # | Decision | Proposed default |
-| --- | --- | --- |
-| 1 | Single primary goal, or primary plus secondary? | Primary only for the pilot |
-| 2 | Can parents see a learner's goal, placement, and recommendations? | Goal and completed courses yes; placement answers no. Resolve with ID-01 |
-| 3 | Next unit to build after groundwork: `py.u02` (numbers, smaller checker change) or `py.u03` (loops, per `build.md` EDU-03)? | `py.u02`, since unit 3 depends on its arithmetic and comparison |
-| 4 | Checker strategy for units 2+: browser behaviour checks, extended bounded interpreter, or hosted service later? | Browser behaviour checks plus keeping the bounded checker for unit 1 |
-| 5 | Should existing lesson IDs gain course-prefixed aliases (`py.hello`) or stay as-is permanently? | Stay as-is; no alias |
-| 6 | XP amounts (100 / 200 / 500) and whether stretch work earns XP | As proposed; stretch earns a badge only |
-| 7 | Include `py.u10` regular expressions in the core course, or make it optional? | Core, for CS50P-level breadth, but skippable via placement |
-| 8 | Should unreleased courses appear in the catalog as "coming later"? | Show `py` only until a second course is ready |
-| 9 | Hackathon goal: is the Python 1–7 shortcut right, or should it be the full `py` course first? | Units 1–7, then branch |
+Decided by the maintainer on 2026-10-24. Each decision stays in effect until deliberately changed and recorded here (`build.md` section 18).
+
+| # | Question | Decision | Alternatives considered | Consequence |
+| --- | --- | --- | --- | --- |
+| 1 | Single primary goal, or primary plus secondary? | Primary goal only for the pilot | Primary plus secondary | Simpler recommendation rules; revisit after the pilot |
+| 2 | Can parents see a learner's goal, placement, and recommendations? | Goal and completed courses yes; placement answers no | Full visibility; no visibility | Finalize with ID-01 before adult learners exist |
+| 3 | Next unit after groundwork | `py.u02` Numbers and decisions | `py.u03` loops first (`build.md` EDU-03) | Unit 3 builds on unit 2's arithmetic and comparison; EDU-03 follows |
+| 4 | Checker strategy for units 2+ | Browser behaviour checks: the Pyodide worker runs learner code against test cases from the content file. Keep the bounded checker for unit 1 | Extend the bounded interpreter; hosted evaluation service | Practice-level evidence only; no learner code on the server; content files must carry test cases |
+| 5 | Course-prefixed aliases for existing lesson IDs? | No; keep `hello`, `variables`, `input`, `choices`, `adventure` permanently | Add `py.hello` aliases | No migration of `attempts.lesson_id` needed |
+| 6 | XP amounts and stretch work | 100 per lesson challenge, 200 per unit project, 500 per course final project; stretch work earns a badge only | Other amounts; XP for stretch work | Pilot values, revisited with evidence |
+| 7 | Regular expressions (`py.u10`) | Core unit, skippable via placement | Optional elective | Course covers CS50P-level breadth |
+| 8 | Unreleased courses in the catalog | Shown, clearly labelled "Coming soon", and not startable | Show `py` only; hide unreleased | Catalog shows the whole plan without implying content exists; recommendations skip unreleased courses |
+| 9 | Hackathon goal path | `py` units 1–7, then `hack`, then branch | Full `py` course first | `hack` added as a new course (section 5.5) |
+| 10 | Hackathon course | Add `hack` (Hackathon Ready): required `py.u01`–`py.u07`, suggested `git` and `web` | Teach hackathon skills inside `git` and `web` | New course not in `build.md` section 5; `build.md` should list it at its next revision |
 
 ## 10. Session record
 
 - Created this proposal on branch `plan/course-catalog`. Documentation only.
 - No application code, content, database, settings, or deployment changed.
-- Next concrete action: maintainer reviews section 9 decisions; approved items move to linked issues.
+- 2026-10-24: maintainer decisions 1 to 10 recorded in section 9; `hack` course added (section 5.5); approved build order added to section 7.5.
+- Next concrete action: ENG-01 (content format and result states) on its own branch and pull request.
