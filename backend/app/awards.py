@@ -29,3 +29,21 @@ def total_xp(db, user_id):
 def badges(db, user_id):
     """Badge IDs currently held, excluding corrected awards."""
     return set(db.scalars(select(BadgeAward.badge_id).where(BadgeAward.user_id == user_id, BadgeAward.corrected.is_(None))))
+
+
+def completed_lessons(db, user_id, lessons, order):
+    """Lessons whose challenge XP the learner holds, in catalog order. This is what progress means now."""
+    by_task = {lesson.task('challenge').id: lesson.id for lesson in lessons.values()}
+    earned = {by_task[t] for t in db.scalars(select(XpAward.task_id).where(XpAward.user_id == user_id)) if t in by_task}
+    return [lesson_id for lesson_id in order if lesson_id in earned]
+
+
+def summary(db, user_id, lessons, order):
+    """XP, completed lessons, and held badges (in catalog order) for /api/awards."""
+    held = badges(db, user_id)
+    earned = [lessons[i].badge for i in order if lessons[i].badge and lessons[i].badge.id in held]
+    return {
+        'xp': total_xp(db, user_id),
+        'completed': completed_lessons(db, user_id, lessons, order),
+        'badges': [{'id': badge.id, 'title': badge.title} for badge in earned],
+    }

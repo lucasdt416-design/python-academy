@@ -1,4 +1,5 @@
 from . import content, migrate
+from . import awards
 from .awards import award_challenge
 from .db import Attempt, Base, Event, Invitation, User, engine
 from .lesson_checks import assess, check_story
@@ -24,6 +25,8 @@ ORIGIN = os.getenv('APP_ORIGIN', 'http://localhost:3000').rstrip('/')
 API_ORIGIN = os.getenv('API_ORIGIN', ORIGIN).rstrip('/')
 CATALOG, CONTENT = content.load()
 LESSONS = content.legacy_lessons(CATALOG, CONTENT)
+LESSON_ORDER = content.lesson_order(CATALOG)
+CATALOG_VIEW = content.catalog_view(CATALOG, CONTENT)
 
 def check_opening(code, output):
     return check_story('hello', code, output, [])
@@ -151,7 +154,10 @@ def invite(data: InviteInput, request: Request):
 def family(request: Request):
     with Session(engine) as db:
         u = current(request, db, 'parent')
-        return [{'id': s.id, 'email': s.email, 'attempts': [{'lesson_id': a.lesson_id, 'passed': a.passed} for a in db.scalars(select(Attempt).where(Attempt.user_id == s.id))]} for s in db.scalars(select(User).where(User.parent_id == u.id))]
+        return [{'id': s.id, 'email': s.email,
+                 'attempts': [{'lesson_id': a.lesson_id, 'passed': a.passed} for a in db.scalars(select(Attempt).where(Attempt.user_id == s.id))],
+                 'completed': awards.completed_lessons(db, s.id, CONTENT, LESSON_ORDER)}
+                for s in db.scalars(select(User).where(User.parent_id == u.id))]
 
 @app.get('/api/history')
 def history(request: Request):
@@ -162,6 +168,16 @@ def history(request: Request):
 @app.get('/api/lessons')
 def lessons():
     return LESSONS
+
+@app.get('/api/catalog')
+def catalog():
+    return CATALOG_VIEW
+
+@app.get('/api/awards')
+def my_awards(request: Request):
+    with Session(engine) as db:
+        u = current(request, db, 'student')
+        return awards.summary(db, u.id, CONTENT, LESSON_ORDER)
 
 class Submission(BaseModel):
     lesson_id: str
@@ -207,7 +223,6 @@ def check_preview(data: Submission):
 def progress(request: Request):
     with Session(engine) as db:
         u = current(request, db, 'student')
-        attempts = db.scalars(select(Attempt).where(Attempt.user_id == u.id, Attempt.passed == True))
-        # Legacy arithmetic exercises used the variables ID. They do not earn
-        # the new character-creation badge, but their history remains intact.
-        return list({a.lesson_id for a in attempts if a.lesson_id != 'variables' or check_story('variables', a.code, a.output, [])[0]})
+        # The XP ledger is the record of completed lessons. Migrations 0003/0004 backfilled it
+        # from older attempts, excluding legacy arithmetic under the variables ID.
+        return awards.completed_lessons(db, u.id, CONTENT, LESSON_ORDER)
