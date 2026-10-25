@@ -12,6 +12,7 @@ import hmac
 import ipaddress
 import logging
 import math
+import os
 import secrets
 import threading
 import time
@@ -87,30 +88,51 @@ class Limiter:
 LIMITER = Limiter()
 
 
-def client_ip(request: Request) -> str:
-    """The visitor's address, grouped to /64 for IPv6.
+# Where a signed-out visitor's address comes from. Both settings are off by default, and then every
+# signed-out visitor shares one counter: too strict, but nothing a caller sends can change it.
+# Set at most one, and only after the diagnostic below shows it is safe (handoff 06 section 13):
+#   CLIENT_IP_HEADER   a header the edge sets and overwrites, for example cf-connecting-ip
+#   TRUSTED_PROXY_HOPS the number of X-Forwarded-For entries our own proxies add on the right
+CLIENT_IP_HEADER = os.getenv('CLIENT_IP_HEADER', '').strip().lower()
+TRUSTED_PROXY_HOPS = int(os.getenv('TRUSTED_PROXY_HOPS', '0') or 0)
+# Temporary (SEC-01 live check): log how the address was found. Off unless set to 1.
+DIAGNOSTIC = os.getenv('RATE_LIMIT_DIAGNOSTIC') == '1'
+FORWARDING_PREFIXES = ('x-forwarded-', 'x-real-', 'x-client-', 'cf-', 'true-client-', 'forwarded', 'rndr-', 'x-render-', 'via', 'cdn-loop')
+SHARED = 'shared'
 
-    Render's proxy appends to X-Forwarded-For and the Next.js proxy passes it through unchanged,
-    so anything a visitor puts in that header sits to the left of what the proxies add. Taking the
-    rightmost public address means a made-up header cannot pick someone else's counter.
+
+def _address(value: str) -> str | None:
+    try:
+        address = ipaddress.ip_address(value.strip())
+    except ValueError:
+        return None
+    # IPv6 users usually get a whole /64, so it counts as one address.
+    return str(ipaddress.ip_network(f'{address}/64', strict=False)) if address.version == 6 else str(address)
+
+
+def client_ip(request: Request) -> tuple[str, str]:
+    """The visitor's address for per-address limits, and which source it came from.
+
+    Never uses the leftmost or "first public" X-Forwarded-For entry, or any header a caller can
+    set: a value the caller sends can only land where these rules do not look.
     """
-    candidates = [part.strip() for part in request.headers.get('x-forwarded-for', '').split(',')]
-    candidates.append(request.client.host if request.client else '')
-    chosen = None
-    for value in reversed(candidates):
-        try:
-            address = ipaddress.ip_address(value)
-        except ValueError:
-            continue
-        chosen = chosen or address
-        if address.is_global:
-            chosen = address
-            break
-    if chosen is None:
-        return 'unknown'
-    if chosen.version == 6:
-        return str(ipaddress.ip_network(f'{chosen}/64', strict=False))
-    return str(chosen)
+    if CLIENT_IP_HEADER:
+        found = _address(request.headers.get(CLIENT_IP_HEADER, ''))
+        return (found, 'header') if found else (SHARED, 'shared')
+    if TRUSTED_PROXY_HOPS > 0:
+        entries = [part for part in request.headers.get('x-forwarded-for', '').split(',') if part.strip()]
+        found = _address(entries[-TRUSTED_PROXY_HOPS]) if len(entries) >= TRUSTED_PROXY_HOPS else None
+        return (found, 'hops') if found else (SHARED, 'shared')
+    return SHARED, 'shared'
+
+
+def log_diagnostic(request: Request, rule: str, chosen: str, source: str):
+    """Counts, header names and a short keyed hash only: never an address, user ID, code or text."""
+    forwarded = request.headers.get('x-forwarded-for')
+    entries = len([part for part in forwarded.split(',') if part.strip()]) if forwarded is not None else 0
+    names = sorted({name.lower() for name in request.headers.keys() if name.lower().startswith(FORWARDING_PREFIXES)})
+    digest = hmac.new(LIMITER.secret, chosen.encode(), hashlib.sha256).hexdigest()[:8]
+    log.info('Client address diagnostic: rule=%s xff_entries=%d headers=%s source=%s chosen=%s', rule, entries, ','.join(names) or '-', source, digest)
 
 
 def wait_text(seconds: int) -> str:
@@ -126,7 +148,13 @@ def limit(name: str):
 
     def check(request: Request):
         uid = None if rule.per_ip else request.session.get('uid')
-        who, windows = (f'u:{uid}', rule.user) if uid is not None else (f'ip:{client_ip(request)}', rule.ip)
+        if uid is not None:
+            who, windows = f'u:{uid}', rule.user
+        else:
+            address, source = client_ip(request)
+            if DIAGNOSTIC:
+                log_diagnostic(request, name, address, source)
+            who, windows = f'ip:{address}', rule.ip
         wait = LIMITER.hit(name, who, windows)
         if wait:
             # Rule and scope only: no user ID, address, code or message text.

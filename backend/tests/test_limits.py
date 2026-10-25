@@ -11,6 +11,7 @@ from fastapi.testclient import TestClient
 from itsdangerous import TimestampSigner
 from sqlalchemy.orm import Session
 
+import app.limits as limits
 from app.limits import LIMITER, RULES, client_ip
 from app.main import Base, User, app, engine
 
@@ -18,6 +19,8 @@ client = TestClient(app)
 HEADERS = {'origin': 'http://localhost:3000'}
 CODE = 'print("A forest.")\nprint("A dragon!")'
 SECRET_CODE = 'print("my-secret-learner-code")'
+# Most tests run as production is expected to be configured: the edge's own header names the visitor.
+EDGE = 'cf-connecting-ip'
 
 
 class Clock:
@@ -35,6 +38,9 @@ def setup(monkeypatch):
     client.cookies.clear()
     clock = Clock()
     monkeypatch.setattr(LIMITER, 'clock', clock)
+    monkeypatch.setattr(limits, 'CLIENT_IP_HEADER', EDGE)
+    monkeypatch.setattr(limits, 'TRUSTED_PROXY_HOPS', 0)
+    monkeypatch.setattr(limits, 'DIAGNOSTIC', False)
     return clock
 
 
@@ -49,13 +55,13 @@ def signin(role, email='learner@example.com'):
     return uid
 
 
-def post(path, data, ip=None):
-    headers = dict(HEADERS, **({'x-forwarded-for': ip} if ip else {}))
+def post(path, data, ip=None, extra=None):
+    headers = dict(HEADERS, **({EDGE: ip} if ip else {}), **(extra or {}))
     return client.post('/api/' + path, json=data, headers=headers)
 
 
-def check(ip=None, code=CODE):
-    return post('check', {'lesson_id': 'hello', 'code': code, 'output': 'A forest.\nA dragon!\n'}, ip)
+def check(ip=None, code=CODE, extra=None):
+    return post('check', {'lesson_id': 'hello', 'code': code, 'output': 'A forest.\nA dragon!\n'}, ip, extra)
 
 
 def assert_limited(response):
@@ -154,10 +160,10 @@ def test_sign_in_attempts_are_limited_per_ip_even_when_signed_in(path, rule):
     signin('student')
     limit = RULES[rule].ip[0][0]
     for _ in range(limit):
-        assert client.get(path, headers={'x-forwarded-for': '203.0.113.5'}, follow_redirects=False).status_code != 429
-    response = client.get(path, headers={'x-forwarded-for': '203.0.113.5'}, follow_redirects=False)
+        assert client.get(path, headers={EDGE: '203.0.113.5'}, follow_redirects=False).status_code != 429
+    response = client.get(path, headers={EDGE: '203.0.113.5'}, follow_redirects=False)
     assert assert_limited(response) == 600
-    assert client.get(path, headers={'x-forwarded-for': '203.0.113.6'}, follow_redirects=False).status_code != 429
+    assert client.get(path, headers={EDGE: '203.0.113.6'}, follow_redirects=False).status_code != 429
 
 
 def test_every_write_endpoint_has_a_limit():
@@ -186,8 +192,8 @@ def test_a_learner_working_through_lessons_is_never_limited(setup):
 def test_a_classroom_behind_one_address_can_sign_in_and_preview():
     # Thirty learners sharing a school address sign in and each try a few preview checks.
     for _ in range(30):
-        assert client.get('/auth/google', headers={'x-forwarded-for': '203.0.113.5'}, follow_redirects=False).status_code != 429
-        assert client.get('/auth/google/callback', headers={'x-forwarded-for': '203.0.113.5'}, follow_redirects=False).status_code != 429
+        assert client.get('/auth/google', headers={EDGE: '203.0.113.5'}, follow_redirects=False).status_code != 429
+        assert client.get('/auth/google/callback', headers={EDGE: '203.0.113.5'}, follow_redirects=False).status_code != 429
     for _ in range(30):
         assert check('203.0.113.5').status_code == 200
 
@@ -220,23 +226,81 @@ def test_counter_memory_is_bounded(monkeypatch, setup):
     assert len(LIMITER.counts) <= 2 * 100 + 2
 
 
-# Which address is used (documentation ranges such as 203.0.113.0/24 are not public, so real ones are used here)
+# Which address is used, and that callers cannot choose it
+
+SPOOFS = ['x-forwarded-for', 'x-real-ip', 'true-client-ip', 'forwarded', 'x-client-ip']
+
+
+def spoofed(n):
+    return {name: f'198.51.100.{n % 250}' if name != 'forwarded' else f'for=198.51.100.{n % 250}' for name in SPOOFS}
+
+
+def test_spoofed_forwarding_headers_do_not_change_the_counter():
+    # The production failure: a different made-up X-Forwarded-For on every request got a new counter.
+    sent = iter(range(1, 1000))
+    count, response = requests_until_limited(lambda: check('81.2.69.142', extra=spoofed(next(sent))))
+    assert count == RULES['check'].ip[0][0] + 1
+    assert_limited(response)
+
+
+@pytest.mark.parametrize('setting', ['none', 'hops'])
+def test_spoofed_headers_cannot_choose_a_counter_in_the_other_modes(monkeypatch, setting):
+    monkeypatch.setattr(limits, 'CLIENT_IP_HEADER', '')
+    if setting == 'hops':
+        monkeypatch.setattr(limits, 'TRUSTED_PROXY_HOPS', 1)
+    sent = iter(range(1, 1000))
+    def send():
+        n = next(sent)
+        headers = dict(spoofed(n), **{EDGE: f'198.51.100.{n % 250}'})
+        if setting == 'hops':
+            # Made-up entries arrive on the left; the trusted proxy adds the real address on the right.
+            headers['x-forwarded-for'] = f'198.51.100.{n % 250}, 10.9.8.{n % 250}, 81.2.69.142'
+        return check(extra=headers)
+    count, response = requests_until_limited(send)
+    assert count == RULES['check'].ip[0][0] + 1
+    assert_limited(response)
+
+
+def test_different_visitors_get_different_counters_from_the_edge_header():
+    requests_until_limited(lambda: check('81.2.69.142'))
+    assert check('81.2.69.143').status_code == 200
+
 
 class FakeRequest:
-    def __init__(self, forwarded, peer='10.0.0.2'):
-        self.headers = {'x-forwarded-for': forwarded} if forwarded is not None else {}
-        self.client = type('Peer', (), {'host': peer})()
+    def __init__(self, headers):
+        self.headers = headers
 
 
-@pytest.mark.parametrize('forwarded,peer,expected', [
-    (None, '127.0.0.1', '127.0.0.1'),                       # local development and tests
-    ('81.2.69.142', '10.0.0.2', '81.2.69.142'),             # Render proxy -> Next.js -> API
-    ('81.2.69.142, 10.1.2.3', '10.0.0.2', '81.2.69.142'),   # with a private proxy hop appended
-    ('1.2.3.4, 81.2.69.142', '10.0.0.2', '81.2.69.142'),    # a made-up entry on the left is ignored
-    ('garbage, 81.2.69.142', '10.0.0.2', '81.2.69.142'),
-    ('2a00:1450:4001:1:2:3:4:5', '10.0.0.2', '2a00:1450:4001:1::/64'),
-    ('2606:4700:1:2:aaaa::1', '10.0.0.2', '2606:4700:1:2::/64'),  # IPv6 grouped by /64
-    ('not-an-ip', '10.0.0.2', '10.0.0.2'),
+@pytest.mark.parametrize('header,hops,headers,expected', [
+    ('', 0, {}, ('shared', 'shared')),                                                     # nothing configured
+    ('', 0, {'x-forwarded-for': '81.2.69.142', EDGE: '81.2.69.142'}, ('shared', 'shared')),  # headers ignored
+    (EDGE, 0, {EDGE: '81.2.69.142', 'x-forwarded-for': '1.2.3.4'}, ('81.2.69.142', 'header')),
+    (EDGE, 0, {EDGE: '2a00:1450:4001:1:2:3:4:5'}, ('2a00:1450:4001:1::/64', 'header')),     # IPv6 grouped by /64
+    (EDGE, 0, {EDGE: '1.2.3.4, 5.6.7.8'}, ('shared', 'shared')),                           # not one address
+    (EDGE, 0, {'x-forwarded-for': '81.2.69.142'}, ('shared', 'shared')),                   # header missing
+    ('', 1, {'x-forwarded-for': '1.2.3.4, 81.2.69.142'}, ('81.2.69.142', 'hops')),
+    ('', 2, {'x-forwarded-for': '1.2.3.4, 81.2.69.142, 10.0.0.1'}, ('81.2.69.142', 'hops')),
+    ('', 2, {'x-forwarded-for': '81.2.69.142'}, ('shared', 'shared')),                     # fewer entries than hops
+    ('', 1, {'x-forwarded-for': '81.2.69.142, garbage'}, ('shared', 'shared')),
 ])
-def test_client_ip_uses_the_rightmost_public_address(forwarded, peer, expected):
-    assert client_ip(FakeRequest(forwarded, peer)) == expected
+def test_client_ip_only_trusts_the_configured_source(monkeypatch, header, hops, headers, expected):
+    monkeypatch.setattr(limits, 'CLIENT_IP_HEADER', header)
+    monkeypatch.setattr(limits, 'TRUSTED_PROXY_HOPS', hops)
+    assert client_ip(FakeRequest(headers)) == expected
+
+
+def test_diagnostic_logs_counts_names_and_a_hash_only(monkeypatch, caplog):
+    monkeypatch.setattr(limits, 'DIAGNOSTIC', True)
+    with caplog.at_level(logging.INFO):
+        check('81.2.69.142', SECRET_CODE, extra={'x-forwarded-for': '198.51.100.7, 81.2.69.142', 'x-real-ip': '198.51.100.8'})
+    [line] = [r.getMessage() for r in caplog.records if 'diagnostic' in r.getMessage()]
+    assert line.startswith('Client address diagnostic: rule=check xff_entries=2 headers=cf-connecting-ip,x-forwarded-for,x-real-ip source=header chosen=')
+    assert len(line.rsplit('chosen=', 1)[1]) == 8
+    for text in ('81.2.69.142', '198.51.100', 'my-secret-learner-code'):
+        assert text not in caplog.text
+
+
+def test_diagnostic_is_off_by_default(caplog):
+    with caplog.at_level(logging.INFO):
+        check('81.2.69.142')
+    assert 'diagnostic' not in caplog.text

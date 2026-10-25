@@ -77,7 +77,7 @@ Recorded in the plan as section 12 of `docs/plan/course-catalog.md`.
 
 | ID | Priority | Item | Depends on | Status |
 | --- | --- | --- | --- | --- |
-| SEC-01 | Now | Rate limits and quotas on write endpoints: `/api/check`, invitations, attempts, enrolment, goal changes and sign-in (done in stage 6; counters in memory, see handoff 06), and the future feedback endpoint (its own database counters, `feedback-security.md` section 7) | None | in_review |
+| SEC-01 | Now | Rate limits and quotas on write endpoints: `/api/check`, invitations, attempts, enrolment, goal changes and sign-in (done in stage 6; counters in memory, see handoff 06). The stage 6 live check found that a made-up `X-Forwarded-For` header chose a new counter; the fix in the follow-up PR trusts only a configured source, and the item stays in_review until handoff 06 section 13 passes. The future feedback endpoint (its own database counters, `feedback-security.md` section 7) | None | in_review |
 | SEC-02 | Next | Make the API a private Render service with no public URL; confirm the frontend proxy still works | None | proposed |
 | SEC-03 | Next | Logout revokes the session on the server (today a stolen cookie works up to 24 hours); required before the admin inbox (FB-06) ships, see `feedback-security.md` | Migration | proposed |
 | SEC-04 | Now | Security headers: Content-Security-Policy and HSTS on the main app. Stage 6 adds HSTS, `frame-ancestors 'none'` (enforced) and the page CSP in Report-Only mode; the item is verified once the CSP is switched to enforce mode after a clean live check | None | in_review |

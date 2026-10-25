@@ -50,5 +50,10 @@ The API applies Alembic migrations itself when it starts (`backend/app/migrate.p
 No Render settings are needed for either.
 
 - **Rate limits** (`backend/app/limits.py`): counted in the API's memory, so they reset whenever the API restarts or redeploys. They assume one API instance. If the API is ever scaled to more than one instance, move the counters to the database first. A refused request gets HTTP 429 with a `Retry-After` header. The API log shows only `Rate limited: rule=<name> scope=user|ip`: no code, user ID or address.
-- **Visitor address:** for signed-out limits and sign-in, the API uses the rightmost public address in `X-Forwarded-For`. Render's proxy adds the visitor's address, and the Next.js proxy passes it on unchanged. Handoff 06 has the live check that confirms this.
+- **Visitor address:** signed-out limits and sign-in are counted per address only when the API service has **one** trusted source set:
+  - `CLIENT_IP_HEADER`: a header the edge sets and overwrites, expected to be `cf-connecting-ip`.
+  - `TRUSTED_PROXY_HOPS`: how many `X-Forwarded-For` entries our own proxies add on the right.
+
+  With neither set, all signed-out visitors share one counter. That is stricter, but nothing a caller sends can change it. Set one only after the checks in handoff 06 section 13 show it cannot be spoofed.
+- **Diagnostic:** `RATE_LIMIT_DIAGNOSTIC=1` on the API service logs, for each signed-out limited request, the number of `X-Forwarded-For` entries, the names of the forwarding headers present, the source used, and an 8-character keyed hash of the chosen address. It never logs an address, user ID, code or message text. The key changes on every restart, so hashes only compare within one deploy. Remove the variable when done.
 - **Headers** (`frontend/next.config.mjs` for pages, `backend/app/main.py` for the API): HSTS, `nosniff`, `no-referrer`, and framing blocked (`X-Frame-Options: DENY` and `frame-ancestors 'none'`). The page Content-Security-Policy is in Report-Only mode. Handoff 06 section 4 has the exact switch to enforce mode.
