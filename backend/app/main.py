@@ -1,6 +1,9 @@
-from . import content
+from . import content, migrate
+from .awards import award_challenge
+from .db import Attempt, Base, Event, Invitation, User, engine
 from .lesson_checks import assess, check_story
 import hashlib
+import logging
 import os
 import secrets
 from datetime import date, datetime, timedelta, timezone
@@ -9,8 +12,8 @@ from authlib.integrations.starlette_client import OAuth, OAuthError
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import JSONResponse, RedirectResponse
 from pydantic import BaseModel, Field, field_validator
-from sqlalchemy import Date, ForeignKey, String, Text, create_engine, select, update
-from sqlalchemy.orm import DeclarativeBase, Mapped, Session, mapped_column
+from sqlalchemy import select, update
+from sqlalchemy.orm import Session
 from starlette.middleware.sessions import SessionMiddleware
 
 PRODUCTION = os.getenv('ENVIRONMENT') == 'production'
@@ -19,56 +22,14 @@ if PRODUCTION and len(SECRET) < 32:
     raise RuntimeError('SESSION_SECRET must contain at least 32 characters')
 ORIGIN = os.getenv('APP_ORIGIN', 'http://localhost:3000').rstrip('/')
 API_ORIGIN = os.getenv('API_ORIGIN', ORIGIN).rstrip('/')
-DB_URL = os.getenv('DATABASE_URL', 'sqlite:///./academy.db').replace('postgres://', 'postgresql+psycopg://', 1)
-if DB_URL.startswith('postgresql://'):
-    DB_URL = DB_URL.replace('postgresql://', 'postgresql+psycopg://', 1)
-engine = create_engine(DB_URL, connect_args={'check_same_thread': False} if DB_URL.startswith('sqlite') else {})
-
-class Base(DeclarativeBase):
-    pass
-
-class User(Base):
-    __tablename__ = 'users'
-    id: Mapped[int] = mapped_column(primary_key=True)
-    subject: Mapped[str] = mapped_column(String(255), unique=True)
-    email: Mapped[str] = mapped_column(String(320))
-    role: Mapped[str] = mapped_column(String(20), default='pending')
-    birthday: Mapped[date | None] = mapped_column(Date, nullable=True)
-    parent_id: Mapped[int | None] = mapped_column(ForeignKey('users.id'), nullable=True)
-
-class Invitation(Base):
-    __tablename__ = 'invitations'
-    id: Mapped[int] = mapped_column(primary_key=True)
-    digest: Mapped[str] = mapped_column(String(64), unique=True)
-    parent_id: Mapped[int] = mapped_column(ForeignKey('users.id'))
-    email: Mapped[str] = mapped_column(String(320))
-    expires: Mapped[str] = mapped_column(String(40))
-    used: Mapped[bool] = mapped_column(default=False)
-
-class Event(Base):
-    __tablename__ = 'events'
-    id: Mapped[int] = mapped_column(primary_key=True)
-    user_id: Mapped[int] = mapped_column(ForeignKey('users.id'))
-    action: Mapped[str] = mapped_column(String(80))
-    detail: Mapped[str] = mapped_column(Text, default='')
-    created: Mapped[str] = mapped_column(String(40), default=lambda: datetime.now(timezone.utc).isoformat())
-
-class Attempt(Base):
-    __tablename__ = 'attempts'
-    id: Mapped[int] = mapped_column(primary_key=True)
-    user_id: Mapped[int] = mapped_column(ForeignKey('users.id'))
-    lesson_id: Mapped[str] = mapped_column(String(80))
-    code: Mapped[str] = mapped_column(Text)
-    output: Mapped[str] = mapped_column(Text)
-    passed: Mapped[bool] = mapped_column(default=False)
-
 CATALOG, CONTENT = content.load()
 LESSONS = content.legacy_lessons(CATALOG, CONTENT)
 
 def check_opening(code, output):
     return check_story('hello', code, output, [])
 
-Base.metadata.create_all(engine)
+migrate.upgrade(engine)
+logging.getLogger('uvicorn.error').info('Database schema is at migration %s', migrate.current(engine))
 app = FastAPI(title='Python Academy')
 app.add_middleware(SessionMiddleware, secret_key=SECRET or secrets.token_urlsafe(48), same_site='lax', https_only=PRODUCTION, max_age=86400)
 oauth = OAuth()
@@ -224,7 +185,11 @@ def attempt(data: Submission, request: Request):
             raise HTTPException(404, 'Unknown lesson')
         # Safe, bounded checks of taught syntax; learner code never executes here.
         result, feedback = assess(data.lesson_id, data.code, data.output, data.inputs)
-        db.add(Attempt(user_id=u.id, lesson_id=data.lesson_id, code=data.code, output=data.output, passed=result == 'passed'))
+        saved = Attempt(user_id=u.id, lesson_id=data.lesson_id, code=data.code, output=data.output, passed=result == 'passed', result=result)
+        db.add(saved)
+        db.flush()
+        if result == 'passed':
+            award_challenge(db, u.id, CONTENT[data.lesson_id], saved.id)
         audit(db, u, 'practice_saved', data.lesson_id)
         db.commit()
         return {'passed': result == 'passed', 'result': result, 'feedback': feedback, 'assessment': 'browser_practice'}

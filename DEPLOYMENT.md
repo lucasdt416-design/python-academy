@@ -36,3 +36,11 @@ The following steps document configuration for future maintenance:
 8. Save and deploy the API environment changes, then verify a real Google sign-in, parent registration, student invitation acceptance, practice history and logout with test accounts.
 
 The application requests only openid, email and profile. Date of birth is self-declared in the app. Browser practice checks match output and do not certify conceptual understanding. Full WCAG 2.2 conformance and broader-release readiness are not certified.
+
+## Database migrations
+
+The API applies Alembic migrations itself when it starts (`backend/app/migrate.py`); no Render setting or extra command is needed.
+
+- The first deploy with migrations finds the original four tables without migration history, checks their columns match the baseline, records them as migration 0001, then applies the later migrations. No existing row is changed. If the tables do not match, startup stops without changing anything, and Render keeps the previous version running.
+- Migrations only add tables or nullable columns, so the previous version keeps working during a zero-downtime deploy.
+- To confirm a deploy, open the API service's **Logs** in Render and look for `Database schema is at migration 0003` (or the latest number), then check `/health`.

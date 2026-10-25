@@ -234,6 +234,44 @@ def test_checks_report_result_states_alongside_passed():
     with Session(engine) as db:
         assert db.scalar(select(Attempt)).passed is False
 
+def test_passing_challenge_awards_xp_and_badge_once_and_stores_results():
+    from app.awards import badges, total_xp
+    from app.db import XpAward
+    uid = signin('student')
+    good = {'lesson_id':'hello','code':'print("A forest.")\nprint("A dragon!")','output':'A forest.\nA dragon!\n'}
+    for _ in range(3):
+        assert post('attempts', good).json()['result'] == 'passed'
+    assert post('attempts', {'lesson_id':'hello','code':'print("Only one")','output':'Only one\n'}).json()['result'] == 'needs_work'
+    assert post('attempts', {'lesson_id':'input','code':'import os','output':''}).json()['result'] == 'unsupported'
+    with Session(engine) as db:
+        attempts = list(db.scalars(select(Attempt).order_by(Attempt.id)))
+        assert [a.result for a in attempts] == ['passed', 'passed', 'passed', 'needs_work', 'unsupported']
+        awards = list(db.scalars(select(XpAward)))
+        assert [(a.task_id, a.task_version, a.xp, a.source, a.attempt_id) for a in awards] == [('hello.challenge', 1, 100, 'practice', attempts[0].id)]
+        assert total_xp(db, uid) == 100
+        assert badges(db, uid) == {'py.badge.story-spark'}
+    assert client.get('/api/progress').json() == ['hello']
+
+def test_new_task_or_badge_version_does_not_award_again():
+    from app.awards import award_challenge
+    from app.db import BadgeAward, XpAward
+    from app.main import CONTENT
+    uid = signin('student')
+    lesson = CONTENT['hello']
+    revised = lesson.model_copy(update={
+        'tasks': [t.model_copy(update={'version': 2}) if t.type == 'challenge' else t for t in lesson.tasks],
+        'badge': lesson.badge.model_copy(update={'version': 2}),
+    })
+    with Session(engine) as db:
+        attempt = Attempt(user_id=uid, lesson_id='hello', code='', output='', passed=True, result='passed')
+        db.add(attempt)
+        db.flush()
+        award_challenge(db, uid, lesson, attempt.id)
+        award_challenge(db, uid, revised, attempt.id)
+        db.commit()
+        assert [(a.task_version, a.xp) for a in db.scalars(select(XpAward))] == [(1, 100)]
+        assert [b.badge_version for b in db.scalars(select(BadgeAward))] == [1]
+
 def test_player_replies_are_bounded():
     assert post('check', {'lesson_id':'input','code':'','output':'','inputs':['x'*501]}).status_code == 422
 
