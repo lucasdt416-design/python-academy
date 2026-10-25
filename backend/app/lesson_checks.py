@@ -1,8 +1,21 @@
 """Bounded interpretation of the taught syntax; never exec/eval learner code."""
 import ast
+import logging
+import traceback
+from pathlib import Path
+
+# passed: meets the lesson's checks. needs_work: the learner can fix something.
+# execution_error: the program failed while running in the browser.
+# unsupported: valid work this checker cannot judge. service_error: the check itself failed.
+RESULTS = ('passed', 'needs_work', 'execution_error', 'unsupported', 'service_error')
+SERVICE_ERROR = 'Unable to assess this right now. Your code is unchanged; please try again in a moment.'
 
 class PracticeError(ValueError):
-    pass
+    result = 'needs_work'
+
+class UnsupportedError(PracticeError):
+    """The code goes beyond what this checker can interpret, which is not a learner mistake."""
+    result = 'unsupported'
 
 class Story:
     def __init__(self, replies):
@@ -16,7 +29,7 @@ class Story:
     def value(self, node):
         self.steps += 1
         if self.steps > 500:
-            raise PracticeError('Keep this chapter to short story instructions.')
+            raise UnsupportedError('Keep this chapter to short story instructions.')
         if isinstance(node, ast.Constant) and isinstance(node.value, (str, int, bool)):
             return node.value
         if isinstance(node, ast.Name):
@@ -27,9 +40,9 @@ class Story:
         if isinstance(node, ast.BinOp) and isinstance(node.op, ast.Add):
             left, right = self.value(node.left), self.value(node.right)
             if not isinstance(left, str) or not isinstance(right, str):
-                raise PracticeError('In this chapter, use + to join text strings.')
+                raise UnsupportedError('In this chapter, use + to join text strings.')
             if len(left) + len(right) > 20000:
-                raise PracticeError('Keep your story messages under 20,000 characters.')
+                raise UnsupportedError('Keep your story messages under 20,000 characters.')
             return left + right
         if isinstance(node, ast.JoinedStr):
             pieces = []
@@ -40,9 +53,9 @@ class Story:
                     value = self.value(part.value)
                     pieces.append(repr(value) if part.conversion == 114 else str(value))
                 else:
-                    raise PracticeError('Use a simple f-string such as f"Hello, {hero}".')
+                    raise UnsupportedError('Use a simple f-string such as f"Hello, {hero}".')
             if sum(len(piece) for piece in pieces) > 20000:
-                raise PracticeError('Keep your story messages under 20,000 characters.')
+                raise UnsupportedError('Keep your story messages under 20,000 characters.')
             return ''.join(pieces)
         if isinstance(node, ast.Call) and isinstance(node.func, ast.Name) and node.func.id == 'input' and len(node.args) <= 1 and not node.keywords:
             if node.args:
@@ -58,26 +71,26 @@ class Story:
                 return left == right
             if isinstance(node.ops[0], ast.NotEq):
                 return left != right
-        raise PracticeError('For this chapter, use the syntax taught on the cards: strings, variables, print(), input(), +, f-strings, and if/else with == or !=.')
+        raise UnsupportedError('For this chapter, use the syntax taught on the cards: strings, variables, print(), input(), +, f-strings, and if/else with == or !=.')
 
     def run(self, statements):
         for node in statements:
             self.steps += 1
             if self.steps > 500:
-                raise PracticeError('Keep this chapter to short story instructions.')
+                raise UnsupportedError('Keep this chapter to short story instructions.')
             if isinstance(node, ast.Assign) and len(node.targets) == 1 and isinstance(node.targets[0], ast.Name):
                 self.values[node.targets[0].id] = self.value(node.value)
             elif isinstance(node, ast.Expr) and isinstance(node.value, ast.Call) and isinstance(node.value.func, ast.Name) and node.value.func.id == 'print' and not node.value.keywords:
                 text = ' '.join(str(self.value(arg)) for arg in node.value.args)
                 if len(text) + sum(len(line) + 1 for line in self.lines) > 20000:
-                    raise PracticeError('Keep your story output under 20,000 characters.')
+                    raise UnsupportedError('Keep your story output under 20,000 characters.')
                 self.lines.append(text)
             elif isinstance(node, ast.If):
                 self.run(node.body if self.value(node.test) else node.orelse)
             elif isinstance(node, ast.Pass):
                 pass
             else:
-                raise PracticeError('This chapter checks story instructions, not imports, functions, or loops. Try the syntax shown in the example.')
+                raise UnsupportedError('This chapter checks story instructions, not imports, functions, or loops. Try the syntax shown in the example.')
         return self
 
     @property
@@ -86,10 +99,17 @@ class Story:
 
 
 def check_story(lesson_id, code, output, replies):
+    """Original interface: (passed, feedback)."""
+    result, feedback = assess(lesson_id, code, output, replies)
+    return result == 'passed', feedback
+
+
+def assess(lesson_id, code, output, replies):
+    """Return (result, feedback), where result is one of RESULTS."""
     try:
         tree = ast.parse(code)
         if len(list(ast.walk(tree))) > 500:
-            raise PracticeError('Keep your adventure short while you learn the basics.')
+            raise UnsupportedError('Keep your adventure short while you learn the basics.')
         actual = Story(replies).run(tree.body)
         if actual.output != output.replace('\r\n', '\n'):
             raise PracticeError('Run your current code with the displayed player replies again. The submitted output does not match those instructions.')
@@ -129,9 +149,18 @@ def check_story(lesson_id, code, output, replies):
                     raise PracticeError('Start by printing an opening scene before asking the player for their name.')
             feedback = 'Both paths work and lead to different discoveries.' if lesson_id == 'choices' else 'Your adventure welcomes different players and has two working paths. You combined all four Python skills!'
         else:
-            raise PracticeError('Choose a lesson from Build Your Own Adventure.')
-        return True, feedback
+            raise UnsupportedError('Choose a lesson from Build Your Own Adventure.')
+        return 'passed', feedback
     except SyntaxError as error:
-        return False, f'Python cannot read line {error.lineno} yet. Check matching quotes, parentheses, colons, and indentation.'
-    except (PracticeError, TypeError, ValueError, RecursionError) as error:
-        return False, str(error) or 'Try the short example on this card, then make one change at a time.'
+        return 'needs_work', f'Python cannot read line {error.lineno} yet. Check matching quotes, parentheses, colons, and indentation.'
+    except PracticeError as error:
+        return error.result, str(error) or 'Try the short example on this card, then make one change at a time.'
+    except (TypeError, ValueError, RecursionError) as error:
+        return 'unsupported', str(error) or 'Try the short example on this card, then make one change at a time.'
+    except Exception as error:
+        # Never log learner code: the exception message can echo names or strings
+        # from it, so record only the lesson, error type, and server code location.
+        frame = traceback.extract_tb(error.__traceback__)[-1]
+        logging.getLogger(__name__).error('Story check failed: lesson=%s error=%s at %s:%s',
+                                          lesson_id, type(error).__name__, Path(frame.filename).name, frame.lineno)
+        return 'service_error', SERVICE_ERROR

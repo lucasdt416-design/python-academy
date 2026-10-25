@@ -217,6 +217,23 @@ def test_student_progress_is_persisted_and_isolated():
     signin('student','two@example.com')
     assert client.get('/api/progress').json() == []
 
+def test_lessons_api_is_unchanged_by_the_content_format():
+    from pathlib import Path
+    fixture = Path(__file__).with_name('fixtures') / 'legacy_lessons_v1.json'
+    assert client.get('/api/lessons').json() == json.loads(fixture.read_text())
+
+def test_checks_report_result_states_alongside_passed():
+    lesson = LESSONS[0]
+    passed = post('check', {'lesson_id':'hello','code':lesson['example'],'output':lesson['exampleOutput']+'\n'}).json()
+    assert passed['passed'] is True and passed['result'] == 'passed'
+    unsupported = post('check', {'lesson_id':'hello','code':'import os\nprint("A")','output':'A\n'}).json()
+    assert unsupported['passed'] is False and unsupported['result'] == 'unsupported'
+    signin('student')
+    saved = post('attempts', {'lesson_id':'hello','code':'print("Only one")','output':'Only one\n'}).json()
+    assert saved['passed'] is False and saved['result'] == 'needs_work'
+    with Session(engine) as db:
+        assert db.scalar(select(Attempt)).passed is False
+
 def test_player_replies_are_bounded():
     assert post('check', {'lesson_id':'input','code':'','output':'','inputs':['x'*501]}).status_code == 422
 

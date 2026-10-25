@@ -1,0 +1,70 @@
+{
+  "id": "adventure",
+  "version": 1,
+  "course": "py",
+  "unit": "py.u01",
+  "title": "Launch your adventure",
+  "concept": "Combine your skills",
+  "description": "Bring a player, a setting, and a choice into one small game.",
+  "badge": {
+    "id": "py.badge.adventure-maker",
+    "version": 1,
+    "title": "Adventure maker",
+    "category": "practice"
+  },
+  "tasks": [
+    {
+      "id": "adventure.discover",
+      "type": "discover",
+      "title": "Connect the pieces into a game",
+      "body": "You now know how to display a scene, store a value, ask for input, and choose a path. Combine them in order: set the scene, ask for a name, ask for a direction, then reveal an ending.",
+      "detail": "Keep each input response in its own variable. Use the player’s name in a printed message. Then use if/else to give left and right different endings. Test both paths before sharing your game."
+    },
+    {
+      "id": "adventure.example",
+      "type": "example",
+      "code": "print(\"A floating island appears.\")\nhero = input(\"Your name? \")\nprint(\"Welcome aboard, \" + hero)\npath = input(\"Left or right? \")\nif path == \"left\":\n    print(\"You befriend a cloud dragon.\")\nelse:\n    print(\"You discover a sky garden.\")",
+      "output": "A floating island appears.\nWelcome aboard, Nova\nYou befriend a cloud dragon.",
+      "note": "The same code welcomes different players and produces two endings. That is your first interactive adventure.",
+      "inputs": [
+        "Nova",
+        "left"
+      ]
+    },
+    {
+      "id": "adventure.predict",
+      "type": "predict",
+      "question": "What should you test before sharing the adventure?",
+      "options": [
+        "Only the left path",
+        "Different names and both paths"
+      ],
+      "answer": 1,
+      "why": "Different replies exercise different behavior. Testing names and both paths catches mistakes a single run might miss."
+    },
+    {
+      "id": "adventure.guided",
+      "type": "guided",
+      "prompt": "Remix the floating island into your own world. Change both endings and try different player replies."
+    },
+    {
+      "id": "adventure.challenge",
+      "type": "challenge",
+      "prompt": "Build your own adventure. Print an opening scene, ask for a name and welcome that player, then ask for left or right and use if/else for different endings. Your story words are up to you.",
+      "starter": "# Print your opening scene\nhero = input(\"Your name? \")\n# Welcome your hero by name\npath = input(\"Left or right? \")\n# Use if/else for two different endings\n",
+      "hints": [
+        "Start with print(\"your opening scene\"). Then greet the hero variable.",
+        "Ask for the name first and the path second, matching Player replies.",
+        "Use if path == \"left\": and else:, with a different indented print in each block."
+      ],
+      "input_labels": [
+        "Player name",
+        "Path: left or right"
+      ],
+      "validator": {
+        "id": "bounded-story",
+        "version": 1
+      }
+    }
+  ]
+}
