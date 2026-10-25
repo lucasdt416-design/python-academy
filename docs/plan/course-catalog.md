@@ -457,9 +457,10 @@ Decided by the maintainer on 2026-10-24. Each decision stays in effect until del
 | 18 | Feedback retention (2026-10-25) | Delete each item 50 days after creation at the latest; hold at most 90 items. When full, delete the oldest resolved items first (resolved means `fixed` or `wont_fix`); if none are resolved, reject the new item with a clear message | Keep indefinitely; block when full | Old feedback cannot be revisited after 50 days; a flood of unresolved items blocks new feedback until the admin resolves some |
 | 21 | How is a unit check's variant chosen? (2026-10-25) | Variants by a self-chosen learner level (high school, university). The level is never derived from, and never asks for, a birthdate | Derive the level from age | Needs a level setting (backlog ASSESS-06); the enrolment age gate is unchanged |
 | 22 | Learners who already completed unit 1 (2026-10-25) | They keep unit 1 as complete. The unit 1 check is optional for them and earns the badge | Require everyone to pass the new check | No learner loses progress when checks ship (section 12.6) |
+| 19 | Do parents see feedback? (2026-10-25) | No. Parents never see the feedback button or any feedback; this follows from decision 23 | Parents see their learner's feedback | Parents get no feedback view; feedback stays readable only by the admin (section 11.1) |
 | 23 | Who can be a tester, and who sees the feedback button? (2026-10-25) | Testers are students only. The admin account also sees the button. Parents never do | Parents or any account as testers | The tester flag is only offered on student accounts; parents never see the button (section 11.1) |
 
-Decisions 14, 15, 17, 19 and 20 are open and tracked in `docs/plan/backlog.md` section 6, which uses the same numbering.
+Decisions 14, 15, 17 and 20 are open and tracked in `docs/plan/backlog.md` section 6, which uses the same numbering.
 
 ## 10. Session record
 
@@ -469,10 +470,11 @@ Decisions 14, 15, 17, 19 and 20 are open and tracked in `docs/plan/backlog.md` s
 - Next concrete action: ENG-01 (content format and result states) on its own branch and pull request.
 - 2026-10-25: stages 1–4 implemented (PRs #5, #7, #8, #9). Owner decisions 11, 12, 13, 18 and 21 recorded in section 9; proposed features added as sections 11 (testers, feedback, admin inbox) and 12 (end-of-unit checks). The ordered backlog is now `docs/plan/backlog.md`.
 - 2026-10-25: owner answers recorded as decisions 16, 22 and 23, with clarifications to 18 and 21 (sections 6, 9, 11 and 12).
+- 2026-10-25 (stage 6): decision 19 closed by the owner: parents never see feedback, following decision 23.
 
 ## 11. Proposed feature: testers, feedback button, admin inbox
 
-Status: **proposed** (backlog FB-01 to FB-07). Decided: 11 (testers only), 12 (anonymous storage), 18 (retention and cap; resolved means `fixed` or `wont_fix`), 23 (testers are students only; the admin also sees the button; parents never do). Open: 14 (admin identity), 17 (optional code), 19 (parents never see feedback). Threats and server-side controls: [`docs/plan/feedback-security.md`](feedback-security.md).
+Status: **proposed** (backlog FB-01 to FB-07). Decided: 11 (testers only), 12 (anonymous storage), 18 (retention and cap; resolved means `fixed` or `wont_fix`), 19 (parents never see feedback), 23 (testers are students only; the admin also sees the button; parents never do). Open: 14 (admin identity), 17 (optional code). Threats and server-side controls: [`docs/plan/feedback-security.md`](feedback-security.md).
 
 ### 11.1 Who does what
 

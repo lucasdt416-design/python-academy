@@ -44,3 +44,11 @@ The API applies Alembic migrations itself when it starts (`backend/app/migrate.p
 - The first deploy with migrations finds the original four tables without migration history, checks their columns match the baseline, records them as migration 0001, then applies the later migrations. No existing row is changed. If the tables do not match, startup stops without changing anything, and Render keeps the previous version running.
 - Migrations only add tables or nullable columns, so the previous version keeps working during a zero-downtime deploy.
 - To confirm a deploy, open the API service's **Logs** in Render and look for `Database schema is at migration 0003` (or the latest number), then check `/health`.
+
+## Rate limits and security headers
+
+No Render settings are needed for either.
+
+- **Rate limits** (`backend/app/limits.py`): counted in the API's memory, so they reset whenever the API restarts or redeploys. They assume one API instance. If the API is ever scaled to more than one instance, move the counters to the database first. A refused request gets HTTP 429 with a `Retry-After` header. The API log shows only `Rate limited: rule=<name> scope=user|ip`: no code, user ID or address.
+- **Visitor address:** for signed-out limits and sign-in, the API uses the rightmost public address in `X-Forwarded-For`. Render's proxy adds the visitor's address, and the Next.js proxy passes it on unchanged. Handoff 06 has the live check that confirms this.
+- **Headers** (`frontend/next.config.mjs` for pages, `backend/app/main.py` for the API): HSTS, `nosniff`, `no-referrer`, and framing blocked (`X-Frame-Options: DENY` and `frame-ancestors 'none'`). The page Content-Security-Policy is in Report-Only mode. Handoff 06 section 4 has the exact switch to enforce mode.

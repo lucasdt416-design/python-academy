@@ -3,6 +3,7 @@ from . import awards
 from .awards import award_challenge
 from .db import Attempt, Base, Event, Invitation, LearnerGoal, User, engine
 from .lesson_checks import assess, check_story
+from .limits import limit
 from .recommend import DEFAULT_GOAL, GOALS, recommend
 import hashlib
 import logging
@@ -11,7 +12,7 @@ import secrets
 from datetime import date, datetime, timedelta, timezone
 
 from authlib.integrations.starlette_client import OAuth, OAuthError
-from fastapi import FastAPI, HTTPException, Request
+from fastapi import Depends, FastAPI, HTTPException, Request
 from fastapi.responses import JSONResponse, RedirectResponse
 from pydantic import BaseModel, Field, field_validator
 from sqlalchemy import select, update
@@ -47,6 +48,10 @@ async def security(request: Request, call_next):
     response.headers['X-Content-Type-Options'] = 'nosniff'
     response.headers['Referrer-Policy'] = 'no-referrer'
     response.headers['Cache-Control'] = 'no-store'
+    # The API only returns JSON and redirects, so nothing here needs to load or be framed (SEC-04).
+    response.headers['Content-Security-Policy'] = "default-src 'none'; frame-ancestors 'none'"
+    if PRODUCTION:
+        response.headers['Strict-Transport-Security'] = 'max-age=31536000; includeSubDomains'
     return response
 
 def age_on(birthday: date, today: date | None = None) -> int:
@@ -70,13 +75,13 @@ def health():
         conn.exec_driver_sql('SELECT 1')
     return {'status': 'ok'}
 
-@app.get('/auth/google')
+@app.get('/auth/google', dependencies=[Depends(limit('signin'))])
 async def login(request: Request):
     if not os.getenv('GOOGLE_CLIENT_ID') or not os.getenv('GOOGLE_CLIENT_SECRET'):
         raise HTTPException(503, 'Google sign-in is awaiting configuration')
     return await oauth.google.authorize_redirect(request, API_ORIGIN + '/auth/google/callback')
 
-@app.get('/auth/google/callback')
+@app.get('/auth/google/callback', dependencies=[Depends(limit('signin_callback'))])
 async def callback(request: Request):
     try:
         token = await oauth.google.authorize_access_token(request)
@@ -112,7 +117,7 @@ class Enrollment(BaseModel):
     birthday: date
     invitation: str = Field(default='', max_length=200)
 
-@app.post('/api/enroll')
+@app.post('/api/enroll', dependencies=[Depends(limit('enroll'))])
 def enroll(data: Enrollment, request: Request):
     with Session(engine) as db:
         u = current(request, db, 'pending')
@@ -141,7 +146,7 @@ def enroll(data: Enrollment, request: Request):
 class InviteInput(BaseModel):
     email: str = Field(min_length=3, max_length=320, pattern=r'^[^\s@]+@[^\s@]+\.[^\s@]+$')
 
-@app.post('/api/invitations')
+@app.post('/api/invitations', dependencies=[Depends(limit('invitations'))])
 def invite(data: InviteInput, request: Request):
     with Session(engine) as db:
         u = current(request, db, 'parent')
@@ -197,7 +202,7 @@ def my_goal(request: Request):
         u = current(request, db, 'student')
         return goal_state(db, u.id)
 
-@app.post('/api/goal')
+@app.post('/api/goal', dependencies=[Depends(limit('goal'))])
 def set_goal(data: GoalChoice, request: Request):
     with Session(engine) as db:
         u = current(request, db, 'student')
@@ -240,7 +245,7 @@ class Submission(BaseModel):
             raise ValueError('Keep each player reply under 500 characters')
         return values
 
-@app.post('/api/attempts')
+@app.post('/api/attempts', dependencies=[Depends(limit('attempts'))])
 def attempt(data: Submission, request: Request):
     with Session(engine) as db:
         u = current(request, db, 'student')
@@ -258,9 +263,7 @@ def attempt(data: Submission, request: Request):
         db.commit()
         return {'passed': result == 'passed', 'result': result, 'feedback': feedback, 'assessment': 'browser_practice'}
 
-
-
-@app.post('/api/check')
+@app.post('/api/check', dependencies=[Depends(limit('check'))])
 def check_preview(data: Submission):
     if not any(lesson['id'] == data.lesson_id for lesson in LESSONS):
         raise HTTPException(404, 'Unknown lesson')
