@@ -323,6 +323,7 @@ These follow `build.md` section 10.
 | --- | --- | --- |
 | Pass a lesson's challenge task | 100, once per lesson | Same as today for unit 1 |
 | Pass a unit project milestone (guided or independent) | 200, once per unit | Independent brief and guided build share one award; stretch work earns a project badge, not extra XP |
+| Pass the end-of-unit check | 0 | Earns the unit's skill badge instead (decision 16) |
 | Course final project meeting the rubric | 500, once per course | Requires the rubric, not only automated checks |
 | Viewing cards, answering predictions, using hints, navigating | 0 | No XP for clicking |
 | Placement skip | 0 | Placement is a recommendation, not completion |
@@ -340,7 +341,7 @@ Badge categories match `build.md` section 10. Each badge has a stable ID and ver
 | Category | `py` examples | Required evidence |
 | --- | --- | --- |
 | Practice | The existing five unit 1 quest badges only. New lessons earn XP but no per-lesson badge, to avoid badge inflation | Quest challenge passed, labelled as practice |
-| Skill | Number wrangler (u02), Loop navigator (u03), World keeper (u04), Function builder (u05) | Independent challenge plus a later, different variation of the skill |
+| Skill | Number wrangler (u02), Loop navigator (u03), World keeper (u04), Function builder (u05) | Independent challenge plus a later, different variation of the skill; passing the end-of-unit check is that variation (decision 16) |
 | Project | Adventure v2 (u05), Quiz tool builder (u07), Data keeper (u09) | Published project rubric met; private demo or local delivery is acceptable |
 | Engineering habit | Bug detective (u06), Test writer (u08) | Explain a real failure and add a meaningful regression check |
 | Collaboration | First reviewed contribution (`git`), Team shipper (`hack.u03`) | A reviewed practice or project pull request, not account linking |
@@ -449,13 +450,16 @@ Decided by the maintainer on 2026-10-24. Each decision stays in effect until del
 | 8 | Unreleased courses in the catalog | Shown, clearly labelled "Coming soon", and not startable | Show `py` only; hide unreleased | Catalog shows the whole plan without implying content exists; recommendations skip unreleased courses |
 | 9 | Hackathon goal path | `py` units 1–7, then `hack`, then branch | Full `py` course first | `hack` added as a new course (section 5.5) |
 | 10 | Hackathon course | Add `hack` (Hackathon Ready): required `py.u01`–`py.u07`, suggested `git` and `web` | Teach hackathon skills inside `git` and `web` | New course not in `build.md` section 5; `build.md` should list it at its next revision |
-| 11 | Who gets the feedback button? (2026-10-25) | Testers only | Every signed-in learner; everyone | Fewer, more focused reports; testers must be marked by the admin first (section 11) |
+| 11 | Who gets the feedback button? (2026-10-25) | Testers only; the admin also sees it (decision 23) | Every signed-in learner; everyone | Fewer, more focused reports; testers must be marked by the admin first (section 11) |
 | 12 | Is feedback tied to an account? (2026-10-25) | Sign-in is required only to stop bots. Feedback is stored anonymously: no user ID, name or email is saved with it | Store the sender; fully anonymous without sign-in | No replies to testers and no status view for them; rate limits use separate short-lived counters (`docs/plan/feedback-security.md`) |
 | 13 | Are unit checks required? (2026-10-25) | Yes: passing the end-of-unit check is required to complete a unit, and learners can retake it | Optional checks | Changes what "unit complete" means (section 4.2); retakes need different variants (section 12) |
-| 18 | Feedback retention (2026-10-25) | Delete each item 50 days after creation at the latest; hold at most 90 items. When full, delete the oldest resolved items first; if none are resolved, reject the new item with a clear message | Keep indefinitely; block when full | Old feedback cannot be revisited after 50 days; a flood of unresolved items blocks new feedback until the admin resolves some |
-| 21 | How is a unit check's variant chosen? (2026-10-25) | Variants by a self-chosen learner level (high school, university). Never collect a birthdate for this | Derive the level from age | Needs a level setting (backlog ASSESS-06); the existing age gate at enrolment is unchanged unless decided otherwise |
+| 16 | Does the unit check replace the unit project? (2026-10-25) | No. The unit project keeps its 200 XP. Passing the unit check awards a skill badge and no extra XP. A unit is complete when both the project and the check are done | The check replaces the project; split the XP | Sections 6.1, 6.2 and 12.5; the check is the "later, different variation" a skill badge needs |
+| 18 | Feedback retention (2026-10-25) | Delete each item 50 days after creation at the latest; hold at most 90 items. When full, delete the oldest resolved items first (resolved means `fixed` or `wont_fix`); if none are resolved, reject the new item with a clear message | Keep indefinitely; block when full | Old feedback cannot be revisited after 50 days; a flood of unresolved items blocks new feedback until the admin resolves some |
+| 21 | How is a unit check's variant chosen? (2026-10-25) | Variants by a self-chosen learner level (high school, university). The level is never derived from, and never asks for, a birthdate | Derive the level from age | Needs a level setting (backlog ASSESS-06); the enrolment age gate is unchanged |
+| 22 | Learners who already completed unit 1 (2026-10-25) | They keep unit 1 as complete. The unit 1 check is optional for them and earns the badge | Require everyone to pass the new check | No learner loses progress when checks ship (section 12.6) |
+| 23 | Who can be a tester, and who sees the feedback button? (2026-10-25) | Testers are students only. The admin account also sees the button. Parents never do | Parents or any account as testers | The tester flag is only offered on student accounts; parents never see the button (section 11.1) |
 
-Decisions 14–17, 19 and 20 are open and tracked in `docs/plan/backlog.md` section 6, which uses the same numbering.
+Decisions 14, 15, 17, 19 and 20 are open and tracked in `docs/plan/backlog.md` section 6, which uses the same numbering.
 
 ## 10. Session record
 
@@ -464,18 +468,20 @@ Decisions 14–17, 19 and 20 are open and tracked in `docs/plan/backlog.md` sect
 - 2026-10-24: maintainer decisions 1 to 10 recorded in section 9; `hack` course added (section 5.5); approved build order added to section 7.5.
 - Next concrete action: ENG-01 (content format and result states) on its own branch and pull request.
 - 2026-10-25: stages 1–4 implemented (PRs #5, #7, #8, #9). Owner decisions 11, 12, 13, 18 and 21 recorded in section 9; proposed features added as sections 11 (testers, feedback, admin inbox) and 12 (end-of-unit checks). The ordered backlog is now `docs/plan/backlog.md`.
+- 2026-10-25: owner answers recorded as decisions 16, 22 and 23, with clarifications to 18 and 21 (sections 6, 9, 11 and 12).
 
 ## 11. Proposed feature: testers, feedback button, admin inbox
 
-Status: **proposed** (backlog FB-01 to FB-07). Decided: 11 (testers only), 12 (anonymous storage), 18 (retention and cap). Open: 14 (admin identity), 17 (optional code), 19 (parents never see feedback). Threats and server-side controls: [`docs/plan/feedback-security.md`](feedback-security.md).
+Status: **proposed** (backlog FB-01 to FB-07). Decided: 11 (testers only), 12 (anonymous storage), 18 (retention and cap; resolved means `fixed` or `wont_fix`), 23 (testers are students only; the admin also sees the button; parents never do). Open: 14 (admin identity), 17 (optional code), 19 (parents never see feedback). Threats and server-side controls: [`docs/plan/feedback-security.md`](feedback-security.md).
 
 ### 11.1 Who does what
 
 | Person | Can do | Cannot do |
 | --- | --- | --- |
-| Admin (the owner, to start) | Read the inbox, change status, add notes and a GitHub issue link, copy a digest, mark students as testers | See who sent any feedback; become admin through anything the browser sends |
-| Tester (a student the admin marked) | See "Send feedback" on every page and lesson card; send feedback | See the inbox or the status of their own feedback |
-| Other students, parents, visitors | Use the app as today | See the button or any feedback |
+| Admin (the owner, to start) | See and use "Send feedback"; read the inbox, change status, add notes and a GitHub issue link, copy a digest, mark students as testers | See who sent any feedback; become admin through anything the browser sends |
+| Tester (students only, marked by the admin; decision 23) | See "Send feedback" on every page and lesson card; send feedback | See the inbox or the status of their own feedback |
+| Other students and visitors | Use the app as today | See the button or any feedback |
+| Parents | Use the app as today | Ever see the button or any feedback, or be made testers |
 
 ### 11.2 Sending feedback
 
@@ -527,7 +533,7 @@ Using real accounts against the real backend (`build.md` section 12):
 
 ## 12. Proposed feature: end-of-unit skill checks
 
-Status: **proposed** (backlog ENG-03, ASSESS-01 to ASSESS-06). Decided: 13 (required, with retakes) and 21 (variants by self-chosen level, never a birthdate). Open: 15 (pass rule) and 16 (relationship to the unit project).
+Status: **proposed** (backlog ENG-03, ASSESS-01 to ASSESS-06). Decided: 13 (required, with retakes), 16 (the project keeps its 200 XP; the check awards a skill badge; both are needed), 21 (variants by self-chosen level, never a birthdate) and 22 (existing unit 1 completions stay complete). Open: 15 (pass rule).
 
 ### 12.1 Shape
 
@@ -536,12 +542,12 @@ Four to six tasks, one card at a time, untimed, roughly 10 to 15 minutes: predic
 ### 12.2 Learner level (decision 21)
 
 - Each check has variants for a **self-chosen** level: high school or university. Variants change the context, difficulty and examples, not the skills tested.
-- The learner picks their level the first time they reach a check, and can change it any time. It is never derived from a date of birth, and the check never asks for one.
+- The learner picks their level the first time they reach a check, and can change it any time. It is never derived from a date of birth, and the check never asks for one. The enrolment age gate is unchanged.
 - The level is used only to choose a variant.
 
 ### 12.3 Completion and retakes (decision 13)
 
-- A unit is complete only when its lessons, its project (once units have projects), and its check are passed (section 4.2).
+- A unit is complete only when its lessons, its project (once units have projects), and its check are passed (section 4.2; decisions 13 and 16).
 - Learners can retake a check as often as they like; each retake uses a different variant where one exists. Earlier attempts are kept as evidence.
 - The recommendation function's "unit done" rule (section 4) will include the check when checks ship.
 
@@ -566,9 +572,9 @@ Content validation would check that every variant tests the same skills, every t
 
 ### 12.5 Rewards and evidence
 
-The check is practice evidence, not certification. Passing it can count as the "later, different variation" that skill badges need (section 6.2). Whether it also awards the unit's 200 XP, which section 6.1 currently gives for the unit project, is an open question (backlog section 6).
+Passing the check awards the unit's skill badge and no extra XP; it is the "later, different variation" that skill badges need (section 6.2). The unit project keeps its 200 XP (section 6.1). Both are needed to complete the unit (decision 16). The check is practice evidence, not certification.
 
 ### 12.6 Dependencies and transition
 
 - **ENG-03 first:** the browser behaviour-check contract, because the current server checker only understands unit 1.
-- **Unit 1 transition:** unit 1 has no check today, so whether existing unit 1 completions stay complete when checks become required is an open question (backlog section 6).
+- **Unit 1 transition (decision 22):** learners who completed unit 1 before its check ships keep unit 1 as complete. The check is optional for them and earns the badge if they pass it. Learners who start unit 1 after the check ships need to pass it.

@@ -2,7 +2,7 @@
 
 Last updated: 2026-10-25 (America/Toronto)  
 Status: **proposed**. Nothing here is implemented. It is the security plan for backlog items FB-01 to FB-07 and the feature in `docs/plan/course-catalog.md` section 11.  
-Owner decisions this plan must respect (2026-10-25): testers only (11); stored anonymously, with sign-in only to stop bots (12); deleted after 50 days, at most 90 items, oldest resolved deleted first, otherwise reject (18).
+Owner decisions this plan must respect (2026-10-25): the button is for testers, who are students only, and the admin; parents never see it (11, 23); stored anonymously, with sign-in only to stop bots (12); deleted after 50 days, at most 90 items, oldest resolved (`fixed` or `wont_fix`) deleted first, otherwise reject (18).
 
 Every control below is enforced **on the server**. The browser can hide a button, but it is never trusted to decide who is an admin, who is a tester, what gets stored, or how often.
 
@@ -30,7 +30,7 @@ Two further risks to anonymity are covered in section 8 (logs and timing, and th
 - Admin status is re-checked on **every** admin request from the session's user on the server. There is no "is admin" value in the cookie.
 - All admin endpoints live under one path (for example `/api/admin/…`) behind one guard. A test enumerates every registered route under that path and checks that a student, a parent, a tester, and a signed-out visitor each get 401 or 403. A new route that forgets the guard fails CI.
 - No endpoint can grant admin. The only privileged write available to the admin is the tester flag.
-- Shorter sessions for admins (for example 8 hours instead of 24), and server-side session revocation (backlog SEC-03) before the inbox ships, so logging out or a lost device ends the session.
+- Shorter sessions for admins (for example 8 hours instead of 24), and server-side session revocation (backlog SEC-03, now Next and a dependency of the admin inbox, FB-06), so logging out or a lost device ends the session.
 - Admin pages get the Content-Security-Policy from SEC-04, which limits what injected script could do.
 - Admin actions (tester flag changes, status changes, deletions) are written to the account history under the admin's own account. That is allowed because it records the admin, not a tester.
 
@@ -57,14 +57,14 @@ Two further risks to anonymity are covered in section 8 (logs and timing, and th
 
 **Controls**
 
-- Sign-in with Google is required, and the account must have the tester flag, which only the admin can set (decision 11). Visitors, parents and non-tester students get 403.
+- Sign-in with Google is required, and the account must be a student with the tester flag, which only the admin can set, or the admin (decisions 11 and 23). Visitors, parents and non-tester students get 403, and the tester flag cannot be set on a parent account.
 - Per-account rate limits, for example 5 per hour and 20 per day, using the counters in section 7. A global limit (for example 60 per day across all testers) protects the cap even if one account is compromised.
 - Length limits (section 2), and a type that must be one of the five listed.
-- The 90-item cap (decision 18): when full, the oldest resolved item is deleted; if none are resolved, the new item is rejected with a clear message. Trade-off: a flood of unresolved items blocks new feedback until the admin resolves or deletes some. The rate limits bound how fast one tester can cause that.
+- The 90-item cap (decision 18): when full, the oldest resolved item (`fixed` or `wont_fix`) is deleted; if none are resolved, the new item is rejected with a clear message. Trade-off: a flood of unresolved items blocks new feedback until the admin resolves or deletes some. The rate limits bound how fast one tester can cause that.
 - Because feedback is anonymous, the admin cannot remove one person's items. The response to abuse is to untick their tester flag, which stops new submissions immediately.
 - Depends on SEC-01 (rate limiting across the app).
 
-**Tests:** non-testers get 403; the sixth item in an hour is rejected; the global limit applies; a full inbox with nothing resolved rejects new items; a full inbox with resolved items deletes the oldest resolved one.
+**Tests:** parents and non-tester students get 403, and the admin can send; the sixth item in an hour is rejected; the global limit applies; a full inbox with nothing resolved rejects new items; a full inbox with resolved items deletes the oldest resolved one.
 
 ## 4. Optional code leaking
 

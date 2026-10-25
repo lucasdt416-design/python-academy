@@ -1,7 +1,7 @@
 # Python Academy backlog
 
 Last updated: 2026-10-25 (America/Toronto)  
-Status: **proposed**; decisions 11, 12, 13, 18 and 21 answered by the owner on 2026-10-25. Status words follow `build.md` section 18: proposed, ready, in_progress, in_review, verified, blocked, deferred. Priorities: **Now**, **Next**, **Later**, plus the timing words `build.md` section 13 already uses (for example "Before broader use").  
+Status: **proposed**; decisions 11, 12, 13, 16, 18, 21, 22 and 23 answered by the owner on 2026-10-25. Status words follow `build.md` section 18: proposed, ready, in_progress, in_review, verified, blocked, deferred. Priorities: **Now**, **Next**, **Later**, plus the timing words `build.md` section 13 already uses (for example "Before broader use").  
 Related: [`build.md`](../../build.md), [`docs/plan/course-catalog.md`](course-catalog.md), [`docs/plan/feedback-security.md`](feedback-security.md).
 
 **This file is the source of truth for the order of work.** IDs and what they mean follow `build.md` section 13; where this file and `build.md` disagree on an ID, its meaning, or its priority, `build.md` wins until one is deliberately updated (section 8 lists the differences found when this file was added). A backlog item becomes `verified` only with linked evidence (PR, commit, test results, live check).
@@ -26,7 +26,7 @@ Decision numbers continue the sequence in `docs/plan/course-catalog.md` section 
 3. **FB-01 to FB-07**: admin, testers, feedback button, admin inbox (security plan: `docs/plan/feedback-security.md`).
 4. **PILOT-01**: invite the first learner and collect feedback through the new button.
 5. **ENG-03**: browser behaviour checks, then **EDU-04** (Python unit 2) with its first **unit check**.
-6. **OPS-05**: cost review (the owner noted a reminder for 2026-11-08).
+6. **OPS-05**: cost review (the owner has set a reminder for 2026-11-08).
 
 ## 3. Feature spec: testers, feedback, admin inbox
 
@@ -37,15 +37,15 @@ Recorded in the plan as section 11 of `docs/plan/course-catalog.md`; threats and
 **Proposed behaviour**
 
 - **Admin.** One admin to start (the owner). Admin is decided on the server only, from a list of verified Google account emails kept in a server setting, never in source code and never from anything the browser sends. Every admin request is checked again on the server. Nobody can make themselves admin (decision 14, proposed).
-- **Tester.** A flag on a student account, set only by the admin from an admin page. Testers see a "Send feedback" button on every page and lesson card. **Only testers get the button (decision 11).**
+- **Tester.** A flag on a student account, set only by the admin from an admin page. **Testers are students only (decision 23).** Testers see a "Send feedback" button on every page and lesson card. **Only testers and the admin get the button; parents never do (decisions 11 and 23).**
 - **Form.** Type (confusing, bug, wrong grading, idea, other) and a message with a length limit. The app attaches context automatically: page, lesson and task ID, content version, browser type, time. Learner code is **not** attached by default; an optional "Include my code" checkbox shows exactly what will be sent (decision 17, proposed). No screenshots in the first version.
 - **Inbox (admin).** List with filters (status, type, lesson). Statuses: new, triaged, in_progress, fixed, wont_fix. Internal notes. A field for a GitHub issue link. A "Copy digest" button that produces plain text for pasting into Claude Code or ChatGPT, with IDs and no email addresses.
 - **Safety.** Plain text only and escaped on display. Server-side length limits. Sign-in required. Rate limited per user. Existing origin (CSRF) checks apply. A short notice in the form: do not include passwords or personal details.
 - **Anonymous but signed in (decision 12).** Sign-in is required only to stop bots. The stored feedback has **no user ID, name or email**, so the admin cannot see who sent it. Per-user rate limits use a separate counter table that holds no message text and expires within a day. Trade-off: the admin cannot reply to or follow up with a tester, and testers cannot see the status of their own items (FB-08 dropped).
 - **Privacy.** Only the admin sees feedback. Parents do not see it (decision 19, proposed). Because optional code and free text could still identify someone, the form warns not to include names or personal details, and the admin view never shows account data.
-- **Retention and cap (decision 18).** Items are deleted 50 days after creation at the latest, and the inbox holds at most 90 items at a time. When it is full, the oldest resolved items are deleted first; if none are resolved, the new item is rejected with a clear message. "Resolved" is proposed to mean status `fixed` or `wont_fix`.
+- **Retention and cap (decision 18).** Items are deleted 50 days after creation at the latest, and the inbox holds at most 90 items at a time. When it is full, the oldest resolved items are deleted first; if none are resolved, the new item is rejected with a clear message. "Resolved" means status `fixed` or `wont_fix` (decision 18).
 
-**Acceptance tests (real accounts, not mocks, per `build.md` section 12):** a non-admin gets 403 on every admin route; only an admin can set the tester flag; emoji and unusual characters are stored and shown safely; over-length and over-rate submissions are rejected; optional code is only sent when the box is checked; a full inbox drops the oldest resolved item, or rejects the new one when nothing is resolved.
+**Acceptance tests (real accounts, not mocks, per `build.md` section 12):** a non-admin gets 403 on every admin route; only an admin can set the tester flag, and only on student accounts; parents never see the button or can send feedback; emoji and unusual characters are stored and shown safely; over-length and over-rate submissions are rejected; optional code is only sent when the box is checked; a full inbox drops the oldest resolved item, or rejects the new one when nothing is resolved.
 
 ## 4. Feature spec: end-of-unit skill checks
 
@@ -57,9 +57,9 @@ Recorded in the plan as section 12 of `docs/plan/course-catalog.md`.
 
 - **Shape.** Four to six tasks, one card at a time, untimed: predict the output, spot the bug, and one or two short write-the-code tasks that reuse the unit's project. Roughly 10 to 15 minutes. **Variants by learner level (decision 21):** each check has versions for a self-chosen level (high school or university) that change the context, difficulty and examples, not the skills tested. The level is chosen by the learner; it is never derived from a birthdate, and the check never asks for one.
 - **Fairness.** Multiple correct solutions accepted. Hints allowed and recorded as support data, not penalties. Retakes use different variants. Technical failures show "Unable to assess" and keep the draft; they never count as a failed attempt.
-- **Rewards.** The check awards unit XP once through the existing idempotent ledger (but see the open question in section 6 about unit XP and the unit project). It can serve as the "later, different variation" that skill badges need (plan section 6.2). It is practice evidence, not certification.
+- **Rewards (decision 16).** Passing the check awards the unit's **skill badge** and **no extra XP**; the unit project keeps its 200 XP (plan section 6.1). The check is the "later, different variation" that skill badges need (plan section 6.2). It is practice evidence, not certification.
 - **Needs first:** the browser behaviour-check contract (ENG-03), because the current server checker only handles unit 1.
-- **Decided:** passing is required to complete a unit, and learners can retake it (decision 13). **Open:** the exact pass rule and how the check relates to the unit project (decisions 15, 16).
+- **Decided:** passing is required to complete a unit, and learners can retake it (decision 13). A unit is complete when both its project and its check are done; the check does not replace the project (decision 16). Learners who already completed unit 1 keep it as complete; the unit 1 check is optional for them and earns the badge (decision 22). **Open:** the exact pass rule (decision 15).
 
 ## 5. Backlog
 
@@ -67,7 +67,7 @@ Recorded in the plan as section 12 of `docs/plan/course-catalog.md`.
 
 | ID | Priority | Item | Depends on | Status |
 | --- | --- | --- | --- | --- |
-| PLAN-01 | Now | Review the plan and select a milestone owner | None | in_progress: plan reviewed and decisions recorded (PR #6); milestone owner not yet recorded |
+| PLAN-01 | Now | Review the plan and select a milestone owner | None | verified: plan reviewed and decisions recorded (PR #6); milestone owner is Lucas, the maintainer (owner answer 2026-10-25) |
 | PLAN-02 | Now | Give the continuing maintainer appropriate repo access | Owner | verified: maintainer account has push access (GitHub API check, 2026-10-24) |
 | ENG-01 | Next | Typed content and result-state contracts | None | verified (PR #5, live check 2026-10-25) |
 | ENG-02 | Next | Versioned evidence/progress and schema migrations | ENG-01 | in_progress: migrations and award ledgers verified (PR #7); versioned skill evidence, progress records and retention not yet done |
@@ -78,7 +78,7 @@ Recorded in the plan as section 12 of `docs/plan/course-catalog.md`.
 | --- | --- | --- | --- | --- |
 | SEC-01 | Now | Rate limits and quotas on write endpoints: `/api/check`, invitations, attempts, and the future feedback endpoint | None | proposed |
 | SEC-02 | Next | Make the API a private Render service with no public URL; confirm the frontend proxy still works | None | proposed |
-| SEC-03 | Later | Logout revokes the session on the server (today a stolen cookie works up to 24 hours); needed before the admin inbox ships, see `feedback-security.md` | Migration | proposed |
+| SEC-03 | Next | Logout revokes the session on the server (today a stolen cookie works up to 24 hours); required before the admin inbox (FB-06) ships, see `feedback-security.md` | Migration | proposed |
 | SEC-04 | Now | Security headers: Content-Security-Policy and HSTS on the main app | None | proposed |
 | SEC-05 | Later | Pyodide and CDN integrity: self-host or pin with integrity checks where possible | None | proposed |
 | SEC-06 | Later | Keep invitation tokens out of URLs and request logs | None | proposed |
@@ -88,18 +88,18 @@ Recorded in the plan as section 12 of `docs/plan/course-catalog.md`.
 | OPS-02 | Next | Part of OPS-01: confirm backups and a restore drill; add staging | None | proposed |
 | OPS-03 | Later | Part of OPS-01: operational alerts | OPS-02 | proposed |
 | OPS-04 | Next | Part of OPS-01: data retention policy: feedback 50 days max and 90 items max (decision 18); goals and placement data to be decided | Before FB-05 ships | proposed |
-| OPS-05 | Next | Reduce Render costs: review billing, workspace plan, 15 GB database storage; later consider one combined service or a free-tier database (owner reminder 2026-11-08) | Billing screenshot | proposed |
+| OPS-05 | Next | Reduce Render costs: review billing, workspace plan, 15 GB database storage; later consider one combined service or a free-tier database (reminder set by the owner for 2026-11-08) | Billing screenshot | proposed |
 
 ### Testers, feedback and admin
 
 | ID | Priority | Item | Depends on | Status |
 | --- | --- | --- | --- | --- |
-| FB-01 | Next | Decide admin identity (email allowlist) and tester role details; record in the plan | Decisions 14, 17, 19; ID-01 | proposed |
+| FB-01 | Next | Decide admin identity (email allowlist) and record it in the plan; tester rules are decided (students only, decision 23) | Decisions 14, 17, 19; ID-01 | proposed |
 | FB-02 | Next | Migration: anonymous `feedback` table (no user ID), tester flag, short-lived rate-limit counters, 50-day cleanup, 90-item cap | FB-01 | proposed |
-| FB-03 | Next | Admin role and server-side guard, with tests for 403 on every admin route | FB-01, SEC-03 | proposed |
-| FB-04 | Next | Admin page to mark students as testers | FB-03 | proposed |
-| FB-05 | Next | Feedback button and form with auto-attached context and optional code | FB-02, SEC-01, OPS-04 | proposed |
-| FB-06 | Next | Admin inbox: list, filters, statuses, notes, GitHub issue link | FB-03, FB-05 | proposed |
+| FB-03 | Next | Admin role and server-side guard, with tests for 403 on every admin route | FB-01 | proposed |
+| FB-04 | Next | Admin page to mark students as testers (student accounts only) | FB-03 | proposed |
+| FB-05 | Next | Feedback button and form (testers and the admin; never parents) with auto-attached context and optional code | FB-02, SEC-01, OPS-04 | proposed |
+| FB-06 | Next | Admin inbox: list, filters, statuses, notes, GitHub issue link | FB-03, FB-05, SEC-03 | proposed |
 | FB-07 | Next | "Copy digest" export for pasting into an assistant, with no emails and no code by default | FB-06 | proposed |
 | FB-08 | — | Testers see status of their own items (dropped: not possible with anonymous feedback) | None | deferred |
 | FB-09 | Later | Create GitHub issues from feedback automatically (needs a token and review; manual links first) | FB-06 | deferred |
@@ -110,12 +110,12 @@ Recorded in the plan as section 12 of `docs/plan/course-catalog.md`.
 | ID | Priority | Item | Depends on | Status |
 | --- | --- | --- | --- | --- |
 | ENG-03 | Next | Browser behaviour-check contract: the Pyodide worker runs learner code against test cases from the content file, with limits and result states including `execution_error` | None | proposed |
-| ASSESS-01 | Next | Decide the remaining unit-check rules (decisions 15, 16) and record them in the plan | None | proposed |
+| ASSESS-01 | Next | Decide the remaining unit-check rule (the pass rule, decision 15) and record it in the plan | None | proposed |
 | ASSESS-02 | Next | Content schema: `unit_check` task type, level variants (high school, university) and validation | ENG-03 | proposed |
 | ASSESS-06 | Next | Learner level setting (self-chosen, never a birthdate; decision 21) used to pick the check variant | ASSESS-02 | proposed |
 | ASSESS-03 | Next | Unit check interface (cards, retake with new variants, "Unable to assess" handling) | ASSESS-02 | proposed |
-| ASSESS-04 | Next | Unit check for unit 1 using the existing bounded checker | ASSESS-02 | proposed |
-| ASSESS-05 | Next | Award unit XP and skill badges from the check through the existing ledgers | ASSESS-03 | proposed |
+| ASSESS-04 | Next | Unit check for unit 1 using the existing bounded checker; optional for learners who already completed unit 1, and earns the badge (decision 22) | ASSESS-02 | proposed |
+| ASSESS-05 | Next | Award the unit's skill badge (no XP) from the check through the existing ledgers; the unit project keeps its 200 XP (decision 16) | ASSESS-03 | proposed |
 | EDU-01 | Next | Write placement question and task examples for the current four skills (Issue #4) | None | proposed |
 | EDU-02 | After design | Pilot placement (the optional skills check) on one skill before all four | EDU-01, ENG-03 | proposed |
 
@@ -157,23 +157,21 @@ Numbers continue from `docs/plan/course-catalog.md` section 9.
 
 | # | Decision | Answer |
 | --- | --- | --- |
-| 11 | Who gets the feedback button? | Testers only (answered 2026-10-25) |
+| 11 | Who gets the feedback button? | Testers only (answered 2026-10-25); the admin also sees it (decision 23) |
 | 12 | Is feedback tied to an account? | Sign-in required only to stop bots; stored anonymously with no user ID, name or email (answered 2026-10-25) |
 | 13 | Is passing the unit check required to complete a unit? | Yes, and learners can retake it (answered 2026-10-25) |
 | 14 | How is the admin identified? | Server-side list of verified Google emails; owner only (proposed, confirm) |
 | 15 | What counts as passing a unit check? | All core tasks pass; hints allowed. Pilot and adjust (proposed) |
-| 16 | Does the check replace the unit project milestone? | No. The check is quick; the project stays (proposed) |
+| 16 | Does the check replace the unit project milestone? | No. The unit project keeps its 200 XP; passing the check awards a skill badge and no extra XP; a unit is complete when both the project and the check are done (answered 2026-10-25) |
 | 17 | Does feedback include the learner's code? | Only with an opt-in checkbox (proposed) |
-| 18 | Feedback retention | Delete after 50 days; at most 90 items. When full, delete the oldest resolved items first; if none are resolved, reject the new item with a clear message (answered 2026-10-25) |
+| 18 | Feedback retention | Delete after 50 days; at most 90 items. When full, delete the oldest resolved items first (resolved means `fixed` or `wont_fix`); if none are resolved, reject the new item with a clear message (answered 2026-10-25) |
 | 19 | Do parents see feedback? | No (proposed) |
 | 20 | Capstone for each goal | As proposed in UI-06 (proposed) |
-| 21 | How is the unit-check variant chosen? | Variants by a self-chosen learner level (high school, university); never collect a birthdate for this (answered 2026-10-25) |
+| 21 | How is the unit-check variant chosen? | Variants by a self-chosen learner level (high school, university). The level is never derived from, and never asks for, a birthdate. The enrolment age gate is unchanged (answered 2026-10-25) |
+| 22 | What happens to learners who already completed unit 1? | They keep unit 1 as complete. The unit 1 check is optional for them and earns the badge (answered 2026-10-25) |
+| 23 | Who can be a tester, and who sees the feedback button? | Testers are students only. The admin account also sees the button. Parents never do (answered 2026-10-25) |
 
-**Open questions raised while recording these (also in handoff 05):**
-
-- Decision 21 says never collect a birthdate, but enrolment already asks for a date of birth for the existing age rules. This file reads decision 21 as "the level is self-chosen and never derived from or asks for a birthdate"; the age gate stays as it is until the owner says otherwise.
-- Plan section 6.1 gives 200 XP for passing a unit **project**. If the unit check also awards "the unit XP", and the project stays (decision 16), which one earns the 200, or is it split?
-- Unit 1 has no check yet. When checks become required (decision 13), do learners who already completed unit 1 keep it as complete?
+The questions raised when this file was added (handoff 05) were answered by the owner on 2026-10-25 and are recorded above as decisions 16, 18, 21, 22 and 23, and in items SEC-03, OPS-05 and PLAN-01.
 
 ## 7. Maintenance
 

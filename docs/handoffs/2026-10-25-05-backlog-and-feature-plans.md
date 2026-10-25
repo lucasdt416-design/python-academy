@@ -3,7 +3,8 @@
 Date: 2026-10-25 (America/Toronto)  
 Written by: Claude Code (implementer)  
 For: the human maintainer, and ChatGPT or Claude chat (reviewer) without repository access  
-Status: **in_review**: pull request open, not merged. **Documentation only**: no application code, content, database, settings or deployment changed.
+Status: **in_review**: pull request #10 open, not merged. **Documentation only**: no application code, content, database, settings or deployment changed.  
+Updated 2026-10-25 with the owner's answers to the questions in section 3.
 
 > **How to use this file:** upload it with `build.md`, `docs/plan/backlog.md`, `docs/plan/course-catalog.md` (sections 9, 11 and 12) and `docs/plan/feedback-security.md`. The pull request diff is the source of truth (`build.md` section 14).
 
@@ -56,9 +57,20 @@ Explain at a first-year computer engineering level.
 | 12 | Feedback is stored anonymously. Sign-in is required only to stop bots; no user ID, name or email is saved with feedback |
 | 18 | Feedback is deleted 50 days after creation at the latest; the inbox holds at most 90 items. When full, the oldest resolved items are deleted first; if none are resolved, the new item is rejected with a clear message |
 | 13 | Unit checks are required to complete a unit, and learners can retake them |
-| 21 | Each check has variants by a self-chosen learner level (high school, university). Never collect a birthdate for this |
+| 21 | Each check has variants by a self-chosen learner level (high school, university). The level is never derived from, and never asks for, a birthdate. The enrolment age gate is unchanged |
 
-Still open, as asked, and tracked in `docs/plan/backlog.md` section 6: 14 (admin identity), 15 (pass rule), 16 (check versus unit project), 17 (optional code), 19 (parents never see feedback), 20 (capstone per goal).
+Added after the owner answered section 3:
+
+| # | Decision |
+| --- | --- |
+| 16 | The unit project keeps its 200 XP. Passing the unit check awards a skill badge and no extra XP. A unit is complete when both the project and the check are done |
+| 18 (clarified) | "Resolved" for the 90-item cap means `fixed` or `wont_fix` |
+| 22 | Learners who already completed unit 1 keep it as complete. The unit 1 check is optional for them and earns the badge |
+| 23 | Testers are students only. The admin account also sees the feedback button. Parents never do |
+
+Still open, and tracked in `docs/plan/backlog.md` section 6: 14 (admin identity), 15 (pass rule), 17 (optional code), 19 (parents never see feedback), 20 (capstone per goal).
+
+Backlog items changed by the answers: **SEC-03** moved to Next and is now a dependency of the admin inbox (**FB-06**); **OPS-05** notes the reminder the owner set for 2026-11-08; **PLAN-01** is verified, with Lucas (maintainer) as milestone owner.
 
 ### ID conflicts with build.md, and how they were resolved
 
@@ -102,17 +114,19 @@ Still open, as asked, and tracked in `docs/plan/backlog.md` section 6: 14 (admin
 - **Copy digest:** the digest sends text to an outside assistant, so code is excluded by default and the admin reviews it first.
 - **GitHub issue link field:** this is a possible `javascript:` link attack; the plan restricts it to this repository's issue and pull request URLs.
 
-## 3. Questions for the owner
+## 3. Questions and owner answers (2026-10-25)
 
-1. **Birthdate.** Decision 21 says never collect a birthdate, but enrolment already asks for a date of birth for the existing age rules (students 13 or older, parents over 25). I recorded it as: the learner level is self-chosen and never derived from, or asks for, a birthdate; the age gate stays as it is. Is that what you meant, or do you want the enrolment date of birth reconsidered (an account-policy change)?
-2. **Unit XP.** Plan section 6.1 gives 200 XP for passing a unit project. If the unit check also awards "the unit XP" and the project stays (proposed decision 16), which one earns the 200, or is it split?
-3. **Unit 1.** It has no check yet. When checks become required, do learners who already completed unit 1 keep it as complete?
-4. **"Resolved"** for the 90-item cap: I proposed `fixed` and `wont_fix`. Agreed?
-5. **SEC-03** (logout revokes the session) is Later in your backlog, but the security plan needs it before the admin inbox ships. Move it to Next?
-6. **Who can be a tester?** The backlog says students. Should parents, or the maintainer's own account, be able to be testers too?
-7. **OPS-05 reminder for 2026-11-08.** The backlog says a reminder is set. I did not set one. Is it on your side, or should I schedule one?
-8. **PLAN-01** asks for a milestone owner. Who should be recorded?
+| # | Question | Owner's answer | Recorded in |
+| --- | --- | --- | --- |
+| 1 | **Birthdate.** Decision 21 says never collect a birthdate, but enrolment already asks for a date of birth for the age rules. | The learner level is self-chosen and never derived from, and never asks for, a birthdate. The enrolment age gate is unchanged. | Decision 21; plan section 12.2 |
+| 2 | **Unit XP.** Which earns a unit's 200 XP: the project or the check? | The unit project keeps its 200 XP. Passing the unit check awards a skill badge and no extra XP. A unit is complete when both the project and the check are done. | Decision 16; plan sections 6.1, 6.2, 12.3, 12.5; backlog ASSESS-05 |
+| 3 | **Unit 1.** Do learners who already completed unit 1 keep it as complete? | Yes. The unit 1 check is optional for them and earns the badge. | Decision 22; plan section 12.6; backlog ASSESS-04 |
+| 4 | **"Resolved"** for the 90-item cap. | `fixed` or `wont_fix`. | Decision 18; plan section 11.5; security plan section 3 |
+| 5 | **SEC-03** (logout revokes the session) was Later but is needed before the admin inbox. | Move it to Next and make it a dependency of the admin inbox. | Backlog SEC-03 (Next) and FB-06 (depends on SEC-03); security plan section 1 |
+| 6 | **Who can be a tester?** | Students only. The admin account also sees the feedback button. Parents never do. | Decision 23; plan section 11.1; backlog FB-04, FB-05; security plan section 3 |
+| 7 | **OPS-05 reminder for 2026-11-08.** | Already set by the owner; nothing to schedule. | Backlog OPS-05 and suggested order |
+| 8 | **PLAN-01 milestone owner.** | Lucas (maintainer). | Backlog PLAN-01 (verified) |
 
 ## 4. Next concrete action
 
-Owner reviews this PR and answers the questions. Then, following the backlog order: record the stage 4 live check, then SEC-01 and SEC-04.
+Owner reviews and merges this PR. Then, following the backlog order: record the stage 4 live check, then SEC-01 and SEC-04, then SEC-03 before the admin inbox.
