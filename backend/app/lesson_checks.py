@@ -41,6 +41,8 @@ class Story:
                     pieces.append(repr(value) if part.conversion == 114 else str(value))
                 else:
                     raise PracticeError('Use a simple f-string such as f"Hello, {hero}".')
+            if sum(len(piece) for piece in pieces) > 20000:
+                raise PracticeError('Keep your story messages under 20,000 characters.')
             return ''.join(pieces)
         if isinstance(node, ast.Call) and isinstance(node.func, ast.Name) and node.func.id == 'input' and len(node.args) <= 1 and not node.keywords:
             if node.args:
@@ -67,6 +69,8 @@ class Story:
                 self.values[node.targets[0].id] = self.value(node.value)
             elif isinstance(node, ast.Expr) and isinstance(node.value, ast.Call) and isinstance(node.value.func, ast.Name) and node.value.func.id == 'print' and not node.value.keywords:
                 text = ' '.join(str(self.value(arg)) for arg in node.value.args)
+                if len(text) + sum(len(line) + 1 for line in self.lines) > 20000:
+                    raise PracticeError('Keep your story output under 20,000 characters.')
                 self.lines.append(text)
             elif isinstance(node, ast.If):
                 self.run(node.body if self.value(node.test) else node.orelse)

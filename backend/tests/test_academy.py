@@ -219,3 +219,19 @@ def test_student_progress_is_persisted_and_isolated():
 
 def test_player_replies_are_bounded():
     assert post('check', {'lesson_id':'input','code':'','output':'','inputs':['x'*501]}).status_code == 422
+
+
+def test_story_checks_bound_f_string_expansion():
+    from app.lesson_checks import check_story
+    code = 'x="text"\n' + 'x=f"{x}{x}"\n'*18 + 'print(x)'
+    passed, feedback = check_story('hello', code, '', [])
+    assert not passed
+    assert '20,000' in feedback
+
+
+def test_legacy_arithmetic_does_not_earn_character_badge():
+    uid=signin('student')
+    with Session(engine) as db:
+        db.add(Attempt(user_id=uid, lesson_id='variables', code='stars=7\nprint(stars*3)', output='21\n', passed=True))
+        db.commit()
+    assert client.get('/api/progress').json() == []
