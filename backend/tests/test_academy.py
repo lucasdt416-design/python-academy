@@ -92,20 +92,6 @@ def test_age_invariant(birthday):
     assert 0 <= age <=126
     assert age in {2026-birthday.year,2025-birthday.year}
 
-@pytest.mark.parametrize('lesson',LESSONS)
-def test_reference_curriculum(lesson):
-    import contextlib,io
-    # Only trusted authored reference solutions execute in tests.
-    solutions={'hello':'print("Hello, Python!")','variables':'stars=7\nprint(stars*3)','loop':'for n in range(1,6):\n print(n)'}
-    stream=io.StringIO()
-    with contextlib.redirect_stdout(stream):
-        exec(solutions[lesson['id']],{})
-    if lesson['id'] == 'hello':
-        from app.main import check_opening
-        assert check_opening('print("A forest.")\nprint("A dragon!")', 'A forest.\nA dragon!\n')[0]
-    else:
-        assert stream.getvalue()==lesson['expected']
-
 def test_expired_invitation_and_exact_student_boundary():
     from datetime import datetime,timedelta,timezone
     signin('parent','parent@example.com')
@@ -172,7 +158,7 @@ def test_google_callback_records_account_and_rotates_session(monkeypatch):
     ('print("Only one")', 'Only one\n', False),
     ('print("Unclosed)', '', False),
     ('print("")\nprint("Surprise")', '\nSurprise\n', False),
-    ('print("A", "B")\nprint("C")', 'A B\nC\n', False),
+    ('print("A", "B")\nprint("C")', 'A B\nC\n', True),
     ('import os\nprint("A")', 'A\n', False),
     ('print("A")\nprint("B", end="")', 'A\nB', False),
 ])
@@ -181,3 +167,71 @@ def test_opening_accepts_creativity_and_explains_mistakes(code, output, passed):
     result, feedback = check_opening(code, output)
     assert result is passed
     assert feedback
+
+
+@pytest.mark.parametrize('lesson', LESSONS, ids=lambda lesson: lesson['id'])
+def test_authored_examples_execute_and_pass_checks(lesson):
+    import contextlib, io
+    from app.lesson_checks import check_story
+    stream = io.StringIO()
+    replies = iter(lesson['exampleInputs'])
+    with contextlib.redirect_stdout(stream):
+        exec(lesson['example'], {'input': lambda prompt='': next(replies)})
+    assert stream.getvalue().rstrip() == lesson['exampleOutput']
+    assert check_story(lesson['id'], lesson['example'], stream.getvalue(), lesson['exampleInputs'])[0]
+
+@pytest.mark.parametrize('lesson_id,code,inputs,output,passed', [
+    ('variables', 'hero="Kai"\ntool="rope"\nprint(f"{hero} carries {tool}")', [], 'Kai carries rope\n', True),
+    ('variables', 'hero="Kai"\ntool="rope"\nprint("Kai carries rope")', [], 'Kai carries rope\n', False),
+    ('input', 'name=input("Name? ")\nprint(f"Hello, {name}!")', ['Mira'], 'Hello, Mira!\n', True),
+    ('input', 'name=input("Name? ")\nprint("Hello, Nova!")', ['Nova'], 'Hello, Nova!\n', False),
+    ('choices', 'p=input("Path? ")\nif p != "right":\n print("Lake")\nelse:\n print("Mountain")', ['left'], 'Lake\n', True),
+    ('choices', 'p=input("Path? ")\nif p == "left":\n print("Lake")\nelse:\n print("Lake")', ['left'], 'Lake\n', False),
+    ('choices', 'p=input("Path? ")\nif True:\n print("Lake")\nelse:\n print("Mountain")', ['left'], 'Lake\n', False),
+    ('hello', 'import os\nos.system("touch /tmp/unwanted")', [], '', False),
+    ('hello', 'while True:\n pass', [], '', False),
+    ('hello', 'print("One")\nprint("Two")', [], 'forged output\n', False),
+])
+def test_checks_validate_behavior_and_accept_alternatives(lesson_id,code,inputs,output,passed):
+    from app.lesson_checks import check_story
+    result, feedback = check_story(lesson_id,code,output,inputs)
+    assert result is passed
+    assert feedback
+
+def test_public_preview_checks_do_not_create_history():
+    lesson = LESSONS[0]
+    response = post('check', {'lesson_id':lesson['id'],'code':lesson['example'],'output':lesson['exampleOutput']+'\n'})
+    assert response.json()['passed']
+    with Session(engine) as db:
+        assert list(db.scalars(select(Attempt))) == []
+    assert client.get('/api/progress').status_code == 401
+    assert client.get('/api/family').status_code == 401
+
+def test_student_progress_is_persisted_and_isolated():
+    signin('student','one@example.com')
+    lesson=LESSONS[0]
+    payload={'lesson_id':'hello','code':lesson['example'],'output':lesson['exampleOutput']+'\n'}
+    assert post('attempts',payload).json()['passed']
+    assert post('attempts',payload).json()['passed']
+    assert client.get('/api/progress').json() == ['hello']
+    signin('student','two@example.com')
+    assert client.get('/api/progress').json() == []
+
+def test_player_replies_are_bounded():
+    assert post('check', {'lesson_id':'input','code':'','output':'','inputs':['x'*501]}).status_code == 422
+
+
+def test_story_checks_bound_f_string_expansion():
+    from app.lesson_checks import check_story
+    code = 'x="text"\n' + 'x=f"{x}{x}"\n'*18 + 'print(x)'
+    passed, feedback = check_story('hello', code, '', [])
+    assert not passed
+    assert '20,000' in feedback
+
+
+def test_legacy_arithmetic_does_not_earn_character_badge():
+    uid=signin('student')
+    with Session(engine) as db:
+        db.add(Attempt(user_id=uid, lesson_id='variables', code='stars=7\nprint(stars*3)', output='21\n', passed=True))
+        db.commit()
+    assert client.get('/api/progress').json() == []

@@ -1,4 +1,6 @@
-import ast
+import json
+from pathlib import Path
+from .lesson_checks import check_story
 import hashlib
 import os
 import secrets
@@ -7,7 +9,7 @@ from datetime import date, datetime, timedelta, timezone
 from authlib.integrations.starlette_client import OAuth, OAuthError
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import JSONResponse, RedirectResponse
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, field_validator
 from sqlalchemy import Date, ForeignKey, String, Text, create_engine, select, update
 from sqlalchemy.orm import DeclarativeBase, Mapped, Session, mapped_column
 from starlette.middleware.sessions import SessionMiddleware
@@ -61,40 +63,10 @@ class Attempt(Base):
     output: Mapped[str] = mapped_column(Text)
     passed: Mapped[bool] = mapped_column(default=False)
 
-LESSONS = [
-    {'id': 'hello', 'title': 'Say hello', 'concept': 'print()', 'description': 'Use print() to display Hello, Python! exactly.', 'starter': 'print("Hello, Python!")', 'expected': 'Hello, Python!\n'},
-    {'id': 'variables', 'title': 'Your first variable', 'concept': 'Variables', 'description': 'Store 7 in a variable called stars. Print stars multiplied by 3.', 'starter': 'stars = 7\n# Print stars multiplied by 3', 'expected': '21\n'},
-    {'id': 'loop', 'title': 'Make a loop', 'concept': 'Loops', 'description': 'Use a loop to print the numbers 1 through 5, each on its own line.', 'starter': 'for number in range(1, 6):\n    # Print number\n    pass', 'expected': '1\n2\n3\n4\n5\n'},
-]
-
-# Keep the lesson ID stable for existing practice history.
-LESSONS[0].update({
-    'title': 'Your Adventure Begins',
-    'description': 'Write two print statements: one describes a location, the other introduces something unexpected. Choose your own story text.',
-    'starter': '# Describe your location with print()\n# On the next line, print something unexpected\n',
-    'expected': None,
-})
+LESSONS = json.loads(Path(__file__).with_name('curriculum.json').read_text())
 
 def check_opening(code, output):
-    """Inspect syntax without executing untrusted learner code on the server."""
-    try:
-        tree = ast.parse(code)
-    except SyntaxError:
-        return False, 'Python could not read your code. Check that each message has matching quotation marks and each print call has matching parentheses.'
-    if len(tree.body) != 2:
-        return False, 'Write two print statements on separate lines: a location, then a surprise.'
-    messages = []
-    for statement in tree.body:
-        call = statement.value if isinstance(statement, ast.Expr) else None
-        if not (isinstance(call, ast.Call) and isinstance(call.func, ast.Name) and call.func.id == 'print' and len(call.args) == 1 and not call.keywords and isinstance(call.args[0], ast.Constant) and isinstance(call.args[0].value, str)):
-            return False, 'For this first challenge, use print("your message") twice, with one quoted message in each call.'
-        message = call.args[0].value
-        if not message.strip() or '\n' in message or '\r' in message:
-            return False, 'Give each print statement a nonempty message on a single output line.'
-        messages.append(message)
-    if output.replace('\r\n', '\n') != ''.join(message + '\n' for message in messages):
-        return False, 'Run your current code again. Its output should show your two messages in the same order.'
-    return True, 'Your opening scene works! Both messages appear in order. You used print() to tell your own story.'
+    return check_story('hello', code, output, [])
 
 Base.metadata.create_all(engine)
 app = FastAPI(title='Python Academy')
@@ -234,6 +206,14 @@ class Submission(BaseModel):
     lesson_id: str
     code: str = Field(max_length=20000)
     output: str = Field(max_length=20000)
+    inputs: list[str] = Field(default_factory=list, max_length=10)
+
+    @field_validator('inputs')
+    @classmethod
+    def bounded_inputs(cls, values):
+        if any(len(value) > 500 for value in values):
+            raise ValueError('Keep each player reply under 500 characters')
+        return values
 
 @app.post('/api/attempts')
 def attempt(data: Submission, request: Request):
@@ -242,14 +222,27 @@ def attempt(data: Submission, request: Request):
         lesson = next((l for l in LESSONS if l['id'] == data.lesson_id), None)
         if not lesson:
             raise HTTPException(404, 'Unknown lesson')
-        # Browser execution is practice feedback, not tamper-resistant assessment.
-        if lesson['id'] == 'hello':
-            passed, feedback = check_opening(data.code, data.output)
-        else:
-            passed = data.output.replace('\r\n', '\n') == lesson['expected']
-            feedback = 'Your output matches. Nicely done!' if passed else 'Keep going. Compare your output with the expected result.'
+        # Safe, bounded checks of taught syntax; learner code never executes here.
+        passed, feedback = check_story(data.lesson_id, data.code, data.output, data.inputs)
         db.add(Attempt(user_id=u.id, lesson_id=data.lesson_id, code=data.code, output=data.output, passed=passed))
         audit(db, u, 'practice_saved', data.lesson_id)
         db.commit()
         return {'passed': passed, 'feedback': feedback, 'assessment': 'browser_practice'}
 
+
+
+@app.post('/api/check')
+def check_preview(data: Submission):
+    if not any(lesson['id'] == data.lesson_id for lesson in LESSONS):
+        raise HTTPException(404, 'Unknown lesson')
+    passed, feedback = check_story(data.lesson_id, data.code, data.output, data.inputs)
+    return {'passed': passed, 'feedback': feedback, 'assessment': 'browser_practice'}
+
+@app.get('/api/progress')
+def progress(request: Request):
+    with Session(engine) as db:
+        u = current(request, db, 'student')
+        attempts = db.scalars(select(Attempt).where(Attempt.user_id == u.id, Attempt.passed == True))
+        # Legacy arithmetic exercises used the variables ID. They do not earn
+        # the new character-creation badge, but their history remains intact.
+        return list({a.lesson_id for a in attempts if a.lesson_id != 'variables' or check_story('variables', a.code, a.output, [])[0]})
