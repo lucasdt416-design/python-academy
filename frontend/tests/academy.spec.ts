@@ -95,5 +95,5 @@ test('Python errors and endless loops stay recoverable',async({page})=>{
 test('mobile classroom fits and respects reduced motion',async({page})=>{
  await page.setViewportSize({width:375,height:812});await page.emulateMedia({reducedMotion:'reduce'});await mockApi(page,null);await page.goto('/preview?lesson=adventure&card=4');
  await expect(page.getByLabel('Your Python code')).toBeVisible();expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
- expect(await page.locator('.world-spark').evaluate(el=>getComputedStyle(el).animationName)).toBe('none');
+ expect(await page.locator('.world-spark').evaluateAll(elements=>elements.every(el=>getComputedStyle(el).animationName==='none'))).toBe(true);
 });
