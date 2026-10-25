@@ -93,6 +93,12 @@ test('Python errors and endless loops stay recoverable',async({page})=>{
  await page.getByRole('button',{name:'Stop',exact:true}).click();await expect(page.locator('.execution-output')).toHaveText('Execution stopped.');await page.getByRole('button',{name:'Run & check challenge'}).click();
  await expect(page.locator('.execution-output')).toContainText('Execution stopped after 15 seconds',{timeout:20000});await expect(page.getByRole('button',{name:'Run & check challenge'})).toBeEnabled();
 });
+test('checker service errors keep the draft, award nothing, and allow a retry',async({page})=>{
+ await mockApi(page,null);await page.route('**/api/check',route=>route.fulfill({contentType:'application/json',body:JSON.stringify({passed:false,result:'service_error',feedback:'Unable to assess this right now. Your code is unchanged; please try again in a moment.',assessment:'browser_practice'})}));
+ const code='print("A forest.")\nprint("A dragon!")';await page.goto('/preview?lesson=hello&card=5');await page.getByLabel('Your Python code').fill(code);await page.getByRole('button',{name:'Run & check challenge'}).click();
+ await expect(page.getByRole('status').filter({hasText:'Unable to assess this right now'})).toBeVisible({timeout:25000});await expect(page.getByText(/badge earned!/)).toHaveCount(0);
+ await expect(page.getByLabel('Your Python code')).toHaveValue(code);await expect(page.getByRole('button',{name:'Run & check challenge'})).toBeEnabled();await expect(page.getByText('0 XP',{exact:true})).toBeVisible();
+});
 test('mobile classroom fits and respects reduced motion',async({page})=>{
  await page.setViewportSize({width:375,height:812});await page.emulateMedia({reducedMotion:'reduce'});await mockApi(page,null);await page.goto('/preview?lesson=adventure&card=4');
  await expect(page.getByLabel('Your Python code')).toBeVisible();expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);

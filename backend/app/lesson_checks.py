@@ -1,6 +1,8 @@
 """Bounded interpretation of the taught syntax; never exec/eval learner code."""
 import ast
 import logging
+import traceback
+from pathlib import Path
 
 # passed: meets the lesson's checks. needs_work: the learner can fix something.
 # execution_error: the program failed while running in the browser.
@@ -155,6 +157,10 @@ def assess(lesson_id, code, output, replies):
         return error.result, str(error) or 'Try the short example on this card, then make one change at a time.'
     except (TypeError, ValueError, RecursionError) as error:
         return 'unsupported', str(error) or 'Try the short example on this card, then make one change at a time.'
-    except Exception:
-        logging.getLogger(__name__).exception('Story check failed for lesson %s', lesson_id)
+    except Exception as error:
+        # Never log learner code: the exception message can echo names or strings
+        # from it, so record only the lesson, error type, and server code location.
+        frame = traceback.extract_tb(error.__traceback__)[-1]
+        logging.getLogger(__name__).error('Story check failed: lesson=%s error=%s at %s:%s',
+                                          lesson_id, type(error).__name__, Path(frame.filename).name, frame.lineno)
         return 'service_error', SERVICE_ERROR

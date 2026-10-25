@@ -154,11 +154,19 @@ def test_result_states_separate_learner_mistakes_from_checker_limits(lesson_id, 
     assert feedback
 
 
-def test_unexpected_checker_failure_is_a_service_error(monkeypatch):
+def test_unexpected_checker_failure_is_a_service_error_and_never_logs_learner_code(monkeypatch, caplog):
     from app import lesson_checks
+    secret = 'learner-private-story-text'
     def broken(self, statements):
-        raise RuntimeError('checker bug')
+        # An exception whose message echoes learner code, the worst case for logging.
+        raise RuntimeError(f'checker bug near {secret}')
     monkeypatch.setattr(lesson_checks.Story, 'run', broken)
-    result, feedback = assess('hello', 'print("A")\nprint("B")', 'A\nB\n', [])
+    code = f'print("{secret}")\nprint("B")'
+    result, feedback = assess('hello', code, f'{secret}\nB\n', [secret])
     assert result == 'service_error'
     assert feedback.startswith('Unable to assess')
+    assert secret not in feedback
+    logged = '\n'.join(r.getMessage() + (r.exc_text or '') for r in caplog.records)
+    assert 'lesson=hello error=RuntimeError at test_content.py:' in logged
+    assert secret not in logged and 'print(' not in logged
+    assert all(r.exc_info is None for r in caplog.records)
