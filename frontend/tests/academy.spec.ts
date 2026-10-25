@@ -2,13 +2,23 @@ import {test, expect, Page} from '@playwright/test';
 // Same JSON that /api/lessons serves; backend tests assert they are identical.
 import lessons from '../../backend/tests/fixtures/legacy_lessons_v1.json';
 import catalog from '../../backend/tests/fixtures/catalog_v1.json';
-async function mockApi(page:Page,initialRole:string|null,done:string[]=[]){
- let role=initialRole;const completed:string[]=[...done];
+import goals from '../../backend/tests/fixtures/goals_v1.json';
+const PATH_NAMES:Record<string,string>={scratch:'Learn to code',hackathon:'hackathon',university:'university',websites:'websites and apps',data:'data',explore:'explore'};
+async function mockApi(page:Page,initialRole:string|null,done:string[]=[],initialGoal={goal:'scratch' as string|null,chosen:true,asked:true}){
+ let role=initialRole;const completed:string[]=[...done];let goal={...initialGoal};
  await page.route('**/api/**',async route=>{
   const path=new URL(route.request().url()).pathname;let body:unknown={},status=200;
   if(path==='/api/lessons')body=lessons;
   else if(path==='/api/catalog')body=catalog;
   else if(path==='/api/awards')body={xp:completed.length*100,completed,badges:[]};
+  else if(path==='/api/goals')body=goals;
+  else if(path==='/api/goal'){if(route.request().method()==='POST'){const chosen=route.request().postDataJSON().goal??null;goal={goal:chosen??'scratch',chosen:!!chosen,asked:true};}body=goal;}
+  else if(path==='/api/recommendation'){
+   // Mirrors the backend rules for the one released unit; backend tests cover the rules themselves.
+   const next=lessons.find(l=>!completed.includes(l.id));
+   body=next?{kind:completed.length?'continue':'start',reason:completed.length?"You're partway through Python Foundations.":`Start of your ${PATH_NAMES[goal.goal??'scratch']} path.`,course:'py',unit:'py.u01',lesson:next.id,options:[],notes:[],rules_version:1}
+    :{kind:'caught_up',reason:"You've finished everything available on your path so far.",course:null,unit:null,lesson:null,options:[],notes:['Python Foundations unit 2 is next on your path and is coming soon.'],rules_version:1};
+  }
   else if(path==='/api/me'){status=role?200:401;body=role?{id:1,email:'test@example.com',role}:{detail:'Sign in to continue'};}
   else if(path==='/api/history'||path==='/api/family')body=[];
   else if(path==='/api/progress')body=completed;
@@ -28,12 +38,15 @@ test('welcome provides Google sign-in and keyboard skip navigation',async({page}
  await page.keyboard.press('Tab');await expect(page.getByRole('link',{name:/Skip/})).toBeFocused();
 });
 test('invitation survives redirect and enrolls a student',async({page})=>{
- await mockApi(page,'pending');await page.goto('/?invite=private-token');await page.reload();
+ await mockApi(page,'pending',[],{goal:null,chosen:false,asked:false});await page.goto('/?invite=private-token');await page.reload();
  await page.getByLabel('Date of birth').fill('2010-01-01');
  const request=page.waitForRequest(r=>r.url().endsWith('/api/enroll'));
  await page.getByRole('button',{name:'Complete registration'}).click();
  expect((await request).postDataJSON().invitation).toBe('private-token');
+ await expect(page.getByRole('heading',{name:'What would you like to do first?'})).toBeFocused();
+ const skip=page.waitForRequest(r=>r.url().endsWith('/api/goal')&&r.method()==='POST');await page.getByRole('button',{name:'Skip for now'}).click();expect((await skip).postDataJSON()).toEqual({});
  await expect(page.getByRole('heading',{name:'Your first course is ready.'})).toBeVisible();await expect(page.getByRole('link',{name:/^Start/})).toHaveAttribute('href','/learn/hello');
+ await expect(page.getByText('Learn to code from scratch (default)')).toBeVisible();
  expect(await page.evaluate(()=>sessionStorage.getItem('academy-invite'))).toBeNull();
 });
 test('parent creates an invitation, previews lessons, and returns to family',async({page})=>{
@@ -147,4 +160,41 @@ test('student home offers the next lesson and shows XP',async({page})=>{
  const next=page.getByRole('region',{name:'Meet the player'});await expect(next.getByText('200 XP')).toBeVisible();
  await expect(next.getByRole('link',{name:/Continue/})).toHaveAttribute('href','/learn/input');
  await expect(page.getByRole('article',{name:'Python Foundations'}).getByText('2 of 5 lessons complete')).toBeVisible();
+});
+test('a new student chooses a goal from the keyboard and sees why the next lesson is suggested',async({page})=>{
+ await mockApi(page,'student',[],{goal:null,chosen:false,asked:false});await page.goto('/');
+ await expect(page.getByRole('heading',{name:'What would you like to do first?'})).toBeFocused();await expect(page.getByRole('button',{name:'Continue'})).toBeDisabled();
+ await expect(page.getByRole('radio')).toHaveCount(goals.length);
+ await page.getByRole('radio',{name:/Learn to code from scratch/}).focus();await page.keyboard.press('ArrowDown');
+ await expect(page.getByRole('radio',{name:/Get ready for hackathons/})).toBeChecked();
+ const saved=page.waitForRequest(r=>r.url().endsWith('/api/goal')&&r.method()==='POST');await page.getByRole('button',{name:'Continue'}).click();
+ expect((await saved).postDataJSON()).toEqual({goal:'hackathon'});
+ const next=page.getByRole('region',{name:'Open the story'});await expect(next.getByText('Start of your hackathon path.')).toBeVisible();
+ await expect(next.getByText('Get ready for hackathons')).toBeVisible();await expect(next.getByRole('link',{name:/^Start/})).toHaveAttribute('href','/learn/hello');
+ await expect(page.getByRole('article',{name:'Python Foundations'}).getByText('Recommended')).toBeVisible();
+ await expect(page.getByText('Recommended',{exact:true})).toHaveCount(1);
+});
+test('students can change their goal, or cancel without changing it',async({page})=>{
+ await mockApi(page,'student',['hello'],{goal:'data',chosen:true,asked:true});await page.goto('/');
+ await expect(page.getByText("You're partway through Python Foundations.")).toBeVisible();await expect(page.getByText('Work with data',{exact:true})).toBeVisible();
+ await page.getByRole('button',{name:'Change goal'}).click();await expect(page.getByRole('radio',{name:/Work with data/})).toBeChecked();
+ await page.getByRole('button',{name:'Cancel'}).click();await expect(page.getByText('Work with data',{exact:true})).toBeVisible();
+ await page.getByRole('button',{name:'Change goal'}).click();await page.getByRole('radio',{name:/Just explore/}).check();
+ await page.getByRole('button',{name:'Save my goal'}).click();await expect(page.getByText('Just explore',{exact:true})).toBeVisible();
+});
+test('students who finished everything available see what is coming soon',async({page})=>{
+ await mockApi(page,'student',lessons.map(l=>l.id));await page.goto('/');
+ const card=page.getByRole('region',{name:'More lessons are on the way'});await expect(card.getByText("You've finished everything available on your path so far.")).toBeVisible();
+ await expect(card.getByText('Python Foundations unit 2 is next on your path and is coming soon.')).toBeVisible();await expect(card.getByRole('link',{name:/^(Start|Continue)/})).toHaveCount(0);
+ await expect(page.getByText('Recommended',{exact:true})).toHaveCount(0);
+});
+test('parents see each learner\'s goal',async({page})=>{
+ await mockApi(page,'parent');await page.route('**/api/family',route=>route.fulfill({contentType:'application/json',body:JSON.stringify([{id:2,email:'ava@example.com',attempts:[],completed:['hello'],goal:'Get ready for hackathons'}])}));
+ await page.goto('/');await expect(page.getByRole('heading',{name:'ava@example.com'})).toBeVisible();
+ await expect(page.getByText('Goal: Get ready for hackathons')).toBeVisible();await expect(page.getByText('1 quests completed',{exact:false})).toBeVisible();
+});
+test('goal card fits a phone',async({page})=>{
+ await page.setViewportSize({width:375,height:812});await mockApi(page,'student',[],{goal:null,chosen:false,asked:false});await page.goto('/');
+ await expect(page.getByRole('radio',{name:/Just explore/})).toBeVisible();expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+ const [a,b]=await Promise.all([page.locator('.goal-option').nth(0).boundingBox(),page.locator('.goal-option').nth(1).boundingBox()]);expect(b!.y).toBeGreaterThan(a!.y);
 });

@@ -7,16 +7,20 @@ export type Unit={id:string;title:string;summary:string;status:'released'|'comin
 export type Course={id:string;title:string;summary:string;status:'released'|'coming_soon';prerequisites:{required:string[];suggested:string[]};units:Unit[]};
 export type Catalog={version:number;courses:Course[]};
 export type Awards={xp:number;completed:string[];badges:{id:string;title:string}[]};
+export type Goal={id:string;label:string;description:string};
+export type GoalState={goal:string|null;chosen:boolean;asked:boolean};
+/** From /api/recommendation: rule-based, with a reason that names the rule that fired. */
+export type Recommendation={kind:'continue'|'start'|'prerequisite'|'choose'|'caught_up';reason:string;course:string|null;unit:string|null;lesson:string|null;options:string[];notes:string[];rules_version:number};
 
 export async function api(path:string,data?:unknown){
  const response=await fetch('/api/'+path,{method:data===undefined?'GET':'POST',headers:data===undefined?{}:{'Content-Type':'application/json'},body:data===undefined?undefined:JSON.stringify(data)});
  const result=await response.json();if(!response.ok)throw Error(typeof result.detail==='string'?result.detail:'Something went wrong. Please try again.');return result;
 }
 
-/** The signed-in user (if any) and, for students, their XP, badges and completed lessons. */
+/** The signed-in user (if any) and, for students, their XP, badges, completed lessons and recommendation. */
 export function useAccount(){
- const [state,setState]=useState<{user:User|null;awards:Awards|null;loading:boolean}>({user:null,awards:null,loading:true});
- useEffect(()=>{let live=true;(async()=>{try{const user=await api('me');const awards=user.role==='student'?await api('awards'):null;if(live)setState({user,awards,loading:false});}catch{if(live)setState({user:null,awards:null,loading:false});}})();return()=>{live=false;};},[]);
+ const [state,setState]=useState<{user:User|null;awards:Awards|null;recommendation:Recommendation|null;loading:boolean}>({user:null,awards:null,recommendation:null,loading:true});
+ useEffect(()=>{let live=true;(async()=>{try{const user=await api('me');const [awards,recommendation]=user.role==='student'?await Promise.all([api('awards'),api('recommendation').catch(()=>null)]):[null,null];if(live)setState({user,awards,recommendation,loading:false});}catch{if(live)setState({user:null,awards:null,recommendation:null,loading:false});}})();return()=>{live=false;};},[]);
  return state;
 }
 
@@ -36,6 +40,12 @@ export function availableLessons(course:Course){return course.units.filter(u=>u.
 export function nextLesson(course:Course,done:string[]){return availableLessons(course).find(l=>!done.includes(l.id))??null;}
 
 export function unitNumber(unit:Unit){return Number(unit.id.split('.u')[1]);}
+
+/** Find a lesson and its unit and course in the catalog. */
+export function locate(catalog:Catalog,lessonId:string|null){
+ for(const course of catalog.courses)for(const unit of course.units){const lesson=unit.lessons.find(l=>l.id===lessonId);if(lesson)return {course,unit,lesson};}
+ return null;
+}
 
 /** Human wording for prerequisite IDs, e.g. ["py.u01",…,"py.u07","git"] → "Python Foundations units 1–7 and Git and GitHub Essentials". */
 export function prerequisiteText(refs:string[],catalog:Catalog){
