@@ -16,18 +16,20 @@ Decision numbers continue the sequence in `docs/plan/course-catalog.md` section 
 | 1. ENG-01 | Content format and result states | verified live (PR #5) |
 | 2. ENG-02 | Migrations, XP and badge ledgers | verified live (PR #7) for this stage; the rest of ENG-02 is open (section 5) |
 | 3. Catalog UI | Catalog, course pages, lesson sidebar | verified live (PR #8) |
-| 4. Goals and recommendations | Goal card, rule-based recommendation | in_review: merged (PR #9, 2026-10-25); owner's live check not yet recorded |
+| 4. Goals and recommendations | Goal card, rule-based recommendation | verified live (PR #9; owner's live check 2026-10-25: goal card, Change goal then Cancel, `migration 0005` in the API logs) |
 | 5. Backlog and feature plans | This file, feature specs, feedback security | verified (PR #10, documentation only) |
-| 6. SEC-01 and SEC-04 | Rate limits; security headers with the page CSP in Report-Only mode | in_review (handoff 06) |
+| 6. SEC-01 and SEC-04 | Rate limits; security headers with the page CSP in Report-Only mode | verified live (PRs #11 and #12; owner's live checks 2026-10-25, handoff 06 section 13.7). SEC-04 stays in_review only until the page CSP is switched to enforce mode |
+| 7. SEC-03 | Server-side sessions: logout ends the session at once | in_review (handoff 07) |
 
 ## 2. Suggested order
 
-1. Record the stage 4 live check.
-2. **SEC-01 and SEC-04** (rate limits, security headers). Feedback adds a new place where users can send text, so limits come first. In review (stage 6); after the owner's live check, switch the page CSP to enforce mode (handoff 06 section 4).
-3. **FB-01 to FB-07**: admin, testers, feedback button, admin inbox (security plan: `docs/plan/feedback-security.md`).
-4. **PILOT-01**: invite the first learner and collect feedback through the new button.
-5. **ENG-03**: browser behaviour checks, then **EDU-04** (Python unit 2) with its first **unit check**.
-6. **OPS-05**: cost review (the owner has set a reminder for 2026-11-08).
+1. ~~Record the stage 4 live check.~~ Done 2026-10-25.
+2. **SEC-01 and SEC-04** (rate limits, security headers): live and checked 2026-10-25. Still to do: switch the page CSP to enforce mode after a week of clean consoles (handoff 06 section 4).
+3. **SEC-03** (server-side sessions): in review (stage 7). Then **SEC-09** (CSP nonces). Both come before the admin inbox.
+4. **FB-01 to FB-07**: admin, testers, feedback button, admin inbox (security plan: `docs/plan/feedback-security.md`).
+5. **PILOT-01**: invite the first learner and collect feedback through the new button.
+6. **ENG-03**: browser behaviour checks, then **EDU-04** (Python unit 2) with its first **unit check**.
+7. **OPS-05**: cost review (the owner has set a reminder for 2026-11-08).
 
 ## 3. Feature spec: testers, feedback, admin inbox
 
@@ -77,10 +79,10 @@ Recorded in the plan as section 12 of `docs/plan/course-catalog.md`.
 
 | ID | Priority | Item | Depends on | Status |
 | --- | --- | --- | --- | --- |
-| SEC-01 | Now | Rate limits and quotas on write endpoints: `/api/check`, invitations, attempts, enrolment, goal changes and sign-in (done in stage 6; counters in memory, see handoff 06). The stage 6 live check found that a made-up `X-Forwarded-For` header chose a new counter; the fix in the follow-up PR trusts only a configured source, and the item stays in_review until handoff 06 section 13 passes. The future feedback endpoint (its own database counters, `feedback-security.md` section 7) | None | in_review |
+| SEC-01 | Now | Rate limits and quotas on write endpoints: `/api/check`, invitations, attempts, enrolment, goal changes and sign-in (done in stage 6; counters in memory, see handoff 06). The first live check found that a made-up `X-Forwarded-For` header chose a new counter; PR #12 trusts only a configured source. Production uses `CLIENT_IP_HEADER=cf-connecting-ip` (now in `render.yaml`); without it all signed-out visitors share one counter. The future feedback endpoint gets its own database counters (`feedback-security.md` section 7) | None | verified: live checks passed 2026-10-25 (spoof tests, `Retry-After`, separate counters for phone and Mac; handoff 06 section 13.7) |
 | SEC-02 | Next | Make the API a private Render service with no public URL; confirm the frontend proxy still works | None | proposed |
-| SEC-03 | Next | Logout revokes the session on the server (today a stolen cookie works up to 24 hours); required before the admin inbox (FB-06) ships, see `feedback-security.md` | Migration | proposed |
-| SEC-04 | Now | Security headers: Content-Security-Policy and HSTS on the main app. Stage 6 adds HSTS, `frame-ancestors 'none'` (enforced) and the page CSP in Report-Only mode; the item is verified once the CSP is switched to enforce mode after a clean live check | None | in_review |
+| SEC-03 | Next | Logout revokes the session on the server. Before stage 7 a copied cookie kept working after logout, and for as long as it was used at least once a day. Stage 7: the cookie holds only a random session ID, the `sessions` table (migration 0006) holds the session, logout deletes it; 7-day absolute and 24-hour idle limits. Required before the admin inbox (FB-06) ships, see `feedback-security.md` | Migration | in_review (stage 7, handoff 07) |
+| SEC-04 | Now | Security headers: Content-Security-Policy and HSTS on the main app. Stage 6 adds HSTS, `frame-ancestors 'none'` (enforced) and the page CSP in Report-Only mode; the item is verified once the CSP is switched to enforce mode after a clean live check | None | in_review: headers live and checked 2026-10-25 (handoff 06 section 13.7); enforce mode not yet switched |
 | SEC-05 | Later | Pyodide and CDN integrity: self-host or pin with integrity checks where possible | None | proposed |
 | SEC-06 | Later | Keep invitation tokens out of URLs and request logs | None | proposed |
 | SEC-07 | Next | Branch protection on `main` requiring passing checks (owner action; may need a paid GitHub plan, otherwise merge only on all-green) | Owner | proposed |

@@ -3,7 +3,7 @@
 Date: 2026-10-25 (America/Toronto)  
 Written by: Claude Code (implementer)  
 For: the human maintainer, and ChatGPT or Claude chat (reviewer) without repository access  
-Status: **in_review**. PR #11 was merged and deployed on 2026-10-25. Its live check then **failed**: a made-up `X-Forwarded-For` header chose a new rate-limit counter. The fix is in a follow-up pull request (section 13), not merged. No content, XP or account-policy changes.
+Status: **verified live** on 2026-10-25 (section 13.7), except the switch of the page CSP to enforce mode, which waits for a week of clean consoles. PR #11 was merged and deployed on 2026-10-25; its first live check **failed** (a made-up `X-Forwarded-For` header chose a new rate-limit counter); PR #12 fixed it (section 13). No content, XP or account-policy changes.
 
 > **How to use this file:** upload it with `build.md`, `docs/plan/backlog.md` and `docs/plan/feedback-security.md`. It summarizes evidence; the pull request diff and CI results are the source of truth (`build.md` section 14).
 
@@ -334,3 +334,22 @@ New tests:
 - A table test of the address chosen in every mode, including a missing header, a list where one address is expected, and too few entries.
 - The diagnostic logs counts, header names and an 8-character hash only, and is off by default.
 
+
+### 13.7 Live check result (2026-10-25)
+
+Recorded in stage 7 (handoff 07). **All passed.**
+
+| Check | Who | Result |
+| --- | --- | --- |
+| A. 61 checks, each with a different made-up `X-Forwarded-For`, no setting yet | Claude Code | 59 × `200`, 2 × `429` (one other visitor shared the counter), then `429` with `retry-after: 52`. The bypass is closed |
+| A. Same with made-up `X-Forwarded-For`, `CF-Connecting-IP`, `True-Client-IP` and `X-Real-IP` | Claude Code | 61 × `403`: Cloudflare refuses any request that sets `CF-Connecting-IP` (`server: cloudflare`, `error code: 1000`) |
+| A. Made-up `True-Client-IP` or `X-Real-IP` alone | Claude Code | `200`: these reach the API, which ignores them |
+| Spoof tests with `CLIENT_IP_HEADER=cf-connecting-ip` | Owner | Passed |
+| `Retry-After` header on the 429 | Owner | Passed |
+| Separate counters for a phone and a Mac | Owner | Passed |
+| Page and API headers (section 11) | Owner | Passed |
+| Temporary diagnostic | Owner | Switched off (`RATE_LIMIT_DIAGNOSTIC` removed). `CLIENT_IP_HEADER=cf-connecting-ip` kept on the API service |
+
+The owner reported these results as passed; the individual log lines were not copied into this file. In step B, lines 3 and 4 (a made-up `CF-Connecting-IP`) are refused by Cloudflare with `403` and produce no diagnostic line, which is the expected result.
+
+`CLIENT_IP_HEADER=cf-connecting-ip` is now also in `render.yaml`, so a rebuild from the Blueprint keeps it. The page CSP is still Report-Only; switch it after a week of clean consoles (section 4).

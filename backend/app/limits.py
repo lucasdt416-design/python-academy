@@ -20,6 +20,8 @@ from dataclasses import dataclass
 
 from fastapi import HTTPException, Request
 
+from . import sessions
+
 log = logging.getLogger('uvicorn.error')
 
 # Fixed windows: (most requests, window length in seconds). Every window must have room.
@@ -147,7 +149,7 @@ def limit(name: str):
     rule = RULES[name]
 
     def check(request: Request):
-        uid = None if rule.per_ip else request.session.get('uid')
+        uid = None if rule.per_ip else sessions.user_id(request)
         if uid is not None:
             who, windows = f'u:{uid}', rule.user
         else:

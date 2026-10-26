@@ -471,6 +471,7 @@ Decisions 14, 15, 17 and 20 are open and tracked in `docs/plan/backlog.md` secti
 - 2026-10-25: stages 1–4 implemented (PRs #5, #7, #8, #9). Owner decisions 11, 12, 13, 18 and 21 recorded in section 9; proposed features added as sections 11 (testers, feedback, admin inbox) and 12 (end-of-unit checks). The ordered backlog is now `docs/plan/backlog.md`.
 - 2026-10-25: owner answers recorded as decisions 16, 22 and 23, with clarifications to 18 and 21 (sections 6, 9, 11 and 12).
 - 2026-10-25 (stage 6): decision 19 closed by the owner: parents never see feedback, following decision 23.
+- 2026-10-25 (stage 7): the owner's live checks for stage 4 (goal card, Change goal then Cancel, migration 0005) and stage 6 (rate limits and headers) passed and are recorded in `docs/plan/backlog.md`. Stage 7 (SEC-03, server-side sessions) is in review. No change to this plan's content.
 
 ## 11. Proposed feature: testers, feedback button, admin inbox
 

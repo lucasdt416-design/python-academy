@@ -30,7 +30,7 @@ Two further risks to anonymity are covered in section 8 (logs and timing, and th
 - Admin status is re-checked on **every** admin request from the session's user on the server. There is no "is admin" value in the cookie.
 - All admin endpoints live under one path (for example `/api/admin/…`) behind one guard. A test enumerates every registered route under that path and checks that a student, a parent, a tester, and a signed-out visitor each get 401 or 403. A new route that forgets the guard fails CI.
 - No endpoint can grant admin. The only privileged write available to the admin is the tester flag.
-- Shorter sessions for admins (for example 8 hours instead of 24), and server-side session revocation (backlog SEC-03, now Next and a dependency of the admin inbox, FB-06), so logging out or a lost device ends the session.
+- Server-side session revocation (backlog SEC-03, stage 7, in review): the cookie holds only a random session ID, the session lives in the `sessions` table, and logout deletes it, so a copied cookie stops working at once. Sessions end after 7 days, or 24 hours unused. Admin sessions should be shorter still (for example 8 hours); with SEC-03 that is one value set when the session row is created, added with FB-03.
 - Admin pages get the Content-Security-Policy from SEC-04, which limits where injected script could load from or send data to. It only blocks injected *inline* script once SEC-09 replaces `'unsafe-inline'` with nonces.
 - Admin actions (tester flag changes, status changes, deletions) are written to the account history under the admin's own account. That is allowed because it records the admin, not a tester.
 
@@ -143,8 +143,8 @@ Two further risks to anonymity are covered in section 8 (logs and timing, and th
 
 ## 10. Order of work
 
-1. SEC-01 (rate limiting) and SEC-04 (CSP and HSTS): in review (stage 6). SEC-09 (CSP nonces) before the inbox ships.
-2. SEC-03 (server-side session revocation), before the admin inbox ships.
+1. SEC-01 (rate limiting) and SEC-04 (CSP and HSTS): live and checked 2026-10-25 (stage 6); the page CSP still to be switched to enforce mode. SEC-09 (CSP nonces) before the inbox ships.
+2. SEC-03 (server-side session revocation): in review (stage 7), before the admin inbox ships.
 3. FB-01 (decisions 14 and 17).
 4. FB-02 and FB-03, with the route-enumeration test and the "no user data in feedback rows" test.
 5. FB-04 to FB-07.

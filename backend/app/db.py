@@ -2,7 +2,7 @@
 import os
 from datetime import date, datetime, timezone
 
-from sqlalchemy import Date, ForeignKey, Integer, String, Text, UniqueConstraint, create_engine
+from sqlalchemy import BigInteger, Date, ForeignKey, Integer, String, Text, UniqueConstraint, create_engine
 from sqlalchemy.dialects.postgresql import insert as postgresql_insert
 from sqlalchemy.dialects.sqlite import insert as sqlite_insert
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
@@ -118,3 +118,17 @@ class LearnerGoal(Base):
     # False when the learner skipped the goal card and got the default.
     chosen: Mapped[bool] = mapped_column(default=True)
     updated: Mapped[str] = mapped_column(String(40), default=now, onupdate=now)
+
+
+class UserSession(Base):
+    """One signed-in browser (backlog SEC-03). The cookie holds only a random session ID.
+
+    The row is keyed by a SHA-256 digest of that ID, so a copy of this table cannot be used as a
+    cookie. Times are whole Unix seconds (UTC) so expiry is a plain comparison on every database.
+    """
+    __tablename__ = 'sessions'
+    id: Mapped[str] = mapped_column(String(64), primary_key=True)
+    user_id: Mapped[int] = mapped_column(ForeignKey('users.id', ondelete='CASCADE'), index=True)
+    created: Mapped[int] = mapped_column(BigInteger)
+    last_seen: Mapped[int] = mapped_column(BigInteger)
+    expires: Mapped[int] = mapped_column(BigInteger)

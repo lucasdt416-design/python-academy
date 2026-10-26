@@ -5,6 +5,7 @@ os.environ.setdefault('SESSION_SECRET', 'test-secret-that-is-at-least-thirty-two
 import base64
 import json
 import logging
+import secrets
 
 import pytest
 from fastapi.testclient import TestClient
@@ -12,6 +13,8 @@ from itsdangerous import TimestampSigner
 from sqlalchemy.orm import Session
 
 import app.limits as limits
+from app import sessions
+from app.db import UserSession
 from app.limits import LIMITER, RULES, client_ip
 from app.main import Base, User, app, engine
 
@@ -50,7 +53,12 @@ def signin(role, email='learner@example.com'):
         db.add(user)
         db.commit()
         uid = user.id
-    cookie = TimestampSigner(os.environ['SESSION_SECRET']).sign(base64.b64encode(json.dumps({'uid': uid}).encode())).decode()
+    token = secrets.token_urlsafe(32)
+    now = int(sessions.clock())
+    with Session(engine) as db:
+        db.add(UserSession(id=sessions.digest(token), user_id=uid, created=now, last_seen=now, expires=now + sessions.ABSOLUTE))
+        db.commit()
+    cookie = TimestampSigner(os.environ['SESSION_SECRET']).sign(base64.b64encode(json.dumps({'sid': token}).encode())).decode()
     client.cookies.set('session', cookie, domain='testserver.local', path='/')
     return uid
 

@@ -43,17 +43,29 @@ The API applies Alembic migrations itself when it starts (`backend/app/migrate.p
 
 - The first deploy with migrations finds the original four tables without migration history, checks their columns match the baseline, records them as migration 0001, then applies the later migrations. No existing row is changed. If the tables do not match, startup stops without changing anything, and Render keeps the previous version running.
 - Migrations only add tables or nullable columns, so the previous version keeps working during a zero-downtime deploy.
-- To confirm a deploy, open the API service's **Logs** in Render and look for `Database schema is at migration 0003` (or the latest number), then check `/health`.
+- To confirm a deploy, open the API service's **Logs** in Render and look for `Database schema is at migration 0006` (or the latest number), then check `/health`.
 
 ## Rate limits and security headers
 
-No Render settings are needed for either.
+One API setting is needed, `CLIENT_IP_HEADER` (below). It is in `render.yaml`, so a rebuild from the Blueprint keeps it.
 
 - **Rate limits** (`backend/app/limits.py`): counted in the API's memory, so they reset whenever the API restarts or redeploys. They assume one API instance. If the API is ever scaled to more than one instance, move the counters to the database first. A refused request gets HTTP 429 with a `Retry-After` header. The API log shows only `Rate limited: rule=<name> scope=user|ip`: no code, user ID or address.
 - **Visitor address:** signed-out limits and sign-in are counted per address only when the API service has **one** trusted source set:
-  - `CLIENT_IP_HEADER`: a header the edge sets and overwrites, expected to be `cf-connecting-ip`.
-  - `TRUSTED_PROXY_HOPS`: how many `X-Forwarded-For` entries our own proxies add on the right.
+  - `CLIENT_IP_HEADER`: a header the edge sets and overwrites. **Production uses `CLIENT_IP_HEADER=cf-connecting-ip`**, set in `render.yaml`. The live checks on 2026-10-25 (handoff 06 section 13.7) showed Cloudflare, in front of Render, sends it on every request and refuses any request where the caller tries to set it (403, `error code: 1000`).
+  - `TRUSTED_PROXY_HOPS`: how many `X-Forwarded-For` entries our own proxies add on the right. Not used in production.
 
-  With neither set, all signed-out visitors share one counter. That is stricter, but nothing a caller sends can change it. Set one only after the checks in handoff 06 section 13 show it cannot be spoofed.
-- **Diagnostic:** `RATE_LIMIT_DIAGNOSTIC=1` on the API service logs, for each signed-out limited request, the number of `X-Forwarded-For` entries, the names of the forwarding headers present, the source used, and an 8-character keyed hash of the chosen address. It never logs an address, user ID, code or message text. The key changes on every restart, so hashes only compare within one deploy. Remove the variable when done.
+  **Without either setting, all signed-out visitors share one counter**: 60 preview checks a minute and 60 sign-ins per 10 minutes across the whole site. That is safe, because nothing a caller sends can change it, but a few busy visitors would limit everyone. If the API is ever moved off Render or Cloudflare, check the header again (handoff 06 section 13.5) before keeping it.
+- **Diagnostic:** off in production since 2026-10-25. `RATE_LIMIT_DIAGNOSTIC=1` on the API service logs, for each signed-out limited request, the number of `X-Forwarded-For` entries, the names of the forwarding headers present, the source used, and an 8-character keyed hash of the chosen address. It never logs an address, user ID, code or message text. The key changes on every restart, so hashes only compare within one deploy. Remove the variable when done.
 - **Headers** (`frontend/next.config.mjs` for pages, `backend/app/main.py` for the API): HSTS, `nosniff`, `no-referrer`, and framing blocked (`X-Frame-Options: DENY` and `frame-ancestors 'none'`). The page Content-Security-Policy is in Report-Only mode. Handoff 06 section 4 has the exact switch to enforce mode.
+
+## Sign-in sessions
+
+No Render settings are needed. Since stage 7 (backlog SEC-03, handoff 07):
+
+- The session cookie, signed with `SESSION_SECRET`, holds only a random session ID. The `sessions` table (migration 0006) holds which user it belongs to, when it started, when it was last used and when it expires. The table stores a SHA-256 digest of the ID, not the ID itself.
+- **Logout deletes the row**, so the old cookie stops working at once, even if someone copied it.
+- A session ends **7 days** after sign-in however much it is used, or after **24 hours** without a request. Both are constants in `backend/app/sessions.py`.
+- Deleting a user deletes their sessions (database cascade), and a session whose user is missing is refused.
+- Expired rows are deleted at the next sign-in by anyone; no scheduled job is needed.
+- Nothing about sessions is logged: no session ID, cookie, email or user ID.
+- **Changing `SESSION_SECRET` signs everyone out**, as before. Deleting all rows (`DELETE FROM sessions`) also signs everyone out, without changing the secret.
