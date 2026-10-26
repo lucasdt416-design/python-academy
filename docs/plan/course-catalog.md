@@ -460,8 +460,9 @@ Decided by the maintainer on 2026-10-24. Each decision stays in effect until del
 | 22 | Learners who already completed unit 1 (2026-10-25) | They keep unit 1 as complete. The unit 1 check is optional for them and earns the badge | Require everyone to pass the new check | No learner loses progress when checks ship (section 12.6) |
 | 19 | Do parents see feedback? (2026-10-25) | No. Parents never see the feedback button or any feedback; this follows from decision 23 | Parents see their learner's feedback | Parents get no feedback view; feedback stays readable only by the admin (section 11.1) |
 | 23 | Who can be a tester, and who sees the feedback button? (2026-10-25) | Testers are students only. The admin account also sees the button. Parents never do | Parents or any account as testers | The tester flag is only offered on student accounts; parents never see the button (section 11.1) |
+| 14 | How is the admin identified? (2026-10-26) | Only by `ADMIN_EMAILS`, a comma-separated list of Google emails in the API service's environment, read on the server and never stored in the repository, logs or responses. A session is an admin session only if Google says the email is verified and it is in the list at sign-in; every request re-checks the list. Admin sessions last 8 hours, or 1 hour unused. A tester flag on student accounts only, set only by an admin; an admin also counts as a tester | A role in the database; an admin page that grants admin | No endpoint can grant admin; removing an email ends access at once; built in FB-01 (handoff 12) |
 
-Decisions 14, 15, 17 and 20 are open and tracked in `docs/plan/backlog.md` section 6, which uses the same numbering.
+Decisions 15, 17 and 20 are open and tracked in `docs/plan/backlog.md` section 6, which uses the same numbering.
 
 ## 10. Session record
 

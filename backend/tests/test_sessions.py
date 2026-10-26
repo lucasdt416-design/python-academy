@@ -286,11 +286,21 @@ def send(method, path, body):
     return client.request(method, path, json=body, headers=HEADERS)
 
 
+# Admin routes: tests/test_admin.py proves each one gives 401 signed out and 403 to non-admins.
+ADMIN = {('GET', '/api/admin/students'), ('POST', '/api/admin/testers')}
+
+
 def test_every_route_is_listed_as_public_or_authenticated():
     # A new route fails here until it is added to one list. Adding it to AUTHENTICATED makes the
     # next test prove it refuses requests without a live session.
     routes = {(m, r.path) for r in app.routes if isinstance(r, APIRoute) for m in r.methods - {'HEAD'}}
-    assert routes == PUBLIC | AUTHENTICATED.keys()
+    assert routes == PUBLIC | AUTHENTICATED.keys() | ADMIN
+
+
+def test_no_route_is_hidden_from_these_checks():
+    # FastAPI keeps an included APIRouter as one opaque entry in app.routes, which the route
+    # lists above (and the rate-limit check) would silently skip. Register routes on the app.
+    assert all(type(r).__name__ in ('APIRoute', 'Route') for r in app.routes)
 
 
 @pytest.mark.parametrize('route', sorted(AUTHENTICATED), ids=lambda r: f'{r[0]} {r[1]}')

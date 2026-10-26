@@ -2,7 +2,7 @@
 import os
 from datetime import date, datetime, timezone
 
-from sqlalchemy import BigInteger, Date, ForeignKey, Integer, String, Text, UniqueConstraint, create_engine
+from sqlalchemy import BigInteger, Date, ForeignKey, Integer, String, Text, UniqueConstraint, create_engine, false
 from sqlalchemy.dialects.postgresql import insert as postgresql_insert
 from sqlalchemy.dialects.sqlite import insert as sqlite_insert
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
@@ -36,6 +36,8 @@ class User(Base):
     role: Mapped[str] = mapped_column(String(20), default='pending')
     birthday: Mapped[date | None] = mapped_column(Date, nullable=True)
     parent_id: Mapped[int | None] = mapped_column(ForeignKey('users.id'), nullable=True)
+    # Testers see tester features (backlog FB-01). Only an admin sets it, and only on students.
+    tester: Mapped[bool] = mapped_column(default=False, server_default=false())
 
 
 class Invitation(Base):
@@ -132,3 +134,5 @@ class UserSession(Base):
     created: Mapped[int] = mapped_column(BigInteger)
     last_seen: Mapped[int] = mapped_column(BigInteger)
     expires: Mapped[int] = mapped_column(BigInteger)
+    # Started by a verified Google email that was in ADMIN_EMAILS at sign-in; shorter lifetimes apply.
+    admin: Mapped[bool] = mapped_column(default=False, server_default=false())

@@ -26,7 +26,7 @@ Two further risks to anonymity are covered in section 8 (logs and timing, and th
 
 **Controls**
 
-- Admin is decided only from a server setting (for example `ADMIN_EMAILS` in Render's environment), never from source code, the database, or anything the browser sends. Decision 14 (how exactly the admin is identified) is still open; until it is answered, the proposal is: the signed-in user's verified Google email must be in that list.
+- Admin is decided only from a server setting (for example `ADMIN_EMAILS` in Render's environment), never from source code, the database, or anything the browser sends. Decision 14 was answered on 2026-10-26 and built in FB-01 (handoff 12): the verified Google email must be in `ADMIN_EMAILS` when the session starts, and the list is re-checked on every request. Admin sessions last 8 hours, or 1 hour unused.
 - Admin status is re-checked on **every** admin request from the session's user on the server. There is no "is admin" value in the cookie.
 - All admin endpoints live under one path (for example `/api/admin/…`) behind one guard. A test enumerates every registered route under that path and checks that a student, a parent, a tester, and a signed-out visitor each get 401 or 403. A new route that forgets the guard fails CI.
 - No endpoint can grant admin. The only privileged write available to the admin is the tester flag.

@@ -70,3 +70,19 @@ No Render settings are needed. Since stage 7 (backlog SEC-03, handoff 07):
 - Expired rows are deleted at the next sign-in by anyone; no scheduled job is needed.
 - Nothing about sessions is logged: no session ID, cookie, email or user ID.
 - **Changing `SESSION_SECRET` signs everyone out**, as before. Deleting all rows (`DELETE FROM sessions`) also signs everyone out, without changing the secret.
+
+## Admins and testers
+
+Backlog FB-01, handoff 12. One API setting, set **by hand** in Render:
+
+- **`ADMIN_EMAILS`** on **python-academy-api**: a comma-separated list of the Google emails that are admins, for example `owner@example.com`. Spaces and capital letters do not matter. Empty or missing means nobody is an admin.
+  - It is listed in `render.yaml` with `sync: false`, so the Blueprint never sets or overwrites it.
+  - **Never commit the real value**, and never paste it into a chat or a handoff.
+  - Saving it redeploys the API.
+- **Who counts as an admin:** someone signing in with Google whose email Google reports as **verified** and that is in the list **at sign-in**.
+  - Every admin request re-checks the list, so removing an email ends that person's admin access on their next request.
+  - Adding an email takes effect at their next sign-in.
+- **Admin sessions** last **8 hours**, or **1 hour** without a request. Learner sessions are unchanged: 7 days, or 24 hours unused.
+- **Testers:** a flag on student accounts only. Only an admin can set or clear it, with `POST /api/admin/testers`; `GET /api/admin/students` lists students. An admin also counts as a tester. Each change is recorded in the admin's own account history by user ID, never by email.
+- Every `/api/admin/…` route answers **401** when signed out and **403** to anyone who is not an admin.
+- Migration **0007** adds the `tester` and session `admin` columns, both false by default. After the deploy the API log says `Database schema is at migration 0007`.
