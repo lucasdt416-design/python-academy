@@ -1,6 +1,6 @@
 # Handoffs
 
-One handoff per completed step, for the maintainer and for a chat assistant (ChatGPT or Claude chat) that has no repository access. Each follows the handoff template in `build.md` section 14. Upload the PDF together with `build.md` at the start of a chat session.
+One handoff per completed step, for the maintainer and for a chat assistant (ChatGPT or Claude chat) that has no repository access. Each follows the handoff template in `build.md` section 14. Since handoff 14, every handoff has the sections "Decisions and why", "Bugs found and how they were fixed" and "How it was tested". What they mean is explained under the template. Their content is also copied into `docs/plan/decision-log.md`. Upload the PDF together with `build.md` at the start of a chat session.
 
 File names: `YYYY-MM-DD-NN-<short-step-name>.md`, with a matching `.pdf` beside it.
 

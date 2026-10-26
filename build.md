@@ -68,6 +68,7 @@ Important source locations:
 | `docs/plan/backlog.md` | Ordered backlog: source of truth for the order of work |
 | `docs/plan/course-catalog.md`, `docs/plan/feedback-security.md` | Catalog, goals, recommendations and feature plans; feedback threat model |
 | `docs/plan/teaching-design.md`, `docs/plan/lesson-feedback.md`, `docs/plan/ai-helper.md` | How we teach and per-course methods; the lesson feedback engine specification; the deferred AI helper design note (all proposed) |
+| `docs/plan/decision-log.md`, `docs/plan/engineering-book-outline.md` | How the platform was built, stage by stage (decisions, bugs, testing), and the proposed book and course built from it |
 | `docs/handoffs/` | One handoff per completed step, for reviewers without repository access |
 
 ## 3. What success means
@@ -436,10 +437,35 @@ Tests run, exact commands, result, and commit:
 Mocks / unverified behavior:
 Screenshots or demo evidence:
 Data migration / compatibility implications:
+Decisions and why:
+  - Decision: what was chosen
+    Options considered: the alternatives, including "do nothing"
+    Reason: why this one; "reasoning not recorded" if nobody wrote it down
+    Who decided: owner / implementer / reviewer, and when
+Bugs found and how they were fixed:
+  - What went wrong, or nearly went wrong
+    How it was found: unit test / browser test / live check / review / while building
+    Fix and commit, and the test that now guards it
+How it was tested:
+  - Each kind of test used, and what it proves (and does not prove)
+  - What was mocked, and why
+  - Deliberate-break controls: what was broken on purpose, and which tests failed
 Known limitations or open decisions:
 Next concrete action:
 Deployment status: not requested / pending / verified at commit ...
 ```
+
+Every handoff includes the three middle sections, even when one is short ("No bugs found."). They feed the decision log (`docs/plan/decision-log.md`), which records how the platform was built, for a later book and course (`docs/plan/engineering-book-outline.md`). Write them for a first-year student:
+
+- **Decisions and why.** A decision is any choice where a reasonable person could have done something else, such as where to store data, what a limit should be, or which page to build first. List the options that were really considered, not ones invented afterwards. If the reason was never written down, say "reasoning not recorded" rather than guessing.
+- **Bugs found and how they were fixed.** A bug is the program doing something other than what was intended. Include **near-misses**: problems caught before they reached anyone, for example by a test, a review or a live check. These are often the most useful lessons. Say how each was found, because "a test caught it" and "a user hit it" teach different things.
+- **How it was tested.** Name each kind of test and what it proves:
+  - A **unit test** checks one function on its own.
+  - An **API test** sends real requests to the backend.
+  - A **browser test** (Playwright) drives a real browser.
+  - A **live check** is done by a person on the deployed site.
+  - A **mock** is a stand-in for something real, such as a fake server answer. It makes tests fast and repeatable, but it proves nothing about the real thing, so list every mock.
+  - A **deliberate-break control** means breaking the code on purpose and confirming the tests fail. It shows that the tests can actually catch that mistake. Then the code is put back.
 
 ### Starter prompt for either assistant
 
