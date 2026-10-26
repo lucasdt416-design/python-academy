@@ -115,6 +115,7 @@ Every course appears in the catalog. A course without released content is labell
 | `node` | Node.js and APIs | 7 | proposed |
 | `fullstack` | Full-Stack Builder (capstone) | 7 and 8 | proposed |
 | `ce` | Engineering Depth electives: C and memory, discrete foundations, numerical methods, embedded simulation | 9 | proposed, later |
+| `ai` | Working with AI | Not a `build.md` stage; expands the "Working with AI" tutorial of section 8 (`teaching-design.md` section 6.6) | proposed (backlog TOOL-03, 2026-10-26) |
 
 ### 3.4 Prerequisite map (proposed)
 
@@ -472,6 +473,7 @@ Decisions 14, 15, 17 and 20 are open and tracked in `docs/plan/backlog.md` secti
 - 2026-10-25: owner answers recorded as decisions 16, 22 and 23, with clarifications to 18 and 21 (sections 6, 9, 11 and 12).
 - 2026-10-25 (stage 6): decision 19 closed by the owner: parents never see feedback, following decision 23.
 - 2026-10-25 (stage 7): the owner's live checks for stage 4 (goal card, Change goal then Cancel, migration 0005) and stage 6 (rate limits and headers) passed and are recorded in `docs/plan/backlog.md`. Stage 7 (SEC-03, server-side sessions) is in review. No change to this plan's content.
+- 2026-10-26 (stage 9): documentation only. Proposed `ai` course added to section 3.3; teaching methods per course in `teaching-design.md`; the feedback engine in `lesson-feedback.md`; the deferred AI helper in `ai-helper.md`. Found that the unit 1 `hello` check's success message claims more than it checks (`lesson-feedback.md` appendix A; backlog ASSESS-07).
 
 ## 11. Proposed feature: testers, feedback button, admin inbox
 
