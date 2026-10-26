@@ -67,6 +67,7 @@ Important source locations:
 | `render.yaml`, `DEPLOYMENT.md`, `README.md` | Service definition, deployment notes, setup |
 | `docs/plan/backlog.md` | Ordered backlog: source of truth for the order of work |
 | `docs/plan/course-catalog.md`, `docs/plan/feedback-security.md` | Catalog, goals, recommendations and feature plans; feedback threat model |
+| `docs/plan/teaching-design.md`, `docs/plan/lesson-feedback.md`, `docs/plan/ai-helper.md` | How we teach and per-course methods; the lesson feedback engine specification; the deferred AI helper design note (all proposed) |
 | `docs/handoffs/` | One handoff per completed step, for reviewers without repository access |
 
 ## 3. What success means

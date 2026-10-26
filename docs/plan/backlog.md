@@ -28,7 +28,7 @@ Decision numbers continue the sequence in `docs/plan/course-catalog.md` section 
 3. **SEC-03** (server-side sessions): in review (stage 7). Then **SEC-09** (CSP nonces). Both come before the admin inbox.
 4. **FB-01 to FB-07**: admin, testers, feedback button, admin inbox (security plan: `docs/plan/feedback-security.md`).
 5. **PILOT-01**: invite the first learner and collect feedback through the new button.
-6. **ENG-03**: browser behaviour checks, then **EDU-04** (Python unit 2) with its first **unit check**.
+6. **ENG-04** (lesson feedback engine) and **ASSESS-07** (honest unit 1 "Open the story" check), then **ENG-03** (browser behaviour checks), then **EDU-04** (Python unit 2) with its first **unit check**. PLAN-03 (review of `teaching-design.md`) can run alongside and should finish before unit 2 content is written.
 7. **OPS-05**: cost review (the owner has set a reminder for 2026-11-08).
 
 ## 3. Feature spec: testers, feedback, admin inbox
@@ -74,6 +74,7 @@ Recorded in the plan as section 12 of `docs/plan/course-catalog.md`.
 | PLAN-02 | Now | Give the continuing maintainer appropriate repo access | Owner | verified: maintainer account has push access (GitHub API check, 2026-10-24) |
 | ENG-01 | Next | Typed content and result-state contracts | None | verified (PR #5, live check 2026-10-25) |
 | ENG-02 | Next | Versioned evidence/progress and schema migrations | ENG-01 | in_progress: migrations and award ledgers verified (PR #7); versioned skill evidence, progress records and retention not yet done |
+| PLAN-03 | Next | Review the teaching design (`docs/plan/teaching-design.md`): owner reads it, a second assistant checks it against `build.md` sections 3, 4 and 12, decisions recorded; pilot one new task type in unit 2 before adding the rest | None | proposed (stage 9, handoff 09) |
 
 ### Safety and operations
 
@@ -113,6 +114,8 @@ Recorded in the plan as section 12 of `docs/plan/course-catalog.md`.
 
 | ID | Priority | Item | Depends on | Status |
 | --- | --- | --- | --- | --- |
+| ENG-04 | Next | Lesson feedback engine (`docs/plan/lesson-feedback.md`): friendly translations of common Python errors, the offending line highlighted in the editor, check-specific messages that only claim what was checked, progressive hints beside the error, predict-first tasks; tests that no hint, example or message adds up to a full solution. Before unit 2 | None | proposed |
+| ASSESS-07 | Next | Make the unit 1 "Open the story" (`hello`) check honest: the success message says only what was checked; the two lines must differ, contain letters and not copy the worked example or a hint; reword the prompt; replace hint 3 with a partial pattern; also fix the `input` and `variables` hints that combine into a passing answer (`lesson-feedback.md` appendix A and section 8). New task version; learners who passed keep it; no XP change. Before unit 2 | ENG-01 | proposed |
 | ENG-03 | Next | Browser behaviour-check contract: the Pyodide worker runs learner code against test cases from the content file, with limits and result states including `execution_error` | None | proposed |
 | ASSESS-01 | Next | Decide the remaining unit-check rule (the pass rule, decision 15) and record it in the plan | None | proposed |
 | ASSESS-02 | Next | Content schema: `unit_check` task type, level variants (high school, university) and validation | ENG-03 | proposed |
@@ -120,6 +123,7 @@ Recorded in the plan as section 12 of `docs/plan/course-catalog.md`.
 | ASSESS-03 | Next | Unit check interface (cards, retake with new variants, "Unable to assess" handling) | ASSESS-02 | proposed |
 | ASSESS-04 | Next | Unit check for unit 1 using the existing bounded checker; optional for learners who already completed unit 1, and earns the badge (decision 22) | ASSESS-02 | proposed |
 | ASSESS-05 | Next | Award the unit's skill badge (no XP) from the check through the existing ledgers; the unit project keeps its 200 XP (decision 16) | ASSESS-03 | proposed |
+| ENG-05 | Later | Optional AI helper, "Explain my error" (`docs/plan/ai-helper.md`): server-side key only, off by default, per-user and global daily caps, a hard provider spending limit, never grades or writes solutions. Design note only; not to be built until the owner decides section 9 of that note (cost, provider terms for 13 to 17 year olds, consent) | ENG-04, owner decisions | deferred |
 | EDU-01 | Next | Write placement question and task examples for the current four skills (Issue #4) | None | proposed |
 | EDU-02 | After design | Pilot placement (the optional skills check) on one skill before all four | EDU-01, ENG-03 | proposed |
 
@@ -127,7 +131,7 @@ Recorded in the plan as section 12 of `docs/plan/course-catalog.md`.
 
 | ID | Priority | Item | Depends on | Status |
 | --- | --- | --- | --- | --- |
-| EDU-04 | Next | Python unit 2, Numbers and decisions, with its unit check | ENG-03, ASSESS-02 | proposed |
+| EDU-04 | Next | Python unit 2, Numbers and decisions, with its unit check | ENG-03, ASSESS-02, ENG-04, ASSESS-07 | proposed |
 | EDU-03 | After checker design | Python unit 3, Repeat and explore (loops that always end), with a project extension | EDU-04 | proposed |
 | EDU-05 | — | Not used: this ID was briefly unit 3, which is EDU-03 in `build.md` | — | deferred |
 | EDU-06 | Next | Unit 4, Keep track of a world (lists, dicts, sets) | EDU-03 | proposed |
@@ -136,6 +140,8 @@ Recorded in the plan as section 12 of `docs/plan/course-catalog.md`.
 | EDU-09 | Later | Hackathon Ready course (7 units) | Python units 1 to 7 | proposed |
 | TOOL-01 | Alongside projects | Draft "Git versus GitHub" and "first commit" lessons with a safe practice repo | Python unit 1 | proposed |
 | TOOL-02 | Later | The full Git and GitHub Essentials course, including a real first pull request | TOOL-01 | proposed |
+| TOOL-03 | Later | "Working with AI" course (`ai`): verifying AI answers, asking well, setting up Claude and Claude Code in a practice repository, AI with GitHub, connecting tools safely, handoffs (`teaching-design.md` section 6.6). Before writing the setup units: check each provider's minimum age and cost, and keep a no-cost path | TOOL-01, PLAN-03 | proposed |
+| EDU-10 | Later | Video scripts for lessons: short (under about 6 minutes), one idea each, pause-and-predict moments, captions and transcripts, lessons still work without them (`teaching-design.md` section 7). Scripts only; recording and hosting are separate decisions | PLAN-03 | proposed |
 | WEB-01 | Later | Design the website project track and isolated previews | Earlier courses | proposed |
 | DATA-01 | Later | Design the SQL runtime and first investigation project | Earlier courses | proposed |
 | NODE-01 | Later | Plan the Node.js/SQL capstone | WEB-01, DATA-01 | proposed |
