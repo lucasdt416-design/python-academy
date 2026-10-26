@@ -20,7 +20,9 @@ Decision numbers continue the sequence in `docs/plan/course-catalog.md` section 
 | 5. Backlog and feature plans | This file, feature specs, feedback security | verified (PR #10, documentation only) |
 | 6. SEC-01 and SEC-04 | Rate limits; security headers with the page CSP in Report-Only mode | verified live (PRs #11 and #12; owner's live checks 2026-10-25, handoff 06 section 13.7). SEC-04 stays in_review only until the page CSP is switched to enforce mode |
 | 7. SEC-03 | Server-side sessions: logout ends the session at once | in_review: merged (PR #13); owner's live check (handoff 07 section 10) not yet recorded |
-| 8. SEC-09 | Nonce-based page CSP, in Report-Only mode | in_review (handoff 08) |
+| 8. SEC-09 | Nonce-based page CSP, in Report-Only mode | in_review: merged (PR #14); owner's live check (handoff 08 section 10) not yet recorded |
+| 9. Teaching design and lesson feedback | `teaching-design.md`, `lesson-feedback.md`, `ai-helper.md`, new backlog items | verified (PR #15, documentation only) |
+| 10. ASSESS-07 | Honest unit 1 checks and hints | in_review (handoff 10) |
 
 ## 2. Suggested order
 
@@ -116,7 +118,7 @@ Recorded in the plan as section 12 of `docs/plan/course-catalog.md`.
 | ID | Priority | Item | Depends on | Status |
 | --- | --- | --- | --- | --- |
 | ENG-04 | Next | Lesson feedback engine (`docs/plan/lesson-feedback.md`): friendly translations of common Python errors, the offending line highlighted in the editor, check-specific messages that only claim what was checked, progressive hints beside the error, predict-first tasks; tests that no hint, example or message adds up to a full solution. Before unit 2 | None | proposed |
-| ASSESS-07 | Next | Make the unit 1 "Open the story" (`hello`) check honest: the success message says only what was checked; the two lines must differ, contain letters and not copy the worked example or a hint; reword the prompt; replace hint 3 with a partial pattern; also fix the `input` and `variables` hints that combine into a passing answer (`lesson-feedback.md` appendix A and section 8). New task version; learners who passed keep it; no XP change. Before unit 2 | ENG-01 | proposed |
+| ASSESS-07 | Next | Make the unit 1 "Open the story" (`hello`) check honest: the success message says only what was checked; the two lines must differ, contain letters and not copy the worked example or a hint; reword the prompt; replace hint 3 with a partial pattern; also rewrite the `input` hints, which combined into a passing answer, and the `variables` hints, which spelled out the whole `print` line (`lesson-feedback.md` appendix A and section 8). New task version; learners who passed keep it; no XP change. Before unit 2 | ENG-01 | in_review (stage 10, handoff 10): every unit 1 success message reworded, `hello` check v2, hints rewritten, all hint combinations tested |
 | ENG-03 | Next | Browser behaviour-check contract: the Pyodide worker runs learner code against test cases from the content file, with limits and result states including `execution_error` | None | proposed |
 | ASSESS-01 | Next | Decide the remaining unit-check rule (the pass rule, decision 15) and record it in the plan | None | proposed |
 | ASSESS-02 | Next | Content schema: `unit_check` task type, level variants (high school, university) and validation | ENG-03 | proposed |

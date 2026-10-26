@@ -1,7 +1,7 @@
 # Lesson feedback engine (specification)
 
 Last updated: 2026-10-26 (America/Toronto)  
-Status: **proposed** (backlog ENG-04). Documentation only: nothing here is implemented, and no check, content or XP changes in this pull request.  
+Status: **proposed** (backlog ENG-04). The feedback engine is not implemented. Appendix A and the hint rules of section 8 were built for unit 1 by ASSESS-07 (2026-10-26, handoff 10).  
 Related: [`teaching-design.md`](teaching-design.md) sections 2.5, 2.9 and 2.10; [`build.md`](../../build.md) sections 4 and 12; [`course-catalog.md`](course-catalog.md) section 7.3; [`ai-helper.md`](ai-helper.md); backlog ENG-03, ENG-04 and ASSESS-07.
 
 The feedback engine decides what a learner sees after they run or check code. It has five parts:
@@ -25,8 +25,8 @@ Read from `frontend/app/adventure.tsx`, `frontend/public/python-worker.js` and `
 - **Hints:** three per challenge, revealed one at a time with "Show next hint". They are not linked to the error shown.
 - **Prediction:** only card 3, as a multiple-choice question.
 - **Known problems:**
-  - Hint 3 of `hello`, and hints 1 and 2 of `input` together, are complete passing answers (section 8).
-  - The `hello` success message claims something the check does not test (appendix A).
+  - Hint 3 of `hello`, and hints 1 and 2 of `input` together, were complete passing answers (section 8). Fixed by ASSESS-07.
+  - The `hello` success message claimed something the check did not test (appendix A). Fixed by ASSESS-07.
 
 ## 2. Goals and non-goals
 
@@ -129,10 +129,11 @@ Applies to the bounded checker now and to browser behaviour checks later (ENG-03
 
 Rules for content authors and for every feedback source (translations, check messages, hints, examples and, later, the AI helper):
 
-1. **No hint, message or example may pass the card's check, on its own or combined with the other hints on that card.** Today three challenges break this rule. All three combinations below were run through the checker and passed:
+1. **No hint, message or example may pass the card's check, on its own or combined with the other hints on that card.** Before ASSESS-07, two challenges broke this rule. Both combinations below were run through the checker and passed:
    - `hello` hint 3 (`print("You land on Mars.")` then `print("A robot offers you tea.")`)
    - `input` hints 1 and 2 (`player = input("Name? ")`, then `print("Welcome, " + player)`)
-   - `variables` hints 1 and 3 (values for `hero` and `tool`, then `print(hero + " carries a " + tool)`)
+
+   *Correction (2026-10-26, handoff 10):* this list also named `variables` hints 1 and 3. Those only passed once the learner typed their own values for `hero` and `tool`; the starter leaves them empty. They still spelled out the whole `print` line, so ASSESS-07 rewrote them in another context. `backend/tests/test_honest_checks.py` now runs every hint combination through the real checker.
 2. **Worked examples use a different context from the challenge**, and a challenge called "Make it your own" rejects the example copied unchanged, with a kind message (appendix A).
 3. **Code in feedback is a pattern of one line at most**, not the learner's own line corrected and not a whole program. Feedback describes what to change; it does not rewrite the learner's code.
 4. **No "show solution" control before passing.** Reference solutions appear only after passing, as "other ways".
@@ -216,7 +217,7 @@ The same `hi`/`woah` code does **not** pass the other four unit 1 challenges. Th
 - The success message claims qualities that were never tested, which breaks `build.md` sections 3 and 12 ("does not claim to judge untested qualities").
 - Hint 3 is a complete passing answer, which breaks section 8, rule 1.
 
-**Proposal** (backlog ASSESS-07; no change in this pull request):
+**Proposal** (backlog ASSESS-07). **Built on 2026-10-26 as written (handoff 10)**, with no word minimum (decision 5). Hint 3 as published before is also refused by name, because learners saw it as an answer.
 
 1. **Reword the success message** (required). It should say only what was checked, plus a self-check: "Python printed your two messages in order. Read them back: does the first set the scene and the second surprise you? That part is your call."
 2. **Add three cheap checks that match the wording** (recommended):

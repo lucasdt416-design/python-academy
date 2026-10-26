@@ -18,7 +18,7 @@ LEGACY_LESSON_IDS = {'hello', 'variables', 'input', 'choices', 'adventure'}
 # /api/lessons serves this unit in its original shape until the UI moves to the catalog.
 LEGACY_UNIT = 'py.u01'
 # Validator IDs and versions the platform can run for challenge tasks.
-VALIDATORS = {'bounded-story': {1}}
+VALIDATORS = {'bounded-story': {2}}
 # The current lesson page shows exactly these cards, in this order.
 CARD_SEQUENCE = ['discover', 'example', 'predict', 'guided', 'challenge']
 Status = Literal['released', 'coming_soon']
