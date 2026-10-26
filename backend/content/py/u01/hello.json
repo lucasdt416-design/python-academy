@@ -1,6 +1,6 @@
 {
   "id": "hello",
-  "version": 1,
+  "version": 2,
   "course": "py",
   "unit": "py.u01",
   "title": "Open the story",
@@ -47,18 +47,19 @@
     {
       "id": "hello.challenge",
       "type": "challenge",
-      "prompt": "Write two print statements: describe a location, then introduce a surprise. Choose any two nonempty story messages, each on its own line.",
+      "prompt": "Write two print statements with two different story messages: first a place, then a surprise. The check makes sure you print two different messages that use words; whether they make a good scene is up to you.",
       "starter": "# Describe a location with print()\n# On the next line, print an unexpected event\n",
       "hints": [
         "Start with lowercase print, followed by parentheses.",
         "Put one message in matching quotes inside each print call.",
-        "Example: print(\"You land on Mars.\")\nprint(\"A robot offers you tea.\")"
+        "A pattern to complete: print(\"You wake up in ___.\") Then add a second print() with something unexpected."
       ],
       "input_labels": [],
       "validator": {
         "id": "bounded-story",
-        "version": 1
-      }
+        "version": 2
+      },
+      "version": 2
     }
   ]
 }

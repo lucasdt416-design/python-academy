@@ -1,6 +1,6 @@
 {
   "id": "variables",
-  "version": 1,
+  "version": 2,
   "course": "py",
   "unit": "py.u01",
   "title": "Create your hero",
@@ -51,14 +51,15 @@
       "starter": "hero = \"\"\ntool = \"\"\n# Print hero and tool, using the variables\n",
       "hints": [
         "Give hero and tool your own quoted text values.",
-        "Use print(hero) and print(tool), without quotes around the variable names.",
-        "You can also combine values: print(hero + \" carries a \" + tool)"
+        "To show a stored value, put the variable name inside print() with no quotes around it, like print(pet) for a variable called pet.",
+        "You can join values into one sentence with +, like print(pet + \" sleeps on the \" + bed). Try the same with your own variables."
       ],
       "input_labels": [],
       "validator": {
         "id": "bounded-story",
-        "version": 1
-      }
+        "version": 2
+      },
+      "version": 2
     }
   ]
 }

@@ -116,8 +116,8 @@ def test_reply_labels_must_match_example_replies(tree):
 
 
 def test_unknown_validator_is_rejected(tree):
-    edit(tree / 'py/u01/hello.json', lambda d: d['tasks'][4]['validator'].update(version=2))
-    assert_invalid(tree, 'hello.challenge uses unknown validator bounded-story v2')
+    edit(tree / 'py/u01/hello.json', lambda d: d['tasks'][4]['validator'].update(version=3))
+    assert_invalid(tree, 'hello.challenge uses unknown validator bounded-story v3')
 
 
 def test_coming_soon_unit_cannot_list_lessons(tree):

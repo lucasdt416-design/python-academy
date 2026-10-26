@@ -1,6 +1,6 @@
 {
   "id": "input",
-  "version": 1,
+  "version": 2,
   "course": "py",
   "unit": "py.u01",
   "title": "Meet the player",
@@ -52,17 +52,18 @@
       "prompt": "Ask for the player’s name with input(), store the reply, and print a greeting that includes that reply. It should work for different names without editing the code.",
       "starter": "player = input(\"What is your name? \")\n# Print a welcome that uses player\n",
       "hints": [
-        "Store the returned text: player = input(\"Name? \").",
-        "Join your message to player: print(\"Welcome, \" + player).",
-        "Another valid option is an f-string: print(f\"Ready for adventure, {player}?\")"
+        "input() gives back whatever the player typed. The starter keeps it in the variable player.",
+        "Join text and a variable with +: print(\"Good morning, \" + friend) greets whatever is stored in friend. Which variable holds your player’s reply?",
+        "Another way is an f-string: put a variable name in braces inside the text, like f\"See you soon, {friend}\". Remember the f before the opening quote."
       ],
       "input_labels": [
         "Player name"
       ],
       "validator": {
         "id": "bounded-story",
-        "version": 1
-      }
+        "version": 2
+      },
+      "version": 2
     }
   ]
 }

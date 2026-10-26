@@ -187,6 +187,15 @@ def test_opening_accepts_creativity_and_explains_mistakes(code, output, passed):
     assert feedback
 
 
+# "Open the story" refuses its own worked example copied unchanged (ASSESS-07), so tests that need
+# a passing hello answer use this one. The other lessons' worked examples still pass their checks.
+HELLO = {'code': 'print("A forest.")\nprint("A dragon!")', 'output': 'A forest.\nA dragon!\n'}
+
+def answer(lesson):
+    if lesson['id'] == 'hello':
+        return dict(HELLO, inputs=[])
+    return {'code': lesson['example'], 'output': lesson['exampleOutput'] + '\n', 'inputs': list(lesson['exampleInputs'])}
+
 @pytest.mark.parametrize('lesson', LESSONS, ids=lambda lesson: lesson['id'])
 def test_authored_examples_execute_and_pass_checks(lesson):
     import contextlib, io
@@ -196,7 +205,9 @@ def test_authored_examples_execute_and_pass_checks(lesson):
     with contextlib.redirect_stdout(stream):
         exec(lesson['example'], {'input': lambda prompt='': next(replies)})
     assert stream.getvalue().rstrip() == lesson['exampleOutput']
-    assert check_story(lesson['id'], lesson['example'], stream.getvalue(), lesson['exampleInputs'])[0]
+    passed, feedback = check_story(lesson['id'], lesson['example'], stream.getvalue(), lesson['exampleInputs'])
+    # Copying the worked example is not "making it your own" in the first lesson.
+    assert passed is (lesson['id'] != 'hello'), feedback
 
 @pytest.mark.parametrize('lesson_id,code,inputs,output,passed', [
     ('variables', 'hero="Kai"\ntool="rope"\nprint(f"{hero} carries {tool}")', [], 'Kai carries rope\n', True),
@@ -218,7 +229,7 @@ def test_checks_validate_behavior_and_accept_alternatives(lesson_id,code,inputs,
 
 def test_public_preview_checks_do_not_create_history():
     lesson = LESSONS[0]
-    response = post('check', {'lesson_id':lesson['id'],'code':lesson['example'],'output':lesson['exampleOutput']+'\n'})
+    response = post('check', dict(answer(lesson), lesson_id=lesson['id']))
     assert response.json()['passed']
     with Session(engine) as db:
         assert list(db.scalars(select(Attempt))) == []
@@ -228,7 +239,7 @@ def test_public_preview_checks_do_not_create_history():
 def test_student_progress_is_persisted_and_isolated():
     signin('student','one@example.com')
     lesson=LESSONS[0]
-    payload={'lesson_id':'hello','code':lesson['example'],'output':lesson['exampleOutput']+'\n'}
+    payload=dict(answer(lesson), lesson_id='hello')
     assert post('attempts',payload).json()['passed']
     assert post('attempts',payload).json()['passed']
     assert client.get('/api/progress').json() == ['hello']
@@ -242,7 +253,7 @@ def test_lessons_api_is_unchanged_by_the_content_format():
 
 def test_checks_report_result_states_alongside_passed():
     lesson = LESSONS[0]
-    passed = post('check', {'lesson_id':'hello','code':lesson['example'],'output':lesson['exampleOutput']+'\n'}).json()
+    passed = post('check', dict(answer(lesson), lesson_id='hello')).json()
     assert passed['passed'] is True and passed['result'] == 'passed'
     unsupported = post('check', {'lesson_id':'hello','code':'import os\nprint("A")','output':'A\n'}).json()
     assert unsupported['passed'] is False and unsupported['result'] == 'unsupported'
@@ -265,7 +276,7 @@ def test_passing_challenge_awards_xp_and_badge_once_and_stores_results():
         attempts = list(db.scalars(select(Attempt).order_by(Attempt.id)))
         assert [a.result for a in attempts] == ['passed', 'passed', 'passed', 'needs_work', 'unsupported']
         awards = list(db.scalars(select(XpAward)))
-        assert [(a.task_id, a.task_version, a.xp, a.source, a.attempt_id) for a in awards] == [('hello.challenge', 1, 100, 'practice', attempts[0].id)]
+        assert [(a.task_id, a.task_version, a.xp, a.source, a.attempt_id) for a in awards] == [('hello.challenge', 2, 100, 'practice', attempts[0].id)]
         assert total_xp(db, uid) == 100
         assert badges(db, uid) == {'py.badge.story-spark'}
     assert client.get('/api/progress').json() == ['hello']
@@ -276,14 +287,18 @@ def test_new_task_or_badge_version_does_not_award_again():
     from app.main import CONTENT
     uid = signin('student')
     lesson = CONTENT['hello']
-    revised = lesson.model_copy(update={
-        'tasks': [t.model_copy(update={'version': 2}) if t.type == 'challenge' else t for t in lesson.tasks],
-        'badge': lesson.badge.model_copy(update={'version': 2}),
+    # As production holds it: awarded under challenge v1, before ASSESS-07 made it v2.
+    original = lesson.model_copy(update={
+        'tasks': [t.model_copy(update={'version': 1}) if t.type == 'challenge' else t for t in lesson.tasks],
+        'badge': lesson.badge.model_copy(update={'version': 1}),
     })
+    revised = lesson.model_copy(update={'badge': lesson.badge.model_copy(update={'version': 2})})
+    assert lesson.task('challenge').version == 2
     with Session(engine) as db:
         attempt = Attempt(user_id=uid, lesson_id='hello', code='', output='', passed=True, result='passed')
         db.add(attempt)
         db.flush()
+        award_challenge(db, uid, original, attempt.id)
         award_challenge(db, uid, lesson, attempt.id)
         award_challenge(db, uid, revised, attempt.id)
         db.commit()
@@ -292,8 +307,7 @@ def test_new_task_or_badge_version_does_not_award_again():
 
 def pass_lesson(lesson_id):
     lesson = next(l for l in LESSONS if l['id'] == lesson_id)
-    replies = list(lesson['exampleInputs'])
-    response = post('attempts', {'lesson_id': lesson_id, 'code': lesson['example'], 'output': lesson['exampleOutput'] + '\n', 'inputs': replies})
+    response = post('attempts', dict(answer(lesson), lesson_id=lesson_id))
     assert response.json()['result'] == 'passed'
 
 def test_catalog_is_public_and_frozen_for_the_interface():

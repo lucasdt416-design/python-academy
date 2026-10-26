@@ -20,11 +20,11 @@
     "why": "Python runs the first print statement before the second. Swapping the code lines swaps the messages.",
     "guided": "Change the dragon into a different creature. Keep the matching quotes and parentheses, then run your story.",
     "starter": "# Describe a location with print()\n# On the next line, print an unexpected event\n",
-    "challenge": "Write two print statements: describe a location, then introduce a surprise. Choose any two nonempty story messages, each on its own line.",
+    "challenge": "Write two print statements with two different story messages: first a place, then a surprise. The check makes sure you print two different messages that use words; whether they make a good scene is up to you.",
     "hints": [
       "Start with lowercase print, followed by parentheses.",
       "Put one message in matching quotes inside each print call.",
-      "Example: print(\"You land on Mars.\")\nprint(\"A robot offers you tea.\")"
+      "A pattern to complete: print(\"You wake up in ___.\") Then add a second print() with something unexpected."
     ],
     "inputs": [],
     "exampleInputs": [],
@@ -54,8 +54,8 @@
     "challenge": "Store a nonempty hero name in hero and a nonempty tool in tool. Print both values by using the variables. You may add labels or combine them into a sentence.",
     "hints": [
       "Give hero and tool your own quoted text values.",
-      "Use print(hero) and print(tool), without quotes around the variable names.",
-      "You can also combine values: print(hero + \" carries a \" + tool)"
+      "To show a stored value, put the variable name inside print() with no quotes around it, like print(pet) for a variable called pet.",
+      "You can join values into one sentence with +, like print(pet + \" sleeps on the \" + bed). Try the same with your own variables."
     ],
     "inputs": [],
     "exampleInputs": [],
@@ -84,9 +84,9 @@
     "starter": "player = input(\"What is your name? \")\n# Print a welcome that uses player\n",
     "challenge": "Ask for the player\u2019s name with input(), store the reply, and print a greeting that includes that reply. It should work for different names without editing the code.",
     "hints": [
-      "Store the returned text: player = input(\"Name? \").",
-      "Join your message to player: print(\"Welcome, \" + player).",
-      "Another valid option is an f-string: print(f\"Ready for adventure, {player}?\")"
+      "input() gives back whatever the player typed. The starter keeps it in the variable player.",
+      "Join text and a variable with +: print(\"Good morning, \" + friend) greets whatever is stored in friend. Which variable holds your player\u2019s reply?",
+      "Another way is an f-string: put a variable name in braces inside the text, like f\"See you soon, {friend}\". Remember the f before the opening quote."
     ],
     "inputs": [
       "Player name"

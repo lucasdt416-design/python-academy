@@ -1,6 +1,6 @@
 {
   "id": "adventure",
-  "version": 1,
+  "version": 2,
   "course": "py",
   "unit": "py.u01",
   "title": "Launch your adventure",
@@ -63,8 +63,9 @@
       ],
       "validator": {
         "id": "bounded-story",
-        "version": 1
-      }
+        "version": 2
+      },
+      "version": 2
     }
   ]
 }
