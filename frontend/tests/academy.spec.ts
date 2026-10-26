@@ -211,8 +211,8 @@ test('the lesson page runs Python with the security headers on',async({page})=>{
  await mockApi(page,null);const response=await page.goto('/preview?lesson=hello&card=5');const headers=response!.headers();
  expect(headers['strict-transport-security']).toBe('max-age=31536000; includeSubDomains');expect(headers['x-content-type-options']).toBe('nosniff');
  expect(headers['referrer-policy']).toBe('no-referrer');expect(headers['content-security-policy']).toContain("frame-ancestors 'none'");
- // Passes in Report-Only mode now and after the switch to enforce mode (handoff 06 section 4).
- expect(headers['content-security-policy-report-only']??headers['content-security-policy']).toContain("default-src 'self'; script-src 'self' 'unsafe-inline'");
+ // Passes in Report-Only mode now and after the switch to enforce mode (handoff 08 section 5).
+ const policy=noncePolicy(headers);expect(policy).toMatch(/^default-src 'self'; script-src 'self' 'nonce-[A-Za-z0-9+/]{22}==';/);expect(policy).not.toContain('unsafe-inline');
  const worker=await page.request.get('/python-worker.js');expect(worker.headers()['content-security-policy']).toContain('https://cdn.jsdelivr.net');
  await page.getByLabel('Your Python code').fill('print("A forest.")\nprint("A dragon!")');await page.getByRole('button',{name:'Run & check challenge'}).click();
  await expect(page.locator('.execution-output')).toHaveText('A forest.\nA dragon!',{timeout:25000});await expect(page.getByText('Story spark badge earned!',{exact:true})).toBeVisible();
@@ -228,4 +228,45 @@ test('rate-limited checks explain the wait and keep the draft',async({page})=>{
  const code='print("A forest.")\nprint("A dragon!")';await page.goto('/preview?lesson=hello&card=5');await page.getByLabel('Your Python code').fill(code);await page.getByRole('button',{name:'Run & check challenge'}).click();
  await expect(page.locator('.notice[role=alert]')).toHaveText('Too many checks for now. Please wait 42 seconds and try again. Your code is unchanged.',{timeout:25000});
  await expect(page.getByLabel('Your Python code')).toHaveValue(code);await expect(page.getByRole('button',{name:'Run & check challenge'})).toBeEnabled();await expect(page.getByText(/badge earned!/)).toHaveCount(0);
+});
+// SEC-09: inline scripts run only if they carry the nonce made for this response (proxy.ts).
+// The nonce policy is found in either header, so these pass in Report-Only and enforce mode.
+const PAGES=['/','/courses','/courses/py','/learn/hello','/preview?lesson=hello','/no-such-page'];
+function noncePolicy(headers:Record<string,string>){return [headers['content-security-policy-report-only'],headers['content-security-policy']].filter(Boolean).join(',').split(',').map(p=>p.trim()).find(p=>p.includes("'nonce-"))??'';}
+function nonceOf(policy:string){return /'nonce-([^']+)'/.exec(policy)?.[1]??'';}
+test('every page request gets a new nonce, and every script on the page carries it',async({request})=>{
+ const seen=new Set<string>();
+ for(const path of PAGES)for(let i=0;i<2;i++){
+  const response=await request.get(path);const policy=noncePolicy(response.headers());const nonce=nonceOf(policy);
+  expect(nonce).toMatch(/^[A-Za-z0-9+/]{22}==$/);expect(policy).toContain(`script-src 'self' 'nonce-${nonce}';`);expect(policy).not.toContain('unsafe-inline');
+  expect(seen.has(nonce),`${path} reused a nonce`).toBe(false);seen.add(nonce);
+  const scripts=(await response.text()).match(/<script\b[^>]*>/g)??[];expect(scripts.length).toBeGreaterThan(0);
+  for(const script of scripts)expect(script,path).toContain(`nonce="${nonce}"`);
+ }
+ // Pages are rendered per request, so no shared cache may keep one nonce for everyone.
+ expect((await request.get('/courses')).headers()['cache-control']).toContain('no-store');
+});
+test('every page loads with no CSP reports under the nonce policy',async({page})=>{
+ for(const role of [null,'student','parent']){
+  await page.unrouteAll();await mockApi(page,role);
+  for(const path of PAGES){const response=await page.goto(path);expect(nonceOf(noncePolicy(response!.headers()))).not.toBe('');await page.waitForLoadState('networkidle');await expect(page.locator('main')).toBeVisible();}
+ }
+ // The afterEach check fails the test if any page reported a violation.
+});
+test('an injected inline script without the nonce is reported as blocked',async({page})=>{
+ await mockApi(page,null);let enforced=false;
+ // Plays the part of stored XSS: the page HTML arrives with extra inline scripts in it.
+ await page.route('**/preview?lesson=hello',async route=>{
+  const response=await route.fetch();const nonce=nonceOf(noncePolicy(response.headers()));enforced=(response.headers()['content-security-policy']??'').includes("'nonce-");
+  const injected=`<script>window.injected=true</script><script nonce="${btoa('guessed-nonce!!!')}">window.guessed=true</script><script nonce="${nonce}">window.trusted=true</script>`;
+  await route.fulfill({response,body:(await response.text()).replace('</head>',injected+'</head>')});
+ });
+ await page.goto('/preview?lesson=hello');await expect(page.getByRole('article',{name:'Current learning card'})).toHaveCount(1);
+ const found=violations.get(page)!;
+ // One report each for the script with no nonce and the one with a guessed nonce; none for the real nonce.
+ await expect.poll(()=>found.length).toBe(2);expect(found).toEqual(Array(2).fill('script-src-elem blocked inline on /preview'));
+ const ran=await page.evaluate(()=>{const w=window as unknown as Record<string,boolean>;return {injected:!!w.injected,guessed:!!w.guessed,trusted:!!w.trusted};});
+ // Report-Only reports but still runs them; enforce mode blocks them.
+ expect(ran).toEqual({injected:!enforced,guessed:!enforced,trusted:true});
+ found.length=0;// expected reports, checked above
 });

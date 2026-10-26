@@ -1,6 +1,6 @@
 # Python Academy backlog
 
-Last updated: 2026-10-25 (America/Toronto)  
+Last updated: 2026-10-26 (America/Toronto)  
 Status: **proposed**; decisions 11, 12, 13, 16, 18, 19, 21, 22 and 23 answered by the owner on 2026-10-25. Status words follow `build.md` section 18: proposed, ready, in_progress, in_review, verified, blocked, deferred. Priorities: **Now**, **Next**, **Later**, plus the timing words `build.md` section 13 already uses (for example "Before broader use").  
 Related: [`build.md`](../../build.md), [`docs/plan/course-catalog.md`](course-catalog.md), [`docs/plan/feedback-security.md`](feedback-security.md).
 
@@ -19,13 +19,14 @@ Decision numbers continue the sequence in `docs/plan/course-catalog.md` section 
 | 4. Goals and recommendations | Goal card, rule-based recommendation | verified live (PR #9; owner's live check 2026-10-25: goal card, Change goal then Cancel, `migration 0005` in the API logs) |
 | 5. Backlog and feature plans | This file, feature specs, feedback security | verified (PR #10, documentation only) |
 | 6. SEC-01 and SEC-04 | Rate limits; security headers with the page CSP in Report-Only mode | verified live (PRs #11 and #12; owner's live checks 2026-10-25, handoff 06 section 13.7). SEC-04 stays in_review only until the page CSP is switched to enforce mode |
-| 7. SEC-03 | Server-side sessions: logout ends the session at once | in_review (handoff 07) |
+| 7. SEC-03 | Server-side sessions: logout ends the session at once | in_review: merged (PR #13); owner's live check (handoff 07 section 10) not yet recorded |
+| 8. SEC-09 | Nonce-based page CSP, in Report-Only mode | in_review (handoff 08) |
 
 ## 2. Suggested order
 
 1. ~~Record the stage 4 live check.~~ Done 2026-10-25.
 2. **SEC-01 and SEC-04** (rate limits, security headers): live and checked 2026-10-25. Still to do: switch the page CSP to enforce mode after a week of clean consoles (handoff 06 section 4).
-3. **SEC-03** (server-side sessions): in review (stage 7). Then **SEC-09** (CSP nonces). Both come before the admin inbox.
+3. **SEC-03** (server-side sessions): merged (stage 7); record its live check. **SEC-09** (CSP nonces): in review (stage 8); after a week of clean consoles, enforce the nonce policy (handoff 08 section 5), which also completes SEC-04. Both come before the admin inbox.
 4. **FB-01 to FB-07**: admin, testers, feedback button, admin inbox (security plan: `docs/plan/feedback-security.md`).
 5. **PILOT-01**: invite the first learner and collect feedback through the new button.
 6. **ENG-03**: browser behaviour checks, then **EDU-04** (Python unit 2) with its first **unit check**.
@@ -81,13 +82,13 @@ Recorded in the plan as section 12 of `docs/plan/course-catalog.md`.
 | --- | --- | --- | --- | --- |
 | SEC-01 | Now | Rate limits and quotas on write endpoints: `/api/check`, invitations, attempts, enrolment, goal changes and sign-in (done in stage 6; counters in memory, see handoff 06). The first live check found that a made-up `X-Forwarded-For` header chose a new counter; PR #12 trusts only a configured source. Production uses `CLIENT_IP_HEADER=cf-connecting-ip` (now in `render.yaml`); without it all signed-out visitors share one counter. The future feedback endpoint gets its own database counters (`feedback-security.md` section 7) | None | verified: live checks passed 2026-10-25 (spoof tests, `Retry-After`, separate counters for phone and Mac; handoff 06 section 13.7) |
 | SEC-02 | Next | Make the API a private Render service with no public URL; confirm the frontend proxy still works | None | proposed |
-| SEC-03 | Next | Logout revokes the session on the server. Before stage 7 a copied cookie kept working after logout, and for as long as it was used at least once a day. Stage 7: the cookie holds only a random session ID, the `sessions` table (migration 0006) holds the session, logout deletes it; 7-day absolute and 24-hour idle limits. Required before the admin inbox (FB-06) ships, see `feedback-security.md` | Migration | in_review (stage 7, handoff 07) |
+| SEC-03 | Next | Logout revokes the session on the server. Before stage 7 a copied cookie kept working after logout, and for as long as it was used at least once a day. Stage 7: the cookie holds only a random session ID, the `sessions` table (migration 0006) holds the session, logout deletes it; 7-day absolute and 24-hour idle limits. Required before the admin inbox (FB-06) ships, see `feedback-security.md` | Migration | in_review: merged (PR #13), live check not yet recorded (handoff 07) |
 | SEC-04 | Now | Security headers: Content-Security-Policy and HSTS on the main app. Stage 6 adds HSTS, `frame-ancestors 'none'` (enforced) and the page CSP in Report-Only mode; the item is verified once the CSP is switched to enforce mode after a clean live check | None | in_review: headers live and checked 2026-10-25 (handoff 06 section 13.7); enforce mode not yet switched |
 | SEC-05 | Later | Pyodide and CDN integrity: self-host or pin with integrity checks where possible | None | proposed |
 | SEC-06 | Later | Keep invitation tokens out of URLs and request logs | None | proposed |
 | SEC-07 | Next | Branch protection on `main` requiring passing checks (owner action; may need a paid GitHub plan, otherwise merge only on all-green) | Owner | proposed |
 | SEC-08 | Later | Pin CI actions to commit SHAs; routine dependency updates | None | proposed |
-| SEC-09 | Next | Replace `'unsafe-inline'` in the page CSP's `script-src` with per-request nonces (a Next.js proxy file and dynamic rendering), so injected inline script is blocked; proposed as a dependency of the admin inbox (FB-06), owner to confirm | SEC-04 | proposed |
+| SEC-09 | Next | Replace `'unsafe-inline'` in the page CSP's `script-src` with per-request nonces (a Next.js proxy file and dynamic rendering), so injected inline script is blocked. Stage 8: `frontend/proxy.ts` makes a nonce per page request; every page now renders per request; the nonce policy is sent in Report-Only mode next to handoff 06's policy; enforcing it is one line (handoff 08 section 5). Proposed as a dependency of the admin inbox (FB-06), owner to confirm | SEC-04 | in_review (stage 8, handoff 08) |
 | OPS-01 | Before broad rollout | Confirm staging, recovery, privacy, quotas and alerts (umbrella item; OPS-02 to OPS-04 are parts of it) | OPS-02, OPS-03, OPS-04 | proposed |
 | OPS-02 | Next | Part of OPS-01: confirm backups and a restore drill; add staging | None | proposed |
 | OPS-03 | Later | Part of OPS-01: operational alerts | OPS-02 | proposed |

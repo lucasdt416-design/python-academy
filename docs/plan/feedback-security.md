@@ -31,7 +31,7 @@ Two further risks to anonymity are covered in section 8 (logs and timing, and th
 - All admin endpoints live under one path (for example `/api/admin/…`) behind one guard. A test enumerates every registered route under that path and checks that a student, a parent, a tester, and a signed-out visitor each get 401 or 403. A new route that forgets the guard fails CI.
 - No endpoint can grant admin. The only privileged write available to the admin is the tester flag.
 - Server-side session revocation (backlog SEC-03, stage 7, in review): the cookie holds only a random session ID, the session lives in the `sessions` table, and logout deletes it, so a copied cookie stops working at once. Sessions end after 7 days, or 24 hours unused. Admin sessions should be shorter still (for example 8 hours); with SEC-03 that is one value set when the session row is created, added with FB-03.
-- Admin pages get the Content-Security-Policy from SEC-04, which limits where injected script could load from or send data to. It only blocks injected *inline* script once SEC-09 replaces `'unsafe-inline'` with nonces.
+- Admin pages get the Content-Security-Policy from SEC-04, which limits where injected script could load from or send data to. It only blocks injected *inline* script once SEC-09 replaces `'unsafe-inline'` with nonces: built in stage 8 (in review, Report-Only), and effective once enforced.
 - Admin actions (tester flag changes, status changes, deletions) are written to the account history under the admin's own account. That is allowed because it records the admin, not a tester.
 
 **Tests:** route enumeration (above); a tester cannot set the tester flag; changing the email in the browser or request body has no effect; an admin session past its lifetime is refused.
@@ -46,7 +46,7 @@ Two further risks to anonymity are covered in section 8 (logs and timing, and th
 - The only link the inbox shows is the GitHub issue field, which only the admin sets. The server accepts only `https://github.com/torontojohn/python-academy/issues/<number>` or `/pull/<number>`; anything else (including `javascript:`) is rejected. The link opens with `rel="noopener noreferrer"`.
 - On input, the server removes control characters (except new lines and tabs) and Unicode direction-override characters, which can make text display differently from what it says.
 - Server-side length limits: message at most 2,000 characters, optional code at most 20,000, notes at most 2,000.
-- The CSP from SEC-04 is a second layer: it stops scripts loading from other sites and data being sent to them (`connect-src 'self'`). Stage 6 found that Next.js needs `'unsafe-inline'` scripts, so the policy does **not** yet block injected inline script; SEC-09 (nonces) fixes that and is proposed before the inbox ships. API responses are JSON with `X-Content-Type-Options: nosniff` and their own `default-src 'none'` policy.
+- The CSP from SEC-04 is a second layer: it stops scripts loading from other sites and data being sent to them (`connect-src 'self'`). Stage 6 found that Next.js needs `'unsafe-inline'` scripts, so the policy does **not** yet block injected inline script; SEC-09 (nonces, stage 8, in review) fixes that once its policy is enforced, which should happen before the inbox ships. API responses are JSON with `X-Content-Type-Options: nosniff` and their own `default-src 'none'` policy.
 - "Copy digest" copies plain text to the clipboard; it never builds HTML.
 
 **Tests:** messages containing `<script>`, `<img onerror>`, `javascript:` URLs, emoji, right-to-left text and direction overrides are stored safely and shown as literal text; a `javascript:` issue link is rejected.
@@ -143,7 +143,7 @@ Two further risks to anonymity are covered in section 8 (logs and timing, and th
 
 ## 10. Order of work
 
-1. SEC-01 (rate limiting) and SEC-04 (CSP and HSTS): live and checked 2026-10-25 (stage 6); the page CSP still to be switched to enforce mode. SEC-09 (CSP nonces) before the inbox ships.
+1. SEC-01 (rate limiting) and SEC-04 (CSP and HSTS): live and checked 2026-10-25 (stage 6); the page CSP still to be switched to enforce mode. SEC-09 (CSP nonces): in review (stage 8); enforce it before the inbox ships.
 2. SEC-03 (server-side session revocation): in review (stage 7), before the admin inbox ships.
 3. FB-01 (decisions 14 and 17).
 4. FB-02 and FB-03, with the route-enumeration test and the "no user data in feedback rows" test.
