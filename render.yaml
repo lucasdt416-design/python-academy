@@ -18,6 +18,11 @@ services:
         fromDatabase:
           name: python-academy-db
           property: connectionString
+      # Signed-out rate limits count per visitor from this header, which Cloudflare (in front of
+      # Render) sets and will not let a caller send. Without it, all signed-out visitors share one
+      # counter. Checked live on 2026-10-25 (handoff 06 section 13.7).
+      - key: CLIENT_IP_HEADER
+        value: cf-connecting-ip
   - type: web
     name: python-academy
     runtime: node

@@ -44,7 +44,7 @@ sa.Table('attempts', LEGACY,
 HELLO = ('print("A forest.")\nprint("A dragon!")', 'A forest.\nA dragon!\n')
 VARIABLES = ('hero="Kai"\ntool="rope"\nprint(f"{hero} carries {tool}")', 'Kai carries rope\n')
 ARITHMETIC = ('stars=7\nprint(stars*3)', '21\n')  # legacy exercise under the variables ID
-HEAD = '0005'
+HEAD = '0006'
 
 
 @pytest.fixture(params=['sqlite', 'postgresql'])
@@ -198,3 +198,15 @@ def test_award_insert_is_ignored_when_it_would_duplicate(engine):
         assert insert_once(db, XpAward, **values) is False
         db.commit()
         assert db.query(XpAward).count() == 1
+
+
+def test_deleting_a_user_deletes_their_sessions(engine):
+    migrate.upgrade(engine)
+    with engine.connect() as conn:
+        if conn.dialect.name == 'sqlite':
+            conn.exec_driver_sql('PRAGMA foreign_keys=ON')  # SQLite enforces foreign keys only when asked
+        conn.execute(sa.text("INSERT INTO users (id, subject, email, role) VALUES (1, 's', 's@example.com', 'student')"))
+        conn.execute(sa.text("INSERT INTO sessions (id, user_id, created, last_seen, expires) VALUES ('a', 1, 0, 0, 1)"))
+        conn.execute(sa.text('DELETE FROM users WHERE id = 1'))
+        assert conn.execute(sa.text('SELECT count(*) FROM sessions')).scalar() == 0
+        conn.commit()

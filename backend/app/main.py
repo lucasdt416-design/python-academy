@@ -1,4 +1,4 @@
-from . import content, migrate
+from . import content, migrate, sessions
 from . import awards
 from .awards import award_challenge
 from .db import Attempt, Base, Event, Invitation, LearnerGoal, User, engine
@@ -36,7 +36,8 @@ def check_opening(code, output):
 migrate.upgrade(engine)
 logging.getLogger('uvicorn.error').info('Database schema is at migration %s', migrate.current(engine))
 app = FastAPI(title='Python Academy')
-app.add_middleware(SessionMiddleware, secret_key=SECRET or secrets.token_urlsafe(48), same_site='lax', https_only=PRODUCTION, max_age=86400)
+# The cookie holds only a session ID; app/sessions.py decides when the session really ends.
+app.add_middleware(SessionMiddleware, secret_key=SECRET or secrets.token_urlsafe(48), same_site='lax', https_only=PRODUCTION, max_age=sessions.ABSOLUTE)
 oauth = OAuth()
 oauth.register(name='google', client_id=os.getenv('GOOGLE_CLIENT_ID'), client_secret=os.getenv('GOOGLE_CLIENT_SECRET'), server_metadata_url='https://accounts.google.com/.well-known/openid-configuration', client_kwargs={'scope': 'openid email profile'})
 
@@ -59,7 +60,8 @@ def age_on(birthday: date, today: date | None = None) -> int:
     return today.year - birthday.year - ((today.month, today.day) < (birthday.month, birthday.day))
 
 def current(request: Request, db: Session, role: str | None = None):
-    user = db.get(User, request.session.get('uid', -1))
+    uid = sessions.user_id(request)
+    user = db.get(User, uid) if uid is not None else None
     if not user:
         raise HTTPException(401, 'Sign in to continue')
     if role and user.role != role:
@@ -96,15 +98,19 @@ async def callback(request: Request):
             user = User(subject=info['sub'], email=info['email'].lower())
             db.add(user)
             db.flush()
-        request.session.clear()
-        request.session['uid'] = user.id
+        sessions.start(db, request, user.id)
         audit(db, user, 'signed_in')
         db.commit()
     return RedirectResponse(ORIGIN)
 
 @app.post('/api/logout')
 def logout(request: Request):
-    request.session.clear()
+    uid = sessions.user_id(request)
+    sessions.end(request)
+    if uid is not None:
+        with Session(engine) as db:
+            db.add(Event(user_id=uid, action='signed_out', detail=''))
+            db.commit()
     return {'ok': True}
 
 @app.get('/api/me')

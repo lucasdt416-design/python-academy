@@ -9,6 +9,9 @@ from sqlalchemy.orm import Session
 from sqlalchemy import select
 from itsdangerous import TimestampSigner
 import base64
+import secrets
+from app import sessions
+from app.db import UserSession
 import json
 import pytest
 from hypothesis import given, strategies as st
@@ -31,9 +34,21 @@ def signin(role='pending', email='learner@example.com', parent_id=None):
     login_as(uid)
     return uid
 
+def session_cookie(payload, secret=None):
+    # Signed exactly as Starlette's SessionMiddleware signs it.
+    return TimestampSigner(secret or os.environ['SESSION_SECRET']).sign(base64.b64encode(json.dumps(payload).encode())).decode()
+
+def new_session(uid):
+    # A real server-side session row, as the Google callback would create.
+    token = secrets.token_urlsafe(32)
+    now = int(sessions.clock())
+    with Session(engine) as db:
+        db.add(UserSession(id=sessions.digest(token), user_id=uid, created=now, last_seen=now, expires=now + sessions.ABSOLUTE))
+        db.commit()
+    return token
+
 def login_as(uid):
-    cookie = TimestampSigner(os.environ['SESSION_SECRET']).sign(base64.b64encode(json.dumps({'uid':uid}).encode())).decode()
-    client.cookies.set('session',cookie,domain='testserver.local',path='/')
+    client.cookies.set('session',session_cookie({'sid':new_session(uid)}),domain='testserver.local',path='/')
 
 def post(path, data):
     return client.post('/api/'+path, json=data, headers=HEADERS)
