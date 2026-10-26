@@ -132,6 +132,8 @@ Method: production build and the real local API. A strict baseline policy (`defa
 
 ### Exact enforce-mode policy to switch to
 
+> **Superseded on 2026-10-26 by handoff 08 (SEC-09).** The page policy is now set per request with a nonce in `frontend/proxy.ts`, and the two `next.config.mjs` lines below no longer exist. Use handoff 08 section 5 to enforce.
+
 ```text
 Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self'; img-src 'self'; font-src 'self'; connect-src 'self'; worker-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'
 ```

@@ -56,7 +56,8 @@ One API setting is needed, `CLIENT_IP_HEADER` (below). It is in `render.yaml`, s
 
   **Without either setting, all signed-out visitors share one counter**: 60 preview checks a minute and 60 sign-ins per 10 minutes across the whole site. That is safe, because nothing a caller sends can change it, but a few busy visitors would limit everyone. If the API is ever moved off Render or Cloudflare, check the header again (handoff 06 section 13.5) before keeping it.
 - **Diagnostic:** off in production since 2026-10-25. `RATE_LIMIT_DIAGNOSTIC=1` on the API service logs, for each signed-out limited request, the number of `X-Forwarded-For` entries, the names of the forwarding headers present, the source used, and an 8-character keyed hash of the chosen address. It never logs an address, user ID, code or message text. The key changes on every restart, so hashes only compare within one deploy. Remove the variable when done.
-- **Headers** (`frontend/next.config.mjs` for pages, `backend/app/main.py` for the API): HSTS, `nosniff`, `no-referrer`, and framing blocked (`X-Frame-Options: DENY` and `frame-ancestors 'none'`). The page Content-Security-Policy is in Report-Only mode. Handoff 06 section 4 has the exact switch to enforce mode.
+- **Headers** (`frontend/next.config.mjs` for pages, `backend/app/main.py` for the API): HSTS, `nosniff`, `no-referrer`, and framing blocked (`X-Frame-Options: DENY` and `frame-ancestors 'none'`).
+- **Page Content-Security-Policy** (`frontend/proxy.ts`, `frontend/csp.mjs`): a new random nonce for every page request, so only scripts the server added can run (backlog SEC-09). Because of the nonce, every page is rendered per request and sent with `Cache-Control: no-store`. It is in Report-Only mode; handoff 08 section 5 has the one-line switch to enforce mode. The Python worker keeps its own enforced policy. No Render settings are needed.
 
 ## Sign-in sessions
 
