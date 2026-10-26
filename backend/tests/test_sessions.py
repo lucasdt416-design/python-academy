@@ -263,7 +263,7 @@ def test_a_deleted_users_sessions_stop_working(monkeypatch):
 PUBLIC = {
     ('GET', '/health'), ('GET', '/auth/google'), ('GET', '/auth/google/callback'),
     ('POST', '/api/logout'), ('GET', '/api/lessons'), ('GET', '/api/catalog'),
-    ('GET', '/api/goals'), ('POST', '/api/check'),
+    ('GET', '/api/goals'), ('POST', '/api/check'), ('GET', '/api/checks/{lesson_id}'),
 }
 ATTEMPT = {'lesson_id': 'hello', 'code': 'print("A forest.")\nprint("A dragon!")', 'output': 'A forest.\nA dragon!\n'}
 # (role that may use it, a valid request body)

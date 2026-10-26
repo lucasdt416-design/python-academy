@@ -70,6 +70,42 @@ class Validator(Strict):
     version: int = Field(ge=1)
 
 
+# Browser behaviour checks (ENG-03, docs/plan/browser-checks.md). The learner's browser runs the
+# code against each case in the Pyodide worker and reports what it printed; the API compares that
+# with `expected`. The API never runs learner code, and a hidden case's expected output never
+# leaves the server.
+BROWSER_TESTS = 'browser-tests'
+# Most characters one case may print; the worker stops the program beyond this.
+OUTPUT_LIMIT = 10_000
+# Constructs a check can require or forbid, found by parsing the code, never by running it.
+CONSTRUCTS = {
+    'for': 'a for loop', 'while': 'a while loop', 'if': 'an if statement', 'elif': 'elif',
+    'def': 'a function definition (def)', 'return': 'return', 'import': 'import',
+    'f-string': 'an f-string', 'list': 'a list', 'dict': 'a dictionary', 'comparison': 'a comparison',
+    'input()': 'input()', 'print()': 'print()', 'int()': 'int()', 'float()': 'float()', 'str()': 'str()',
+    'range()': 'range()', 'len()': 'len()', 'eval()': 'eval()', 'exec()': 'exec()', 'open()': 'open()',
+}
+
+
+class CheckCase(Strict):
+    """One run of the learner's program: replies fed to input(), and the output it should print."""
+    id: str = Field(pattern=ID)
+    # Shown to the learner when this case fails, for hidden cases too, so it must not give away
+    # their inputs or expected output (checked in validate()).
+    description: str = Field(min_length=1, max_length=200)
+    inputs: list[Annotated[str, Field(max_length=500)]] = Field(default=[], max_length=10)
+    expected: str = Field(max_length=OUTPUT_LIMIT)
+    visibility: Literal['visible', 'hidden'] = 'visible'
+
+
+class BrowserCheck(Strict):
+    cases: list[CheckCase] = Field(min_length=1, max_length=10)
+    require: list[str] = []
+    forbid: list[str] = []
+    # Per case, after Python has loaded. The page stops the worker when it runs out.
+    time_limit_ms: int = Field(default=3000, ge=500, le=10_000)
+
+
 class Challenge(TaskBase):
     type: Literal['challenge']
     prompt: str
@@ -77,6 +113,7 @@ class Challenge(TaskBase):
     hints: list[str] = []
     input_labels: list[str] = []
     validator: Validator
+    check: BrowserCheck | None = None
 
 
 Task = Annotated[Union[Discover, Example, Predict, Guided, Challenge], Field(discriminator='type')]
@@ -215,8 +252,9 @@ def validate(catalog, lessons):
             errors.append(f'{predict.id} has duplicate options')
         if len(challenge.input_labels) != len(example.inputs):
             errors.append(f'lesson {lesson.id} has {len(challenge.input_labels)} reply labels but {len(example.inputs)} example replies')
-        if challenge.validator.version not in VALIDATORS.get(challenge.validator.id, set()):
+        if challenge.validator.version not in {**VALIDATORS, BROWSER_TESTS: {1}}.get(challenge.validator.id, set()):
             errors.append(f'{challenge.id} uses unknown validator {challenge.validator.id} v{challenge.validator.version}')
+        errors += check_errors(challenge)
         if lesson.badge:
             if lesson.badge.id in badge_ids:
                 errors.append(f'duplicate badge ID {lesson.badge.id}')
@@ -233,6 +271,31 @@ def validate(catalog, lessons):
             else:
                 edges[course.id].add(target)
     errors += [f'prerequisite cycle: {" -> ".join(cycle)}' for cycle in _cycles(edges)]
+    return errors
+
+
+def check_errors(challenge):
+    """Problems with a challenge's browser check, if it has one."""
+    check, errors = challenge.check, []
+    if (challenge.validator.id == BROWSER_TESTS) != (check is not None):
+        return [f'{challenge.id} needs a check exactly when its validator is {BROWSER_TESTS}']
+    if check is None:
+        return []
+    ids = [case.id for case in check.cases]
+    if len(set(ids)) != len(ids):
+        errors.append(f'{challenge.id} has duplicate check case IDs')
+    if not any(case.visibility == 'visible' for case in check.cases):
+        errors.append(f'{challenge.id} needs at least one visible check case, so learners can see what is expected')
+    for name in check.require + check.forbid:
+        if name not in CONSTRUCTS:
+            errors.append(f'{challenge.id} names unknown construct {name}; known: {", ".join(CONSTRUCTS)}')
+    if set(check.require) & set(check.forbid):
+        errors.append(f'{challenge.id} both requires and forbids {", ".join(sorted(set(check.require) & set(check.forbid)))}')
+    for case in check.cases:
+        if case.visibility == 'hidden':
+            secrets = [value.strip() for value in case.inputs + case.expected.splitlines() if value.strip()]
+            if any(value.casefold() in case.description.casefold() for value in secrets):
+                errors.append(f'{challenge.id} hidden case {case.id}: its description shows one of its inputs or expected lines')
     return errors
 
 
