@@ -147,7 +147,7 @@ for (const {name, hint, output} of NEEDS_WORK) {
 const ERRORS = [
  {name: 'arithmetic name error', secret: 'is not defined', title: 'Python does not know coin', text: 'Did you mean coins? Names must be spelled exactly the same each time.', line: 3,
   python: "NameError: name 'coin' is not defined. Did you mean: 'coins'?", hint: 'Use the names the starter made, coins and friends, spelled exactly the same in your print() lines.'},
- {name: 'int-float type error', secret: 'can only concatenate', title: 'Text and numbers cannot be joined with +', text: 'On line 3, one side of + is text and the other is a number.', line: 3,
+ {name: 'int-float type error', secret: 'can only concatenate', title: 'Text and numbers cannot be joined with +', text: 'On line 3, one side of + is text and the other is a number. To add numbers, turn the text into a number with int(...).', line: 3,
   python: 'TypeError: can only concatenate str (not "float") to str', hint: 'Print each number on its own, like print(total). Joining a number to text with + needs str(), and this check wants only the numbers.'},
  {name: 'convert-input value error', secret: 'invalid literal', title: 'That text is not a whole number', text: 'int() only turns text like "7" into a number. Check what was typed.', line: 2,
   python: "ValueError: invalid literal for int() with base 10: ''", hint: 'One test leaves the points reply empty, and int() can\'t turn empty text into a number. Check whether the reply is "" before you call int().'},

@@ -151,7 +151,7 @@ export const TRANSLATIONS: readonly Translation[] = [
    return name ? {line: e.line, name} : null;
   }},
  {id: 'concat', unit: 2, title: 'Text and numbers cannot be joined with `+`',
-  text: 'On line {line}, one side of `+` is text and the other is a number. Turn the number into text with `str(...)`, or use an f-string.',
+  text: 'On line {line}, one side of `+` is text and the other is a number. To add numbers, turn the text into a number with `int(...)`. To join text, turn the number into text with `str(...)`, or use an f-string.',
   match: is('TypeError', /can only concatenate str \(not "(int|float)"\) to str/)},
  {id: 'int-text', unit: 2, title: 'That text is not a whole number',
   text: '`int()` only turns text like `"7"` into a number. Check what was typed.',
