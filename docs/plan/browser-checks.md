@@ -1,7 +1,7 @@
 # Browser behaviour checks: the contract (ENG-03)
 
 Last updated: 2026-10-26 (America/Toronto)  
-Status: **built, in review** (handoff 11). Ready for lessons in Python unit 2 and later; no lesson uses it yet. The lesson page does not call it yet (that comes with UI-05 and ENG-04).  
+Status: **built** (merged, handoff 11). Ready for lessons in Python unit 2 and later; no real lesson uses it yet. Since UI-05 (handoff 22, in review), the lesson page runs it for any lesson whose challenge has a browser check.  
 Related: [`course-catalog.md`](course-catalog.md) section 7.3 (why this exists); [`lesson-feedback.md`](lesson-feedback.md) (the feedback engine that will use the result fields); [`build.md`](../../build.md) sections 11 and 12.
 
 ## 1. Who does what
@@ -72,6 +72,7 @@ Each run status reported by the browser is one of: `ok`, `error`, `timeout`, `ou
   "passed": false,
   "result": "needs_work",
   "feedback": "For the numbers 2 and 3, line 1 should be \"5\", but your program printed \"-1\".",
+  "rule": "fixture.sum-two.case.small",
   "assessment": "browser_tests",
   "cases": [{"id": "small", "visibility": "visible", "status": "failed"}, {"id": "large", "visibility": "hidden", "status": "failed"}],
   "failed": {"id": "small", "visibility": "visible", "description": "the numbers 2 and 3", "reason": "wrong_output",
@@ -116,6 +117,6 @@ Each run status reported by the browser is one of: `ok`, `error`, `timeout`, `ou
 
 ## 7. Not done here
 
-- **Lesson page:** it still uses the unit 1 flow. Since ENG-04 part 1 (handoff 15), the page shows a check result by its state and highlights `failed.line` when Python stopped; an output line number is never highlighted as a code line. **Calling the runner from the page comes with UI-05**, because the page only loads unit 1 lessons today, and none of them has a browser check.
+- **Lesson page:** done in UI-05 (handoff 22). The page loads lessons per unit (`GET /api/units/<unit id>/lessons`, where `check` says which checker a lesson uses), runs the cases with `runCases()`, and shows the result with the ENG-04 feedback: a Python error is explained in the browser and its line highlighted (`failed.line`; an output line number is never highlighted as a code line). Wrong output names its case as a rule, `<lesson>.case.<case id>` (the `rule` field), so a hint can be tagged for it.
 - **Unit 2 content** (EDU-04). The only lesson using this contract is the test fixture in `backend/tests/fixtures/browser_checks/`, which is never shown to learners.
 - **Hosted runner:** a tamper-resistant evaluation service is out of scope (section 5).

@@ -36,7 +36,7 @@ Hints (`docs/plan/lesson-feedback.md` sections 7 and 8):
 | Field | What it is |
 | --- | --- |
 | `hints` | The ladder, at most three, in order: a nudge, a bigger hint, the approach |
-| `error_hints` | Hints with `tags`: Python error types (`NameError`, `SyntaxError`, `IndentationError`, `TabError`, `TypeError`, `ValueError`, `ZeroDivisionError`, `EOFError`) or this challenge's rule IDs. Offered first when that error or rule is shown. One hint per tag |
+| `error_hints` | Hints with `tags`: Python error types (`NameError`, `SyntaxError`, `IndentationError`, `TabError`, `TypeError`, `ValueError`, `ZeroDivisionError`, `EOFError`) or this challenge's rule IDs. For a browser check, each case is also a rule, `<lesson>.case.<case id>`, reported when that case prints the wrong output. Offered first when that error or rule is shown. One hint per tag |
 | `similar_example` | `code` and `note`: the same idea in another context, offered after the approach. It must not pass the check |
 | `other_ways` | `code` and `note`: other valid solutions, shown only after passing. Each must pass the check |
 
