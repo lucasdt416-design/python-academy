@@ -1,7 +1,7 @@
 # Browser behaviour checks: the contract (ENG-03)
 
 Last updated: 2026-10-26 (America/Toronto)  
-Status: **built** (merged, handoff 11). Ready for lessons in Python unit 2 and later; no real lesson uses it yet. Since UI-05 (handoff 22, in review), the lesson page runs it for any lesson whose challenge has a browser check.  
+Status: **built** (merged, handoff 11). Used by Python unit 2 (EDU-04 part 1, handoff 24: `py.arithmetic`, `py.int-float`, `py.convert-input`). Since UI-05 (handoff 22, in review), the lesson page runs it for any lesson whose challenge has a browser check.  
 Related: [`course-catalog.md`](course-catalog.md) section 7.3 (why this exists); [`lesson-feedback.md`](lesson-feedback.md) (the feedback engine that will use the result fields); [`build.md`](../../build.md) sections 11 and 12.
 
 ## 1. Who does what
@@ -118,5 +118,5 @@ Each run status reported by the browser is one of: `ok`, `error`, `timeout`, `ou
 ## 7. Not done here
 
 - **Lesson page:** done in UI-05 (handoff 22). The page loads lessons per unit (`GET /api/units/<unit id>/lessons`, where `check` says which checker a lesson uses), runs the cases with `runCases()`, and shows the result with the ENG-04 feedback: a Python error is explained in the browser and its line highlighted (`failed.line`; an output line number is never highlighted as a code line). Wrong output names its case as a rule, `<lesson>.case.<case id>` (the `rule` field), so a hint can be tagged for it.
-- **Unit 2 content** (EDU-04). The only lesson using this contract is the test fixture in `backend/tests/fixtures/browser_checks/`, which is never shown to learners.
+- **Unit 2 content** (EDU-04): part 1 (three lessons) uses this contract (handoff 24); part 2 adds the other three.
 - **Hosted runner:** a tamper-resistant evaluation service is out of scope (section 5).

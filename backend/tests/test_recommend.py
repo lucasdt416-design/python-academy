@@ -56,11 +56,20 @@ def test_partway_through_a_course_continues_it():
     assert r.reason == "You're partway through Python Foundations."
 
 
-def test_when_everything_released_is_done_the_coming_soon_courses_are_named():
+UNIT2_PART1 = {'py.arithmetic', 'py.int-float', 'py.convert-input'}
+
+
+def test_after_unit_1_python_continues_with_unit_2():
     r = recommend('hackathon', CATALOG, UNIT1)
+    assert (r.kind, r.unit, r.lesson) == ('continue', 'py.u02', 'py.arithmetic')
+
+
+def test_when_everything_released_is_done_the_coming_soon_courses_are_named():
+    r = recommend('hackathon', CATALOG, UNIT1 | UNIT2_PART1)
     assert r.kind == 'caught_up' and r.lesson is None
     assert r.reason == "You've finished everything available on your path so far."
-    assert r.notes[0] == 'Python Foundations unit 2 is next on your path and is coming soon.'
+    # Known limit (handoff 24): the rules cannot tell that unit 2 still has lessons to come.
+    assert r.notes[0] == 'Python Foundations unit 3 is next on your path and is coming soon.'
     assert 'Hackathon Ready' in r.notes[1]
 
 
@@ -83,7 +92,7 @@ def test_worked_example_skills_check_moves_the_start_without_awarding_anything()
     catalog = release(CATALOG, PY[:2])
     completed = set()
     r = recommend('websites', catalog, completed, placed={'py.u01'})
-    assert (r.kind, r.unit, r.lesson) == ('start', 'py.u02', 'py.u02.l1')
+    assert (r.kind, r.unit, r.lesson) == ('start', 'py.u02', 'py.arithmetic')
     assert r.reason == 'Next on your websites and apps path. Your skills check lets you start at unit 2.'
     assert completed == set()
 

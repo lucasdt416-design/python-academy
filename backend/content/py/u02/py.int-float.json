@@ -1,0 +1,164 @@
+{
+  "id": "py.int-float",
+  "version": 1,
+  "course": "py",
+  "unit": "py.u02",
+  "title": "Average the scores",
+  "concept": "Numbers · int and float",
+  "description": "Find the average of two riddle scores, decimals and all.",
+  "badge": {
+    "id": "py.badge.score-keeper",
+    "version": 1,
+    "title": "Score keeper",
+    "category": "practice"
+  },
+  "tasks": [
+    {
+      "id": "py.int-float.discover",
+      "type": "discover",
+      "title": "Two kinds of numbers",
+      "body": "Python has two kinds of numbers. An int is a whole number, like 7 or -3. A float has a decimal point, like 2.5 or 7.0. Dividing with / always gives a float, even when the answer is whole: 6 / 3 is 2.0.",
+      "detail": "When a calculation mixes an int and a float, the answer is a float: 2 + 0.5 is 2.5. int() cuts off the decimal part without rounding, so int(3.9) is 3 and int(-2.5) is -2. A few decimals print oddly, like 0.1 + 0.2 showing 0.30000000000000004. That comes from how computers store decimals, not from a mistake in your code."
+    },
+    {
+      "id": "py.int-float.example",
+      "type": "example",
+      "code": "# How long the walk to the market takes\ndistance = 9\nspeed = 2\nhours = distance / speed\nprint(hours)\n# The whole hours, with the decimal part cut off\nprint(int(hours))\n# / gives a float even when the answer is whole\nprint(8 / 2)",
+      "output": "4.5\n4\n4.0",
+      "note": "hours holds the float 4.5. int() cuts off the .5 and gives the int 4. The last line shows 4.0, not 4, because / always gives a float.",
+      "inputs": []
+    },
+    {
+      "id": "py.int-float.predict",
+      "type": "predict",
+      "question": "What would print(int(7.9)) display?",
+      "options": [
+        "8",
+        "7",
+        "7.9"
+      ],
+      "answer": 1,
+      "why": "int() cuts off everything after the decimal point; it does not round up. So int(7.9) is 7, even though 7.9 is close to 8."
+    },
+    {
+      "id": "py.int-float.guided",
+      "type": "guided",
+      "prompt": "Change distance to 10. Before you run, predict the first line: will it still have a decimal point? Then change the last line to print(8 // 2), predict again, and compare the two answers."
+    },
+    {
+      "id": "py.int-float.challenge",
+      "type": "challenge",
+      "prompt": "After two riddles, the hero has two scores. A wrong answer can make a score negative. The starter asks for both scores. Print two lines: first the average of the two scores, then the same average with its decimal part cut off by int(). Print just the two numbers.",
+      "starter": "# These two lines ask for whole-number scores (lesson 3 explains how)\nfirst = int(input(\"First score? \"))\nsecond = int(input(\"Second score? \"))\n# Work out the average, then print it and its whole part\n",
+      "hints": [
+        "The average of two scores is their total divided by 2. You print it twice: once as it is, and once with its decimal part cut off.",
+        "Look at the order Python works in: it divides before it adds. Check that your whole total gets divided, not only the second score.",
+        "With other names: total = low + high adds first, and then total / 2 halves it. For your second line, think about which function cuts off the decimal part."
+      ],
+      "error_hints": [
+        {
+          "tags": [
+            "NameError"
+          ],
+          "text": "Use the names from the starter, first and second, and give your average a name before you print it."
+        },
+        {
+          "tags": [
+            "TypeError"
+          ],
+          "text": "Print each number on its own, like print(total). Joining a number to text with + needs str(), and this check wants only the numbers."
+        },
+        {
+          "tags": [
+            "py.int-float.case.half"
+          ],
+          "text": "The average of 7 and 8 is 7.5. If your first line says 11.0, Python divided only the second score: put the addition inside parentheses."
+        },
+        {
+          "tags": [
+            "py.int-float.case.negative"
+          ],
+          "text": "With -3 and 2, the average is -0.5. int() cuts off the decimal part, so the second line is 0. The // operator rounds down instead, which gives -1 for negative numbers."
+        },
+        {
+          "tags": [
+            "py.int-float.case.high"
+          ],
+          "text": "Your program needs to work for any two scores. Use first and second in the calculation, not numbers typed into the code."
+        }
+      ],
+      "similar_example": {
+        "code": "morning = 4\nevening = 9\nmiddle = (morning + evening) / 2\nprint(middle)",
+        "note": "Halfway between a morning temperature of 4 and an evening of 9 is 6.5. Your challenge reads its two numbers from the replies, and also prints the whole part."
+      },
+      "other_ways": [
+        {
+          "code": "first = int(input(\"First score? \"))\nsecond = int(input(\"Second score? \"))\ntotal = first + second\nprint(total / 2)\nprint(int(total / 2))",
+          "note": "Keep the total in its own variable first."
+        },
+        {
+          "code": "first = int(input(\"First score? \"))\nsecond = int(input(\"Second score? \"))\naverage = (first + second) * 0.5\nprint(average)\nprint(int(average))",
+          "note": "Multiplying by 0.5 halves a number too, and the answer is also a float."
+        }
+      ],
+      "input_labels": [],
+      "check": {
+        "cases": [
+          {
+            "id": "half",
+            "description": "scores of 7 and 8",
+            "inputs": [
+              "7",
+              "8"
+            ],
+            "expected": "7.5\n7"
+          },
+          {
+            "id": "whole",
+            "description": "scores of 6 and 8",
+            "inputs": [
+              "6",
+              "8"
+            ],
+            "expected": "7.0\n7"
+          },
+          {
+            "id": "negative",
+            "description": "scores of -3 and 2",
+            "inputs": [
+              "-3",
+              "2"
+            ],
+            "expected": "-0.5\n0"
+          },
+          {
+            "id": "high",
+            "description": "two high scores",
+            "inputs": [
+              "95",
+              "100"
+            ],
+            "expected": "97.5\n97",
+            "visibility": "hidden"
+          },
+          {
+            "id": "equal",
+            "description": "two equal scores",
+            "inputs": [
+              "10",
+              "10"
+            ],
+            "expected": "10.0\n10",
+            "visibility": "hidden"
+          }
+        ],
+        "time_limit_ms": 3000
+      },
+      "validator": {
+        "id": "browser-tests",
+        "version": 1
+      },
+      "version": 1
+    }
+  ]
+}

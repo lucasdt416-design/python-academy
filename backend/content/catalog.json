@@ -10,7 +10,7 @@
       "prerequisites": {"required": [], "suggested": []},
       "units": [
         {"id": "py.u01", "title": "Build Your Own Adventure", "summary": "Output, variables, input, and choices in one connected story.", "status": "released", "lessons": ["hello", "variables", "input", "choices", "adventure"]},
-        {"id": "py.u02", "title": "Numbers and decisions", "summary": "Arithmetic, conversion, comparison, and Boolean logic.", "status": "coming_soon", "lessons": []},
+        {"id": "py.u02", "title": "Numbers and decisions", "summary": "Arithmetic, whole numbers and decimals, and numbers from input(). Comparisons, Boolean logic and elif come next.", "status": "released", "lessons": ["py.arithmetic", "py.int-float", "py.convert-input"]},
         {"id": "py.u03", "title": "Repeat and explore", "summary": "while and for loops that always finish.", "status": "coming_soon", "lessons": []},
         {"id": "py.u04", "title": "Keep track of a world", "summary": "Lists, dictionaries, and sets.", "status": "coming_soon", "lessons": []},
         {"id": "py.u05", "title": "Organize your code", "summary": "Functions, parameters, return values, and scope.", "status": "coming_soon", "lessons": []},

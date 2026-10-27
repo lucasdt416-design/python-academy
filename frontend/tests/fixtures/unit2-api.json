@@ -1,0 +1,2333 @@
+{
+ "catalog": {
+  "version": 1,
+  "courses": [
+   {
+    "id": "py",
+    "title": "Python Foundations",
+    "summary": "Write your first programs, then grow them into tested, organized projects.",
+    "status": "released",
+    "prerequisites": {
+     "required": [],
+     "suggested": []
+    },
+    "units": [
+     {
+      "id": "py.u01",
+      "title": "Build Your Own Adventure",
+      "summary": "Output, variables, input, and choices in one connected story.",
+      "status": "released",
+      "lessons": [
+       {
+        "id": "hello",
+        "title": "Open the story",
+        "concept": "Output · print()",
+        "description": "Give your adventure a setting and a surprise.",
+        "badge": "Story spark"
+       },
+       {
+        "id": "variables",
+        "title": "Create your hero",
+        "concept": "Variables · strings",
+        "description": "Give the adventure a hero and a useful tool.",
+        "badge": "Character creator"
+       },
+       {
+        "id": "input",
+        "title": "Meet the player",
+        "concept": "Interaction · input()",
+        "description": "Let someone else name the hero.",
+        "badge": "Conversation starter"
+       },
+       {
+        "id": "choices",
+        "title": "Choose a path",
+        "concept": "Decisions · if / else",
+        "description": "Make the story respond to a choice.",
+        "badge": "Path finder"
+       },
+       {
+        "id": "adventure",
+        "title": "Launch your adventure",
+        "concept": "Combine your skills",
+        "description": "Bring a player, a setting, and a choice into one small game.",
+        "badge": "Adventure maker"
+       }
+      ]
+     },
+     {
+      "id": "py.u02",
+      "title": "Numbers and decisions",
+      "summary": "Arithmetic, whole numbers and decimals, and numbers from input(). Comparisons, Boolean logic and elif come next.",
+      "status": "released",
+      "lessons": [
+       {
+        "id": "py.arithmetic",
+        "title": "Count the treasure",
+        "concept": "Arithmetic · + - * / // %",
+        "description": "Give your adventure a score, and share out a chest of coins.",
+        "badge": "Treasure counter"
+       },
+       {
+        "id": "py.int-float",
+        "title": "Average the scores",
+        "concept": "Numbers · int and float",
+        "description": "Find the average of two riddle scores, decimals and all.",
+        "badge": "Score keeper"
+       },
+       {
+        "id": "py.convert-input",
+        "title": "Score the riddle",
+        "concept": "Conversion · int(input())",
+        "description": "Turn the player's replies into numbers, and keep score when a riddle is solved or missed.",
+        "badge": "Riddle scorer"
+       }
+      ]
+     },
+     {
+      "id": "py.u03",
+      "title": "Repeat and explore",
+      "summary": "while and for loops that always finish.",
+      "status": "coming_soon",
+      "lessons": []
+     },
+     {
+      "id": "py.u04",
+      "title": "Keep track of a world",
+      "summary": "Lists, dictionaries, and sets.",
+      "status": "coming_soon",
+      "lessons": []
+     },
+     {
+      "id": "py.u05",
+      "title": "Organize your code",
+      "summary": "Functions, parameters, return values, and scope.",
+      "status": "coming_soon",
+      "lessons": []
+     },
+     {
+      "id": "py.u06",
+      "title": "Recover and investigate",
+      "summary": "Tracebacks, debugging, and exceptions.",
+      "status": "coming_soon",
+      "lessons": []
+     },
+     {
+      "id": "py.u07",
+      "title": "Libraries and modules",
+      "summary": "Importing and using the standard library.",
+      "status": "coming_soon",
+      "lessons": []
+     },
+     {
+      "id": "py.u08",
+      "title": "Trust your changes",
+      "summary": "Tests, boundaries, and refactoring.",
+      "status": "coming_soon",
+      "lessons": []
+     },
+     {
+      "id": "py.u09",
+      "title": "Save and load",
+      "summary": "Text files, JSON, and CSV.",
+      "status": "coming_soon",
+      "lessons": []
+     },
+     {
+      "id": "py.u10",
+      "title": "Patterns in text",
+      "summary": "String methods and regular expressions.",
+      "status": "coming_soon",
+      "lessons": []
+     },
+     {
+      "id": "py.u11",
+      "title": "Model a larger program",
+      "summary": "Classes and composition.",
+      "status": "coming_soon",
+      "lessons": []
+     },
+     {
+      "id": "py.u12",
+      "title": "Final project",
+      "summary": "Plan, build, test, and explain a project of your own.",
+      "status": "coming_soon",
+      "lessons": []
+     }
+    ]
+   },
+   {
+    "id": "hack",
+    "title": "Hackathon Ready",
+    "summary": "Scope, build, and demo a small working project with a team, against the clock.",
+    "status": "coming_soon",
+    "prerequisites": {
+     "required": [
+      "py.u01",
+      "py.u02",
+      "py.u03",
+      "py.u04",
+      "py.u05",
+      "py.u06",
+      "py.u07"
+     ],
+     "suggested": [
+      "git",
+      "web"
+     ]
+    },
+    "units": [
+     {
+      "id": "hack.u01",
+      "title": "Idea to MVP",
+      "summary": "Cut an idea down to a minimum viable product.",
+      "status": "coming_soon",
+      "lessons": []
+     },
+     {
+      "id": "hack.u02",
+      "title": "Time-boxing",
+      "summary": "Plan in fixed time blocks and know what to drop.",
+      "status": "coming_soon",
+      "lessons": []
+     },
+     {
+      "id": "hack.u03",
+      "title": "Teamwork with Git branches",
+      "summary": "Feature branches, small pull requests, and reviews.",
+      "status": "coming_soon",
+      "lessons": []
+     },
+     {
+      "id": "hack.u04",
+      "title": "Using public APIs safely",
+      "summary": "Rate limits, terms of use, and keeping keys out of frontend code.",
+      "status": "coming_soon",
+      "lessons": []
+     },
+     {
+      "id": "hack.u05",
+      "title": "Quick UI prototyping",
+      "summary": "From a paper sketch to a minimal working interface.",
+      "status": "coming_soon",
+      "lessons": []
+     },
+     {
+      "id": "hack.u06",
+      "title": "Demo and pitching",
+      "summary": "A two-minute demo that shows what works.",
+      "status": "coming_soon",
+      "lessons": []
+     },
+     {
+      "id": "hack.u07",
+      "title": "Judging criteria",
+      "summary": "How projects are judged, and assessing your own honestly.",
+      "status": "coming_soon",
+      "lessons": []
+     }
+    ]
+   },
+   {
+    "id": "git",
+    "title": "Git and GitHub Essentials",
+    "summary": "Track changes, work on branches, and open your first pull request.",
+    "status": "coming_soon",
+    "prerequisites": {
+     "required": [
+      "py.u01"
+     ],
+     "suggested": [
+      "py.u05"
+     ]
+    },
+    "units": []
+   },
+   {
+    "id": "web",
+    "title": "Web Foundations: HTML and CSS",
+    "summary": "Build an accessible, responsive personal website.",
+    "status": "coming_soon",
+    "prerequisites": {
+     "required": [
+      "py.u01",
+      "py.u02",
+      "py.u03"
+     ],
+     "suggested": [
+      "git"
+     ]
+    },
+    "units": []
+   },
+   {
+    "id": "js",
+    "title": "JavaScript and the DOM",
+    "summary": "Make web pages interactive with events and state.",
+    "status": "coming_soon",
+    "prerequisites": {
+     "required": [
+      "web",
+      "py.u01",
+      "py.u02",
+      "py.u03",
+      "py.u04",
+      "py.u05"
+     ],
+     "suggested": [
+      "git"
+     ]
+    },
+    "units": []
+   },
+   {
+    "id": "sql",
+    "title": "Data and SQL",
+    "summary": "Ask questions of real tables with queries, joins, and constraints.",
+    "status": "coming_soon",
+    "prerequisites": {
+     "required": [
+      "py.u01",
+      "py.u02",
+      "py.u03",
+      "py.u04"
+     ],
+     "suggested": [
+      "web"
+     ]
+    },
+    "units": []
+   },
+   {
+    "id": "data",
+    "title": "Data Investigation with Python",
+    "summary": "Answer an original question with a documented dataset.",
+    "status": "coming_soon",
+    "prerequisites": {
+     "required": [
+      "py.u01",
+      "py.u02",
+      "py.u03",
+      "py.u04",
+      "py.u05",
+      "py.u06",
+      "py.u07",
+      "py.u08",
+      "py.u09",
+      "sql"
+     ],
+     "suggested": [
+      "cs"
+     ]
+    },
+    "units": []
+   },
+   {
+    "id": "cs",
+    "title": "Computer Science Foundations",
+    "summary": "Representation, searching, sorting, complexity, and recursion.",
+    "status": "coming_soon",
+    "prerequisites": {
+     "required": [
+      "py.u01",
+      "py.u02",
+      "py.u03",
+      "py.u04",
+      "py.u05"
+     ],
+     "suggested": [
+      "py.u06",
+      "py.u07",
+      "py.u08"
+     ]
+    },
+    "units": []
+   },
+   {
+    "id": "node",
+    "title": "Node.js and APIs",
+    "summary": "Build an API with routes, validation, and a database.",
+    "status": "coming_soon",
+    "prerequisites": {
+     "required": [
+      "js",
+      "sql"
+     ],
+     "suggested": [
+      "git"
+     ]
+    },
+    "units": []
+   },
+   {
+    "id": "fullstack",
+    "title": "Full-Stack Builder",
+    "summary": "Ship a client, API, and database project with automated checks.",
+    "status": "coming_soon",
+    "prerequisites": {
+     "required": [
+      "node",
+      "git"
+     ],
+     "suggested": [
+      "cs"
+     ]
+    },
+    "units": []
+   },
+   {
+    "id": "ce",
+    "title": "Engineering Depth",
+    "summary": "Electives in C and memory, discrete foundations, numerical methods, and embedded simulation.",
+    "status": "coming_soon",
+    "prerequisites": {
+     "required": [
+      "cs",
+      "py"
+     ],
+     "suggested": []
+    },
+    "units": []
+   }
+  ]
+ },
+ "units": {
+  "py.u02": [
+   {
+    "id": "py.arithmetic",
+    "title": "Count the treasure",
+    "concept": "Arithmetic · + - * / // %",
+    "badge": "Treasure counter",
+    "description": "Give your adventure a score, and share out a chest of coins.",
+    "learnTitle": "Python can do the maths",
+    "learn": "Numbers in Python have no quotes around them. + adds, - takes away, * multiplies and / divides. print(3 + 4) shows 7, and a variable can hold a number, like score = 10.",
+    "detail": "Two more operators help when you share things out. // divides and keeps only the whole part: 17 // 5 is 3. % gives what is left over: 17 % 5 is 2. As in maths class, Python works out * and / before + and -. Use parentheses to choose a different order.",
+    "example": "# Work out the hero's score\ngems = 4\ncoins = 13\nscore = gems * 10 + coins\nprint(score)\n# Share the coins between 5 friends\nprint(coins // 5)\nprint(coins % 5)",
+    "exampleOutput": "53\n2\n3",
+    "exampleNote": "Python works out gems * 10 first, so the score is 40 + 13. Then // gives each friend's whole coins, and % gives the coins left over.",
+    "question": "If coins were 14 instead of 13, what would print(coins % 5) show?",
+    "options": [
+     "4",
+     "2",
+     "2.8"
+    ],
+    "answer": 0,
+    "why": "Five friends take 2 coins each, which uses 10 of the 14. % shows what is left over, so it prints 4. 14 // 5 would show 2, and 14 / 5 would show 2.8.",
+    "guided": "Give gems and coins new values. Before you run, predict all three lines, then run and compare. Try a number of coins that shares out exactly between 5, like 15: what does % show then?",
+    "starter": "# These two lines ask for whole numbers (lesson 3 explains how)\ncoins = int(input(\"How many coins? \"))\nfriends = int(input(\"How many friends? \"))\n# Print each friend's whole share, then the coins left over\n",
+    "challenge": "The party opens a chest of coins to share. The starter asks for the number of coins and the number of friends. Print two lines: how many whole coins each friend gets, then how many coins are left over. Print just the two numbers. The check runs your program with several chests, including some you can't see.",
+    "hints": [
+     "You need two results from the same two numbers: the whole coins each friend gets, and the coins left over.",
+     "Look at the comment line. One operator divides and keeps only the whole part; another gives what is left over. Each result goes in its own print().",
+     "A pattern with other names: print(cookies // children) shows each child's whole cookies. For the leftover line, use the operator that gives what is left over."
+    ],
+    "inputs": [],
+    "exampleInputs": [],
+    "expected": null,
+    "errorHints": [
+     {
+      "tags": [
+       "NameError"
+      ],
+      "text": "Use the names the starter made, coins and friends, spelled exactly the same in your print() lines."
+     },
+     {
+      "tags": [
+       "TypeError"
+      ],
+      "text": "Print each number on its own, like print(coins). Joining a number to text with + needs str(), and this check wants only the numbers."
+     },
+     {
+      "tags": [
+       "py.arithmetic.case.even"
+      ],
+      "text": "Compare your first line with 3. A decimal point, like 3.4, means / was used: // keeps only the whole coins. Words on the line? Print just the number."
+     },
+     {
+      "tags": [
+       "py.arithmetic.case.fewer"
+      ],
+      "text": "With 3 coins and 5 friends, nobody gets a whole coin, so the first line is 0 and all 3 coins are left over. A division that rounds up would give 1 instead."
+     },
+     {
+      "tags": [
+       "py.arithmetic.case.big"
+      ],
+      "text": "Your program needs to work for any chest. Use coins and friends in your calculations, not numbers typed into the code."
+     }
+    ],
+    "similarExample": {
+     "code": "start = 9\nlater = start + 14\nprint(later % 12)",
+     "note": "14 hours after 9 o'clock, a 12-hour clock shows 11: % keeps what is left after taking away whole groups of 12. Your challenge makes whole groups too, one share for each friend."
+    },
+    "otherWays": [
+     {
+      "code": "coins = int(input(\"How many coins? \"))\nfriends = int(input(\"How many friends? \"))\nshare, left = divmod(coins, friends)\nprint(share)\nprint(left)",
+      "note": "divmod() works out the whole share and the leftover in one step."
+     },
+     {
+      "code": "coins = int(input(\"How many coins? \"))\nfriends = int(input(\"How many friends? \"))\nshare = coins // friends\nprint(share)\nprint(coins - share * friends)",
+      "note": "The leftover is what remains after every friend takes their share."
+     }
+    ],
+    "course": "py",
+    "unit": "py.u02",
+    "check": "browser-tests"
+   },
+   {
+    "id": "py.int-float",
+    "title": "Average the scores",
+    "concept": "Numbers · int and float",
+    "badge": "Score keeper",
+    "description": "Find the average of two riddle scores, decimals and all.",
+    "learnTitle": "Two kinds of numbers",
+    "learn": "Python has two kinds of numbers. An int is a whole number, like 7 or -3. A float has a decimal point, like 2.5 or 7.0. Dividing with / always gives a float, even when the answer is whole: 6 / 3 is 2.0.",
+    "detail": "When a calculation mixes an int and a float, the answer is a float: 2 + 0.5 is 2.5. int() cuts off the decimal part without rounding, so int(3.9) is 3 and int(-2.5) is -2. A few decimals print oddly, like 0.1 + 0.2 showing 0.30000000000000004. That comes from how computers store decimals, not from a mistake in your code.",
+    "example": "# How long the walk to the market takes\ndistance = 9\nspeed = 2\nhours = distance / speed\nprint(hours)\n# The whole hours, with the decimal part cut off\nprint(int(hours))\n# / gives a float even when the answer is whole\nprint(8 / 2)",
+    "exampleOutput": "4.5\n4\n4.0",
+    "exampleNote": "hours holds the float 4.5. int() cuts off the .5 and gives the int 4. The last line shows 4.0, not 4, because / always gives a float.",
+    "question": "What would print(int(7.9)) display?",
+    "options": [
+     "8",
+     "7",
+     "7.9"
+    ],
+    "answer": 1,
+    "why": "int() cuts off everything after the decimal point; it does not round up. So int(7.9) is 7, even though 7.9 is close to 8.",
+    "guided": "Change distance to 10. Before you run, predict the first line: will it still have a decimal point? Then change the last line to print(8 // 2), predict again, and compare the two answers.",
+    "starter": "# These two lines ask for whole-number scores (lesson 3 explains how)\nfirst = int(input(\"First score? \"))\nsecond = int(input(\"Second score? \"))\n# Work out the average, then print it and its whole part\n",
+    "challenge": "After two riddles, the hero has two scores. A wrong answer can make a score negative. The starter asks for both scores. Print two lines: first the average of the two scores, then the same average with its decimal part cut off by int(). Print just the two numbers.",
+    "hints": [
+     "The average of two scores is their total divided by 2. You print it twice: once as it is, and once with its decimal part cut off.",
+     "Look at the order Python works in: it divides before it adds. Check that your whole total gets divided, not only the second score.",
+     "With other names: total = low + high adds first, and then total / 2 halves it. For your second line, think about which function cuts off the decimal part."
+    ],
+    "inputs": [],
+    "exampleInputs": [],
+    "expected": null,
+    "errorHints": [
+     {
+      "tags": [
+       "NameError"
+      ],
+      "text": "Use the names from the starter, first and second, and give your average a name before you print it."
+     },
+     {
+      "tags": [
+       "TypeError"
+      ],
+      "text": "Print each number on its own, like print(total). Joining a number to text with + needs str(), and this check wants only the numbers."
+     },
+     {
+      "tags": [
+       "py.int-float.case.half"
+      ],
+      "text": "The average of 7 and 8 is 7.5. If your first line says 11.0, Python divided only the second score: put the addition inside parentheses."
+     },
+     {
+      "tags": [
+       "py.int-float.case.negative"
+      ],
+      "text": "With -3 and 2, the average is -0.5. int() cuts off the decimal part, so the second line is 0. The // operator rounds down instead, which gives -1 for negative numbers."
+     },
+     {
+      "tags": [
+       "py.int-float.case.high"
+      ],
+      "text": "Your program needs to work for any two scores. Use first and second in the calculation, not numbers typed into the code."
+     }
+    ],
+    "similarExample": {
+     "code": "morning = 4\nevening = 9\nmiddle = (morning + evening) / 2\nprint(middle)",
+     "note": "Halfway between a morning temperature of 4 and an evening of 9 is 6.5. Your challenge reads its two numbers from the replies, and also prints the whole part."
+    },
+    "otherWays": [
+     {
+      "code": "first = int(input(\"First score? \"))\nsecond = int(input(\"Second score? \"))\ntotal = first + second\nprint(total / 2)\nprint(int(total / 2))",
+      "note": "Keep the total in its own variable first."
+     },
+     {
+      "code": "first = int(input(\"First score? \"))\nsecond = int(input(\"Second score? \"))\naverage = (first + second) * 0.5\nprint(average)\nprint(int(average))",
+      "note": "Multiplying by 0.5 halves a number too, and the answer is also a float."
+     }
+    ],
+    "course": "py",
+    "unit": "py.u02",
+    "check": "browser-tests"
+   },
+   {
+    "id": "py.convert-input",
+    "title": "Score the riddle",
+    "concept": "Conversion · int(input())",
+    "badge": "Riddle scorer",
+    "description": "Turn the player's replies into numbers, and keep score when a riddle is solved or missed.",
+    "learnTitle": "Replies are always text",
+    "learn": "input() always gives back text, even when the player types digits. So \"5\" + \"5\" joins into \"55\" instead of adding up to 10. int(...) turns text like \"12\" into the whole number 12, and float(...) turns \"2.5\" into the decimal 2.5.",
+    "detail": "Wrap the reply in int(), like points = int(input(\"Points? \")). If the reply is not a whole number, such as ten or an empty reply, int() stops with a ValueError. When a reply might be empty, compare it with \"\" before you convert it, as the example on the next card does.",
+    "example": "# Ask for the gold in your pocket, as a whole number\ngold = int(input(\"Gold in your pocket? \"))\n# Ask for the bridge toll; an empty reply means no toll\ntoll = input(\"Toll? \")\nif toll == \"\":\n    toll = \"0\"\n# Turn the toll into a number, then pay it\nprint(gold - int(toll))",
+    "exampleOutput": "15",
+    "exampleNote": "With 20 and 5 as replies, it prints 15. An empty toll becomes the text \"0\" first, so int() has a digit to read. Without int(), Python could not take text away from a number.",
+    "question": "If the player types ten in letters for the gold, what happens?",
+    "options": [
+     "It prints 5",
+     "Python stops with a ValueError",
+     "It prints ten"
+    ],
+    "answer": 1,
+    "why": "int() only understands digits, like \"10\". The letters ten are not a whole number, so Python stops with a ValueError on line 2. You can try it on the next card.",
+    "guided": "Run the example with 20 and 5. Then predict, and run, each of these: an empty toll, and the letters ten as the gold. Last, delete int( and its ) from the gold line, run it, and read the explanation. Reset code puts the example back.",
+    "starter": "# Ask for the score and turn the reply into a whole number\n# Ask for the riddle's points; an empty reply means 0\n# Print the score if solved, then the score if missed\n",
+    "challenge": "The riddle keeper says how many points a riddle is worth. Ask for the hero's score, then for the riddle's points, and turn both replies into whole numbers yourself. Print two lines: the score if the riddle is solved (the points are added), then the score if it is missed (the points are taken away). An empty points reply means a practice riddle worth 0. Print just the two numbers.",
+    "hints": [
+     "Three steps: get the score as a number, get the points as a number (or 0 when the reply is empty), then print the two results.",
+     "Look at the second comment. Keep the points reply as text until you have checked whether it is \"\", and only then turn it into a number.",
+     "A pattern with other names: reply = input(\"Coins? \"), then if reply == \"\": with an indented line that gives reply the text \"0\", then coins = int(reply)."
+    ],
+    "inputs": [
+     "Gold in your pocket",
+     "Toll (a number, or leave it empty)"
+    ],
+    "exampleInputs": [
+     "20",
+     "5"
+    ],
+    "expected": null,
+    "errorHints": [
+     {
+      "tags": [
+       "ValueError"
+      ],
+      "text": "One test leaves the points reply empty, and int() can't turn empty text into a number. Check whether the reply is \"\" before you call int()."
+     },
+     {
+      "tags": [
+       "TypeError"
+      ],
+      "text": "input() gives text. Text can't be taken away from a number, and + joins text instead of adding. Wrap each reply in int(...) before you calculate."
+     },
+     {
+      "tags": [
+       "NameError"
+      ],
+      "text": "Give each name a value before you use it, spelled the same each time. Each input() reply needs a name of its own."
+     },
+     {
+      "tags": [
+       "EOFError"
+      ],
+      "text": "This challenge gives your program two replies: the score, then the points. Use exactly two input() calls."
+     },
+     {
+      "tags": [
+       "py.convert-input.case.solved-missed"
+      ],
+      "text": "With a score of 10 and a riddle worth 3, the first line is 13 (solved) and the second is 7 (missed). Check the order of your two print() lines."
+     },
+     {
+      "tags": [
+       "py.convert-input.case.below-zero"
+      ],
+      "text": "Missing a riddle can take the score below zero: 5 - 8 is -3. Print the result as it is; a negative score is fine here."
+     },
+     {
+      "tags": [
+       "py.convert-input.case.no-points"
+      ],
+      "text": "With an empty points reply, the riddle is worth 0, so both lines show the score unchanged."
+     },
+     {
+      "tags": [
+       "py.convert-input.case.large"
+      ],
+      "text": "Calculate from the replies, not from numbers typed into the code, so your program works for every score."
+     },
+     {
+      "tags": [
+       "py.convert-input.case.from-zero"
+      ],
+      "text": "Every reply counts, even a score of zero. Calculate from the replies rather than checking for particular numbers."
+     }
+    ],
+    "similarExample": {
+     "code": "reply = input(\"Lanterns? \")\nif reply == \"\":\n    reply = \"1\"\nlanterns = int(reply)\nprint(lanterns * 2)",
+     "note": "An empty reply becomes the text \"1\" before int() reads it, so the program never stops. Your challenge uses 0 for an empty reply, and needs two numbers."
+    },
+    "otherWays": [
+     {
+      "code": "score = int(input(\"Score? \"))\npoints = input(\"Points? \")\nif points == \"\":\n    points = 0\nelse:\n    points = int(points)\nprint(score + points)\nprint(score - points)",
+      "note": "if and else can each give points its number."
+     },
+     {
+      "code": "score = int(input(\"Score? \"))\npoints = int(input(\"Points? \") or \"0\")\nprint(score + points)\nprint(score - points)",
+      "note": "or picks \"0\" when the reply is empty. A later lesson explains or properly."
+     }
+    ],
+    "course": "py",
+    "unit": "py.u02",
+    "check": "browser-tests"
+   }
+  ]
+ },
+ "plans": {
+  "py.arithmetic": {
+   "lesson_id": "py.arithmetic",
+   "task_id": "py.arithmetic.challenge",
+   "version": 1,
+   "time_limit_ms": 3000,
+   "output_limit": 10000,
+   "cases": [
+    {
+     "id": "even",
+     "visibility": "visible",
+     "description": "17 coins and 5 friends",
+     "inputs": [
+      "17",
+      "5"
+     ],
+     "expected": "3\n2"
+    },
+    {
+     "id": "exact",
+     "visibility": "visible",
+     "description": "20 coins and 4 friends",
+     "inputs": [
+      "20",
+      "4"
+     ],
+     "expected": "5\n0"
+    },
+    {
+     "id": "fewer",
+     "visibility": "visible",
+     "description": "3 coins and 5 friends",
+     "inputs": [
+      "3",
+      "5"
+     ],
+     "expected": "0\n3"
+    },
+    {
+     "id": "big",
+     "visibility": "hidden",
+     "description": "a big chest",
+     "inputs": [
+      "1000",
+      "7"
+     ]
+    },
+    {
+     "id": "one-friend",
+     "visibility": "hidden",
+     "description": "a chest for one friend",
+     "inputs": [
+      "9",
+      "1"
+     ]
+    }
+   ]
+  },
+  "py.int-float": {
+   "lesson_id": "py.int-float",
+   "task_id": "py.int-float.challenge",
+   "version": 1,
+   "time_limit_ms": 3000,
+   "output_limit": 10000,
+   "cases": [
+    {
+     "id": "half",
+     "visibility": "visible",
+     "description": "scores of 7 and 8",
+     "inputs": [
+      "7",
+      "8"
+     ],
+     "expected": "7.5\n7"
+    },
+    {
+     "id": "whole",
+     "visibility": "visible",
+     "description": "scores of 6 and 8",
+     "inputs": [
+      "6",
+      "8"
+     ],
+     "expected": "7.0\n7"
+    },
+    {
+     "id": "negative",
+     "visibility": "visible",
+     "description": "scores of -3 and 2",
+     "inputs": [
+      "-3",
+      "2"
+     ],
+     "expected": "-0.5\n0"
+    },
+    {
+     "id": "high",
+     "visibility": "hidden",
+     "description": "two high scores",
+     "inputs": [
+      "95",
+      "100"
+     ]
+    },
+    {
+     "id": "equal",
+     "visibility": "hidden",
+     "description": "two equal scores",
+     "inputs": [
+      "10",
+      "10"
+     ]
+    }
+   ]
+  },
+  "py.convert-input": {
+   "lesson_id": "py.convert-input",
+   "task_id": "py.convert-input.challenge",
+   "version": 1,
+   "time_limit_ms": 3000,
+   "output_limit": 10000,
+   "cases": [
+    {
+     "id": "solved-missed",
+     "visibility": "visible",
+     "description": "a score of 10 and a riddle worth 3",
+     "inputs": [
+      "10",
+      "3"
+     ],
+     "expected": "13\n7"
+    },
+    {
+     "id": "below-zero",
+     "visibility": "visible",
+     "description": "a score of 5 and a riddle worth 8",
+     "inputs": [
+      "5",
+      "8"
+     ],
+     "expected": "13\n-3"
+    },
+    {
+     "id": "no-points",
+     "visibility": "visible",
+     "description": "a score of 6 and an empty points reply",
+     "inputs": [
+      "6",
+      ""
+     ],
+     "expected": "6\n6"
+    },
+    {
+     "id": "large",
+     "visibility": "hidden",
+     "description": "a large score",
+     "inputs": [
+      "250",
+      "120"
+     ]
+    },
+    {
+     "id": "from-zero",
+     "visibility": "hidden",
+     "description": "starting from a score of zero",
+     "inputs": [
+      "0",
+      "4"
+     ]
+    }
+   ]
+  }
+ },
+ "scenarios": [
+  {
+   "name": "arithmetic passed",
+   "request": {
+    "lesson_id": "py.arithmetic",
+    "code": "coins = int(input(\"How many coins? \"))\nfriends = int(input(\"How many friends? \"))\nprint(coins // friends)\nprint(coins % friends)\n",
+    "output": "3\n2\n",
+    "inputs": [],
+    "runs": [
+     {
+      "id": "even",
+      "status": "ok",
+      "output": "3\n2\n",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "exact",
+      "status": "ok",
+      "output": "5\n0\n",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "fewer",
+      "status": "ok",
+      "output": "0\n3\n",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "big",
+      "status": "ok",
+      "output": "142\n6\n",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "one-friend",
+      "status": "ok",
+      "output": "9\n0\n",
+      "error_type": null,
+      "line": null
+     }
+    ]
+   },
+   "response": {
+    "passed": true,
+    "result": "passed",
+    "feedback": "Your program printed the expected output for all 5 test cases, including 2 hidden cases. Read your code once more: could you explain each line to someone else?",
+    "rule": null,
+    "assessment": "browser_tests",
+    "cases": [
+     {
+      "id": "even",
+      "visibility": "visible",
+      "status": "passed"
+     },
+     {
+      "id": "exact",
+      "visibility": "visible",
+      "status": "passed"
+     },
+     {
+      "id": "fewer",
+      "visibility": "visible",
+      "status": "passed"
+     },
+     {
+      "id": "big",
+      "visibility": "hidden",
+      "status": "passed"
+     },
+     {
+      "id": "one-friend",
+      "visibility": "hidden",
+      "status": "passed"
+     }
+    ],
+    "failed": null
+   }
+  },
+  {
+   "name": "arithmetic needs_work",
+   "request": {
+    "lesson_id": "py.arithmetic",
+    "code": "coins = int(input(\"How many coins? \"))\nfriends = int(input(\"How many friends? \"))\nprint(coins / friends)\nprint(coins % friends)\n",
+    "output": "3.4\n2\n",
+    "inputs": [],
+    "runs": [
+     {
+      "id": "even",
+      "status": "ok",
+      "output": "3.4\n2\n",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "exact",
+      "status": "ok",
+      "output": "5.0\n0\n",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "fewer",
+      "status": "ok",
+      "output": "0.6\n3\n",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "big",
+      "status": "ok",
+      "output": "142.85714285714286\n6\n",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "one-friend",
+      "status": "ok",
+      "output": "9.0\n0\n",
+      "error_type": null,
+      "line": null
+     }
+    ]
+   },
+   "response": {
+    "passed": false,
+    "result": "needs_work",
+    "feedback": "For 17 coins and 5 friends, line 1 should be \"3\", but your program printed \"3.4\".",
+    "rule": "py.arithmetic.case.even",
+    "assessment": "browser_tests",
+    "cases": [
+     {
+      "id": "even",
+      "visibility": "visible",
+      "status": "failed"
+     },
+     {
+      "id": "exact",
+      "visibility": "visible",
+      "status": "failed"
+     },
+     {
+      "id": "fewer",
+      "visibility": "visible",
+      "status": "failed"
+     },
+     {
+      "id": "big",
+      "visibility": "hidden",
+      "status": "failed"
+     },
+     {
+      "id": "one-friend",
+      "visibility": "hidden",
+      "status": "failed"
+     }
+    ],
+    "failed": {
+     "id": "even",
+     "visibility": "visible",
+     "description": "17 coins and 5 friends",
+     "reason": "wrong_output",
+     "error_type": null,
+     "line": null,
+     "line_number": 1,
+     "expected_line": "3",
+     "actual_line": "3.4"
+    }
+   }
+  },
+  {
+   "name": "arithmetic hidden",
+   "request": {
+    "lesson_id": "py.arithmetic",
+    "code": "coins = int(input(\"How many coins? \"))\nfriends = int(input(\"How many friends? \"))\nif coins == 17:\n    print(3)\n    print(2)\nif coins == 20:\n    print(5)\n    print(0)\nif coins == 3:\n    print(0)\n    print(3)\n",
+    "output": "3\n2\n",
+    "inputs": [],
+    "runs": [
+     {
+      "id": "even",
+      "status": "ok",
+      "output": "3\n2\n",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "exact",
+      "status": "ok",
+      "output": "5\n0\n",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "fewer",
+      "status": "ok",
+      "output": "0\n3\n",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "big",
+      "status": "ok",
+      "output": "",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "one-friend",
+      "status": "ok",
+      "output": "",
+      "error_type": null,
+      "line": null
+     }
+    ]
+   },
+   "response": {
+    "passed": false,
+    "result": "needs_work",
+    "feedback": "Your program printed something different for a big chest (a hidden test case). Check that it works from the replies it is given, not from fixed values.",
+    "rule": "py.arithmetic.case.big",
+    "assessment": "browser_tests",
+    "cases": [
+     {
+      "id": "even",
+      "visibility": "visible",
+      "status": "passed"
+     },
+     {
+      "id": "exact",
+      "visibility": "visible",
+      "status": "passed"
+     },
+     {
+      "id": "fewer",
+      "visibility": "visible",
+      "status": "passed"
+     },
+     {
+      "id": "big",
+      "visibility": "hidden",
+      "status": "failed"
+     },
+     {
+      "id": "one-friend",
+      "visibility": "hidden",
+      "status": "failed"
+     }
+    ],
+    "failed": {
+     "id": "big",
+     "visibility": "hidden",
+     "description": "a big chest",
+     "reason": "wrong_output",
+     "error_type": null,
+     "line": null
+    }
+   }
+  },
+  {
+   "name": "arithmetic name error",
+   "request": {
+    "lesson_id": "py.arithmetic",
+    "code": "coins = int(input(\"How many coins? \"))\nfriends = int(input(\"How many friends? \"))\nprint(coin // friends)\nprint(coins % friends)\n",
+    "output": "",
+    "inputs": [],
+    "runs": [
+     {
+      "id": "even",
+      "status": "error",
+      "output": "",
+      "error_type": "NameError",
+      "line": 3
+     },
+     {
+      "id": "exact",
+      "status": "error",
+      "output": "",
+      "error_type": "NameError",
+      "line": 3
+     },
+     {
+      "id": "fewer",
+      "status": "error",
+      "output": "",
+      "error_type": "NameError",
+      "line": 3
+     },
+     {
+      "id": "big",
+      "status": "error",
+      "output": "",
+      "error_type": "NameError",
+      "line": 3
+     },
+     {
+      "id": "one-friend",
+      "status": "error",
+      "output": "",
+      "error_type": "NameError",
+      "line": 3
+     }
+    ]
+   },
+   "response": {
+    "passed": false,
+    "result": "execution_error",
+    "feedback": "Python stopped with NameError on line 3 while running 17 coins and 5 friends. Read the error, change one thing, and run it again.",
+    "rule": null,
+    "assessment": "browser_tests",
+    "cases": [
+     {
+      "id": "even",
+      "visibility": "visible",
+      "status": "failed"
+     },
+     {
+      "id": "exact",
+      "visibility": "visible",
+      "status": "failed"
+     },
+     {
+      "id": "fewer",
+      "visibility": "visible",
+      "status": "failed"
+     },
+     {
+      "id": "big",
+      "visibility": "hidden",
+      "status": "failed"
+     },
+     {
+      "id": "one-friend",
+      "visibility": "hidden",
+      "status": "failed"
+     }
+    ],
+    "failed": {
+     "id": "even",
+     "visibility": "visible",
+     "description": "17 coins and 5 friends",
+     "reason": "error",
+     "error_type": "NameError",
+     "line": 3
+    }
+   }
+  },
+  {
+   "name": "arithmetic endless loop",
+   "request": {
+    "lesson_id": "py.arithmetic",
+    "code": "coins = int(input(\"How many coins? \"))\nfriends = int(input(\"How many friends? \"))\nwhile True:\n    pass\n",
+    "output": "",
+    "inputs": [],
+    "runs": [
+     {
+      "id": "even",
+      "status": "timeout",
+      "output": "",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "exact",
+      "status": "not_run",
+      "output": "",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "fewer",
+      "status": "not_run",
+      "output": "",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "big",
+      "status": "not_run",
+      "output": "",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "one-friend",
+      "status": "not_run",
+      "output": "",
+      "error_type": null,
+      "line": null
+     }
+    ]
+   },
+   "response": {
+    "passed": false,
+    "result": "execution_error",
+    "feedback": "Your program was still running after 3 seconds on 17 coins and 5 friends, so it was stopped. Check for a loop that never ends.",
+    "rule": null,
+    "assessment": "browser_tests",
+    "cases": [
+     {
+      "id": "even",
+      "visibility": "visible",
+      "status": "failed"
+     },
+     {
+      "id": "exact",
+      "visibility": "visible",
+      "status": "not_run"
+     },
+     {
+      "id": "fewer",
+      "visibility": "visible",
+      "status": "not_run"
+     },
+     {
+      "id": "big",
+      "visibility": "hidden",
+      "status": "not_run"
+     },
+     {
+      "id": "one-friend",
+      "visibility": "hidden",
+      "status": "not_run"
+     }
+    ],
+    "failed": {
+     "id": "even",
+     "visibility": "visible",
+     "description": "17 coins and 5 friends",
+     "reason": "timeout",
+     "error_type": null,
+     "line": null
+    }
+   }
+  },
+  {
+   "name": "arithmetic unsupported",
+   "request": {
+    "lesson_id": "py.arithmetic",
+    "code": "import turtle\ncoins = int(input(\"How many coins? \"))\nfriends = int(input(\"How many friends? \"))\nprint(coins // friends)\nprint(coins % friends)\n",
+    "output": "",
+    "inputs": [],
+    "runs": [
+     {
+      "id": "even",
+      "status": "error",
+      "output": "",
+      "error_type": "ModuleNotFoundError",
+      "line": 1
+     },
+     {
+      "id": "exact",
+      "status": "error",
+      "output": "",
+      "error_type": "ModuleNotFoundError",
+      "line": 1
+     },
+     {
+      "id": "fewer",
+      "status": "error",
+      "output": "",
+      "error_type": "ModuleNotFoundError",
+      "line": 1
+     },
+     {
+      "id": "big",
+      "status": "error",
+      "output": "",
+      "error_type": "ModuleNotFoundError",
+      "line": 1
+     },
+     {
+      "id": "one-friend",
+      "status": "error",
+      "output": "",
+      "error_type": "ModuleNotFoundError",
+      "line": 1
+     }
+    ]
+   },
+   "response": {
+    "passed": false,
+    "result": "unsupported",
+    "feedback": "These checks run Python's built-in features only, so that import can't be used here.",
+    "rule": null,
+    "assessment": "browser_tests",
+    "cases": [
+     {
+      "id": "even",
+      "visibility": "visible",
+      "status": "failed"
+     },
+     {
+      "id": "exact",
+      "visibility": "visible",
+      "status": "failed"
+     },
+     {
+      "id": "fewer",
+      "visibility": "visible",
+      "status": "failed"
+     },
+     {
+      "id": "big",
+      "visibility": "hidden",
+      "status": "failed"
+     },
+     {
+      "id": "one-friend",
+      "visibility": "hidden",
+      "status": "failed"
+     }
+    ],
+    "failed": {
+     "id": "even",
+     "visibility": "visible",
+     "description": "17 coins and 5 friends",
+     "reason": "unsupported",
+     "error_type": "ModuleNotFoundError",
+     "line": 1
+    }
+   }
+  },
+  {
+   "name": "int-float passed",
+   "request": {
+    "lesson_id": "py.int-float",
+    "code": "first = int(input(\"First score? \"))\nsecond = int(input(\"Second score? \"))\naverage = (first + second) / 2\nprint(average)\nprint(int(average))\n",
+    "output": "7.5\n7\n",
+    "inputs": [],
+    "runs": [
+     {
+      "id": "half",
+      "status": "ok",
+      "output": "7.5\n7\n",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "whole",
+      "status": "ok",
+      "output": "7.0\n7\n",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "negative",
+      "status": "ok",
+      "output": "-0.5\n0\n",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "high",
+      "status": "ok",
+      "output": "97.5\n97\n",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "equal",
+      "status": "ok",
+      "output": "10.0\n10\n",
+      "error_type": null,
+      "line": null
+     }
+    ]
+   },
+   "response": {
+    "passed": true,
+    "result": "passed",
+    "feedback": "Your program printed the expected output for all 5 test cases, including 2 hidden cases. Read your code once more: could you explain each line to someone else?",
+    "rule": null,
+    "assessment": "browser_tests",
+    "cases": [
+     {
+      "id": "half",
+      "visibility": "visible",
+      "status": "passed"
+     },
+     {
+      "id": "whole",
+      "visibility": "visible",
+      "status": "passed"
+     },
+     {
+      "id": "negative",
+      "visibility": "visible",
+      "status": "passed"
+     },
+     {
+      "id": "high",
+      "visibility": "hidden",
+      "status": "passed"
+     },
+     {
+      "id": "equal",
+      "visibility": "hidden",
+      "status": "passed"
+     }
+    ],
+    "failed": null
+   }
+  },
+  {
+   "name": "int-float needs_work",
+   "request": {
+    "lesson_id": "py.int-float",
+    "code": "first = int(input(\"First score? \"))\nsecond = int(input(\"Second score? \"))\naverage = first + second / 2\nprint(average)\nprint(int(average))\n",
+    "output": "11.0\n11\n",
+    "inputs": [],
+    "runs": [
+     {
+      "id": "half",
+      "status": "ok",
+      "output": "11.0\n11\n",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "whole",
+      "status": "ok",
+      "output": "10.0\n10\n",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "negative",
+      "status": "ok",
+      "output": "-2.0\n-2\n",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "high",
+      "status": "ok",
+      "output": "145.0\n145\n",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "equal",
+      "status": "ok",
+      "output": "15.0\n15\n",
+      "error_type": null,
+      "line": null
+     }
+    ]
+   },
+   "response": {
+    "passed": false,
+    "result": "needs_work",
+    "feedback": "For scores of 7 and 8, line 1 should be \"7.5\", but your program printed \"11.0\".",
+    "rule": "py.int-float.case.half",
+    "assessment": "browser_tests",
+    "cases": [
+     {
+      "id": "half",
+      "visibility": "visible",
+      "status": "failed"
+     },
+     {
+      "id": "whole",
+      "visibility": "visible",
+      "status": "failed"
+     },
+     {
+      "id": "negative",
+      "visibility": "visible",
+      "status": "failed"
+     },
+     {
+      "id": "high",
+      "visibility": "hidden",
+      "status": "failed"
+     },
+     {
+      "id": "equal",
+      "visibility": "hidden",
+      "status": "failed"
+     }
+    ],
+    "failed": {
+     "id": "half",
+     "visibility": "visible",
+     "description": "scores of 7 and 8",
+     "reason": "wrong_output",
+     "error_type": null,
+     "line": null,
+     "line_number": 1,
+     "expected_line": "7.5",
+     "actual_line": "11.0"
+    }
+   }
+  },
+  {
+   "name": "int-float negative",
+   "request": {
+    "lesson_id": "py.int-float",
+    "code": "first = int(input(\"First score? \"))\nsecond = int(input(\"Second score? \"))\naverage = (first + second) / 2\nprint(average)\nprint((first + second) // 2)\n",
+    "output": "7.5\n7\n",
+    "inputs": [],
+    "runs": [
+     {
+      "id": "half",
+      "status": "ok",
+      "output": "7.5\n7\n",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "whole",
+      "status": "ok",
+      "output": "7.0\n7\n",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "negative",
+      "status": "ok",
+      "output": "-0.5\n-1\n",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "high",
+      "status": "ok",
+      "output": "97.5\n97\n",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "equal",
+      "status": "ok",
+      "output": "10.0\n10\n",
+      "error_type": null,
+      "line": null
+     }
+    ]
+   },
+   "response": {
+    "passed": false,
+    "result": "needs_work",
+    "feedback": "For scores of -3 and 2, line 2 should be \"0\", but your program printed \"-1\".",
+    "rule": "py.int-float.case.negative",
+    "assessment": "browser_tests",
+    "cases": [
+     {
+      "id": "half",
+      "visibility": "visible",
+      "status": "passed"
+     },
+     {
+      "id": "whole",
+      "visibility": "visible",
+      "status": "passed"
+     },
+     {
+      "id": "negative",
+      "visibility": "visible",
+      "status": "failed"
+     },
+     {
+      "id": "high",
+      "visibility": "hidden",
+      "status": "passed"
+     },
+     {
+      "id": "equal",
+      "visibility": "hidden",
+      "status": "passed"
+     }
+    ],
+    "failed": {
+     "id": "negative",
+     "visibility": "visible",
+     "description": "scores of -3 and 2",
+     "reason": "wrong_output",
+     "error_type": null,
+     "line": null,
+     "line_number": 2,
+     "expected_line": "0",
+     "actual_line": "-1"
+    }
+   }
+  },
+  {
+   "name": "int-float type error",
+   "request": {
+    "lesson_id": "py.int-float",
+    "code": "first = int(input(\"First score? \"))\nsecond = int(input(\"Second score? \"))\nprint(\"Average: \" + (first + second) / 2)\n",
+    "output": "",
+    "inputs": [],
+    "runs": [
+     {
+      "id": "half",
+      "status": "error",
+      "output": "",
+      "error_type": "TypeError",
+      "line": 3
+     },
+     {
+      "id": "whole",
+      "status": "error",
+      "output": "",
+      "error_type": "TypeError",
+      "line": 3
+     },
+     {
+      "id": "negative",
+      "status": "error",
+      "output": "",
+      "error_type": "TypeError",
+      "line": 3
+     },
+     {
+      "id": "high",
+      "status": "error",
+      "output": "",
+      "error_type": "TypeError",
+      "line": 3
+     },
+     {
+      "id": "equal",
+      "status": "error",
+      "output": "",
+      "error_type": "TypeError",
+      "line": 3
+     }
+    ]
+   },
+   "response": {
+    "passed": false,
+    "result": "execution_error",
+    "feedback": "Python stopped with TypeError on line 3 while running scores of 7 and 8. Read the error, change one thing, and run it again.",
+    "rule": null,
+    "assessment": "browser_tests",
+    "cases": [
+     {
+      "id": "half",
+      "visibility": "visible",
+      "status": "failed"
+     },
+     {
+      "id": "whole",
+      "visibility": "visible",
+      "status": "failed"
+     },
+     {
+      "id": "negative",
+      "visibility": "visible",
+      "status": "failed"
+     },
+     {
+      "id": "high",
+      "visibility": "hidden",
+      "status": "failed"
+     },
+     {
+      "id": "equal",
+      "visibility": "hidden",
+      "status": "failed"
+     }
+    ],
+    "failed": {
+     "id": "half",
+     "visibility": "visible",
+     "description": "scores of 7 and 8",
+     "reason": "error",
+     "error_type": "TypeError",
+     "line": 3
+    }
+   }
+  },
+  {
+   "name": "int-float endless loop",
+   "request": {
+    "lesson_id": "py.int-float",
+    "code": "first = int(input(\"First score? \"))\nsecond = int(input(\"Second score? \"))\nwhile first > 0:\n    pass\n",
+    "output": "",
+    "inputs": [],
+    "runs": [
+     {
+      "id": "half",
+      "status": "timeout",
+      "output": "",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "whole",
+      "status": "not_run",
+      "output": "",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "negative",
+      "status": "not_run",
+      "output": "",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "high",
+      "status": "not_run",
+      "output": "",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "equal",
+      "status": "not_run",
+      "output": "",
+      "error_type": null,
+      "line": null
+     }
+    ]
+   },
+   "response": {
+    "passed": false,
+    "result": "execution_error",
+    "feedback": "Your program was still running after 3 seconds on scores of 7 and 8, so it was stopped. Check for a loop that never ends.",
+    "rule": null,
+    "assessment": "browser_tests",
+    "cases": [
+     {
+      "id": "half",
+      "visibility": "visible",
+      "status": "failed"
+     },
+     {
+      "id": "whole",
+      "visibility": "visible",
+      "status": "not_run"
+     },
+     {
+      "id": "negative",
+      "visibility": "visible",
+      "status": "not_run"
+     },
+     {
+      "id": "high",
+      "visibility": "hidden",
+      "status": "not_run"
+     },
+     {
+      "id": "equal",
+      "visibility": "hidden",
+      "status": "not_run"
+     }
+    ],
+    "failed": {
+     "id": "half",
+     "visibility": "visible",
+     "description": "scores of 7 and 8",
+     "reason": "timeout",
+     "error_type": null,
+     "line": null
+    }
+   }
+  },
+  {
+   "name": "int-float unsupported",
+   "request": {
+    "lesson_id": "py.int-float",
+    "code": "import turtle\nfirst = int(input(\"First score? \"))\nsecond = int(input(\"Second score? \"))\naverage = (first + second) / 2\nprint(average)\nprint(int(average))\n",
+    "output": "",
+    "inputs": [],
+    "runs": [
+     {
+      "id": "half",
+      "status": "error",
+      "output": "",
+      "error_type": "ModuleNotFoundError",
+      "line": 1
+     },
+     {
+      "id": "whole",
+      "status": "error",
+      "output": "",
+      "error_type": "ModuleNotFoundError",
+      "line": 1
+     },
+     {
+      "id": "negative",
+      "status": "error",
+      "output": "",
+      "error_type": "ModuleNotFoundError",
+      "line": 1
+     },
+     {
+      "id": "high",
+      "status": "error",
+      "output": "",
+      "error_type": "ModuleNotFoundError",
+      "line": 1
+     },
+     {
+      "id": "equal",
+      "status": "error",
+      "output": "",
+      "error_type": "ModuleNotFoundError",
+      "line": 1
+     }
+    ]
+   },
+   "response": {
+    "passed": false,
+    "result": "unsupported",
+    "feedback": "These checks run Python's built-in features only, so that import can't be used here.",
+    "rule": null,
+    "assessment": "browser_tests",
+    "cases": [
+     {
+      "id": "half",
+      "visibility": "visible",
+      "status": "failed"
+     },
+     {
+      "id": "whole",
+      "visibility": "visible",
+      "status": "failed"
+     },
+     {
+      "id": "negative",
+      "visibility": "visible",
+      "status": "failed"
+     },
+     {
+      "id": "high",
+      "visibility": "hidden",
+      "status": "failed"
+     },
+     {
+      "id": "equal",
+      "visibility": "hidden",
+      "status": "failed"
+     }
+    ],
+    "failed": {
+     "id": "half",
+     "visibility": "visible",
+     "description": "scores of 7 and 8",
+     "reason": "unsupported",
+     "error_type": "ModuleNotFoundError",
+     "line": 1
+    }
+   }
+  },
+  {
+   "name": "convert-input passed",
+   "request": {
+    "lesson_id": "py.convert-input",
+    "code": "score = int(input(\"Score? \"))\npoints = input(\"Points? \")\nif points == \"\":\n    points = \"0\"\npoints = int(points)\nprint(score + points)\nprint(score - points)\n",
+    "output": "13\n7\n",
+    "inputs": [],
+    "runs": [
+     {
+      "id": "solved-missed",
+      "status": "ok",
+      "output": "13\n7\n",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "below-zero",
+      "status": "ok",
+      "output": "13\n-3\n",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "no-points",
+      "status": "ok",
+      "output": "6\n6\n",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "large",
+      "status": "ok",
+      "output": "370\n130\n",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "from-zero",
+      "status": "ok",
+      "output": "4\n-4\n",
+      "error_type": null,
+      "line": null
+     }
+    ]
+   },
+   "response": {
+    "passed": true,
+    "result": "passed",
+    "feedback": "Your program printed the expected output for all 5 test cases, including 2 hidden cases. Read your code once more: could you explain each line to someone else?",
+    "rule": null,
+    "assessment": "browser_tests",
+    "cases": [
+     {
+      "id": "solved-missed",
+      "visibility": "visible",
+      "status": "passed"
+     },
+     {
+      "id": "below-zero",
+      "visibility": "visible",
+      "status": "passed"
+     },
+     {
+      "id": "no-points",
+      "visibility": "visible",
+      "status": "passed"
+     },
+     {
+      "id": "large",
+      "visibility": "hidden",
+      "status": "passed"
+     },
+     {
+      "id": "from-zero",
+      "visibility": "hidden",
+      "status": "passed"
+     }
+    ],
+    "failed": null
+   }
+  },
+  {
+   "name": "convert-input needs_work",
+   "request": {
+    "lesson_id": "py.convert-input",
+    "code": "score = int(input())\npoints = int(input() or \"1\")\nprint(score + points)\nprint(score - points)\n",
+    "output": "13\n7\n",
+    "inputs": [],
+    "runs": [
+     {
+      "id": "solved-missed",
+      "status": "ok",
+      "output": "13\n7\n",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "below-zero",
+      "status": "ok",
+      "output": "13\n-3\n",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "no-points",
+      "status": "ok",
+      "output": "7\n5\n",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "large",
+      "status": "ok",
+      "output": "370\n130\n",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "from-zero",
+      "status": "ok",
+      "output": "4\n-4\n",
+      "error_type": null,
+      "line": null
+     }
+    ]
+   },
+   "response": {
+    "passed": false,
+    "result": "needs_work",
+    "feedback": "For a score of 6 and an empty points reply, line 1 should be \"6\", but your program printed \"7\".",
+    "rule": "py.convert-input.case.no-points",
+    "assessment": "browser_tests",
+    "cases": [
+     {
+      "id": "solved-missed",
+      "visibility": "visible",
+      "status": "passed"
+     },
+     {
+      "id": "below-zero",
+      "visibility": "visible",
+      "status": "passed"
+     },
+     {
+      "id": "no-points",
+      "visibility": "visible",
+      "status": "failed"
+     },
+     {
+      "id": "large",
+      "visibility": "hidden",
+      "status": "passed"
+     },
+     {
+      "id": "from-zero",
+      "visibility": "hidden",
+      "status": "passed"
+     }
+    ],
+    "failed": {
+     "id": "no-points",
+     "visibility": "visible",
+     "description": "a score of 6 and an empty points reply",
+     "reason": "wrong_output",
+     "error_type": null,
+     "line": null,
+     "line_number": 1,
+     "expected_line": "6",
+     "actual_line": "7"
+    }
+   }
+  },
+  {
+   "name": "convert-input value error",
+   "request": {
+    "lesson_id": "py.convert-input",
+    "code": "score = int(input(\"Score? \"))\npoints = int(input(\"Points? \"))\nprint(score + points)\nprint(score - points)\n",
+    "output": "13\n7\n",
+    "inputs": [],
+    "runs": [
+     {
+      "id": "solved-missed",
+      "status": "ok",
+      "output": "13\n7\n",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "below-zero",
+      "status": "ok",
+      "output": "13\n-3\n",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "no-points",
+      "status": "error",
+      "output": "",
+      "error_type": "ValueError",
+      "line": 2
+     },
+     {
+      "id": "large",
+      "status": "ok",
+      "output": "370\n130\n",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "from-zero",
+      "status": "ok",
+      "output": "4\n-4\n",
+      "error_type": null,
+      "line": null
+     }
+    ]
+   },
+   "response": {
+    "passed": false,
+    "result": "execution_error",
+    "feedback": "Python stopped with ValueError on line 2 while running a score of 6 and an empty points reply. Read the error, change one thing, and run it again.",
+    "rule": null,
+    "assessment": "browser_tests",
+    "cases": [
+     {
+      "id": "solved-missed",
+      "visibility": "visible",
+      "status": "passed"
+     },
+     {
+      "id": "below-zero",
+      "visibility": "visible",
+      "status": "passed"
+     },
+     {
+      "id": "no-points",
+      "visibility": "visible",
+      "status": "failed"
+     },
+     {
+      "id": "large",
+      "visibility": "hidden",
+      "status": "passed"
+     },
+     {
+      "id": "from-zero",
+      "visibility": "hidden",
+      "status": "passed"
+     }
+    ],
+    "failed": {
+     "id": "no-points",
+     "visibility": "visible",
+     "description": "a score of 6 and an empty points reply",
+     "reason": "error",
+     "error_type": "ValueError",
+     "line": 2
+    }
+   }
+  },
+  {
+   "name": "convert-input endless loop",
+   "request": {
+    "lesson_id": "py.convert-input",
+    "code": "score = int(input())\nwhile score:\n    pass\n",
+    "output": "",
+    "inputs": [],
+    "runs": [
+     {
+      "id": "solved-missed",
+      "status": "timeout",
+      "output": "",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "below-zero",
+      "status": "not_run",
+      "output": "",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "no-points",
+      "status": "not_run",
+      "output": "",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "large",
+      "status": "not_run",
+      "output": "",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "from-zero",
+      "status": "not_run",
+      "output": "",
+      "error_type": null,
+      "line": null
+     }
+    ]
+   },
+   "response": {
+    "passed": false,
+    "result": "execution_error",
+    "feedback": "Your program was still running after 3 seconds on a score of 10 and a riddle worth 3, so it was stopped. Check for a loop that never ends.",
+    "rule": null,
+    "assessment": "browser_tests",
+    "cases": [
+     {
+      "id": "solved-missed",
+      "visibility": "visible",
+      "status": "failed"
+     },
+     {
+      "id": "below-zero",
+      "visibility": "visible",
+      "status": "not_run"
+     },
+     {
+      "id": "no-points",
+      "visibility": "visible",
+      "status": "not_run"
+     },
+     {
+      "id": "large",
+      "visibility": "hidden",
+      "status": "not_run"
+     },
+     {
+      "id": "from-zero",
+      "visibility": "hidden",
+      "status": "not_run"
+     }
+    ],
+    "failed": {
+     "id": "solved-missed",
+     "visibility": "visible",
+     "description": "a score of 10 and a riddle worth 3",
+     "reason": "timeout",
+     "error_type": null,
+     "line": null
+    }
+   }
+  },
+  {
+   "name": "convert-input unsupported",
+   "request": {
+    "lesson_id": "py.convert-input",
+    "code": "import turtle\nscore = int(input(\"Score? \"))\npoints = input(\"Points? \")\nif points == \"\":\n    points = \"0\"\npoints = int(points)\nprint(score + points)\nprint(score - points)\n",
+    "output": "",
+    "inputs": [],
+    "runs": [
+     {
+      "id": "solved-missed",
+      "status": "error",
+      "output": "",
+      "error_type": "ModuleNotFoundError",
+      "line": 1
+     },
+     {
+      "id": "below-zero",
+      "status": "error",
+      "output": "",
+      "error_type": "ModuleNotFoundError",
+      "line": 1
+     },
+     {
+      "id": "no-points",
+      "status": "error",
+      "output": "",
+      "error_type": "ModuleNotFoundError",
+      "line": 1
+     },
+     {
+      "id": "large",
+      "status": "error",
+      "output": "",
+      "error_type": "ModuleNotFoundError",
+      "line": 1
+     },
+     {
+      "id": "from-zero",
+      "status": "error",
+      "output": "",
+      "error_type": "ModuleNotFoundError",
+      "line": 1
+     }
+    ]
+   },
+   "response": {
+    "passed": false,
+    "result": "unsupported",
+    "feedback": "These checks run Python's built-in features only, so that import can't be used here.",
+    "rule": null,
+    "assessment": "browser_tests",
+    "cases": [
+     {
+      "id": "solved-missed",
+      "visibility": "visible",
+      "status": "failed"
+     },
+     {
+      "id": "below-zero",
+      "visibility": "visible",
+      "status": "failed"
+     },
+     {
+      "id": "no-points",
+      "visibility": "visible",
+      "status": "failed"
+     },
+     {
+      "id": "large",
+      "visibility": "hidden",
+      "status": "failed"
+     },
+     {
+      "id": "from-zero",
+      "visibility": "hidden",
+      "status": "failed"
+     }
+    ],
+    "failed": {
+     "id": "solved-missed",
+     "visibility": "visible",
+     "description": "a score of 10 and a riddle worth 3",
+     "reason": "unsupported",
+     "error_type": "ModuleNotFoundError",
+     "line": 1
+    }
+   }
+  }
+ ]
+}

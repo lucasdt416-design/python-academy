@@ -75,7 +75,7 @@
   "id": "concat",
   "unit": 2,
   "title": "Text and numbers cannot be joined with `+`",
-  "text": "On line {line}, one side of `+` is text and the other is a number. Turn the number into text with `str(...)`, or use an f-string."
+  "text": "On line {line}, one side of `+` is text and the other is a number. To add numbers, turn the text into a number with `int(...)`. To join text, turn the number into text with `str(...)`, or use an f-string."
  },
  {
   "id": "int-text",
