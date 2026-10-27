@@ -24,7 +24,7 @@ Python Academy is a learning platform for beginners. It started as a way to help
 
 ## What you can do today
 
-| | |
+| What | What it does |
 | --- | --- |
 | **🧭 A real catalog** | Browse courses, course pages and a lesson sidebar. A rule-based recommendation on the student home suggests where to go next from a self-chosen goal. |
 | **🏕️ Five connected lessons** | Output, variables, input, choices and a combined story. Each lesson is five cards: discover, a worked example, predict what happens, guided practice and an independent challenge. |
@@ -36,8 +36,8 @@ Python Academy is a learning platform for beginners. It started as a way to help
 
 <table>
   <tr>
-    <td width="50%"><img src="docs/images/friendly-error.png" alt="The Create your hero challenge after running print(heor): line 3 is marked, the result says Python does not know heor and asks Did you mean hero?, and Python's own message is open below it"></td>
-    <td width="50%"><img src="docs/images/hint-ladder.png" alt="The Choose a path challenge with three hints shown beside the editor: a nudge, a bigger hint and the approach, followed by a button for a similar example"></td>
+    <td width="50%" valign="top"><img src="docs/images/friendly-error.png" width="380" alt="The code panel after running print(heor) on line 3: line 3 is marked, the result says Python stopped, Python does not know heor, and asks Did you mean hero?, with a Go to line 3 button, Python's own message open below it, and a Show a hint about this error button"></td>
+    <td width="50%" valign="top"><img src="docs/images/hint-ladder.png" width="380" alt="The code panel for the Choose a path challenge, with the starter code, a Player replies box set to left, and three hints shown under Hints: a nudge, a bigger hint and the approach, followed by a Show a similar example button"></td>
   </tr>
   <tr>
     <td align="center"><sub>A plain-words explanation, with the failing line marked</sub></td>
