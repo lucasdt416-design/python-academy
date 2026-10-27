@@ -23,6 +23,10 @@ services:
       # counter. Checked live on 2026-10-25 (handoff 06 section 13.7).
       - key: CLIENT_IP_HEADER
         value: cf-connecting-ip
+      # Comma-separated Google emails of admins (backlog FB-01). Set by hand in the Render
+      # dashboard; never put the value here. sync: false means the Blueprint never overwrites it.
+      - key: ADMIN_EMAILS
+        sync: false
   - type: web
     name: python-academy
     runtime: node

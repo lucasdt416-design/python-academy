@@ -1,5 +1,6 @@
 from . import browser_checks, content, migrate, sessions
 from . import awards
+from . import admin
 from .awards import award_challenge
 from .db import Attempt, Base, Event, Invitation, LearnerGoal, User, engine
 from .lesson_checks import assess, check_story
@@ -40,6 +41,8 @@ app = FastAPI(title='Python Academy')
 app.add_middleware(SessionMiddleware, secret_key=SECRET or secrets.token_urlsafe(48), same_site='lax', https_only=PRODUCTION, max_age=sessions.ABSOLUTE)
 oauth = OAuth()
 oauth.register(name='google', client_id=os.getenv('GOOGLE_CLIENT_ID'), client_secret=os.getenv('GOOGLE_CLIENT_SECRET'), server_metadata_url='https://accounts.google.com/.well-known/openid-configuration', client_kwargs={'scope': 'openid email profile'})
+
+admin.register(app)
 
 @app.middleware('http')
 async def security(request: Request, call_next):
@@ -98,7 +101,7 @@ async def callback(request: Request):
             user = User(subject=info['sub'], email=info['email'].lower())
             db.add(user)
             db.flush()
-        sessions.start(db, request, user.id)
+        sessions.start(db, request, user.id, admin=admin.admin_at_sign_in(info))
         audit(db, user, 'signed_in')
         db.commit()
     return RedirectResponse(ORIGIN)
@@ -117,7 +120,7 @@ def logout(request: Request):
 def me(request: Request):
     with Session(engine) as db:
         u = current(request, db)
-        return {'id': u.id, 'email': u.email, 'role': u.role}
+        return {'id': u.id, 'email': u.email, 'role': u.role, 'admin': admin.is_admin(request, u), 'tester': admin.is_tester(request, u)}
 
 class Enrollment(BaseModel):
     birthday: date
