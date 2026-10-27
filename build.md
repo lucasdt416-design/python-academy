@@ -67,6 +67,7 @@ Important source locations:
 | `.github/workflows/ci.yml` | Automated build and test workflow |
 | `render.yaml`, `DEPLOYMENT.md`, `README.md` | Service definition, deployment notes, setup |
 | `docs/plan/backlog.md` | Ordered backlog: source of truth for the order of work |
+| `docs/plan/site-design.md` | Design direction for the public story website and the product's look (SITE-01, proposed) |
 | `docs/plan/course-catalog.md`, `docs/plan/feedback-security.md` | Catalog, goals, recommendations and feature plans; feedback threat model |
 | `docs/plan/teaching-design.md`, `docs/plan/lesson-feedback.md`, `docs/plan/ai-helper.md` | How we teach and per-course methods; the lesson feedback engine specification; the deferred AI helper design note (all proposed) |
 | `docs/plan/decision-log.md`, `docs/plan/engineering-book-outline.md` | How the platform was built, stage by stage (decisions, bugs, testing), and the proposed book and course built from it |
