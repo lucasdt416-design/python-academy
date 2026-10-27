@@ -321,6 +321,9 @@ def feedback_errors(lesson_id, challenge, seen):
             errors.append(f'{challenge.id} has duplicate rule ID {rule_id}')
     seen.update(ids)
     rules = set(ids) - {lesson_id + '.passed'}
+    if challenge.check:
+        # A browser check's wrong-output result names its case as a rule: <lesson>.case.<case id>.
+        rules |= {f'{lesson_id}.case.{case.id}' for case in challenge.check.cases}
     tagged = [tag for hint in challenge.error_hints for tag in hint.tags]
     for tag in tagged:
         if tag not in ERROR_TAGS | rules:
@@ -373,29 +376,40 @@ def _cycles(edges):
     return found
 
 
+def lesson_view(lesson):
+    """One lesson as the lesson page reads it (the original /api/lessons shape, plus later additions)."""
+    discover, example, predict, guided, challenge = lesson.tasks
+    return {
+        'id': lesson.id, 'title': lesson.title, 'concept': lesson.concept,
+        'badge': lesson.badge.title if lesson.badge else '', 'description': lesson.description,
+        'learnTitle': discover.title, 'learn': discover.body, 'detail': discover.detail,
+        'example': example.code, 'exampleOutput': example.output, 'exampleNote': example.note,
+        'question': predict.question, 'options': predict.options, 'answer': predict.answer, 'why': predict.why,
+        'guided': guided.prompt, 'starter': challenge.starter, 'challenge': challenge.prompt,
+        'hints': challenge.hints, 'inputs': challenge.input_labels, 'exampleInputs': example.inputs,
+        # Retired field, always null; kept so the response is unchanged.
+        'expected': None,
+        # Added for the feedback engine (ENG-04 part 2a). New fields only, so a page from before
+        # them keeps working during a deploy.
+        'errorHints': [{'tags': h.tags, 'text': h.text} for h in challenge.error_hints],
+        'similarExample': challenge.similar_example.model_dump() if challenge.similar_example else None,
+        'otherWays': [way.model_dump() for way in challenge.other_ways],
+    }
+
+
 def legacy_lessons(catalog, lessons):
     """The original /api/lessons shape, rebuilt from the content files for the current UI."""
     unit = next(u for c in catalog.courses for u in c.units if u.id == LEGACY_UNIT)
-    result = []
-    for lesson in (lessons[i] for i in unit.lessons):
-        discover, example, predict, guided, challenge = lesson.tasks
-        result.append({
-            'id': lesson.id, 'title': lesson.title, 'concept': lesson.concept,
-            'badge': lesson.badge.title if lesson.badge else '', 'description': lesson.description,
-            'learnTitle': discover.title, 'learn': discover.body, 'detail': discover.detail,
-            'example': example.code, 'exampleOutput': example.output, 'exampleNote': example.note,
-            'question': predict.question, 'options': predict.options, 'answer': predict.answer, 'why': predict.why,
-            'guided': guided.prompt, 'starter': challenge.starter, 'challenge': challenge.prompt,
-            'hints': challenge.hints, 'inputs': challenge.input_labels, 'exampleInputs': example.inputs,
-            # Retired field, always null; kept so the response is unchanged.
-            'expected': None,
-            # Added for the feedback engine (ENG-04 part 2a). New fields only, so a page from before
-            # them keeps working during a deploy.
-            'errorHints': [{'tags': h.tags, 'text': h.text} for h in challenge.error_hints],
-            'similarExample': challenge.similar_example.model_dump() if challenge.similar_example else None,
-            'otherWays': [way.model_dump() for way in challenge.other_ways],
-        })
-    return result
+    return [lesson_view(lessons[i]) for i in unit.lessons]
+
+
+def unit_lessons(catalog, lessons):
+    """/api/units/<unit id>/lessons for every released unit (UI-05): each lesson as lesson_view()
+    gives it, plus its course, its unit and which check its challenge uses. A browser check's cases
+    are not here; the page asks /api/checks/<lesson id>, which leaves out hidden expected output."""
+    return {unit.id: [{**lesson_view(lessons[i]), 'course': course.id, 'unit': unit.id, 'check': lessons[i].task('challenge').validator.id}
+                      for i in unit.lessons]
+            for course in catalog.courses for unit in course.units if unit.status == 'released'}
 
 
 def lesson_order(catalog):

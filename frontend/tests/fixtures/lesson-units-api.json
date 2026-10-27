@@ -1,0 +1,1532 @@
+{
+ "catalog": {
+  "version": 1,
+  "courses": [
+   {
+    "id": "py",
+    "title": "Python Foundations",
+    "summary": "Write your first programs, then grow them into tested, organized projects.",
+    "status": "released",
+    "prerequisites": {
+     "required": [],
+     "suggested": []
+    },
+    "units": [
+     {
+      "id": "py.u01",
+      "title": "Build Your Own Adventure",
+      "summary": "Output, variables, input, and choices in one connected story.",
+      "status": "released",
+      "lessons": [
+       {
+        "id": "hello",
+        "title": "Open the story",
+        "concept": "Output \u00b7 print()",
+        "description": "Give your adventure a setting and a surprise.",
+        "badge": "Story spark"
+       },
+       {
+        "id": "variables",
+        "title": "Create your hero",
+        "concept": "Variables \u00b7 strings",
+        "description": "Give the adventure a hero and a useful tool.",
+        "badge": "Character creator"
+       },
+       {
+        "id": "input",
+        "title": "Meet the player",
+        "concept": "Interaction \u00b7 input()",
+        "description": "Let someone else name the hero.",
+        "badge": "Conversation starter"
+       },
+       {
+        "id": "choices",
+        "title": "Choose a path",
+        "concept": "Decisions \u00b7 if / else",
+        "description": "Make the story respond to a choice.",
+        "badge": "Path finder"
+       },
+       {
+        "id": "adventure",
+        "title": "Launch your adventure",
+        "concept": "Combine your skills",
+        "description": "Bring a player, a setting, and a choice into one small game.",
+        "badge": "Adventure maker"
+       }
+      ]
+     },
+     {
+      "id": "py.u02",
+      "title": "Numbers and decisions",
+      "summary": "Arithmetic, conversion, comparison, and Boolean logic.",
+      "status": "coming_soon",
+      "lessons": []
+     },
+     {
+      "id": "py.u03",
+      "title": "Repeat and explore",
+      "summary": "while and for loops that always finish.",
+      "status": "coming_soon",
+      "lessons": []
+     },
+     {
+      "id": "py.u04",
+      "title": "Keep track of a world",
+      "summary": "Lists, dictionaries, and sets.",
+      "status": "coming_soon",
+      "lessons": []
+     },
+     {
+      "id": "py.u05",
+      "title": "Organize your code",
+      "summary": "Functions, parameters, return values, and scope.",
+      "status": "coming_soon",
+      "lessons": []
+     },
+     {
+      "id": "py.u06",
+      "title": "Recover and investigate",
+      "summary": "Tracebacks, debugging, and exceptions.",
+      "status": "coming_soon",
+      "lessons": []
+     },
+     {
+      "id": "py.u07",
+      "title": "Libraries and modules",
+      "summary": "Importing and using the standard library.",
+      "status": "coming_soon",
+      "lessons": []
+     },
+     {
+      "id": "py.u08",
+      "title": "Trust your changes",
+      "summary": "Tests, boundaries, and refactoring.",
+      "status": "coming_soon",
+      "lessons": []
+     },
+     {
+      "id": "py.u09",
+      "title": "Save and load",
+      "summary": "Text files, JSON, and CSV.",
+      "status": "coming_soon",
+      "lessons": []
+     },
+     {
+      "id": "py.u10",
+      "title": "Patterns in text",
+      "summary": "String methods and regular expressions.",
+      "status": "coming_soon",
+      "lessons": []
+     },
+     {
+      "id": "py.u11",
+      "title": "Model a larger program",
+      "summary": "Classes and composition.",
+      "status": "coming_soon",
+      "lessons": []
+     },
+     {
+      "id": "py.u12",
+      "title": "Final project",
+      "summary": "Plan, build, test, and explain a project of your own.",
+      "status": "coming_soon",
+      "lessons": []
+     }
+    ]
+   },
+   {
+    "id": "hack",
+    "title": "Hackathon Ready",
+    "summary": "Scope, build, and demo a small working project with a team, against the clock.",
+    "status": "coming_soon",
+    "prerequisites": {
+     "required": [
+      "py.u01",
+      "py.u02",
+      "py.u03",
+      "py.u04",
+      "py.u05",
+      "py.u06",
+      "py.u07"
+     ],
+     "suggested": [
+      "git",
+      "web"
+     ]
+    },
+    "units": [
+     {
+      "id": "hack.u01",
+      "title": "Idea to MVP",
+      "summary": "Cut an idea down to a minimum viable product.",
+      "status": "coming_soon",
+      "lessons": []
+     },
+     {
+      "id": "hack.u02",
+      "title": "Time-boxing",
+      "summary": "Plan in fixed time blocks and know what to drop.",
+      "status": "coming_soon",
+      "lessons": []
+     },
+     {
+      "id": "hack.u03",
+      "title": "Teamwork with Git branches",
+      "summary": "Feature branches, small pull requests, and reviews.",
+      "status": "coming_soon",
+      "lessons": []
+     },
+     {
+      "id": "hack.u04",
+      "title": "Using public APIs safely",
+      "summary": "Rate limits, terms of use, and keeping keys out of frontend code.",
+      "status": "coming_soon",
+      "lessons": []
+     },
+     {
+      "id": "hack.u05",
+      "title": "Quick UI prototyping",
+      "summary": "From a paper sketch to a minimal working interface.",
+      "status": "coming_soon",
+      "lessons": []
+     },
+     {
+      "id": "hack.u06",
+      "title": "Demo and pitching",
+      "summary": "A two-minute demo that shows what works.",
+      "status": "coming_soon",
+      "lessons": []
+     },
+     {
+      "id": "hack.u07",
+      "title": "Judging criteria",
+      "summary": "How projects are judged, and assessing your own honestly.",
+      "status": "coming_soon",
+      "lessons": []
+     }
+    ]
+   },
+   {
+    "id": "git",
+    "title": "Git and GitHub Essentials",
+    "summary": "Track changes, work on branches, and open your first pull request.",
+    "status": "coming_soon",
+    "prerequisites": {
+     "required": [
+      "py.u01"
+     ],
+     "suggested": [
+      "py.u05"
+     ]
+    },
+    "units": []
+   },
+   {
+    "id": "web",
+    "title": "Web Foundations: HTML and CSS",
+    "summary": "Build an accessible, responsive personal website.",
+    "status": "coming_soon",
+    "prerequisites": {
+     "required": [
+      "py.u01",
+      "py.u02",
+      "py.u03"
+     ],
+     "suggested": [
+      "git"
+     ]
+    },
+    "units": []
+   },
+   {
+    "id": "js",
+    "title": "JavaScript and the DOM",
+    "summary": "Make web pages interactive with events and state.",
+    "status": "coming_soon",
+    "prerequisites": {
+     "required": [
+      "web",
+      "py.u01",
+      "py.u02",
+      "py.u03",
+      "py.u04",
+      "py.u05"
+     ],
+     "suggested": [
+      "git"
+     ]
+    },
+    "units": []
+   },
+   {
+    "id": "sql",
+    "title": "Data and SQL",
+    "summary": "Ask questions of real tables with queries, joins, and constraints.",
+    "status": "coming_soon",
+    "prerequisites": {
+     "required": [
+      "py.u01",
+      "py.u02",
+      "py.u03",
+      "py.u04"
+     ],
+     "suggested": [
+      "web"
+     ]
+    },
+    "units": []
+   },
+   {
+    "id": "data",
+    "title": "Data Investigation with Python",
+    "summary": "Answer an original question with a documented dataset.",
+    "status": "coming_soon",
+    "prerequisites": {
+     "required": [
+      "py.u01",
+      "py.u02",
+      "py.u03",
+      "py.u04",
+      "py.u05",
+      "py.u06",
+      "py.u07",
+      "py.u08",
+      "py.u09",
+      "sql"
+     ],
+     "suggested": [
+      "cs"
+     ]
+    },
+    "units": []
+   },
+   {
+    "id": "cs",
+    "title": "Computer Science Foundations",
+    "summary": "Representation, searching, sorting, complexity, and recursion.",
+    "status": "coming_soon",
+    "prerequisites": {
+     "required": [
+      "py.u01",
+      "py.u02",
+      "py.u03",
+      "py.u04",
+      "py.u05"
+     ],
+     "suggested": [
+      "py.u06",
+      "py.u07",
+      "py.u08"
+     ]
+    },
+    "units": []
+   },
+   {
+    "id": "node",
+    "title": "Node.js and APIs",
+    "summary": "Build an API with routes, validation, and a database.",
+    "status": "coming_soon",
+    "prerequisites": {
+     "required": [
+      "js",
+      "sql"
+     ],
+     "suggested": [
+      "git"
+     ]
+    },
+    "units": []
+   },
+   {
+    "id": "fullstack",
+    "title": "Full-Stack Builder",
+    "summary": "Ship a client, API, and database project with automated checks.",
+    "status": "coming_soon",
+    "prerequisites": {
+     "required": [
+      "node",
+      "git"
+     ],
+     "suggested": [
+      "cs"
+     ]
+    },
+    "units": []
+   },
+   {
+    "id": "ce",
+    "title": "Engineering Depth",
+    "summary": "Electives in C and memory, discrete foundations, numerical methods, and embedded simulation.",
+    "status": "coming_soon",
+    "prerequisites": {
+     "required": [
+      "cs",
+      "py"
+     ],
+     "suggested": []
+    },
+    "units": []
+   },
+   {
+    "id": "fixture",
+    "title": "TEST FIXTURE (never shown to learners)",
+    "summary": "Test data for lessons loaded per unit (UI-05).",
+    "status": "released",
+    "prerequisites": {
+     "required": [],
+     "suggested": []
+    },
+    "units": [
+     {
+      "id": "fixture.u01",
+      "title": "TEST FIXTURE unit one",
+      "summary": "Test data.",
+      "status": "released",
+      "lessons": [
+       {
+        "id": "fixture.add-two",
+        "title": "Add two numbers",
+        "concept": "TEST FIXTURE",
+        "description": "Not course content.",
+        "badge": "Fixture adder"
+       }
+      ]
+     },
+     {
+      "id": "fixture.u02",
+      "title": "TEST FIXTURE unit two",
+      "summary": "Test data.",
+      "status": "released",
+      "lessons": [
+       {
+        "id": "fixture.double",
+        "title": "Double a number",
+        "concept": "TEST FIXTURE",
+        "description": "Not course content.",
+        "badge": "Fixture doubler"
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ "units": {
+  "py.u01": [
+   {
+    "id": "hello",
+    "title": "Open the story",
+    "concept": "Output \u00b7 print()",
+    "badge": "Story spark",
+    "description": "Give your adventure a setting and a surprise.",
+    "learnTitle": "Your story starts with one instruction",
+    "learn": "A program is a set of instructions. Python follows these instructions from top to bottom. Use print() to display words on the screen.",
+    "detail": "Put text inside matching quotation marks, then put that string inside the parentheses. Use lowercase print. The quotation marks do not appear in the output.",
+    "example": "print(\"You arrive at a moonlit castle.\")\nprint(\"A tiny dragon opens the gate.\")",
+    "exampleOutput": "You arrive at a moonlit castle.\nA tiny dragon opens the gate.",
+    "exampleNote": "Each print() adds a new line. Two instructions give you two lines of story.",
+    "question": "Which message appears first?",
+    "options": [
+     "The castle message",
+     "The dragon message"
+    ],
+    "answer": 0,
+    "why": "Python runs the first print statement before the second. Swapping the code lines swaps the messages.",
+    "guided": "Change the dragon into a different creature. Keep the matching quotes and parentheses, then run your story.",
+    "starter": "# Describe a location with print()\n# On the next line, print an unexpected event\n",
+    "challenge": "Write two print statements with two different story messages: first a place, then a surprise. The check makes sure you print two different messages that use words; whether they make a good scene is up to you.",
+    "hints": [
+     "You need two print() lines: the first describes a place, the second something unexpected.",
+     "Check each line: lowercase print, then parentheses, with your message inside matching quotes.",
+     "A pattern to complete: print(\"You wake up in ___.\") Then add a second print() with your surprise."
+    ],
+    "inputs": [],
+    "exampleInputs": [],
+    "expected": null,
+    "errorHints": [
+     {
+      "tags": [
+       "SyntaxError"
+      ],
+      "text": "Every opening quote needs a closing quote, and every ( needs a ). Check the end of each line."
+     },
+     {
+      "tags": [
+       "NameError"
+      ],
+      "text": "print is all lowercase, and words need quotes around them. Without quotes, Python reads words as names."
+     },
+     {
+      "tags": [
+       "hello.words"
+      ],
+      "text": "Each message needs words, like the name of a place or something that happens."
+     },
+     {
+      "tags": [
+       "hello.different-lines"
+      ],
+      "text": "Keep your first line as it is, and make the second one about something else that happens."
+     }
+    ],
+    "similarExample": {
+     "code": "print(\"The shop opens at nine.\")",
+     "note": "One print() shows one line of text. Your challenge uses two, with your own words."
+    },
+    "otherWays": [],
+    "course": "py",
+    "unit": "py.u01",
+    "check": "bounded-story"
+   },
+   {
+    "id": "variables",
+    "title": "Create your hero",
+    "concept": "Variables \u00b7 strings",
+    "badge": "Character creator",
+    "description": "Give the adventure a hero and a useful tool.",
+    "learnTitle": "Remember a detail with a variable",
+    "learn": "A variable is a name that refers to a value. Write hero = \"Nova\" to store a name. Later, use hero without quotes to read the value.",
+    "detail": "The equals sign assigns a value; it does not print anything. print(\"hero\") displays the word hero. print(hero) displays the value stored under that name. Define a variable before you use it.",
+    "example": "hero = \"Nova\"\ntool = \"lantern\"\nprint(hero)\nprint(tool)",
+    "exampleOutput": "Nova\nlantern",
+    "exampleNote": "Changing the two assignments updates the character details without changing the print instructions.",
+    "question": "What does print(hero) display after hero = \"Nova\"?",
+    "options": [
+     "hero",
+     "Nova"
+    ],
+    "answer": 1,
+    "why": "Without quotes, hero means \u201cuse the value stored in this variable.\u201d That value is the string Nova.",
+    "guided": "Change Nova to your hero\u2019s name and lantern to a tool of your choice. Run the code to see both values.",
+    "starter": "hero = \"\"\ntool = \"\"\n# Print hero and tool, using the variables\n",
+    "challenge": "Store a nonempty hero name in hero and a nonempty tool in tool. Print both values by using the variables. You may add labels or combine them into a sentence.",
+    "hints": [
+     "This card needs two variables, hero and tool, each holding some text. Then print() shows them.",
+     "Look at the first two lines: put your own words between the empty quotes. Then check your print(): a variable name goes inside it with no quotes.",
+     "With other names: pet = \"___\" stores text, and print(pet) shows it. Do the same with hero and tool."
+    ],
+    "inputs": [],
+    "exampleInputs": [],
+    "expected": null,
+    "errorHints": [
+     {
+      "tags": [
+       "NameError"
+      ],
+      "text": "Names must be spelled exactly the same each time: hero in print() must match hero where you gave it a value, letter for letter."
+     },
+     {
+      "tags": [
+       "SyntaxError"
+      ],
+      "text": "Text values need matching quotes, like \"Kai\". Variable names inside print() do not."
+     },
+     {
+      "tags": [
+       "variables.uses-variables"
+      ],
+      "text": "If your output shows the words hero and tool instead of your values, remove the quotes around the names inside print()."
+     }
+    ],
+    "similarExample": {
+     "code": "pet = \"Biscuit\"\nbed = \"rug\"\nprint(pet + \" sleeps on the \" + bed)",
+     "note": "Two variables hold text, and print() shows their values by name. Your challenge does the same with hero and tool."
+    },
+    "otherWays": [
+     {
+      "code": "hero = \"Kai\"\ntool = \"rope\"\nprint(f\"{hero} packs a {tool}.\")",
+      "note": "An f-string puts the values straight into the sentence."
+     },
+     {
+      "code": "hero = \"Kai\"\ntool = \"rope\"\nprint(hero, \"has a\", tool)",
+      "note": "print() can take several values separated by commas, and puts a space between them."
+     }
+    ],
+    "course": "py",
+    "unit": "py.u01",
+    "check": "bounded-story"
+   },
+   {
+    "id": "input",
+    "title": "Meet the player",
+    "concept": "Interaction \u00b7 input()",
+    "badge": "Conversation starter",
+    "description": "Let someone else name the hero.",
+    "learnTitle": "Ask the player a question",
+    "learn": "input(\"What is your name? \") displays a prompt and returns the text the player types. Store that returned text in a variable so your story can use it.",
+    "detail": "Here, player = input(...) saves the response. A plus sign joins strings: \"Welcome, \" + player. In this academy, fill in Player replies before running; Python reads those replies in order.",
+    "example": "player = input(\"What is your name? \")\nprint(\"Welcome, \" + player + \"!\")",
+    "exampleOutput": "Welcome, Nova!",
+    "exampleNote": "With Nova as the player reply, the welcome includes Nova. Try a different reply and the story changes.",
+    "question": "If the player replies Kai, what will the example display?",
+    "options": [
+     "Welcome, player!",
+     "Welcome, Kai!"
+    ],
+    "answer": 1,
+    "why": "input() returns Kai. The variable player remembers that text, and print() joins it to the greeting.",
+    "guided": "Change the welcome message. Run once with Nova as the reply, then change the reply to Kai and run again.",
+    "starter": "player = input(\"What is your name? \")\n# Print a welcome that uses player\n",
+    "challenge": "Ask for the player\u2019s name with input(), store the reply, and print a greeting that includes that reply. It should work for different names without editing the code.",
+    "hints": [
+     "input() gives back whatever the player typed. The starter already keeps it in the variable player.",
+     "Look at the comment line: replace it with a print() that joins a greeting and player.",
+     "With other names: print(\"Good morning, \" + friend) greets whatever is stored in friend. An f-string works too: f\"See you soon, {friend}\"."
+    ],
+    "inputs": [
+     "Player name"
+    ],
+    "exampleInputs": [
+     "Nova"
+    ],
+    "expected": null,
+    "errorHints": [
+     {
+      "tags": [
+       "NameError"
+      ],
+      "text": "The reply is stored in player. Check that the name inside your print() is spelled exactly the same."
+     },
+     {
+      "tags": [
+       "input.uses-reply"
+      ],
+      "text": "A name typed straight into the greeting stays the same for every player. Use the variable player in the greeting instead."
+     }
+    ],
+    "similarExample": {
+     "code": "friend = \"Sam\"\nprint(\"See you soon, \" + friend)",
+     "note": "A variable inside a greeting. In your challenge, the value comes from input() instead of being typed into the code."
+    },
+    "otherWays": [
+     {
+      "code": "player = input(\"What is your name? \")\nprint(f\"Welcome, {player}!\")",
+      "note": "An f-string puts the reply straight into the greeting."
+     },
+     {
+      "code": "player = input(\"What is your name? \")\nprint(\"Welcome,\", player)",
+      "note": "print() with a comma adds the space for you."
+     }
+    ],
+    "course": "py",
+    "unit": "py.u01",
+    "check": "bounded-story"
+   },
+   {
+    "id": "choices",
+    "title": "Choose a path",
+    "concept": "Decisions \u00b7 if / else",
+    "badge": "Path finder",
+    "description": "Make the story respond to a choice.",
+    "learnTitle": "Give your story two possible paths",
+    "learn": "An if statement runs an indented block only when its condition is true. == compares two values. An else block runs when that condition is false.",
+    "detail": "Use a colon after the if condition and after else. Indent the instructions inside each block by four spaces. Our example compares exact lowercase text: left. Any other reply takes the else path.",
+    "example": "path = input(\"Left or right? \")\nif path == \"left\":\n    print(\"You discover a waterfall.\")\nelse:\n    print(\"You find a hidden library.\")",
+    "exampleOutput": "You discover a waterfall.",
+    "exampleNote": "With left as the reply, only the waterfall line runs. With right, only the library line runs.",
+    "question": "Which block runs when path is \"right\"?",
+    "options": [
+     "The if block",
+     "The else block"
+    ],
+    "answer": 1,
+    "why": "\"right\" == \"left\" is false, so Python skips the if block and runs the else block.",
+    "guided": "Give both paths new discoveries. Run with left, then with right. Confirm that the discoveries differ.",
+    "starter": "path = input(\"Left or right? \")\nif path == \"left\":\n    # Print one discovery\n    pass\nelse:\n    # Print a different discovery\n    pass\n",
+    "challenge": "Ask the player to choose left or right. Use if and else to print a different nonempty discovery for each choice. Keep the replies as lowercase left and right; invent your own discoveries.",
+    "hints": [
+     "You need two branches: one when the reply is left, and one for anything else.",
+     "Look at the two pass lines in the starter. Each one is the place for a print() with a discovery.",
+     "A pattern from another story: if answer == \"yes\": then an indented print(...), then else: and another indented print(...)."
+    ],
+    "inputs": [
+     "Path: left or right"
+    ],
+    "exampleInputs": [
+     "left"
+    ],
+    "expected": null,
+    "errorHints": [
+     {
+      "tags": [
+       "IndentationError"
+      ],
+      "text": "Lines inside if and else start with four spaces. Press Tab at the start of the line to add them."
+     },
+     {
+      "tags": [
+       "SyntaxError"
+      ],
+      "text": "The if and else lines end with a colon, and comparing uses two equals signs: ==."
+     },
+     {
+      "tags": [
+       "choices.different-paths"
+      ],
+      "text": "Your two branches print the same thing. Change the words in one of them."
+     }
+    ],
+    "similarExample": {
+     "code": "answer = input(\"Open the door? \")\nif answer == \"yes\":\n    print(\"You said \" + answer + \", so the door opens.\")\nelse:\n    print(\"The door stays shut.\")",
+     "note": "One reply, two branches, a different message in each. Your challenge compares the reply with \"left\"."
+    },
+    "otherWays": [
+     {
+      "code": "path = input(\"Left or right? \")\nif path != \"left\":\n    print(\"A rope bridge sways.\")\nelse:\n    print(\"A quiet cave glows.\")",
+      "note": "!= means \"is not equal to\", so the branches can be written the other way round."
+     }
+    ],
+    "course": "py",
+    "unit": "py.u01",
+    "check": "bounded-story"
+   },
+   {
+    "id": "adventure",
+    "title": "Launch your adventure",
+    "concept": "Combine your skills",
+    "badge": "Adventure maker",
+    "description": "Bring a player, a setting, and a choice into one small game.",
+    "learnTitle": "Connect the pieces into a game",
+    "learn": "You now know how to display a scene, store a value, ask for input, and choose a path. Combine them in order: set the scene, ask for a name, ask for a direction, then reveal an ending.",
+    "detail": "Keep each input response in its own variable. Use the player\u2019s name in a printed message. Then use if/else to give left and right different endings. Test both paths before sharing your game.",
+    "example": "print(\"A floating island appears.\")\nhero = input(\"Your name? \")\nprint(\"Welcome aboard, \" + hero)\npath = input(\"Left or right? \")\nif path == \"left\":\n    print(\"You befriend a cloud dragon.\")\nelse:\n    print(\"You discover a sky garden.\")",
+    "exampleOutput": "A floating island appears.\nWelcome aboard, Nova\nYou befriend a cloud dragon.",
+    "exampleNote": "The same code welcomes different players and produces two endings. That is your first interactive adventure.",
+    "question": "What should you test before sharing the adventure?",
+    "options": [
+     "Only the left path",
+     "Different names and both paths"
+    ],
+    "answer": 1,
+    "why": "Different replies exercise different behavior. Testing names and both paths catches mistakes a single run might miss.",
+    "guided": "Remix the floating island into your own world. Change both endings and try different player replies.",
+    "starter": "# Print your opening scene\nhero = input(\"Your name? \")\n# Welcome your hero by name\npath = input(\"Left or right? \")\n# Use if/else for two different endings\n",
+    "challenge": "Build your own adventure. Print an opening scene, ask for a name and welcome that player, then ask for left or right and use if/else for different endings. Your story words are up to you.",
+    "hints": [
+     "Four parts, in order: an opening scene, a welcome that uses the name, the path question, and two different endings.",
+     "Each comment in the starter marks where a print() or the if/else goes. Fill them in from top to bottom.",
+     "Patterns from earlier lessons: print(\"Welcome, \" + name) for the welcome, and if answer == \"yes\": then else: for the two endings."
+    ],
+    "inputs": [
+     "Player name",
+     "Path: left or right"
+    ],
+    "exampleInputs": [
+     "Nova",
+     "left"
+    ],
+    "expected": null,
+    "errorHints": [
+     {
+      "tags": [
+       "NameError"
+      ],
+      "text": "The player's name is stored in hero, and the path in path. Use those exact names."
+     },
+     {
+      "tags": [
+       "IndentationError"
+      ],
+      "text": "Lines inside if and else start with four spaces."
+     },
+     {
+      "tags": [
+       "adventure.opening-scene"
+      ],
+      "text": "Your very first line must be a print() with a scene, before the line that asks for a name."
+     },
+     {
+      "tags": [
+       "adventure.two-inputs"
+      ],
+      "text": "Keep both input() lines from the starter: the name first, then the path."
+     }
+    ],
+    "similarExample": {
+     "code": "print(\"The train doors open.\")\nrider = input(\"Ticket name? \")\nprint(\"All aboard, \" + rider)",
+     "note": "A scene, a question and a welcome. Your adventure adds the path question and two different endings."
+    },
+    "otherWays": [
+     {
+      "code": "print(\"A storm rolls in.\")\nhero = input(\"Your name? \")\nprint(f\"Welcome aboard, {hero}!\")\npath = input(\"Left or right? \")\nif path == \"left\":\n    print(\"You ride the lightning.\")\nelse:\n    print(\"You shelter in a lighthouse.\")",
+      "note": "An f-string for the welcome."
+     }
+    ],
+    "course": "py",
+    "unit": "py.u01",
+    "check": "bounded-story"
+   }
+  ],
+  "fixture.u01": [
+   {
+    "id": "fixture.add-two",
+    "title": "Add two numbers",
+    "concept": "TEST FIXTURE",
+    "badge": "Fixture adder",
+    "description": "Not course content.",
+    "learnTitle": "Add two numbers: discover",
+    "learn": "Not course content.",
+    "detail": "Test data only.",
+    "example": "a = int(input(\"First? \"))\nb = int(input(\"Second? \"))\nprint(a * b)",
+    "exampleOutput": "6",
+    "exampleNote": "Not course content.",
+    "question": "Which is a test?",
+    "options": [
+     "This one",
+     "That one"
+    ],
+    "answer": 0,
+    "why": "Test data.",
+    "guided": "Change one thing and run it.",
+    "starter": "a = int(input(\"First? \"))\n",
+    "challenge": "Ask for two whole numbers with input() and print their sum.",
+    "hints": [
+     "You need two numbers from input(), turned into whole numbers, and then their sum.",
+     "Look at the line after the starter: ask for the second number the same way.",
+     "With other names: total = x + y adds two numbers, then print(total) shows it."
+    ],
+    "inputs": [
+     "First number",
+     "Second number"
+    ],
+    "exampleInputs": [
+     "2",
+     "3"
+    ],
+    "expected": null,
+    "errorHints": [
+     {
+      "tags": [
+       "NameError"
+      ],
+      "text": "Check that every name you print was given a value first, spelled the same way."
+     },
+     {
+      "tags": [
+       "fixture.add-two.case.negative"
+      ],
+      "text": "A negative number is still a number: adding -4 takes 4 away. Check that you add the two replies as they are."
+     }
+    ],
+    "similarExample": {
+     "code": "x = 7\ny = 1\nprint(x - y)",
+     "note": "Two numbers and an operator. Your challenge reads its numbers with input() and adds them."
+    },
+    "otherWays": [
+     {
+      "code": "a = int(input())\nb = int(input())\ntotal = a + b\nprint(total)",
+      "note": "Store the sum in a variable first."
+     }
+    ],
+    "course": "fixture",
+    "unit": "fixture.u01",
+    "check": "browser-tests"
+   }
+  ],
+  "fixture.u02": [
+   {
+    "id": "fixture.double",
+    "title": "Double a number",
+    "concept": "TEST FIXTURE",
+    "badge": "Fixture doubler",
+    "description": "Not course content.",
+    "learnTitle": "Double a number: discover",
+    "learn": "Not course content.",
+    "detail": "Test data only.",
+    "example": "n = int(input(\"Number? \"))\nprint(n + 1)",
+    "exampleOutput": "5",
+    "exampleNote": "Not course content.",
+    "question": "Which is a test?",
+    "options": [
+     "This one",
+     "That one"
+    ],
+    "answer": 0,
+    "why": "Test data.",
+    "guided": "Change one thing and run it.",
+    "starter": "n = int(input(\"Number? \"))\n",
+    "challenge": "Ask for a whole number and print twice its value.",
+    "hints": [
+     "Read one number, then print it multiplied by two.",
+     "Look at the line after the starter: print something with n in it.",
+     "With other names: print(x * 3) shows three times x."
+    ],
+    "inputs": [
+     "A number"
+    ],
+    "exampleInputs": [
+     "4"
+    ],
+    "expected": null,
+    "errorHints": [],
+    "similarExample": null,
+    "otherWays": [],
+    "course": "fixture",
+    "unit": "fixture.u02",
+    "check": "browser-tests"
+   }
+  ]
+ },
+ "plans": {
+  "fixture.add-two": {
+   "lesson_id": "fixture.add-two",
+   "task_id": "fixture.add-two.challenge",
+   "version": 1,
+   "time_limit_ms": 3000,
+   "output_limit": 10000,
+   "cases": [
+    {
+     "id": "small",
+     "visibility": "visible",
+     "description": "the numbers 2 and 3",
+     "inputs": [
+      "2",
+      "3"
+     ],
+     "expected": "5"
+    },
+    {
+     "id": "negative",
+     "visibility": "visible",
+     "description": "10 and -4",
+     "inputs": [
+      "10",
+      "-4"
+     ],
+     "expected": "6"
+    },
+    {
+     "id": "large",
+     "visibility": "hidden",
+     "description": "two larger numbers",
+     "inputs": [
+      "4096",
+      "2048"
+     ]
+    }
+   ]
+  },
+  "fixture.double": {
+   "lesson_id": "fixture.double",
+   "task_id": "fixture.double.challenge",
+   "version": 1,
+   "time_limit_ms": 3000,
+   "output_limit": 10000,
+   "cases": [
+    {
+     "id": "four",
+     "visibility": "visible",
+     "description": "the number 4",
+     "inputs": [
+      "4"
+     ],
+     "expected": "8"
+    },
+    {
+     "id": "other",
+     "visibility": "hidden",
+     "description": "another number",
+     "inputs": [
+      "21"
+     ]
+    }
+   ]
+  }
+ },
+ "scenarios": [
+  {
+   "name": "passed",
+   "request": {
+    "lesson_id": "fixture.add-two",
+    "code": "a = int(input(\"First? \"))\nb = int(input(\"Second? \"))\nprint(a + b)",
+    "output": "5\n",
+    "inputs": [],
+    "runs": [
+     {
+      "id": "small",
+      "status": "ok",
+      "output": "5\n",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "negative",
+      "status": "ok",
+      "output": "6\n",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "large",
+      "status": "ok",
+      "output": "6144\n",
+      "error_type": null,
+      "line": null
+     }
+    ]
+   },
+   "response": {
+    "passed": true,
+    "result": "passed",
+    "feedback": "Your program printed the expected output for all 3 test cases, including 1 hidden case. Read your code once more: could you explain each line to someone else?",
+    "rule": null,
+    "assessment": "browser_tests",
+    "cases": [
+     {
+      "id": "small",
+      "visibility": "visible",
+      "status": "passed"
+     },
+     {
+      "id": "negative",
+      "visibility": "visible",
+      "status": "passed"
+     },
+     {
+      "id": "large",
+      "visibility": "hidden",
+      "status": "passed"
+     }
+    ],
+    "failed": null
+   }
+  },
+  {
+   "name": "needs_work",
+   "request": {
+    "lesson_id": "fixture.add-two",
+    "code": "a = int(input(\"First? \"))\nb = int(input(\"Second? \"))\nprint(abs(a) + abs(b))",
+    "output": "5\n",
+    "inputs": [],
+    "runs": [
+     {
+      "id": "small",
+      "status": "ok",
+      "output": "5\n",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "negative",
+      "status": "ok",
+      "output": "14\n",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "large",
+      "status": "ok",
+      "output": "6144\n",
+      "error_type": null,
+      "line": null
+     }
+    ]
+   },
+   "response": {
+    "passed": false,
+    "result": "needs_work",
+    "feedback": "For 10 and -4, line 1 should be \"6\", but your program printed \"14\".",
+    "rule": "fixture.add-two.case.negative",
+    "assessment": "browser_tests",
+    "cases": [
+     {
+      "id": "small",
+      "visibility": "visible",
+      "status": "passed"
+     },
+     {
+      "id": "negative",
+      "visibility": "visible",
+      "status": "failed"
+     },
+     {
+      "id": "large",
+      "visibility": "hidden",
+      "status": "passed"
+     }
+    ],
+    "failed": {
+     "id": "negative",
+     "visibility": "visible",
+     "description": "10 and -4",
+     "reason": "wrong_output",
+     "error_type": null,
+     "line": null,
+     "line_number": 1,
+     "expected_line": "6",
+     "actual_line": "14"
+    }
+   }
+  },
+  {
+   "name": "hidden case fails",
+   "request": {
+    "lesson_id": "fixture.add-two",
+    "code": "a = int(input(\"First? \"))\nb = int(input(\"Second? \"))\nprint(a + b if a < 1000 else 0)",
+    "output": "5\n",
+    "inputs": [],
+    "runs": [
+     {
+      "id": "small",
+      "status": "ok",
+      "output": "5\n",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "negative",
+      "status": "ok",
+      "output": "6\n",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "large",
+      "status": "ok",
+      "output": "0\n",
+      "error_type": null,
+      "line": null
+     }
+    ]
+   },
+   "response": {
+    "passed": false,
+    "result": "needs_work",
+    "feedback": "Your program printed something different for two larger numbers (a hidden test case). Check that it works from the replies it is given, not from fixed values.",
+    "rule": "fixture.add-two.case.large",
+    "assessment": "browser_tests",
+    "cases": [
+     {
+      "id": "small",
+      "visibility": "visible",
+      "status": "passed"
+     },
+     {
+      "id": "negative",
+      "visibility": "visible",
+      "status": "passed"
+     },
+     {
+      "id": "large",
+      "visibility": "hidden",
+      "status": "failed"
+     }
+    ],
+    "failed": {
+     "id": "large",
+     "visibility": "hidden",
+     "description": "two larger numbers",
+     "reason": "wrong_output",
+     "error_type": null,
+     "line": null
+    }
+   }
+  },
+  {
+   "name": "execution_error",
+   "request": {
+    "lesson_id": "fixture.add-two",
+    "code": "a = int(input(\"First? \"))\nb = int(input(\"Second? \"))\nprint(a + c)",
+    "output": "",
+    "inputs": [],
+    "runs": [
+     {
+      "id": "small",
+      "status": "error",
+      "output": "",
+      "error_type": "NameError",
+      "line": 3
+     },
+     {
+      "id": "negative",
+      "status": "error",
+      "output": "",
+      "error_type": "NameError",
+      "line": 3
+     },
+     {
+      "id": "large",
+      "status": "error",
+      "output": "",
+      "error_type": "NameError",
+      "line": 3
+     }
+    ]
+   },
+   "response": {
+    "passed": false,
+    "result": "execution_error",
+    "feedback": "Python stopped with NameError on line 3 while running the numbers 2 and 3. Read the error, change one thing, and run it again.",
+    "rule": null,
+    "assessment": "browser_tests",
+    "cases": [
+     {
+      "id": "small",
+      "visibility": "visible",
+      "status": "failed"
+     },
+     {
+      "id": "negative",
+      "visibility": "visible",
+      "status": "failed"
+     },
+     {
+      "id": "large",
+      "visibility": "hidden",
+      "status": "failed"
+     }
+    ],
+    "failed": {
+     "id": "small",
+     "visibility": "visible",
+     "description": "the numbers 2 and 3",
+     "reason": "error",
+     "error_type": "NameError",
+     "line": 3
+    }
+   }
+  },
+  {
+   "name": "timeout",
+   "request": {
+    "lesson_id": "fixture.add-two",
+    "code": "a = int(input(\"First? \"))\nb = int(input(\"Second? \"))\nwhile True:\n    pass",
+    "output": "",
+    "inputs": [],
+    "runs": [
+     {
+      "id": "small",
+      "status": "timeout",
+      "output": "",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "negative",
+      "status": "not_run",
+      "output": "",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "large",
+      "status": "not_run",
+      "output": "",
+      "error_type": null,
+      "line": null
+     }
+    ]
+   },
+   "response": {
+    "passed": false,
+    "result": "execution_error",
+    "feedback": "Your program was still running after 3 seconds on the numbers 2 and 3, so it was stopped. Check for a loop that never ends.",
+    "rule": null,
+    "assessment": "browser_tests",
+    "cases": [
+     {
+      "id": "small",
+      "visibility": "visible",
+      "status": "failed"
+     },
+     {
+      "id": "negative",
+      "visibility": "visible",
+      "status": "not_run"
+     },
+     {
+      "id": "large",
+      "visibility": "hidden",
+      "status": "not_run"
+     }
+    ],
+    "failed": {
+     "id": "small",
+     "visibility": "visible",
+     "description": "the numbers 2 and 3",
+     "reason": "timeout",
+     "error_type": null,
+     "line": null
+    }
+   }
+  },
+  {
+   "name": "output_limit",
+   "request": {
+    "lesson_id": "fixture.add-two",
+    "code": "a = int(input(\"First? \"))\nb = int(input(\"Second? \"))\nwhile True:\n    print(a + b)",
+    "output": "5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n",
+    "inputs": [],
+    "runs": [
+     {
+      "id": "small",
+      "status": "output_limit",
+      "output": "5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n5\n",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "negative",
+      "status": "output_limit",
+      "output": "5\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n6\n",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "large",
+      "status": "output_limit",
+      "output": "6\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n6144\n614",
+      "error_type": null,
+      "line": null
+     }
+    ]
+   },
+   "response": {
+    "passed": false,
+    "result": "execution_error",
+    "feedback": "Your program printed more than 10,000 characters on the numbers 2 and 3, so it was stopped. Check for a loop that never ends.",
+    "rule": null,
+    "assessment": "browser_tests",
+    "cases": [
+     {
+      "id": "small",
+      "visibility": "visible",
+      "status": "failed"
+     },
+     {
+      "id": "negative",
+      "visibility": "visible",
+      "status": "failed"
+     },
+     {
+      "id": "large",
+      "visibility": "hidden",
+      "status": "failed"
+     }
+    ],
+    "failed": {
+     "id": "small",
+     "visibility": "visible",
+     "description": "the numbers 2 and 3",
+     "reason": "output_limit",
+     "error_type": null,
+     "line": null
+    }
+   }
+  },
+  {
+   "name": "unsupported",
+   "request": {
+    "lesson_id": "fixture.add-two",
+    "code": "import turtle\na = int(input(\"First? \"))\nb = int(input(\"Second? \"))\nprint(a + b)",
+    "output": "",
+    "inputs": [],
+    "runs": [
+     {
+      "id": "small",
+      "status": "error",
+      "output": "",
+      "error_type": "ModuleNotFoundError",
+      "line": 1
+     },
+     {
+      "id": "negative",
+      "status": "error",
+      "output": "",
+      "error_type": "ModuleNotFoundError",
+      "line": 1
+     },
+     {
+      "id": "large",
+      "status": "error",
+      "output": "",
+      "error_type": "ModuleNotFoundError",
+      "line": 1
+     }
+    ]
+   },
+   "response": {
+    "passed": false,
+    "result": "unsupported",
+    "feedback": "These checks run Python's built-in features only, so that import can't be used here.",
+    "rule": null,
+    "assessment": "browser_tests",
+    "cases": [
+     {
+      "id": "small",
+      "visibility": "visible",
+      "status": "failed"
+     },
+     {
+      "id": "negative",
+      "visibility": "visible",
+      "status": "failed"
+     },
+     {
+      "id": "large",
+      "visibility": "hidden",
+      "status": "failed"
+     }
+    ],
+    "failed": {
+     "id": "small",
+     "visibility": "visible",
+     "description": "the numbers 2 and 3",
+     "reason": "unsupported",
+     "error_type": "ModuleNotFoundError",
+     "line": 1
+    }
+   }
+  },
+  {
+   "name": "missing_input",
+   "request": {
+    "lesson_id": "fixture.add-two",
+    "code": "a = int(input(\"First? \"))\nb = int(input(\"Second? \"))\nc = int(input(\"Third? \"))\nprint(a + b + c)",
+    "output": "",
+    "inputs": [],
+    "runs": [
+     {
+      "id": "small",
+      "status": "error",
+      "output": "",
+      "error_type": "EOFError",
+      "line": 3
+     },
+     {
+      "id": "negative",
+      "status": "error",
+      "output": "",
+      "error_type": "EOFError",
+      "line": 3
+     },
+     {
+      "id": "large",
+      "status": "error",
+      "output": "",
+      "error_type": "EOFError",
+      "line": 3
+     }
+    ]
+   },
+   "response": {
+    "passed": false,
+    "result": "needs_work",
+    "feedback": "Your program asked for more replies than the numbers 2 and 3 gives. Check how many times it calls input().",
+    "rule": null,
+    "assessment": "browser_tests",
+    "cases": [
+     {
+      "id": "small",
+      "visibility": "visible",
+      "status": "failed"
+     },
+     {
+      "id": "negative",
+      "visibility": "visible",
+      "status": "failed"
+     },
+     {
+      "id": "large",
+      "visibility": "hidden",
+      "status": "failed"
+     }
+    ],
+    "failed": {
+     "id": "small",
+     "visibility": "visible",
+     "description": "the numbers 2 and 3",
+     "reason": "missing_input",
+     "error_type": "EOFError",
+     "line": 3
+    }
+   }
+  },
+  {
+   "name": "service_error",
+   "request": {
+    "lesson_id": "fixture.add-two",
+    "code": "a = int(input(\"First? \"))\nb = int(input(\"Second? \"))\nprint(a + b)",
+    "output": "",
+    "inputs": [],
+    "runs": [
+     {
+      "id": "small",
+      "status": "unavailable",
+      "output": "",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "negative",
+      "status": "unavailable",
+      "output": "",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "large",
+      "status": "unavailable",
+      "output": "",
+      "error_type": null,
+      "line": null
+     }
+    ]
+   },
+   "response": {
+    "passed": false,
+    "result": "service_error",
+    "feedback": "Unable to assess this right now. Your code is unchanged; please try again in a moment.",
+    "rule": null,
+    "assessment": "browser_tests",
+    "cases": [],
+    "failed": null
+   }
+  },
+  {
+   "name": "unit two passed",
+   "request": {
+    "lesson_id": "fixture.double",
+    "code": "n = int(input(\"Number? \"))\nprint(n * 2)",
+    "output": "8\n",
+    "inputs": [],
+    "runs": [
+     {
+      "id": "four",
+      "status": "ok",
+      "output": "8\n",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "other",
+      "status": "ok",
+      "output": "42\n",
+      "error_type": null,
+      "line": null
+     }
+    ]
+   },
+   "response": {
+    "passed": true,
+    "result": "passed",
+    "feedback": "Your program printed the expected output for all 2 test cases, including 1 hidden case. Read your code once more: could you explain each line to someone else?",
+    "rule": null,
+    "assessment": "browser_tests",
+    "cases": [
+     {
+      "id": "four",
+      "visibility": "visible",
+      "status": "passed"
+     },
+     {
+      "id": "other",
+      "visibility": "hidden",
+      "status": "passed"
+     }
+    ],
+    "failed": null
+   }
+  }
+ ]
+}

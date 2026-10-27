@@ -1,10 +1,24 @@
 'use client';
 import {type ReactNode, useEffect, useRef, useState} from 'react';
-import {type Course,type Unit,unitNumber} from './catalog-data';
+import {type Catalog,type Course,type Unit,unitNumber} from './catalog-data';
 import CodeEditor,{goToLine} from './code-editor';
 import {type ErrorHint,type Explanation,HINT_TEXT,type HintStep,OUTLINE_AFTER,RESULTS,type Result,STATE_LABELS,type Sample,checkLine,explain,nextHint,parseError,pythonMessage} from './feedback';
 
-type Lesson = {id:string;title:string;concept:string;badge:string;description:string;learnTitle:string;learn:string;detail:string;example:string;exampleOutput:string;exampleNote:string;question:string;options:string[];answer:number;why:string;guided:string;starter:string;challenge:string;hints:string[];inputs:string[];exampleInputs:string[];errorHints?:ErrorHint[];similarExample?:Sample|null;otherWays?:Sample[]};
+type Lesson = {id:string;title:string;concept:string;badge:string;description:string;learnTitle:string;learn:string;detail:string;example:string;exampleOutput:string;exampleNote:string;question:string;options:string[];answer:number;why:string;guided:string;starter:string;challenge:string;hints:string[];inputs:string[];exampleInputs:string[];errorHints?:ErrorHint[];similarExample?:Sample|null;otherWays?:Sample[];course?:string;unit?:string;check?:string};
+/** A browser check (ENG-03): what GET /api/checks/<lesson> gives, and what public/check-runner.js reports per case. Hidden cases come without expected output. */
+type Plan={time_limit_ms:number;output_limit:number;cases:{id:string;visibility:'visible'|'hidden';description:string;inputs:string[]}[]};
+type CaseReport={id:string;status:string;output:string;errorType:string|null;line:number|null;message:string|null};
+type Place={course:Course;unit:Unit};
+/** The released unit holding this lesson, or the first released unit when there is none (the lesson page's default). */
+function findUnit(catalog:Catalog,lessonId:string|null):Place|null{
+ const units=catalog.courses.flatMap(course=>course.units.filter(u=>u.status==='released').map(unit=>({course,unit})));
+ return units.find(p=>p.unit.lessons.some(l=>l.id===lessonId))??units[0]??null;
+}
+/** What the Output panel shows after a browser check: each visible case's output. Hidden cases are not shown. */
+function caseOutput(plan:Plan,reports:CaseReport[]){
+ const stopped:Record<string,string>={timeout:`(stopped: still running after ${plan.time_limit_ms/1000} seconds)`,not_run:'(not run)',unavailable:'(Python could not start)',error:'(Python stopped)'};
+ return plan.cases.filter(c=>c.visibility==='visible').map(c=>{const r=reports.find(x=>x.id===c.id);const printed=(r?.output??'').replace(/\n$/,'');return `With ${c.description}:\n${[printed,r?.status==='output_limit'?'(stopped: too much output)':r&&r.status!=='ok'?stopped[r.status]??'':''].filter(Boolean).join('\n')||'(nothing printed)'}`;}).join('\n\n');
+}
 const stages=['Discover','See it work','Predict','Try it','Your challenge'];
 /** What the last run showed: a check result, a run with no check, or a Python error explained (app/feedback.ts).
  * tag: the Python error type or check rule it was about, so the hint tagged for it is offered first. */
@@ -37,13 +51,22 @@ function World({chapter}:{chapter:number}){
 }
 
 export default function Adventure({preview,onSaved,lessonId}:{preview:boolean;onSaved:()=>void;lessonId?:string}){
- const [lessons,setLessons]=useState<Lesson[]>([]),[selected,setSelected]=useState(0),[stage,setStage]=useState(0),[code,setCode]=useState(''),[output,setOutput]=useState(''),[report,setReport]=useState<Report|null>(null),[errorLine,setErrorLine]=useState<number|null>(null),[error,setError]=useState(''),[prediction,setPrediction]=useState<number|null>(null),[shownHints,setShownHints]=useState<HintStep[]>([]),[failedRuns,setFailedRuns]=useState(0),[replies,setReplies]=useState<string[]>([]),[done,setDone]=useState<string[]>([]),[running,setRunning]=useState(false),[passed,setPassed]=useState(false),[drafts,setDrafts]=useState<Record<string,string>>({}),[place,setPlace]=useState<{course:Course;unit:Unit}|null>(null),[menuOpen,setMenuOpen]=useState(false);
+ const [lessons,setLessons]=useState<Lesson[]>([]),[selected,setSelected]=useState(0),[stage,setStage]=useState(0),[code,setCode]=useState(''),[output,setOutput]=useState(''),[report,setReport]=useState<Report|null>(null),[errorLine,setErrorLine]=useState<number|null>(null),[error,setError]=useState(''),[prediction,setPrediction]=useState<number|null>(null),[shownHints,setShownHints]=useState<HintStep[]>([]),[failedRuns,setFailedRuns]=useState(0),[replies,setReplies]=useState<string[]>([]),[done,setDone]=useState<string[]>([]),[running,setRunning]=useState(false),[passed,setPassed]=useState(false),[drafts,setDrafts]=useState<Record<string,string>>({}),[place,setPlace]=useState<Place|null>(null),[menuOpen,setMenuOpen]=useState(false);
  const worker=useRef<Worker|null>(null),timer=useRef<ReturnType<typeof setTimeout>|null>(null),heading=useRef<HTMLHeadingElement>(null),editor=useRef<HTMLTextAreaElement>(null),version=useRef(0);
  const lesson=lessons[selected];
  useEffect(()=>{
   let active=true;
-  api('lessons').then((items:Lesson[])=>{if(!active)return;setLessons(items);const query=new URLSearchParams(location.search);const index=Math.max(0,items.findIndex(l=>l.id===(lessonId??query.get('lesson'))));setSelected(index);setCode(items[index].example);setReplies(items[index].exampleInputs);if(preview){const target=Number(query.get('card'));if(target>=1&&target<=5)setStage(target-1);if(target===5)setCode(items[index].starter);}
-   api('catalog').then((catalog:{courses:Course[]})=>{if(!active)return;for(const course of catalog.courses)for(const unit of course.units)if(unit.lessons.some(l=>l.id===items[0].id))setPlace({course,unit});}).catch(()=>{});}).catch(()=>setError('Lessons could not load. Please reload to try again.'));
+  const query=new URLSearchParams(location.search),wanted=lessonId??query.get('lesson');
+  // Lessons come one unit at a time (UI-05): the catalog says which unit holds the lesson. If the
+  // catalog or that route is unavailable (for example an older API during a deploy), unit 1 comes
+  // from /api/lessons as before.
+  (async()=>{
+   let items:Lesson[],where:Place|null=null;
+   try{where=findUnit(await api('catalog') as Catalog,wanted);if(!where)throw Error();items=await api(`units/${where.unit.id}/lessons`);if(!Array.isArray(items)||!items.length)throw Error();}
+   catch{items=await api('lessons');where=null;api('catalog').then((catalog:Catalog)=>{if(active)setPlace(findUnit(catalog,items[0].id));}).catch(()=>{});}
+   if(!active)return;
+   setLessons(items);if(where)setPlace(where);const index=Math.max(0,items.findIndex(l=>l.id===wanted));setSelected(index);setCode(items[index].example);setReplies(items[index].exampleInputs);if(preview){const target=Number(query.get('card'));if(target>=1&&target<=5)setStage(target-1);if(target===5)setCode(items[index].starter);}
+  })().catch(()=>{if(active)setError('Lessons could not load. Please reload to try again.');});
   if(!preview)api('progress').then(x=>{if(active)setDone(x)}).catch(()=>setError('Saved progress could not load. Your lessons are still available.'));
   return()=>{active=false;worker.current?.terminate();if(timer.current)clearTimeout(timer.current);version.current++;};
  },[preview,lessonId]);
@@ -66,6 +89,7 @@ export default function Adventure({preview,onSaved,lessonId}:{preview:boolean;on
  async function run(){
   stop();setRunning(true);clear();setError('');setOutput('Starting Python…');setPassed(false);
   const runVersion=version.current,runCode=code,runInputs=[...replies],runLesson=lesson.id,challenge=stage===4,context={code:runCode,unit:place?unitNumber(place.unit):1};
+  if(challenge&&lesson.check==='browser-tests')return runChecks(runVersion,runCode,runLesson,context);
   const w=new Worker('/python-worker.js');worker.current=w;
   timer.current=setTimeout(()=>{if(version.current!==runVersion)return;stop();setOutput('Execution stopped after 15 seconds.');stopped(explain({stop:'timeout'},context));failed(challenge);},15000);
   w.onerror=()=>{if(version.current!==runVersion)return;stop();setOutput('Python could not start. Check your connection and try again.');};
@@ -80,26 +104,55 @@ export default function Adventure({preview,onSaved,lessonId}:{preview:boolean;on
    try{
     const result=await api(preview?'check':'attempts',{lesson_id:runLesson,code:runCode,output:data.output,inputs:runInputs});
     if(version.current!==runVersion)return;
-    // Only the result state counts as a pass. An unknown state is shown as the check being unavailable.
-    const state:Result=RESULTS.includes(result.result)?result.result:'service_error',ok=state==='passed'&&result.passed===true;
-    const tag=state==='needs_work'?result.rule??null:state==='execution_error'?result.failed?.error_type??null:null;
-    setReport({state,tag,text:state===result.result?result.feedback:'Unable to assess this right now. Your code is unchanged; please try again in a moment.'});setErrorLine(checkLine(result));setPassed(ok);
-    if(ok)setFailedRuns(0);else if(state==='needs_work'||state==='execution_error')failed(true);
-    if(ok)setDone(old=>old.includes(runLesson)?old:[...old,runLesson]);
-    if(!preview)onSaved();
+    show(result,runLesson);
    }catch(e){if(version.current===runVersion)setError((e as Error).message);}
    finally{if(version.current===runVersion)setRunning(false);}
   };
   w.postMessage({code:runCode,inputs:runInputs});
+ }
+ /** Shows a check result. Only the result state counts as a pass; an unknown state is shown as the
+  * check being unavailable. A Python error explained in the browser replaces the check's own words. */
+ function show(result:any,runLesson:string,python?:{explanation:Explanation;message?:string}|null){
+  const state:Result=RESULTS.includes(result.result)?result.result:'service_error',ok=state==='passed'&&result.passed===true;
+  const tag=state==='needs_work'?result.rule??result.failed?.error_type??null:state==='execution_error'?result.failed?.error_type??null:null;
+  if(state==='execution_error'&&python)stopped(python.explanation,python.message,tag);
+  else{setReport({state,tag,text:state===result.result?result.feedback:'Unable to assess this right now. Your code is unchanged; please try again in a moment.'});setErrorLine(checkLine(result));}
+  setPassed(ok);
+  if(ok)setFailedRuns(0);else if(state==='needs_work'||state==='execution_error')failed(true);
+  if(ok)setDone(old=>old.includes(runLesson)?old:[...old,runLesson]);
+  if(!preview)onSaved();
+ }
+ /** A challenge with a browser check (ENG-03, docs/plan/browser-checks.md): the cases run here, in a
+  * fresh worker per run (public/check-runner.js), and only the reported output, status, error type
+  * and line go to the API, which compares them with the expected output. Python's message stays here. */
+ async function runChecks(runVersion:number,runCode:string,runLesson:string,context:{code:string;unit:number}){
+  setOutput('Running the test cases…');
+  try{
+   const plan:Plan=await api(`checks/${runLesson}`);
+   const runner=await import(/* webpackIgnore: true */ /* turbopackIgnore: true */ '/check-runner.js' as string);
+   const reports:CaseReport[]=await runner.runCases(runCode,plan);
+   if(version.current!==runVersion)return;
+   setOutput(caseOutput(plan,reports));
+   const result=await api(preview?'check':'attempts',{lesson_id:runLesson,code:runCode,output:reports[0]?.output??'',inputs:[],runs:runner.forSubmission(reports)});
+   if(version.current!==runVersion)return;
+   const failedCase=result.failed,report=reports.find(r=>r.id===failedCase?.id)??reports.find(r=>r.status==='error'),limits={seconds:plan.time_limit_ms/1000,limit:plan.output_limit.toLocaleString('en-US')};
+   const python=failedCase?.reason==='timeout'?{explanation:explain({stop:'timeout'},context,limits)}
+    :failedCase?.reason==='output_limit'?{explanation:explain({stop:'output_limit'},context,limits)}
+    :failedCase?.reason==='error'?{explanation:explain({type:failedCase.error_type,line:failedCase.line,message:report?.message??''},context),message:report?.message??undefined}:null;
+   show(result,runLesson,python);
+  }catch(e){if(version.current===runVersion)setError((e as Error).message);}
+  finally{if(version.current===runVersion)setRunning(false);}
  }
  if(!lesson)return <section className="card" role="status">{error||'Preparing your adventure…'}</section>;
  const completed=lessons.filter(l=>done.includes(l.id)).length;
  // aria-disabled, not disabled, on the last hint button, so keyboard focus is not lost when it changes.
  // The hint button gets a gentle outline after OUTLINE_AFTER failed runs: no popup, no movement.
  const next=nextHint(lesson.hints,lesson.errorHints??[],report?.tag??null,shownHints.map(h=>h.key),lesson.similarExample),outlined=failedRuns>=OUTLINE_AFTER&&next!==null,otherWays=lesson.otherWays??[];
- return <section className="adventure" aria-label="Build Your Own Adventure">
+ // Unit 1 keeps its own words and pictures; later units use their catalog title and summary.
+ const unitOne=!place||place.unit.id==='py.u01',checked=stage===4&&lesson.check==='browser-tests';
+ return <section className="adventure" aria-label={unitOne?'Build Your Own Adventure':place.unit.title}>
   {place&&<nav className="breadcrumb" aria-label="Breadcrumb"><ol><li><a href="/courses">Courses</a></li><li><a href={`/courses/${place.course.id}`}>{place.course.title}</a></li><li aria-current="page">Unit {unitNumber(place.unit)}: {place.unit.title}</li></ol></nav>}
-  <div className="chapter-heading"><div><p className="eyebrow">UNIT 01 · BUILD SOMETHING THAT IS YOURS</p><h1>Build Your Own <span>Adventure.</span></h1><p>Five small quests. One story only you could make.</p></div><div className="xp"><strong>{completed*100} XP</strong><span>{completed} of 5 badges earned{preview?' · preview session':''}</span></div></div>
+  <div className="chapter-heading"><div>{unitOne?<><p className="eyebrow">UNIT 01 · BUILD SOMETHING THAT IS YOURS</p><h1>Build Your Own <span>Adventure.</span></h1><p>Five small quests. One story only you could make.</p></>:<><p className="eyebrow">UNIT {String(unitNumber(place.unit)).padStart(2,'0')} · {place.course.title.toUpperCase()}</p><h1>{place.unit.title}</h1><p>{place.unit.summary}</p></>}</div><div className="xp"><strong>{completed*100} XP</strong><span>{completed} of {lessons.length} badges earned{preview?' · preview session':''}</span></div></div>
   {preview&&<div className="preview-banner" role="note"><strong>Content preview</strong><span>Jump to any lesson or card. Practice and badges stay in this session; they are not saved.</span><a href="/">Return to your account</a></div>}
   <div className="lesson-layout">
   <nav className="unit-nav" aria-label="Lessons in this unit">
@@ -112,20 +165,21 @@ export default function Adventure({preview,onSaved,lessonId}:{preview:boolean;on
    </div>
   </nav>
   <div className="lesson-main">
-  <div className="card-progress"><span>Quest {selected+1} of 5 · {lesson.badge}</span><span>Card {stage+1} of 5</span></div>
+  <div className="card-progress"><span>Quest {selected+1} of {lessons.length} · {lesson.badge}</span><span>Card {stage+1} of 5</span></div>
   <div className="stage-track" aria-label="Card progress">{stages.map((name,i)=>preview?<button key={name} aria-current={stage===i?'step':undefined} className={stage===i?'current':''} onClick={()=>move(i)}>{i+1}. {name}</button>:<span key={name} aria-current={stage===i?'step':undefined} className={stage===i?'current':''}>{i+1}. {name}</span>)}</div>
   <article className={'quest-card '+(stage>=3?'with-editor':'')} aria-label="Current learning card">
    <div className="teaching-panel">
     <p className="eyebrow">{stages[stage].toUpperCase()} · {lesson.concept}</p>
     <h2 ref={heading} tabIndex={-1}>{stage===0?lesson.learnTitle:stage===1?'Watch the story take shape':stage===2?'What do you think happens?':stage===3?'Make one small change':'Make it your own'}</h2>
-    {stage===0&&<><World chapter={selected}/><p className="lead">{lesson.learn}</p><p>{lesson.detail}</p></>}
+    {stage===0&&<>{unitOne&&<World chapter={selected}/>}<p className="lead">{lesson.learn}</p><p>{lesson.detail}</p></>}
     {stage===1&&<><p>Read this working example, one line at a time.</p><pre className="example-code"><code>{lesson.example}</code></pre>{lesson.inputs.length>0&&<p className="reply-note">Player replies: {lesson.exampleInputs.join(' → ')}</p>}<h3>What appears on screen</h3><pre className="output">{lesson.exampleOutput}</pre><p>{lesson.exampleNote}</p></>}
     {stage===2&&<><pre className="example-code"><code>{lesson.example}</code></pre><fieldset className="prediction"><legend>{lesson.question}</legend>{lesson.options.map((option,index)=><button key={option} aria-pressed={prediction===index} onClick={()=>setPrediction(index)}>{option}</button>)}</fieldset>{prediction!==null&&<p className="feedback" role="status">{prediction===lesson.answer?'That’s it! ':'Let’s look again. '}{lesson.why}</p>}</>}
-    {stage===3&&<><World chapter={selected}/><p className="lead">{lesson.guided}</p><p>The working example is in your editor. Experiment freely—you can always reset it.</p></>}
+    {stage===3&&<>{unitOne&&<World chapter={selected}/>}<p className="lead">{lesson.guided}</p><p>The working example is in your editor. Experiment freely—you can always reset it.</p></>}
     {stage===4&&<><p className="lead">{lesson.challenge}</p><p className="reward-note">Complete the challenge to earn the {lesson.badge} badge and 100 XP.</p><p className="muted">Hints are beside your code. Take them one at a time, only if you want them.</p></>}
    </div>
    {stage>=3&&<section className="editor-panel" aria-label="Python playground"><div className="editor-top"><span>story.py</span><span>Python playground</span></div><label htmlFor="code">Your Python code</label><CodeEditor code={code} onChange={edit} disabled={running} errorLine={errorLine} describedBy={report?'editor-help code-feedback':'editor-help'} editor={editor}/><p id="editor-help" className="muted">Tab inserts four spaces. Shift + Tab leaves the editor.</p>
-    {lesson.inputs.length>0&&<fieldset className="player-replies"><legend>Player replies</legend><p>input() reads these in order. Prompts ask for your replies; only print() messages appear in Output.</p>{lesson.inputs.map((label,i)=><label key={label} htmlFor={'reply-'+i}>{label}<input id={'reply-'+i} maxLength={500} disabled={running} value={replies[i]??''} onChange={e=>{setReplies(old=>old.map((v,j)=>j===i?e.target.value:v));setPassed(false);if(report?.state!=='execution_error')setReport(null);}}/></label>)}</fieldset>}
+    {checked&&<p className="reply-note">This challenge runs your program with its own replies, including some you cannot see, and checks what it prints.</p>}
+    {lesson.inputs.length>0&&!checked&&<fieldset className="player-replies"><legend>Player replies</legend><p>input() reads these in order. Prompts ask for your replies; only print() messages appear in Output.</p>{lesson.inputs.map((label,i)=><label key={label} htmlFor={'reply-'+i}>{label}<input id={'reply-'+i} maxLength={500} disabled={running} value={replies[i]??''} onChange={e=>{setReplies(old=>old.map((v,j)=>j===i?e.target.value:v));setPassed(false);if(report?.state!=='execution_error')setReport(null);}}/></label>)}</fieldset>}
     <div className="actions"><button className="primary" disabled={running} onClick={run}>{running?'Running…':stage===4?'Run & check challenge':'Run Python →'}</button>{running&&<button onClick={()=>{stop();setOutput('Execution stopped.');}}>Stop</button>}<button disabled={running} onClick={()=>{edit(stage===4?lesson.starter:lesson.example);setOutput('');clear();}}>Reset code</button></div><h3>Output</h3><pre className="output execution-output" aria-live="polite">{output||'Your story will appear here.'}</pre>
     <div id="code-feedback" className={'result'+(report?' '+report.state.replace('_','-'):'')} role="status">{report&&<><p className="result-state">{STATE_LABELS[report.state]}</p>{report.explanation?<><p className="result-title">{withCode(report.explanation.title)}</p>{report.explanation.where&&<p className="result-where">{report.explanation.where}</p>}<p>{withCode(report.explanation.text)}</p></>:<p>{report.text}</p>}</>}</div>
     {report&&(errorLine||report.python)&&<div className="result-actions">{errorLine&&<button onClick={()=>editor.current&&goToLine(editor.current,errorLine)}>Go to line {errorLine}</button>}{report.python&&<details><summary>Show Python’s message</summary><pre className="python-message">{report.python}</pre></details>}</div>}
@@ -136,7 +190,7 @@ export default function Adventure({preview,onSaved,lessonId}:{preview:boolean;on
    {passed&&stage===4&&<div className="badge-earned" role="status"><span className="badge-icon" aria-hidden="true">✦</span><div><strong>{lesson.badge} badge earned!</strong><p>{done.includes(lesson.id)?'100 XP for this quest. Repeating it does not add extra XP.':''}{preview?' Preview badge: not saved.':' Your practice is saved.'}</p></div></div>}
    <div className="card-controls"><button disabled={stage===0||running} onClick={()=>move(stage-1)}>← Back</button><span>{stage===4?'Your story. Your pace.':'One idea at a time.'}</span>{stage<4?<button className="primary" disabled={running||(stage===2&&prediction!==lesson.answer)} onClick={()=>move(stage+1)}>{stage===3?'Start my challenge':'Continue →'}</button>:<button className="primary" disabled={!passed||running} onClick={()=>selected<lessons.length-1?choose(selected+1):move(0)}>{selected<lessons.length-1?'Next quest →':'Revisit this quest'}</button>}</div>
   </article>
-  {completed===lessons.length&&<section className="chapter-complete"><h2>You made an adventure.</h2><p>Five badges. Four Python skills. Keep remixing your story, or invite someone to play it.</p></section>}
+  {completed===lessons.length&&(unitOne?<section className="chapter-complete"><h2>You made an adventure.</h2><p>Five badges. Four Python skills. Keep remixing your story, or invite someone to play it.</p></section>:<section className="chapter-complete"><h2>Unit complete.</h2><p>Every lesson in {place.unit.title} is done.</p></section>)}
   </div>
   </div>
  </section>;

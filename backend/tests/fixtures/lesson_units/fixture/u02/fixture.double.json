@@ -1,0 +1,97 @@
+{
+  "id": "fixture.double",
+  "version": 1,
+  "course": "fixture",
+  "unit": "fixture.u02",
+  "title": "Double a number",
+  "concept": "TEST FIXTURE",
+  "description": "Not course content.",
+  "badge": {
+    "id": "fixture.badge.double",
+    "version": 1,
+    "title": "Fixture doubler",
+    "category": "practice"
+  },
+  "tasks": [
+    {
+      "id": "fixture.double.discover",
+      "type": "discover",
+      "title": "Double a number: discover",
+      "body": "Not course content.",
+      "detail": "Test data only."
+    },
+    {
+      "id": "fixture.double.example",
+      "type": "example",
+      "code": "n = int(input(\"Number? \"))\nprint(n + 1)",
+      "output": "5",
+      "note": "Not course content.",
+      "inputs": [
+        "4"
+      ]
+    },
+    {
+      "id": "fixture.double.predict",
+      "type": "predict",
+      "question": "Which is a test?",
+      "options": [
+        "This one",
+        "That one"
+      ],
+      "answer": 0,
+      "why": "Test data."
+    },
+    {
+      "id": "fixture.double.guided",
+      "type": "guided",
+      "prompt": "Change one thing and run it."
+    },
+    {
+      "id": "fixture.double.challenge",
+      "type": "challenge",
+      "prompt": "Ask for a whole number and print twice its value.",
+      "starter": "n = int(input(\"Number? \"))\n",
+      "hints": [
+        "Read one number, then print it multiplied by two.",
+        "Look at the line after the starter: print something with n in it.",
+        "With other names: print(x * 3) shows three times x."
+      ],
+      "error_hints": [],
+      "similar_example": null,
+      "other_ways": [],
+      "input_labels": [
+        "A number"
+      ],
+      "validator": {
+        "id": "browser-tests",
+        "version": 1
+      },
+      "check": {
+        "cases": [
+          {
+            "id": "four",
+            "description": "the number 4",
+            "inputs": [
+              "4"
+            ],
+            "expected": "8"
+          },
+          {
+            "id": "other",
+            "description": "another number",
+            "inputs": [
+              "21"
+            ],
+            "expected": "42",
+            "visibility": "hidden"
+          }
+        ],
+        "require": [
+          "input()",
+          "int()"
+        ],
+        "time_limit_ms": 3000
+      }
+    }
+  ]
+}

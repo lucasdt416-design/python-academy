@@ -32,6 +32,7 @@ CATALOG, CONTENT = content.load()
 if errors := rule_errors(CONTENT):
     raise content.ContentError('Invalid course content:\n- ' + '\n- '.join(errors))
 LESSONS = content.legacy_lessons(CATALOG, CONTENT)
+UNIT_LESSONS = content.unit_lessons(CATALOG, CONTENT)
 LESSON_ORDER = content.lesson_order(CATALOG)
 CATALOG_VIEW = content.catalog_view(CATALOG, CONTENT)
 
@@ -190,6 +191,13 @@ def history(request: Request):
 @app.get('/api/lessons')
 def lessons():
     return LESSONS
+
+@app.get('/api/units/{unit_id}/lessons')
+def unit_lessons(unit_id: str):
+    # The lesson page reads one unit at a time (UI-05). /api/lessons stays as it was for older pages.
+    if unit_id not in UNIT_LESSONS:
+        raise HTTPException(404, 'This unit has no lessons yet')
+    return UNIT_LESSONS[unit_id]
 
 @app.get('/api/catalog')
 def catalog():

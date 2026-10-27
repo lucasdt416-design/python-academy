@@ -97,8 +97,9 @@ def first_difference(expected, actual):
     return None
 
 
-def outcome(result, feedback, cases=(), failed=None):
-    return {'passed': result == 'passed', 'result': result, 'feedback': feedback,
+def outcome(result, feedback, cases=(), failed=None, rule=None):
+    # rule: for wrong output, <lesson>.case.<case id>, so the page can offer a hint tagged for it.
+    return {'passed': result == 'passed', 'result': result, 'feedback': feedback, 'rule': rule,
             'assessment': 'browser_tests', 'cases': list(cases), 'failed': failed}
 
 
@@ -164,7 +165,7 @@ def judge(lesson, code, runs):
         else:
             message = (f'Your program printed something different for {about} (a hidden test case). '
                        'Check that it works from the replies it is given, not from fixed values.')
-        return outcome('needs_work', message, statuses, failed)
+        return outcome('needs_work', message, statuses, failed, rule=f'{lesson.id}.case.{case.id}')
     seconds = check.time_limit_ms / 1000
     if reason == 'timeout':
         return outcome('execution_error', f'Your program was still running after {seconds:g} seconds on {about}, so it was stopped. '
