@@ -3,7 +3,7 @@
 Date: 2026-10-27 (America/Toronto)  
 Written by: Claude Code (implementer), in a separate git worktree  
 For: the human maintainer, and ChatGPT or Claude chat (reviewer) without repository access  
-Status: **in_review**: one pull request (PR_NUMBER), not merged, not deployed. **No database migration, no new dependency, no content change** (unit 1 content is untouched; no unit 2).
+Status: **in_review**: one pull request (#27), not merged, not deployed. **No database migration, no new dependency, no content change** (unit 1 content is untouched; no unit 2).
 
 > **How to use this file:** upload it with `build.md`, `docs/plan/browser-checks.md`, `docs/plan/lesson-feedback.md`, and handoffs 11, 15 and 19. The pull request diff is the source of truth (`build.md` section 14).
 
@@ -200,9 +200,9 @@ Unit 1 must behave exactly as before. You have one test account; use it, or `/pr
 
 | Where | What |
 | --- | --- |
-| Backlog UI-05 | proposed → in_review (PR_NUMBER, handoff 22) |
+| Backlog UI-05 | proposed → in_review (#27, handoff 22) |
 | Backlog, new row | "Construct rule IDs for browser checks" (section 7), proposed, with or before EDU-04 |
-| Stage table | "22. UI-05 \| Lessons per unit; browser checks on the lesson page \| in_review (PR_NUMBER, handoff 22)" |
+| Stage table | "22. UI-05 \| Lessons per unit; browser checks on the lesson page \| in_review (#27, handoff 22)" |
 | Decision log | Chapter 18 from sections 4 to 6 of this handoff |
 
 ## 11. Next concrete action
@@ -220,4 +220,4 @@ git worktree remove ../python-academy-ui05     # deletes only that folder; refus
 git worktree prune
 ```
 
-After PR PR_NUMBER is merged, `git branch -d feat/lesson-units` deletes the local branch; `-d` refuses if it is not merged. Don't delete the folder in the Finder or with `rm -rf`: Git would keep a stale record of it (`git worktree prune` fixes that). The FB-04 worktree (`../python-academy-fb04`) can be removed the same way once PR #26 is merged, which it now is.
+After PR #27 is merged, `git branch -d feat/lesson-units` deletes the local branch; `-d` refuses if it is not merged. Don't delete the folder in the Finder or with `rm -rf`: Git would keep a stale record of it (`git worktree prune` fixes that). The FB-04 worktree (`../python-academy-fb04`) can be removed the same way once PR #26 is merged, which it now is.
