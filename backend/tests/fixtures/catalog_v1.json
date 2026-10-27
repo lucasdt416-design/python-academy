@@ -20,28 +20,28 @@
             {
               "id": "hello",
               "title": "Open the story",
-              "concept": "Output · print()",
+              "concept": "Output \u00b7 print()",
               "description": "Give your adventure a setting and a surprise.",
               "badge": "Story spark"
             },
             {
               "id": "variables",
               "title": "Create your hero",
-              "concept": "Variables · strings",
+              "concept": "Variables \u00b7 strings",
               "description": "Give the adventure a hero and a useful tool.",
               "badge": "Character creator"
             },
             {
               "id": "input",
               "title": "Meet the player",
-              "concept": "Interaction · input()",
+              "concept": "Interaction \u00b7 input()",
               "description": "Let someone else name the hero.",
               "badge": "Conversation starter"
             },
             {
               "id": "choices",
               "title": "Choose a path",
-              "concept": "Decisions · if / else",
+              "concept": "Decisions \u00b7 if / else",
               "description": "Make the story respond to a choice.",
               "badge": "Path finder"
             },
@@ -57,9 +57,31 @@
         {
           "id": "py.u02",
           "title": "Numbers and decisions",
-          "summary": "Arithmetic, conversion, comparison, and Boolean logic.",
-          "status": "coming_soon",
-          "lessons": []
+          "summary": "Arithmetic, whole numbers and decimals, and numbers from input(). Comparisons, Boolean logic and elif come next.",
+          "status": "released",
+          "lessons": [
+            {
+              "id": "py.arithmetic",
+              "title": "Count the treasure",
+              "concept": "Arithmetic \u00b7 + - * / // %",
+              "description": "Give your adventure a score, and share out a chest of coins.",
+              "badge": "Treasure counter"
+            },
+            {
+              "id": "py.int-float",
+              "title": "Average the scores",
+              "concept": "Numbers \u00b7 int and float",
+              "description": "Find the average of two riddle scores, decimals and all.",
+              "badge": "Score keeper"
+            },
+            {
+              "id": "py.convert-input",
+              "title": "Score the riddle",
+              "concept": "Conversion \u00b7 int(input())",
+              "description": "Turn the player's replies into numbers, and keep score when a riddle is solved or missed.",
+              "badge": "Riddle scorer"
+            }
+          ]
         },
         {
           "id": "py.u03",

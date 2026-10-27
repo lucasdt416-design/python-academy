@@ -60,8 +60,8 @@ def test_the_fixture_lesson_is_valid_and_never_in_real_content():
     assert [(c.id, c.visibility) for c in check.cases] == [('small', 'visible'), ('negative', 'visible'), ('large', 'hidden')]
     _, real = content.load()
     assert LESSON_ID not in real and LESSON_ID not in main.CONTENT
-    # Unit 1 keeps its server-side checker and has no browser check.
-    assert all(lesson.task('challenge').check is None for lesson in real.values())
+    # Unit 1 keeps its server-side checker and has no browser check (unit 2 onwards uses them).
+    assert all(real[lesson_id].task('challenge').check is None for lesson_id in content.LEGACY_LESSON_IDS)
 
 
 @pytest.mark.parametrize('change,message', [

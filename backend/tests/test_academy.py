@@ -318,7 +318,8 @@ def test_catalog_is_public_and_frozen_for_the_interface():
     assert response.json() == json.loads(fixture.read_text())
     py = response.json()['courses'][0]
     assert [l['id'] for l in py['units'][0]['lessons']] == ['hello', 'variables', 'input', 'choices', 'adventure']
-    assert all(u['lessons'] == [] for u in py['units'][1:])
+    assert [l['id'] for l in py['units'][1]['lessons']] == ['py.arithmetic', 'py.int-float', 'py.convert-input']
+    assert all(u['lessons'] == [] for u in py['units'][2:])
 
 def test_awards_are_private_to_the_student_and_in_catalog_order():
     assert client.get('/api/awards').status_code == 401

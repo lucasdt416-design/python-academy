@@ -1,0 +1,164 @@
+{
+  "id": "py.arithmetic",
+  "version": 1,
+  "course": "py",
+  "unit": "py.u02",
+  "title": "Count the treasure",
+  "concept": "Arithmetic · + - * / // %",
+  "description": "Give your adventure a score, and share out a chest of coins.",
+  "badge": {
+    "id": "py.badge.treasure-counter",
+    "version": 1,
+    "title": "Treasure counter",
+    "category": "practice"
+  },
+  "tasks": [
+    {
+      "id": "py.arithmetic.discover",
+      "type": "discover",
+      "title": "Python can do the maths",
+      "body": "Numbers in Python have no quotes around them. + adds, - takes away, * multiplies and / divides. print(3 + 4) shows 7, and a variable can hold a number, like score = 10.",
+      "detail": "Two more operators help when you share things out. // divides and keeps only the whole part: 17 // 5 is 3. % gives what is left over: 17 % 5 is 2. As in maths class, Python works out * and / before + and -. Use parentheses to choose a different order."
+    },
+    {
+      "id": "py.arithmetic.example",
+      "type": "example",
+      "code": "# Work out the hero's score\ngems = 4\ncoins = 13\nscore = gems * 10 + coins\nprint(score)\n# Share the coins between 5 friends\nprint(coins // 5)\nprint(coins % 5)",
+      "output": "53\n2\n3",
+      "note": "Python works out gems * 10 first, so the score is 40 + 13. Then // gives each friend's whole coins, and % gives the coins left over.",
+      "inputs": []
+    },
+    {
+      "id": "py.arithmetic.predict",
+      "type": "predict",
+      "question": "If coins were 14 instead of 13, what would print(coins % 5) show?",
+      "options": [
+        "4",
+        "2",
+        "2.8"
+      ],
+      "answer": 0,
+      "why": "Five friends take 2 coins each, which uses 10 of the 14. % shows what is left over, so it prints 4. 14 // 5 would show 2, and 14 / 5 would show 2.8."
+    },
+    {
+      "id": "py.arithmetic.guided",
+      "type": "guided",
+      "prompt": "Give gems and coins new values. Before you run, predict all three lines, then run and compare. Try a number of coins that shares out exactly between 5, like 15: what does % show then?"
+    },
+    {
+      "id": "py.arithmetic.challenge",
+      "type": "challenge",
+      "prompt": "The party opens a chest of coins to share. The starter asks for the number of coins and the number of friends. Print two lines: how many whole coins each friend gets, then how many coins are left over. Print just the two numbers. The check runs your program with several chests, including some you can't see.",
+      "starter": "# These two lines ask for whole numbers (lesson 3 explains how)\ncoins = int(input(\"How many coins? \"))\nfriends = int(input(\"How many friends? \"))\n# Print each friend's whole share, then the coins left over\n",
+      "hints": [
+        "You need two results from the same two numbers: the whole coins each friend gets, and the coins left over.",
+        "Look at the comment line. One operator divides and keeps only the whole part; another gives what is left over. Each result goes in its own print().",
+        "A pattern with other names: print(cookies // children) shows each child's whole cookies. For the leftover line, use the operator that gives what is left over."
+      ],
+      "error_hints": [
+        {
+          "tags": [
+            "NameError"
+          ],
+          "text": "Use the names the starter made, coins and friends, spelled exactly the same in your print() lines."
+        },
+        {
+          "tags": [
+            "TypeError"
+          ],
+          "text": "Print each number on its own, like print(coins). Joining a number to text with + needs str(), and this check wants only the numbers."
+        },
+        {
+          "tags": [
+            "py.arithmetic.case.even"
+          ],
+          "text": "Compare your first line with 3. A decimal point, like 3.4, means / was used: // keeps only the whole coins. Words on the line? Print just the number."
+        },
+        {
+          "tags": [
+            "py.arithmetic.case.fewer"
+          ],
+          "text": "With 3 coins and 5 friends, nobody gets a whole coin, so the first line is 0 and all 3 coins are left over. A division that rounds up would give 1 instead."
+        },
+        {
+          "tags": [
+            "py.arithmetic.case.big"
+          ],
+          "text": "Your program needs to work for any chest. Use coins and friends in your calculations, not numbers typed into the code."
+        }
+      ],
+      "similar_example": {
+        "code": "start = 9\nlater = start + 14\nprint(later % 12)",
+        "note": "14 hours after 9 o'clock, a 12-hour clock shows 11: % keeps what is left after taking away whole groups of 12. Your challenge makes whole groups too, one share for each friend."
+      },
+      "other_ways": [
+        {
+          "code": "coins = int(input(\"How many coins? \"))\nfriends = int(input(\"How many friends? \"))\nshare, left = divmod(coins, friends)\nprint(share)\nprint(left)",
+          "note": "divmod() works out the whole share and the leftover in one step."
+        },
+        {
+          "code": "coins = int(input(\"How many coins? \"))\nfriends = int(input(\"How many friends? \"))\nshare = coins // friends\nprint(share)\nprint(coins - share * friends)",
+          "note": "The leftover is what remains after every friend takes their share."
+        }
+      ],
+      "input_labels": [],
+      "check": {
+        "cases": [
+          {
+            "id": "even",
+            "description": "17 coins and 5 friends",
+            "inputs": [
+              "17",
+              "5"
+            ],
+            "expected": "3\n2"
+          },
+          {
+            "id": "exact",
+            "description": "20 coins and 4 friends",
+            "inputs": [
+              "20",
+              "4"
+            ],
+            "expected": "5\n0"
+          },
+          {
+            "id": "fewer",
+            "description": "3 coins and 5 friends",
+            "inputs": [
+              "3",
+              "5"
+            ],
+            "expected": "0\n3"
+          },
+          {
+            "id": "big",
+            "description": "a big chest",
+            "inputs": [
+              "1000",
+              "7"
+            ],
+            "expected": "142\n6",
+            "visibility": "hidden"
+          },
+          {
+            "id": "one-friend",
+            "description": "a chest for one friend",
+            "inputs": [
+              "9",
+              "1"
+            ],
+            "expected": "9\n0",
+            "visibility": "hidden"
+          }
+        ],
+        "time_limit_ms": 3000
+      },
+      "validator": {
+        "id": "browser-tests",
+        "version": 1
+      },
+      "version": 1
+    }
+  ]
+}

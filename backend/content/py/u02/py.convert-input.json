@@ -1,0 +1,194 @@
+{
+  "id": "py.convert-input",
+  "version": 1,
+  "course": "py",
+  "unit": "py.u02",
+  "title": "Score the riddle",
+  "concept": "Conversion · int(input())",
+  "description": "Turn the player's replies into numbers, and keep score when a riddle is solved or missed.",
+  "badge": {
+    "id": "py.badge.riddle-scorer",
+    "version": 1,
+    "title": "Riddle scorer",
+    "category": "practice"
+  },
+  "tasks": [
+    {
+      "id": "py.convert-input.discover",
+      "type": "discover",
+      "title": "Replies are always text",
+      "body": "input() always gives back text, even when the player types digits. So \"5\" + \"5\" joins into \"55\" instead of adding up to 10. int(...) turns text like \"12\" into the whole number 12, and float(...) turns \"2.5\" into the decimal 2.5.",
+      "detail": "Wrap the reply in int(), like points = int(input(\"Points? \")). If the reply is not a whole number, such as ten or an empty reply, int() stops with a ValueError. When a reply might be empty, compare it with \"\" before you convert it, as the example on the next card does."
+    },
+    {
+      "id": "py.convert-input.example",
+      "type": "example",
+      "code": "# Ask for the gold in your pocket, as a whole number\ngold = int(input(\"Gold in your pocket? \"))\n# Ask for the bridge toll; an empty reply means no toll\ntoll = input(\"Toll? \")\nif toll == \"\":\n    toll = \"0\"\n# Turn the toll into a number, then pay it\nprint(gold - int(toll))",
+      "output": "15",
+      "note": "With 20 and 5 as replies, it prints 15. An empty toll becomes the text \"0\" first, so int() has a digit to read. Without int(), Python could not take text away from a number.",
+      "inputs": [
+        "20",
+        "5"
+      ]
+    },
+    {
+      "id": "py.convert-input.predict",
+      "type": "predict",
+      "question": "If the player types ten in letters for the gold, what happens?",
+      "options": [
+        "It prints 5",
+        "Python stops with a ValueError",
+        "It prints ten"
+      ],
+      "answer": 1,
+      "why": "int() only understands digits, like \"10\". The letters ten are not a whole number, so Python stops with a ValueError on line 2. You can try it on the next card."
+    },
+    {
+      "id": "py.convert-input.guided",
+      "type": "guided",
+      "prompt": "Run the example with 20 and 5. Then predict, and run, each of these: an empty toll, and the letters ten as the gold. Last, delete int( and its ) from the gold line, run it, and read the explanation. Reset code puts the example back."
+    },
+    {
+      "id": "py.convert-input.challenge",
+      "type": "challenge",
+      "prompt": "The riddle keeper says how many points a riddle is worth. Ask for the hero's score, then for the riddle's points, and turn both replies into whole numbers yourself. Print two lines: the score if the riddle is solved (the points are added), then the score if it is missed (the points are taken away). An empty points reply means a practice riddle worth 0. Print just the two numbers.",
+      "starter": "# Ask for the score and turn the reply into a whole number\n# Ask for the riddle's points; an empty reply means 0\n# Print the score if solved, then the score if missed\n",
+      "hints": [
+        "Three steps: get the score as a number, get the points as a number (or 0 when the reply is empty), then print the two results.",
+        "Look at the second comment. Keep the points reply as text until you have checked whether it is \"\", and only then turn it into a number.",
+        "A pattern with other names: reply = input(\"Coins? \"), then if reply == \"\": with an indented line that gives reply the text \"0\", then coins = int(reply)."
+      ],
+      "error_hints": [
+        {
+          "tags": [
+            "ValueError"
+          ],
+          "text": "One test leaves the points reply empty, and int() can't turn empty text into a number. Check whether the reply is \"\" before you call int()."
+        },
+        {
+          "tags": [
+            "TypeError"
+          ],
+          "text": "input() gives text. Text can't be taken away from a number, and + joins text instead of adding. Wrap each reply in int(...) before you calculate."
+        },
+        {
+          "tags": [
+            "NameError"
+          ],
+          "text": "Give each name a value before you use it, spelled the same each time. Each input() reply needs a name of its own."
+        },
+        {
+          "tags": [
+            "EOFError"
+          ],
+          "text": "This challenge gives your program two replies: the score, then the points. Use exactly two input() calls."
+        },
+        {
+          "tags": [
+            "py.convert-input.case.solved-missed"
+          ],
+          "text": "With a score of 10 and a riddle worth 3, the first line is 13 (solved) and the second is 7 (missed). Check the order of your two print() lines."
+        },
+        {
+          "tags": [
+            "py.convert-input.case.below-zero"
+          ],
+          "text": "Missing a riddle can take the score below zero: 5 - 8 is -3. Print the result as it is; a negative score is fine here."
+        },
+        {
+          "tags": [
+            "py.convert-input.case.no-points"
+          ],
+          "text": "With an empty points reply, the riddle is worth 0, so both lines show the score unchanged."
+        },
+        {
+          "tags": [
+            "py.convert-input.case.large"
+          ],
+          "text": "Calculate from the replies, not from numbers typed into the code, so your program works for every score."
+        },
+        {
+          "tags": [
+            "py.convert-input.case.from-zero"
+          ],
+          "text": "Every reply counts, even a score of zero. Calculate from the replies rather than checking for particular numbers."
+        }
+      ],
+      "similar_example": {
+        "code": "reply = input(\"Lanterns? \")\nif reply == \"\":\n    reply = \"1\"\nlanterns = int(reply)\nprint(lanterns * 2)",
+        "note": "An empty reply becomes the text \"1\" before int() reads it, so the program never stops. Your challenge uses 0 for an empty reply, and needs two numbers."
+      },
+      "other_ways": [
+        {
+          "code": "score = int(input(\"Score? \"))\npoints = input(\"Points? \")\nif points == \"\":\n    points = 0\nelse:\n    points = int(points)\nprint(score + points)\nprint(score - points)",
+          "note": "if and else can each give points its number."
+        },
+        {
+          "code": "score = int(input(\"Score? \"))\npoints = int(input(\"Points? \") or \"0\")\nprint(score + points)\nprint(score - points)",
+          "note": "or picks \"0\" when the reply is empty. A later lesson explains or properly."
+        }
+      ],
+      "input_labels": [
+        "Gold in your pocket",
+        "Toll (a number, or leave it empty)"
+      ],
+      "check": {
+        "cases": [
+          {
+            "id": "solved-missed",
+            "description": "a score of 10 and a riddle worth 3",
+            "inputs": [
+              "10",
+              "3"
+            ],
+            "expected": "13\n7"
+          },
+          {
+            "id": "below-zero",
+            "description": "a score of 5 and a riddle worth 8",
+            "inputs": [
+              "5",
+              "8"
+            ],
+            "expected": "13\n-3"
+          },
+          {
+            "id": "no-points",
+            "description": "a score of 6 and an empty points reply",
+            "inputs": [
+              "6",
+              ""
+            ],
+            "expected": "6\n6"
+          },
+          {
+            "id": "large",
+            "description": "a large score",
+            "inputs": [
+              "250",
+              "120"
+            ],
+            "expected": "370\n130",
+            "visibility": "hidden"
+          },
+          {
+            "id": "from-zero",
+            "description": "starting from a score of zero",
+            "inputs": [
+              "0",
+              "4"
+            ],
+            "expected": "4\n-4",
+            "visibility": "hidden"
+          }
+        ],
+        "time_limit_ms": 3000
+      },
+      "validator": {
+        "id": "browser-tests",
+        "version": 1
+      },
+      "version": 1
+    }
+  ]
+}
