@@ -22,7 +22,20 @@ Decision numbers continue the sequence in `docs/plan/course-catalog.md` section 
 | 7. SEC-03 | Server-side sessions: logout ends the session at once | in_review: merged (PR #13); owner's live check (handoff 07 section 10) not yet recorded |
 | 8. SEC-09 | Nonce-based page CSP, in Report-Only mode | in_review: merged (PR #14); owner's live check (handoff 08 section 10) not yet recorded |
 | 9. Teaching design and lesson feedback | `teaching-design.md`, `lesson-feedback.md`, `ai-helper.md`, new backlog items | verified (PR #15, documentation only) |
-| 10. ASSESS-07 | Honest unit 1 checks and hints | in_review (handoff 10) |
+| 10. ASSESS-07 | Honest unit 1 checks and hints | in_review: merged (PR #16); live check owed (see below) |
+| 11. ENG-03 | Browser behaviour checks | in_review (PR #17, handoff 11) |
+| 13. SITE-01 | Site and product design direction | in_review (PR #19, handoff 13) |
+| 14. DOC-01 and DOC-02 | Decision log and handoff template | in_review (PR #18, handoff 14) |
+
+There is no stage 12: handoffs 13 and 14 were numbered as requested, and no handoff 12 exists.
+
+### Live checks still owed
+
+Merged work whose live check has not been recorded yet. Record the result here (date and what was seen), then move the item to `verified`.
+
+- **(a) Stage 7, SEC-03 sessions** (handoff 07 section 10): a copied `session` cookie makes `curl … /api/me` print `200`; after **Sign out** the same command prints `401`; another device that was signed in stays signed in.
+- **(b) ASSESS-07, honest unit 1 checks** (handoff 10 section 9): on `/preview?lesson=hello&card=5`, printing the same line twice (`print("hi")` twice) no longer passes; it says "Both lines say the same thing".
+- Also unrecorded: **stage 8, SEC-09** (handoff 08 section 10), the nonce headers and the console checks.
 
 ## 2. Suggested order
 
@@ -31,7 +44,7 @@ Decision numbers continue the sequence in `docs/plan/course-catalog.md` section 
 3. **SEC-03** (server-side sessions): merged (stage 7); record its live check. **SEC-09** (CSP nonces): in review (stage 8); after a week of clean consoles, enforce the nonce policy (handoff 08 section 5), which also completes SEC-04. Both come before the admin inbox.
 4. **FB-01 to FB-07**: admin, testers, feedback button, admin inbox (security plan: `docs/plan/feedback-security.md`).
 5. **PILOT-01**: invite the first learner and collect feedback through the new button.
-6. **ENG-04** (lesson feedback engine) and **ASSESS-07** (honest unit 1 "Open the story" check), then **ENG-03** (browser behaviour checks), then **EDU-04** (Python unit 2) with its first **unit check**. PLAN-03 (review of `teaching-design.md`) can run alongside and should finish before unit 2 content is written.
+6. **ENG-04** (lesson feedback engine) and **ASSESS-07** (honest unit 1 "Open the story" check; merged in PR #16), then **ENG-03** (browser behaviour checks; in review, PR #17), then **EDU-04** (Python unit 2) with its first **unit check**. PLAN-03 (review of `teaching-design.md`) can run alongside and should finish before unit 2 content is written.
 7. **OPS-05**: cost review (the owner has set a reminder for 2026-11-08).
 
 ## 3. Feature spec: testers, feedback, admin inbox
@@ -85,18 +98,34 @@ Recorded in the plan as section 12 of `docs/plan/course-catalog.md`.
 | --- | --- | --- | --- | --- |
 | SEC-01 | Now | Rate limits and quotas on write endpoints: `/api/check`, invitations, attempts, enrolment, goal changes and sign-in (done in stage 6; counters in memory, see handoff 06). The first live check found that a made-up `X-Forwarded-For` header chose a new counter; PR #12 trusts only a configured source. Production uses `CLIENT_IP_HEADER=cf-connecting-ip` (now in `render.yaml`); without it all signed-out visitors share one counter. The future feedback endpoint gets its own database counters (`feedback-security.md` section 7) | None | verified: live checks passed 2026-10-25 (spoof tests, `Retry-After`, separate counters for phone and Mac; handoff 06 section 13.7) |
 | SEC-02 | Next | Make the API a private Render service with no public URL; confirm the frontend proxy still works | None | proposed |
-| SEC-03 | Next | Logout revokes the session on the server. Before stage 7 a copied cookie kept working after logout, and for as long as it was used at least once a day. Stage 7: the cookie holds only a random session ID, the `sessions` table (migration 0006) holds the session, logout deletes it; 7-day absolute and 24-hour idle limits. Required before the admin inbox (FB-06) ships, see `feedback-security.md` | Migration | in_review: merged (PR #13), live check not yet recorded (handoff 07) |
+| SEC-03 | Next | Logout revokes the session on the server. Before stage 7 a copied cookie kept working after logout, and for as long as it was used at least once a day. Stage 7: the cookie holds only a random session ID, the `sessions` table (migration 0006) holds the session, logout deletes it; 7-day absolute and 24-hour idle limits. Required before the admin inbox (FB-06) ships, see `feedback-security.md` | Migration | in_review: merged (PR #13); live check owed, section 1 (a) |
 | SEC-04 | Now | Security headers: Content-Security-Policy and HSTS on the main app. Stage 6 adds HSTS, `frame-ancestors 'none'` (enforced) and the page CSP in Report-Only mode; the item is verified once the CSP is switched to enforce mode after a clean live check | None | in_review: headers live and checked 2026-10-25 (handoff 06 section 13.7); enforce mode not yet switched |
 | SEC-05 | Later | Pyodide and CDN integrity: self-host or pin with integrity checks where possible | None | proposed |
 | SEC-06 | Later | Keep invitation tokens out of URLs and request logs | None | proposed |
 | SEC-07 | Next | Branch protection on `main` requiring passing checks (owner action; may need a paid GitHub plan, otherwise merge only on all-green) | Owner | proposed |
 | SEC-08 | Later | Pin CI actions to commit SHAs; routine dependency updates | None | proposed |
-| SEC-09 | Next | Replace `'unsafe-inline'` in the page CSP's `script-src` with per-request nonces (a Next.js proxy file and dynamic rendering), so injected inline script is blocked. Stage 8: `frontend/proxy.ts` makes a nonce per page request; every page now renders per request; the nonce policy is sent in Report-Only mode next to handoff 06's policy; enforcing it is one line (handoff 08 section 5). Proposed as a dependency of the admin inbox (FB-06), owner to confirm | SEC-04 | in_review (stage 8, handoff 08) |
+| SEC-09 | Next | Replace `'unsafe-inline'` in the page CSP's `script-src` with per-request nonces (a Next.js proxy file and dynamic rendering), so injected inline script is blocked. Stage 8: `frontend/proxy.ts` makes a nonce per page request; every page now renders per request; the nonce policy is sent in Report-Only mode next to handoff 06's policy; enforcing it is one line (handoff 08 section 5). Proposed as a dependency of the admin inbox (FB-06), owner to confirm | SEC-04 | in_review: merged (PR #14), Report-Only; live check owed (handoff 08 section 10); enforce after a week of clean consoles |
 | OPS-01 | Before broad rollout | Confirm staging, recovery, privacy, quotas and alerts (umbrella item; OPS-02 to OPS-04 are parts of it) | OPS-02, OPS-03, OPS-04 | proposed |
 | OPS-02 | Next | Part of OPS-01: confirm backups and a restore drill; add staging | None | proposed |
 | OPS-03 | Later | Part of OPS-01: operational alerts | OPS-02 | proposed |
 | OPS-04 | Next | Part of OPS-01: data retention policy: feedback 50 days max and 90 items max (decision 18); goals and placement data to be decided | Before FB-05 ships | proposed |
 | OPS-05 | Next | Reduce Render costs: review billing, workspace plan, 15 GB database storage; later consider one combined service or a free-tier database (reminder set by the owner for 2026-11-08) | Billing screenshot | proposed |
+
+### Documentation (handoff 14)
+
+| ID | Priority | Item | Depends on | Status |
+| --- | --- | --- | --- | --- |
+| DOC-01 | Next | Every handoff includes "Decisions and why", "Bugs found and how they were fixed" and "How it was tested" (`build.md` section 14) | None | in_review (PR #18, handoff 14) |
+| DOC-02 | Later | Decision log (`docs/plan/decision-log.md`), kept up to date each stage, and a book and course built from it (`docs/plan/engineering-book-outline.md`) | DOC-01 | in_review (PR #18, handoff 14): log backfilled and outline proposed; book and course not written |
+
+### Public website (handoff 13)
+
+| ID | Priority | Item | Depends on | Status |
+| --- | --- | --- | --- | --- |
+| SITE-01 | Next | Design direction for the public story site and the product's look (`docs/plan/site-design.md`): three story concepts, illustration approach, motion and performance budget, architecture, accessibility, staged plan | None | in_review (PR #19, handoff 13) |
+| SITE-02 | Next | Public landing story site: the chosen concept as a separate static site (proposed), built in three PRs: skeleton with still scenes and strict headers; scroll motion with reduced motion and a pause button; interactive moments. Within the section 3 budget, 0 axe violations | SITE-01 decisions (concept, architecture) | proposed |
+| SITE-03 | Later | Product polish to match the story, not a redesign: colour and spacing tokens, catalog grouping with course emblems, course header art, a short lesson celebration; calm and fast | SITE-02 (shared style) | proposed |
+| SITE-04 | Later | Custom domain and possible rename: choose a name, buy a domain (paid, owner decision), DNS, `APP_ORIGIN` and `API_ORIGIN`, Google OAuth settings, redirects, one-time sign-in again | Owner decision on name and cost; `build.md` section 16 (brand) | proposed |
 
 ### Testers, feedback and admin
 
@@ -117,9 +146,9 @@ Recorded in the plan as section 12 of `docs/plan/course-catalog.md`.
 
 | ID | Priority | Item | Depends on | Status |
 | --- | --- | --- | --- | --- |
-| ENG-04 | Next | Lesson feedback engine (`docs/plan/lesson-feedback.md`): friendly translations of common Python errors, the offending line highlighted in the editor, check-specific messages that only claim what was checked, progressive hints beside the error, predict-first tasks; tests that no hint, example or message adds up to a full solution. Before unit 2 | None | proposed |
-| ASSESS-07 | Next | Make the unit 1 "Open the story" (`hello`) check honest: the success message says only what was checked; the two lines must differ, contain letters and not copy the worked example or a hint; reword the prompt; replace hint 3 with a partial pattern; also rewrite the `input` hints, which combined into a passing answer, and the `variables` hints, which spelled out the whole `print` line (`lesson-feedback.md` appendix A and section 8). New task version; learners who passed keep it; no XP change. Before unit 2 | ENG-01 | in_review (stage 10, handoff 10): every unit 1 success message reworded, `hello` check v2, hints rewritten, all hint combinations tested |
-| ENG-03 | Next | Browser behaviour-check contract: the Pyodide worker runs learner code against test cases from the content file, with limits and result states including `execution_error` | None | proposed |
+| ENG-04 | Next | Lesson feedback engine (`docs/plan/lesson-feedback.md`): friendly translations of common Python errors, the offending line highlighted in the editor, check-specific messages that only claim what was checked, progressive hints beside the error, predict-first tasks; tests that no hint, example or message adds up to a full solution. Before unit 2. Uses the `failed` fields of the ENG-03 result (`docs/plan/browser-checks.md` section 4, added by PR #17) | None | proposed |
+| ASSESS-07 | Next | Make the unit 1 "Open the story" (`hello`) check honest: the success message says only what was checked; the two lines must differ, contain letters and not copy the worked example or a hint; reword the prompt; replace hint 3 with a partial pattern; also rewrite the `input` hints, which combined into a passing answer, and the `variables` hints, which spelled out the whole `print` line (`lesson-feedback.md` appendix A and section 8). New task version; learners who passed keep it; no XP change. Before unit 2 | ENG-01 | in_review: merged (PR #16); live check owed, section 1 (b) |
+| ENG-03 | Next | Browser behaviour-check contract: the Pyodide worker runs learner code against test cases from the content file, with limits and result states including `execution_error` | None | in_review (PR #17, handoff 11) |
 | ASSESS-01 | Next | Decide the remaining unit-check rule (the pass rule, decision 15) and record it in the plan | None | proposed |
 | ASSESS-02 | Next | Content schema: `unit_check` task type, level variants (high school, university) and validation | ENG-03 | proposed |
 | ASSESS-06 | Next | Learner level setting (self-chosen, never a birthdate; decision 21) used to pick the check variant | ASSESS-02 | proposed |
@@ -158,7 +187,7 @@ Recorded in the plan as section 12 of `docs/plan/course-catalog.md`.
 | UI-02 | Later | "Not now" button and storage for dismissed recommendations | None | proposed |
 | UI-03 | Later | Record when a learner overrides a recommendation (plan 4.4) | None | proposed |
 | UI-04 | Later | Pause a course (plan 4.2) | None | proposed |
-| UI-05 | Next | Lesson page reads lessons per unit instead of the legacy shape (needed once unit 2 exists) | None | proposed |
+| UI-05 | Next | Lesson page reads lessons per unit instead of the legacy shape (needed once unit 2 exists). With ENG-04, this is the step that connects the lesson page to the ENG-03 browser-check contract (handoff 11) | None | proposed |
 | UI-06 | Later | Show a goal-specific capstone when a path is finished (proposed mapping: scratch to Python final project, hackathons to Hackathon Ready, university to Engineering Depth, websites to Full-Stack Builder, data to Data Investigation) | Decision 20 | proposed |
 | ID-01 | Next | Decide independent adult learner onboarding and visibility: account lifecycle, adult control, parent boundaries, migration | Product decision | proposed |
 | QA-01 | Before broader use | Audit core lesson accessibility and grading reports: real screen reader, Safari and Firefox, reproducible defects and retest evidence | None | proposed |
