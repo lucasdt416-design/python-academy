@@ -208,6 +208,42 @@ export function checkLine(result: {failed?: {reason?: string; line?: number | nu
 /** Hints are a ladder of three, chosen one at a time; there is no fourth step and no solution (section 7). */
 export const HINT_LEVELS = ['A nudge', 'A bigger hint', 'The approach'] as const;
 export const HINT_BUTTONS = ['Show a nudge', 'Show a bigger hint', 'Show the approach'] as const;
+/** Every other word the hint panel uses, so the snapshot test shows any change in review. */
+export const HINT_TEXT = {
+ aboutError: 'About this error', aboutErrorButton: 'Show a hint about this error',
+ aboutCheck: 'About this check', aboutCheckButton: 'Show a hint about this check',
+ similar: 'A similar example', similarButton: 'Show a similar example',
+ done: 'That is every hint', noAnswer: 'There is no answer to reveal: the next step is yours.',
+ suggested: 'Stuck? A hint is ready whenever you want one.',
+ otherWays: 'Other ways to do it', otherWaysIntro: 'Your way passed. These also work:',
+} as const;
+/** After this many failed runs in a row, the hint button gets a gentle outline (decision 25). */
+export const OUTLINE_AFTER = 2;
+
+/** A hint offered first when one of its tags is the error or check rule being shown (content `error_hints`). */
+export type ErrorHint = {tags: string[]; text: string};
+export type Sample = {code: string; note: string};
+export type HintStep = {key: string; label: string; button: string; text: string; code?: string};
+
+/** Python error types are tags such as NameError; anything else is a check rule such as hello.words. */
+export const isErrorTag = (tag: string) => /^[A-Z]\w*Error$/.test(tag);
+
+/**
+ * The hint to offer next (lesson-feedback.md section 7). First the hint tagged for the error or rule
+ * being shown, if there is one and it has not been shown; then the ladder in order: a nudge, a bigger
+ * hint, the approach; then, after the approach, a similar example from another context. Never a solution.
+ */
+export function nextHint(ladder: readonly string[], tagged: readonly ErrorHint[], active: string | null, shown: readonly string[], similar?: Sample | null): HintStep | null {
+ const forActive = active ? tagged.findIndex(h => h.tags.includes(active)) : -1;
+ if (active && forActive >= 0 && !shown.includes(`tag:${forActive}`)) {
+  const error = isErrorTag(active);
+  return {key: `tag:${forActive}`, label: error ? HINT_TEXT.aboutError : HINT_TEXT.aboutCheck, button: error ? HINT_TEXT.aboutErrorButton : HINT_TEXT.aboutCheckButton, text: tagged[forActive].text};
+ }
+ const level = ladder.slice(0, HINT_LEVELS.length).findIndex((_, i) => !shown.includes(`level:${i}`));
+ if (level >= 0) return {key: `level:${level}`, label: HINT_LEVELS[level], button: HINT_BUTTONS[level], text: ladder[level]};
+ if (similar && !shown.includes('similar')) return {key: 'similar', label: HINT_TEXT.similar, button: HINT_TEXT.similarButton, text: similar.note, code: similar.code};
+ return null;
+}
 
 /** How each result state is labelled, in words as well as colour. "ran" is a run with no check. */
 export const STATE_LABELS: Record<Result | 'ran', string> = {

@@ -315,5 +315,6 @@ def test_hidden_expected_output_is_in_no_response_and_hidden_inputs_only_in_the_
 
 def test_unit_1_checks_are_unchanged(fixture_lesson):
     body = client.post('/api/check', json={'lesson_id': 'hello', 'code': 'print("A forest.")\nprint("A dragon!")', 'output': 'A forest.\nA dragon!\n'}, headers=HEADERS).json()
-    assert set(body) == {'passed', 'result', 'feedback', 'assessment'}
+    # rule (ENG-04 part 2a) is the only field added since ENG-03.
+    assert set(body) == {'passed', 'result', 'feedback', 'rule', 'assessment'}
     assert (body['passed'], body['assessment']) == (True, 'browser_practice')

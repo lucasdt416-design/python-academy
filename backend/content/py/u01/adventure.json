@@ -1,6 +1,6 @@
 {
   "id": "adventure",
-  "version": 2,
+  "version": 3,
   "course": "py",
   "unit": "py.u01",
   "title": "Launch your adventure",
@@ -53,9 +53,71 @@
       "prompt": "Build your own adventure. Print an opening scene, ask for a name and welcome that player, then ask for left or right and use if/else for different endings. Your story words are up to you.",
       "starter": "# Print your opening scene\nhero = input(\"Your name? \")\n# Welcome your hero by name\npath = input(\"Left or right? \")\n# Use if/else for two different endings\n",
       "hints": [
-        "Start with print(\"your opening scene\"). Then greet the hero variable.",
-        "Ask for the name first and the path second, matching Player replies.",
-        "Use if path == \"left\": and else:, with a different indented print in each block."
+        "Four parts, in order: an opening scene, a welcome that uses the name, the path question, and two different endings.",
+        "Each comment in the starter marks where a print() or the if/else goes. Fill them in from top to bottom.",
+        "Patterns from earlier lessons: print(\"Welcome, \" + name) for the welcome, and if answer == \"yes\": then else: for the two endings."
+      ],
+      "error_hints": [
+        {
+          "tags": [
+            "NameError"
+          ],
+          "text": "The player's name is stored in hero, and the path in path. Use those exact names."
+        },
+        {
+          "tags": [
+            "IndentationError"
+          ],
+          "text": "Lines inside if and else start with four spaces."
+        },
+        {
+          "tags": [
+            "adventure.opening-scene"
+          ],
+          "text": "Your very first line must be a print() with a scene, before the line that asks for a name."
+        },
+        {
+          "tags": [
+            "adventure.two-inputs"
+          ],
+          "text": "Keep both input() lines from the starter: the name first, then the path."
+        }
+      ],
+      "similar_example": {
+        "code": "print(\"The train doors open.\")\nrider = input(\"Ticket name? \")\nprint(\"All aboard, \" + rider)",
+        "note": "A scene, a question and a welcome. Your adventure adds the path question and two different endings."
+      },
+      "other_ways": [
+        {
+          "code": "print(\"A storm rolls in.\")\nhero = input(\"Your name? \")\nprint(f\"Welcome aboard, {hero}!\")\npath = input(\"Left or right? \")\nif path == \"left\":\n    print(\"You ride the lightning.\")\nelse:\n    print(\"You shelter in a lighthouse.\")",
+          "note": "An f-string for the welcome."
+        }
+      ],
+      "messages": [
+        {
+          "id": "adventure.if-else",
+          "message": "Add an if condition and an else block, with an indented story message in each."
+        },
+        {
+          "id": "adventure.two-inputs",
+          "message": "Ask for the player name first and the path second, using two input() calls."
+        },
+        {
+          "id": "adventure.welcome",
+          "message": "Welcome the player using their input name, then reveal the ending."
+        },
+        {
+          "id": "adventure.different-paths",
+          "message": "Left and right currently tell the same story. Give the if and else blocks different discoveries, and compare the input variable with \"left\" or \"right\"."
+        },
+        {
+          "id": "adventure.opening-scene",
+          "message": "Start by printing an opening scene before asking the player for their name."
+        },
+        {
+          "id": "adventure.passed",
+          "message": "Your adventure opens with a scene, welcomes players by the name they type, and gives left and right different endings. You combined all four Python skills! Read both endings: do they finish the story you started?"
+        }
       ],
       "input_labels": [
         "Player name",
@@ -65,7 +127,7 @@
         "id": "bounded-story",
         "version": 2
       },
-      "version": 2
+      "version": 3
     }
   ]
 }

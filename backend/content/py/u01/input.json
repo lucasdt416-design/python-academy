@@ -1,6 +1,6 @@
 {
   "id": "input",
-  "version": 2,
+  "version": 3,
   "course": "py",
   "unit": "py.u01",
   "title": "Meet the player",
@@ -52,9 +52,47 @@
       "prompt": "Ask for the player’s name with input(), store the reply, and print a greeting that includes that reply. It should work for different names without editing the code.",
       "starter": "player = input(\"What is your name? \")\n# Print a welcome that uses player\n",
       "hints": [
-        "input() gives back whatever the player typed. The starter keeps it in the variable player.",
-        "Join text and a variable with +: print(\"Good morning, \" + friend) greets whatever is stored in friend. Which variable holds your player’s reply?",
-        "Another way is an f-string: put a variable name in braces inside the text, like f\"See you soon, {friend}\". Remember the f before the opening quote."
+        "input() gives back whatever the player typed. The starter already keeps it in the variable player.",
+        "Look at the comment line: replace it with a print() that joins a greeting and player.",
+        "With other names: print(\"Good morning, \" + friend) greets whatever is stored in friend. An f-string works too: f\"See you soon, {friend}\"."
+      ],
+      "error_hints": [
+        {
+          "tags": [
+            "NameError"
+          ],
+          "text": "The reply is stored in player. Check that the name inside your print() is spelled exactly the same."
+        },
+        {
+          "tags": [
+            "input.uses-reply"
+          ],
+          "text": "A name typed straight into the greeting stays the same for every player. Use the variable player in the greeting instead."
+        }
+      ],
+      "similar_example": {
+        "code": "friend = \"Sam\"\nprint(\"See you soon, \" + friend)",
+        "note": "A variable inside a greeting. In your challenge, the value comes from input() instead of being typed into the code."
+      },
+      "other_ways": [
+        {
+          "code": "player = input(\"What is your name? \")\nprint(f\"Welcome, {player}!\")",
+          "note": "An f-string puts the reply straight into the greeting."
+        },
+        {
+          "code": "player = input(\"What is your name? \")\nprint(\"Welcome,\", player)",
+          "note": "print() with a comma adds the space for you."
+        }
+      ],
+      "messages": [
+        {
+          "id": "input.uses-reply",
+          "message": "Use the value returned by input() in your greeting. Test a different player name; a hard-coded name will not change with the reply."
+        },
+        {
+          "id": "input.passed",
+          "message": "Your greeting used the reply: it changed when we tried two different player names. Run it with your own name as the reply: does the greeting read the way you want?"
+        }
       ],
       "input_labels": [
         "Player name"
@@ -63,7 +101,7 @@
         "id": "bounded-story",
         "version": 2
       },
-      "version": 2
+      "version": 3
     }
   ]
 }

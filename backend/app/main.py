@@ -4,7 +4,7 @@ from . import admin
 from . import feedback as tester_feedback
 from .awards import award_challenge
 from .db import Attempt, Base, Event, Invitation, LearnerGoal, User, engine
-from .lesson_checks import assess, check_story
+from .lesson_checks import check_story, judge, rule_errors
 from .limits import limit
 from .recommend import DEFAULT_GOAL, GOALS, recommend
 import hashlib
@@ -28,6 +28,9 @@ if PRODUCTION and len(SECRET) < 32:
 ORIGIN = os.getenv('APP_ORIGIN', 'http://localhost:3000').rstrip('/')
 API_ORIGIN = os.getenv('API_ORIGIN', ORIGIN).rstrip('/')
 CATALOG, CONTENT = content.load()
+# Check messages in the content must match the rules the checker uses (lesson-feedback.md section 6).
+if errors := rule_errors(CONTENT):
+    raise content.ContentError('Invalid course content:\n- ' + '\n- '.join(errors))
 LESSONS = content.legacy_lessons(CATALOG, CONTENT)
 LESSON_ORDER = content.lesson_order(CATALOG)
 CATALOG_VIEW = content.catalog_view(CATALOG, CONTENT)
@@ -284,7 +287,7 @@ def attempt(data: Submission, request: Request):
             if not lesson:
                 raise HTTPException(404, 'Unknown lesson')
             # Safe, bounded checks of taught syntax; learner code never executes here.
-            result, feedback = assess(data.lesson_id, data.code, data.output, data.inputs)
+            result, feedback, rule = judge(data.lesson_id, data.code, data.output, data.inputs)
         saved = Attempt(user_id=u.id, lesson_id=data.lesson_id, code=data.code, output=data.output, passed=result == 'passed', result=result)
         db.add(saved)
         db.flush()
@@ -292,7 +295,7 @@ def attempt(data: Submission, request: Request):
             award_challenge(db, u.id, CONTENT[data.lesson_id], saved.id)
         audit(db, u, 'practice_saved', data.lesson_id)
         db.commit()
-        return outcome or {'passed': result == 'passed', 'result': result, 'feedback': feedback, 'assessment': 'browser_practice'}
+        return outcome or {'passed': result == 'passed', 'result': result, 'feedback': feedback, 'rule': rule, 'assessment': 'browser_practice'}
 
 @app.post('/api/check', dependencies=[Depends(limit('check'))])
 def check_preview(data: Submission):
@@ -300,8 +303,9 @@ def check_preview(data: Submission):
         return browser_checks.judge(lesson, data.code, data.runs)
     if not any(lesson['id'] == data.lesson_id for lesson in LESSONS):
         raise HTTPException(404, 'Unknown lesson')
-    result, feedback = assess(data.lesson_id, data.code, data.output, data.inputs)
-    return {'passed': result == 'passed', 'result': result, 'feedback': feedback, 'assessment': 'browser_practice'}
+    result, feedback, rule = judge(data.lesson_id, data.code, data.output, data.inputs)
+    # rule: the named check rule that decided the result, so the page can offer the hint tagged for it.
+    return {'passed': result == 'passed', 'result': result, 'feedback': feedback, 'rule': rule, 'assessment': 'browser_practice'}
 
 @app.get('/api/progress')
 def progress(request: Request):

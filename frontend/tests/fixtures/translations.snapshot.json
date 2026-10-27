@@ -109,5 +109,29 @@
   "id": "other",
   "title": "Python stopped on line {line}",
   "text": "Read Python’s message below, change one thing, and run it again."
+ },
+ {
+  "id": "hint-panel",
+  "levels": [
+   "A nudge",
+   "A bigger hint",
+   "The approach"
+  ],
+  "buttons": [
+   "Show a nudge",
+   "Show a bigger hint",
+   "Show the approach"
+  ],
+  "aboutError": "About this error",
+  "aboutErrorButton": "Show a hint about this error",
+  "aboutCheck": "About this check",
+  "aboutCheckButton": "Show a hint about this check",
+  "similar": "A similar example",
+  "similarButton": "Show a similar example",
+  "done": "That is every hint",
+  "noAnswer": "There is no answer to reveal: the next step is yours.",
+  "suggested": "Stuck? A hint is ready whenever you want one.",
+  "otherWays": "Other ways to do it",
+  "otherWaysIntro": "Your way passed. These also work:"
  }
 ]

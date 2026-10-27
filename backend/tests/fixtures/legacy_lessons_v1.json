@@ -22,13 +22,44 @@
     "starter": "# Describe a location with print()\n# On the next line, print an unexpected event\n",
     "challenge": "Write two print statements with two different story messages: first a place, then a surprise. The check makes sure you print two different messages that use words; whether they make a good scene is up to you.",
     "hints": [
-      "Start with lowercase print, followed by parentheses.",
-      "Put one message in matching quotes inside each print call.",
-      "A pattern to complete: print(\"You wake up in ___.\") Then add a second print() with something unexpected."
+      "You need two print() lines: the first describes a place, the second something unexpected.",
+      "Check each line: lowercase print, then parentheses, with your message inside matching quotes.",
+      "A pattern to complete: print(\"You wake up in ___.\") Then add a second print() with your surprise."
     ],
     "inputs": [],
     "exampleInputs": [],
-    "expected": null
+    "expected": null,
+    "errorHints": [
+      {
+        "tags": [
+          "SyntaxError"
+        ],
+        "text": "Every opening quote needs a closing quote, and every ( needs a ). Check the end of each line."
+      },
+      {
+        "tags": [
+          "NameError"
+        ],
+        "text": "print is all lowercase, and words need quotes around them. Without quotes, Python reads words as names."
+      },
+      {
+        "tags": [
+          "hello.words"
+        ],
+        "text": "Each message needs words, like the name of a place or something that happens."
+      },
+      {
+        "tags": [
+          "hello.different-lines"
+        ],
+        "text": "Keep your first line as it is, and make the second one about something else that happens."
+      }
+    ],
+    "similarExample": {
+      "code": "print(\"The shop opens at nine.\")",
+      "note": "One print() shows one line of text. Your challenge uses two, with your own words."
+    },
+    "otherWays": []
   },
   {
     "id": "variables",
@@ -53,13 +84,47 @@
     "starter": "hero = \"\"\ntool = \"\"\n# Print hero and tool, using the variables\n",
     "challenge": "Store a nonempty hero name in hero and a nonempty tool in tool. Print both values by using the variables. You may add labels or combine them into a sentence.",
     "hints": [
-      "Give hero and tool your own quoted text values.",
-      "To show a stored value, put the variable name inside print() with no quotes around it, like print(pet) for a variable called pet.",
-      "You can join values into one sentence with +, like print(pet + \" sleeps on the \" + bed). Try the same with your own variables."
+      "This card needs two variables, hero and tool, each holding some text. Then print() shows them.",
+      "Look at the first two lines: put your own words between the empty quotes. Then check your print(): a variable name goes inside it with no quotes.",
+      "With other names: pet = \"___\" stores text, and print(pet) shows it. Do the same with hero and tool."
     ],
     "inputs": [],
     "exampleInputs": [],
-    "expected": null
+    "expected": null,
+    "errorHints": [
+      {
+        "tags": [
+          "NameError"
+        ],
+        "text": "Names must be spelled exactly the same each time: hero in print() must match hero where you gave it a value, letter for letter."
+      },
+      {
+        "tags": [
+          "SyntaxError"
+        ],
+        "text": "Text values need matching quotes, like \"Kai\". Variable names inside print() do not."
+      },
+      {
+        "tags": [
+          "variables.uses-variables"
+        ],
+        "text": "If your output shows the words hero and tool instead of your values, remove the quotes around the names inside print()."
+      }
+    ],
+    "similarExample": {
+      "code": "pet = \"Biscuit\"\nbed = \"rug\"\nprint(pet + \" sleeps on the \" + bed)",
+      "note": "Two variables hold text, and print() shows their values by name. Your challenge does the same with hero and tool."
+    },
+    "otherWays": [
+      {
+        "code": "hero = \"Kai\"\ntool = \"rope\"\nprint(f\"{hero} packs a {tool}.\")",
+        "note": "An f-string puts the values straight into the sentence."
+      },
+      {
+        "code": "hero = \"Kai\"\ntool = \"rope\"\nprint(hero, \"has a\", tool)",
+        "note": "print() can take several values separated by commas, and puts a space between them."
+      }
+    ]
   },
   {
     "id": "input",
@@ -84,9 +149,9 @@
     "starter": "player = input(\"What is your name? \")\n# Print a welcome that uses player\n",
     "challenge": "Ask for the player\u2019s name with input(), store the reply, and print a greeting that includes that reply. It should work for different names without editing the code.",
     "hints": [
-      "input() gives back whatever the player typed. The starter keeps it in the variable player.",
-      "Join text and a variable with +: print(\"Good morning, \" + friend) greets whatever is stored in friend. Which variable holds your player\u2019s reply?",
-      "Another way is an f-string: put a variable name in braces inside the text, like f\"See you soon, {friend}\". Remember the f before the opening quote."
+      "input() gives back whatever the player typed. The starter already keeps it in the variable player.",
+      "Look at the comment line: replace it with a print() that joins a greeting and player.",
+      "With other names: print(\"Good morning, \" + friend) greets whatever is stored in friend. An f-string works too: f\"See you soon, {friend}\"."
     ],
     "inputs": [
       "Player name"
@@ -94,7 +159,35 @@
     "exampleInputs": [
       "Nova"
     ],
-    "expected": null
+    "expected": null,
+    "errorHints": [
+      {
+        "tags": [
+          "NameError"
+        ],
+        "text": "The reply is stored in player. Check that the name inside your print() is spelled exactly the same."
+      },
+      {
+        "tags": [
+          "input.uses-reply"
+        ],
+        "text": "A name typed straight into the greeting stays the same for every player. Use the variable player in the greeting instead."
+      }
+    ],
+    "similarExample": {
+      "code": "friend = \"Sam\"\nprint(\"See you soon, \" + friend)",
+      "note": "A variable inside a greeting. In your challenge, the value comes from input() instead of being typed into the code."
+    },
+    "otherWays": [
+      {
+        "code": "player = input(\"What is your name? \")\nprint(f\"Welcome, {player}!\")",
+        "note": "An f-string puts the reply straight into the greeting."
+      },
+      {
+        "code": "player = input(\"What is your name? \")\nprint(\"Welcome,\", player)",
+        "note": "print() with a comma adds the space for you."
+      }
+    ]
   },
   {
     "id": "choices",
@@ -119,9 +212,9 @@
     "starter": "path = input(\"Left or right? \")\nif path == \"left\":\n    # Print one discovery\n    pass\nelse:\n    # Print a different discovery\n    pass\n",
     "challenge": "Ask the player to choose left or right. Use if and else to print a different nonempty discovery for each choice. Keep the replies as lowercase left and right; invent your own discoveries.",
     "hints": [
-      "Compare path with \"left\" using two equals signs: ==.",
-      "Both if and else need a colon. Their print statements need indentation.",
-      "Replace each pass with print(\"your discovery\"). Make the two discoveries different."
+      "You need two branches: one when the reply is left, and one for anything else.",
+      "Look at the two pass lines in the starter. Each one is the place for a print() with a discovery.",
+      "A pattern from another story: if answer == \"yes\": then an indented print(...), then else: and another indented print(...)."
     ],
     "inputs": [
       "Path: left or right"
@@ -129,7 +222,37 @@
     "exampleInputs": [
       "left"
     ],
-    "expected": null
+    "expected": null,
+    "errorHints": [
+      {
+        "tags": [
+          "IndentationError"
+        ],
+        "text": "Lines inside if and else start with four spaces. Press Tab at the start of the line to add them."
+      },
+      {
+        "tags": [
+          "SyntaxError"
+        ],
+        "text": "The if and else lines end with a colon, and comparing uses two equals signs: ==."
+      },
+      {
+        "tags": [
+          "choices.different-paths"
+        ],
+        "text": "Your two branches print the same thing. Change the words in one of them."
+      }
+    ],
+    "similarExample": {
+      "code": "answer = input(\"Open the door? \")\nif answer == \"yes\":\n    print(\"You said \" + answer + \", so the door opens.\")\nelse:\n    print(\"The door stays shut.\")",
+      "note": "One reply, two branches, a different message in each. Your challenge compares the reply with \"left\"."
+    },
+    "otherWays": [
+      {
+        "code": "path = input(\"Left or right? \")\nif path != \"left\":\n    print(\"A rope bridge sways.\")\nelse:\n    print(\"A quiet cave glows.\")",
+        "note": "!= means \"is not equal to\", so the branches can be written the other way round."
+      }
+    ]
   },
   {
     "id": "adventure",
@@ -154,9 +277,9 @@
     "starter": "# Print your opening scene\nhero = input(\"Your name? \")\n# Welcome your hero by name\npath = input(\"Left or right? \")\n# Use if/else for two different endings\n",
     "challenge": "Build your own adventure. Print an opening scene, ask for a name and welcome that player, then ask for left or right and use if/else for different endings. Your story words are up to you.",
     "hints": [
-      "Start with print(\"your opening scene\"). Then greet the hero variable.",
-      "Ask for the name first and the path second, matching Player replies.",
-      "Use if path == \"left\": and else:, with a different indented print in each block."
+      "Four parts, in order: an opening scene, a welcome that uses the name, the path question, and two different endings.",
+      "Each comment in the starter marks where a print() or the if/else goes. Fill them in from top to bottom.",
+      "Patterns from earlier lessons: print(\"Welcome, \" + name) for the welcome, and if answer == \"yes\": then else: for the two endings."
     ],
     "inputs": [
       "Player name",
@@ -166,6 +289,42 @@
       "Nova",
       "left"
     ],
-    "expected": null
+    "expected": null,
+    "errorHints": [
+      {
+        "tags": [
+          "NameError"
+        ],
+        "text": "The player's name is stored in hero, and the path in path. Use those exact names."
+      },
+      {
+        "tags": [
+          "IndentationError"
+        ],
+        "text": "Lines inside if and else start with four spaces."
+      },
+      {
+        "tags": [
+          "adventure.opening-scene"
+        ],
+        "text": "Your very first line must be a print() with a scene, before the line that asks for a name."
+      },
+      {
+        "tags": [
+          "adventure.two-inputs"
+        ],
+        "text": "Keep both input() lines from the starter: the name first, then the path."
+      }
+    ],
+    "similarExample": {
+      "code": "print(\"The train doors open.\")\nrider = input(\"Ticket name? \")\nprint(\"All aboard, \" + rider)",
+      "note": "A scene, a question and a welcome. Your adventure adds the path question and two different endings."
+    },
+    "otherWays": [
+      {
+        "code": "print(\"A storm rolls in.\")\nhero = input(\"Your name? \")\nprint(f\"Welcome aboard, {hero}!\")\npath = input(\"Left or right? \")\nif path == \"left\":\n    print(\"You ride the lightning.\")\nelse:\n    print(\"You shelter in a lighthouse.\")",
+        "note": "An f-string for the welcome."
+      }
+    ]
   }
 ]

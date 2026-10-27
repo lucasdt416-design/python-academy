@@ -2,12 +2,13 @@
 import {type ReactNode, useEffect, useRef, useState} from 'react';
 import {type Course,type Unit,unitNumber} from './catalog-data';
 import CodeEditor,{goToLine} from './code-editor';
-import {type Explanation,HINT_BUTTONS,HINT_LEVELS,RESULTS,type Result,STATE_LABELS,checkLine,explain,parseError,pythonMessage} from './feedback';
+import {type ErrorHint,type Explanation,HINT_TEXT,type HintStep,OUTLINE_AFTER,RESULTS,type Result,STATE_LABELS,type Sample,checkLine,explain,nextHint,parseError,pythonMessage} from './feedback';
 
-type Lesson = {id:string;title:string;concept:string;badge:string;description:string;learnTitle:string;learn:string;detail:string;example:string;exampleOutput:string;exampleNote:string;question:string;options:string[];answer:number;why:string;guided:string;starter:string;challenge:string;hints:string[];inputs:string[];exampleInputs:string[]};
+type Lesson = {id:string;title:string;concept:string;badge:string;description:string;learnTitle:string;learn:string;detail:string;example:string;exampleOutput:string;exampleNote:string;question:string;options:string[];answer:number;why:string;guided:string;starter:string;challenge:string;hints:string[];inputs:string[];exampleInputs:string[];errorHints?:ErrorHint[];similarExample?:Sample|null;otherWays?:Sample[]};
 const stages=['Discover','See it work','Predict','Try it','Your challenge'];
-/** What the last run showed: a check result, a run with no check, or a Python error explained (app/feedback.ts). */
-type Report={state:Result|'ran';text:string;explanation?:Explanation;python?:string};
+/** What the last run showed: a check result, a run with no check, or a Python error explained (app/feedback.ts).
+ * tag: the Python error type or check rule it was about, so the hint tagged for it is offered first. */
+type Report={state:Result|'ran';text:string;explanation?:Explanation;python?:string;tag?:string|null};
 /** Code between backticks in a message, shown as code. */
 function withCode(text:string):ReactNode[]{return text.split('`').map((part,i)=>i%2?<code key={i}>{part}</code>:part);}
 async function api(path:string,data?:unknown){
@@ -36,7 +37,7 @@ function World({chapter}:{chapter:number}){
 }
 
 export default function Adventure({preview,onSaved,lessonId}:{preview:boolean;onSaved:()=>void;lessonId?:string}){
- const [lessons,setLessons]=useState<Lesson[]>([]),[selected,setSelected]=useState(0),[stage,setStage]=useState(0),[code,setCode]=useState(''),[output,setOutput]=useState(''),[report,setReport]=useState<Report|null>(null),[errorLine,setErrorLine]=useState<number|null>(null),[error,setError]=useState(''),[prediction,setPrediction]=useState<number|null>(null),[hints,setHints]=useState(0),[replies,setReplies]=useState<string[]>([]),[done,setDone]=useState<string[]>([]),[running,setRunning]=useState(false),[passed,setPassed]=useState(false),[drafts,setDrafts]=useState<Record<string,string>>({}),[place,setPlace]=useState<{course:Course;unit:Unit}|null>(null),[menuOpen,setMenuOpen]=useState(false);
+ const [lessons,setLessons]=useState<Lesson[]>([]),[selected,setSelected]=useState(0),[stage,setStage]=useState(0),[code,setCode]=useState(''),[output,setOutput]=useState(''),[report,setReport]=useState<Report|null>(null),[errorLine,setErrorLine]=useState<number|null>(null),[error,setError]=useState(''),[prediction,setPrediction]=useState<number|null>(null),[shownHints,setShownHints]=useState<HintStep[]>([]),[failedRuns,setFailedRuns]=useState(0),[replies,setReplies]=useState<string[]>([]),[done,setDone]=useState<string[]>([]),[running,setRunning]=useState(false),[passed,setPassed]=useState(false),[drafts,setDrafts]=useState<Record<string,string>>({}),[place,setPlace]=useState<{course:Course;unit:Unit}|null>(null),[menuOpen,setMenuOpen]=useState(false);
  const worker=useRef<Worker|null>(null),timer=useRef<ReturnType<typeof setTimeout>|null>(null),heading=useRef<HTMLHeadingElement>(null),editor=useRef<HTMLTextAreaElement>(null),version=useRef(0);
  const lesson=lessons[selected];
  useEffect(()=>{
@@ -50,8 +51,8 @@ export default function Adventure({preview,onSaved,lessonId}:{preview:boolean;on
  function focusCard(){requestAnimationFrame(()=>heading.current?.focus());}
  function address(index:number,card:number){window.history.replaceState({},'',preview?`/preview?lesson=${lessons[index].id}&card=${card+1}`:`/learn/${lessons[index].id}`);}
  function clear(){setReport(null);setErrorLine(null);}
- function move(card:number){stop();setStage(card);clear();setError('');setOutput('');setHints(0);setPassed(false);if(card===4)setCode(drafts[lesson.id+':4']??lesson.starter);else if(card===3)setCode(drafts[lesson.id+':3']??lesson.example);address(selected,card);focusCard();}
- function choose(index:number){stop();setMenuOpen(false);setSelected(index);setStage(0);setCode(lessons[index].example);setReplies(lessons[index].exampleInputs);setOutput('');setError('');clear();setHints(0);setPrediction(null);setPassed(false);address(index,0);focusCard();}
+ function move(card:number){stop();setStage(card);clear();setError('');setOutput('');setShownHints([]);setFailedRuns(0);setPassed(false);if(card===4)setCode(drafts[lesson.id+':4']??lesson.starter);else if(card===3)setCode(drafts[lesson.id+':3']??lesson.example);address(selected,card);focusCard();}
+ function choose(index:number){stop();setMenuOpen(false);setSelected(index);setStage(0);setCode(lessons[index].example);setReplies(lessons[index].exampleInputs);setOutput('');setError('');clear();setShownHints([]);setFailedRuns(0);setPrediction(null);setPassed(false);address(index,0);focusCard();}
  function edit(value:string){
   // A check result is about the code that was checked, so it goes. A Python error stays until the next
   // run, but its highlight goes once that line changes (lesson-feedback.md section 5).
@@ -59,19 +60,21 @@ export default function Adventure({preview,onSaved,lessonId}:{preview:boolean;on
   if(errorLine&&(code.split('\n')[errorLine-1]!==value.split('\n')[errorLine-1]||code.split('\n').length!==value.split('\n').length))setErrorLine(null);
   setCode(value);setPassed(false);setDrafts(old=>({...old,[lesson.id+':'+stage]:value}));
  }
- function stopped(explanation:Explanation,python?:string){setReport({state:'execution_error',text:explanation.text,explanation,python});setErrorLine(explanation.line);}
+ function stopped(explanation:Explanation,python?:string,tag?:string|null){setReport({state:'execution_error',text:explanation.text,explanation,python,tag});setErrorLine(explanation.line);}
+ // Runs on the challenge card that Python stopped or the check did not pass, in a row (decision 25).
+ function failed(challenge:boolean){if(challenge)setFailedRuns(n=>n+1);}
  async function run(){
   stop();setRunning(true);clear();setError('');setOutput('Starting Python…');setPassed(false);
   const runVersion=version.current,runCode=code,runInputs=[...replies],runLesson=lesson.id,challenge=stage===4,context={code:runCode,unit:place?unitNumber(place.unit):1};
   const w=new Worker('/python-worker.js');worker.current=w;
-  timer.current=setTimeout(()=>{if(version.current!==runVersion)return;stop();setOutput('Execution stopped after 15 seconds.');stopped(explain({stop:'timeout'},context));},15000);
+  timer.current=setTimeout(()=>{if(version.current!==runVersion)return;stop();setOutput('Execution stopped after 15 seconds.');stopped(explain({stop:'timeout'},context));failed(challenge);},15000);
   w.onerror=()=>{if(version.current!==runVersion)return;stop();setOutput('Python could not start. Check your connection and try again.');};
   w.onmessage=async({data})=>{
    if(version.current!==runVersion)return;
    w.terminate();worker.current=null;if(timer.current)clearTimeout(timer.current);timer.current=null;
    // What printed before an error stays visible; the error itself is explained below the output.
    setOutput(data.output||(data.error?'(Nothing printed before Python stopped.)':'(No output yet.)'));
-   if(data.error){setRunning(false);stopped(explain(data.outputLimit?{stop:'output_limit'}:parseError(data.error,data.errorType),context),pythonMessage(data.error));return;}
+   if(data.error){setRunning(false);const error=data.outputLimit?null:parseError(data.error,data.errorType);stopped(explain(error??{stop:'output_limit'},context),pythonMessage(data.error),error?.type);failed(challenge);return;}
    // A run is not a check: printing something must never look like a pass.
    if(!challenge){setRunning(false);setReport({state:'ran',text:'Your code ran. This card has no check: compare the output with the task, then try another change.'});return;}
    try{
@@ -79,7 +82,9 @@ export default function Adventure({preview,onSaved,lessonId}:{preview:boolean;on
     if(version.current!==runVersion)return;
     // Only the result state counts as a pass. An unknown state is shown as the check being unavailable.
     const state:Result=RESULTS.includes(result.result)?result.result:'service_error',ok=state==='passed'&&result.passed===true;
-    setReport({state,text:state===result.result?result.feedback:'Unable to assess this right now. Your code is unchanged; please try again in a moment.'});setErrorLine(checkLine(result));setPassed(ok);
+    const tag=state==='needs_work'?result.rule??null:state==='execution_error'?result.failed?.error_type??null:null;
+    setReport({state,tag,text:state===result.result?result.feedback:'Unable to assess this right now. Your code is unchanged; please try again in a moment.'});setErrorLine(checkLine(result));setPassed(ok);
+    if(ok)setFailedRuns(0);else if(state==='needs_work'||state==='execution_error')failed(true);
     if(ok)setDone(old=>old.includes(runLesson)?old:[...old,runLesson]);
     if(!preview)onSaved();
    }catch(e){if(version.current===runVersion)setError((e as Error).message);}
@@ -90,7 +95,8 @@ export default function Adventure({preview,onSaved,lessonId}:{preview:boolean;on
  if(!lesson)return <section className="card" role="status">{error||'Preparing your adventure…'}</section>;
  const completed=lessons.filter(l=>done.includes(l.id)).length;
  // aria-disabled, not disabled, on the last hint button, so keyboard focus is not lost when it changes.
- const moreHints=hints<Math.min(HINT_LEVELS.length,lesson.hints.length);
+ // The hint button gets a gentle outline after OUTLINE_AFTER failed runs: no popup, no movement.
+ const next=nextHint(lesson.hints,lesson.errorHints??[],report?.tag??null,shownHints.map(h=>h.key),lesson.similarExample),outlined=failedRuns>=OUTLINE_AFTER&&next!==null,otherWays=lesson.otherWays??[];
  return <section className="adventure" aria-label="Build Your Own Adventure">
   {place&&<nav className="breadcrumb" aria-label="Breadcrumb"><ol><li><a href="/courses">Courses</a></li><li><a href={`/courses/${place.course.id}`}>{place.course.title}</a></li><li aria-current="page">Unit {unitNumber(place.unit)}: {place.unit.title}</li></ol></nav>}
   <div className="chapter-heading"><div><p className="eyebrow">UNIT 01 · BUILD SOMETHING THAT IS YOURS</p><h1>Build Your Own <span>Adventure.</span></h1><p>Five small quests. One story only you could make.</p></div><div className="xp"><strong>{completed*100} XP</strong><span>{completed} of 5 badges earned{preview?' · preview session':''}</span></div></div>
@@ -123,7 +129,8 @@ export default function Adventure({preview,onSaved,lessonId}:{preview:boolean;on
     <div className="actions"><button className="primary" disabled={running} onClick={run}>{running?'Running…':stage===4?'Run & check challenge':'Run Python →'}</button>{running&&<button onClick={()=>{stop();setOutput('Execution stopped.');}}>Stop</button>}<button disabled={running} onClick={()=>{edit(stage===4?lesson.starter:lesson.example);setOutput('');clear();}}>Reset code</button></div><h3>Output</h3><pre className="output execution-output" aria-live="polite">{output||'Your story will appear here.'}</pre>
     <div id="code-feedback" className={'result'+(report?' '+report.state.replace('_','-'):'')} role="status">{report&&<><p className="result-state">{STATE_LABELS[report.state]}</p>{report.explanation?<><p className="result-title">{withCode(report.explanation.title)}</p>{report.explanation.where&&<p className="result-where">{report.explanation.where}</p>}<p>{withCode(report.explanation.text)}</p></>:<p>{report.text}</p>}</>}</div>
     {report&&(errorLine||report.python)&&<div className="result-actions">{errorLine&&<button onClick={()=>editor.current&&goToLine(editor.current,errorLine)}>Go to line {errorLine}</button>}{report.python&&<details><summary>Show Python’s message</summary><pre className="python-message">{report.python}</pre></details>}</div>}
-    {stage===4&&<section className="hint-ladder" aria-labelledby="hints-title"><h3 id="hints-title">Hints</h3><ol aria-live="polite">{lesson.hints.slice(0,hints).map((hint,i)=><li className="hint" key={i}><strong>{HINT_LEVELS[i]}.</strong> {hint}</li>)}</ol><button aria-disabled={!moreHints} onClick={()=>{if(moreHints)setHints(x=>x+1);}}>{moreHints?HINT_BUTTONS[hints]:'That is every hint'}</button>{!moreHints&&<p className="muted">There is no answer to reveal: the next step is yours.</p>}</section>}
+    {stage===4&&<section className="hint-ladder" aria-labelledby="hints-title"><h3 id="hints-title">Hints</h3><ol aria-live="polite">{shownHints.map(hint=><li className="hint" key={hint.key}><strong>{hint.label}.</strong> {hint.text}{hint.code&&<pre className="example-code"><code>{hint.code}</code></pre>}</li>)}</ol><button className={outlined?'suggested':undefined} aria-disabled={!next} aria-describedby={outlined?'hint-suggested':undefined} onClick={()=>{if(next)setShownHints(old=>[...old,next]);}}>{next?next.button:HINT_TEXT.done}</button>{outlined&&<p id="hint-suggested" className="visually-hidden">{HINT_TEXT.suggested}</p>}{!next&&<p className="muted">{HINT_TEXT.noAnswer}</p>}</section>}
+    {passed&&stage===4&&otherWays.length>0&&<section className="other-ways" aria-labelledby="other-ways-title"><h3 id="other-ways-title">{HINT_TEXT.otherWays}</h3><p className="muted">{HINT_TEXT.otherWaysIntro}</p>{otherWays.map(way=><figure key={way.code}><pre className="example-code"><code>{way.code}</code></pre><figcaption>{way.note}</figcaption></figure>)}</section>}
     {error&&<p className="notice" role="alert">{error}</p>}<p className="muted">Python runs in your browser. Challenge checks cover the syntax taught in this chapter; badges mark practice, not mastery.</p>
    </section>}
    {passed&&stage===4&&<div className="badge-earned" role="status"><span className="badge-icon" aria-hidden="true">✦</span><div><strong>{lesson.badge} badge earned!</strong><p>{done.includes(lesson.id)?'100 XP for this quest. Repeating it does not add extra XP.':''}{preview?' Preview badge: not saved.':' Your practice is saved.'}</p></div></div>}

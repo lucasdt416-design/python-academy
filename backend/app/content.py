@@ -106,14 +106,47 @@ class BrowserCheck(Strict):
     time_limit_ms: int = Field(default=3000, ge=500, le=10_000)
 
 
+# Python errors a hint can be tagged with (docs/plan/lesson-feedback.md section 7). A hint can also
+# be tagged with one of its own challenge's check rules.
+ERROR_TAGS = {'SyntaxError', 'IndentationError', 'TabError', 'NameError', 'TypeError', 'ValueError', 'ZeroDivisionError', 'EOFError'}
+
+
+class CheckMessage(Strict):
+    """What the learner reads when a named check rule fails, or when the check passes (section 6)."""
+    id: str = Field(pattern=ID)
+    message: str = Field(min_length=1, max_length=400)
+
+
+class ErrorHint(Strict):
+    """A hint offered first when one of its tags is the error or rule being shown (section 7)."""
+    tags: list[str] = Field(min_length=1)
+    text: str = Field(min_length=1, max_length=400)
+
+
+class CodeSample(Strict):
+    code: str = Field(min_length=1)
+    note: str = Field(min_length=1, max_length=300)
+
+
 class Challenge(TaskBase):
     type: Literal['challenge']
     prompt: str
     starter: str
-    hints: list[str] = []
+    # The hint ladder, in order: a nudge, a bigger hint, the approach. Never a full solution.
+    hints: list[str] = Field(default=[], max_length=3)
+    error_hints: list[ErrorHint] = []
+    # Offered after the last hint: the same idea in another context. It must not pass the check.
+    similar_example: CodeSample | None = None
+    # Shown only after passing: other valid solutions. Each must pass the check.
+    other_ways: list[CodeSample] = []
+    # Messages for the checker's named rules, by stable ID (bounded-story checks only).
+    messages: list[CheckMessage] = []
     input_labels: list[str] = []
     validator: Validator
     check: BrowserCheck | None = None
+
+    def message(self, rule_id):
+        return next(m.message for m in self.messages if m.id == rule_id)
 
 
 Task = Annotated[Union[Discover, Example, Predict, Guided, Challenge], Field(discriminator='type')]
@@ -229,6 +262,7 @@ def validate(catalog, lessons):
             errors.append(f'released course {course.id} has no released units')
 
     task_ids = set()
+    rule_ids = set()
     badge_ids = set()
     for lesson in lessons.values():
         if lesson.id not in listed:
@@ -255,6 +289,7 @@ def validate(catalog, lessons):
         if challenge.validator.version not in {**VALIDATORS, BROWSER_TESTS: {1}}.get(challenge.validator.id, set()):
             errors.append(f'{challenge.id} uses unknown validator {challenge.validator.id} v{challenge.validator.version}')
         errors += check_errors(challenge)
+        errors += feedback_errors(lesson.id, challenge, rule_ids)
         if lesson.badge:
             if lesson.badge.id in badge_ids:
                 errors.append(f'duplicate badge ID {lesson.badge.id}')
@@ -272,6 +307,27 @@ def validate(catalog, lessons):
                 edges[course.id].add(target)
     errors += [f'prerequisite cycle: {" -> ".join(cycle)}' for cycle in _cycles(edges)]
     return errors
+
+
+def feedback_errors(lesson_id, challenge, seen):
+    """Problems with a challenge's check messages and hint tags. Whether the messages match the
+    rules the checker really uses is checked by lesson_checks.rule_errors(), which knows them."""
+    errors = []
+    ids = [m.id for m in challenge.messages]
+    for rule_id in ids:
+        if not rule_id.startswith(lesson_id + '.'):
+            errors.append(f'{challenge.id} rule {rule_id} must start with {lesson_id}.')
+        if ids.count(rule_id) > 1 or rule_id in seen:
+            errors.append(f'{challenge.id} has duplicate rule ID {rule_id}')
+    seen.update(ids)
+    rules = set(ids) - {lesson_id + '.passed'}
+    tagged = [tag for hint in challenge.error_hints for tag in hint.tags]
+    for tag in tagged:
+        if tag not in ERROR_TAGS | rules:
+            errors.append(f'{challenge.id} hint tag {tag} is not a Python error ({", ".join(sorted(ERROR_TAGS))}) or one of its rules')
+        if tagged.count(tag) > 1:
+            errors.append(f'{challenge.id} has more than one hint tagged {tag}')
+    return sorted(set(errors), key=errors.index)
 
 
 def check_errors(challenge):
@@ -333,6 +389,11 @@ def legacy_lessons(catalog, lessons):
             'hints': challenge.hints, 'inputs': challenge.input_labels, 'exampleInputs': example.inputs,
             # Retired field, always null; kept so the response is unchanged.
             'expected': None,
+            # Added for the feedback engine (ENG-04 part 2a). New fields only, so a page from before
+            # them keeps working during a deploy.
+            'errorHints': [{'tags': h.tags, 'text': h.text} for h in challenge.error_hints],
+            'similarExample': challenge.similar_example.model_dump() if challenge.similar_example else None,
+            'otherWays': [way.model_dump() for way in challenge.other_ways],
         })
     return result
 

@@ -2,6 +2,10 @@
 
 Success messages say only what the check verified, then ask the learner to judge the rest
 (docs/plan/lesson-feedback.md section 6 and appendix A; backlog ASSESS-07).
+
+Each lesson's checks are named rules with stable IDs, such as hello.two-lines. Their messages live
+in the lesson's content file, so they can be reviewed without reading this code. RULES lists the
+rules this checker uses; rule_errors() fails startup if the content and RULES disagree.
 """
 import ast
 import functools
@@ -29,17 +33,58 @@ def same_text(line):
     return ' '.join(line.casefold().split()).rstrip('.!?')
 
 
+# Every named rule each lesson's check can report, including the message for passing.
+RULES = {
+    'hello': ('hello.two-lines', 'hello.words', 'hello.different-lines', 'hello.fill-blank', 'hello.not-the-example', 'hello.not-a-hint', 'hello.passed'),
+    'variables': ('variables.uses-variables', 'variables.passed'),
+    'input': ('input.uses-reply', 'input.passed'),
+    'choices': ('choices.if-else', 'choices.ask-once', 'choices.print-each', 'choices.different-paths', 'choices.passed'),
+    'adventure': ('adventure.if-else', 'adventure.two-inputs', 'adventure.welcome', 'adventure.different-paths', 'adventure.opening-scene', 'adventure.passed'),
+}
+
+
+@functools.cache
+def lessons():
+    return content.load()[1]
+
+
+def rule_errors(lessons):
+    """Where the content's check messages and RULES disagree: a rule with no message, a message no rule uses."""
+    errors = []
+    for lesson in lessons.values():
+        challenge = lesson.task('challenge')
+        have = [m.id for m in challenge.messages]
+        if challenge.validator.id != 'bounded-story':
+            errors += [f'{challenge.id} has message {rule} but its checker uses no named rules' for rule in have]
+            continue
+        used = RULES.get(lesson.id)
+        if used is None:
+            errors.append(f'{challenge.id}: the bounded-story checker has no rules for lesson {lesson.id}')
+            continue
+        errors += [f'{challenge.id} has no message for rule {rule}' for rule in used if rule not in have]
+        errors += [f'{challenge.id} has message {rule}, which the checker never uses' for rule in dict.fromkeys(have) if rule not in used]
+    return errors
+
+
 @functools.cache
 def handed_out(lesson_id):
-    """Story text a lesson gives the learner: (worked example lines, lines spelled out in hints)."""
-    lesson = content.load()[1][lesson_id]
+    """Story text a lesson gives the learner: (worked example lines, lines spelled out in hints or the similar example)."""
+    lesson = lessons()[lesson_id]
     example = tuple(same_text(line) for line in lesson.task('example').output.splitlines())
-    hinted = {same_text(match.group(2)) for hint in lesson.task('challenge').hints for match in PRINTED_TEXT.finditer(hint)}
+    challenge = lesson.task('challenge')
+    given = [*challenge.hints, *(h.text for h in challenge.error_hints), *([challenge.similar_example.code] if challenge.similar_example else [])]
+    hinted = {same_text(match.group(2)) for text in given for match in PRINTED_TEXT.finditer(text)}
     return {example, tuple(map(same_text, RETIRED_HELLO_HINT))}, hinted
 
 
 class PracticeError(ValueError):
     result = 'needs_work'
+
+class Fail(PracticeError):
+    """A named rule failed. The message comes from the lesson's content file."""
+    def __init__(self, rule):
+        super().__init__(rule)
+        self.rule = rule
 
 class UnsupportedError(PracticeError):
     """The code goes beyond what this checker can interpret, which is not a learner mistake."""
@@ -134,6 +179,12 @@ def check_story(lesson_id, code, output, replies):
 
 def assess(lesson_id, code, output, replies):
     """Return (result, feedback), where result is one of RESULTS."""
+    return judge(lesson_id, code, output, replies)[:2]
+
+
+def judge(lesson_id, code, output, replies):
+    """Return (result, feedback, rule): rule is the named rule that decided it (see RULES), or None
+    for the checker's general messages, such as a syntax error or code beyond this chapter."""
     try:
         tree = ast.parse(code)
         if len(list(ast.walk(tree))) > 500:
@@ -143,66 +194,67 @@ def assess(lesson_id, code, output, replies):
             raise PracticeError('Run your current code with the displayed player replies again. The submitted output does not match those instructions.')
         if lesson_id == 'hello':
             if len(tree.body) != 2 or len(actual.lines) != 2 or any(not line.strip() or '\n' in line or '\r' in line for line in actual.lines):
-                raise PracticeError('Write two print statements with nonempty messages: one location, then one surprise.')
+                raise Fail('hello.two-lines')
             # Whether the lines are a place and a surprise is the learner's judgment, not checked here.
             if not all(any(c.isalpha() for c in line) for line in actual.lines):
-                raise PracticeError("Use words for each message: first a place, then something unexpected. Numbers or punctuation on their own don't tell a story.")
+                raise Fail('hello.words')
             first, second = map(same_text, actual.lines)
             if first == second:
-                raise PracticeError('Both lines say the same thing. Change the second one into a surprise.')
+                raise Fail('hello.different-lines')
             if any('___' in line for line in actual.lines):
-                raise PracticeError('Fill in the ___ from the hint with your own words.')
+                raise Fail('hello.fill-blank')
             examples, hinted = handed_out('hello')
             if (first, second) in examples:
-                raise PracticeError("That's the example from the card. Make it your own: change the place and the surprise.")
+                raise Fail('hello.not-the-example')
             if first in hinted or second in hinted:
-                raise PracticeError('That line comes straight from a hint. Change it into your own words.')
-            feedback = 'Python printed your two different messages in order. Read them back: does the first set the scene and the second surprise you? That part is your call.'
+                raise Fail('hello.not-a-hint')
+            rule = 'hello.passed'
         elif lesson_id == 'variables':
             if not all(isinstance(actual.values.get(n), str) and actual.values[n].strip() and n in actual.reads and actual.values[n] in actual.output for n in ('hero', 'tool')):
-                raise PracticeError('Assign nonempty text to hero and tool, then print their values using the variables. Quoted "hero" prints the word, not its stored value.')
-            feedback = 'hero and tool both hold text, and your program prints their values by using the variables. Change one value and run again: does your story change the way you expect?'
+                raise Fail('variables.uses-variables')
+            rule = 'variables.passed'
         elif lesson_id == 'input':
             for name in ('River-472', 'Sky-839'):
                 test = Story([name]).run(tree.body)
                 if test.input_count != 1 or name not in test.output:
-                    raise PracticeError('Use the value returned by input() in your greeting. Test a different player name; a hard-coded name will not change with the reply.')
-            feedback = 'Your greeting used the reply: it changed when we tried two different player names. Run it with your own name as the reply: does the greeting read the way you want?'
+                    raise Fail('input.uses-reply')
+            rule = 'input.passed'
         elif lesson_id in ('choices', 'adventure'):
             if not any(isinstance(n, ast.If) and n.orelse for n in ast.walk(tree)):
-                raise PracticeError('Add an if condition and an else block, with an indented story message in each.')
+                raise Fail(lesson_id + '.if-else')
             results = []
             for name in ('River-472', 'Sky-839'):
                 paths = []
                 for path in ('left', 'right'):
                     test = Story([path] if lesson_id == 'choices' else [name, path]).run(tree.body)
                     if test.input_count != (1 if lesson_id == 'choices' else 2):
-                        raise PracticeError('Ask for a path once.' if lesson_id == 'choices' else 'Ask for the player name first and the path second, using two input() calls.')
+                        raise Fail('choices.ask-once' if lesson_id == 'choices' else 'adventure.two-inputs')
                     if not test.output.strip() or (lesson_id == 'adventure' and name not in test.output):
-                        raise PracticeError('Print a discovery for each path.' if lesson_id == 'choices' else 'Welcome the player using their input name, then reveal the ending.')
+                        raise Fail('choices.print-each' if lesson_id == 'choices' else 'adventure.welcome')
                     paths.append(test.output)
                 if paths[0] == paths[1]:
-                    raise PracticeError('Left and right currently tell the same story. Give the if and else blocks different discoveries, and compare the input variable with "left" or "right".')
+                    raise Fail(lesson_id + '.different-paths')
                 results.extend(paths)
             if lesson_id == 'adventure':
                 first = tree.body[0] if tree.body else None
                 if not (isinstance(first, ast.Expr) and isinstance(first.value, ast.Call) and isinstance(first.value.func, ast.Name) and first.value.func.id == 'print' and actual.lines and actual.lines[0].strip()):
-                    raise PracticeError('Start by printing an opening scene before asking the player for their name.')
-            feedback = ('Your program asks once and prints a different discovery for left and for right. Which path would you pick, and does each discovery fit your story?' if lesson_id == 'choices'
-                        else 'Your adventure opens with a scene, welcomes players by the name they type, and gives left and right different endings. You combined all four Python skills! Read both endings: do they finish the story you started?')
+                    raise Fail('adventure.opening-scene')
+            rule = lesson_id + '.passed'
         else:
             raise UnsupportedError('Choose a lesson from Build Your Own Adventure.')
-        return 'passed', feedback
+        return 'passed', lessons()[lesson_id].task('challenge').message(rule), rule
     except SyntaxError as error:
-        return 'needs_work', f'Python cannot read line {error.lineno} yet. Check matching quotes, parentheses, colons, and indentation.'
+        return 'needs_work', f'Python cannot read line {error.lineno} yet. Check matching quotes, parentheses, colons, and indentation.', None
+    except Fail as error:
+        return error.result, lessons()[lesson_id].task('challenge').message(error.rule), error.rule
     except PracticeError as error:
-        return error.result, str(error) or 'Try the short example on this card, then make one change at a time.'
+        return error.result, str(error) or 'Try the short example on this card, then make one change at a time.', None
     except (TypeError, ValueError, RecursionError) as error:
-        return 'unsupported', str(error) or 'Try the short example on this card, then make one change at a time.'
+        return 'unsupported', str(error) or 'Try the short example on this card, then make one change at a time.', None
     except Exception as error:
         # Never log learner code: the exception message can echo names or strings
         # from it, so record only the lesson, error type, and server code location.
         frame = traceback.extract_tb(error.__traceback__)[-1]
         logging.getLogger(__name__).error('Story check failed: lesson=%s error=%s at %s:%s',
                                           lesson_id, type(error).__name__, Path(frame.filename).name, frame.lineno)
-        return 'service_error', SERVICE_ERROR
+        return 'service_error', SERVICE_ERROR, None

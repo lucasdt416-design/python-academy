@@ -156,14 +156,33 @@ def replies_for(lesson):
     return list(lesson.task('example').inputs)
 
 
+def given(challenge):
+    """Everything a learner can be shown before passing: the hint ladder, the tagged hints, and the
+    similar example (ENG-04 part 2a). Each example line counts as a statement on its own."""
+    example = challenge.similar_example.code.splitlines() if challenge.similar_example else []
+    return [*challenge.hints, *(h.text for h in challenge.error_hints), *example]
+
+
 @pytest.mark.parametrize('lesson_id', UNIT_1)
 def test_no_combination_of_hints_passes_the_check(lesson_id):
     lesson = LESSONS[lesson_id]
     challenge = lesson.task('challenge')
-    programs = candidates(challenge.starter, challenge.hints)
+    programs = candidates(challenge.starter, given(challenge))
     assert programs, 'the audit found something to try'
     passing = [p for p in programs if run(lesson_id, p, replies_for(lesson))[0] == 'passed']
     assert passing == []
+
+
+@pytest.mark.parametrize('lesson_id', UNIT_1)
+def test_the_similar_example_does_not_pass_but_every_other_way_does(lesson_id):
+    lesson = LESSONS[lesson_id]
+    challenge = lesson.task('challenge')
+    example = challenge.similar_example.code
+    for program in (example, challenge.starter + example):
+        assert run(lesson_id, program, replies_for(lesson))[0] != 'passed', program
+    # "Other ways" appear only after passing, and must really be valid solutions.
+    for way in challenge.other_ways:
+        assert run(lesson_id, way.code, replies_for(lesson))[0] == 'passed', way.code
 
 
 # The audit itself catches hints that give the answer away (control, with the hints published before)
@@ -197,7 +216,8 @@ def test_changed_challenges_are_new_versions_and_nothing_else_moved():
     for lesson_id in UNIT_1:
         lesson = LESSONS[lesson_id]
         challenge = lesson.task('challenge')
-        assert (lesson.version, challenge.version, challenge.validator.id, challenge.validator.version) == (2, 2, 'bounded-story', 2)
+        # v3: messages and hints reworded (ENG-04 part 2a); the check itself (validator v2) is unchanged.
+        assert (lesson.version, challenge.version, challenge.validator.id, challenge.validator.version) == (3, 3, 'bounded-story', 2)
         assert challenge.id == f'{lesson_id}.challenge'
         assert lesson.badge.version == 1
         assert all(task.version == 1 for task in lesson.tasks if task.type != 'challenge')

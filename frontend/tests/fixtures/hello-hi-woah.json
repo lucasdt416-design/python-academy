@@ -10,6 +10,7 @@
   "passed": true,
   "result": "passed",
   "feedback": "Python printed your two different messages in order. Read them back: does the first set the scene and the second surprise you? That part is your call.",
+  "rule": "hello.passed",
   "assessment": "browser_practice"
  }
 }
