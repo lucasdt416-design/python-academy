@@ -3,7 +3,7 @@
 Date: 2026-10-27 (America/Toronto)  
 Written by: Claude Code (implementer), in a separate git worktree  
 For: the human maintainer, and ChatGPT or Claude chat (reviewer) without repository access  
-Status: **in_review**: one pull request (#PR), documentation only, not merged. No code, content or settings change.
+Status: **in_review**: one pull request (#30), documentation only, not merged. No code, content or settings change.
 
 > **How to use this file:** upload it with `docs/plan/independent-learners.md`, `build.md` and `docs/plan/backlog.md`. The pull request diff is the source of truth (`build.md` section 14). Commit `b92de64` is the plan exactly as drafted in chat; the next commit holds every correction, so the diff between them shows what changed.
 
