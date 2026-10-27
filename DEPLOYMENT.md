@@ -18,6 +18,27 @@ Deployed on 2026-10-24.
 
 The frontend and API have live deployments. The app homepage, proxied /health, /api/lessons and Python worker return HTTP 200. Anonymous /api/me returns 401. PostgreSQL contains users, invitations, events and attempts tables. Local validation passed 15 backend tests, 8 Chromium tests and a production build. The initial Render frontend build omitted development dependencies; the build now explicitly runs npm ci --include=dev.
 
+## Setting up from scratch
+
+Moved here from the old README (it is not needed for the running services above, but it is how they were made):
+
+1. The source is in the **private** repository `torontojohn/python-academy` (https://github.com/torontojohn/python-academy).
+2. In Render, create a Blueprint from the repository and `render.yaml`. Review Render's current plans and prices before provisioning paid services: the Blueprint selects **Starter** for each web service and **basic-256mb** for PostgreSQL. Check the total Render shows before confirming.
+3. Set the API service's `APP_ORIGIN` and `API_ORIGIN` to the **frontend's** HTTPS origin, with no trailing slash.
+4. The Blueprint sets the frontend's `BACKEND_HOSTPORT` from the API's private address automatically. On another host, set `BACKEND_URL` to the API origin instead and rebuild: Next.js resolves the proxy destination at build time.
+5. Render generates `SESSION_SECRET`, and the database connection comes from the Blueprint's database. Google sign-in stays off until the frontend's URL exists; then set `APP_ORIGIN` and `API_ORIGIN` to it and add `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET` to the **API** service only (below).
+6. Before inviting real users, check with test accounts:
+   - `/health`
+   - the Google sign-in round trip
+   - parent and student onboarding
+   - invitation expiry, reuse, and the wrong email
+   - families seeing only their own records
+   - Python running and stopping at the time limit
+   - saved progress
+   - logout
+
+For local development, also register the redirect `http://localhost:3000/auth/google/callback` on the Google client. Never request a Google birthday or other personal scopes; the date of birth is entered in the app.
+
 ## Google sign-in: configured and verified
 
 The owner created the Google OAuth Web application client and entered its credentials directly in Render. The API redeployed successfully. The production OAuth flow redirected to Google with state and nonce, completed Google verification and consent, returned to the app, and created one persistent account with a signed_in audit event. Parent enrollment is still pending the owner's date of birth. No client secret is stored in this repository.
