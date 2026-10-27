@@ -1,7 +1,7 @@
 # Lesson feedback engine (specification)
 
 Last updated: 2026-10-26 (America/Toronto)  
-Status: **proposed** (backlog ENG-04). The feedback engine is not implemented. Appendix A and the hint rules of section 8 were built for unit 1 by ASSESS-07 (2026-10-26, handoff 10).  
+Status: **part 1 built, in review** (backlog ENG-04, handoff 15, 2026-10-27): the error translations of section 4, the line highlight of section 5, and the hint ladder of section 7 without tagged hints, in `frontend/app/feedback.ts` and `frontend/app/code-editor.tsx`. Not built yet: named check rules (section 6), hints tagged to errors (section 7), predict-first (section 9) and the measurements (section 10); handoff 15 proposes them as the next stage. Appendix A and the hint rules of section 8 were built for unit 1 by ASSESS-07 (2026-10-26, handoff 10).  
 Related: [`teaching-design.md`](teaching-design.md) sections 2.5, 2.9 and 2.10; [`build.md`](../../build.md) sections 4 and 12; [`course-catalog.md`](course-catalog.md) section 7.3; [`ai-helper.md`](ai-helper.md); backlog ENG-03, ENG-04 and ASSESS-07.
 
 The feedback engine decides what a learner sees after they run or check code. It has five parts:
