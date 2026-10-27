@@ -36,7 +36,7 @@ Terms in **bold** the first time they appear are explained in the [glossary](#gl
 | [11](#chapter-11-honest-checks-assess-07) | ASSESS-07 honest unit 1 checks | #16 | Merged; live check not yet recorded |
 | [12](#chapter-12-checking-code-in-the-browser-eng-03) | ENG-03 browser behaviour checks | #17 | In review when this log was written |
 | [13](#chapter-13-patterns-that-kept-coming-back) | Patterns that kept coming back | — | — |
-| [14](#chapter-14-feedback-a-beginner-can-act-on-eng-04-part-1) | ENG-04 lesson feedback engine, part 1 | (handoff 15) | In review when this chapter was written |
+| [14](#chapter-14-feedback-a-beginner-can-act-on-eng-04-part-1) | ENG-04 lesson feedback engine, part 1 | #22 | In review when this chapter was written |
 
 ---
 

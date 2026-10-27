@@ -3,7 +3,7 @@
 Date: 2026-10-27 (America/Toronto)  
 Written by: Claude Code (implementer)  
 For: the human maintainer, and ChatGPT or Claude chat (reviewer) without repository access  
-Status: **in_review**: one pull request (PR_NUMBER), not merged, not deployed. **No database migration. No new dependency. No content change.**
+Status: **in_review**: one pull request (#22), not merged, not deployed. **No database migration. No new dependency. No content change.**
 
 > **How to use this file:** upload it with `build.md`, `docs/plan/lesson-feedback.md` (the specification), `docs/plan/browser-checks.md` and `docs/plan/teaching-design.md`. The pull request diff is the source of truth (`build.md` section 14).
 
@@ -41,7 +41,7 @@ first-year computer engineering level.
 | 12 | Admin and tester roles (FB-01) | PR #21, open |
 | 13 | Site design direction (SITE-01) | PR #19, open |
 | 14 | Decision log and book outline | Merged (PR #18) |
-| 15 | **ENG-04 lesson feedback, part 1** | **in_review: this PR** |
+| 15 | **ENG-04 lesson feedback, part 1** | **in_review: PR #22** |
 | 16 | Backlog sync | PR #20, open |
 
 ## 2. Handoff record (build.md template)
@@ -241,7 +241,7 @@ Use a student account, or `/preview` as a parent. Each takes about a minute.
 
 | ID | Status | Change |
 | --- | --- | --- |
-| ENG-04 | in_review (this PR) | Part 1: translations, line highlight, hint ladder, honest result states |
+| ENG-04 | in_review (PR #22) | Part 1: translations, line highlight, hint ladder, honest result states |
 | ENG-04b (new) | proposed | Part 2: named check rules and message IDs in content; hints tagged to errors and rules; a similar example after hint 3; "Other ways to do it" after passing; predict-first; support-data measurements. Before EDU-04 (unit 2) |
 | EDU-xx (new, or part of ENG-04b) | proposed | Reword unit 1 hints to fit "a nudge, a bigger hint, the approach", still with no hint passing the check |
 | UI-05 | unchanged | Add: call `check-runner.js` from the lesson page for lessons with browser checks |
