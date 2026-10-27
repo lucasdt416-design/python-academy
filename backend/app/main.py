@@ -1,4 +1,4 @@
-from . import content, migrate, sessions
+from . import browser_checks, content, migrate, sessions
 from . import awards
 from .awards import award_challenge
 from .db import Attempt, Base, Event, Invitation, LearnerGoal, User, engine
@@ -243,6 +243,8 @@ class Submission(BaseModel):
     code: str = Field(max_length=20000)
     output: str = Field(max_length=20000)
     inputs: list[str] = Field(default_factory=list, max_length=10)
+    # Browser behaviour checks only: one report per check case, from public/check-runner.js.
+    runs: list[browser_checks.CaseRun] | None = Field(default=None, max_length=10)
 
     @field_validator('inputs')
     @classmethod
@@ -251,15 +253,33 @@ class Submission(BaseModel):
             raise ValueError('Keep each player reply under 500 characters')
         return values
 
+def browser_checked(lesson_id):
+    lesson = CONTENT.get(lesson_id)
+    return lesson if lesson and browser_checks.applies(lesson) else None
+
+@app.get('/api/checks/{lesson_id}')
+def check_plan(lesson_id: str):
+    # The cases the browser runs. Hidden cases have no expected output here (docs/plan/browser-checks.md).
+    lesson = browser_checked(lesson_id)
+    if not lesson:
+        raise HTTPException(404, 'This lesson has no browser checks')
+    return browser_checks.plan(lesson)
+
 @app.post('/api/attempts', dependencies=[Depends(limit('attempts'))])
 def attempt(data: Submission, request: Request):
     with Session(engine) as db:
         u = current(request, db, 'student')
-        lesson = next((l for l in LESSONS if l['id'] == data.lesson_id), None)
-        if not lesson:
-            raise HTTPException(404, 'Unknown lesson')
-        # Safe, bounded checks of taught syntax; learner code never executes here.
-        result, feedback = assess(data.lesson_id, data.code, data.output, data.inputs)
+        if lesson := browser_checked(data.lesson_id):
+            # The browser ran the code; this only compares what it reported.
+            outcome = browser_checks.judge(lesson, data.code, data.runs)
+            result, feedback = outcome['result'], outcome['feedback']
+        else:
+            outcome = None
+            lesson = next((l for l in LESSONS if l['id'] == data.lesson_id), None)
+            if not lesson:
+                raise HTTPException(404, 'Unknown lesson')
+            # Safe, bounded checks of taught syntax; learner code never executes here.
+            result, feedback = assess(data.lesson_id, data.code, data.output, data.inputs)
         saved = Attempt(user_id=u.id, lesson_id=data.lesson_id, code=data.code, output=data.output, passed=result == 'passed', result=result)
         db.add(saved)
         db.flush()
@@ -267,10 +287,12 @@ def attempt(data: Submission, request: Request):
             award_challenge(db, u.id, CONTENT[data.lesson_id], saved.id)
         audit(db, u, 'practice_saved', data.lesson_id)
         db.commit()
-        return {'passed': result == 'passed', 'result': result, 'feedback': feedback, 'assessment': 'browser_practice'}
+        return outcome or {'passed': result == 'passed', 'result': result, 'feedback': feedback, 'assessment': 'browser_practice'}
 
 @app.post('/api/check', dependencies=[Depends(limit('check'))])
 def check_preview(data: Submission):
+    if lesson := browser_checked(data.lesson_id):
+        return browser_checks.judge(lesson, data.code, data.runs)
     if not any(lesson['id'] == data.lesson_id for lesson in LESSONS):
         raise HTTPException(404, 'Unknown lesson')
     result, feedback = assess(data.lesson_id, data.code, data.output, data.inputs)

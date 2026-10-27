@@ -60,6 +60,7 @@ Important source locations:
 | `frontend/app/catalog.tsx`, `frontend/app/course.tsx`, `frontend/app/catalog-data.ts` | Course catalog, course pages, and shared catalog/progress helpers |
 | `frontend/app/academy.tsx`, `frontend/app/goal-card.tsx` | Account and family experience, and the learner goal card |
 | `frontend/public/python-worker.js` | Browser Python execution and input adaptation |
+| `frontend/public/check-runner.js`, `backend/app/browser_checks.py`, `docs/plan/browser-checks.md` | Browser behaviour checks for unit 2 onwards: run test cases in the browser, judge the reports on the server (ENG-03) |
 | `frontend/app/style.css` | Visual design, responsive rules, reduced motion |
 | `backend/tests/test_academy.py` | Backend and authored-reference checks |
 | `frontend/tests/academy.spec.ts` | Browser flows and real Python execution |

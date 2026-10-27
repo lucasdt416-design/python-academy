@@ -1,0 +1,100 @@
+{
+  "id": "fixture.sum-two",
+  "version": 1,
+  "course": "fixture",
+  "unit": "fixture.u01",
+  "title": "TEST FIXTURE: add two numbers (never shown to learners)",
+  "concept": "Test data for browser checks",
+  "description": "Not course content. Exercises every part of the browser check contract.",
+  "tasks": [
+    {
+      "id": "fixture.sum-two.discover",
+      "type": "discover",
+      "title": "Test fixture",
+      "body": "Not course content.",
+      "detail": "Not course content."
+    },
+    {
+      "id": "fixture.sum-two.example",
+      "type": "example",
+      "code": "a = int(input(\"First? \"))\nb = int(input(\"Second? \"))\nprint(a * b)",
+      "output": "6",
+      "note": "Not course content.",
+      "inputs": [
+        "2",
+        "3"
+      ]
+    },
+    {
+      "id": "fixture.sum-two.predict",
+      "type": "predict",
+      "question": "Test fixture?",
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "answer": 0,
+      "why": "Not course content."
+    },
+    {
+      "id": "fixture.sum-two.guided",
+      "type": "guided",
+      "prompt": "Not course content."
+    },
+    {
+      "id": "fixture.sum-two.challenge",
+      "type": "challenge",
+      "prompt": "Ask for two whole numbers with input() and print their sum.",
+      "starter": "a = int(input(\"First? \"))\n",
+      "hints": [],
+      "input_labels": [
+        "First number",
+        "Second number"
+      ],
+      "validator": {
+        "id": "browser-tests",
+        "version": 1
+      },
+      "check": {
+        "cases": [
+          {
+            "id": "small",
+            "description": "the numbers 2 and 3",
+            "inputs": [
+              "2",
+              "3"
+            ],
+            "expected": "5"
+          },
+          {
+            "id": "negative",
+            "description": "10 and -4",
+            "inputs": [
+              "10",
+              "-4"
+            ],
+            "expected": "6"
+          },
+          {
+            "id": "large",
+            "description": "two larger numbers",
+            "inputs": [
+              "4096",
+              "2048"
+            ],
+            "expected": "6144",
+            "visibility": "hidden"
+          }
+        ],
+        "require": [
+          "input()",
+          "int()"
+        ],
+        "forbid": [
+          "import"
+        ],
+        "time_limit_ms": 3000
+      }
+    }
+  ]
+}
