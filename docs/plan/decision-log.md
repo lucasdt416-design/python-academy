@@ -39,7 +39,7 @@ Terms in **bold** the first time they appear are explained in the [glossary](#gl
 | [14](#chapter-14-feedback-a-beginner-can-act-on-eng-04-part-1) | ENG-04 lesson feedback engine, part 1 | #22 | In review when this chapter was written |
 | [15](#chapter-15-feedback-nobody-can-trace-fb-02) | FB-02 anonymous feedback storage | #24 | In review when this chapter was written |
 | [16](#chapter-16-hints-that-fit-the-problem-eng-04-part-2a) | ENG-04 part 2a: check rules, tagged hints, hint rewording | #25 | Merged; written from handoff 19 after #24 merged |
-| [17](#chapter-17-a-page-that-trusts-the-server-fb-04) | FB-04 testers page | (handoff 20) | In review when this chapter was written |
+| [17](#chapter-17-a-page-that-trusts-the-server-fb-04) | FB-04 testers page | #26 | In review when this chapter was written |
 
 ---
 

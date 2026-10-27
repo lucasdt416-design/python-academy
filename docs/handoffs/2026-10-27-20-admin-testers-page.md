@@ -3,7 +3,7 @@
 Date: 2026-10-27 (America/Toronto)  
 Written by: Claude Code (implementer), in a separate git worktree  
 For: the human maintainer, and ChatGPT or Claude chat (reviewer) without repository access  
-Status: **in_review**: one pull request (PR_NUMBER), frontend only, not merged, not deployed. **No backend change, no migration, no new dependency.**
+Status: **in_review**: one pull request (#26), frontend only, not merged, not deployed. **No backend change, no migration, no new dependency.**
 
 > **How to use this file:** upload it with `build.md`, `docs/plan/feedback-security.md` and handoff 12 (`2026-10-26-12-admin-role.md`). The pull request diff is the source of truth (`build.md` section 14).
 
@@ -166,9 +166,9 @@ You are the admin; your other account is the test student. The address is `https
 
 | ID | Change |
 | --- | --- |
-| FB-04 | proposed → in_review (PR_NUMBER, handoff 20) |
+| FB-04 | proposed → in_review (#26, handoff 20) |
 | FB-03 | Note: the testers page uses the guard; the inbox routes remain |
-| Stage table | Add "20. FB-04 \| Testers page for the admin \| in_review (PR_NUMBER, handoff 20)" |
+| Stage table | Add "20. FB-04 \| Testers page for the admin \| in_review (#26, handoff 20)" |
 | Decision log | Chapters 16 and 17 added in this PR |
 
 ## 10. Questions for the owner
