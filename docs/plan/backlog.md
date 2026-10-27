@@ -1,7 +1,7 @@
 # Python Academy backlog
 
-Last updated: 2026-10-26 (America/Toronto)  
-Status: **proposed**; decisions 11, 12, 13, 16, 18, 19, 21, 22 and 23 answered by the owner on 2026-10-25. Status words follow `build.md` section 18: proposed, ready, in_progress, in_review, verified, blocked, deferred. Priorities: **Now**, **Next**, **Later**, plus the timing words `build.md` section 13 already uses (for example "Before broader use").  
+Last updated: 2026-10-27 (America/Toronto)  
+Status: **proposed**; decisions 11, 12, 13, 16, 18, 19, 21, 22 and 23 answered by the owner on 2026-10-25, decision 14 on 2026-10-26, and decisions 24 to 27 on 2026-10-27. Status words follow `build.md` section 18: proposed, ready, in_progress, in_review, verified, blocked, deferred. Priorities: **Now**, **Next**, **Later**, plus the timing words `build.md` section 13 already uses (for example "Before broader use").  
 Related: [`build.md`](../../build.md), [`docs/plan/course-catalog.md`](course-catalog.md), [`docs/plan/feedback-security.md`](feedback-security.md).
 
 **This file is the source of truth for the order of work.** IDs and what they mean follow `build.md` section 13; where this file and `build.md` disagree on an ID, its meaning, or its priority, `build.md` wins until one is deliberately updated (section 8 lists the differences found when this file was added). A backlog item becomes `verified` only with linked evidence (PR, commit, test results, live check).
@@ -24,10 +24,10 @@ Decision numbers continue the sequence in `docs/plan/course-catalog.md` section 
 | 9. Teaching design and lesson feedback | `teaching-design.md`, `lesson-feedback.md`, `ai-helper.md`, new backlog items | verified (PR #15, documentation only) |
 | 10. ASSESS-07 | Honest unit 1 checks and hints | in_review: merged (PR #16); live check owed (see below) |
 | 11. ENG-03 | Browser behaviour checks | in_review (PR #17, handoff 11) |
-| 13. SITE-01 | Site and product design direction | in_review (PR #19, handoff 13) |
+| 12. FB-01 | Admin and tester roles | in_review: merged (PR #21, handoff 12); live check owed (see below) |
+| 13. SITE-01 | Site and product design direction | in_review: merged (PR #19, handoff 13; documentation only) |
 | 14. DOC-01 and DOC-02 | Decision log and handoff template | in_review (PR #18, handoff 14) |
-
-There is no stage 12: handoffs 13 and 14 were numbered as requested, and no handoff 12 exists.
+| 15. ENG-04 part 1 | Lesson feedback engine: error translations, line highlight, hint ladder, honest result states | in_review: merged (PR #22, handoff 15); live check owed (see below) |
 
 ### Live checks still owed
 
@@ -36,6 +36,22 @@ Merged work whose live check has not been recorded yet. Record the result here (
 - **(a) Stage 7, SEC-03 sessions** (handoff 07 section 10): a copied `session` cookie makes `curl … /api/me` print `200`; after **Sign out** the same command prints `401`; another device that was signed in stays signed in.
 - **(b) ASSESS-07, honest unit 1 checks** (handoff 10 section 9): on `/preview?lesson=hello&card=5`, printing the same line twice (`print("hi")` twice) no longer passes; it says "Both lines say the same thing".
 - Also unrecorded: **stage 8, SEC-09** (handoff 08 section 10), the nonce headers and the console checks.
+- **(c) Stage 12, FB-01 admin and tester roles** (handoff 12 section 9; `ADMIN_EMAILS` must be set in Render first):
+  - Render → python-academy-api → Logs shows `Database schema is at migration 0007`.
+  - Signed out, `/api/admin/students` gives `401`.
+  - Signed in as a normal student, `/api/admin/students` gives `403`.
+  - The admin session is short: after more than 1 hour unused, `/api/admin/students` gives `401` and you sign in again.
+- **(d) Stage 15, ENG-04 part 1 lesson feedback** (handoff 15 section 10):
+  - **NameError:** on "Create your hero", card 5, `hero = "Kai"`, `tool = "map"`, `print(heor)` shows "Python stopped", "Python does not know heor", "Line 3", "Did you mean hero?"; line 3 is marked with ▶ and tinted; "Go to line 3" puts the cursor at the start of line 3.
+  - **Python's message:** "Show Python's message" shows a short traceback for line 3, with no `/lib/python312.zip` lines.
+  - **Syntax error:** on "Choose a path", card 5, removing the `:` after an `if` shows "This line needs a colon" and "On or just before line N", with that line marked.
+  - **The highlight clears** when the marked line is changed; the message stays until the next run.
+  - **Honest pass:** on "Open the story", card 5, `print("hi")` then `print("woah")` shows "Check passed" and a message ending "That part is your call."
+  - **Not a pass on "Try it":** a run on card 4 shows "Ran · not checked" in a grey box, not green.
+  - **Hints:** three clicks show "A nudge", "A bigger hint", "The approach" in order, then "That is every hint" and no answer button.
+  - **Nothing new is sent:** in DevTools → Network, a run with an error makes no request to `/api/check` or `/api/attempts`.
+  - **No CSP reports** in DevTools → Console during these checks.
+  - **Phone:** the NameError check on a phone, with no sideways scrolling.
 
 ## 2. Suggested order
 
@@ -131,10 +147,10 @@ Recorded in the plan as section 12 of `docs/plan/course-catalog.md`.
 
 | ID | Priority | Item | Depends on | Status |
 | --- | --- | --- | --- | --- |
-| FB-01 | Next | Decide admin identity (email allowlist) and record it in the plan; tester rules (students only, decision 23) and parents' access (none, decision 19) are decided | Decisions 14, 17; ID-01 | proposed |
+| FB-01 | Next | Decide admin identity (email allowlist) and record it in the plan; tester rules (students only, decision 23) and parents' access (none, decision 19) are decided. Built in stage 12: `ADMIN_EMAILS`, short admin sessions, the tester flag (migration 0007) | Decisions 14, 17; ID-01 | in_review: merged (PR #21, handoff 12); live check owed, section 1 (c) |
 | FB-02 | Next | Migration: anonymous `feedback` table (no user ID), tester flag, short-lived rate-limit counters, 50-day cleanup, 90-item cap | FB-01 | proposed |
-| FB-03 | Next | Admin role and server-side guard, with tests for 403 on every admin route | FB-01 | proposed |
-| FB-04 | Next | Admin page to mark students as testers (student accounts only) | FB-03 | proposed |
+| FB-03 | Next | Admin role and server-side guard, with tests for 403 on every admin route. Handoff 12 section 8: the guard and the route-enumeration tests are delivered in PR #21; the inbox routes remain | FB-01 | in_review: merged (PR #21) |
+| FB-04 | Next | Admin page to mark students as testers (student accounts only). The API exists (PR #21: `GET /api/admin/students`, `POST /api/admin/testers`); the page does not | FB-03 | proposed |
 | FB-05 | Next | Feedback button and form (testers and the admin; never parents) with auto-attached context and optional code | FB-02, SEC-01, OPS-04 | proposed |
 | FB-06 | Next | Admin inbox: list, filters, statuses, notes, GitHub issue link | FB-03, FB-05, SEC-03 | proposed |
 | FB-07 | Next | "Copy digest" export for pasting into an assistant, with no emails and no code by default | FB-06 | proposed |
@@ -146,8 +162,10 @@ Recorded in the plan as section 12 of `docs/plan/course-catalog.md`.
 
 | ID | Priority | Item | Depends on | Status |
 | --- | --- | --- | --- | --- |
-| ENG-04 | Next | Lesson feedback engine (`docs/plan/lesson-feedback.md`): friendly translations of common Python errors, the offending line highlighted in the editor, check-specific messages that only claim what was checked, progressive hints beside the error, predict-first tasks; tests that no hint, example or message adds up to a full solution. Before unit 2. Uses the `failed` fields of the ENG-03 result (`docs/plan/browser-checks.md` section 4, added by PR #17) | None | proposed |
+| ENG-04 | Next | Lesson feedback engine (`docs/plan/lesson-feedback.md`): friendly translations of common Python errors, the offending line highlighted in the editor, check-specific messages that only claim what was checked, progressive hints beside the error, predict-first tasks; tests that no hint, example or message adds up to a full solution. Before unit 2. Uses the `failed` fields of the ENG-03 result (`docs/plan/browser-checks.md` section 4, added by PR #17). Part 1 (stage 15): translations, line highlight, hint ladder, honest result states | None | in_review: merged (PR #22, handoff 15); live check owed, section 1 (d) |
+| ENG-04b | Next | Part 2: named check rules and message IDs in content; hints tagged to errors and rules; a similar example after hint 3; "Other ways to do it" after passing; predict-first; support-data measurements. Also the hint-button outline after two failed runs (decision 25). Before EDU-04 (unit 2) | ENG-04 | proposed |
 | ASSESS-07 | Next | Make the unit 1 "Open the story" (`hello`) check honest: the success message says only what was checked; the two lines must differ, contain letters and not copy the worked example or a hint; reword the prompt; replace hint 3 with a partial pattern; also rewrite the `input` hints, which combined into a passing answer, and the `variables` hints, which spelled out the whole `print` line (`lesson-feedback.md` appendix A and section 8). New task version; learners who passed keep it; no XP change. Before unit 2 | ENG-01 | in_review: merged (PR #16); live check owed, section 1 (b) |
+| ASSESS-08 | Next | Reword unit 1 hints to fit "a nudge, a bigger hint, the approach", still with no hint passing the check (handoff 15 section 11). Done as part of ENG-04b (decision 27) | ENG-04b | proposed |
 | ENG-03 | Next | Browser behaviour-check contract: the Pyodide worker runs learner code against test cases from the content file, with limits and result states including `execution_error` | None | in_review (PR #17, handoff 11) |
 | ASSESS-01 | Next | Decide the remaining unit-check rule (the pass rule, decision 15) and record it in the plan | None | proposed |
 | ASSESS-02 | Next | Content schema: `unit_check` task type, level variants (high school, university) and validation | ENG-03 | proposed |
@@ -187,7 +205,7 @@ Recorded in the plan as section 12 of `docs/plan/course-catalog.md`.
 | UI-02 | Later | "Not now" button and storage for dismissed recommendations | None | proposed |
 | UI-03 | Later | Record when a learner overrides a recommendation (plan 4.4) | None | proposed |
 | UI-04 | Later | Pause a course (plan 4.2) | None | proposed |
-| UI-05 | Next | Lesson page reads lessons per unit instead of the legacy shape (needed once unit 2 exists). With ENG-04, this is the step that connects the lesson page to the ENG-03 browser-check contract (handoff 11) | None | proposed |
+| UI-05 | Next | Lesson page reads lessons per unit instead of the legacy shape (needed once unit 2 exists). With ENG-04, this is the step that connects the lesson page to the ENG-03 browser-check contract (handoff 11): it must call `check-runner.js` from the lesson page for lessons with browser checks (handoff 15 section 11) | None | proposed |
 | UI-06 | Later | Show a goal-specific capstone when a path is finished (proposed mapping: scratch to Python final project, hackathons to Hackathon Ready, university to Engineering Depth, websites to Full-Stack Builder, data to Data Investigation) | Decision 20 | proposed |
 | ID-01 | Next | Decide independent adult learner onboarding and visibility: account lifecycle, adult control, parent boundaries, migration | Product decision | proposed |
 | QA-01 | Before broader use | Audit core lesson accessibility and grading reports: real screen reader, Safari and Firefox, reproducible defects and retest evidence | None | proposed |
@@ -202,7 +220,7 @@ Numbers continue from `docs/plan/course-catalog.md` section 9.
 | 11 | Who gets the feedback button? | Testers only (answered 2026-10-25); the admin also sees it (decision 23) |
 | 12 | Is feedback tied to an account? | Sign-in required only to stop bots; stored anonymously with no user ID, name or email (answered 2026-10-25) |
 | 13 | Is passing the unit check required to complete a unit? | Yes, and learners can retake it (answered 2026-10-25) |
-| 14 | How is the admin identified? | Server-side list of verified Google emails; owner only (proposed, confirm) |
+| 14 | How is the admin identified? | `ADMIN_EMAILS`, a server-side list of verified Google emails; admin is decided at sign-in and re-checked on every request (answered 2026-10-26; built in FB-01, PR #21; `course-catalog.md` section 9) |
 | 15 | What counts as passing a unit check? | All core tasks pass; hints allowed. Pilot and adjust (proposed) |
 | 16 | Does the check replace the unit project milestone? | No. The unit project keeps its 200 XP; passing the check awards a skill badge and no extra XP; a unit is complete when both the project and the check are done (answered 2026-10-25) |
 | 17 | Does feedback include the learner's code? | Only with an opt-in checkbox (proposed) |
@@ -212,6 +230,10 @@ Numbers continue from `docs/plan/course-catalog.md` section 9.
 | 21 | How is the unit-check variant chosen? | Variants by a self-chosen learner level (high school, university). The level is never derived from, and never asks for, a birthdate. The enrolment age gate is unchanged (answered 2026-10-25) |
 | 22 | What happens to learners who already completed unit 1? | They keep unit 1 as complete. The unit 1 check is optional for them and earns the badge (answered 2026-10-25) |
 | 23 | Who can be a tester, and who sees the feedback button? | Testers are students only. The admin account also sees the button. Parents never do (answered 2026-10-25) |
+| 24 | Lesson feedback: friendly message or Python's message first? (`lesson-feedback.md` section 11, decision 2) | The friendly message first in every unit; revisit around unit 6 (answered 2026-10-27) |
+| 25 | Highlight the hint button after two failed runs? (`lesson-feedback.md` section 11, decision 3) | Yes, as a gentle outline, in ENG-04b (answered 2026-10-27) |
+| 26 | ENG-04 part 1 assumptions 1 to 3 (handoff 15 section 5): the timeout message in every unit; the indent message also for `else` and `elif`; naming the real built-in in the case-sensitivity message | Accepted (answered 2026-10-27) |
+| 27 | Reword the unit 1 hints to fit the hint ladder? | Yes, in ENG-04b (ASSESS-08) (answered 2026-10-27) |
 
 The questions raised when this file was added (handoff 05) were answered by the owner on 2026-10-25 and are recorded above as decisions 16, 18, 21, 22 and 23, and in items SEC-03, OPS-05 and PLAN-01.
 
