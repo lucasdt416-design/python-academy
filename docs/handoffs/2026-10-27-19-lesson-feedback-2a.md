@@ -3,7 +3,7 @@
 Date: 2026-10-27 (America/Toronto)  
 Written by: Claude Code (implementer)  
 For: the human maintainer, and ChatGPT or Claude chat (reviewer) without repository access  
-Status: **in_review**: one pull request (PR_NUMBER), not merged, not deployed. **No database migration. No new dependency.** Unit 1 content is at version 3; saved progress, XP and badges are unchanged.
+Status: **in_review**: one pull request (#25), not merged, not deployed. **No database migration. No new dependency.** Unit 1 content is at version 3; saved progress, XP and badges are unchanged.
 
 > **How to use this file:** upload it with `build.md`, `docs/plan/lesson-feedback.md` (sections 6 to 8), handoff 15 and `backend/content/README.md`. The pull request diff is the source of truth (`build.md` section 14). Appendix A lists every new hint word for word.
 
@@ -198,9 +198,9 @@ Use `/preview` as a parent, or a student account.
 
 | ID | Change |
 | --- | --- |
-| ENG-04b | proposed → in_review for **part 2a** (PR_NUMBER, handoff 19); add **ENG-04c (part 2b)**, proposed: predict-first, measurements and support data. UI-05 stays its own item |
-| ASSESS-08 | proposed → in_review (PR_NUMBER, handoff 19) |
-| Stage table | Add "19. ENG-04 part 2a \| Check rules in content, tagged hints, hint rewording \| in_review (PR_NUMBER, handoff 19)" |
+| ENG-04b | proposed → in_review for **part 2a** (#25, handoff 19); add **ENG-04c (part 2b)**, proposed: predict-first, measurements and support data. UI-05 stays its own item |
+| ASSESS-08 | proposed → in_review (#25, handoff 19) |
+| Stage table | Add "19. ENG-04 part 2a \| Check rules in content, tagged hints, hint rewording \| in_review (#25, handoff 19)" |
 | Decision log | Chapter 16 from sections 4 to 6 of this handoff, after PR #24 merges |
 
 ## 11. Questions for the owner
