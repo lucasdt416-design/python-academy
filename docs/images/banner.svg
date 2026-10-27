@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 380" role="img" aria-labelledby="t d">
+  <title id="t">Python Academy</title>
+  <desc id="d">A hillside at dawn with a winding path to a small lit house, stars fading, and the words Python Academy: learn to code by building your own adventure.</desc>
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0b1f2a"/>
+      <stop offset="0.55" stop-color="#17463f"/>
+      <stop offset="1" stop-color="#e8a45a"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#ffd98a" stop-opacity="0.95"/>
+      <stop offset="1" stop-color="#ffd98a" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="h1" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1d5a4a"/><stop offset="1" stop-color="#123a33"/>
+    </linearGradient>
+    <linearGradient id="h2" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#14463b"/><stop offset="1" stop-color="#0c2b26"/>
+    </linearGradient>
+    <linearGradient id="h3" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0d332b"/><stop offset="1" stop-color="#071c19"/>
+    </linearGradient>
+    <style>
+      .star { fill: #fff6dc; }
+      .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+      .sans { font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+      @media (prefers-reduced-motion: no-preference) {
+        .tw { animation: tw 4s ease-in-out infinite; }
+        .tw.b { animation-delay: -1.3s; }
+        .tw.c { animation-delay: -2.6s; }
+        .float { animation: fl 7s ease-in-out infinite; }
+        .float.b { animation-delay: -2.4s; }
+        .float.c { animation-delay: -4.8s; }
+        .win { animation: wn 5s ease-in-out infinite; }
+      }
+      @keyframes tw { 0%,100% { opacity: .25 } 50% { opacity: 1 } }
+      @keyframes fl { 0%,100% { transform: translateY(0) } 50% { transform: translateY(-8px) } }
+      @keyframes wn { 0%,100% { opacity: .85 } 50% { opacity: 1 } }
+    </style>
+  </defs>
+
+  <rect width="1280" height="380" fill="url(#sky)"/>
+  <circle cx="1010" cy="250" r="190" fill="url(#glow)"/>
+  <circle cx="1010" cy="252" r="46" fill="#ffe3a3"/>
+
+  <g class="star">
+    <circle class="tw" cx="90" cy="48" r="2"/><circle class="tw b" cx="210" cy="92" r="1.6"/>
+    <circle class="tw c" cx="330" cy="34" r="2.2"/><circle class="tw" cx="470" cy="70" r="1.5"/>
+    <circle class="tw b" cx="590" cy="28" r="1.8"/><circle class="tw c" cx="700" cy="84" r="2"/>
+    <circle class="tw" cx="800" cy="40" r="1.6"/><circle class="tw b" cx="900" cy="96" r="1.4"/>
+    <circle class="tw c" cx="1010" cy="36" r="2.2"/><circle class="tw" cx="1120" cy="74" r="1.6"/>
+    <circle class="tw b" cx="1220" cy="44" r="2"/><circle class="tw c" cx="150" cy="140" r="1.3"/>
+    <circle class="tw" cx="1170" cy="130" r="1.4"/>
+  </g>
+
+  <path d="M0 262 C160 214 300 232 440 246 C600 262 700 206 860 214 C1020 222 1140 196 1280 226 L1280 380 L0 380 Z" fill="url(#h1)"/>
+  <path d="M0 300 C140 272 260 296 420 292 C600 288 720 252 900 268 C1060 282 1160 258 1280 276 L1280 380 L0 380 Z" fill="url(#h2)"/>
+  <path d="M0 336 C180 314 320 340 520 330 C720 320 860 300 1040 318 C1160 328 1230 316 1280 322 L1280 380 L0 380 Z" fill="url(#h3)"/>
+
+  <path d="M1100 380 C1000 352 1090 330 1010 306 C940 284 1040 270 984 250" fill="none" stroke="#f0c987" stroke-opacity=".55" stroke-width="7" stroke-linecap="round"/>
+
+  <g transform="translate(965 214)">
+    <rect x="0" y="22" width="46" height="34" fill="#0a1f1c"/>
+    <polygon points="-6,24 23,2 52,24" fill="#071714"/>
+    <rect class="win" x="9" y="32" width="10" height="12" rx="1" fill="#ffd98a"/>
+    <rect class="win" x="28" y="32" width="10" height="12" rx="1" fill="#ffd98a"/>
+  </g>
+
+  <g fill="#071d19">
+    <polygon points="70,300 90,250 110,300"/><polygon points="96,310 120,244 144,310"/>
+    <polygon points="1190,310 1212,254 1234,310"/><polygon points="1160,318 1176,276 1192,318"/>
+  </g>
+
+  <g class="mono" fill="#cfeee4" font-size="22">
+    <text class="float" x="730" y="96" opacity=".55">print("hi")</text>
+    <text class="float b" x="880" y="156" opacity=".4">&gt;&gt;&gt;</text>
+    <text class="float c" x="770" y="190" opacity=".4">{ }</text>
+  </g>
+
+  <g class="sans">
+    <text x="64" y="170" fill="#fff6dc" font-size="76" font-weight="800" letter-spacing="-1">Python Academy</text>
+    <text x="68" y="226" fill="#d6f0e6" font-size="30" font-weight="500">Learn to code by building your own adventure.</text>
+  </g>
+</svg>
