@@ -37,6 +37,7 @@ Terms in **bold** the first time they appear are explained in the [glossary](#gl
 | [12](#chapter-12-checking-code-in-the-browser-eng-03) | ENG-03 browser behaviour checks | #17 | In review when this log was written |
 | [13](#chapter-13-patterns-that-kept-coming-back) | Patterns that kept coming back | — | — |
 | [14](#chapter-14-feedback-a-beginner-can-act-on-eng-04-part-1) | ENG-04 lesson feedback engine, part 1 | #22 | In review when this chapter was written |
+| [15](#chapter-15-feedback-nobody-can-trace-fb-02) | FB-02 anonymous feedback storage | #24 | In review when this chapter was written |
 
 ---
 
@@ -647,6 +648,47 @@ These ideas appear in several chapters. They are good candidates for chapters of
 
 - **Deliberate-break controls:** reading the first traceback frame instead of the last (2 tests failed), ignoring the unit of a translation (1), trusting `passed: true` over the state (1), and moving the highlight one line down (6). Each was undone.
 - **Mocks:** the browser tests mock the API answers; the worker and Python are real.
+
+---
+
+## Chapter 15. Feedback nobody can trace (FB-02)
+
+**Sources:** handoff 17 (branch `feat/feedback-storage`, still open when this chapter was written); `docs/plan/feedback-security.md`.
+
+**What was built:** the server side of tester feedback:
+- a table with nothing that identifies the sender
+- one route that only testers and the admin can use
+- rate limits, length limits and fixed categories
+- deletion after 50 days, and a 90-item cap that never silently drops unresolved items
+
+### Decisions and why
+
+| Decision | Options considered | Reason |
+| --- | --- | --- |
+| Rate limits use the existing in-memory counters | A database counter table (`feedback-security.md` section 7) | The owner asked for the existing `limits.py` approach. The counters hold only keyed hashes, and nothing is stored next to the message. They reset on redeploy; the 90-item cap still bounds the damage |
+| Store the **date** an item was sent, not the time | A timestamp | A time could be matched to a sign-in or a request log, which would undo the anonymity |
+| A full inbox with nothing resolved answers **409** and keeps everything | Deleting the oldest item anyway | Decision 18: unresolved feedback is never dropped silently |
+| Retention runs when feedback is sent and at most once an hour on any request | A scheduled job | Render has no free scheduler for this; the hourly check needs no new service |
+| Sending feedback writes **no** account-history event | An event, like other actions | An event holds the user ID and an exact time |
+
+### Bugs found and how they were fixed
+
+- **A helper was collected as a test.** pytest runs any function whose name starts with "test", and a helper called `tester()` returned a value, which pytest warned about. Found from the warning; renamed.
+- **Near-miss in the tests:** a refused request still counts towards the daily limit, as with every limit in `limits.py`. The first daily-limit test assumed it did not. The test now states the rule.
+
+### How it was tested
+
+| Kind of test | What it proves |
+| --- | --- |
+| API tests for each role | Signed out 401; pending, parent, non-tester student and a parent with the tester flag 403; tester and admin 200 |
+| Anonymity test | The stored row and the responses hold no user ID, email, IP address or session ID; no event is added |
+| Retention with a fake clock | An item is kept on day 49 and gone on day 50 |
+| Cap tests | The oldest resolved item goes first; an inbox full of unresolved items refuses the new one |
+| Log test | No message, code, email or user ID in any log line |
+| Migration test, SQLite and PostgreSQL | 0008 adds the table and removes it on downgrade, leaving accounts untouched |
+| Local run with the real API | Migration 0008 in the log; 401, 403, 200 and 429 from the real routes |
+
+- **Deliberate-break controls:** recording the sender in the account history, writing the sender's email into the row, removing the tester check, deleting unresolved items to make room, deleting one day late, storing code without opting in, and logging the message. Every one failed at least one test.
 
 ---
 

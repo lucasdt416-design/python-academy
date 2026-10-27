@@ -1,6 +1,7 @@
 from . import browser_checks, content, migrate, sessions
 from . import awards
 from . import admin
+from . import feedback as tester_feedback
 from .awards import award_challenge
 from .db import Attempt, Base, Event, Invitation, LearnerGoal, User, engine
 from .lesson_checks import assess, check_story
@@ -43,6 +44,7 @@ oauth = OAuth()
 oauth.register(name='google', client_id=os.getenv('GOOGLE_CLIENT_ID'), client_secret=os.getenv('GOOGLE_CLIENT_SECRET'), server_metadata_url='https://accounts.google.com/.well-known/openid-configuration', client_kwargs={'scope': 'openid email profile'})
 
 admin.register(app)
+tester_feedback.register(app)
 
 @app.middleware('http')
 async def security(request: Request, call_next):

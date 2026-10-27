@@ -32,6 +32,7 @@ class Rule:
     ip: tuple[tuple[int, int], ...] = ()        # applied when signed out, or always if per_ip
     per_ip: bool = False                        # sign-in has no user yet, so it is always per IP
     note: str = ''                              # added after the wait, e.g. that code is unchanged
+    everyone: tuple[tuple[int, int], ...] = ()  # one shared counter for all callers together
 
 MINUTE, HOUR, DAY = 60, 3600, 86400
 # Signed-out limits are per IP and looser, because a school or family can share one address.
@@ -45,6 +46,9 @@ RULES = {
     'signin_callback': Rule('sign-in attempts', ip=((60, 10 * MINUTE),), per_ip=True),
     # Admin routes refuse signed-out callers before this counts; the limit is a backstop.
     'admin': Rule('admin changes', user=((60, MINUTE),), ip=((60, MINUTE),)),
+    # Tester feedback (FB-02): per tester, and a total for everyone that protects the 90-item inbox
+    # even if one account is misused. Signed-out callers are refused before this counts.
+    'feedback': Rule('feedback messages', user=((5, HOUR), (20, DAY)), ip=((5, HOUR),), everyone=((60, DAY),)),
 }
 MAX_KEYS = 50_000
 
@@ -80,7 +84,7 @@ class Limiter:
         return max(wait, 1) if wait else 0
 
     def _prune(self, now):
-        longest = max(length for r in RULES.values() for _, length in r.user + r.ip)
+        longest = max(length for r in RULES.values() for _, length in r.user + r.ip + r.everyone)
         for k, (start, _) in list(self.counts.items()):
             if now - start >= longest:
                 del self.counts[k]
@@ -160,6 +164,9 @@ def limit(name: str):
                 log_diagnostic(request, name, address, source)
             who, windows = f'ip:{address}', rule.ip
         wait = LIMITER.hit(name, who, windows)
+        # The shared counter only counts requests that got past this caller's own limit.
+        if not wait and rule.everyone:
+            wait = LIMITER.hit(name, 'everyone', rule.everyone)
         if wait:
             # Rule and scope only: no user ID, address, code or message text.
             log.info('Rate limited: rule=%s scope=%s', name, 'user' if uid is not None else 'ip')

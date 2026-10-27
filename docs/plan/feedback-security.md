@@ -1,7 +1,7 @@
 # Feedback and admin inbox: threats and controls
 
-Last updated: 2026-10-25 (America/Toronto)  
-Status: **proposed**. Nothing here is implemented. It is the security plan for backlog items FB-01 to FB-07 and the feature in `docs/plan/course-catalog.md` section 11.  
+Last updated: 2026-10-27 (America/Toronto)  
+Status: **partly built.** FB-01 (admin and testers, handoff 12) is merged. FB-02 (anonymous storage, limits and retention, handoff 17) is in review. One difference from section 7, chosen by the owner: the feedback rate limits use the existing in-memory counters in `backend/app/limits.py`, not a database table, so they reset when the API redeploys (handoff 17). Everything else is proposed. It is the security plan for backlog items FB-01 to FB-07 and the feature in `docs/plan/course-catalog.md` section 11.  
 Owner decisions this plan must respect (2026-10-25): the button is for testers, who are students only, and the admin; parents never see it or any feedback (11, 19, 23); stored anonymously, with sign-in only to stop bots (12); deleted after 50 days, at most 90 items, oldest resolved (`fixed` or `wont_fix`) deleted first, otherwise reject (18).
 
 Every control below is enforced **on the server**. The browser can hide a button, but it is never trusted to decide who is an admin, who is a tester, what gets stored, or how often.
