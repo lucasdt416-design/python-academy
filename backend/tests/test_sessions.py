@@ -288,13 +288,15 @@ def send(method, path, body):
 
 # Admin routes: tests/test_admin.py proves each one gives 401 signed out and 403 to non-admins.
 ADMIN = {('GET', '/api/admin/students'), ('POST', '/api/admin/testers')}
+# Tester-only routes: tests/test_feedback.py proves 401 signed out and 403 for everyone but testers and the admin.
+TESTER = {('POST', '/api/feedback')}
 
 
 def test_every_route_is_listed_as_public_or_authenticated():
     # A new route fails here until it is added to one list. Adding it to AUTHENTICATED makes the
     # next test prove it refuses requests without a live session.
     routes = {(m, r.path) for r in app.routes if isinstance(r, APIRoute) for m in r.methods - {'HEAD'}}
-    assert routes == PUBLIC | AUTHENTICATED.keys() | ADMIN
+    assert routes == PUBLIC | AUTHENTICATED.keys() | ADMIN | TESTER
 
 
 def test_no_route_is_hidden_from_these_checks():

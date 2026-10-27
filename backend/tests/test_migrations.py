@@ -44,7 +44,7 @@ sa.Table('attempts', LEGACY,
 HELLO = ('print("A forest.")\nprint("A dragon!")', 'A forest.\nA dragon!\n')
 VARIABLES = ('hero="Kai"\ntool="rope"\nprint(f"{hero} carries {tool}")', 'Kai carries rope\n')
 ARITHMETIC = ('stars=7\nprint(stars*3)', '21\n')  # legacy exercise under the variables ID
-HEAD = '0007'
+HEAD = '0008'
 
 
 @pytest.fixture(params=['sqlite', 'postgresql'])
@@ -225,6 +225,29 @@ def test_0007_adds_the_tester_and_admin_flags_and_removes_them_on_downgrade(engi
     inspector = sa.inspect(engine)
     assert 'tester' not in {c['name'] for c in inspector.get_columns('users')}
     assert 'admin' not in {c['name'] for c in inspector.get_columns('sessions')}
+    with engine.connect() as conn:
+        assert conn.execute(sa.text('SELECT count(*) FROM users')).scalar() == 1
+        assert conn.execute(sa.text('SELECT count(*) FROM sessions')).scalar() == 1
+    migrate.upgrade(engine)
+    assert migrate.current(engine) == HEAD
+
+
+def test_0008_adds_an_anonymous_feedback_table_and_removes_it_on_downgrade(engine):
+    migrate.upgrade(engine, '0007')
+    with engine.begin() as conn:
+        conn.execute(sa.text("INSERT INTO users (id, subject, email, role, tester) VALUES (1, 's', 's@example.com', 'student', true)"))
+        conn.execute(sa.text("INSERT INTO sessions (id, user_id, created, last_seen, expires) VALUES ('a', 1, 0, 0, 1)"))
+    migrate.upgrade(engine, '0008')
+    # Only a new table: nothing that identifies a person, and a date rather than a time.
+    columns = {c['name']: c for c in sa.inspect(engine).get_columns('feedback')}
+    assert set(columns) == {'id', 'created_on', 'category', 'audience', 'message', 'code', 'status'}
+    assert isinstance(columns['created_on']['type'], sa.Date)
+    assert not sa.inspect(engine).get_foreign_keys('feedback')
+    with engine.begin() as conn:
+        conn.execute(sa.text("INSERT INTO feedback (created_on, category, message) VALUES ('2026-10-27', 'bug', 'The hint button moved.')"))
+        assert tuple(conn.execute(sa.text('SELECT status, code, audience FROM feedback')).one()) == ('new', None, None)
+    migrate.downgrade(engine, '0007')
+    assert 'feedback' not in sa.inspect(engine).get_table_names()
     with engine.connect() as conn:
         assert conn.execute(sa.text('SELECT count(*) FROM users')).scalar() == 1
         assert conn.execute(sa.text('SELECT count(*) FROM sessions')).scalar() == 1

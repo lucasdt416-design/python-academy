@@ -136,3 +136,18 @@ class UserSession(Base):
     expires: Mapped[int] = mapped_column(BigInteger)
     # Started by a verified Google email that was in ADMIN_EMAILS at sign-in; shorter lifetimes apply.
     admin: Mapped[bool] = mapped_column(default=False, server_default=false())
+
+
+class Feedback(Base):
+    """One tester feedback item (backlog FB-02). Deliberately anonymous: no user ID, email, IP
+    address or session ID, and only the date it was sent, not the time (feedback-security.md)."""
+    __tablename__ = 'feedback'
+    id: Mapped[int] = mapped_column(primary_key=True)
+    created_on: Mapped[date] = mapped_column(Date)
+    category: Mapped[str] = mapped_column(String(20))
+    audience: Mapped[str | None] = mapped_column(String(20), nullable=True)
+    message: Mapped[str] = mapped_column(Text)
+    # Only when the sender ticked "Include my code"; deleted with the item.
+    code: Mapped[str | None] = mapped_column(Text, nullable=True)
+    # new, triaged, in_progress, fixed or wont_fix; fixed and wont_fix count as resolved.
+    status: Mapped[str] = mapped_column(String(20), default='new', server_default='new')
