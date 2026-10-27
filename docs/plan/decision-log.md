@@ -37,7 +37,7 @@ Terms in **bold** the first time they appear are explained in the [glossary](#gl
 | [12](#chapter-12-checking-code-in-the-browser-eng-03) | ENG-03 browser behaviour checks | #17 | In review when this log was written |
 | [13](#chapter-13-patterns-that-kept-coming-back) | Patterns that kept coming back | — | — |
 | [14](#chapter-14-feedback-a-beginner-can-act-on-eng-04-part-1) | ENG-04 lesson feedback engine, part 1 | #22 | In review when this chapter was written |
-| [15](#chapter-15-feedback-nobody-can-trace-fb-02) | FB-02 anonymous feedback storage | (handoff 17) | In review when this chapter was written |
+| [15](#chapter-15-feedback-nobody-can-trace-fb-02) | FB-02 anonymous feedback storage | #24 | In review when this chapter was written |
 
 ---
 

@@ -3,7 +3,7 @@
 Date: 2026-10-27 (America/Toronto)  
 Written by: Claude Code (implementer)  
 For: the human maintainer, and ChatGPT or Claude chat (reviewer) without repository access  
-Status: **in_review**: one pull request (PR_NUMBER), backend only, not merged, not deployed. **Database migration 0008** (adds one table).
+Status: **in_review**: one pull request (#24), backend only, not merged, not deployed. **Database migration 0008** (adds one table).
 
 > **How to use this file:** upload it with `build.md`, `docs/plan/feedback-security.md` (the source of truth) and `docs/plan/backlog.md` (FB-01 to FB-07). The pull request diff is the source of truth for the code (`build.md` section 14).
 
@@ -233,11 +233,11 @@ Merging redeploys the API. Nothing new is needed in Render; there are no new set
 
 | ID | Change |
 | --- | --- |
-| FB-02 | proposed → in_review (PR_NUMBER, handoff 17). Note: rate limits are in memory, not a database table (decision in section 4) |
+| FB-02 | proposed → in_review (#24, handoff 17). Note: rate limits are in memory, not a database table (decision in section 4) |
 | OPS-04 | Note: feedback retention (50 days, 90 items) is built in FB-02; goals and placement data still to be decided |
 | FB-05 | Note: the form must send `include_code` only when the box is ticked. Page context needs migration 0009, if wanted (question 2) |
 | FB-06 | Note: needs status changes and deletion, or the 90-item cap will block new feedback once full |
-| Stage table | Add "17. FB-02 \| Anonymous feedback storage and limits \| in_review (PR_NUMBER, handoff 17)" |
+| Stage table | Add "17. FB-02 \| Anonymous feedback storage and limits \| in_review (#24, handoff 17)" |
 
 ## 11. Questions for the owner
 
