@@ -23,6 +23,8 @@ IDs are stable: never rename or reuse one for different content. For a wording o
 
 Courses and units are `released` or `coming_soon`. A coming-soon course or unit has no lessons and cannot be started; the catalog shows it labelled "Coming soon". Release a unit by adding its lesson files, listing them in the unit, and changing its status.
 
+A unit released in parts (some of its planned lessons now, the rest later) also sets `"more_lessons_coming": true` until its last lesson is out. `/api/catalog` then gives the unit `complete: false`, the lesson page says "You finished every lesson released so far" instead of "Unit complete", and the recommendation says more lessons are on the way rather than pointing past the unit. Only a released unit may set it; it defaults to `false`.
+
 ## Lessons
 
 Each lesson has exactly five tasks, in the order the lesson page shows them: `discover`, `example`, `predict`, `guided`, `challenge`. The challenge names the validator that checks it, for example `{"id": "bounded-story", "version": 1}`. Only validators the platform knows are accepted.
