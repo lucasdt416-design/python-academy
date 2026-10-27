@@ -239,3 +239,9 @@ def test_completions_from_before_stay_valid_and_are_not_awarded_again(student):
     assert client.get('/api/awards').json() == before
     with Session(engine) as db:
         assert [(a.task_version, a.xp) for a in db.scalars(select(XpAward))] == [(1, 100)]
+
+
+def test_the_hi_woah_response_the_lesson_page_test_shows_is_the_real_one():
+    # frontend/tests/feedback.spec.ts shows this response on the page (ENG-04); it must not drift from the API.
+    fixture = json.loads((content.CONTENT_DIR.parents[1] / 'frontend/tests/fixtures/hello-hi-woah.json').read_text())
+    assert client.post('/api/check', json=fixture['request'], headers=HEADERS).json() == fixture['response']

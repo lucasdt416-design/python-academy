@@ -1,0 +1,193 @@
+{
+ "about": "Real error text from the Pyodide 0.27.7 worker (public/python-worker.js, unit 1 mode), captured 2026-10-27. Each sample is learner-style code; raw is String(error) exactly as the worker posts it. The test 'every fixture matches what the worker reports today' re-runs them.",
+ "samples": [
+  {
+   "id": "unterminated-string",
+   "code": "print(\"You arrive at a castle.)",
+   "inputs": [],
+   "errorType": "SyntaxError",
+   "outputLimit": false,
+   "raw": "PythonError: Traceback (most recent call last):\n  File \"/lib/python312.zip/_pyodide/_base.py\", line 597, in eval_code_async\n    await CodeRunner(\n          ^^^^^^^^^^^\n  File \"/lib/python312.zip/_pyodide/_base.py\", line 285, in __init__\n    self.ast = next(self._gen)\n               ^^^^^^^^^^^^^^^\n  File \"/lib/python312.zip/_pyodide/_base.py\", line 149, in _parse_and_compile_gen\n    mod = compile(source, filename, mode, flags | ast.PyCF_ONLY_AST)\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<exec>\", line 1\n    print(\"You arrive at a castle.)\n          ^\nSyntaxError: unterminated string literal (detected at line 1)\n"
+  },
+  {
+   "id": "never-closed",
+   "code": "print(\"A forest.\"\nprint(\"A dragon!\")",
+   "inputs": [],
+   "errorType": "SyntaxError",
+   "outputLimit": false,
+   "raw": "PythonError: Traceback (most recent call last):\n  File \"/lib/python312.zip/_pyodide/_base.py\", line 597, in eval_code_async\n    await CodeRunner(\n          ^^^^^^^^^^^\n  File \"/lib/python312.zip/_pyodide/_base.py\", line 285, in __init__\n    self.ast = next(self._gen)\n               ^^^^^^^^^^^^^^^\n  File \"/lib/python312.zip/_pyodide/_base.py\", line 149, in _parse_and_compile_gen\n    mod = compile(source, filename, mode, flags | ast.PyCF_ONLY_AST)\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<exec>\", line 1\n    print(\"A forest.\"\n         ^\nSyntaxError: '(' was never closed\n"
+  },
+  {
+   "id": "never-closed-last-line",
+   "code": "print(\"A forest.\")\nprint(\"A dragon!\"",
+   "inputs": [],
+   "errorType": "SyntaxError",
+   "outputLimit": false,
+   "raw": "PythonError: Traceback (most recent call last):\n  File \"/lib/python312.zip/_pyodide/_base.py\", line 597, in eval_code_async\n    await CodeRunner(\n          ^^^^^^^^^^^\n  File \"/lib/python312.zip/_pyodide/_base.py\", line 285, in __init__\n    self.ast = next(self._gen)\n               ^^^^^^^^^^^^^^^\n  File \"/lib/python312.zip/_pyodide/_base.py\", line 149, in _parse_and_compile_gen\n    mod = compile(source, filename, mode, flags | ast.PyCF_ONLY_AST)\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<exec>\", line 2\n    print(\"A dragon!\"\n         ^\nSyntaxError: '(' was never closed\n"
+  },
+  {
+   "id": "colon",
+   "code": "path = input(\"Path? \")\nif path == \"left\"\n    print(\"A cave.\")",
+   "inputs": [
+    "left"
+   ],
+   "errorType": "SyntaxError",
+   "outputLimit": false,
+   "raw": "PythonError: Traceback (most recent call last):\n  File \"/lib/python312.zip/_pyodide/_base.py\", line 597, in eval_code_async\n    await CodeRunner(\n          ^^^^^^^^^^^\n  File \"/lib/python312.zip/_pyodide/_base.py\", line 285, in __init__\n    self.ast = next(self._gen)\n               ^^^^^^^^^^^^^^^\n  File \"/lib/python312.zip/_pyodide/_base.py\", line 149, in _parse_and_compile_gen\n    mod = compile(source, filename, mode, flags | ast.PyCF_ONLY_AST)\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<exec>\", line 2\n    if path == \"left\"\n                     ^\nSyntaxError: expected ':'\n"
+  },
+  {
+   "id": "equals",
+   "code": "path = input(\"Path? \")\nif path = \"left\":\n    print(\"A cave.\")",
+   "inputs": [
+    "left"
+   ],
+   "errorType": "SyntaxError",
+   "outputLimit": false,
+   "raw": "PythonError: Traceback (most recent call last):\n  File \"/lib/python312.zip/_pyodide/_base.py\", line 597, in eval_code_async\n    await CodeRunner(\n          ^^^^^^^^^^^\n  File \"/lib/python312.zip/_pyodide/_base.py\", line 285, in __init__\n    self.ast = next(self._gen)\n               ^^^^^^^^^^^^^^^\n  File \"/lib/python312.zip/_pyodide/_base.py\", line 149, in _parse_and_compile_gen\n    mod = compile(source, filename, mode, flags | ast.PyCF_ONLY_AST)\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<exec>\", line 2\n    if path = \"left\":\n       ^^^^^^^^^^^^^\nSyntaxError: invalid syntax. Maybe you meant '==' or ':=' instead of '='?\n"
+  },
+  {
+   "id": "forgot-quotes",
+   "code": "print(You land on Mars)",
+   "inputs": [],
+   "errorType": "SyntaxError",
+   "outputLimit": false,
+   "raw": "PythonError: Traceback (most recent call last):\n  File \"/lib/python312.zip/_pyodide/_base.py\", line 597, in eval_code_async\n    await CodeRunner(\n          ^^^^^^^^^^^\n  File \"/lib/python312.zip/_pyodide/_base.py\", line 285, in __init__\n    self.ast = next(self._gen)\n               ^^^^^^^^^^^^^^^\n  File \"/lib/python312.zip/_pyodide/_base.py\", line 149, in _parse_and_compile_gen\n    mod = compile(source, filename, mode, flags | ast.PyCF_ONLY_AST)\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<exec>\", line 1\n    print(You land on Mars)\n          ^^^^^^^^\nSyntaxError: invalid syntax. Perhaps you forgot a comma?\n"
+  },
+  {
+   "id": "syntax-other",
+   "code": "print(\"A forest.\"))",
+   "inputs": [],
+   "errorType": "SyntaxError",
+   "outputLimit": false,
+   "raw": "PythonError: Traceback (most recent call last):\n  File \"/lib/python312.zip/_pyodide/_base.py\", line 597, in eval_code_async\n    await CodeRunner(\n          ^^^^^^^^^^^\n  File \"/lib/python312.zip/_pyodide/_base.py\", line 285, in __init__\n    self.ast = next(self._gen)\n               ^^^^^^^^^^^^^^^\n  File \"/lib/python312.zip/_pyodide/_base.py\", line 149, in _parse_and_compile_gen\n    mod = compile(source, filename, mode, flags | ast.PyCF_ONLY_AST)\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<exec>\", line 1\n    print(\"A forest.\"))\n                      ^\nSyntaxError: unmatched ')'\n"
+  },
+  {
+   "id": "syntax-later-line",
+   "code": "print(\"ok\")\nprint(\"A forest.\" \"A dragon!\" hero)",
+   "inputs": [],
+   "errorType": "SyntaxError",
+   "outputLimit": false,
+   "raw": "PythonError: Traceback (most recent call last):\n  File \"/lib/python312.zip/_pyodide/_base.py\", line 597, in eval_code_async\n    await CodeRunner(\n          ^^^^^^^^^^^\n  File \"/lib/python312.zip/_pyodide/_base.py\", line 285, in __init__\n    self.ast = next(self._gen)\n               ^^^^^^^^^^^^^^^\n  File \"/lib/python312.zip/_pyodide/_base.py\", line 149, in _parse_and_compile_gen\n    mod = compile(source, filename, mode, flags | ast.PyCF_ONLY_AST)\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<exec>\", line 2\n    print(\"A forest.\" \"A dragon!\" hero)\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nSyntaxError: invalid syntax. Perhaps you forgot a comma?\n"
+  },
+  {
+   "id": "indent-block",
+   "code": "path = input()\nif path == \"left\":\nprint(\"A cave.\")",
+   "inputs": [
+    "left"
+   ],
+   "errorType": "IndentationError",
+   "outputLimit": false,
+   "raw": "PythonError: Traceback (most recent call last):\n  File \"/lib/python312.zip/_pyodide/_base.py\", line 597, in eval_code_async\n    await CodeRunner(\n          ^^^^^^^^^^^\n  File \"/lib/python312.zip/_pyodide/_base.py\", line 285, in __init__\n    self.ast = next(self._gen)\n               ^^^^^^^^^^^^^^^\n  File \"/lib/python312.zip/_pyodide/_base.py\", line 149, in _parse_and_compile_gen\n    mod = compile(source, filename, mode, flags | ast.PyCF_ONLY_AST)\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<exec>\", line 3\n    print(\"A cave.\")\n    ^^^^^\nIndentationError: expected an indented block after 'if' statement on line 2\n"
+  },
+  {
+   "id": "indent-block-else",
+   "code": "path = input()\nif path == \"left\":\n    print(\"A cave.\")\nelse:\nprint(\"A bridge.\")",
+   "inputs": [
+    "right"
+   ],
+   "errorType": "IndentationError",
+   "outputLimit": false,
+   "raw": "PythonError: Traceback (most recent call last):\n  File \"/lib/python312.zip/_pyodide/_base.py\", line 597, in eval_code_async\n    await CodeRunner(\n          ^^^^^^^^^^^\n  File \"/lib/python312.zip/_pyodide/_base.py\", line 285, in __init__\n    self.ast = next(self._gen)\n               ^^^^^^^^^^^^^^^\n  File \"/lib/python312.zip/_pyodide/_base.py\", line 149, in _parse_and_compile_gen\n    mod = compile(source, filename, mode, flags | ast.PyCF_ONLY_AST)\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<exec>\", line 5\n    print(\"A bridge.\")\n    ^^^^^\nIndentationError: expected an indented block after 'else' statement on line 4\n"
+  },
+  {
+   "id": "unexpected-indent",
+   "code": "print(\"A forest.\")\n    print(\"A dragon!\")",
+   "inputs": [],
+   "errorType": "IndentationError",
+   "outputLimit": false,
+   "raw": "PythonError: Traceback (most recent call last):\n  File \"/lib/python312.zip/_pyodide/_base.py\", line 597, in eval_code_async\n    await CodeRunner(\n          ^^^^^^^^^^^\n  File \"/lib/python312.zip/_pyodide/_base.py\", line 285, in __init__\n    self.ast = next(self._gen)\n               ^^^^^^^^^^^^^^^\n  File \"/lib/python312.zip/_pyodide/_base.py\", line 149, in _parse_and_compile_gen\n    mod = compile(source, filename, mode, flags | ast.PyCF_ONLY_AST)\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<exec>\", line 2\n    print(\"A dragon!\")\nIndentationError: unexpected indent\n"
+  },
+  {
+   "id": "tabs",
+   "code": "if True:\n        print(\"a\")\n\tprint(\"b\")",
+   "inputs": [],
+   "errorType": "TabError",
+   "outputLimit": false,
+   "raw": "PythonError: Traceback (most recent call last):\n  File \"/lib/python312.zip/_pyodide/_base.py\", line 597, in eval_code_async\n    await CodeRunner(\n          ^^^^^^^^^^^\n  File \"/lib/python312.zip/_pyodide/_base.py\", line 285, in __init__\n    self.ast = next(self._gen)\n               ^^^^^^^^^^^^^^^\n  File \"/lib/python312.zip/_pyodide/_base.py\", line 149, in _parse_and_compile_gen\n    mod = compile(source, filename, mode, flags | ast.PyCF_ONLY_AST)\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<exec>\", line 3\n    \tprint(\"b\")\n    ^\nTabError: inconsistent use of tabs and spaces in indentation\n"
+  },
+  {
+   "id": "name-case",
+   "code": "Print(\"Hello\")",
+   "inputs": [],
+   "errorType": "NameError",
+   "outputLimit": false,
+   "raw": "PythonError: Traceback (most recent call last):\n  File \"/lib/python312.zip/_pyodide/_base.py\", line 597, in eval_code_async\n    await CodeRunner(\n  File \"/lib/python312.zip/_pyodide/_base.py\", line 411, in run_async\n    coroutine = eval(self.code, globals, locals)\n                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<exec>\", line 1, in <module>\nNameError: name 'Print' is not defined. Did you mean: 'print'?\n"
+  },
+  {
+   "id": "name-typo",
+   "code": "hero = \"Kai\"\nprint(heor)",
+   "inputs": [],
+   "errorType": "NameError",
+   "outputLimit": false,
+   "raw": "PythonError: Traceback (most recent call last):\n  File \"/lib/python312.zip/_pyodide/_base.py\", line 597, in eval_code_async\n    await CodeRunner(\n  File \"/lib/python312.zip/_pyodide/_base.py\", line 411, in run_async\n    coroutine = eval(self.code, globals, locals)\n                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<exec>\", line 2, in <module>\nNameError: name 'heor' is not defined\n"
+  },
+  {
+   "id": "name-unknown",
+   "code": "print(\"Welcome!\")\nprint(hello)",
+   "inputs": [],
+   "errorType": "NameError",
+   "outputLimit": false,
+   "raw": "PythonError: Traceback (most recent call last):\n  File \"/lib/python312.zip/_pyodide/_base.py\", line 597, in eval_code_async\n    await CodeRunner(\n  File \"/lib/python312.zip/_pyodide/_base.py\", line 411, in run_async\n    coroutine = eval(self.code, globals, locals)\n                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<exec>\", line 2, in <module>\nNameError: name 'hello' is not defined. Did you mean: 'help'?\n"
+  },
+  {
+   "id": "name-in-function",
+   "code": "def greet():\n    print(\"Hi\")\n    print(nam)\n\ngreet()",
+   "inputs": [],
+   "errorType": "NameError",
+   "outputLimit": false,
+   "raw": "PythonError: Traceback (most recent call last):\n  File \"/lib/python312.zip/_pyodide/_base.py\", line 597, in eval_code_async\n    await CodeRunner(\n  File \"/lib/python312.zip/_pyodide/_base.py\", line 411, in run_async\n    coroutine = eval(self.code, globals, locals)\n                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<exec>\", line 5, in <module>\n  File \"<exec>\", line 3, in greet\nNameError: name 'nam' is not defined\n"
+  },
+  {
+   "id": "concat",
+   "code": "age = 12\nprint(\"Age: \" + age)",
+   "inputs": [],
+   "errorType": "TypeError",
+   "outputLimit": false,
+   "raw": "PythonError: Traceback (most recent call last):\n  File \"/lib/python312.zip/_pyodide/_base.py\", line 597, in eval_code_async\n    await CodeRunner(\n  File \"/lib/python312.zip/_pyodide/_base.py\", line 411, in run_async\n    coroutine = eval(self.code, globals, locals)\n                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<exec>\", line 2, in <module>\nTypeError: can only concatenate str (not \"int\") to str\n"
+  },
+  {
+   "id": "int-text",
+   "code": "age = int(input(\"Age? \"))",
+   "inputs": [
+    "twelve"
+   ],
+   "errorType": "ValueError",
+   "outputLimit": false,
+   "raw": "PythonError: Traceback (most recent call last):\n  File \"/lib/python312.zip/_pyodide/_base.py\", line 597, in eval_code_async\n    await CodeRunner(\n  File \"/lib/python312.zip/_pyodide/_base.py\", line 411, in run_async\n    coroutine = eval(self.code, globals, locals)\n                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<exec>\", line 1, in <module>\nValueError: invalid literal for int() with base 10: 'twelve'\n"
+  },
+  {
+   "id": "zero",
+   "code": "print(\"Sharing 10 coins.\")\nprint(10 / 0)",
+   "inputs": [],
+   "errorType": "ZeroDivisionError",
+   "outputLimit": false,
+   "raw": "PythonError: Traceback (most recent call last):\n  File \"/lib/python312.zip/_pyodide/_base.py\", line 597, in eval_code_async\n    await CodeRunner(\n  File \"/lib/python312.zip/_pyodide/_base.py\", line 411, in run_async\n    coroutine = eval(self.code, globals, locals)\n                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<exec>\", line 2, in <module>\nZeroDivisionError: division by zero\n"
+  },
+  {
+   "id": "replies",
+   "code": "name = input(\"Name? \")\npath = input(\"Path? \")",
+   "inputs": [
+    "Kai"
+   ],
+   "errorType": "EOFError",
+   "outputLimit": false,
+   "raw": "PythonError: Traceback (most recent call last):\n  File \"<academy>\", line 7, in __academy_input\nStopIteration\n\nDuring handling of the above exception, another exception occurred:\n\nTraceback (most recent call last):\n  File \"/lib/python312.zip/_pyodide/_base.py\", line 597, in eval_code_async\n    await CodeRunner(\n  File \"/lib/python312.zip/_pyodide/_base.py\", line 411, in run_async\n    coroutine = eval(self.code, globals, locals)\n                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<exec>\", line 2, in <module>\n  File \"<academy>\", line 9, in __academy_input\nEOFError: Add a player reply for each input() call, in order.\n"
+  },
+  {
+   "id": "output-limit",
+   "code": "while True:\n    print(\"x\" * 100)",
+   "inputs": [],
+   "errorType": "OSError",
+   "outputLimit": true,
+   "raw": "PythonError: Traceback (most recent call last):\n  File \"/lib/python312.zip/_pyodide/_base.py\", line 597, in eval_code_async\n    await CodeRunner(\n  File \"/lib/python312.zip/_pyodide/_base.py\", line 411, in run_async\n    coroutine = eval(self.code, globals, locals)\n                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<exec>\", line 2, in <module>\nOSError: [Errno 29] I/O error\n"
+  },
+  {
+   "id": "other",
+   "code": "items = [\"a\"]\nprint(items[3])",
+   "inputs": [],
+   "errorType": "IndexError",
+   "outputLimit": false,
+   "raw": "PythonError: Traceback (most recent call last):\n  File \"/lib/python312.zip/_pyodide/_base.py\", line 597, in eval_code_async\n    await CodeRunner(\n  File \"/lib/python312.zip/_pyodide/_base.py\", line 411, in run_async\n    coroutine = eval(self.code, globals, locals)\n                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<exec>\", line 2, in <module>\nIndexError: list index out of range\n"
+  }
+ ]
+}

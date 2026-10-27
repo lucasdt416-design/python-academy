@@ -1,9 +1,15 @@
 'use client';
-import {useEffect, useRef, useState} from 'react';
+import {type ReactNode, useEffect, useRef, useState} from 'react';
 import {type Course,type Unit,unitNumber} from './catalog-data';
+import CodeEditor,{goToLine} from './code-editor';
+import {type Explanation,HINT_BUTTONS,HINT_LEVELS,RESULTS,type Result,STATE_LABELS,checkLine,explain,parseError,pythonMessage} from './feedback';
 
 type Lesson = {id:string;title:string;concept:string;badge:string;description:string;learnTitle:string;learn:string;detail:string;example:string;exampleOutput:string;exampleNote:string;question:string;options:string[];answer:number;why:string;guided:string;starter:string;challenge:string;hints:string[];inputs:string[];exampleInputs:string[]};
 const stages=['Discover','See it work','Predict','Try it','Your challenge'];
+/** What the last run showed: a check result, a run with no check, or a Python error explained (app/feedback.ts). */
+type Report={state:Result|'ran';text:string;explanation?:Explanation;python?:string};
+/** Code between backticks in a message, shown as code. */
+function withCode(text:string):ReactNode[]{return text.split('`').map((part,i)=>i%2?<code key={i}>{part}</code>:part);}
 async function api(path:string,data?:unknown){
  const response=await fetch('/api/'+path,{method:data===undefined?'GET':'POST',headers:data===undefined?{}:{'Content-Type':'application/json'},body:data===undefined?undefined:JSON.stringify(data)});
  const result=await response.json();if(!response.ok)throw Error(typeof result.detail==='string'?result.detail:'Your practice could not be checked. Please try again.');return result;
@@ -30,8 +36,8 @@ function World({chapter}:{chapter:number}){
 }
 
 export default function Adventure({preview,onSaved,lessonId}:{preview:boolean;onSaved:()=>void;lessonId?:string}){
- const [lessons,setLessons]=useState<Lesson[]>([]),[selected,setSelected]=useState(0),[stage,setStage]=useState(0),[code,setCode]=useState(''),[output,setOutput]=useState(''),[feedback,setFeedback]=useState(''),[error,setError]=useState(''),[prediction,setPrediction]=useState<number|null>(null),[hints,setHints]=useState(0),[replies,setReplies]=useState<string[]>([]),[done,setDone]=useState<string[]>([]),[running,setRunning]=useState(false),[passed,setPassed]=useState(false),[drafts,setDrafts]=useState<Record<string,string>>({}),[place,setPlace]=useState<{course:Course;unit:Unit}|null>(null),[menuOpen,setMenuOpen]=useState(false);
- const worker=useRef<Worker|null>(null),timer=useRef<ReturnType<typeof setTimeout>|null>(null),heading=useRef<HTMLHeadingElement>(null),version=useRef(0);
+ const [lessons,setLessons]=useState<Lesson[]>([]),[selected,setSelected]=useState(0),[stage,setStage]=useState(0),[code,setCode]=useState(''),[output,setOutput]=useState(''),[report,setReport]=useState<Report|null>(null),[errorLine,setErrorLine]=useState<number|null>(null),[error,setError]=useState(''),[prediction,setPrediction]=useState<number|null>(null),[hints,setHints]=useState(0),[replies,setReplies]=useState<string[]>([]),[done,setDone]=useState<string[]>([]),[running,setRunning]=useState(false),[passed,setPassed]=useState(false),[drafts,setDrafts]=useState<Record<string,string>>({}),[place,setPlace]=useState<{course:Course;unit:Unit}|null>(null),[menuOpen,setMenuOpen]=useState(false);
+ const worker=useRef<Worker|null>(null),timer=useRef<ReturnType<typeof setTimeout>|null>(null),heading=useRef<HTMLHeadingElement>(null),editor=useRef<HTMLTextAreaElement>(null),version=useRef(0);
  const lesson=lessons[selected];
  useEffect(()=>{
   let active=true;
@@ -43,26 +49,38 @@ export default function Adventure({preview,onSaved,lessonId}:{preview:boolean;on
  function stop(){worker.current?.terminate();worker.current=null;if(timer.current)clearTimeout(timer.current);timer.current=null;setRunning(false);version.current++;}
  function focusCard(){requestAnimationFrame(()=>heading.current?.focus());}
  function address(index:number,card:number){window.history.replaceState({},'',preview?`/preview?lesson=${lessons[index].id}&card=${card+1}`:`/learn/${lessons[index].id}`);}
- function move(card:number){stop();setStage(card);setFeedback('');setError('');setOutput('');setHints(0);setPassed(false);if(card===4)setCode(drafts[lesson.id+':4']??lesson.starter);else if(card===3)setCode(drafts[lesson.id+':3']??lesson.example);address(selected,card);focusCard();}
- function choose(index:number){stop();setMenuOpen(false);setSelected(index);setStage(0);setCode(lessons[index].example);setReplies(lessons[index].exampleInputs);setOutput('');setError('');setFeedback('');setHints(0);setPrediction(null);setPassed(false);address(index,0);focusCard();}
- function edit(value:string){setCode(value);setPassed(false);setFeedback('');setDrafts(old=>({...old,[lesson.id+':'+stage]:value}));}
+ function clear(){setReport(null);setErrorLine(null);}
+ function move(card:number){stop();setStage(card);clear();setError('');setOutput('');setHints(0);setPassed(false);if(card===4)setCode(drafts[lesson.id+':4']??lesson.starter);else if(card===3)setCode(drafts[lesson.id+':3']??lesson.example);address(selected,card);focusCard();}
+ function choose(index:number){stop();setMenuOpen(false);setSelected(index);setStage(0);setCode(lessons[index].example);setReplies(lessons[index].exampleInputs);setOutput('');setError('');clear();setHints(0);setPrediction(null);setPassed(false);address(index,0);focusCard();}
+ function edit(value:string){
+  // A check result is about the code that was checked, so it goes. A Python error stays until the next
+  // run, but its highlight goes once that line changes (lesson-feedback.md section 5).
+  if(report?.state!=='execution_error')setReport(null);
+  if(errorLine&&(code.split('\n')[errorLine-1]!==value.split('\n')[errorLine-1]||code.split('\n').length!==value.split('\n').length))setErrorLine(null);
+  setCode(value);setPassed(false);setDrafts(old=>({...old,[lesson.id+':'+stage]:value}));
+ }
+ function stopped(explanation:Explanation,python?:string){setReport({state:'execution_error',text:explanation.text,explanation,python});setErrorLine(explanation.line);}
  async function run(){
-  stop();setRunning(true);setFeedback('');setError('');setOutput('Starting Python…');setPassed(false);
-  const runVersion=version.current,runCode=code,runInputs=[...replies],runLesson=lesson.id,challenge=stage===4;
+  stop();setRunning(true);clear();setError('');setOutput('Starting Python…');setPassed(false);
+  const runVersion=version.current,runCode=code,runInputs=[...replies],runLesson=lesson.id,challenge=stage===4,context={code:runCode,unit:place?unitNumber(place.unit):1};
   const w=new Worker('/python-worker.js');worker.current=w;
-  timer.current=setTimeout(()=>{if(version.current!==runVersion)return;stop();setOutput('Execution stopped after 15 seconds. Check for an endless loop and try again.');},15000);
+  timer.current=setTimeout(()=>{if(version.current!==runVersion)return;stop();setOutput('Execution stopped after 15 seconds.');stopped(explain({stop:'timeout'},context));},15000);
   w.onerror=()=>{if(version.current!==runVersion)return;stop();setOutput('Python could not start. Check your connection and try again.');};
   w.onmessage=async({data})=>{
    if(version.current!==runVersion)return;
    w.terminate();worker.current=null;if(timer.current)clearTimeout(timer.current);timer.current=null;
-   setOutput(data.error||data.output||'(No output yet.)');
-   if(data.error){setRunning(false);setFeedback(/SyntaxError|IndentationError/.test(data.error)?'Check matching quotes and parentheses. If you used if/else, check colons and four-space indentation.':/NameError/.test(data.error)?'Check the variable or function name. Python is case-sensitive: print is lowercase, and a variable must be defined before use.':'Read the error above, make one change, and try again.');return;}
-   if(!challenge){setRunning(false);setFeedback('Your code ran. Compare the result with the task, then try another change.');return;}
+   // What printed before an error stays visible; the error itself is explained below the output.
+   setOutput(data.output||(data.error?'(Nothing printed before Python stopped.)':'(No output yet.)'));
+   if(data.error){setRunning(false);stopped(explain(data.outputLimit?{stop:'output_limit'}:parseError(data.error,data.errorType),context),pythonMessage(data.error));return;}
+   // A run is not a check: printing something must never look like a pass.
+   if(!challenge){setRunning(false);setReport({state:'ran',text:'Your code ran. This card has no check: compare the output with the task, then try another change.'});return;}
    try{
     const result=await api(preview?'check':'attempts',{lesson_id:runLesson,code:runCode,output:data.output,inputs:runInputs});
     if(version.current!==runVersion)return;
-    setFeedback(result.feedback);setPassed(result.passed);
-    if(result.passed)setDone(old=>old.includes(runLesson)?old:[...old,runLesson]);
+    // Only the result state counts as a pass. An unknown state is shown as the check being unavailable.
+    const state:Result=RESULTS.includes(result.result)?result.result:'service_error',ok=state==='passed'&&result.passed===true;
+    setReport({state,text:state===result.result?result.feedback:'Unable to assess this right now. Your code is unchanged; please try again in a moment.'});setErrorLine(checkLine(result));setPassed(ok);
+    if(ok)setDone(old=>old.includes(runLesson)?old:[...old,runLesson]);
     if(!preview)onSaved();
    }catch(e){if(version.current===runVersion)setError((e as Error).message);}
    finally{if(version.current===runVersion)setRunning(false);}
@@ -71,6 +89,8 @@ export default function Adventure({preview,onSaved,lessonId}:{preview:boolean;on
  }
  if(!lesson)return <section className="card" role="status">{error||'Preparing your adventure…'}</section>;
  const completed=lessons.filter(l=>done.includes(l.id)).length;
+ // aria-disabled, not disabled, on the last hint button, so keyboard focus is not lost when it changes.
+ const moreHints=hints<Math.min(HINT_LEVELS.length,lesson.hints.length);
  return <section className="adventure" aria-label="Build Your Own Adventure">
   {place&&<nav className="breadcrumb" aria-label="Breadcrumb"><ol><li><a href="/courses">Courses</a></li><li><a href={`/courses/${place.course.id}`}>{place.course.title}</a></li><li aria-current="page">Unit {unitNumber(place.unit)}: {place.unit.title}</li></ol></nav>}
   <div className="chapter-heading"><div><p className="eyebrow">UNIT 01 · BUILD SOMETHING THAT IS YOURS</p><h1>Build Your Own <span>Adventure.</span></h1><p>Five small quests. One story only you could make.</p></div><div className="xp"><strong>{completed*100} XP</strong><span>{completed} of 5 badges earned{preview?' · preview session':''}</span></div></div>
@@ -96,11 +116,15 @@ export default function Adventure({preview,onSaved,lessonId}:{preview:boolean;on
     {stage===1&&<><p>Read this working example, one line at a time.</p><pre className="example-code"><code>{lesson.example}</code></pre>{lesson.inputs.length>0&&<p className="reply-note">Player replies: {lesson.exampleInputs.join(' → ')}</p>}<h3>What appears on screen</h3><pre className="output">{lesson.exampleOutput}</pre><p>{lesson.exampleNote}</p></>}
     {stage===2&&<><pre className="example-code"><code>{lesson.example}</code></pre><fieldset className="prediction"><legend>{lesson.question}</legend>{lesson.options.map((option,index)=><button key={option} aria-pressed={prediction===index} onClick={()=>setPrediction(index)}>{option}</button>)}</fieldset>{prediction!==null&&<p className="feedback" role="status">{prediction===lesson.answer?'That’s it! ':'Let’s look again. '}{lesson.why}</p>}</>}
     {stage===3&&<><World chapter={selected}/><p className="lead">{lesson.guided}</p><p>The working example is in your editor. Experiment freely—you can always reset it.</p></>}
-    {stage===4&&<><p className="lead">{lesson.challenge}</p><p className="reward-note">Complete the challenge to earn the {lesson.badge} badge and 100 XP.</p><button onClick={()=>setHints(x=>Math.min(3,x+1))} disabled={hints===3}>{hints===3?'All hints shown':'Show next hint'}</button><div aria-live="polite">{lesson.hints.slice(0,hints).map((hint,i)=><p className="hint" key={hint}><strong>Hint {i+1}.</strong> {hint}</p>)}</div></>}
+    {stage===4&&<><p className="lead">{lesson.challenge}</p><p className="reward-note">Complete the challenge to earn the {lesson.badge} badge and 100 XP.</p><p className="muted">Hints are beside your code. Take them one at a time, only if you want them.</p></>}
    </div>
-   {stage>=3&&<section className="editor-panel" aria-label="Python playground"><div className="editor-top"><span>story.py</span><span>Python playground</span></div><label htmlFor="code">Your Python code</label><textarea id="code" spellCheck={false} rows={11} value={code} disabled={running} aria-describedby="editor-help" onChange={e=>edit(e.target.value)} onKeyDown={e=>{if(e.key==='Tab'&&!e.shiftKey){e.preventDefault();const target=e.currentTarget,start=target.selectionStart,end=target.selectionEnd;edit(code.slice(0,start)+'    '+code.slice(end));requestAnimationFrame(()=>{target.selectionStart=target.selectionEnd=start+4;});}}}/><p id="editor-help" className="muted">Tab inserts four spaces. Shift + Tab leaves the editor.</p>
-    {lesson.inputs.length>0&&<fieldset className="player-replies"><legend>Player replies</legend><p>input() reads these in order. Prompts ask for your replies; only print() messages appear in Output.</p>{lesson.inputs.map((label,i)=><label key={label} htmlFor={'reply-'+i}>{label}<input id={'reply-'+i} maxLength={500} disabled={running} value={replies[i]??''} onChange={e=>{setReplies(old=>old.map((v,j)=>j===i?e.target.value:v));setPassed(false);setFeedback('');}}/></label>)}</fieldset>}
-    <div className="actions"><button className="primary" disabled={running} onClick={run}>{running?'Running…':stage===4?'Run & check challenge':'Run Python →'}</button>{running&&<button onClick={()=>{stop();setOutput('Execution stopped.');}}>Stop</button>}<button disabled={running} onClick={()=>{edit(stage===4?lesson.starter:lesson.example);setOutput('');setFeedback('');}}>Reset code</button></div><h3>Output</h3><pre className="output execution-output" aria-live="polite">{output||'Your story will appear here.'}</pre>{feedback&&<p className="feedback" role="status">{feedback}</p>}{error&&<p className="notice" role="alert">{error}</p>}<p className="muted">Python runs in your browser. Challenge checks cover the syntax taught in this chapter; badges mark practice, not mastery.</p>
+   {stage>=3&&<section className="editor-panel" aria-label="Python playground"><div className="editor-top"><span>story.py</span><span>Python playground</span></div><label htmlFor="code">Your Python code</label><CodeEditor code={code} onChange={edit} disabled={running} errorLine={errorLine} describedBy={report?'editor-help code-feedback':'editor-help'} editor={editor}/><p id="editor-help" className="muted">Tab inserts four spaces. Shift + Tab leaves the editor.</p>
+    {lesson.inputs.length>0&&<fieldset className="player-replies"><legend>Player replies</legend><p>input() reads these in order. Prompts ask for your replies; only print() messages appear in Output.</p>{lesson.inputs.map((label,i)=><label key={label} htmlFor={'reply-'+i}>{label}<input id={'reply-'+i} maxLength={500} disabled={running} value={replies[i]??''} onChange={e=>{setReplies(old=>old.map((v,j)=>j===i?e.target.value:v));setPassed(false);if(report?.state!=='execution_error')setReport(null);}}/></label>)}</fieldset>}
+    <div className="actions"><button className="primary" disabled={running} onClick={run}>{running?'Running…':stage===4?'Run & check challenge':'Run Python →'}</button>{running&&<button onClick={()=>{stop();setOutput('Execution stopped.');}}>Stop</button>}<button disabled={running} onClick={()=>{edit(stage===4?lesson.starter:lesson.example);setOutput('');clear();}}>Reset code</button></div><h3>Output</h3><pre className="output execution-output" aria-live="polite">{output||'Your story will appear here.'}</pre>
+    <div id="code-feedback" className={'result'+(report?' '+report.state.replace('_','-'):'')} role="status">{report&&<><p className="result-state">{STATE_LABELS[report.state]}</p>{report.explanation?<><p className="result-title">{withCode(report.explanation.title)}</p>{report.explanation.where&&<p className="result-where">{report.explanation.where}</p>}<p>{withCode(report.explanation.text)}</p></>:<p>{report.text}</p>}</>}</div>
+    {report&&(errorLine||report.python)&&<div className="result-actions">{errorLine&&<button onClick={()=>editor.current&&goToLine(editor.current,errorLine)}>Go to line {errorLine}</button>}{report.python&&<details><summary>Show Python’s message</summary><pre className="python-message">{report.python}</pre></details>}</div>}
+    {stage===4&&<section className="hint-ladder" aria-labelledby="hints-title"><h3 id="hints-title">Hints</h3><ol aria-live="polite">{lesson.hints.slice(0,hints).map((hint,i)=><li className="hint" key={i}><strong>{HINT_LEVELS[i]}.</strong> {hint}</li>)}</ol><button aria-disabled={!moreHints} onClick={()=>{if(moreHints)setHints(x=>x+1);}}>{moreHints?HINT_BUTTONS[hints]:'That is every hint'}</button>{!moreHints&&<p className="muted">There is no answer to reveal: the next step is yours.</p>}</section>}
+    {error&&<p className="notice" role="alert">{error}</p>}<p className="muted">Python runs in your browser. Challenge checks cover the syntax taught in this chapter; badges mark practice, not mastery.</p>
    </section>}
    {passed&&stage===4&&<div className="badge-earned" role="status"><span className="badge-icon" aria-hidden="true">✦</span><div><strong>{lesson.badge} badge earned!</strong><p>{done.includes(lesson.id)?'100 XP for this quest. Repeating it does not add extra XP.':''}{preview?' Preview badge: not saved.':' Your practice is saved.'}</p></div></div>}
    <div className="card-controls"><button disabled={stage===0||running} onClick={()=>move(stage-1)}>← Back</button><span>{stage===4?'Your story. Your pace.':'One idea at a time.'}</span>{stage<4?<button className="primary" disabled={running||(stage===2&&prediction!==lesson.answer)} onClick={()=>move(stage+1)}>{stage===3?'Start my challenge':'Continue →'}</button>:<button className="primary" disabled={!passed||running} onClick={()=>selected<lessons.length-1?choose(selected+1):move(0)}>{selected<lessons.length-1?'Next quest →':'Revisit this quest'}</button>}</div>

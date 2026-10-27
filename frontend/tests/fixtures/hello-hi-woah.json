@@ -1,0 +1,15 @@
+{
+ "about": "What POST /api/check answers for print(\"hi\") then print(\"woah\") on the hello challenge. It passes on purpose (decision 5: no word minimum), and the message says only what was checked. backend/tests/test_honest_checks.py checks this is the real response; frontend/tests/feedback.spec.ts shows it on the page.",
+ "request": {
+  "lesson_id": "hello",
+  "code": "print(\"hi\")\nprint(\"woah\")",
+  "output": "hi\nwoah\n",
+  "inputs": []
+ },
+ "response": {
+  "passed": true,
+  "result": "passed",
+  "feedback": "Python printed your two different messages in order. Read them back: does the first set the scene and the second surprise you? That part is your call.",
+  "assessment": "browser_practice"
+ }
+}
