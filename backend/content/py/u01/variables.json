@@ -1,6 +1,6 @@
 {
   "id": "variables",
-  "version": 2,
+  "version": 3,
   "course": "py",
   "unit": "py.u01",
   "title": "Create your hero",
@@ -50,16 +50,60 @@
       "prompt": "Store a nonempty hero name in hero and a nonempty tool in tool. Print both values by using the variables. You may add labels or combine them into a sentence.",
       "starter": "hero = \"\"\ntool = \"\"\n# Print hero and tool, using the variables\n",
       "hints": [
-        "Give hero and tool your own quoted text values.",
-        "To show a stored value, put the variable name inside print() with no quotes around it, like print(pet) for a variable called pet.",
-        "You can join values into one sentence with +, like print(pet + \" sleeps on the \" + bed). Try the same with your own variables."
+        "This card needs two variables, hero and tool, each holding some text. Then print() shows them.",
+        "Look at the first two lines: put your own words between the empty quotes. Then check your print(): a variable name goes inside it with no quotes.",
+        "With other names: pet = \"___\" stores text, and print(pet) shows it. Do the same with hero and tool."
+      ],
+      "error_hints": [
+        {
+          "tags": [
+            "NameError"
+          ],
+          "text": "Names must be spelled exactly the same each time: hero in print() must match hero where you gave it a value, letter for letter."
+        },
+        {
+          "tags": [
+            "SyntaxError"
+          ],
+          "text": "Text values need matching quotes, like \"Kai\". Variable names inside print() do not."
+        },
+        {
+          "tags": [
+            "variables.uses-variables"
+          ],
+          "text": "If your output shows the words hero and tool instead of your values, remove the quotes around the names inside print()."
+        }
+      ],
+      "similar_example": {
+        "code": "pet = \"Biscuit\"\nbed = \"rug\"\nprint(pet + \" sleeps on the \" + bed)",
+        "note": "Two variables hold text, and print() shows their values by name. Your challenge does the same with hero and tool."
+      },
+      "other_ways": [
+        {
+          "code": "hero = \"Kai\"\ntool = \"rope\"\nprint(f\"{hero} packs a {tool}.\")",
+          "note": "An f-string puts the values straight into the sentence."
+        },
+        {
+          "code": "hero = \"Kai\"\ntool = \"rope\"\nprint(hero, \"has a\", tool)",
+          "note": "print() can take several values separated by commas, and puts a space between them."
+        }
+      ],
+      "messages": [
+        {
+          "id": "variables.uses-variables",
+          "message": "Assign nonempty text to hero and tool, then print their values using the variables. Quoted \"hero\" prints the word, not its stored value."
+        },
+        {
+          "id": "variables.passed",
+          "message": "hero and tool both hold text, and your program prints their values by using the variables. Change one value and run again: does your story change the way you expect?"
+        }
       ],
       "input_labels": [],
       "validator": {
         "id": "bounded-story",
         "version": 2
       },
-      "version": 2
+      "version": 3
     }
   ]
 }

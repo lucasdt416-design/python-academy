@@ -276,7 +276,7 @@ def test_passing_challenge_awards_xp_and_badge_once_and_stores_results():
         attempts = list(db.scalars(select(Attempt).order_by(Attempt.id)))
         assert [a.result for a in attempts] == ['passed', 'passed', 'passed', 'needs_work', 'unsupported']
         awards = list(db.scalars(select(XpAward)))
-        assert [(a.task_id, a.task_version, a.xp, a.source, a.attempt_id) for a in awards] == [('hello.challenge', 2, 100, 'practice', attempts[0].id)]
+        assert [(a.task_id, a.task_version, a.xp, a.source, a.attempt_id) for a in awards] == [('hello.challenge', 3, 100, 'practice', attempts[0].id)]
         assert total_xp(db, uid) == 100
         assert badges(db, uid) == {'py.badge.story-spark'}
     assert client.get('/api/progress').json() == ['hello']
@@ -287,13 +287,13 @@ def test_new_task_or_badge_version_does_not_award_again():
     from app.main import CONTENT
     uid = signin('student')
     lesson = CONTENT['hello']
-    # As production holds it: awarded under challenge v1, before ASSESS-07 made it v2.
+    # As production holds it: awarded under challenge v1, before ASSESS-07 (v2) and ENG-04 part 2a (v3).
     original = lesson.model_copy(update={
         'tasks': [t.model_copy(update={'version': 1}) if t.type == 'challenge' else t for t in lesson.tasks],
         'badge': lesson.badge.model_copy(update={'version': 1}),
     })
     revised = lesson.model_copy(update={'badge': lesson.badge.model_copy(update={'version': 2})})
-    assert lesson.task('challenge').version == 2
+    assert lesson.task('challenge').version == 3
     with Session(engine) as db:
         attempt = Attempt(user_id=uid, lesson_id='hello', code='', output='', passed=True, result='passed')
         db.add(attempt)

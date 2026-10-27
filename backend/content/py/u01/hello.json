@@ -1,6 +1,6 @@
 {
   "id": "hello",
-  "version": 2,
+  "version": 3,
   "course": "py",
   "unit": "py.u01",
   "title": "Open the story",
@@ -50,16 +50,76 @@
       "prompt": "Write two print statements with two different story messages: first a place, then a surprise. The check makes sure you print two different messages that use words; whether they make a good scene is up to you.",
       "starter": "# Describe a location with print()\n# On the next line, print an unexpected event\n",
       "hints": [
-        "Start with lowercase print, followed by parentheses.",
-        "Put one message in matching quotes inside each print call.",
-        "A pattern to complete: print(\"You wake up in ___.\") Then add a second print() with something unexpected."
+        "You need two print() lines: the first describes a place, the second something unexpected.",
+        "Check each line: lowercase print, then parentheses, with your message inside matching quotes.",
+        "A pattern to complete: print(\"You wake up in ___.\") Then add a second print() with your surprise."
+      ],
+      "error_hints": [
+        {
+          "tags": [
+            "SyntaxError"
+          ],
+          "text": "Every opening quote needs a closing quote, and every ( needs a ). Check the end of each line."
+        },
+        {
+          "tags": [
+            "NameError"
+          ],
+          "text": "print is all lowercase, and words need quotes around them. Without quotes, Python reads words as names."
+        },
+        {
+          "tags": [
+            "hello.words"
+          ],
+          "text": "Each message needs words, like the name of a place or something that happens."
+        },
+        {
+          "tags": [
+            "hello.different-lines"
+          ],
+          "text": "Keep your first line as it is, and make the second one about something else that happens."
+        }
+      ],
+      "similar_example": {
+        "code": "print(\"The shop opens at nine.\")",
+        "note": "One print() shows one line of text. Your challenge uses two, with your own words."
+      },
+      "messages": [
+        {
+          "id": "hello.two-lines",
+          "message": "Write two print statements with nonempty messages: one location, then one surprise."
+        },
+        {
+          "id": "hello.words",
+          "message": "Use words for each message: first a place, then something unexpected. Numbers or punctuation on their own don't tell a story."
+        },
+        {
+          "id": "hello.different-lines",
+          "message": "Both lines say the same thing. Change the second one into a surprise."
+        },
+        {
+          "id": "hello.fill-blank",
+          "message": "Fill in the ___ from the hint with your own words."
+        },
+        {
+          "id": "hello.not-the-example",
+          "message": "That's the example from the card. Make it your own: change the place and the surprise."
+        },
+        {
+          "id": "hello.not-a-hint",
+          "message": "That line comes straight from a hint. Change it into your own words."
+        },
+        {
+          "id": "hello.passed",
+          "message": "Python printed your two different messages in order. Read them back: does the first set the scene and the second surprise you? That part is your call."
+        }
       ],
       "input_labels": [],
       "validator": {
         "id": "bounded-story",
         "version": 2
       },
-      "version": 2
+      "version": 3
     }
   ]
 }

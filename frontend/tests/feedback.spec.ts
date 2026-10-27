@@ -1,5 +1,5 @@
 import {test, expect, Page} from '@playwright/test';
-import {HINT_BUTTONS,HINT_LEVELS,OTHER,STOPS,TRANSLATIONS,checkLine,closestName,definedNames,explain,parseError,pythonMessage} from '../app/feedback';
+import {HINT_BUTTONS,HINT_LEVELS,HINT_TEXT,OTHER,STOPS,TRANSLATIONS,checkLine,closestName,definedNames,explain,parseError,pythonMessage} from '../app/feedback';
 // Real error text from the Pyodide worker; the last test below checks it still matches.
 import errors from './fixtures/pyodide-errors.json';
 // The real API answer for print("hi") then print("woah"); backend/tests/test_honest_checks.py checks it.
@@ -128,10 +128,11 @@ test('only a Python error in a check result highlights a line of code', () => {
  expect(checkLine({})).toBeNull();
 });
 
-test('translation templates match the reviewed snapshot, with code patterns of one line at most', () => {
+test('translation templates and hint panel wording match the reviewed snapshot, with code patterns of one line at most', () => {
  // A changed or new message must be updated here too, so every change is visible in review (section 8).
  const now = [...TRANSLATIONS.map(({id, unit, title, text}) => ({id, unit, title, text})), ...Object.values(STOPS).map(({id, title, text}) => ({id, title, text})), {id: OTHER.id, title: OTHER.title, text: OTHER.text}];
- expect(now).toEqual(snapshot);
+ const panel = {id: 'hint-panel', levels: [...HINT_LEVELS], buttons: [...HINT_BUTTONS], ...HINT_TEXT};
+ expect([...now, panel]).toEqual(snapshot);
  for (const {text, title} of now) for (const part of [text, title]) {
   expect(part).not.toContain('\n');
   for (const code of part.split('`').filter((_, i) => i % 2)) expect(code.length, code).toBeLessThanOrEqual(24);
@@ -309,12 +310,14 @@ test('hints appear beside the code one level at a time, in order, with no soluti
   await hints.getByRole('button', {name: HINT_BUTTONS[level]}).click();
   await expect(hints.getByRole('listitem')).toHaveText(lesson.hints.slice(0, level + 1).map((hint, i) => `${HINT_LEVELS[i]}. ${hint}`));
  }
+ // After the approach comes the similar example (ENG-04 part 2a; tests/hints.spec.ts covers it).
+ await hints.getByRole('button', {name: 'Show a similar example'}).click();
  // The button stays, so keyboard focus is not lost, but it reveals nothing more.
  const last = hints.getByRole('button', {name: 'That is every hint'});
  await expect(last).toBeFocused();
  await expect(last).toHaveAttribute('aria-disabled', 'true');
  await page.keyboard.press('Enter');
- await expect(hints.getByRole('listitem')).toHaveCount(3);
+ await expect(hints.getByRole('listitem')).toHaveCount(4);
  await expect(hints).toContainText('There is no answer to reveal');
  await expect(page.getByRole('button', {name: /solution|answer/i})).toHaveCount(0);
 });
