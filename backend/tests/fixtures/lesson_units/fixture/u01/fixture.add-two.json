@@ -1,0 +1,131 @@
+{
+  "id": "fixture.add-two",
+  "version": 1,
+  "course": "fixture",
+  "unit": "fixture.u01",
+  "title": "Add two numbers",
+  "concept": "TEST FIXTURE",
+  "description": "Not course content.",
+  "badge": {
+    "id": "fixture.badge.add-two",
+    "version": 1,
+    "title": "Fixture adder",
+    "category": "practice"
+  },
+  "tasks": [
+    {
+      "id": "fixture.add-two.discover",
+      "type": "discover",
+      "title": "Add two numbers: discover",
+      "body": "Not course content.",
+      "detail": "Test data only."
+    },
+    {
+      "id": "fixture.add-two.example",
+      "type": "example",
+      "code": "a = int(input(\"First? \"))\nb = int(input(\"Second? \"))\nprint(a * b)",
+      "output": "6",
+      "note": "Not course content.",
+      "inputs": [
+        "2",
+        "3"
+      ]
+    },
+    {
+      "id": "fixture.add-two.predict",
+      "type": "predict",
+      "question": "Which is a test?",
+      "options": [
+        "This one",
+        "That one"
+      ],
+      "answer": 0,
+      "why": "Test data."
+    },
+    {
+      "id": "fixture.add-two.guided",
+      "type": "guided",
+      "prompt": "Change one thing and run it."
+    },
+    {
+      "id": "fixture.add-two.challenge",
+      "type": "challenge",
+      "prompt": "Ask for two whole numbers with input() and print their sum.",
+      "starter": "a = int(input(\"First? \"))\n",
+      "hints": [
+        "You need two numbers from input(), turned into whole numbers, and then their sum.",
+        "Look at the line after the starter: ask for the second number the same way.",
+        "With other names: total = x + y adds two numbers, then print(total) shows it."
+      ],
+      "error_hints": [
+        {
+          "tags": [
+            "NameError"
+          ],
+          "text": "Check that every name you print was given a value first, spelled the same way."
+        },
+        {
+          "tags": [
+            "fixture.add-two.case.negative"
+          ],
+          "text": "A negative number is still a number: adding -4 takes 4 away. Check that you add the two replies as they are."
+        }
+      ],
+      "similar_example": {
+        "code": "x = 7\ny = 1\nprint(x - y)",
+        "note": "Two numbers and an operator. Your challenge reads its numbers with input() and adds them."
+      },
+      "other_ways": [
+        {
+          "code": "a = int(input())\nb = int(input())\ntotal = a + b\nprint(total)",
+          "note": "Store the sum in a variable first."
+        }
+      ],
+      "input_labels": [
+        "First number",
+        "Second number"
+      ],
+      "validator": {
+        "id": "browser-tests",
+        "version": 1
+      },
+      "check": {
+        "cases": [
+          {
+            "id": "small",
+            "description": "the numbers 2 and 3",
+            "inputs": [
+              "2",
+              "3"
+            ],
+            "expected": "5"
+          },
+          {
+            "id": "negative",
+            "description": "10 and -4",
+            "inputs": [
+              "10",
+              "-4"
+            ],
+            "expected": "6"
+          },
+          {
+            "id": "large",
+            "description": "two larger numbers",
+            "inputs": [
+              "4096",
+              "2048"
+            ],
+            "expected": "6144",
+            "visibility": "hidden"
+          }
+        ],
+        "require": [
+          "input()",
+          "int()"
+        ],
+        "time_limit_ms": 3000
+      }
+    }
+  ]
+}
