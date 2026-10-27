@@ -17,6 +17,7 @@
       "title": "Build Your Own Adventure",
       "summary": "Output, variables, input, and choices in one connected story.",
       "status": "released",
+      "complete": true,
       "lessons": [
        {
         "id": "hello",
@@ -58,8 +59,9 @@
      {
       "id": "py.u02",
       "title": "Numbers and decisions",
-      "summary": "Arithmetic, whole numbers and decimals, and numbers from input(). Comparisons, Boolean logic and elif come next.",
+      "summary": "Arithmetic, whole numbers and decimals, numbers from input(), comparisons, Boolean logic and elif.",
       "status": "released",
+      "complete": true,
       "lessons": [
        {
         "id": "py.arithmetic",
@@ -81,6 +83,27 @@
         "concept": "Conversion · int(input())",
         "description": "Turn the player's replies into numbers, and keep score when a riddle is solved or missed.",
         "badge": "Riddle scorer"
+       },
+       {
+        "id": "py.compare",
+        "title": "Too high or too low?",
+        "concept": "Comparisons · < > <= >= == !=",
+        "description": "Compare the player's guess with the riddle keeper's secret number.",
+        "badge": "Riddle judge"
+       },
+       {
+        "id": "py.boolean-logic",
+        "title": "Close enough?",
+        "concept": "Logic · and, or, not",
+        "description": "Decide whether a guess is close or out of range by joining comparisons together.",
+        "badge": "Close call"
+       },
+       {
+        "id": "py.elif",
+        "title": "The riddle keeper's verdict",
+        "concept": "Decisions · elif",
+        "description": "Give points for a guess by how close it is, choosing exactly one branch.",
+        "badge": "Fair verdict"
        }
       ]
      },
@@ -89,6 +112,7 @@
       "title": "Repeat and explore",
       "summary": "while and for loops that always finish.",
       "status": "coming_soon",
+      "complete": false,
       "lessons": []
      },
      {
@@ -96,6 +120,7 @@
       "title": "Keep track of a world",
       "summary": "Lists, dictionaries, and sets.",
       "status": "coming_soon",
+      "complete": false,
       "lessons": []
      },
      {
@@ -103,6 +128,7 @@
       "title": "Organize your code",
       "summary": "Functions, parameters, return values, and scope.",
       "status": "coming_soon",
+      "complete": false,
       "lessons": []
      },
      {
@@ -110,6 +136,7 @@
       "title": "Recover and investigate",
       "summary": "Tracebacks, debugging, and exceptions.",
       "status": "coming_soon",
+      "complete": false,
       "lessons": []
      },
      {
@@ -117,6 +144,7 @@
       "title": "Libraries and modules",
       "summary": "Importing and using the standard library.",
       "status": "coming_soon",
+      "complete": false,
       "lessons": []
      },
      {
@@ -124,6 +152,7 @@
       "title": "Trust your changes",
       "summary": "Tests, boundaries, and refactoring.",
       "status": "coming_soon",
+      "complete": false,
       "lessons": []
      },
      {
@@ -131,6 +160,7 @@
       "title": "Save and load",
       "summary": "Text files, JSON, and CSV.",
       "status": "coming_soon",
+      "complete": false,
       "lessons": []
      },
      {
@@ -138,6 +168,7 @@
       "title": "Patterns in text",
       "summary": "String methods and regular expressions.",
       "status": "coming_soon",
+      "complete": false,
       "lessons": []
      },
      {
@@ -145,6 +176,7 @@
       "title": "Model a larger program",
       "summary": "Classes and composition.",
       "status": "coming_soon",
+      "complete": false,
       "lessons": []
      },
      {
@@ -152,6 +184,7 @@
       "title": "Final project",
       "summary": "Plan, build, test, and explain a project of your own.",
       "status": "coming_soon",
+      "complete": false,
       "lessons": []
      }
     ]
@@ -182,6 +215,7 @@
       "title": "Idea to MVP",
       "summary": "Cut an idea down to a minimum viable product.",
       "status": "coming_soon",
+      "complete": false,
       "lessons": []
      },
      {
@@ -189,6 +223,7 @@
       "title": "Time-boxing",
       "summary": "Plan in fixed time blocks and know what to drop.",
       "status": "coming_soon",
+      "complete": false,
       "lessons": []
      },
      {
@@ -196,6 +231,7 @@
       "title": "Teamwork with Git branches",
       "summary": "Feature branches, small pull requests, and reviews.",
       "status": "coming_soon",
+      "complete": false,
       "lessons": []
      },
      {
@@ -203,6 +239,7 @@
       "title": "Using public APIs safely",
       "summary": "Rate limits, terms of use, and keeping keys out of frontend code.",
       "status": "coming_soon",
+      "complete": false,
       "lessons": []
      },
      {
@@ -210,6 +247,7 @@
       "title": "Quick UI prototyping",
       "summary": "From a paper sketch to a minimal working interface.",
       "status": "coming_soon",
+      "complete": false,
       "lessons": []
      },
      {
@@ -217,6 +255,7 @@
       "title": "Demo and pitching",
       "summary": "A two-minute demo that shows what works.",
       "status": "coming_soon",
+      "complete": false,
       "lessons": []
      },
      {
@@ -224,6 +263,7 @@
       "title": "Judging criteria",
       "summary": "How projects are judged, and assessing your own honestly.",
       "status": "coming_soon",
+      "complete": false,
       "lessons": []
      }
     ]
@@ -660,6 +700,301 @@
      {
       "code": "score = int(input(\"Score? \"))\npoints = int(input(\"Points? \") or \"0\")\nprint(score + points)\nprint(score - points)",
       "note": "or picks \"0\" when the reply is empty. A later lesson explains or properly."
+     }
+    ],
+    "course": "py",
+    "unit": "py.u02",
+    "check": "browser-tests"
+   },
+   {
+    "id": "py.compare",
+    "title": "Too high or too low?",
+    "concept": "Comparisons · < > <= >= == !=",
+    "badge": "Riddle judge",
+    "description": "Compare the player's guess with the riddle keeper's secret number.",
+    "learnTitle": "Compare two numbers",
+    "learn": "A comparison asks Python a yes-or-no question about two values. 7 > 5 is True, and 7 < 5 is False. True and False are values too, so print(7 > 5) shows True.",
+    "detail": "There are six comparisons: < (less than), > (greater than), <= (less than or equal to), >= (greater than or equal to), == (equal to) and != (not equal to). Two equals signs compare; one equals sign stores a value. 5 <= 5 is True, but 5 < 5 is False.",
+    "example": "# The lantern needs at least 3 drops of oil\noil = 5\nprint(oil >= 3)\n# Is the tank completely full at 10?\nprint(oil == 10)\n# Is it empty?\nprint(oil < 1)",
+    "exampleOutput": "True\nFalse\nFalse",
+    "exampleNote": "oil is 5, so oil >= 3 is True. It is not 10, and it is not less than 1, so the other two lines show False.",
+    "question": "If oil were 3, what would print(oil >= 3) show?",
+    "options": [
+     "True",
+     "False"
+    ],
+    "answer": 0,
+    "why": ">= means greater than or equal to. 3 is equal to 3, so the answer is True. print(oil > 3) would show False.",
+    "guided": "Set oil to 3, then to 0. Before each run, predict all three lines, then run and compare. Then change >= to > and see which line changes.",
+    "starter": "# These two lines ask for the secret number and the guess\nsecret = int(input(\"Secret number? \"))\nguess = int(input(\"Your guess? \"))\n# Print True or False: too high, then too low, then exactly right\n",
+    "challenge": "The riddle keeper has a secret number, and the player makes a guess. The starter asks for both. Print three lines, each True or False: is the guess too high, is it too low, and is it exactly right? Print just the three answers. The check tries several guesses, including some you can't see.",
+    "hints": [
+     "Each line is one comparison between guess and secret. print() of a comparison shows True or False.",
+     "Look at the comment. Too high means the guess is bigger than the secret, too low means it is smaller, and right means they are equal. Comparing for equal uses two equals signs.",
+     "A pattern with other names: print(height > limit) shows True when height is over the limit. Your three lines compare guess with secret in three different ways."
+    ],
+    "inputs": [],
+    "exampleInputs": [],
+    "expected": null,
+    "errorHints": [
+     {
+      "tags": [
+       "NameError"
+      ],
+      "text": "Use the names from the starter, secret and guess, spelled exactly the same."
+     },
+     {
+      "tags": [
+       "TypeError"
+      ],
+      "text": "Inside print(), compare with == (two equals signs). A single = inside print() makes Python stop with a TypeError."
+     },
+     {
+      "tags": [
+       "SyntaxError"
+      ],
+      "text": "Each comparison sign is written together with no space inside it: >=, <=, == and !=. Check the line Python points to."
+     },
+     {
+      "tags": [
+       "py.compare.case.higher"
+      ],
+      "text": "With a secret of 7 and a guess of 9, the guess is too high, so the lines are True, False, False. Check the order of your three lines."
+     },
+     {
+      "tags": [
+       "py.compare.case.equal"
+      ],
+      "text": "When the guess equals the secret, it is neither too high nor too low: False, False, True. If your first line says True, you may have used >= where > belongs."
+     },
+     {
+      "tags": [
+       "py.compare.case.below-zero"
+      ],
+      "text": "Your comparisons need to work for every number, including ones below zero. Compare guess with secret instead of checking for particular numbers."
+     },
+     {
+      "tags": [
+       "py.compare.case.large"
+      ],
+      "text": "Compare guess with secret, not with numbers typed into the code, so your program works for every secret."
+     }
+    ],
+    "similarExample": {
+     "code": "speed = 45\nlimit = 50\nprint(speed > limit)\nprint(speed != limit)",
+     "note": "A speed of 45 is not over the limit of 50, so the first line is False, and the two are not equal, so the second line is True. Your challenge compares a guess with a secret number in three ways."
+    },
+    "otherWays": [
+     {
+      "code": "secret = int(input(\"Secret number? \"))\nguess = int(input(\"Your guess? \"))\nprint(secret < guess)\nprint(secret > guess)\nprint(secret == guess)",
+      "note": "A comparison can face the other way: secret < guess means the same as guess > secret."
+     },
+     {
+      "code": "secret = int(input(\"Secret number? \"))\nguess = int(input(\"Your guess? \"))\ntoo_high = guess > secret\ntoo_low = guess < secret\nprint(too_high)\nprint(too_low)\nprint(not too_high and not too_low)",
+      "note": "True or False can be stored in a variable. The last line uses not and and, which the next lesson explains."
+     }
+    ],
+    "course": "py",
+    "unit": "py.u02",
+    "check": "browser-tests"
+   },
+   {
+    "id": "py.boolean-logic",
+    "title": "Close enough?",
+    "concept": "Logic · and, or, not",
+    "badge": "Close call",
+    "description": "Decide whether a guess is close or out of range by joining comparisons together.",
+    "learnTitle": "Join two questions into one",
+    "learn": "and, or and not combine True and False. A and B is True only when both are True. A or B is True when at least one of them is True. not flips True to False, and False to True.",
+    "detail": "Each side of and or or is a whole comparison: write x > 0 and x < 10, not x > 0 and < 10. Python works out the comparisons first, then not, then and, then or. Use parentheses when you want to be sure of the order.",
+    "example": "# The bridge is safe for 2 to 6 travellers\ntravellers = 7\nprint(travellers >= 2 and travellers <= 6)\n# Too few or too many?\nprint(travellers < 2 or travellers > 6)\n# Flip the first answer with not\nprint(not (travellers >= 2 and travellers <= 6))",
+    "exampleOutput": "False\nTrue\nTrue",
+    "exampleNote": "7 is at least 2 but more than 6, so the and line is False. The or line needs only one side to be True, and 7 > 6 is. not flips the first answer from False to True.",
+    "question": "If travellers were 2, what would the first print() show?",
+    "options": [
+     "True",
+     "False"
+    ],
+    "answer": 0,
+    "why": "2 >= 2 is True and 2 <= 6 is True. With and, both sides are True, so the whole line is True.",
+    "guided": "Try travellers = 2, then 6, then 0, and predict the three lines before each run. Then change and to or in the first print(). Find a number of travellers where the answer changes, and explain why.",
+    "starter": "# Ask for the secret number, then the guess, as whole numbers\n# Print True or False: close, out of range, not close\n",
+    "challenge": "The riddle keeper's secret number is always from 1 to 100. Ask for the secret and the guess, as whole numbers. Print three lines, each True or False: is the guess close (no more than 2 away from the secret, on either side); is the guess out of range (below 1 or above 100); and is the guess not close? Print just the three answers.",
+    "hints": [
+     "Three lines, three joined questions. Close needs two comparisons joined with and. Out of range needs two joined with or. The last line flips the first one with not.",
+     "Close means the guess is at least secret - 2 and at most secret + 2. Out of range means below 1 or above 100. Check whether each limit should use < or <=.",
+     "A pattern with other names: print(depth >= low and depth <= high) checks that depth sits between two limits. Putting not ( ) around a question flips its answer."
+    ],
+    "inputs": [],
+    "exampleInputs": [],
+    "expected": null,
+    "errorHints": [
+     {
+      "tags": [
+       "SyntaxError"
+      ],
+      "text": "Each side of and and or needs a whole comparison, like guess >= 1 and guess <= 100. Writing guess >= 1 and <= 100 makes Python stop."
+     },
+     {
+      "tags": [
+       "NameError"
+      ],
+      "text": "Give secret and guess their values from input() before you compare them, and spell them the same each time."
+     },
+     {
+      "tags": [
+       "py.boolean-logic.case.just-outside"
+      ],
+      "text": "A guess of 53 is 3 away from 50, so it is not close. If your first line says True, check whether you joined the two limits with or: or is True when either side is, and here one side always is."
+     },
+     {
+      "tags": [
+       "py.boolean-logic.case.edge-above"
+      ],
+      "text": "52 is exactly 2 away from 50, which still counts as close. Check that your limits use <= and >=, so the edge is included."
+     },
+     {
+      "tags": [
+       "py.boolean-logic.case.below-range"
+      ],
+      "text": "0 is below 1, so it is out of range: True. Out of range needs or, because a guess can't be below 1 and above 100 at the same time."
+     },
+     {
+      "tags": [
+       "py.boolean-logic.case.top-edge"
+      ],
+      "text": "Check both ends of the range: a guess equal to the highest or lowest allowed answer is still in range."
+     },
+     {
+      "tags": [
+       "py.boolean-logic.case.bottom-edge"
+      ],
+      "text": "A guess equal to the lowest allowed answer is still in range, and a guess 1 away from the secret is close. Check each < against <=."
+     }
+    ],
+    "similarExample": {
+     "code": "temperature = 18\nprint(temperature >= 15 and temperature <= 25)\nprint(not temperature > 30)",
+     "note": "18 is between 15 and 25, so the first line is True, and 18 is not over 30, so the second line is True too. Your challenge checks a guess against limits that come from the secret number."
+    },
+    "otherWays": [
+     {
+      "code": "secret = int(input(\"Secret number? \"))\nguess = int(input(\"Your guess? \"))\nclose = secret - 2 <= guess <= secret + 2\nprint(close)\nprint(guess < 1 or guess > 100)\nprint(not close)",
+      "note": "Python lets you chain two comparisons, which reads like maths: low <= x <= high."
+     },
+     {
+      "code": "secret = int(input(\"Secret number? \"))\nguess = int(input(\"Your guess? \"))\ndistance = guess - secret\nclose = distance >= -2 and distance <= 2\nprint(close)\nprint(not (1 <= guess <= 100))\nprint(not close)",
+      "note": "Work out how far away the guess is first. Out of range is the same as not in range."
+     }
+    ],
+    "course": "py",
+    "unit": "py.u02",
+    "check": "browser-tests"
+   },
+   {
+    "id": "py.elif",
+    "title": "The riddle keeper's verdict",
+    "concept": "Decisions · elif",
+    "badge": "Fair verdict",
+    "description": "Give points for a guess by how close it is, choosing exactly one branch.",
+    "learnTitle": "One choice out of many",
+    "learn": "if and else choose between two paths. elif, short for \"else if\", adds more. Python checks each condition from the top and runs only the first block whose condition is True. It skips the rest.",
+    "detail": "Order matters when conditions overlap. A guess that is exactly right is also close, so check for exactly right first. else catches everything the conditions above it did not. Each elif line ends with a colon, and its block is indented by four spaces.",
+    "example": "# Choose a cloak for the weather\ntemperature = 12\nif temperature >= 25:\n    print(\"light cloak\")\nelif temperature >= 10:\n    print(\"wool cloak\")\nelse:\n    print(\"fur cloak\")",
+    "exampleOutput": "wool cloak",
+    "exampleNote": "12 >= 25 is False, so Python moves on. 12 >= 10 is True, so it prints wool cloak and skips else. With 30, only light cloak prints, even though 30 >= 10 is True as well.",
+    "question": "If temperature were 30, what would the program print?",
+    "options": [
+     "light cloak",
+     "light cloak, then wool cloak",
+     "wool cloak"
+    ],
+    "answer": 0,
+    "why": "Python runs only the first block whose condition is True. 30 >= 25 is True, so light cloak prints, and the elif and else are skipped.",
+    "guided": "Predict the cloak for 25, 10 and 9, then run each one. Next, change elif to if, run with 30 and compare: why do two lines print now? Reset code puts the example back.",
+    "starter": "# Ask for the secret number and the guess\n# Print 10, 5, 1 or 0: check the closest case first\n",
+    "challenge": "The riddle keeper gives points for a guess: 10 if it is exactly right, 5 if it is close (no more than 2 away), 1 if it is no more than 10 away, and 0 otherwise. Ask for the secret number and the guess, then print the points. Print just the number.",
+    "hints": [
+     "One guess gets one score. Work out how close the guess is to the secret, then print exactly one of 10, 5, 1 or 0.",
+     "Look at the order of your checks. A guess that is exactly right is also close, so ask about exactly right first, then close, then within 10, and let else give 0.",
+     "A pattern with other names: if age >= 18: with an indented line, then elif age >= 13: with another, then else: with a last one. Your conditions compare the guess with the secret."
+    ],
+    "inputs": [],
+    "exampleInputs": [],
+    "expected": null,
+    "errorHints": [
+     {
+      "tags": [
+       "SyntaxError"
+      ],
+      "text": "if, elif and else lines end with a colon, and comparing for equal uses ==. An elif must come straight after an if block or another elif block."
+     },
+     {
+      "tags": [
+       "IndentationError"
+      ],
+      "text": "The line under each if, elif and else starts with four spaces. Press Tab at the start of the line to add them."
+     },
+     {
+      "tags": [
+       "NameError"
+      ],
+      "text": "Ask for both numbers with input() and give them names before your if line, spelled the same each time."
+     },
+     {
+      "tags": [
+       "py.elif.case.exact"
+      ],
+      "text": "An exactly right guess scores 10, printed once. Separate if statements can all run; in an if and elif chain only the first match does. Put the exact check first."
+     },
+     {
+      "tags": [
+       "py.elif.case.close"
+      ],
+      "text": "42 is 2 away from 40, so it scores 5. If you printed 1, check the order of your conditions. If you printed two numbers, use elif so only one branch runs."
+     },
+     {
+      "tags": [
+       "py.elif.case.near-edge"
+      ],
+      "text": "50 is exactly 10 away from 40, which still scores 1. Check that this limit uses <= or >=, so the edge counts."
+     },
+     {
+      "tags": [
+       "py.elif.case.far"
+      ],
+      "text": "51 is 11 away, more than 10, so it scores 0. else is the place for everything the other branches did not catch."
+     },
+     {
+      "tags": [
+       "py.elif.case.close-below"
+      ],
+      "text": "Guesses below the secret count too: close and within 10 mean on either side. Use and to check both limits, or work out how far away the guess is."
+     },
+     {
+      "tags": [
+       "py.elif.case.far-below"
+      ],
+      "text": "A guess far below the secret scores 0. Check that your within-10 test has a lower limit as well as an upper one."
+     },
+     {
+      "tags": [
+       "py.elif.case.exact-again"
+      ],
+      "text": "Compare guess with secret, not with numbers typed into the code, so your program works for every secret."
+     }
+    ],
+    "similarExample": {
+     "code": "age = 9\nif age < 5:\n    print(0)\nelif age < 13:\n    print(4)\nelse:\n    print(8)",
+     "note": "A ticket price by age: under 5 is free, under 13 costs 4, and everyone else pays 8. A 9 year old matches only the second condition, so only 4 prints. Your challenge has four outcomes and compares two numbers."
+    },
+    "otherWays": [
+     {
+      "code": "secret = int(input(\"Secret number? \"))\nguess = int(input(\"Your guess? \"))\ndistance = abs(guess - secret)\nif distance == 0:\n    print(10)\nelif distance <= 2:\n    print(5)\nelif distance <= 10:\n    print(1)\nelse:\n    print(0)",
+      "note": "abs() gives how far apart two numbers are, ignoring which one is bigger."
+     },
+     {
+      "code": "secret = int(input(\"Secret number? \"))\nguess = int(input(\"Your guess? \"))\npoints = 0\nif guess >= secret - 10 and guess <= secret + 10:\n    points = 1\nif guess >= secret - 2 and guess <= secret + 2:\n    points = 5\nif guess == secret:\n    points = 10\nprint(points)",
+      "note": "Separate if statements work here because each later check replaces the points with a bigger score, and only one number is printed at the end."
      }
     ],
     "course": "py",

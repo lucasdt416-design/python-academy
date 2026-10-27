@@ -1,0 +1,2927 @@
+{
+ "catalog": {
+  "version": 1,
+  "courses": [
+   {
+    "id": "py",
+    "title": "Python Foundations",
+    "summary": "Write your first programs, then grow them into tested, organized projects.",
+    "status": "released",
+    "prerequisites": {
+     "required": [],
+     "suggested": []
+    },
+    "units": [
+     {
+      "id": "py.u01",
+      "title": "Build Your Own Adventure",
+      "summary": "Output, variables, input, and choices in one connected story.",
+      "status": "released",
+      "complete": true,
+      "lessons": [
+       {
+        "id": "hello",
+        "title": "Open the story",
+        "concept": "Output · print()",
+        "description": "Give your adventure a setting and a surprise.",
+        "badge": "Story spark"
+       },
+       {
+        "id": "variables",
+        "title": "Create your hero",
+        "concept": "Variables · strings",
+        "description": "Give the adventure a hero and a useful tool.",
+        "badge": "Character creator"
+       },
+       {
+        "id": "input",
+        "title": "Meet the player",
+        "concept": "Interaction · input()",
+        "description": "Let someone else name the hero.",
+        "badge": "Conversation starter"
+       },
+       {
+        "id": "choices",
+        "title": "Choose a path",
+        "concept": "Decisions · if / else",
+        "description": "Make the story respond to a choice.",
+        "badge": "Path finder"
+       },
+       {
+        "id": "adventure",
+        "title": "Launch your adventure",
+        "concept": "Combine your skills",
+        "description": "Bring a player, a setting, and a choice into one small game.",
+        "badge": "Adventure maker"
+       }
+      ]
+     },
+     {
+      "id": "py.u02",
+      "title": "Numbers and decisions",
+      "summary": "Arithmetic, whole numbers and decimals, numbers from input(), comparisons, Boolean logic and elif.",
+      "status": "released",
+      "complete": true,
+      "lessons": [
+       {
+        "id": "py.arithmetic",
+        "title": "Count the treasure",
+        "concept": "Arithmetic · + - * / // %",
+        "description": "Give your adventure a score, and share out a chest of coins.",
+        "badge": "Treasure counter"
+       },
+       {
+        "id": "py.int-float",
+        "title": "Average the scores",
+        "concept": "Numbers · int and float",
+        "description": "Find the average of two riddle scores, decimals and all.",
+        "badge": "Score keeper"
+       },
+       {
+        "id": "py.convert-input",
+        "title": "Score the riddle",
+        "concept": "Conversion · int(input())",
+        "description": "Turn the player's replies into numbers, and keep score when a riddle is solved or missed.",
+        "badge": "Riddle scorer"
+       },
+       {
+        "id": "py.compare",
+        "title": "Too high or too low?",
+        "concept": "Comparisons · < > <= >= == !=",
+        "description": "Compare the player's guess with the riddle keeper's secret number.",
+        "badge": "Riddle judge"
+       },
+       {
+        "id": "py.boolean-logic",
+        "title": "Close enough?",
+        "concept": "Logic · and, or, not",
+        "description": "Decide whether a guess is close or out of range by joining comparisons together.",
+        "badge": "Close call"
+       },
+       {
+        "id": "py.elif",
+        "title": "The riddle keeper's verdict",
+        "concept": "Decisions · elif",
+        "description": "Give points for a guess by how close it is, choosing exactly one branch.",
+        "badge": "Fair verdict"
+       }
+      ]
+     },
+     {
+      "id": "py.u03",
+      "title": "Repeat and explore",
+      "summary": "while and for loops that always finish.",
+      "status": "coming_soon",
+      "complete": false,
+      "lessons": []
+     },
+     {
+      "id": "py.u04",
+      "title": "Keep track of a world",
+      "summary": "Lists, dictionaries, and sets.",
+      "status": "coming_soon",
+      "complete": false,
+      "lessons": []
+     },
+     {
+      "id": "py.u05",
+      "title": "Organize your code",
+      "summary": "Functions, parameters, return values, and scope.",
+      "status": "coming_soon",
+      "complete": false,
+      "lessons": []
+     },
+     {
+      "id": "py.u06",
+      "title": "Recover and investigate",
+      "summary": "Tracebacks, debugging, and exceptions.",
+      "status": "coming_soon",
+      "complete": false,
+      "lessons": []
+     },
+     {
+      "id": "py.u07",
+      "title": "Libraries and modules",
+      "summary": "Importing and using the standard library.",
+      "status": "coming_soon",
+      "complete": false,
+      "lessons": []
+     },
+     {
+      "id": "py.u08",
+      "title": "Trust your changes",
+      "summary": "Tests, boundaries, and refactoring.",
+      "status": "coming_soon",
+      "complete": false,
+      "lessons": []
+     },
+     {
+      "id": "py.u09",
+      "title": "Save and load",
+      "summary": "Text files, JSON, and CSV.",
+      "status": "coming_soon",
+      "complete": false,
+      "lessons": []
+     },
+     {
+      "id": "py.u10",
+      "title": "Patterns in text",
+      "summary": "String methods and regular expressions.",
+      "status": "coming_soon",
+      "complete": false,
+      "lessons": []
+     },
+     {
+      "id": "py.u11",
+      "title": "Model a larger program",
+      "summary": "Classes and composition.",
+      "status": "coming_soon",
+      "complete": false,
+      "lessons": []
+     },
+     {
+      "id": "py.u12",
+      "title": "Final project",
+      "summary": "Plan, build, test, and explain a project of your own.",
+      "status": "coming_soon",
+      "complete": false,
+      "lessons": []
+     }
+    ]
+   },
+   {
+    "id": "hack",
+    "title": "Hackathon Ready",
+    "summary": "Scope, build, and demo a small working project with a team, against the clock.",
+    "status": "coming_soon",
+    "prerequisites": {
+     "required": [
+      "py.u01",
+      "py.u02",
+      "py.u03",
+      "py.u04",
+      "py.u05",
+      "py.u06",
+      "py.u07"
+     ],
+     "suggested": [
+      "git",
+      "web"
+     ]
+    },
+    "units": [
+     {
+      "id": "hack.u01",
+      "title": "Idea to MVP",
+      "summary": "Cut an idea down to a minimum viable product.",
+      "status": "coming_soon",
+      "complete": false,
+      "lessons": []
+     },
+     {
+      "id": "hack.u02",
+      "title": "Time-boxing",
+      "summary": "Plan in fixed time blocks and know what to drop.",
+      "status": "coming_soon",
+      "complete": false,
+      "lessons": []
+     },
+     {
+      "id": "hack.u03",
+      "title": "Teamwork with Git branches",
+      "summary": "Feature branches, small pull requests, and reviews.",
+      "status": "coming_soon",
+      "complete": false,
+      "lessons": []
+     },
+     {
+      "id": "hack.u04",
+      "title": "Using public APIs safely",
+      "summary": "Rate limits, terms of use, and keeping keys out of frontend code.",
+      "status": "coming_soon",
+      "complete": false,
+      "lessons": []
+     },
+     {
+      "id": "hack.u05",
+      "title": "Quick UI prototyping",
+      "summary": "From a paper sketch to a minimal working interface.",
+      "status": "coming_soon",
+      "complete": false,
+      "lessons": []
+     },
+     {
+      "id": "hack.u06",
+      "title": "Demo and pitching",
+      "summary": "A two-minute demo that shows what works.",
+      "status": "coming_soon",
+      "complete": false,
+      "lessons": []
+     },
+     {
+      "id": "hack.u07",
+      "title": "Judging criteria",
+      "summary": "How projects are judged, and assessing your own honestly.",
+      "status": "coming_soon",
+      "complete": false,
+      "lessons": []
+     }
+    ]
+   },
+   {
+    "id": "git",
+    "title": "Git and GitHub Essentials",
+    "summary": "Track changes, work on branches, and open your first pull request.",
+    "status": "coming_soon",
+    "prerequisites": {
+     "required": [
+      "py.u01"
+     ],
+     "suggested": [
+      "py.u05"
+     ]
+    },
+    "units": []
+   },
+   {
+    "id": "web",
+    "title": "Web Foundations: HTML and CSS",
+    "summary": "Build an accessible, responsive personal website.",
+    "status": "coming_soon",
+    "prerequisites": {
+     "required": [
+      "py.u01",
+      "py.u02",
+      "py.u03"
+     ],
+     "suggested": [
+      "git"
+     ]
+    },
+    "units": []
+   },
+   {
+    "id": "js",
+    "title": "JavaScript and the DOM",
+    "summary": "Make web pages interactive with events and state.",
+    "status": "coming_soon",
+    "prerequisites": {
+     "required": [
+      "web",
+      "py.u01",
+      "py.u02",
+      "py.u03",
+      "py.u04",
+      "py.u05"
+     ],
+     "suggested": [
+      "git"
+     ]
+    },
+    "units": []
+   },
+   {
+    "id": "sql",
+    "title": "Data and SQL",
+    "summary": "Ask questions of real tables with queries, joins, and constraints.",
+    "status": "coming_soon",
+    "prerequisites": {
+     "required": [
+      "py.u01",
+      "py.u02",
+      "py.u03",
+      "py.u04"
+     ],
+     "suggested": [
+      "web"
+     ]
+    },
+    "units": []
+   },
+   {
+    "id": "data",
+    "title": "Data Investigation with Python",
+    "summary": "Answer an original question with a documented dataset.",
+    "status": "coming_soon",
+    "prerequisites": {
+     "required": [
+      "py.u01",
+      "py.u02",
+      "py.u03",
+      "py.u04",
+      "py.u05",
+      "py.u06",
+      "py.u07",
+      "py.u08",
+      "py.u09",
+      "sql"
+     ],
+     "suggested": [
+      "cs"
+     ]
+    },
+    "units": []
+   },
+   {
+    "id": "cs",
+    "title": "Computer Science Foundations",
+    "summary": "Representation, searching, sorting, complexity, and recursion.",
+    "status": "coming_soon",
+    "prerequisites": {
+     "required": [
+      "py.u01",
+      "py.u02",
+      "py.u03",
+      "py.u04",
+      "py.u05"
+     ],
+     "suggested": [
+      "py.u06",
+      "py.u07",
+      "py.u08"
+     ]
+    },
+    "units": []
+   },
+   {
+    "id": "node",
+    "title": "Node.js and APIs",
+    "summary": "Build an API with routes, validation, and a database.",
+    "status": "coming_soon",
+    "prerequisites": {
+     "required": [
+      "js",
+      "sql"
+     ],
+     "suggested": [
+      "git"
+     ]
+    },
+    "units": []
+   },
+   {
+    "id": "fullstack",
+    "title": "Full-Stack Builder",
+    "summary": "Ship a client, API, and database project with automated checks.",
+    "status": "coming_soon",
+    "prerequisites": {
+     "required": [
+      "node",
+      "git"
+     ],
+     "suggested": [
+      "cs"
+     ]
+    },
+    "units": []
+   },
+   {
+    "id": "ce",
+    "title": "Engineering Depth",
+    "summary": "Electives in C and memory, discrete foundations, numerical methods, and embedded simulation.",
+    "status": "coming_soon",
+    "prerequisites": {
+     "required": [
+      "cs",
+      "py"
+     ],
+     "suggested": []
+    },
+    "units": []
+   }
+  ]
+ },
+ "units": {
+  "py.u02": [
+   {
+    "id": "py.arithmetic",
+    "title": "Count the treasure",
+    "concept": "Arithmetic · + - * / // %",
+    "badge": "Treasure counter",
+    "description": "Give your adventure a score, and share out a chest of coins.",
+    "learnTitle": "Python can do the maths",
+    "learn": "Numbers in Python have no quotes around them. + adds, - takes away, * multiplies and / divides. print(3 + 4) shows 7, and a variable can hold a number, like score = 10.",
+    "detail": "Two more operators help when you share things out. // divides and keeps only the whole part: 17 // 5 is 3. % gives what is left over: 17 % 5 is 2. As in maths class, Python works out * and / before + and -. Use parentheses to choose a different order.",
+    "example": "# Work out the hero's score\ngems = 4\ncoins = 13\nscore = gems * 10 + coins\nprint(score)\n# Share the coins between 5 friends\nprint(coins // 5)\nprint(coins % 5)",
+    "exampleOutput": "53\n2\n3",
+    "exampleNote": "Python works out gems * 10 first, so the score is 40 + 13. Then // gives each friend's whole coins, and % gives the coins left over.",
+    "question": "If coins were 14 instead of 13, what would print(coins % 5) show?",
+    "options": [
+     "4",
+     "2",
+     "2.8"
+    ],
+    "answer": 0,
+    "why": "Five friends take 2 coins each, which uses 10 of the 14. % shows what is left over, so it prints 4. 14 // 5 would show 2, and 14 / 5 would show 2.8.",
+    "guided": "Give gems and coins new values. Before you run, predict all three lines, then run and compare. Try a number of coins that shares out exactly between 5, like 15: what does % show then?",
+    "starter": "# These two lines ask for whole numbers (lesson 3 explains how)\ncoins = int(input(\"How many coins? \"))\nfriends = int(input(\"How many friends? \"))\n# Print each friend's whole share, then the coins left over\n",
+    "challenge": "The party opens a chest of coins to share. The starter asks for the number of coins and the number of friends. Print two lines: how many whole coins each friend gets, then how many coins are left over. Print just the two numbers. The check runs your program with several chests, including some you can't see.",
+    "hints": [
+     "You need two results from the same two numbers: the whole coins each friend gets, and the coins left over.",
+     "Look at the comment line. One operator divides and keeps only the whole part; another gives what is left over. Each result goes in its own print().",
+     "A pattern with other names: print(cookies // children) shows each child's whole cookies. For the leftover line, use the operator that gives what is left over."
+    ],
+    "inputs": [],
+    "exampleInputs": [],
+    "expected": null,
+    "errorHints": [
+     {
+      "tags": [
+       "NameError"
+      ],
+      "text": "Use the names the starter made, coins and friends, spelled exactly the same in your print() lines."
+     },
+     {
+      "tags": [
+       "TypeError"
+      ],
+      "text": "Print each number on its own, like print(coins). Joining a number to text with + needs str(), and this check wants only the numbers."
+     },
+     {
+      "tags": [
+       "py.arithmetic.case.even"
+      ],
+      "text": "Compare your first line with 3. A decimal point, like 3.4, means / was used: // keeps only the whole coins. Words on the line? Print just the number."
+     },
+     {
+      "tags": [
+       "py.arithmetic.case.fewer"
+      ],
+      "text": "With 3 coins and 5 friends, nobody gets a whole coin, so the first line is 0 and all 3 coins are left over. A division that rounds up would give 1 instead."
+     },
+     {
+      "tags": [
+       "py.arithmetic.case.big"
+      ],
+      "text": "Your program needs to work for any chest. Use coins and friends in your calculations, not numbers typed into the code."
+     }
+    ],
+    "similarExample": {
+     "code": "start = 9\nlater = start + 14\nprint(later % 12)",
+     "note": "14 hours after 9 o'clock, a 12-hour clock shows 11: % keeps what is left after taking away whole groups of 12. Your challenge makes whole groups too, one share for each friend."
+    },
+    "otherWays": [
+     {
+      "code": "coins = int(input(\"How many coins? \"))\nfriends = int(input(\"How many friends? \"))\nshare, left = divmod(coins, friends)\nprint(share)\nprint(left)",
+      "note": "divmod() works out the whole share and the leftover in one step."
+     },
+     {
+      "code": "coins = int(input(\"How many coins? \"))\nfriends = int(input(\"How many friends? \"))\nshare = coins // friends\nprint(share)\nprint(coins - share * friends)",
+      "note": "The leftover is what remains after every friend takes their share."
+     }
+    ],
+    "course": "py",
+    "unit": "py.u02",
+    "check": "browser-tests"
+   },
+   {
+    "id": "py.int-float",
+    "title": "Average the scores",
+    "concept": "Numbers · int and float",
+    "badge": "Score keeper",
+    "description": "Find the average of two riddle scores, decimals and all.",
+    "learnTitle": "Two kinds of numbers",
+    "learn": "Python has two kinds of numbers. An int is a whole number, like 7 or -3. A float has a decimal point, like 2.5 or 7.0. Dividing with / always gives a float, even when the answer is whole: 6 / 3 is 2.0.",
+    "detail": "When a calculation mixes an int and a float, the answer is a float: 2 + 0.5 is 2.5. int() cuts off the decimal part without rounding, so int(3.9) is 3 and int(-2.5) is -2. A few decimals print oddly, like 0.1 + 0.2 showing 0.30000000000000004. That comes from how computers store decimals, not from a mistake in your code.",
+    "example": "# How long the walk to the market takes\ndistance = 9\nspeed = 2\nhours = distance / speed\nprint(hours)\n# The whole hours, with the decimal part cut off\nprint(int(hours))\n# / gives a float even when the answer is whole\nprint(8 / 2)",
+    "exampleOutput": "4.5\n4\n4.0",
+    "exampleNote": "hours holds the float 4.5. int() cuts off the .5 and gives the int 4. The last line shows 4.0, not 4, because / always gives a float.",
+    "question": "What would print(int(7.9)) display?",
+    "options": [
+     "8",
+     "7",
+     "7.9"
+    ],
+    "answer": 1,
+    "why": "int() cuts off everything after the decimal point; it does not round up. So int(7.9) is 7, even though 7.9 is close to 8.",
+    "guided": "Change distance to 10. Before you run, predict the first line: will it still have a decimal point? Then change the last line to print(8 // 2), predict again, and compare the two answers.",
+    "starter": "# These two lines ask for whole-number scores (lesson 3 explains how)\nfirst = int(input(\"First score? \"))\nsecond = int(input(\"Second score? \"))\n# Work out the average, then print it and its whole part\n",
+    "challenge": "After two riddles, the hero has two scores. A wrong answer can make a score negative. The starter asks for both scores. Print two lines: first the average of the two scores, then the same average with its decimal part cut off by int(). Print just the two numbers.",
+    "hints": [
+     "The average of two scores is their total divided by 2. You print it twice: once as it is, and once with its decimal part cut off.",
+     "Look at the order Python works in: it divides before it adds. Check that your whole total gets divided, not only the second score.",
+     "With other names: total = low + high adds first, and then total / 2 halves it. For your second line, think about which function cuts off the decimal part."
+    ],
+    "inputs": [],
+    "exampleInputs": [],
+    "expected": null,
+    "errorHints": [
+     {
+      "tags": [
+       "NameError"
+      ],
+      "text": "Use the names from the starter, first and second, and give your average a name before you print it."
+     },
+     {
+      "tags": [
+       "TypeError"
+      ],
+      "text": "Print each number on its own, like print(total). Joining a number to text with + needs str(), and this check wants only the numbers."
+     },
+     {
+      "tags": [
+       "py.int-float.case.half"
+      ],
+      "text": "The average of 7 and 8 is 7.5. If your first line says 11.0, Python divided only the second score: put the addition inside parentheses."
+     },
+     {
+      "tags": [
+       "py.int-float.case.negative"
+      ],
+      "text": "With -3 and 2, the average is -0.5. int() cuts off the decimal part, so the second line is 0. The // operator rounds down instead, which gives -1 for negative numbers."
+     },
+     {
+      "tags": [
+       "py.int-float.case.high"
+      ],
+      "text": "Your program needs to work for any two scores. Use first and second in the calculation, not numbers typed into the code."
+     }
+    ],
+    "similarExample": {
+     "code": "morning = 4\nevening = 9\nmiddle = (morning + evening) / 2\nprint(middle)",
+     "note": "Halfway between a morning temperature of 4 and an evening of 9 is 6.5. Your challenge reads its two numbers from the replies, and also prints the whole part."
+    },
+    "otherWays": [
+     {
+      "code": "first = int(input(\"First score? \"))\nsecond = int(input(\"Second score? \"))\ntotal = first + second\nprint(total / 2)\nprint(int(total / 2))",
+      "note": "Keep the total in its own variable first."
+     },
+     {
+      "code": "first = int(input(\"First score? \"))\nsecond = int(input(\"Second score? \"))\naverage = (first + second) * 0.5\nprint(average)\nprint(int(average))",
+      "note": "Multiplying by 0.5 halves a number too, and the answer is also a float."
+     }
+    ],
+    "course": "py",
+    "unit": "py.u02",
+    "check": "browser-tests"
+   },
+   {
+    "id": "py.convert-input",
+    "title": "Score the riddle",
+    "concept": "Conversion · int(input())",
+    "badge": "Riddle scorer",
+    "description": "Turn the player's replies into numbers, and keep score when a riddle is solved or missed.",
+    "learnTitle": "Replies are always text",
+    "learn": "input() always gives back text, even when the player types digits. So \"5\" + \"5\" joins into \"55\" instead of adding up to 10. int(...) turns text like \"12\" into the whole number 12, and float(...) turns \"2.5\" into the decimal 2.5.",
+    "detail": "Wrap the reply in int(), like points = int(input(\"Points? \")). If the reply is not a whole number, such as ten or an empty reply, int() stops with a ValueError. When a reply might be empty, compare it with \"\" before you convert it, as the example on the next card does.",
+    "example": "# Ask for the gold in your pocket, as a whole number\ngold = int(input(\"Gold in your pocket? \"))\n# Ask for the bridge toll; an empty reply means no toll\ntoll = input(\"Toll? \")\nif toll == \"\":\n    toll = \"0\"\n# Turn the toll into a number, then pay it\nprint(gold - int(toll))",
+    "exampleOutput": "15",
+    "exampleNote": "With 20 and 5 as replies, it prints 15. An empty toll becomes the text \"0\" first, so int() has a digit to read. Without int(), Python could not take text away from a number.",
+    "question": "If the player types ten in letters for the gold, what happens?",
+    "options": [
+     "It prints 5",
+     "Python stops with a ValueError",
+     "It prints ten"
+    ],
+    "answer": 1,
+    "why": "int() only understands digits, like \"10\". The letters ten are not a whole number, so Python stops with a ValueError on line 2. You can try it on the next card.",
+    "guided": "Run the example with 20 and 5. Then predict, and run, each of these: an empty toll, and the letters ten as the gold. Last, delete int( and its ) from the gold line, run it, and read the explanation. Reset code puts the example back.",
+    "starter": "# Ask for the score and turn the reply into a whole number\n# Ask for the riddle's points; an empty reply means 0\n# Print the score if solved, then the score if missed\n",
+    "challenge": "The riddle keeper says how many points a riddle is worth. Ask for the hero's score, then for the riddle's points, and turn both replies into whole numbers yourself. Print two lines: the score if the riddle is solved (the points are added), then the score if it is missed (the points are taken away). An empty points reply means a practice riddle worth 0. Print just the two numbers.",
+    "hints": [
+     "Three steps: get the score as a number, get the points as a number (or 0 when the reply is empty), then print the two results.",
+     "Look at the second comment. Keep the points reply as text until you have checked whether it is \"\", and only then turn it into a number.",
+     "A pattern with other names: reply = input(\"Coins? \"), then if reply == \"\": with an indented line that gives reply the text \"0\", then coins = int(reply)."
+    ],
+    "inputs": [
+     "Gold in your pocket",
+     "Toll (a number, or leave it empty)"
+    ],
+    "exampleInputs": [
+     "20",
+     "5"
+    ],
+    "expected": null,
+    "errorHints": [
+     {
+      "tags": [
+       "ValueError"
+      ],
+      "text": "One test leaves the points reply empty, and int() can't turn empty text into a number. Check whether the reply is \"\" before you call int()."
+     },
+     {
+      "tags": [
+       "TypeError"
+      ],
+      "text": "input() gives text. Text can't be taken away from a number, and + joins text instead of adding. Wrap each reply in int(...) before you calculate."
+     },
+     {
+      "tags": [
+       "NameError"
+      ],
+      "text": "Give each name a value before you use it, spelled the same each time. Each input() reply needs a name of its own."
+     },
+     {
+      "tags": [
+       "EOFError"
+      ],
+      "text": "This challenge gives your program two replies: the score, then the points. Use exactly two input() calls."
+     },
+     {
+      "tags": [
+       "py.convert-input.case.solved-missed"
+      ],
+      "text": "With a score of 10 and a riddle worth 3, the first line is 13 (solved) and the second is 7 (missed). Check the order of your two print() lines."
+     },
+     {
+      "tags": [
+       "py.convert-input.case.below-zero"
+      ],
+      "text": "Missing a riddle can take the score below zero: 5 - 8 is -3. Print the result as it is; a negative score is fine here."
+     },
+     {
+      "tags": [
+       "py.convert-input.case.no-points"
+      ],
+      "text": "With an empty points reply, the riddle is worth 0, so both lines show the score unchanged."
+     },
+     {
+      "tags": [
+       "py.convert-input.case.large"
+      ],
+      "text": "Calculate from the replies, not from numbers typed into the code, so your program works for every score."
+     },
+     {
+      "tags": [
+       "py.convert-input.case.from-zero"
+      ],
+      "text": "Every reply counts, even a score of zero. Calculate from the replies rather than checking for particular numbers."
+     }
+    ],
+    "similarExample": {
+     "code": "reply = input(\"Lanterns? \")\nif reply == \"\":\n    reply = \"1\"\nlanterns = int(reply)\nprint(lanterns * 2)",
+     "note": "An empty reply becomes the text \"1\" before int() reads it, so the program never stops. Your challenge uses 0 for an empty reply, and needs two numbers."
+    },
+    "otherWays": [
+     {
+      "code": "score = int(input(\"Score? \"))\npoints = input(\"Points? \")\nif points == \"\":\n    points = 0\nelse:\n    points = int(points)\nprint(score + points)\nprint(score - points)",
+      "note": "if and else can each give points its number."
+     },
+     {
+      "code": "score = int(input(\"Score? \"))\npoints = int(input(\"Points? \") or \"0\")\nprint(score + points)\nprint(score - points)",
+      "note": "or picks \"0\" when the reply is empty. A later lesson explains or properly."
+     }
+    ],
+    "course": "py",
+    "unit": "py.u02",
+    "check": "browser-tests"
+   },
+   {
+    "id": "py.compare",
+    "title": "Too high or too low?",
+    "concept": "Comparisons · < > <= >= == !=",
+    "badge": "Riddle judge",
+    "description": "Compare the player's guess with the riddle keeper's secret number.",
+    "learnTitle": "Compare two numbers",
+    "learn": "A comparison asks Python a yes-or-no question about two values. 7 > 5 is True, and 7 < 5 is False. True and False are values too, so print(7 > 5) shows True.",
+    "detail": "There are six comparisons: < (less than), > (greater than), <= (less than or equal to), >= (greater than or equal to), == (equal to) and != (not equal to). Two equals signs compare; one equals sign stores a value. 5 <= 5 is True, but 5 < 5 is False.",
+    "example": "# The lantern needs at least 3 drops of oil\noil = 5\nprint(oil >= 3)\n# Is the tank completely full at 10?\nprint(oil == 10)\n# Is it empty?\nprint(oil < 1)",
+    "exampleOutput": "True\nFalse\nFalse",
+    "exampleNote": "oil is 5, so oil >= 3 is True. It is not 10, and it is not less than 1, so the other two lines show False.",
+    "question": "If oil were 3, what would print(oil >= 3) show?",
+    "options": [
+     "True",
+     "False"
+    ],
+    "answer": 0,
+    "why": ">= means greater than or equal to. 3 is equal to 3, so the answer is True. print(oil > 3) would show False.",
+    "guided": "Set oil to 3, then to 0. Before each run, predict all three lines, then run and compare. Then change >= to > and see which line changes.",
+    "starter": "# These two lines ask for the secret number and the guess\nsecret = int(input(\"Secret number? \"))\nguess = int(input(\"Your guess? \"))\n# Print True or False: too high, then too low, then exactly right\n",
+    "challenge": "The riddle keeper has a secret number, and the player makes a guess. The starter asks for both. Print three lines, each True or False: is the guess too high, is it too low, and is it exactly right? Print just the three answers. The check tries several guesses, including some you can't see.",
+    "hints": [
+     "Each line is one comparison between guess and secret. print() of a comparison shows True or False.",
+     "Look at the comment. Too high means the guess is bigger than the secret, too low means it is smaller, and right means they are equal. Comparing for equal uses two equals signs.",
+     "A pattern with other names: print(height > limit) shows True when height is over the limit. Your three lines compare guess with secret in three different ways."
+    ],
+    "inputs": [],
+    "exampleInputs": [],
+    "expected": null,
+    "errorHints": [
+     {
+      "tags": [
+       "NameError"
+      ],
+      "text": "Use the names from the starter, secret and guess, spelled exactly the same."
+     },
+     {
+      "tags": [
+       "TypeError"
+      ],
+      "text": "Inside print(), compare with == (two equals signs). A single = inside print() makes Python stop with a TypeError."
+     },
+     {
+      "tags": [
+       "SyntaxError"
+      ],
+      "text": "Each comparison sign is written together with no space inside it: >=, <=, == and !=. Check the line Python points to."
+     },
+     {
+      "tags": [
+       "py.compare.case.higher"
+      ],
+      "text": "With a secret of 7 and a guess of 9, the guess is too high, so the lines are True, False, False. Check the order of your three lines."
+     },
+     {
+      "tags": [
+       "py.compare.case.equal"
+      ],
+      "text": "When the guess equals the secret, it is neither too high nor too low: False, False, True. If your first line says True, you may have used >= where > belongs."
+     },
+     {
+      "tags": [
+       "py.compare.case.below-zero"
+      ],
+      "text": "Your comparisons need to work for every number, including ones below zero. Compare guess with secret instead of checking for particular numbers."
+     },
+     {
+      "tags": [
+       "py.compare.case.large"
+      ],
+      "text": "Compare guess with secret, not with numbers typed into the code, so your program works for every secret."
+     }
+    ],
+    "similarExample": {
+     "code": "speed = 45\nlimit = 50\nprint(speed > limit)\nprint(speed != limit)",
+     "note": "A speed of 45 is not over the limit of 50, so the first line is False, and the two are not equal, so the second line is True. Your challenge compares a guess with a secret number in three ways."
+    },
+    "otherWays": [
+     {
+      "code": "secret = int(input(\"Secret number? \"))\nguess = int(input(\"Your guess? \"))\nprint(secret < guess)\nprint(secret > guess)\nprint(secret == guess)",
+      "note": "A comparison can face the other way: secret < guess means the same as guess > secret."
+     },
+     {
+      "code": "secret = int(input(\"Secret number? \"))\nguess = int(input(\"Your guess? \"))\ntoo_high = guess > secret\ntoo_low = guess < secret\nprint(too_high)\nprint(too_low)\nprint(not too_high and not too_low)",
+      "note": "True or False can be stored in a variable. The last line uses not and and, which the next lesson explains."
+     }
+    ],
+    "course": "py",
+    "unit": "py.u02",
+    "check": "browser-tests"
+   },
+   {
+    "id": "py.boolean-logic",
+    "title": "Close enough?",
+    "concept": "Logic · and, or, not",
+    "badge": "Close call",
+    "description": "Decide whether a guess is close or out of range by joining comparisons together.",
+    "learnTitle": "Join two questions into one",
+    "learn": "and, or and not combine True and False. A and B is True only when both are True. A or B is True when at least one of them is True. not flips True to False, and False to True.",
+    "detail": "Each side of and or or is a whole comparison: write x > 0 and x < 10, not x > 0 and < 10. Python works out the comparisons first, then not, then and, then or. Use parentheses when you want to be sure of the order.",
+    "example": "# The bridge is safe for 2 to 6 travellers\ntravellers = 7\nprint(travellers >= 2 and travellers <= 6)\n# Too few or too many?\nprint(travellers < 2 or travellers > 6)\n# Flip the first answer with not\nprint(not (travellers >= 2 and travellers <= 6))",
+    "exampleOutput": "False\nTrue\nTrue",
+    "exampleNote": "7 is at least 2 but more than 6, so the and line is False. The or line needs only one side to be True, and 7 > 6 is. not flips the first answer from False to True.",
+    "question": "If travellers were 2, what would the first print() show?",
+    "options": [
+     "True",
+     "False"
+    ],
+    "answer": 0,
+    "why": "2 >= 2 is True and 2 <= 6 is True. With and, both sides are True, so the whole line is True.",
+    "guided": "Try travellers = 2, then 6, then 0, and predict the three lines before each run. Then change and to or in the first print(). Find a number of travellers where the answer changes, and explain why.",
+    "starter": "# Ask for the secret number, then the guess, as whole numbers\n# Print True or False: close, out of range, not close\n",
+    "challenge": "The riddle keeper's secret number is always from 1 to 100. Ask for the secret and the guess, as whole numbers. Print three lines, each True or False: is the guess close (no more than 2 away from the secret, on either side); is the guess out of range (below 1 or above 100); and is the guess not close? Print just the three answers.",
+    "hints": [
+     "Three lines, three joined questions. Close needs two comparisons joined with and. Out of range needs two joined with or. The last line flips the first one with not.",
+     "Close means the guess is at least secret - 2 and at most secret + 2. Out of range means below 1 or above 100. Check whether each limit should use < or <=.",
+     "A pattern with other names: print(depth >= low and depth <= high) checks that depth sits between two limits. Putting not ( ) around a question flips its answer."
+    ],
+    "inputs": [],
+    "exampleInputs": [],
+    "expected": null,
+    "errorHints": [
+     {
+      "tags": [
+       "SyntaxError"
+      ],
+      "text": "Each side of and and or needs a whole comparison, like guess >= 1 and guess <= 100. Writing guess >= 1 and <= 100 makes Python stop."
+     },
+     {
+      "tags": [
+       "NameError"
+      ],
+      "text": "Give secret and guess their values from input() before you compare them, and spell them the same each time."
+     },
+     {
+      "tags": [
+       "py.boolean-logic.case.just-outside"
+      ],
+      "text": "A guess of 53 is 3 away from 50, so it is not close. If your first line says True, check whether you joined the two limits with or: or is True when either side is, and here one side always is."
+     },
+     {
+      "tags": [
+       "py.boolean-logic.case.edge-above"
+      ],
+      "text": "52 is exactly 2 away from 50, which still counts as close. Check that your limits use <= and >=, so the edge is included."
+     },
+     {
+      "tags": [
+       "py.boolean-logic.case.below-range"
+      ],
+      "text": "0 is below 1, so it is out of range: True. Out of range needs or, because a guess can't be below 1 and above 100 at the same time."
+     },
+     {
+      "tags": [
+       "py.boolean-logic.case.top-edge"
+      ],
+      "text": "Check both ends of the range: a guess equal to the highest or lowest allowed answer is still in range."
+     },
+     {
+      "tags": [
+       "py.boolean-logic.case.bottom-edge"
+      ],
+      "text": "A guess equal to the lowest allowed answer is still in range, and a guess 1 away from the secret is close. Check each < against <=."
+     }
+    ],
+    "similarExample": {
+     "code": "temperature = 18\nprint(temperature >= 15 and temperature <= 25)\nprint(not temperature > 30)",
+     "note": "18 is between 15 and 25, so the first line is True, and 18 is not over 30, so the second line is True too. Your challenge checks a guess against limits that come from the secret number."
+    },
+    "otherWays": [
+     {
+      "code": "secret = int(input(\"Secret number? \"))\nguess = int(input(\"Your guess? \"))\nclose = secret - 2 <= guess <= secret + 2\nprint(close)\nprint(guess < 1 or guess > 100)\nprint(not close)",
+      "note": "Python lets you chain two comparisons, which reads like maths: low <= x <= high."
+     },
+     {
+      "code": "secret = int(input(\"Secret number? \"))\nguess = int(input(\"Your guess? \"))\ndistance = guess - secret\nclose = distance >= -2 and distance <= 2\nprint(close)\nprint(not (1 <= guess <= 100))\nprint(not close)",
+      "note": "Work out how far away the guess is first. Out of range is the same as not in range."
+     }
+    ],
+    "course": "py",
+    "unit": "py.u02",
+    "check": "browser-tests"
+   },
+   {
+    "id": "py.elif",
+    "title": "The riddle keeper's verdict",
+    "concept": "Decisions · elif",
+    "badge": "Fair verdict",
+    "description": "Give points for a guess by how close it is, choosing exactly one branch.",
+    "learnTitle": "One choice out of many",
+    "learn": "if and else choose between two paths. elif, short for \"else if\", adds more. Python checks each condition from the top and runs only the first block whose condition is True. It skips the rest.",
+    "detail": "Order matters when conditions overlap. A guess that is exactly right is also close, so check for exactly right first. else catches everything the conditions above it did not. Each elif line ends with a colon, and its block is indented by four spaces.",
+    "example": "# Choose a cloak for the weather\ntemperature = 12\nif temperature >= 25:\n    print(\"light cloak\")\nelif temperature >= 10:\n    print(\"wool cloak\")\nelse:\n    print(\"fur cloak\")",
+    "exampleOutput": "wool cloak",
+    "exampleNote": "12 >= 25 is False, so Python moves on. 12 >= 10 is True, so it prints wool cloak and skips else. With 30, only light cloak prints, even though 30 >= 10 is True as well.",
+    "question": "If temperature were 30, what would the program print?",
+    "options": [
+     "light cloak",
+     "light cloak, then wool cloak",
+     "wool cloak"
+    ],
+    "answer": 0,
+    "why": "Python runs only the first block whose condition is True. 30 >= 25 is True, so light cloak prints, and the elif and else are skipped.",
+    "guided": "Predict the cloak for 25, 10 and 9, then run each one. Next, change elif to if, run with 30 and compare: why do two lines print now? Reset code puts the example back.",
+    "starter": "# Ask for the secret number and the guess\n# Print 10, 5, 1 or 0: check the closest case first\n",
+    "challenge": "The riddle keeper gives points for a guess: 10 if it is exactly right, 5 if it is close (no more than 2 away), 1 if it is no more than 10 away, and 0 otherwise. Ask for the secret number and the guess, then print the points. Print just the number.",
+    "hints": [
+     "One guess gets one score. Work out how close the guess is to the secret, then print exactly one of 10, 5, 1 or 0.",
+     "Look at the order of your checks. A guess that is exactly right is also close, so ask about exactly right first, then close, then within 10, and let else give 0.",
+     "A pattern with other names: if age >= 18: with an indented line, then elif age >= 13: with another, then else: with a last one. Your conditions compare the guess with the secret."
+    ],
+    "inputs": [],
+    "exampleInputs": [],
+    "expected": null,
+    "errorHints": [
+     {
+      "tags": [
+       "SyntaxError"
+      ],
+      "text": "if, elif and else lines end with a colon, and comparing for equal uses ==. An elif must come straight after an if block or another elif block."
+     },
+     {
+      "tags": [
+       "IndentationError"
+      ],
+      "text": "The line under each if, elif and else starts with four spaces. Press Tab at the start of the line to add them."
+     },
+     {
+      "tags": [
+       "NameError"
+      ],
+      "text": "Ask for both numbers with input() and give them names before your if line, spelled the same each time."
+     },
+     {
+      "tags": [
+       "py.elif.case.exact"
+      ],
+      "text": "An exactly right guess scores 10, printed once. Separate if statements can all run; in an if and elif chain only the first match does. Put the exact check first."
+     },
+     {
+      "tags": [
+       "py.elif.case.close"
+      ],
+      "text": "42 is 2 away from 40, so it scores 5. If you printed 1, check the order of your conditions. If you printed two numbers, use elif so only one branch runs."
+     },
+     {
+      "tags": [
+       "py.elif.case.near-edge"
+      ],
+      "text": "50 is exactly 10 away from 40, which still scores 1. Check that this limit uses <= or >=, so the edge counts."
+     },
+     {
+      "tags": [
+       "py.elif.case.far"
+      ],
+      "text": "51 is 11 away, more than 10, so it scores 0. else is the place for everything the other branches did not catch."
+     },
+     {
+      "tags": [
+       "py.elif.case.close-below"
+      ],
+      "text": "Guesses below the secret count too: close and within 10 mean on either side. Use and to check both limits, or work out how far away the guess is."
+     },
+     {
+      "tags": [
+       "py.elif.case.far-below"
+      ],
+      "text": "A guess far below the secret scores 0. Check that your within-10 test has a lower limit as well as an upper one."
+     },
+     {
+      "tags": [
+       "py.elif.case.exact-again"
+      ],
+      "text": "Compare guess with secret, not with numbers typed into the code, so your program works for every secret."
+     }
+    ],
+    "similarExample": {
+     "code": "age = 9\nif age < 5:\n    print(0)\nelif age < 13:\n    print(4)\nelse:\n    print(8)",
+     "note": "A ticket price by age: under 5 is free, under 13 costs 4, and everyone else pays 8. A 9 year old matches only the second condition, so only 4 prints. Your challenge has four outcomes and compares two numbers."
+    },
+    "otherWays": [
+     {
+      "code": "secret = int(input(\"Secret number? \"))\nguess = int(input(\"Your guess? \"))\ndistance = abs(guess - secret)\nif distance == 0:\n    print(10)\nelif distance <= 2:\n    print(5)\nelif distance <= 10:\n    print(1)\nelse:\n    print(0)",
+      "note": "abs() gives how far apart two numbers are, ignoring which one is bigger."
+     },
+     {
+      "code": "secret = int(input(\"Secret number? \"))\nguess = int(input(\"Your guess? \"))\npoints = 0\nif guess >= secret - 10 and guess <= secret + 10:\n    points = 1\nif guess >= secret - 2 and guess <= secret + 2:\n    points = 5\nif guess == secret:\n    points = 10\nprint(points)",
+      "note": "Separate if statements work here because each later check replaces the points with a bigger score, and only one number is printed at the end."
+     }
+    ],
+    "course": "py",
+    "unit": "py.u02",
+    "check": "browser-tests"
+   }
+  ]
+ },
+ "plans": {
+  "py.compare": {
+   "lesson_id": "py.compare",
+   "task_id": "py.compare.challenge",
+   "version": 1,
+   "time_limit_ms": 3000,
+   "output_limit": 10000,
+   "cases": [
+    {
+     "id": "higher",
+     "visibility": "visible",
+     "description": "a secret of 7 and a guess of 9",
+     "inputs": [
+      "7",
+      "9"
+     ],
+     "expected": "True\nFalse\nFalse"
+    },
+    {
+     "id": "lower",
+     "visibility": "visible",
+     "description": "a secret of 7 and a guess of 4",
+     "inputs": [
+      "7",
+      "4"
+     ],
+     "expected": "False\nTrue\nFalse"
+    },
+    {
+     "id": "equal",
+     "visibility": "visible",
+     "description": "a secret of 7 and a guess of 7",
+     "inputs": [
+      "7",
+      "7"
+     ],
+     "expected": "False\nFalse\nTrue"
+    },
+    {
+     "id": "one-above",
+     "visibility": "visible",
+     "description": "a secret of 20 and a guess of 21",
+     "inputs": [
+      "20",
+      "21"
+     ],
+     "expected": "True\nFalse\nFalse"
+    },
+    {
+     "id": "below-zero",
+     "visibility": "hidden",
+     "description": "a secret below zero",
+     "inputs": [
+      "-5",
+      "-8"
+     ]
+    },
+    {
+     "id": "large",
+     "visibility": "hidden",
+     "description": "a large secret",
+     "inputs": [
+      "1000",
+      "999"
+     ]
+    }
+   ]
+  },
+  "py.boolean-logic": {
+   "lesson_id": "py.boolean-logic",
+   "task_id": "py.boolean-logic.challenge",
+   "version": 1,
+   "time_limit_ms": 3000,
+   "output_limit": 10000,
+   "cases": [
+    {
+     "id": "edge-above",
+     "visibility": "visible",
+     "description": "a secret of 50 and a guess of 52",
+     "inputs": [
+      "50",
+      "52"
+     ],
+     "expected": "True\nFalse\nFalse"
+    },
+    {
+     "id": "just-outside",
+     "visibility": "visible",
+     "description": "a secret of 50 and a guess of 53",
+     "inputs": [
+      "50",
+      "53"
+     ],
+     "expected": "False\nFalse\nTrue"
+    },
+    {
+     "id": "edge-below",
+     "visibility": "visible",
+     "description": "a secret of 50 and a guess of 48",
+     "inputs": [
+      "50",
+      "48"
+     ],
+     "expected": "True\nFalse\nFalse"
+    },
+    {
+     "id": "below-range",
+     "visibility": "visible",
+     "description": "a secret of 50 and a guess of 0",
+     "inputs": [
+      "50",
+      "0"
+     ],
+     "expected": "False\nTrue\nTrue"
+    },
+    {
+     "id": "above-range",
+     "visibility": "visible",
+     "description": "a secret of 50 and a guess of 101",
+     "inputs": [
+      "50",
+      "101"
+     ],
+     "expected": "False\nTrue\nTrue"
+    },
+    {
+     "id": "top-edge",
+     "visibility": "hidden",
+     "description": "a guess at the top of the range",
+     "inputs": [
+      "99",
+      "100"
+     ]
+    },
+    {
+     "id": "bottom-edge",
+     "visibility": "hidden",
+     "description": "a guess at the bottom of the range",
+     "inputs": [
+      "2",
+      "1"
+     ]
+    }
+   ]
+  },
+  "py.elif": {
+   "lesson_id": "py.elif",
+   "task_id": "py.elif.challenge",
+   "version": 1,
+   "time_limit_ms": 3000,
+   "output_limit": 10000,
+   "cases": [
+    {
+     "id": "exact",
+     "visibility": "visible",
+     "description": "a secret of 40 and a guess of 40",
+     "inputs": [
+      "40",
+      "40"
+     ],
+     "expected": "10"
+    },
+    {
+     "id": "close",
+     "visibility": "visible",
+     "description": "a secret of 40 and a guess of 42",
+     "inputs": [
+      "40",
+      "42"
+     ],
+     "expected": "5"
+    },
+    {
+     "id": "near",
+     "visibility": "visible",
+     "description": "a secret of 40 and a guess of 37",
+     "inputs": [
+      "40",
+      "37"
+     ],
+     "expected": "1"
+    },
+    {
+     "id": "near-edge",
+     "visibility": "visible",
+     "description": "a secret of 40 and a guess of 50",
+     "inputs": [
+      "40",
+      "50"
+     ],
+     "expected": "1"
+    },
+    {
+     "id": "far",
+     "visibility": "visible",
+     "description": "a secret of 40 and a guess of 51",
+     "inputs": [
+      "40",
+      "51"
+     ],
+     "expected": "0"
+    },
+    {
+     "id": "exact-again",
+     "visibility": "hidden",
+     "description": "another secret, guessed exactly",
+     "inputs": [
+      "7",
+      "7"
+     ]
+    },
+    {
+     "id": "close-below",
+     "visibility": "hidden",
+     "description": "a close guess below the secret",
+     "inputs": [
+      "100",
+      "98"
+     ]
+    },
+    {
+     "id": "far-below",
+     "visibility": "hidden",
+     "description": "a guess far below the secret",
+     "inputs": [
+      "12",
+      "-3"
+     ]
+    }
+   ]
+  }
+ },
+ "scenarios": [
+  {
+   "name": "compare passed",
+   "request": {
+    "lesson_id": "py.compare",
+    "code": "secret = int(input(\"Secret number? \"))\nguess = int(input(\"Your guess? \"))\nprint(guess > secret)\nprint(guess < secret)\nprint(guess == secret)\n",
+    "output": "True\nFalse\nFalse\n",
+    "inputs": [],
+    "runs": [
+     {
+      "id": "higher",
+      "status": "ok",
+      "output": "True\nFalse\nFalse\n",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "lower",
+      "status": "ok",
+      "output": "False\nTrue\nFalse\n",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "equal",
+      "status": "ok",
+      "output": "False\nFalse\nTrue\n",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "one-above",
+      "status": "ok",
+      "output": "True\nFalse\nFalse\n",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "below-zero",
+      "status": "ok",
+      "output": "False\nTrue\nFalse\n",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "large",
+      "status": "ok",
+      "output": "False\nTrue\nFalse\n",
+      "error_type": null,
+      "line": null
+     }
+    ]
+   },
+   "response": {
+    "passed": true,
+    "result": "passed",
+    "feedback": "Your program printed the expected output for all 6 test cases, including 2 hidden cases. Read your code once more: could you explain each line to someone else?",
+    "rule": null,
+    "assessment": "browser_tests",
+    "cases": [
+     {
+      "id": "higher",
+      "visibility": "visible",
+      "status": "passed"
+     },
+     {
+      "id": "lower",
+      "visibility": "visible",
+      "status": "passed"
+     },
+     {
+      "id": "equal",
+      "visibility": "visible",
+      "status": "passed"
+     },
+     {
+      "id": "one-above",
+      "visibility": "visible",
+      "status": "passed"
+     },
+     {
+      "id": "below-zero",
+      "visibility": "hidden",
+      "status": "passed"
+     },
+     {
+      "id": "large",
+      "visibility": "hidden",
+      "status": "passed"
+     }
+    ],
+    "failed": null
+   }
+  },
+  {
+   "name": "compare needs_work",
+   "request": {
+    "lesson_id": "py.compare",
+    "code": "secret = int(input(\"Secret number? \"))\nguess = int(input(\"Your guess? \"))\nprint(guess >= secret)\nprint(guess < secret)\nprint(guess == secret)\n",
+    "output": "True\nFalse\nFalse\n",
+    "inputs": [],
+    "runs": [
+     {
+      "id": "higher",
+      "status": "ok",
+      "output": "True\nFalse\nFalse\n",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "lower",
+      "status": "ok",
+      "output": "False\nTrue\nFalse\n",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "equal",
+      "status": "ok",
+      "output": "True\nFalse\nTrue\n",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "one-above",
+      "status": "ok",
+      "output": "True\nFalse\nFalse\n",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "below-zero",
+      "status": "ok",
+      "output": "False\nTrue\nFalse\n",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "large",
+      "status": "ok",
+      "output": "False\nTrue\nFalse\n",
+      "error_type": null,
+      "line": null
+     }
+    ]
+   },
+   "response": {
+    "passed": false,
+    "result": "needs_work",
+    "feedback": "For a secret of 7 and a guess of 7, line 1 should be \"False\", but your program printed \"True\".",
+    "rule": "py.compare.case.equal",
+    "assessment": "browser_tests",
+    "cases": [
+     {
+      "id": "higher",
+      "visibility": "visible",
+      "status": "passed"
+     },
+     {
+      "id": "lower",
+      "visibility": "visible",
+      "status": "passed"
+     },
+     {
+      "id": "equal",
+      "visibility": "visible",
+      "status": "failed"
+     },
+     {
+      "id": "one-above",
+      "visibility": "visible",
+      "status": "passed"
+     },
+     {
+      "id": "below-zero",
+      "visibility": "hidden",
+      "status": "passed"
+     },
+     {
+      "id": "large",
+      "visibility": "hidden",
+      "status": "passed"
+     }
+    ],
+    "failed": {
+     "id": "equal",
+     "visibility": "visible",
+     "description": "a secret of 7 and a guess of 7",
+     "reason": "wrong_output",
+     "error_type": null,
+     "line": null,
+     "line_number": 1,
+     "expected_line": "False",
+     "actual_line": "True"
+    }
+   }
+  },
+  {
+   "name": "compare hidden",
+   "request": {
+    "lesson_id": "py.compare",
+    "code": "secret = int(input(\"Secret number? \"))\nguess = int(input(\"Your guess? \"))\nprint(guess > 7)\nprint(guess < 7)\nprint(guess == 7)\n",
+    "output": "True\nFalse\nFalse\n",
+    "inputs": [],
+    "runs": [
+     {
+      "id": "higher",
+      "status": "ok",
+      "output": "True\nFalse\nFalse\n",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "lower",
+      "status": "ok",
+      "output": "False\nTrue\nFalse\n",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "equal",
+      "status": "ok",
+      "output": "False\nFalse\nTrue\n",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "one-above",
+      "status": "ok",
+      "output": "True\nFalse\nFalse\n",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "below-zero",
+      "status": "ok",
+      "output": "False\nTrue\nFalse\n",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "large",
+      "status": "ok",
+      "output": "True\nFalse\nFalse\n",
+      "error_type": null,
+      "line": null
+     }
+    ]
+   },
+   "response": {
+    "passed": false,
+    "result": "needs_work",
+    "feedback": "Your program printed something different for a large secret (a hidden test case). Check that it works from the replies it is given, not from fixed values.",
+    "rule": "py.compare.case.large",
+    "assessment": "browser_tests",
+    "cases": [
+     {
+      "id": "higher",
+      "visibility": "visible",
+      "status": "passed"
+     },
+     {
+      "id": "lower",
+      "visibility": "visible",
+      "status": "passed"
+     },
+     {
+      "id": "equal",
+      "visibility": "visible",
+      "status": "passed"
+     },
+     {
+      "id": "one-above",
+      "visibility": "visible",
+      "status": "passed"
+     },
+     {
+      "id": "below-zero",
+      "visibility": "hidden",
+      "status": "passed"
+     },
+     {
+      "id": "large",
+      "visibility": "hidden",
+      "status": "failed"
+     }
+    ],
+    "failed": {
+     "id": "large",
+     "visibility": "hidden",
+     "description": "a large secret",
+     "reason": "wrong_output",
+     "error_type": null,
+     "line": null
+    }
+   }
+  },
+  {
+   "name": "compare name error",
+   "request": {
+    "lesson_id": "py.compare",
+    "code": "secret = int(input(\"Secret number? \"))\nguess = int(input(\"Your guess? \"))\nprint(gues > secret)\n",
+    "output": "",
+    "inputs": [],
+    "runs": [
+     {
+      "id": "higher",
+      "status": "error",
+      "output": "",
+      "error_type": "NameError",
+      "line": 3
+     },
+     {
+      "id": "lower",
+      "status": "error",
+      "output": "",
+      "error_type": "NameError",
+      "line": 3
+     },
+     {
+      "id": "equal",
+      "status": "error",
+      "output": "",
+      "error_type": "NameError",
+      "line": 3
+     },
+     {
+      "id": "one-above",
+      "status": "error",
+      "output": "",
+      "error_type": "NameError",
+      "line": 3
+     },
+     {
+      "id": "below-zero",
+      "status": "error",
+      "output": "",
+      "error_type": "NameError",
+      "line": 3
+     },
+     {
+      "id": "large",
+      "status": "error",
+      "output": "",
+      "error_type": "NameError",
+      "line": 3
+     }
+    ]
+   },
+   "response": {
+    "passed": false,
+    "result": "execution_error",
+    "feedback": "Python stopped with NameError on line 3 while running a secret of 7 and a guess of 9. Read the error, change one thing, and run it again.",
+    "rule": null,
+    "assessment": "browser_tests",
+    "cases": [
+     {
+      "id": "higher",
+      "visibility": "visible",
+      "status": "failed"
+     },
+     {
+      "id": "lower",
+      "visibility": "visible",
+      "status": "failed"
+     },
+     {
+      "id": "equal",
+      "visibility": "visible",
+      "status": "failed"
+     },
+     {
+      "id": "one-above",
+      "visibility": "visible",
+      "status": "failed"
+     },
+     {
+      "id": "below-zero",
+      "visibility": "hidden",
+      "status": "failed"
+     },
+     {
+      "id": "large",
+      "visibility": "hidden",
+      "status": "failed"
+     }
+    ],
+    "failed": {
+     "id": "higher",
+     "visibility": "visible",
+     "description": "a secret of 7 and a guess of 9",
+     "reason": "error",
+     "error_type": "NameError",
+     "line": 3
+    }
+   }
+  },
+  {
+   "name": "compare endless loop",
+   "request": {
+    "lesson_id": "py.compare",
+    "code": "secret = int(input(\"Secret number? \"))\nguess = int(input(\"Your guess? \"))\nwhile True:\n    pass\n",
+    "output": "",
+    "inputs": [],
+    "runs": [
+     {
+      "id": "higher",
+      "status": "timeout",
+      "output": "",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "lower",
+      "status": "not_run",
+      "output": "",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "equal",
+      "status": "not_run",
+      "output": "",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "one-above",
+      "status": "not_run",
+      "output": "",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "below-zero",
+      "status": "not_run",
+      "output": "",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "large",
+      "status": "not_run",
+      "output": "",
+      "error_type": null,
+      "line": null
+     }
+    ]
+   },
+   "response": {
+    "passed": false,
+    "result": "execution_error",
+    "feedback": "Your program was still running after 3 seconds on a secret of 7 and a guess of 9, so it was stopped. Check for a loop that never ends.",
+    "rule": null,
+    "assessment": "browser_tests",
+    "cases": [
+     {
+      "id": "higher",
+      "visibility": "visible",
+      "status": "failed"
+     },
+     {
+      "id": "lower",
+      "visibility": "visible",
+      "status": "not_run"
+     },
+     {
+      "id": "equal",
+      "visibility": "visible",
+      "status": "not_run"
+     },
+     {
+      "id": "one-above",
+      "visibility": "visible",
+      "status": "not_run"
+     },
+     {
+      "id": "below-zero",
+      "visibility": "hidden",
+      "status": "not_run"
+     },
+     {
+      "id": "large",
+      "visibility": "hidden",
+      "status": "not_run"
+     }
+    ],
+    "failed": {
+     "id": "higher",
+     "visibility": "visible",
+     "description": "a secret of 7 and a guess of 9",
+     "reason": "timeout",
+     "error_type": null,
+     "line": null
+    }
+   }
+  },
+  {
+   "name": "compare unsupported",
+   "request": {
+    "lesson_id": "py.compare",
+    "code": "import turtle\nsecret = int(input(\"Secret number? \"))\nguess = int(input(\"Your guess? \"))\nprint(guess > secret)\nprint(guess < secret)\nprint(guess == secret)\n",
+    "output": "",
+    "inputs": [],
+    "runs": [
+     {
+      "id": "higher",
+      "status": "error",
+      "output": "",
+      "error_type": "ModuleNotFoundError",
+      "line": 1
+     },
+     {
+      "id": "lower",
+      "status": "error",
+      "output": "",
+      "error_type": "ModuleNotFoundError",
+      "line": 1
+     },
+     {
+      "id": "equal",
+      "status": "error",
+      "output": "",
+      "error_type": "ModuleNotFoundError",
+      "line": 1
+     },
+     {
+      "id": "one-above",
+      "status": "error",
+      "output": "",
+      "error_type": "ModuleNotFoundError",
+      "line": 1
+     },
+     {
+      "id": "below-zero",
+      "status": "error",
+      "output": "",
+      "error_type": "ModuleNotFoundError",
+      "line": 1
+     },
+     {
+      "id": "large",
+      "status": "error",
+      "output": "",
+      "error_type": "ModuleNotFoundError",
+      "line": 1
+     }
+    ]
+   },
+   "response": {
+    "passed": false,
+    "result": "unsupported",
+    "feedback": "These checks run Python's built-in features only, so that import can't be used here.",
+    "rule": null,
+    "assessment": "browser_tests",
+    "cases": [
+     {
+      "id": "higher",
+      "visibility": "visible",
+      "status": "failed"
+     },
+     {
+      "id": "lower",
+      "visibility": "visible",
+      "status": "failed"
+     },
+     {
+      "id": "equal",
+      "visibility": "visible",
+      "status": "failed"
+     },
+     {
+      "id": "one-above",
+      "visibility": "visible",
+      "status": "failed"
+     },
+     {
+      "id": "below-zero",
+      "visibility": "hidden",
+      "status": "failed"
+     },
+     {
+      "id": "large",
+      "visibility": "hidden",
+      "status": "failed"
+     }
+    ],
+    "failed": {
+     "id": "higher",
+     "visibility": "visible",
+     "description": "a secret of 7 and a guess of 9",
+     "reason": "unsupported",
+     "error_type": "ModuleNotFoundError",
+     "line": 1
+    }
+   }
+  },
+  {
+   "name": "boolean passed",
+   "request": {
+    "lesson_id": "py.boolean-logic",
+    "code": "secret = int(input(\"Secret number? \"))\nguess = int(input(\"Your guess? \"))\nclose = guess >= secret - 2 and guess <= secret + 2\nprint(close)\nprint(guess < 1 or guess > 100)\nprint(not close)\n",
+    "output": "True\nFalse\nFalse\n",
+    "inputs": [],
+    "runs": [
+     {
+      "id": "edge-above",
+      "status": "ok",
+      "output": "True\nFalse\nFalse\n",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "just-outside",
+      "status": "ok",
+      "output": "False\nFalse\nTrue\n",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "edge-below",
+      "status": "ok",
+      "output": "True\nFalse\nFalse\n",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "below-range",
+      "status": "ok",
+      "output": "False\nTrue\nTrue\n",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "above-range",
+      "status": "ok",
+      "output": "False\nTrue\nTrue\n",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "top-edge",
+      "status": "ok",
+      "output": "True\nFalse\nFalse\n",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "bottom-edge",
+      "status": "ok",
+      "output": "True\nFalse\nFalse\n",
+      "error_type": null,
+      "line": null
+     }
+    ]
+   },
+   "response": {
+    "passed": true,
+    "result": "passed",
+    "feedback": "Your program printed the expected output for all 7 test cases, including 2 hidden cases. Read your code once more: could you explain each line to someone else?",
+    "rule": null,
+    "assessment": "browser_tests",
+    "cases": [
+     {
+      "id": "edge-above",
+      "visibility": "visible",
+      "status": "passed"
+     },
+     {
+      "id": "just-outside",
+      "visibility": "visible",
+      "status": "passed"
+     },
+     {
+      "id": "edge-below",
+      "visibility": "visible",
+      "status": "passed"
+     },
+     {
+      "id": "below-range",
+      "visibility": "visible",
+      "status": "passed"
+     },
+     {
+      "id": "above-range",
+      "visibility": "visible",
+      "status": "passed"
+     },
+     {
+      "id": "top-edge",
+      "visibility": "hidden",
+      "status": "passed"
+     },
+     {
+      "id": "bottom-edge",
+      "visibility": "hidden",
+      "status": "passed"
+     }
+    ],
+    "failed": null
+   }
+  },
+  {
+   "name": "boolean needs_work",
+   "request": {
+    "lesson_id": "py.boolean-logic",
+    "code": "secret = int(input(\"Secret number? \"))\nguess = int(input(\"Your guess? \"))\nprint(guess >= secret - 2 or guess <= secret + 2)\nprint(guess < 1 or guess > 100)\nprint(not (guess >= secret - 2 or guess <= secret + 2))\n",
+    "output": "True\nFalse\nFalse\n",
+    "inputs": [],
+    "runs": [
+     {
+      "id": "edge-above",
+      "status": "ok",
+      "output": "True\nFalse\nFalse\n",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "just-outside",
+      "status": "ok",
+      "output": "True\nFalse\nFalse\n",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "edge-below",
+      "status": "ok",
+      "output": "True\nFalse\nFalse\n",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "below-range",
+      "status": "ok",
+      "output": "True\nTrue\nFalse\n",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "above-range",
+      "status": "ok",
+      "output": "True\nTrue\nFalse\n",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "top-edge",
+      "status": "ok",
+      "output": "True\nFalse\nFalse\n",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "bottom-edge",
+      "status": "ok",
+      "output": "True\nFalse\nFalse\n",
+      "error_type": null,
+      "line": null
+     }
+    ]
+   },
+   "response": {
+    "passed": false,
+    "result": "needs_work",
+    "feedback": "For a secret of 50 and a guess of 53, line 1 should be \"False\", but your program printed \"True\".",
+    "rule": "py.boolean-logic.case.just-outside",
+    "assessment": "browser_tests",
+    "cases": [
+     {
+      "id": "edge-above",
+      "visibility": "visible",
+      "status": "passed"
+     },
+     {
+      "id": "just-outside",
+      "visibility": "visible",
+      "status": "failed"
+     },
+     {
+      "id": "edge-below",
+      "visibility": "visible",
+      "status": "passed"
+     },
+     {
+      "id": "below-range",
+      "visibility": "visible",
+      "status": "failed"
+     },
+     {
+      "id": "above-range",
+      "visibility": "visible",
+      "status": "failed"
+     },
+     {
+      "id": "top-edge",
+      "visibility": "hidden",
+      "status": "passed"
+     },
+     {
+      "id": "bottom-edge",
+      "visibility": "hidden",
+      "status": "passed"
+     }
+    ],
+    "failed": {
+     "id": "just-outside",
+     "visibility": "visible",
+     "description": "a secret of 50 and a guess of 53",
+     "reason": "wrong_output",
+     "error_type": null,
+     "line": null,
+     "line_number": 1,
+     "expected_line": "False",
+     "actual_line": "True"
+    }
+   }
+  },
+  {
+   "name": "boolean syntax error",
+   "request": {
+    "lesson_id": "py.boolean-logic",
+    "code": "secret = int(input(\"Secret number? \"))\nguess = int(input(\"Your guess? \"))\nprint(guess >= 1 and <= 100)\n",
+    "output": "",
+    "inputs": [],
+    "runs": [
+     {
+      "id": "edge-above",
+      "status": "error",
+      "output": "",
+      "error_type": "SyntaxError",
+      "line": 3
+     },
+     {
+      "id": "just-outside",
+      "status": "error",
+      "output": "",
+      "error_type": "SyntaxError",
+      "line": 3
+     },
+     {
+      "id": "edge-below",
+      "status": "error",
+      "output": "",
+      "error_type": "SyntaxError",
+      "line": 3
+     },
+     {
+      "id": "below-range",
+      "status": "error",
+      "output": "",
+      "error_type": "SyntaxError",
+      "line": 3
+     },
+     {
+      "id": "above-range",
+      "status": "error",
+      "output": "",
+      "error_type": "SyntaxError",
+      "line": 3
+     },
+     {
+      "id": "top-edge",
+      "status": "error",
+      "output": "",
+      "error_type": "SyntaxError",
+      "line": 3
+     },
+     {
+      "id": "bottom-edge",
+      "status": "error",
+      "output": "",
+      "error_type": "SyntaxError",
+      "line": 3
+     }
+    ]
+   },
+   "response": {
+    "passed": false,
+    "result": "execution_error",
+    "feedback": "Python cannot read line 3 yet. Check matching quotes, parentheses, colons and indentation.",
+    "rule": null,
+    "assessment": "browser_tests",
+    "cases": [],
+    "failed": {
+     "id": null,
+     "reason": "error",
+     "error_type": "SyntaxError",
+     "line": 3
+    }
+   }
+  },
+  {
+   "name": "boolean endless loop",
+   "request": {
+    "lesson_id": "py.boolean-logic",
+    "code": "secret = int(input(\"Secret number? \"))\nguess = int(input(\"Your guess? \"))\nwhile True:\n    pass\n",
+    "output": "",
+    "inputs": [],
+    "runs": [
+     {
+      "id": "edge-above",
+      "status": "timeout",
+      "output": "",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "just-outside",
+      "status": "not_run",
+      "output": "",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "edge-below",
+      "status": "not_run",
+      "output": "",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "below-range",
+      "status": "not_run",
+      "output": "",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "above-range",
+      "status": "not_run",
+      "output": "",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "top-edge",
+      "status": "not_run",
+      "output": "",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "bottom-edge",
+      "status": "not_run",
+      "output": "",
+      "error_type": null,
+      "line": null
+     }
+    ]
+   },
+   "response": {
+    "passed": false,
+    "result": "execution_error",
+    "feedback": "Your program was still running after 3 seconds on a secret of 50 and a guess of 52, so it was stopped. Check for a loop that never ends.",
+    "rule": null,
+    "assessment": "browser_tests",
+    "cases": [
+     {
+      "id": "edge-above",
+      "visibility": "visible",
+      "status": "failed"
+     },
+     {
+      "id": "just-outside",
+      "visibility": "visible",
+      "status": "not_run"
+     },
+     {
+      "id": "edge-below",
+      "visibility": "visible",
+      "status": "not_run"
+     },
+     {
+      "id": "below-range",
+      "visibility": "visible",
+      "status": "not_run"
+     },
+     {
+      "id": "above-range",
+      "visibility": "visible",
+      "status": "not_run"
+     },
+     {
+      "id": "top-edge",
+      "visibility": "hidden",
+      "status": "not_run"
+     },
+     {
+      "id": "bottom-edge",
+      "visibility": "hidden",
+      "status": "not_run"
+     }
+    ],
+    "failed": {
+     "id": "edge-above",
+     "visibility": "visible",
+     "description": "a secret of 50 and a guess of 52",
+     "reason": "timeout",
+     "error_type": null,
+     "line": null
+    }
+   }
+  },
+  {
+   "name": "boolean unsupported",
+   "request": {
+    "lesson_id": "py.boolean-logic",
+    "code": "import turtle\nsecret = int(input(\"Secret number? \"))\nguess = int(input(\"Your guess? \"))\nclose = guess >= secret - 2 and guess <= secret + 2\nprint(close)\nprint(guess < 1 or guess > 100)\nprint(not close)\n",
+    "output": "",
+    "inputs": [],
+    "runs": [
+     {
+      "id": "edge-above",
+      "status": "error",
+      "output": "",
+      "error_type": "ModuleNotFoundError",
+      "line": 1
+     },
+     {
+      "id": "just-outside",
+      "status": "error",
+      "output": "",
+      "error_type": "ModuleNotFoundError",
+      "line": 1
+     },
+     {
+      "id": "edge-below",
+      "status": "error",
+      "output": "",
+      "error_type": "ModuleNotFoundError",
+      "line": 1
+     },
+     {
+      "id": "below-range",
+      "status": "error",
+      "output": "",
+      "error_type": "ModuleNotFoundError",
+      "line": 1
+     },
+     {
+      "id": "above-range",
+      "status": "error",
+      "output": "",
+      "error_type": "ModuleNotFoundError",
+      "line": 1
+     },
+     {
+      "id": "top-edge",
+      "status": "error",
+      "output": "",
+      "error_type": "ModuleNotFoundError",
+      "line": 1
+     },
+     {
+      "id": "bottom-edge",
+      "status": "error",
+      "output": "",
+      "error_type": "ModuleNotFoundError",
+      "line": 1
+     }
+    ]
+   },
+   "response": {
+    "passed": false,
+    "result": "unsupported",
+    "feedback": "These checks run Python's built-in features only, so that import can't be used here.",
+    "rule": null,
+    "assessment": "browser_tests",
+    "cases": [
+     {
+      "id": "edge-above",
+      "visibility": "visible",
+      "status": "failed"
+     },
+     {
+      "id": "just-outside",
+      "visibility": "visible",
+      "status": "failed"
+     },
+     {
+      "id": "edge-below",
+      "visibility": "visible",
+      "status": "failed"
+     },
+     {
+      "id": "below-range",
+      "visibility": "visible",
+      "status": "failed"
+     },
+     {
+      "id": "above-range",
+      "visibility": "visible",
+      "status": "failed"
+     },
+     {
+      "id": "top-edge",
+      "visibility": "hidden",
+      "status": "failed"
+     },
+     {
+      "id": "bottom-edge",
+      "visibility": "hidden",
+      "status": "failed"
+     }
+    ],
+    "failed": {
+     "id": "edge-above",
+     "visibility": "visible",
+     "description": "a secret of 50 and a guess of 52",
+     "reason": "unsupported",
+     "error_type": "ModuleNotFoundError",
+     "line": 1
+    }
+   }
+  },
+  {
+   "name": "elif passed",
+   "request": {
+    "lesson_id": "py.elif",
+    "code": "secret = int(input(\"Secret number? \"))\nguess = int(input(\"Your guess? \"))\nif guess == secret:\n    print(10)\nelif guess >= secret - 2 and guess <= secret + 2:\n    print(5)\nelif guess >= secret - 10 and guess <= secret + 10:\n    print(1)\nelse:\n    print(0)\n",
+    "output": "10\n",
+    "inputs": [],
+    "runs": [
+     {
+      "id": "exact",
+      "status": "ok",
+      "output": "10\n",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "close",
+      "status": "ok",
+      "output": "5\n",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "near",
+      "status": "ok",
+      "output": "1\n",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "near-edge",
+      "status": "ok",
+      "output": "1\n",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "far",
+      "status": "ok",
+      "output": "0\n",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "exact-again",
+      "status": "ok",
+      "output": "10\n",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "close-below",
+      "status": "ok",
+      "output": "5\n",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "far-below",
+      "status": "ok",
+      "output": "0\n",
+      "error_type": null,
+      "line": null
+     }
+    ]
+   },
+   "response": {
+    "passed": true,
+    "result": "passed",
+    "feedback": "Your program printed the expected output for all 8 test cases, including 3 hidden cases. Read your code once more: could you explain each line to someone else?",
+    "rule": null,
+    "assessment": "browser_tests",
+    "cases": [
+     {
+      "id": "exact",
+      "visibility": "visible",
+      "status": "passed"
+     },
+     {
+      "id": "close",
+      "visibility": "visible",
+      "status": "passed"
+     },
+     {
+      "id": "near",
+      "visibility": "visible",
+      "status": "passed"
+     },
+     {
+      "id": "near-edge",
+      "visibility": "visible",
+      "status": "passed"
+     },
+     {
+      "id": "far",
+      "visibility": "visible",
+      "status": "passed"
+     },
+     {
+      "id": "exact-again",
+      "visibility": "hidden",
+      "status": "passed"
+     },
+     {
+      "id": "close-below",
+      "visibility": "hidden",
+      "status": "passed"
+     },
+     {
+      "id": "far-below",
+      "visibility": "hidden",
+      "status": "passed"
+     }
+    ],
+    "failed": null
+   }
+  },
+  {
+   "name": "elif needs_work",
+   "request": {
+    "lesson_id": "py.elif",
+    "code": "secret = int(input(\"Secret number? \"))\nguess = int(input(\"Your guess? \"))\nif guess == secret:\n    print(10)\nif guess >= secret - 2 and guess <= secret + 2:\n    print(5)\nif guess >= secret - 10 and guess <= secret + 10:\n    print(1)\nelse:\n    print(0)\n",
+    "output": "10\n5\n1\n",
+    "inputs": [],
+    "runs": [
+     {
+      "id": "exact",
+      "status": "ok",
+      "output": "10\n5\n1\n",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "close",
+      "status": "ok",
+      "output": "5\n1\n",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "near",
+      "status": "ok",
+      "output": "1\n",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "near-edge",
+      "status": "ok",
+      "output": "1\n",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "far",
+      "status": "ok",
+      "output": "0\n",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "exact-again",
+      "status": "ok",
+      "output": "10\n5\n1\n",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "close-below",
+      "status": "ok",
+      "output": "5\n1\n",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "far-below",
+      "status": "ok",
+      "output": "0\n",
+      "error_type": null,
+      "line": null
+     }
+    ]
+   },
+   "response": {
+    "passed": false,
+    "result": "needs_work",
+    "feedback": "For a secret of 40 and a guess of 40, your program printed an extra line 2: \"5\".",
+    "rule": "py.elif.case.exact",
+    "assessment": "browser_tests",
+    "cases": [
+     {
+      "id": "exact",
+      "visibility": "visible",
+      "status": "failed"
+     },
+     {
+      "id": "close",
+      "visibility": "visible",
+      "status": "failed"
+     },
+     {
+      "id": "near",
+      "visibility": "visible",
+      "status": "passed"
+     },
+     {
+      "id": "near-edge",
+      "visibility": "visible",
+      "status": "passed"
+     },
+     {
+      "id": "far",
+      "visibility": "visible",
+      "status": "passed"
+     },
+     {
+      "id": "exact-again",
+      "visibility": "hidden",
+      "status": "failed"
+     },
+     {
+      "id": "close-below",
+      "visibility": "hidden",
+      "status": "failed"
+     },
+     {
+      "id": "far-below",
+      "visibility": "hidden",
+      "status": "passed"
+     }
+    ],
+    "failed": {
+     "id": "exact",
+     "visibility": "visible",
+     "description": "a secret of 40 and a guess of 40",
+     "reason": "wrong_output",
+     "error_type": null,
+     "line": null,
+     "line_number": 2,
+     "expected_line": null,
+     "actual_line": "5"
+    }
+   }
+  },
+  {
+   "name": "elif indentation error",
+   "request": {
+    "lesson_id": "py.elif",
+    "code": "secret = int(input(\"Secret number? \"))\nguess = int(input(\"Your guess? \"))\nif guess == secret:\nprint(10)\n",
+    "output": "",
+    "inputs": [],
+    "runs": [
+     {
+      "id": "exact",
+      "status": "error",
+      "output": "",
+      "error_type": "IndentationError",
+      "line": 4
+     },
+     {
+      "id": "close",
+      "status": "error",
+      "output": "",
+      "error_type": "IndentationError",
+      "line": 4
+     },
+     {
+      "id": "near",
+      "status": "error",
+      "output": "",
+      "error_type": "IndentationError",
+      "line": 4
+     },
+     {
+      "id": "near-edge",
+      "status": "error",
+      "output": "",
+      "error_type": "IndentationError",
+      "line": 4
+     },
+     {
+      "id": "far",
+      "status": "error",
+      "output": "",
+      "error_type": "IndentationError",
+      "line": 4
+     },
+     {
+      "id": "exact-again",
+      "status": "error",
+      "output": "",
+      "error_type": "IndentationError",
+      "line": 4
+     },
+     {
+      "id": "close-below",
+      "status": "error",
+      "output": "",
+      "error_type": "IndentationError",
+      "line": 4
+     },
+     {
+      "id": "far-below",
+      "status": "error",
+      "output": "",
+      "error_type": "IndentationError",
+      "line": 4
+     }
+    ]
+   },
+   "response": {
+    "passed": false,
+    "result": "execution_error",
+    "feedback": "Python cannot read line 4 yet. Check matching quotes, parentheses, colons and indentation.",
+    "rule": null,
+    "assessment": "browser_tests",
+    "cases": [],
+    "failed": {
+     "id": null,
+     "reason": "error",
+     "error_type": "IndentationError",
+     "line": 4
+    }
+   }
+  },
+  {
+   "name": "elif endless loop",
+   "request": {
+    "lesson_id": "py.elif",
+    "code": "secret = int(input(\"Secret number? \"))\nguess = int(input(\"Your guess? \"))\nwhile True:\n    pass\n",
+    "output": "",
+    "inputs": [],
+    "runs": [
+     {
+      "id": "exact",
+      "status": "timeout",
+      "output": "",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "close",
+      "status": "not_run",
+      "output": "",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "near",
+      "status": "not_run",
+      "output": "",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "near-edge",
+      "status": "not_run",
+      "output": "",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "far",
+      "status": "not_run",
+      "output": "",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "exact-again",
+      "status": "not_run",
+      "output": "",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "close-below",
+      "status": "not_run",
+      "output": "",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "far-below",
+      "status": "not_run",
+      "output": "",
+      "error_type": null,
+      "line": null
+     }
+    ]
+   },
+   "response": {
+    "passed": false,
+    "result": "execution_error",
+    "feedback": "Your program was still running after 3 seconds on a secret of 40 and a guess of 40, so it was stopped. Check for a loop that never ends.",
+    "rule": null,
+    "assessment": "browser_tests",
+    "cases": [
+     {
+      "id": "exact",
+      "visibility": "visible",
+      "status": "failed"
+     },
+     {
+      "id": "close",
+      "visibility": "visible",
+      "status": "not_run"
+     },
+     {
+      "id": "near",
+      "visibility": "visible",
+      "status": "not_run"
+     },
+     {
+      "id": "near-edge",
+      "visibility": "visible",
+      "status": "not_run"
+     },
+     {
+      "id": "far",
+      "visibility": "visible",
+      "status": "not_run"
+     },
+     {
+      "id": "exact-again",
+      "visibility": "hidden",
+      "status": "not_run"
+     },
+     {
+      "id": "close-below",
+      "visibility": "hidden",
+      "status": "not_run"
+     },
+     {
+      "id": "far-below",
+      "visibility": "hidden",
+      "status": "not_run"
+     }
+    ],
+    "failed": {
+     "id": "exact",
+     "visibility": "visible",
+     "description": "a secret of 40 and a guess of 40",
+     "reason": "timeout",
+     "error_type": null,
+     "line": null
+    }
+   }
+  },
+  {
+   "name": "elif unsupported",
+   "request": {
+    "lesson_id": "py.elif",
+    "code": "import turtle\nsecret = int(input(\"Secret number? \"))\nguess = int(input(\"Your guess? \"))\nif guess == secret:\n    print(10)\nelif guess >= secret - 2 and guess <= secret + 2:\n    print(5)\nelif guess >= secret - 10 and guess <= secret + 10:\n    print(1)\nelse:\n    print(0)\n",
+    "output": "",
+    "inputs": [],
+    "runs": [
+     {
+      "id": "exact",
+      "status": "error",
+      "output": "",
+      "error_type": "ModuleNotFoundError",
+      "line": 1
+     },
+     {
+      "id": "close",
+      "status": "error",
+      "output": "",
+      "error_type": "ModuleNotFoundError",
+      "line": 1
+     },
+     {
+      "id": "near",
+      "status": "error",
+      "output": "",
+      "error_type": "ModuleNotFoundError",
+      "line": 1
+     },
+     {
+      "id": "near-edge",
+      "status": "error",
+      "output": "",
+      "error_type": "ModuleNotFoundError",
+      "line": 1
+     },
+     {
+      "id": "far",
+      "status": "error",
+      "output": "",
+      "error_type": "ModuleNotFoundError",
+      "line": 1
+     },
+     {
+      "id": "exact-again",
+      "status": "error",
+      "output": "",
+      "error_type": "ModuleNotFoundError",
+      "line": 1
+     },
+     {
+      "id": "close-below",
+      "status": "error",
+      "output": "",
+      "error_type": "ModuleNotFoundError",
+      "line": 1
+     },
+     {
+      "id": "far-below",
+      "status": "error",
+      "output": "",
+      "error_type": "ModuleNotFoundError",
+      "line": 1
+     }
+    ]
+   },
+   "response": {
+    "passed": false,
+    "result": "unsupported",
+    "feedback": "These checks run Python's built-in features only, so that import can't be used here.",
+    "rule": null,
+    "assessment": "browser_tests",
+    "cases": [
+     {
+      "id": "exact",
+      "visibility": "visible",
+      "status": "failed"
+     },
+     {
+      "id": "close",
+      "visibility": "visible",
+      "status": "failed"
+     },
+     {
+      "id": "near",
+      "visibility": "visible",
+      "status": "failed"
+     },
+     {
+      "id": "near-edge",
+      "visibility": "visible",
+      "status": "failed"
+     },
+     {
+      "id": "far",
+      "visibility": "visible",
+      "status": "failed"
+     },
+     {
+      "id": "exact-again",
+      "visibility": "hidden",
+      "status": "failed"
+     },
+     {
+      "id": "close-below",
+      "visibility": "hidden",
+      "status": "failed"
+     },
+     {
+      "id": "far-below",
+      "visibility": "hidden",
+      "status": "failed"
+     }
+    ],
+    "failed": {
+     "id": "exact",
+     "visibility": "visible",
+     "description": "a secret of 40 and a guess of 40",
+     "reason": "unsupported",
+     "error_type": "ModuleNotFoundError",
+     "line": 1
+    }
+   }
+  }
+ ]
+}

@@ -17,6 +17,7 @@
       "title": "Build Your Own Adventure",
       "summary": "Output, variables, input, and choices in one connected story.",
       "status": "released",
+      "complete": true,
       "lessons": [
        {
         "id": "hello",
@@ -58,8 +59,9 @@
      {
       "id": "py.u02",
       "title": "Numbers and decisions",
-      "summary": "Arithmetic, whole numbers and decimals, and numbers from input(). Comparisons, Boolean logic and elif come next.",
+      "summary": "Arithmetic, whole numbers and decimals, numbers from input(), comparisons, Boolean logic and elif.",
       "status": "released",
+      "complete": true,
       "lessons": [
        {
         "id": "py.arithmetic",
@@ -81,6 +83,27 @@
         "concept": "Conversion · int(input())",
         "description": "Turn the player's replies into numbers, and keep score when a riddle is solved or missed.",
         "badge": "Riddle scorer"
+       },
+       {
+        "id": "py.compare",
+        "title": "Too high or too low?",
+        "concept": "Comparisons · < > <= >= == !=",
+        "description": "Compare the player's guess with the riddle keeper's secret number.",
+        "badge": "Riddle judge"
+       },
+       {
+        "id": "py.boolean-logic",
+        "title": "Close enough?",
+        "concept": "Logic · and, or, not",
+        "description": "Decide whether a guess is close or out of range by joining comparisons together.",
+        "badge": "Close call"
+       },
+       {
+        "id": "py.elif",
+        "title": "The riddle keeper's verdict",
+        "concept": "Decisions · elif",
+        "description": "Give points for a guess by how close it is, choosing exactly one branch.",
+        "badge": "Fair verdict"
        }
       ]
      },
@@ -89,6 +112,7 @@
       "title": "Repeat and explore",
       "summary": "while and for loops that always finish.",
       "status": "coming_soon",
+      "complete": false,
       "lessons": []
      },
      {
@@ -96,6 +120,7 @@
       "title": "Keep track of a world",
       "summary": "Lists, dictionaries, and sets.",
       "status": "coming_soon",
+      "complete": false,
       "lessons": []
      },
      {
@@ -103,6 +128,7 @@
       "title": "Organize your code",
       "summary": "Functions, parameters, return values, and scope.",
       "status": "coming_soon",
+      "complete": false,
       "lessons": []
      },
      {
@@ -110,6 +136,7 @@
       "title": "Recover and investigate",
       "summary": "Tracebacks, debugging, and exceptions.",
       "status": "coming_soon",
+      "complete": false,
       "lessons": []
      },
      {
@@ -117,6 +144,7 @@
       "title": "Libraries and modules",
       "summary": "Importing and using the standard library.",
       "status": "coming_soon",
+      "complete": false,
       "lessons": []
      },
      {
@@ -124,6 +152,7 @@
       "title": "Trust your changes",
       "summary": "Tests, boundaries, and refactoring.",
       "status": "coming_soon",
+      "complete": false,
       "lessons": []
      },
      {
@@ -131,6 +160,7 @@
       "title": "Save and load",
       "summary": "Text files, JSON, and CSV.",
       "status": "coming_soon",
+      "complete": false,
       "lessons": []
      },
      {
@@ -138,6 +168,7 @@
       "title": "Patterns in text",
       "summary": "String methods and regular expressions.",
       "status": "coming_soon",
+      "complete": false,
       "lessons": []
      },
      {
@@ -145,6 +176,7 @@
       "title": "Model a larger program",
       "summary": "Classes and composition.",
       "status": "coming_soon",
+      "complete": false,
       "lessons": []
      },
      {
@@ -152,6 +184,7 @@
       "title": "Final project",
       "summary": "Plan, build, test, and explain a project of your own.",
       "status": "coming_soon",
+      "complete": false,
       "lessons": []
      }
     ]
@@ -182,6 +215,7 @@
       "title": "Idea to MVP",
       "summary": "Cut an idea down to a minimum viable product.",
       "status": "coming_soon",
+      "complete": false,
       "lessons": []
      },
      {
@@ -189,6 +223,7 @@
       "title": "Time-boxing",
       "summary": "Plan in fixed time blocks and know what to drop.",
       "status": "coming_soon",
+      "complete": false,
       "lessons": []
      },
      {
@@ -196,6 +231,7 @@
       "title": "Teamwork with Git branches",
       "summary": "Feature branches, small pull requests, and reviews.",
       "status": "coming_soon",
+      "complete": false,
       "lessons": []
      },
      {
@@ -203,6 +239,7 @@
       "title": "Using public APIs safely",
       "summary": "Rate limits, terms of use, and keeping keys out of frontend code.",
       "status": "coming_soon",
+      "complete": false,
       "lessons": []
      },
      {
@@ -210,6 +247,7 @@
       "title": "Quick UI prototyping",
       "summary": "From a paper sketch to a minimal working interface.",
       "status": "coming_soon",
+      "complete": false,
       "lessons": []
      },
      {
@@ -217,6 +255,7 @@
       "title": "Demo and pitching",
       "summary": "A two-minute demo that shows what works.",
       "status": "coming_soon",
+      "complete": false,
       "lessons": []
      },
      {
@@ -224,6 +263,7 @@
       "title": "Judging criteria",
       "summary": "How projects are judged, and assessing your own honestly.",
       "status": "coming_soon",
+      "complete": false,
       "lessons": []
      }
     ]
@@ -404,6 +444,7 @@
       "title": "TEST FIXTURE unit one",
       "summary": "Test data.",
       "status": "released",
+      "complete": true,
       "lessons": [
        {
         "id": "fixture.add-two",
@@ -419,6 +460,7 @@
       "title": "TEST FIXTURE unit two",
       "summary": "Test data.",
       "status": "released",
+      "complete": true,
       "lessons": [
        {
         "id": "fixture.double",

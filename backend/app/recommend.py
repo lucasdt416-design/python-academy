@@ -6,7 +6,8 @@ advises; learners can open any released course whatever it says.
 """
 from dataclasses import asdict, dataclass
 
-RULES_VERSION = 1
+# 2: a released unit with more lessons coming is not finished, and the notes name what is next (EDU-04 part 2).
+RULES_VERSION = 2
 
 
 @dataclass(frozen=True)
@@ -99,7 +100,9 @@ class _Rules:
         return units
 
     def unit_done(self, unit):
-        return unit.id in self.placed or (unit.status == 'released' and bool(unit.lessons) and all(l in self.completed for l in unit.lessons))
+        # A unit still being written is not done, even when every lesson released so far is.
+        return unit.id in self.placed or (unit.status == 'released' and not unit.more_lessons_coming
+                                          and bool(unit.lessons) and all(l in self.completed for l in unit.lessons))
 
     def units_done(self, units):
         # A course with no units yet (still being planned) is never complete.
@@ -118,9 +121,9 @@ class _Rules:
         for unit in units:
             if self.unit_done(unit):
                 continue
-            if unit.status != 'released':
-                return None
-            return unit, next(l for l in unit.lessons if l not in self.completed)
+            left = [l for l in unit.lessons if l not in self.completed] if unit.status == 'released' else []
+            # Not released yet, or every lesson released so far is done and more are coming.
+            return (unit, left[0]) if left else None
         return None
 
     def started(self, units):
@@ -150,7 +153,10 @@ class _Rules:
         if course.status != 'released':
             return f'{course.title} is next on your path and is coming soon.'
         unit = next(u for u in self.own[step] if not self.unit_done(u))
-        return f'{course.title} unit {int(unit.id.rsplit(".u", 1)[1])} is next on your path and is coming soon.'
+        name = f'{course.title} unit {int(unit.id.rsplit(".u", 1)[1])}, {unit.title},'
+        if unit.status == 'released':
+            return f'{name} has more lessons on the way. You have finished every lesson in it so far.'
+        return f'{name} is next on your path. Its lessons are not written yet.'
 
     def recommendation(self, kind, reason, course, found, notes=()):
         unit, lesson = found

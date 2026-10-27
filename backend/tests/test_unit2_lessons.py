@@ -34,7 +34,7 @@ from case_runner import reports, run, run_program
 
 CATALOG, LESSONS = content.load()
 UNIT_2 = ['py.arithmetic', 'py.int-float', 'py.convert-input']
-PART_2 = ['py.compare', 'py.boolean-logic', 'py.elif']  # the rest of py.u02, proposed for the next PR
+PART_2 = ['py.compare', 'py.boolean-logic', 'py.elif']  # the rest of py.u02 (part 2: tests/test_unit2_part2.py)
 HEADERS = {'origin': 'http://localhost:3000'}
 RECORDED_FILE = Path(__file__).resolve().parents[2] / 'frontend/tests/fixtures/unit2-api.json'
 
@@ -142,14 +142,10 @@ def wrong_program(lesson_id, body):
 
 # The unit and its lessons
 
-def test_unit_2_is_released_with_its_first_three_lessons_in_order():
+def test_part_1_is_the_first_three_lessons_of_unit_2_in_order():
     py = next(c for c in CATALOG.courses if c.id == 'py')
     unit = next(u for u in py.units if u.id == 'py.u02')
-    assert (unit.status, unit.lessons) == ('released', UNIT_2)
-    assert [u.id for u in py.units if u.status == 'released'] == ['py.u01', 'py.u02']
-    assert not set(PART_2) & set(LESSONS), 'part 2 lessons belong to the next PR'
-    # The unit summary says honestly that the rest of the unit is still to come.
-    assert 'come next' in unit.summary
+    assert unit.status == 'released' and unit.lessons[:3] == UNIT_2 and unit.lessons[3:] == PART_2
 
 
 @pytest.mark.parametrize('lesson_id', UNIT_2)
@@ -306,8 +302,10 @@ def fragments(text):
         for j in range(len(tokens) - 1, i - 1, -1):
             piece = text[tokens[i].start():tokens[j].end()].rstrip('.,;')
             if piece.endswith(':'):
+                # elif and else only parse after an if block.
+                before = 'if True:\n    pass\n' if piece.startswith(('elif', 'else')) else ''
                 try:
-                    ast.parse(piece + '\n    pass')
+                    ast.parse(before + piece + '\n    pass')
                 except SyntaxError:
                     continue
                 found.append(piece)
@@ -337,6 +335,23 @@ def hint_pieces(lesson_id):
     return list(dict.fromkeys(p for text in texts for p in fragments(text))), task.similar_example.code.splitlines()
 
 
+def assemble(chosen):
+    """One program from hint pieces in order: a line after a block header is indented, except elif and
+    else, which close the block above them (with pass if it was empty)."""
+    lines = []
+    for piece in chosen:
+        header_above = bool(lines) and lines[-1].endswith(':')
+        if piece.startswith(('elif', 'else')):
+            if header_above:
+                lines.append('    pass')
+            lines.append(piece)
+        else:
+            lines.append(('    ' if header_above else '') + piece)
+    if lines[-1].endswith(':'):
+        lines.append('    pass')
+    return '\n'.join(lines)
+
+
 def candidates(lesson_id):
     """Programs made only from what the hints show, with and without the starter."""
     pieces, example = hint_pieces(lesson_id)
@@ -344,12 +359,7 @@ def candidates(lesson_id):
     programs = set()
     for size in range(1, len(pieces) + 1):
         for chosen in itertools.combinations(pieces, size):
-            lines = []
-            for piece in chosen:
-                lines.append(('    ' if lines and lines[-1].endswith(':') else '') + piece)
-            if lines[-1].endswith(':'):
-                lines.append('    pass')
-            body = '\n'.join(lines)
+            body = assemble(chosen)
             programs.update({body, starter + body})
     whole = '\n'.join(example)
     programs.update({whole, starter + whole, starter + '\n'.join(pieces) + '\n' + whole})
@@ -397,12 +407,8 @@ def test_the_hints_with_the_challenges_own_names_still_do_not_pass(lesson_id):
     programs = {task.starter + example, STARTER_LINES[lesson_id] + example}
     for size in range(1, len(pieces) + 1):
         for chosen in itertools.combinations(pieces, size):
-            lines = []
-            for piece in chosen:
-                lines.append(('    ' if lines and lines[-1].endswith(':') else '') + piece)
-            if lines[-1].endswith(':'):
-                lines.append('    pass')
-            programs.update({task.starter + '\n'.join(lines), task.starter + '\n'.join(lines) + '\n' + example})
+            body = assemble(chosen)
+            programs.update({task.starter + body, task.starter + body + '\n' + example})
     programs = sorted(programs)
     passing = [p for p, r in zip(programs, judge_all(lesson_id, programs)) if r['result'] == 'passed']
     assert passing == []
@@ -456,7 +462,7 @@ def test_no_answer_holds_a_hidden_expected_output(client, lesson_id):
 
 def test_unit_2_is_served_on_its_own_and_unit_1_is_unchanged(client):
     lessons = client.get('/api/units/py.u02/lessons').json()
-    assert [(l['id'], l['course'], l['unit'], l['check']) for l in lessons] == [(i, 'py', 'py.u02', 'browser-tests') for i in UNIT_2]
+    assert [(l['id'], l['course'], l['unit'], l['check']) for l in lessons] == [(i, 'py', 'py.u02', 'browser-tests') for i in UNIT_2 + PART_2]
     assert 'cases' not in json.dumps(lessons)
     legacy = json.loads((Path(__file__).with_name('fixtures') / 'legacy_lessons_v1.json').read_text())
     assert client.get('/api/lessons').json() == legacy

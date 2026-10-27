@@ -1,0 +1,222 @@
+{
+  "id": "py.elif",
+  "version": 1,
+  "course": "py",
+  "unit": "py.u02",
+  "title": "The riddle keeper's verdict",
+  "concept": "Decisions · elif",
+  "description": "Give points for a guess by how close it is, choosing exactly one branch.",
+  "badge": {
+    "id": "py.badge.fair-verdict",
+    "version": 1,
+    "title": "Fair verdict",
+    "category": "practice"
+  },
+  "tasks": [
+    {
+      "id": "py.elif.discover",
+      "type": "discover",
+      "title": "One choice out of many",
+      "body": "if and else choose between two paths. elif, short for \"else if\", adds more. Python checks each condition from the top and runs only the first block whose condition is True. It skips the rest.",
+      "detail": "Order matters when conditions overlap. A guess that is exactly right is also close, so check for exactly right first. else catches everything the conditions above it did not. Each elif line ends with a colon, and its block is indented by four spaces."
+    },
+    {
+      "id": "py.elif.example",
+      "type": "example",
+      "code": "# Choose a cloak for the weather\ntemperature = 12\nif temperature >= 25:\n    print(\"light cloak\")\nelif temperature >= 10:\n    print(\"wool cloak\")\nelse:\n    print(\"fur cloak\")",
+      "output": "wool cloak",
+      "note": "12 >= 25 is False, so Python moves on. 12 >= 10 is True, so it prints wool cloak and skips else. With 30, only light cloak prints, even though 30 >= 10 is True as well.",
+      "inputs": []
+    },
+    {
+      "id": "py.elif.predict",
+      "type": "predict",
+      "question": "If temperature were 30, what would the program print?",
+      "options": [
+        "light cloak",
+        "light cloak, then wool cloak",
+        "wool cloak"
+      ],
+      "answer": 0,
+      "why": "Python runs only the first block whose condition is True. 30 >= 25 is True, so light cloak prints, and the elif and else are skipped."
+    },
+    {
+      "id": "py.elif.guided",
+      "type": "guided",
+      "prompt": "Predict the cloak for 25, 10 and 9, then run each one. Next, change elif to if, run with 30 and compare: why do two lines print now? Reset code puts the example back."
+    },
+    {
+      "id": "py.elif.challenge",
+      "type": "challenge",
+      "prompt": "The riddle keeper gives points for a guess: 10 if it is exactly right, 5 if it is close (no more than 2 away), 1 if it is no more than 10 away, and 0 otherwise. Ask for the secret number and the guess, then print the points. Print just the number.",
+      "starter": "# Ask for the secret number and the guess\n# Print 10, 5, 1 or 0: check the closest case first\n",
+      "hints": [
+        "One guess gets one score. Work out how close the guess is to the secret, then print exactly one of 10, 5, 1 or 0.",
+        "Look at the order of your checks. A guess that is exactly right is also close, so ask about exactly right first, then close, then within 10, and let else give 0.",
+        "A pattern with other names: if age >= 18: with an indented line, then elif age >= 13: with another, then else: with a last one. Your conditions compare the guess with the secret."
+      ],
+      "error_hints": [
+        {
+          "tags": [
+            "SyntaxError"
+          ],
+          "text": "if, elif and else lines end with a colon, and comparing for equal uses ==. An elif must come straight after an if block or another elif block."
+        },
+        {
+          "tags": [
+            "IndentationError"
+          ],
+          "text": "The line under each if, elif and else starts with four spaces. Press Tab at the start of the line to add them."
+        },
+        {
+          "tags": [
+            "NameError"
+          ],
+          "text": "Ask for both numbers with input() and give them names before your if line, spelled the same each time."
+        },
+        {
+          "tags": [
+            "py.elif.case.exact"
+          ],
+          "text": "An exactly right guess scores 10, printed once. Separate if statements can all run; in an if and elif chain only the first match does. Put the exact check first."
+        },
+        {
+          "tags": [
+            "py.elif.case.close"
+          ],
+          "text": "42 is 2 away from 40, so it scores 5. If you printed 1, check the order of your conditions. If you printed two numbers, use elif so only one branch runs."
+        },
+        {
+          "tags": [
+            "py.elif.case.near-edge"
+          ],
+          "text": "50 is exactly 10 away from 40, which still scores 1. Check that this limit uses <= or >=, so the edge counts."
+        },
+        {
+          "tags": [
+            "py.elif.case.far"
+          ],
+          "text": "51 is 11 away, more than 10, so it scores 0. else is the place for everything the other branches did not catch."
+        },
+        {
+          "tags": [
+            "py.elif.case.close-below"
+          ],
+          "text": "Guesses below the secret count too: close and within 10 mean on either side. Use and to check both limits, or work out how far away the guess is."
+        },
+        {
+          "tags": [
+            "py.elif.case.far-below"
+          ],
+          "text": "A guess far below the secret scores 0. Check that your within-10 test has a lower limit as well as an upper one."
+        },
+        {
+          "tags": [
+            "py.elif.case.exact-again"
+          ],
+          "text": "Compare guess with secret, not with numbers typed into the code, so your program works for every secret."
+        }
+      ],
+      "similar_example": {
+        "code": "age = 9\nif age < 5:\n    print(0)\nelif age < 13:\n    print(4)\nelse:\n    print(8)",
+        "note": "A ticket price by age: under 5 is free, under 13 costs 4, and everyone else pays 8. A 9 year old matches only the second condition, so only 4 prints. Your challenge has four outcomes and compares two numbers."
+      },
+      "other_ways": [
+        {
+          "code": "secret = int(input(\"Secret number? \"))\nguess = int(input(\"Your guess? \"))\ndistance = abs(guess - secret)\nif distance == 0:\n    print(10)\nelif distance <= 2:\n    print(5)\nelif distance <= 10:\n    print(1)\nelse:\n    print(0)",
+          "note": "abs() gives how far apart two numbers are, ignoring which one is bigger."
+        },
+        {
+          "code": "secret = int(input(\"Secret number? \"))\nguess = int(input(\"Your guess? \"))\npoints = 0\nif guess >= secret - 10 and guess <= secret + 10:\n    points = 1\nif guess >= secret - 2 and guess <= secret + 2:\n    points = 5\nif guess == secret:\n    points = 10\nprint(points)",
+          "note": "Separate if statements work here because each later check replaces the points with a bigger score, and only one number is printed at the end."
+        }
+      ],
+      "input_labels": [],
+      "check": {
+        "cases": [
+          {
+            "id": "exact",
+            "description": "a secret of 40 and a guess of 40",
+            "inputs": [
+              "40",
+              "40"
+            ],
+            "expected": "10"
+          },
+          {
+            "id": "close",
+            "description": "a secret of 40 and a guess of 42",
+            "inputs": [
+              "40",
+              "42"
+            ],
+            "expected": "5"
+          },
+          {
+            "id": "near",
+            "description": "a secret of 40 and a guess of 37",
+            "inputs": [
+              "40",
+              "37"
+            ],
+            "expected": "1"
+          },
+          {
+            "id": "near-edge",
+            "description": "a secret of 40 and a guess of 50",
+            "inputs": [
+              "40",
+              "50"
+            ],
+            "expected": "1"
+          },
+          {
+            "id": "far",
+            "description": "a secret of 40 and a guess of 51",
+            "inputs": [
+              "40",
+              "51"
+            ],
+            "expected": "0"
+          },
+          {
+            "id": "exact-again",
+            "description": "another secret, guessed exactly",
+            "inputs": [
+              "7",
+              "7"
+            ],
+            "expected": "10",
+            "visibility": "hidden"
+          },
+          {
+            "id": "close-below",
+            "description": "a close guess below the secret",
+            "inputs": [
+              "100",
+              "98"
+            ],
+            "expected": "5",
+            "visibility": "hidden"
+          },
+          {
+            "id": "far-below",
+            "description": "a guess far below the secret",
+            "inputs": [
+              "12",
+              "-3"
+            ],
+            "expected": "0",
+            "visibility": "hidden"
+          }
+        ],
+        "time_limit_ms": 3000
+      },
+      "validator": {
+        "id": "browser-tests",
+        "version": 1
+      },
+      "version": 1
+    }
+  ]
+}
