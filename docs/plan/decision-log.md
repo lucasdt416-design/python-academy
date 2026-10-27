@@ -36,6 +36,7 @@ Terms in **bold** the first time they appear are explained in the [glossary](#gl
 | [11](#chapter-11-honest-checks-assess-07) | ASSESS-07 honest unit 1 checks | #16 | Merged; live check not yet recorded |
 | [12](#chapter-12-checking-code-in-the-browser-eng-03) | ENG-03 browser behaviour checks | #17 | In review when this log was written |
 | [13](#chapter-13-patterns-that-kept-coming-back) | Patterns that kept coming back | — | — |
+| [14](#chapter-14-feedback-a-beginner-can-act-on-eng-04-part-1) | ENG-04 lesson feedback engine, part 1 | #22 | In review when this chapter was written |
 
 ---
 
@@ -601,6 +602,51 @@ These ideas appear in several chapters. They are good candidates for chapters of
 | Say only what was checked | 10, 11 | Feedback and handoffs claim only what the evidence supports, and say what was not verified |
 | Do not guess; measure | 7, 9 | When the live check failed, a diagnostic and a real run found the cause; costs were measured |
 | Privacy by default | 2, 6, 7, 8 | Logs and counters never hold learner code, message text, emails or user IDs |
+
+---
+
+## Chapter 14. Feedback a beginner can act on (ENG-04, part 1)
+
+**Sources:** handoff 15 (branch `feat/lesson-feedback`, still open when this chapter was written); `docs/plan/lesson-feedback.md`.
+
+**What was built:**
+- Friendly explanations for the 19 Python errors in the specification, with Python's own message one click away.
+- The failing line highlighted in the editor, with a marker, the words "Line N" and a "Go to line" button.
+- Results labelled by their state in words, and hints as a three-step ladder beside the code.
+
+### Decisions and why
+
+| Decision | Options considered | Reason |
+| --- | --- | --- |
+| `print("hi")` then `print("woah")` **still passes**; the test checks the pass is honest | Adding a word minimum so it fails, as the task first asked | The owner chose to keep decision 5 (no word minimum) when asked on 2026-10-27. A word minimum would also reject valid short stories |
+| Build sections 4, 5 and 7 now; check rules, tagged hints and predict-first later | One large pull request with all five parts | The other parts need content changes (rule and hint IDs) that should be reviewed on their own |
+| A gutter and highlight layer behind the plain textarea | An editor library such as CodeMirror | No new dependency, as the specification proposes (section 11, decision 1) |
+| Lines in the editor do not wrap | Wrapping, as before | With wrapping, line N of the code is not row N of the gutter, so the highlight would land on the wrong row |
+| The page treats only `result: "passed"` as a pass | Trusting `passed: true` | One source of truth; an unknown state is shown as "Check unavailable" |
+| Number errors (unit 2) get the general message in unit 1 | Always using every translation | The specification says not to teach ahead of the unit |
+| Python's own suggestion is used only for built-ins learners have met | Always repeating Python's suggestion | Python suggests `help` for `hello`, which no learner has met |
+
+### Bugs found and how they were fixed
+
+- **The output limit looked like a disk error.** In unit 1 mode, a program that printed too much stopped with `OSError: [Errno 29] I/O error`, so no message could recognise it. Found while capturing real Pyodide errors for the tests. Fix: the worker now says why it stopped (`outputLimit`); a test guards it.
+- **The wrong line for missing replies, in unit 1 mode.** ENG-03 had fixed this for check cases only: the reply helper also ran as `<exec>`, so a missing reply pointed inside our own helper. Found while reading the worker. Fix: the helper runs as `<academy>` in both modes; the `replies` translation test guards it.
+- **Output before an error was hidden.** The output panel showed Python's message instead of what had already printed. Found while building. Fix: the output stays, and the explanation appears below it.
+- **Keyboard focus was lost after the last hint.** The hint button disappeared, or was disabled, while it had focus. Found in review of the change. Fix: the button stays, marked `aria-disabled`; a browser test checks focus stays on it.
+- **Near-miss while testing:** a local server left running from the screenshots made the test runner stop before running any test. The filtered output showed no results at all, which was checked rather than read as a pass.
+
+### How it was tested
+
+| Kind of test | What it proves |
+| --- | --- |
+| Unit tests on 22 real Pyodide error samples | Each of the 19 translations, the line (inside a function, syntax errors, missing replies) and Python's cleaned message |
+| Fixture check against the live worker | The saved error text still matches what the worker reports, so the unit tests use real text |
+| Snapshot of every message template | Any change to a message is visible in review; code in a message is one line at most |
+| Browser tests with real Pyodide | The highlight is on the right line, "Go to line" moves the cursor, the hint ladder goes in order, nothing looks like a pass unless the check said so, and it fits a phone |
+| API test | The `hi`/`woah` answer used by the browser test is the real API answer |
+| axe-core scan, 6 states × desktop and phone | 0 accessibility violations |
+
+- **Deliberate-break controls:** reading the first traceback frame instead of the last (2 tests failed), ignoring the unit of a translation (1), trusting `passed: true` over the state (1), and moving the highlight one line down (6). Each was undone.
+- **Mocks:** the browser tests mock the API answers; the worker and Python are real.
 
 ---
 

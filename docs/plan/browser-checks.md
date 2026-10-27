@@ -116,6 +116,6 @@ Each run status reported by the browser is one of: `ok`, `error`, `timeout`, `ou
 
 ## 7. Not done here
 
-- **Lesson page:** it still uses the unit 1 flow. Calling the runner, and showing `failed` with highlighting and hints, is ENG-04 together with UI-05.
+- **Lesson page:** it still uses the unit 1 flow. Since ENG-04 part 1 (handoff 15), the page shows a check result by its state and highlights `failed.line` when Python stopped; an output line number is never highlighted as a code line. **Calling the runner from the page comes with UI-05**, because the page only loads unit 1 lessons today, and none of them has a browser check.
 - **Unit 2 content** (EDU-04). The only lesson using this contract is the test fixture in `backend/tests/fixtures/browser_checks/`, which is never shown to learners.
 - **Hosted runner:** a tamper-resistant evaluation service is out of scope (section 5).

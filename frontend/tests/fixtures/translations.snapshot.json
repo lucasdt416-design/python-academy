@@ -1,0 +1,113 @@
+[
+ {
+  "id": "unterminated-string",
+  "unit": 1,
+  "title": "A message is missing its closing quote",
+  "text": "On line {line}, a text message starts with a quote but does not end with one. Add the matching quote before the closing parenthesis."
+ },
+ {
+  "id": "never-closed",
+  "unit": 1,
+  "title": "A parenthesis is still open",
+  "text": "The `(` on line {line} has no matching `)`. Python may notice this on a later line. Add the `)` at the end of that instruction."
+ },
+ {
+  "id": "colon",
+  "unit": 1,
+  "title": "This line needs a colon",
+  "text": "Lines that start a block, like `if path == \"left\"`, end with `:`. Add a colon at the end of line {line}."
+ },
+ {
+  "id": "equals",
+  "unit": 1,
+  "title": "Comparing needs two equals signs",
+  "text": "`=` stores a value; `==` compares two values. On line {line}, use `==` to check whether they are equal."
+ },
+ {
+  "id": "quotes",
+  "unit": 1,
+  "title": "Words need quotes to be text",
+  "text": "Python read the words on line {line} as names, not text. Put the message inside matching quotes."
+ },
+ {
+  "id": "syntax",
+  "unit": 1,
+  "title": "Python cannot read line {line}",
+  "text": "Check the quotes, parentheses and colons on line {line} and the line before it."
+ },
+ {
+  "id": "indent-block",
+  "unit": 1,
+  "title": "The lines inside this `{block}` need indenting",
+  "text": "Lines that belong to an `if` or `else` start with four spaces. Indent line {line}."
+ },
+ {
+  "id": "unexpected-indent",
+  "unit": 1,
+  "title": "This line has extra spaces at the start",
+  "text": "Line {line} starts with spaces but is not inside a block. Remove the spaces at the start of the line."
+ },
+ {
+  "id": "tabs",
+  "unit": 1,
+  "title": "Tabs and spaces are mixed",
+  "text": "Use four spaces for each indent level, not a tab, on line {line}."
+ },
+ {
+  "id": "name-case",
+  "unit": 1,
+  "title": "Python is case-sensitive",
+  "text": "Python knows `{known}`, not `{name}`. Use all lowercase on line {line}."
+ },
+ {
+  "id": "name-typo",
+  "unit": 1,
+  "title": "Python does not know `{name}`",
+  "text": "Did you mean `{closest}`? Names must be spelled exactly the same each time."
+ },
+ {
+  "id": "name-unknown",
+  "unit": 1,
+  "title": "Python does not know `{name}` yet",
+  "text": "Give `{name}` a value earlier in the program, or, if `{name}` is meant to be text, put it in quotes."
+ },
+ {
+  "id": "concat",
+  "unit": 2,
+  "title": "Text and numbers cannot be joined with `+`",
+  "text": "On line {line}, one side of `+` is text and the other is a number. Turn the number into text with `str(...)`, or use an f-string."
+ },
+ {
+  "id": "int-text",
+  "unit": 2,
+  "title": "That text is not a whole number",
+  "text": "`int()` only turns text like `\"7\"` into a number. Check what was typed."
+ },
+ {
+  "id": "zero",
+  "unit": 2,
+  "title": "Division by zero",
+  "text": "A number on line {line} was divided by 0. Check the value before dividing."
+ },
+ {
+  "id": "replies",
+  "unit": 1,
+  "title": "Not enough player replies",
+  "text": "Your program asked for input more times than there are player replies. Add a reply below, or check the number of `input()` calls."
+ },
+ {
+  "id": "timeout",
+  "title": "Your program kept running",
+  "text": "It did not finish within {seconds} seconds, usually because a loop never ends. Check that the loop’s condition can become false."
+ },
+ {
+  "id": "output-limit",
+  "title": "Too much output",
+  "text": "Your program printed more than {limit} characters. Print less, or check for a loop that never ends."
+ },
+ {
+  "id": "other",
+  "title": "Python stopped on line {line}",
+  "text": "Read Python’s message below, change one thing, and run it again."
+ }
+]

@@ -27,7 +27,7 @@ async function mockApi(page:Page,initialRole:string|null,done:string[]=[],initia
   else if(path==='/api/logout')role=null;
   else if(path==='/api/check'||path==='/api/attempts'){
    const data=route.request().postDataJSON();if(path==='/api/attempts'&&!completed.includes(data.lesson_id))completed.push(data.lesson_id);
-   body={passed:true,feedback:'Your adventure works with different player replies.'};
+   body={passed:true,result:'passed',feedback:'Your adventure works with different player replies.',assessment:'browser_practice'};
   }
   await route.fulfill({status,contentType:'application/json',body:JSON.stringify(body)});
  });
@@ -94,8 +94,8 @@ test('preview jumps to any card without private API requests',async({page})=>{
 });
 test('drafts survive card navigation and hints are gradual',async({page})=>{
  await mockApi(page,null);await page.goto('/preview?lesson=variables&card=5');
- const editor=page.getByLabel('Your Python code');await editor.fill('hero = "Kai"');await page.getByRole('button',{name:'Show next hint'}).click();
- await expect(page.getByText(/Hint 1\./)).toBeVisible();await expect(page.getByText(/Hint 2\./)).toHaveCount(0);
+ const editor=page.getByLabel('Your Python code');await editor.fill('hero = "Kai"');await page.getByRole('button',{name:'Show a nudge'}).click();
+ await expect(page.getByText(/A nudge\./)).toBeVisible();await expect(page.getByText(/A bigger hint\./)).toHaveCount(0);
  await page.getByRole('button',{name:'4. Try it',exact:true}).click();await page.getByRole('button',{name:'5. Your challenge',exact:true}).click();
  await expect(editor).toHaveValue('hero = "Kai"');await editor.fill('');await editor.press('Tab');await expect(editor).toHaveValue('    ');await editor.press('Shift+Tab');await expect(editor).not.toBeFocused();
 });
@@ -114,9 +114,9 @@ test('different player replies change the actual Python story',async({page})=>{
 });
 test('Python errors and endless loops stay recoverable',async({page})=>{
  await mockApi(page,null);await page.goto('/preview?lesson=hello&card=5');await page.getByLabel('Your Python code').fill('print(');await page.getByRole('button',{name:'Run & check challenge'}).click();
- await expect(page.locator('.execution-output')).toContainText('SyntaxError',{timeout:25000});await page.getByLabel('Your Python code').fill('while True:\n    pass');await page.getByRole('button',{name:'Run & check challenge'}).click();
+ await expect(page.locator('#code-feedback')).toContainText('Python stoppedA parenthesis is still open',{timeout:25000});await page.getByLabel('Your Python code').fill('while True:\n    pass');await page.getByRole('button',{name:'Run & check challenge'}).click();
  await page.getByRole('button',{name:'Stop',exact:true}).click();await expect(page.locator('.execution-output')).toHaveText('Execution stopped.');await page.getByRole('button',{name:'Run & check challenge'}).click();
- await expect(page.locator('.execution-output')).toContainText('Execution stopped after 15 seconds',{timeout:20000});await expect(page.getByRole('button',{name:'Run & check challenge'})).toBeEnabled();
+ await expect(page.locator('.execution-output')).toContainText('Execution stopped after 15 seconds',{timeout:20000});await expect(page.locator('#code-feedback')).toContainText('Your program kept running');await expect(page.getByRole('button',{name:'Run & check challenge'})).toBeEnabled();
 });
 test('checker service errors keep the draft, award nothing, and allow a retry',async({page})=>{
  await mockApi(page,null);await page.route('**/api/check',route=>route.fulfill({contentType:'application/json',body:JSON.stringify({passed:false,result:'service_error',feedback:'Unable to assess this right now. Your code is unchanged; please try again in a moment.',assessment:'browser_practice'})}));
