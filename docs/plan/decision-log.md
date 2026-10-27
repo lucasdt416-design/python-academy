@@ -38,6 +38,8 @@ Terms in **bold** the first time they appear are explained in the [glossary](#gl
 | [13](#chapter-13-patterns-that-kept-coming-back) | Patterns that kept coming back | — | — |
 | [14](#chapter-14-feedback-a-beginner-can-act-on-eng-04-part-1) | ENG-04 lesson feedback engine, part 1 | #22 | In review when this chapter was written |
 | [15](#chapter-15-feedback-nobody-can-trace-fb-02) | FB-02 anonymous feedback storage | #24 | In review when this chapter was written |
+| [16](#chapter-16-hints-that-fit-the-problem-eng-04-part-2a) | ENG-04 part 2a: check rules, tagged hints, hint rewording | #25 | Merged; written from handoff 19 after #24 merged |
+| [17](#chapter-17-a-page-that-trusts-the-server-fb-04) | FB-04 testers page | (handoff 20) | In review when this chapter was written |
 
 ---
 
@@ -689,6 +691,75 @@ These ideas appear in several chapters. They are good candidates for chapters of
 | Local run with the real API | Migration 0008 in the log; 401, 403, 200 and 429 from the real routes |
 
 - **Deliberate-break controls:** recording the sender in the account history, writing the sender's email into the row, removing the tester check, deleting unresolved items to make room, deleting one day late, storing code without opting in, and logging the message. Every one failed at least one test.
+
+---
+
+## Chapter 16. Hints that fit the problem (ENG-04 part 2a)
+
+**Sources:** handoff 19 (PR #25). Added to this log after PR #24, because both would have added a chapter at the same place.
+
+**What was built:**
+- Unit 1's check messages moved into the lesson files under stable rule IDs, checked against the checker at startup.
+- Hints tagged to an error or rule, offered first.
+- A similar example after the last hint, and "Other ways to do it" after passing.
+- A gentle outline on the hint button after two failed runs.
+- Every unit 1 hint reworded into three levels.
+
+### Decisions and why
+
+| Decision | Options considered | Reason |
+| --- | --- | --- |
+| Tagged hints are separate from the three-step ladder | Moving a tagged ladder hint to the front | The owner fixed the ladder order; separate hints satisfy both rules |
+| The app refuses to start if content and checker rules disagree | A test only | Content mistakes already stop the deploy; rule mistakes are the same kind |
+| Versions 2 → 3, validator unchanged | A new validator version | Only wording changed, not the check |
+
+### Bugs found and how they were fixed
+
+- **A similar example that gave the answer away:** its two lines filled the `choices` starter into a passing program. The extended hint audit caught it before review; one line now uses the example's own variable.
+- **A test that broke other tests,** by reloading the app inside the test run. Moved into its own process.
+
+### How it was tested
+
+| Kind of test | What it proves |
+| --- | --- |
+| Rule tests | Every rule fires with its content message; a missing, unused or duplicate rule stops startup |
+| Hint audit | No hint, tagged hint or similar example, alone or combined, passes its check |
+| Browser tests | The tagged hint comes first; panels appear only at the right time; the outline appears after exactly two failed runs |
+
+- **Deliberate-break controls:** ignoring tags, outlining after one failed run, showing other ways early, deleting a rule message, and a leaky hint. Each one was caught.
+
+---
+
+## Chapter 17. A page that trusts the server (FB-04)
+
+**Sources:** handoff 20 (branch `feat/admin-testers-page`, still open when this chapter was written).
+
+**What was built:** `/admin/testers`, where the admin turns the tester flag on or off for each student, using the API from FB-01.
+
+### Decisions and why
+
+| Decision | Options considered | Reason |
+| --- | --- | --- |
+| The page asks the admin API, and shows "not available" on 401 or 403 | Checking `/api/me` for `admin: true` first | The page must not decide who is an admin. Not calling `/api/me` also keeps the admin's email out of the page |
+| The same "Page not available" for everyone refused | A sign-in prompt, or a "you are not an admin" message | Either would hint that an admin area exists |
+| The switch shows what the server saved | Flip first, undo on failure | A failed save can never look like a success |
+| `aria-disabled`, not `disabled`, while saving | Disabling the buttons | Disabling a focused button loses keyboard focus |
+| No link from any other page | A link only for admins | The owner opens it by address; a link for admin sessions can come later |
+
+### Bugs found and how they were fixed
+
+- **"Off" broke into "Of" and "f" on a phone,** because the table's word-wrapping rule also applied to the switch. Found in the phone screenshot; the switch column now never wraps.
+- **Near-miss in the tests:** Next.js adds its own hidden `role="alert"` element, so the first error assertions matched two alerts. They now look only inside the page's main area.
+
+### How it was tested
+
+| Kind of test | What it proves |
+| --- | --- |
+| Browser tests with a mocked API (15) | Signed out, student and parent see only "not available". The admin sees the list. A toggle sends the right student and state. A failed save leaves the switch as it was. Keyboard use works. No email in the page source or storage. Fits a phone |
+| axe-core, 4 states × desktop and phone | 0 accessibility violations |
+| Backend tests (unchanged) | The real API gives 401 and 403 on these routes (FB-01) |
+
+- **Deliberate-break controls:** showing the page to a refused visitor (4 tests failed), sending the first student's ID whichever switch was pressed (2), and flipping the switch before the server answered (4).
 
 ---
 
