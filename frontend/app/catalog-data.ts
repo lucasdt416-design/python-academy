@@ -3,7 +3,8 @@ import {useEffect,useState} from 'react';
 
 export type User={id:number;email:string;role:string};
 export type LessonSummary={id:string;title:string;concept:string;description:string;badge:string|null};
-export type Unit={id:string;title:string;summary:string;status:'released'|'coming_soon';lessons:LessonSummary[]};
+/** complete: released with every planned lesson. Missing from an older API, which the lesson page reads as "not known". */
+export type Unit={id:string;title:string;summary:string;status:'released'|'coming_soon';complete?:boolean;lessons:LessonSummary[]};
 export type Course={id:string;title:string;summary:string;status:'released'|'coming_soon';prerequisites:{required:string[];suggested:string[]};units:Unit[]};
 export type Catalog={version:number;courses:Course[]};
 export type Awards={xp:number;completed:string[];badges:{id:string;title:string}[]};

@@ -16,14 +16,25 @@ const LESSONS = [
 // Hidden cases' expected output: never in anything the page receives or shows.
 const HIDDEN_EXPECTED = ['142\\n6', '9\\n0', '97.5', '10.0\\n10', '370', '130', '4\\n-4'];
 
-async function mockApi(page: Page) {
+/* partial: serve unit 2 as it was released in part 1, with its first three lessons and more to come
+ * (complete: false), or, with 'old-api', as an API from before the complete field would. */
+function partialCatalog(kind: 'more-coming' | 'old-api') {
+ const catalog = JSON.parse(JSON.stringify(recorded.catalog));
+ const unit = catalog.courses[0].units[1];
+ unit.lessons = unit.lessons.slice(0, 3);
+ if (kind === 'old-api') for (const c of catalog.courses) for (const u of c.units) delete u.complete;
+ else unit.complete = false;
+ return catalog;
+}
+async function mockApi(page: Page, {partial}: {partial?: 'more-coming' | 'old-api'} = {}) {
  const requests: string[] = [], posted: Record<string, unknown>[] = [], answers: string[] = [];
  await page.route('**/api/**', async route => {
   const path = new URL(route.request().url()).pathname;
   requests.push(path);
   let status = 200, json: unknown = {};
   const unit = /^\/api\/units\/([^/]+)\/lessons$/.exec(path)?.[1], plan = /^\/api\/checks\/(.+)$/.exec(path)?.[1];
-  if (path === '/api/catalog') json = recorded.catalog;
+  if (path === '/api/catalog') json = partial ? partialCatalog(partial) : recorded.catalog;
+  else if (unit === 'py.u02' && partial) json = recorded.units['py.u02'].slice(0, 3);
   else if (path === '/api/me') { status = 401; json = {detail: 'Sign in to continue'}; }
   else if (unit && unit in recorded.units) json = recorded.units[unit as keyof typeof recorded.units];
   else if (unit) { status = 404; json = {detail: 'Not Found'}; }
@@ -63,10 +74,10 @@ test('unit 2 loads on its own: its heading, its three lessons, and no unit 1 pic
  await page.goto('/preview?lesson=py.arithmetic');
  await expect(page.getByRole('heading', {level: 1, name: 'Numbers and decisions'})).toBeVisible();
  await expect(page.getByText('UNIT 02 · PYTHON FOUNDATIONS')).toBeVisible();
- await expect(page.getByText('Comparisons, Boolean logic and elif come next.')).toBeVisible();
+ await expect(page.getByText('Arithmetic, whole numbers and decimals, numbers from input(), comparisons, Boolean logic and elif.')).toBeVisible();
  const nav = page.getByRole('navigation', {name: 'Lessons in this unit'});
- await expect(nav.getByRole('listitem')).toHaveText([/Count the treasure/, /Average the scores/, /Score the riddle/]);
- await expect(page.getByText('Quest 1 of 3 · Treasure counter')).toBeVisible();
+ await expect(nav.getByRole('listitem')).toHaveText([/Count the treasure/, /Average the scores/, /Score the riddle/, /Too high or too low\?/, /Close enough\?/, /The riddle keeper's verdict/]);
+ await expect(page.getByText('Quest 1 of 6 · Treasure counter')).toBeVisible();
  await expect(page.locator('.story-world')).toHaveCount(0);
  expect(requests.filter(p => p.startsWith('/api/units/'))).toEqual(['/api/units/py.u02/lessons']);
  expect(requests).not.toContain('/api/lessons');
@@ -220,10 +231,11 @@ test('no answer the page receives holds a hidden expected output', async ({page}
  for (const answer of answers) for (const value of HIDDEN_EXPECTED) expect(answer).not.toContain(value);
 });
 
-// The end of what is released
+// A unit still being written (as unit 2 was after part 1). The real catalog has none now; the
+// complete unit's ending is in unit2-part2.spec.ts.
 
-test('after the last released lesson, the page says honestly that the rest is still to come', async ({page}) => {
- await mockApi(page);
+for (const partial of ['more-coming', 'old-api'] as const) test(`after the last released lesson of a unit still being written (${partial}), the page says the rest is still to come`, async ({page}) => {
+ await mockApi(page, {partial});
  for (const [i, lesson] of LESSONS.entries()) {
   await runScenario(page, scenario(`${lesson.key} passed`), i === 0);
   await expect(page.getByText(`${lesson.badge} badge earned!`)).toBeVisible();
@@ -250,13 +262,13 @@ test('after the last released lesson, the page says honestly that the rest is st
  await expect(page.getByText('Card 1 of 5')).toBeVisible();
 });
 
-test('the catalog and course page show unit 2 as open, with its three lessons', async ({page}) => {
+test('the catalog and course page show unit 2 as open, with its six lessons', async ({page}) => {
  await mockApi(page);
  await page.goto('/courses');
  await expect(page.getByText('2 of 12 units open')).toBeVisible();
  await page.goto('/courses/py');
  const unit = page.getByRole('article', {name: 'Numbers and decisions'});
- await expect(unit.getByRole('link')).toHaveText([/Count the treasure.*Try it/, /Average the scores.*Try it/, /Score the riddle.*Try it/]);
+ await expect(unit.getByRole('link')).toHaveText([/Count the treasure.*Try it/, /Average the scores.*Try it/, /Score the riddle.*Try it/, /Too high or too low\?.*Try it/, /Close enough\?.*Try it/, /The riddle keeper's verdict.*Try it/]);
  await expect(unit.getByText('Coming soon')).toHaveCount(0);
  await expect(page.getByRole('article', {name: 'Repeat and explore'}).getByText('Coming soon')).toBeVisible();
 });

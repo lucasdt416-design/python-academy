@@ -202,6 +202,10 @@ recommend(learner):
   2. candidates = goal path − completed courses − dismissed courses
      If the first candidate is not yet released, note it:
        "<course> is next on your path and is coming soon."
+       For a unit (rules version 2, EDU-04 part 2): "<course> unit <n>, <title>,
+       is next on your path. Its lessons are not written yet." A released unit
+       still being written (more_lessons_coming) is not finished: "<course>
+       unit <n>, <title>, has more lessons on the way."
      Then continue with released candidates only.
   3. For each released candidate, in goal-path order:
        if all required prerequisites are satisfied:

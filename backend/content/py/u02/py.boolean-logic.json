@@ -1,0 +1,193 @@
+{
+  "id": "py.boolean-logic",
+  "version": 1,
+  "course": "py",
+  "unit": "py.u02",
+  "title": "Close enough?",
+  "concept": "Logic · and, or, not",
+  "description": "Decide whether a guess is close or out of range by joining comparisons together.",
+  "badge": {
+    "id": "py.badge.close-call",
+    "version": 1,
+    "title": "Close call",
+    "category": "practice"
+  },
+  "tasks": [
+    {
+      "id": "py.boolean-logic.discover",
+      "type": "discover",
+      "title": "Join two questions into one",
+      "body": "and, or and not combine True and False. A and B is True only when both are True. A or B is True when at least one of them is True. not flips True to False, and False to True.",
+      "detail": "Each side of and or or is a whole comparison: write x > 0 and x < 10, not x > 0 and < 10. Python works out the comparisons first, then not, then and, then or. Use parentheses when you want to be sure of the order."
+    },
+    {
+      "id": "py.boolean-logic.example",
+      "type": "example",
+      "code": "# The bridge is safe for 2 to 6 travellers\ntravellers = 7\nprint(travellers >= 2 and travellers <= 6)\n# Too few or too many?\nprint(travellers < 2 or travellers > 6)\n# Flip the first answer with not\nprint(not (travellers >= 2 and travellers <= 6))",
+      "output": "False\nTrue\nTrue",
+      "note": "7 is at least 2 but more than 6, so the and line is False. The or line needs only one side to be True, and 7 > 6 is. not flips the first answer from False to True.",
+      "inputs": []
+    },
+    {
+      "id": "py.boolean-logic.predict",
+      "type": "predict",
+      "question": "If travellers were 2, what would the first print() show?",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": 0,
+      "why": "2 >= 2 is True and 2 <= 6 is True. With and, both sides are True, so the whole line is True."
+    },
+    {
+      "id": "py.boolean-logic.guided",
+      "type": "guided",
+      "prompt": "Try travellers = 2, then 6, then 0, and predict the three lines before each run. Then change and to or in the first print(). Find a number of travellers where the answer changes, and explain why."
+    },
+    {
+      "id": "py.boolean-logic.challenge",
+      "type": "challenge",
+      "prompt": "The riddle keeper's secret number is always from 1 to 100. Ask for the secret and the guess, as whole numbers. Print three lines, each True or False: is the guess close (no more than 2 away from the secret, on either side); is the guess out of range (below 1 or above 100); and is the guess not close? Print just the three answers.",
+      "starter": "# Ask for the secret number, then the guess, as whole numbers\n# Print True or False: close, out of range, not close\n",
+      "hints": [
+        "Three lines, three joined questions. Close needs two comparisons joined with and. Out of range needs two joined with or. The last line flips the first one with not.",
+        "Close means the guess is at least secret - 2 and at most secret + 2. Out of range means below 1 or above 100. Check whether each limit should use < or <=.",
+        "A pattern with other names: print(depth >= low and depth <= high) checks that depth sits between two limits. Putting not ( ) around a question flips its answer."
+      ],
+      "error_hints": [
+        {
+          "tags": [
+            "SyntaxError"
+          ],
+          "text": "Each side of and and or needs a whole comparison, like guess >= 1 and guess <= 100. Writing guess >= 1 and <= 100 makes Python stop."
+        },
+        {
+          "tags": [
+            "NameError"
+          ],
+          "text": "Give secret and guess their values from input() before you compare them, and spell them the same each time."
+        },
+        {
+          "tags": [
+            "py.boolean-logic.case.just-outside"
+          ],
+          "text": "A guess of 53 is 3 away from 50, so it is not close. If your first line says True, check whether you joined the two limits with or: or is True when either side is, and here one side always is."
+        },
+        {
+          "tags": [
+            "py.boolean-logic.case.edge-above"
+          ],
+          "text": "52 is exactly 2 away from 50, which still counts as close. Check that your limits use <= and >=, so the edge is included."
+        },
+        {
+          "tags": [
+            "py.boolean-logic.case.below-range"
+          ],
+          "text": "0 is below 1, so it is out of range: True. Out of range needs or, because a guess can't be below 1 and above 100 at the same time."
+        },
+        {
+          "tags": [
+            "py.boolean-logic.case.top-edge"
+          ],
+          "text": "Check both ends of the range: a guess equal to the highest or lowest allowed answer is still in range."
+        },
+        {
+          "tags": [
+            "py.boolean-logic.case.bottom-edge"
+          ],
+          "text": "A guess equal to the lowest allowed answer is still in range, and a guess 1 away from the secret is close. Check each < against <=."
+        }
+      ],
+      "similar_example": {
+        "code": "temperature = 18\nprint(temperature >= 15 and temperature <= 25)\nprint(not temperature > 30)",
+        "note": "18 is between 15 and 25, so the first line is True, and 18 is not over 30, so the second line is True too. Your challenge checks a guess against limits that come from the secret number."
+      },
+      "other_ways": [
+        {
+          "code": "secret = int(input(\"Secret number? \"))\nguess = int(input(\"Your guess? \"))\nclose = secret - 2 <= guess <= secret + 2\nprint(close)\nprint(guess < 1 or guess > 100)\nprint(not close)",
+          "note": "Python lets you chain two comparisons, which reads like maths: low <= x <= high."
+        },
+        {
+          "code": "secret = int(input(\"Secret number? \"))\nguess = int(input(\"Your guess? \"))\ndistance = guess - secret\nclose = distance >= -2 and distance <= 2\nprint(close)\nprint(not (1 <= guess <= 100))\nprint(not close)",
+          "note": "Work out how far away the guess is first. Out of range is the same as not in range."
+        }
+      ],
+      "input_labels": [],
+      "check": {
+        "cases": [
+          {
+            "id": "edge-above",
+            "description": "a secret of 50 and a guess of 52",
+            "inputs": [
+              "50",
+              "52"
+            ],
+            "expected": "True\nFalse\nFalse"
+          },
+          {
+            "id": "just-outside",
+            "description": "a secret of 50 and a guess of 53",
+            "inputs": [
+              "50",
+              "53"
+            ],
+            "expected": "False\nFalse\nTrue"
+          },
+          {
+            "id": "edge-below",
+            "description": "a secret of 50 and a guess of 48",
+            "inputs": [
+              "50",
+              "48"
+            ],
+            "expected": "True\nFalse\nFalse"
+          },
+          {
+            "id": "below-range",
+            "description": "a secret of 50 and a guess of 0",
+            "inputs": [
+              "50",
+              "0"
+            ],
+            "expected": "False\nTrue\nTrue"
+          },
+          {
+            "id": "above-range",
+            "description": "a secret of 50 and a guess of 101",
+            "inputs": [
+              "50",
+              "101"
+            ],
+            "expected": "False\nTrue\nTrue"
+          },
+          {
+            "id": "top-edge",
+            "description": "a guess at the top of the range",
+            "inputs": [
+              "99",
+              "100"
+            ],
+            "expected": "True\nFalse\nFalse",
+            "visibility": "hidden"
+          },
+          {
+            "id": "bottom-edge",
+            "description": "a guess at the bottom of the range",
+            "inputs": [
+              "2",
+              "1"
+            ],
+            "expected": "True\nFalse\nFalse",
+            "visibility": "hidden"
+          }
+        ],
+        "time_limit_ms": 3000
+      },
+      "validator": {
+        "id": "browser-tests",
+        "version": 1
+      },
+      "version": 1
+    }
+  ]
+}

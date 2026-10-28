@@ -57,6 +57,7 @@ def test_partway_through_a_course_continues_it():
 
 
 UNIT2_PART1 = {'py.arithmetic', 'py.int-float', 'py.convert-input'}
+UNIT2 = UNIT2_PART1 | {'py.compare', 'py.boolean-logic', 'py.elif'}
 
 
 def test_after_unit_1_python_continues_with_unit_2():
@@ -65,12 +66,28 @@ def test_after_unit_1_python_continues_with_unit_2():
 
 
 def test_when_everything_released_is_done_the_coming_soon_courses_are_named():
-    r = recommend('hackathon', CATALOG, UNIT1 | UNIT2_PART1)
+    r = recommend('hackathon', CATALOG, UNIT1 | UNIT2)
     assert r.kind == 'caught_up' and r.lesson is None
     assert r.reason == "You've finished everything available on your path so far."
-    # Known limit (handoff 24): the rules cannot tell that unit 2 still has lessons to come.
-    assert r.notes[0] == 'Python Foundations unit 3 is next on your path and is coming soon.'
+    assert r.notes[0] == 'Python Foundations unit 3, Repeat and explore, is next on your path. Its lessons are not written yet.'
     assert 'Hackathon Ready' in r.notes[1]
+
+
+def test_part_of_unit_2_done_continues_unit_2():
+    r = recommend('hackathon', CATALOG, UNIT1 | UNIT2_PART1)
+    assert (r.kind, r.unit, r.lesson) == ('continue', 'py.u02', 'py.compare')
+
+
+def test_a_unit_still_being_written_is_not_finished_and_says_more_lessons_are_coming():
+    # A released unit marked more_lessons_coming (for example a unit released in parts, as unit 2 was).
+    py = CATALOG.courses[0]
+    partial = py.units[1].model_copy(update={'lessons': sorted(UNIT2_PART1, key=py.units[1].lessons.index), 'more_lessons_coming': True})
+    catalog = CATALOG.model_copy(update={'courses': [py.model_copy(update={'units': [py.units[0], partial, *py.units[2:]]}), *CATALOG.courses[1:]]})
+    r = recommend('scratch', catalog, UNIT1 | UNIT2_PART1)
+    assert r.kind == 'caught_up' and r.lesson is None
+    assert r.notes[0] == 'Python Foundations unit 2, Numbers and decisions, has more lessons on the way. You have finished every lesson in it so far.'
+    # Unit 3 is never offered while unit 2 is still being written.
+    assert 'unit 3' not in ' '.join(r.notes)
 
 
 def test_worked_example_hackathon_moves_on_after_python_unit_seven():

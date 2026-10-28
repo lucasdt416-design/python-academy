@@ -185,6 +185,9 @@ class Unit(Strict):
     summary: str
     status: Status
     lessons: list[str] = []
+    # A released unit that is still being written: some of its planned lessons are out, more are
+    # coming. The lesson page and the recommendation then say so instead of calling it complete.
+    more_lessons_coming: bool = False
 
 
 class Course(Strict):
@@ -247,6 +250,8 @@ def validate(catalog, lessons):
                 errors.append(f'released unit {unit.id} has no lessons')
             if unit.status == 'coming_soon' and unit.lessons:
                 errors.append(f'coming-soon unit {unit.id} lists lessons; release it or remove them')
+            if unit.more_lessons_coming and unit.status != 'released':
+                errors.append(f'unit {unit.id} is coming soon, so it cannot also have more lessons coming; that is only for a released unit')
             if course.status == 'coming_soon' and unit.status == 'released':
                 errors.append(f'unit {unit.id} is released inside coming-soon course {course.id}')
             for lesson_id in unit.lessons:
@@ -426,6 +431,8 @@ def catalog_view(catalog, lessons):
     return {'version': catalog.version, 'courses': [{
         'id': course.id, 'title': course.title, 'summary': course.summary, 'status': course.status,
         'prerequisites': course.prerequisites.model_dump(),
+        # complete: released with every planned lesson (added for EDU-04 part 2; a new field only).
         'units': [{'id': unit.id, 'title': unit.title, 'summary': unit.summary, 'status': unit.status,
+                   'complete': unit.status == 'released' and not unit.more_lessons_coming,
                    'lessons': [lesson_summary(i) for i in unit.lessons]} for unit in course.units],
     } for course in catalog.courses]}

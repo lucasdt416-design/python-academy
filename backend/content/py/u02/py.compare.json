@@ -1,0 +1,184 @@
+{
+  "id": "py.compare",
+  "version": 1,
+  "course": "py",
+  "unit": "py.u02",
+  "title": "Too high or too low?",
+  "concept": "Comparisons · < > <= >= == !=",
+  "description": "Compare the player's guess with the riddle keeper's secret number.",
+  "badge": {
+    "id": "py.badge.riddle-judge",
+    "version": 1,
+    "title": "Riddle judge",
+    "category": "practice"
+  },
+  "tasks": [
+    {
+      "id": "py.compare.discover",
+      "type": "discover",
+      "title": "Compare two numbers",
+      "body": "A comparison asks Python a yes-or-no question about two values. 7 > 5 is True, and 7 < 5 is False. True and False are values too, so print(7 > 5) shows True.",
+      "detail": "There are six comparisons: < (less than), > (greater than), <= (less than or equal to), >= (greater than or equal to), == (equal to) and != (not equal to). Two equals signs compare; one equals sign stores a value. 5 <= 5 is True, but 5 < 5 is False."
+    },
+    {
+      "id": "py.compare.example",
+      "type": "example",
+      "code": "# The lantern needs at least 3 drops of oil\noil = 5\nprint(oil >= 3)\n# Is the tank completely full at 10?\nprint(oil == 10)\n# Is it empty?\nprint(oil < 1)",
+      "output": "True\nFalse\nFalse",
+      "note": "oil is 5, so oil >= 3 is True. It is not 10, and it is not less than 1, so the other two lines show False.",
+      "inputs": []
+    },
+    {
+      "id": "py.compare.predict",
+      "type": "predict",
+      "question": "If oil were 3, what would print(oil >= 3) show?",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": 0,
+      "why": ">= means greater than or equal to. 3 is equal to 3, so the answer is True. print(oil > 3) would show False."
+    },
+    {
+      "id": "py.compare.guided",
+      "type": "guided",
+      "prompt": "Set oil to 3, then to 0. Before each run, predict all three lines, then run and compare. Then change >= to > and see which line changes."
+    },
+    {
+      "id": "py.compare.challenge",
+      "type": "challenge",
+      "prompt": "The riddle keeper has a secret number, and the player makes a guess. The starter asks for both. Print three lines, each True or False: is the guess too high, is it too low, and is it exactly right? Print just the three answers. The check tries several guesses, including some you can't see.",
+      "starter": "# These two lines ask for the secret number and the guess\nsecret = int(input(\"Secret number? \"))\nguess = int(input(\"Your guess? \"))\n# Print True or False: too high, then too low, then exactly right\n",
+      "hints": [
+        "Each line is one comparison between guess and secret. print() of a comparison shows True or False.",
+        "Look at the comment. Too high means the guess is bigger than the secret, too low means it is smaller, and right means they are equal. Comparing for equal uses two equals signs.",
+        "A pattern with other names: print(height > limit) shows True when height is over the limit. Your three lines compare guess with secret in three different ways."
+      ],
+      "error_hints": [
+        {
+          "tags": [
+            "NameError"
+          ],
+          "text": "Use the names from the starter, secret and guess, spelled exactly the same."
+        },
+        {
+          "tags": [
+            "TypeError"
+          ],
+          "text": "Inside print(), compare with == (two equals signs). A single = inside print() makes Python stop with a TypeError."
+        },
+        {
+          "tags": [
+            "SyntaxError"
+          ],
+          "text": "Each comparison sign is written together with no space inside it: >=, <=, == and !=. Check the line Python points to."
+        },
+        {
+          "tags": [
+            "py.compare.case.higher"
+          ],
+          "text": "With a secret of 7 and a guess of 9, the guess is too high, so the lines are True, False, False. Check the order of your three lines."
+        },
+        {
+          "tags": [
+            "py.compare.case.equal"
+          ],
+          "text": "When the guess equals the secret, it is neither too high nor too low: False, False, True. If your first line says True, you may have used >= where > belongs."
+        },
+        {
+          "tags": [
+            "py.compare.case.below-zero"
+          ],
+          "text": "Your comparisons need to work for every number, including ones below zero. Compare guess with secret instead of checking for particular numbers."
+        },
+        {
+          "tags": [
+            "py.compare.case.large"
+          ],
+          "text": "Compare guess with secret, not with numbers typed into the code, so your program works for every secret."
+        }
+      ],
+      "similar_example": {
+        "code": "speed = 45\nlimit = 50\nprint(speed > limit)\nprint(speed != limit)",
+        "note": "A speed of 45 is not over the limit of 50, so the first line is False, and the two are not equal, so the second line is True. Your challenge compares a guess with a secret number in three ways."
+      },
+      "other_ways": [
+        {
+          "code": "secret = int(input(\"Secret number? \"))\nguess = int(input(\"Your guess? \"))\nprint(secret < guess)\nprint(secret > guess)\nprint(secret == guess)",
+          "note": "A comparison can face the other way: secret < guess means the same as guess > secret."
+        },
+        {
+          "code": "secret = int(input(\"Secret number? \"))\nguess = int(input(\"Your guess? \"))\ntoo_high = guess > secret\ntoo_low = guess < secret\nprint(too_high)\nprint(too_low)\nprint(not too_high and not too_low)",
+          "note": "True or False can be stored in a variable. The last line uses not and and, which the next lesson explains."
+        }
+      ],
+      "input_labels": [],
+      "check": {
+        "cases": [
+          {
+            "id": "higher",
+            "description": "a secret of 7 and a guess of 9",
+            "inputs": [
+              "7",
+              "9"
+            ],
+            "expected": "True\nFalse\nFalse"
+          },
+          {
+            "id": "lower",
+            "description": "a secret of 7 and a guess of 4",
+            "inputs": [
+              "7",
+              "4"
+            ],
+            "expected": "False\nTrue\nFalse"
+          },
+          {
+            "id": "equal",
+            "description": "a secret of 7 and a guess of 7",
+            "inputs": [
+              "7",
+              "7"
+            ],
+            "expected": "False\nFalse\nTrue"
+          },
+          {
+            "id": "one-above",
+            "description": "a secret of 20 and a guess of 21",
+            "inputs": [
+              "20",
+              "21"
+            ],
+            "expected": "True\nFalse\nFalse"
+          },
+          {
+            "id": "below-zero",
+            "description": "a secret below zero",
+            "inputs": [
+              "-5",
+              "-8"
+            ],
+            "expected": "False\nTrue\nFalse",
+            "visibility": "hidden"
+          },
+          {
+            "id": "large",
+            "description": "a large secret",
+            "inputs": [
+              "1000",
+              "999"
+            ],
+            "expected": "False\nTrue\nFalse",
+            "visibility": "hidden"
+          }
+        ],
+        "time_limit_ms": 3000
+      },
+      "validator": {
+        "id": "browser-tests",
+        "version": 1
+      },
+      "version": 1
+    }
+  ]
+}

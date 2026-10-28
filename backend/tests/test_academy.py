@@ -318,7 +318,9 @@ def test_catalog_is_public_and_frozen_for_the_interface():
     assert response.json() == json.loads(fixture.read_text())
     py = response.json()['courses'][0]
     assert [l['id'] for l in py['units'][0]['lessons']] == ['hello', 'variables', 'input', 'choices', 'adventure']
-    assert [l['id'] for l in py['units'][1]['lessons']] == ['py.arithmetic', 'py.int-float', 'py.convert-input']
+    assert [l['id'] for l in py['units'][1]['lessons']] == ['py.arithmetic', 'py.int-float', 'py.convert-input', 'py.compare', 'py.boolean-logic', 'py.elif']
+    # complete: a new field only (EDU-04 part 2); unit 1's other fields are as before.
+    assert [u['complete'] for u in py['units'][:3]] == [True, True, False]
     assert all(u['lessons'] == [] for u in py['units'][2:])
 
 def test_awards_are_private_to_the_student_and_in_catalog_order():
@@ -376,7 +378,7 @@ def test_recommendation_follows_the_goal_and_progress():
     pass_lesson('hello')
     after = client.get('/api/recommendation').json()
     assert (after['kind'], after['lesson'], after['reason']) == ('continue', 'variables', "You're partway through Python Foundations.")
-    assert after['rules_version'] == 1
+    assert after['rules_version'] == 2
 
 def test_parents_see_their_learners_goal():
     parent = signin('parent', 'parent@example.com')
