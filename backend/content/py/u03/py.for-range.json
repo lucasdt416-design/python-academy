@@ -1,0 +1,177 @@
+{
+  "id": "py.for-range",
+  "version": 1,
+  "course": "py",
+  "unit": "py.u03",
+  "title": "Step by step",
+  "concept": "Loops · for and range()",
+  "description": "Count the steps of a staircase with a for loop and range(), two at a time.",
+  "badge": {
+    "id": "py.badge.step-counter",
+    "version": 1,
+    "title": "Step counter",
+    "category": "practice"
+  },
+  "tasks": [
+    {
+      "id": "py.for-range.discover",
+      "type": "discover",
+      "title": "Count with for and range()",
+      "body": "A for loop runs its block once for each value it is given. range(1, 4) gives 1, 2 and 3: it starts at the first number and stops before the second. So for n in range(1, 4): with print(n) inside prints 1, 2 and 3.",
+      "detail": "range(4) on its own gives 0, 1, 2 and 3. A third number sets the step: range(2, 9, 2) gives 2, 4, 6 and 8, and a step of -1 counts down. To include a number at the end, make the stop one bigger. A for loop moves its own variable on each time, so it always ends."
+    },
+    {
+      "id": "py.for-range.example",
+      "type": "example",
+      "code": "# The bridge has 5 planks: number each one\nfor plank in range(1, 6):\n    print(plank)\n# Then count down from 3 to 1\nfor n in range(3, 0, -1):\n    print(n)",
+      "output": "1\n2\n3\n4\n5\n3\n2\n1",
+      "note": "range(1, 6) stops before 6, so the planks are 1 to 5. A step of -1 counts down: range(3, 0, -1) gives 3, 2 and 1, and stops before 0.",
+      "inputs": []
+    },
+    {
+      "id": "py.for-range.predict",
+      "type": "predict",
+      "question": "What would for n in range(2, 7, 2): with print(n) inside print?",
+      "options": [
+        "2, 4 and 6",
+        "2, 4, 6 and 8",
+        "2 and 4"
+      ],
+      "answer": 0,
+      "why": "It starts at 2 and adds 2 each time: 2, 4, 6. The next number would be 8, but range stops before 7, so 8 is never reached."
+    },
+    {
+      "id": "py.for-range.guided",
+      "type": "guided",
+      "prompt": "Predict, then run: change range(1, 6) to range(1, 11). Then make the countdown start at 10. Last, change the countdown's step to -2 and predict the numbers before you run."
+    },
+    {
+      "id": "py.for-range.challenge",
+      "type": "challenge",
+      "prompt": "The hero climbs the riddle keeper's staircase two steps at a time, starting on step 2. Ask for the number of the top step, then print every step the hero lands on, up to and including the top step if they land on it. Print just the step numbers, one per line.",
+      "starter": "# Ask for the top step, then print every step the hero lands on\n",
+      "hints": [
+        "The hero lands on 2, 4, 6 and so on. A for loop over a range() with a step of 2 gives exactly those numbers.",
+        "range() stops before its second number. For a top step of 8, the stop has to be bigger than 8, or step 8 is missed.",
+        "A pattern with other names: for seat in range(1, rows + 1, 3): gives 1, 4, 7 and so on, up to rows. Your loop starts at a different number and steps by 2."
+      ],
+      "error_hints": [
+        {
+          "tags": [
+            "TypeError"
+          ],
+          "text": "range() needs whole numbers. Turn the reply into a number with int(...) before you use it."
+        },
+        {
+          "tags": [
+            "NameError"
+          ],
+          "text": "Use the same name for the top step everywhere, and give it a value with input() before the loop."
+        },
+        {
+          "tags": [
+            "IndentationError"
+          ],
+          "text": "The line inside the for loop starts with four spaces."
+        },
+        {
+          "tags": [
+            "py.for-range.case.even-top"
+          ],
+          "text": "With a top step of 8, the hero lands on 2, 4, 6 and 8. If 8 is missing, the stop of your range() is 8: make it one bigger."
+        },
+        {
+          "tags": [
+            "py.for-range.case.odd-top"
+          ],
+          "text": "With a top step of 7, the hero lands on 2, 4 and 6, never on 8, which is above the top. Check the stop of your range()."
+        },
+        {
+          "tags": [
+            "py.for-range.case.none"
+          ],
+          "text": "With a top step of 1, the hero never lands on a step, so nothing is printed. A range() that starts above its stop gives no numbers at all."
+        },
+        {
+          "tags": [
+            "py.for-range.case.bigger"
+          ],
+          "text": "Use the reply in your range(), not numbers typed into the code, so it works for every staircase."
+        },
+        {
+          "tags": [
+            "py.for-range.case.odd-bigger"
+          ],
+          "text": "Check odd top steps as well as even ones: the last step printed is the biggest even number that is not above the top."
+        }
+      ],
+      "similar_example": {
+        "code": "for floor in range(10, 0, -3):\n    print(floor)",
+        "note": "Starting at floor 10 and going down 3 at a time gives 10, 7, 4 and 1. The stop, 0, is never printed. Your challenge counts up by 2 and has to reach the top step."
+      },
+      "other_ways": [
+        {
+          "code": "top = int(input(\"Top step? \"))\nstep = 2\nwhile step <= top:\n    print(step)\n    step = step + 2",
+          "note": "The same steps with a while loop. for and range() do the counting for you, so they are the tidy way, but this works too."
+        },
+        {
+          "code": "top = int(input(\"Top step? \"))\nfor step in range(1, top + 1):\n    if step % 2 == 0:\n        print(step)",
+          "note": "Go through every step and print only the even ones: step % 2 == 0 means no remainder after dividing by 2."
+        }
+      ],
+      "input_labels": [],
+      "check": {
+        "cases": [
+          {
+            "id": "even-top",
+            "description": "a top step of 8",
+            "inputs": [
+              "8"
+            ],
+            "expected": "2\n4\n6\n8"
+          },
+          {
+            "id": "odd-top",
+            "description": "a top step of 7",
+            "inputs": [
+              "7"
+            ],
+            "expected": "2\n4\n6"
+          },
+          {
+            "id": "none",
+            "description": "a top step of 1",
+            "inputs": [
+              "1"
+            ],
+            "expected": ""
+          },
+          {
+            "id": "bigger",
+            "description": "a taller staircase",
+            "inputs": [
+              "20"
+            ],
+            "expected": "2\n4\n6\n8\n10\n12\n14\n16\n18\n20",
+            "visibility": "hidden"
+          },
+          {
+            "id": "odd-bigger",
+            "description": "a tall staircase with an odd top step",
+            "inputs": [
+              "15"
+            ],
+            "expected": "2\n4\n6\n8\n10\n12\n14",
+            "visibility": "hidden"
+          }
+        ],
+        "time_limit_ms": 3000
+      },
+      "validator": {
+        "id": "browser-tests",
+        "version": 1
+      },
+      "version": 1
+    }
+  ]
+}

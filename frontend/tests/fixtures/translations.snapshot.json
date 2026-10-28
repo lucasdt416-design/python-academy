@@ -42,6 +42,12 @@
   "text": "Lines that belong to an `if` or `else` start with four spaces. Indent line {line}."
  },
  {
+  "id": "indent-loop",
+  "unit": 3,
+  "title": "The lines inside this `{block}` loop need indenting",
+  "text": "Lines that belong to a loop start with four spaces, so Python knows they repeat. Indent line {line}."
+ },
+ {
   "id": "unexpected-indent",
   "unit": 1,
   "title": "This line has extra spaces at the start",
@@ -98,7 +104,7 @@
  {
   "id": "timeout",
   "title": "Your program kept running",
-  "text": "It did not finish within {seconds} seconds, usually because a loop never ends. Check that the loop’s condition can become false."
+  "text": "It did not finish within {seconds} seconds, usually because a loop never ends. Check that something inside the loop changes, so that the loop can stop."
  },
  {
   "id": "output-limit",

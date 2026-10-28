@@ -1,0 +1,201 @@
+{
+  "id": "py.loop-termination",
+  "version": 1,
+  "course": "py",
+  "unit": "py.u03",
+  "title": "Three tries",
+  "concept": "Loops · stopping on time",
+  "description": "Give the player three tries, and make sure the loop always ends.",
+  "badge": {
+    "id": "py.badge.loop-closer",
+    "version": 1,
+    "title": "Loop closer",
+    "category": "practice"
+  },
+  "tasks": [
+    {
+      "id": "py.loop-termination.discover",
+      "type": "discover",
+      "title": "Every loop needs a way out",
+      "body": "A loop ends only when its condition becomes False. Something inside the loop has to move it there: a counter that goes up or down, or a new reply. If nothing changes, the loop runs forever.",
+      "detail": "A counter often decides how many times a loop runs. Starting it at 0 or at 1, and choosing < or <=, changes the count by one. To stop for either of two reasons, join the conditions with and: keep going while the guess is wrong and tries are left. Here, a program that never ends is stopped for you after a few seconds."
+    },
+    {
+      "id": "py.loop-termination.example",
+      "type": "example",
+      "code": "# Count down to the gate opening\ncount = 3\nwhile count > 0:\n    print(count)\n    count = count - 1\nprint(\"open\")",
+      "output": "3\n2\n1\nopen",
+      "note": "count goes 3, 2, 1. After 1 is printed it becomes 0, so count > 0 is False and the loop ends. The last line runs once, after the loop.",
+      "inputs": []
+    },
+    {
+      "id": "py.loop-termination.predict",
+      "type": "predict",
+      "question": "If the line count = count - 1 were deleted, what would happen?",
+      "options": [
+        "It would still print 3, 2, 1 and open",
+        "It would print 3 again and again and never finish",
+        "Python would stop with an error at once"
+      ],
+      "answer": 1,
+      "why": "count would stay 3, so count > 0 would always be True and the loop would never end. Because it prints each time, the academy stops it as soon as the output gets too long. You can try it on the next card."
+    },
+    {
+      "id": "py.loop-termination.guided",
+      "type": "guided",
+      "prompt": "Predict, then run: change count = 3 to count = 5. Next, delete the line count = count - 1 and run it; the academy stops the program and explains why. Put the line back with Reset code. Last, change > to >= and count how many numbers print."
+    },
+    {
+      "id": "py.loop-termination.challenge",
+      "type": "challenge",
+      "prompt": "The riddle keeper allows three tries. Ask for the secret number, then ask for guesses until the guess is right or three guesses have been made. After the loop, print two lines: how many guesses were made, then True if the last guess was right or False if it was not. Print just the two answers.",
+      "starter": "# Ask for the secret number and the first guess\n# Keep asking while the guess is wrong and tries are left\n# Then print the number of guesses, and whether the last one was right\n",
+      "hints": [
+        "Count the guesses as you go. The loop needs two reasons to keep going, joined with and: the guess is wrong, and fewer than three guesses have been made.",
+        "Check your counter: after the first guess it should be 1. Each time the loop asks again, add 1. With three tries, the loop can ask at most two more times.",
+        "A pattern with other names: while answer != key and turns < 5: with indented lines that ask again and add 1 to turns."
+      ],
+      "error_hints": [
+        {
+          "tags": [
+            "EOFError"
+          ],
+          "text": "Your loop asked for another guess after the last reply. It should stop after three guesses, even when none of them is right: check the counter in the loop's condition."
+        },
+        {
+          "tags": [
+            "NameError"
+          ],
+          "text": "Give every name a value before the loop uses it, including the counter, and spell it the same each time."
+        },
+        {
+          "tags": [
+            "py.loop-termination.case.third-try"
+          ],
+          "text": "Here the third guess is right, so the lines are 3 and True. If your program stopped after two guesses, check where your counter starts and whether you used < or <=."
+        },
+        {
+          "tags": [
+            "py.loop-termination.case.out-of-tries"
+          ],
+          "text": "Three wrong guesses use up the tries, so the second line is False. Print whether the last guess equals the secret, rather than True every time."
+        },
+        {
+          "tags": [
+            "py.loop-termination.case.first-try"
+          ],
+          "text": "When the first guess is right, the loop never runs: one guess, and True. Check that your counter is 1 after the first guess."
+        },
+        {
+          "tags": [
+            "py.loop-termination.case.extra-replies"
+          ],
+          "text": "Only the first three guesses count, so the lines are 3 and False, even though a fourth reply would be right. If your program printed 4 and True, the loop needs a limit on tries."
+        },
+        {
+          "tags": [
+            "py.loop-termination.case.second-try"
+          ],
+          "text": "Count every guess, including the first one, so the number printed is right whichever try solves the riddle."
+        },
+        {
+          "tags": [
+            "py.loop-termination.case.below-zero"
+          ],
+          "text": "A secret below zero works the same way. Compare the guess with the secret instead of checking for particular numbers."
+        }
+      ],
+      "similar_example": {
+        "code": "fuel = 10\ntrips = 0\nwhile fuel >= 3 and trips < 2:\n    fuel = fuel - 3\n    trips = trips + 1\nprint(trips)\nprint(fuel)",
+        "note": "The cart keeps going while there is fuel for a trip and fewer than 2 trips are done. Both reasons are checked each time, and the loop stops when either one fails: here after 2 trips, with 4 fuel left. Your challenge stops when the guess is right or the tries run out."
+      },
+      "other_ways": [
+        {
+          "code": "secret = int(input(\"Secret number? \"))\nguess = int(input(\"Your guess? \"))\ntries = 1\nwhile guess != secret and tries < 3:\n    guess = int(input(\"Your guess? \"))\n    tries += 1\nprint(tries)\nprint(guess == secret)",
+          "note": "tries += 1 is a short way to write tries = tries + 1."
+        },
+        {
+          "code": "secret = int(input(\"Secret number? \"))\ntries = 0\nwhile tries < 3:\n    guess = int(input(\"Your guess? \"))\n    tries = tries + 1\n    if guess == secret:\n        break\nprint(tries)\nprint(guess == secret)",
+          "note": "A loop that counts to three, with break to leave early when the guess is right."
+        }
+      ],
+      "input_labels": [],
+      "check": {
+        "cases": [
+          {
+            "id": "first-try",
+            "description": "a secret of 7, guessed first time",
+            "inputs": [
+              "7",
+              "7"
+            ],
+            "expected": "1\nTrue"
+          },
+          {
+            "id": "third-try",
+            "description": "a secret of 7 and guesses of 1, 2 and 7",
+            "inputs": [
+              "7",
+              "1",
+              "2",
+              "7"
+            ],
+            "expected": "3\nTrue"
+          },
+          {
+            "id": "extra-replies",
+            "description": "a secret of 5 and guesses of 1, 2, 3 and 5",
+            "inputs": [
+              "5",
+              "1",
+              "2",
+              "3",
+              "5"
+            ],
+            "expected": "3\nFalse"
+          },
+          {
+            "id": "out-of-tries",
+            "description": "a secret of 7 and guesses of 1, 2 and 3",
+            "inputs": [
+              "7",
+              "1",
+              "2",
+              "3"
+            ],
+            "expected": "3\nFalse"
+          },
+          {
+            "id": "below-zero",
+            "description": "a secret below zero",
+            "inputs": [
+              "-3",
+              "-1",
+              "-3"
+            ],
+            "expected": "2\nTrue",
+            "visibility": "hidden"
+          },
+          {
+            "id": "second-try",
+            "description": "solved on the second try",
+            "inputs": [
+              "20",
+              "25",
+              "20",
+              "99"
+            ],
+            "expected": "2\nTrue",
+            "visibility": "hidden"
+          }
+        ],
+        "time_limit_ms": 3000
+      },
+      "validator": {
+        "id": "browser-tests",
+        "version": 1
+      },
+      "version": 1
+    }
+  ]
+}

@@ -90,6 +90,14 @@
    "raw": "PythonError: Traceback (most recent call last):\n  File \"/lib/python312.zip/_pyodide/_base.py\", line 597, in eval_code_async\n    await CodeRunner(\n          ^^^^^^^^^^^\n  File \"/lib/python312.zip/_pyodide/_base.py\", line 285, in __init__\n    self.ast = next(self._gen)\n               ^^^^^^^^^^^^^^^\n  File \"/lib/python312.zip/_pyodide/_base.py\", line 149, in _parse_and_compile_gen\n    mod = compile(source, filename, mode, flags | ast.PyCF_ONLY_AST)\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<exec>\", line 5\n    print(\"A bridge.\")\n    ^^^^^\nIndentationError: expected an indented block after 'else' statement on line 4\n"
   },
   {
+   "id": "indent-loop",
+   "code": "for step in range(3):\nprint(step)",
+   "inputs": [],
+   "errorType": "IndentationError",
+   "outputLimit": false,
+   "raw": "PythonError: Traceback (most recent call last):\n  File \"/lib/python312.zip/_pyodide/_base.py\", line 597, in eval_code_async\n    await CodeRunner(\n          ^^^^^^^^^^^\n  File \"/lib/python312.zip/_pyodide/_base.py\", line 285, in __init__\n    self.ast = next(self._gen)\n               ^^^^^^^^^^^^^^^\n  File \"/lib/python312.zip/_pyodide/_base.py\", line 149, in _parse_and_compile_gen\n    mod = compile(source, filename, mode, flags | ast.PyCF_ONLY_AST)\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<exec>\", line 2\n    print(step)\n    ^^^^^\nIndentationError: expected an indented block after 'for' statement on line 1\n"
+  },
+  {
    "id": "unexpected-indent",
    "code": "print(\"A forest.\")\n    print(\"A dragon!\")",
    "inputs": [],

@@ -335,18 +335,25 @@ def hint_pieces(lesson_id):
     return list(dict.fromkeys(p for text in texts for p in fragments(text))), task.similar_example.code.splitlines()
 
 
-def assemble(chosen):
+def assemble(chosen, greedy=False):
     """One program from hint pieces in order: a line after a block header is indented, except elif and
-    else, which close the block above them (with pass if it was empty)."""
-    lines = []
+    else, which close the block above them (with pass if it was empty). greedy: every line after a header
+    stays inside its block until the next header, so a loop body can have several lines (unit 3)."""
+    lines, inside = [], False
     for piece in chosen:
         header_above = bool(lines) and lines[-1].endswith(':')
         if piece.startswith(('elif', 'else')):
             if header_above:
                 lines.append('    pass')
             lines.append(piece)
+            inside = True
+        elif piece.endswith(':'):
+            if header_above:
+                lines.append('    pass')
+            lines.append(piece)
+            inside = True
         else:
-            lines.append(('    ' if header_above else '') + piece)
+            lines.append(('    ' if header_above or (greedy and inside) else '') + piece)
     if lines[-1].endswith(':'):
         lines.append('    pass')
     return '\n'.join(lines)
@@ -359,8 +366,8 @@ def candidates(lesson_id):
     programs = set()
     for size in range(1, len(pieces) + 1):
         for chosen in itertools.combinations(pieces, size):
-            body = assemble(chosen)
-            programs.update({body, starter + body})
+            for body in {assemble(chosen), assemble(chosen, greedy=True)}:
+                programs.update({body, starter + body})
     whole = '\n'.join(example)
     programs.update({whole, starter + whole, starter + '\n'.join(pieces) + '\n' + whole})
     return sorted(programs)
@@ -407,8 +414,8 @@ def test_the_hints_with_the_challenges_own_names_still_do_not_pass(lesson_id):
     programs = {task.starter + example, STARTER_LINES[lesson_id] + example}
     for size in range(1, len(pieces) + 1):
         for chosen in itertools.combinations(pieces, size):
-            body = assemble(chosen)
-            programs.update({task.starter + body, task.starter + body + '\n' + example})
+            for body in {assemble(chosen), assemble(chosen, greedy=True)}:
+                programs.update({task.starter + body, task.starter + body + '\n' + example})
     programs = sorted(programs)
     passing = [p for p, r in zip(programs, judge_all(lesson_id, programs)) if r['result'] == 'passed']
     assert passing == []

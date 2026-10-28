@@ -59,6 +59,10 @@ async function runCases({code, cases, outputLimit}) {
  self.postMessage({type:'ready'});
  for (const {id, inputs} of cases) {
   output = ''; capped = false;
+  // Text an earlier case left in Python's output buffer (one stopped at the output limit leaves some)
+  // belongs to that case: flush it out here and drop it, so it never shows up in this case's output.
+  try { py.runPython('import sys\nsys.stdout.flush()'); } catch {}
+  output = ''; capped = false;
   self.postMessage({type:'start', id});
   const namespace = py.toPy({__name__: '__main__'});
   let report;
