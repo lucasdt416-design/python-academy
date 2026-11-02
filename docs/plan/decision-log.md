@@ -957,6 +957,24 @@ The commands and counts are in handoff 26 section 6.
 
 ---
 
+## Master run, second batch (handoffs 29 to 37)
+
+Each handoff holds its own decisions, bugs and tests. What later readers will want first:
+
+| Stage | What was learned |
+| --- | --- |
+| ENG-06 (29) | `exclude=True` keeps an old recording's shape when a model gains a field |
+| Course designs (30) | Claude's terms require 18, so hands-on AI units can't serve 13 to 17 year olds as drafted |
+| Retention (31) | Only feedback and expired sessions are ever deleted today |
+| EDU-03 part 2 (32) | The hint audit needed to build nested loops. Scanning during a fade-in reports false contrast failures |
+| Construct rules (33) | `elif` and `else: if` parse the same apart from columns |
+| ENG-07 (34) | **The plan's "any import is unsupported" was wrong.** The guard is a guide, not a sandbox: the boundary is the worker. Merged PRs can pass alone and fail together with no text conflict, so a trial merge is worth doing |
+| ENG-08 (35) | Files carried over between check cases, despite the contract. Fixed |
+| UI-01 (36) | A phone test caught `nowrap` causing sideways scrolling |
+| SEC-08 (37) | Pins need a test, or an edit can quietly undo them |
+
+**Owner's answers of 2026-11-02:** decisions 28 to 31 in `backlog.md` section 6.
+
 ## Open, awaiting the owner
 
 Nothing in this table is decided. Each recommendation is the implementer's or the planning chat's, **recommended, not yet confirmed**. The master run's Part 2 boxes were all empty on 2026-11-02, so none of these was answered there.
@@ -980,7 +998,12 @@ Nothing in this table is decided. Each recommendation is the implementer's or th
 | "Its lessons are not written yet" for a unit, and "is coming soon" for a course | Handoff 26 | Keep as is; a course and a unit are different promises |
 | Unit 3: carry the story on, give the worker fix a backlog row, and keep the timeout wording in every unit | Handoff 27 | Yes to each |
 | Construct rules for nested loops | Handoff 27 | None for part 2; revisit with the unit check |
-| Construct rule IDs for browser checks (a backlog row; no ID yet) | Handoffs 22, 24 | Master run stage S26 proposes names; no code until decided |
+| Construct rules: build now or wait; naming; when a lesson may use one; `py.decompose` | Handoff 33, `construct-rules.md` section 7 | Wait; `<lesson>.require.<name>`; adopt the test in section 4.4; a rubric for `py.decompose` |
+| The `elif` construct also counts `else:` with an `if` inside | Handoff 33 | Fix when a lesson first needs it |
+| Retention: never-enrolled accounts, invitations, inactive accounts, attempts, order | Handoff 31, `retention.md` section 3 | 30 days; 30 days; 24 months; after the cost review; with ID-01b |
+| The `ai` course: hands-on units for 18 or older, with a simulated path | Handoff 30 | Yes |
+| `js`: test a separate-origin preview before deciding on endless loops in page lessons | Handoff 30 | Yes |
+| Was importing `os`, `js` and others before ENG-07 a live security problem? | Handoff 34 | No: no network, no cross-user reach; closed by ENG-07 |
 | Later units show the catalog title; API failure shows unit 1's alert; "send learner code" read as "send Python's message" | Handoff 22 | No recommendation recorded |
 | `int(input())` handed over early; `ten` taught but not tested; fix-the-bug through the predict and Try it cards | Handoff 24 | No recommendation recorded |
 | README: is "one grade 9 student" right; licence; stack screenshots on a phone; old facts in a collapsible section | Handoff 23 | No recommendation recorded |
