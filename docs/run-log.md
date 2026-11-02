@@ -31,18 +31,22 @@ The plan is [`docs/plan/master-run.md`](plan/master-run.md). A new session reads
 | WD2 | `eng/allowlisted-imports` | `main` | #39 | 34 | done | 2026-11-02 | On `ac167e3`: backend 802 and 813; types and build OK; Playwright 275; 9 deliberate breaks, one gap closed. One earlier run failed many Pyodide tests, cause not established |
 | WD3 | none | none | none | none | blocked: dependency WD2 and WD4 | 2026-11-02 | Both unmerged; chaining needs B-R1 |
 | WD4 | `eng/file-fixtures` | `main` | #40 | 35 | done | 2026-11-02 | Backend 813 and 824; types and build OK; Playwright 272; axe 0; 8 deliberate breaks caught. Text conflicts with #39; the combination was tested |
-| WD5 | none | none | none | none | stopped: spec contradicts itself | 2026-11-02 | References "stay server-side" but tests "run in the worker". See handoff 36 section 7 |
-| WD6 | none | none | none | none | blocked: dependency WD5 | 2026-11-02 | |
+| WD5 | `eng/reference-tests` | `main` | #46 | 41 | done | 2026-11-02 | Backend 828 and 839; types and build OK; Playwright 287 three times; 7 deliberate breaks, one gap closed. One earlier run failed one test, cause not established |
+| WD6 | none | none | none | none | blocked: dependency WD5 | 2026-11-02 | Unmerged; also needs B-R2 |
 | WD7 | none | none | none | none | blocked: dependency WD4 | 2026-11-02 | Unmerged; also needs B-R2 to release in parts |
 | WD8 | none | none | none | none | blocked: waiting for B-R2 | 2026-11-02 | Five lessons, and needs WD2 |
 | WD9 | none | none | none | none | blocked: dependency WD10 | 2026-11-02 | Its third lesson needs ENG-09 |
 | WD10 to WD12 | none | none | none | none | blocked: dependency S23 | 2026-11-02 | S23 needs B-A1 |
 | WE1 to WE4 | none | none | none | none | blocked: waiting for B-W1 | 2026-11-02 | |
 | WE5, UI-01 | `ui/cosmetic-fixes` | `main` | #41 | 36 | done | 2026-11-02 | Backend 785 and 796; types and build OK; Playwright 259; 3 deliberate breaks caught |
-| WE5, UI-02 to UI-04 | none | none | none | none | stopped: owner question | 2026-11-02 | See handoff 37 section 7 |
+| WE5, UI-02 to UI-04 | none | none | none | none | skipped: owner said wait (decision 29) | 2026-11-02 | |
 | WE7, SEC-08 | `sec/pin-ci-actions` | `main` | #42 | 37 | done | 2026-11-02 | Backend 788 on SQLite; 3 deliberate breaks caught; CI proves the workflow. Out of queue order: see handoff 37 |
+| Docs sync 4 | `docs/backlog-sync-4` | `main` | #43 | 38 | done | 2026-11-02 | Docs checks 0 problems. Records decisions 28 to 31 |
+| SEC-08, Dependabot | `sec/dependabot-actions` | `main` | #44 | 39 | done | 2026-11-02 | Test passes; 3 deliberate breaks caught; only GitHub can show it runs |
+| ENG-06 follow-up | `eng/hidden-calls` | `main` | #45 | 40 | done | 2026-11-02 | Backend 813 and 824; types and build OK; Playwright 282; 3 deliberate breaks caught |
+| ENG-08b | none | none | none | none | blocked: dependency WD4 | 2026-11-02 | #40 unmerged; chaining needs B-R1. Must keep the guard on inside learner modules (decision 30) |
 
-Owner merged #32 to #38 on 2026-11-02. Not reached or not started: WE6, the rest of WE7, WE8 and later.
+Owner merged #32 to #39, #41 and #42 on 2026-11-02. The run stopped at the cap of 5 open PRs. Not reached: WE6, the rest of WE7, WE8 and later.
 
 **Keeping this file mergeable:** every open run branch carries an identical copy of this file, so they merge in any order. If one conflicts after a merge, keep the copy with the most rows.
 
