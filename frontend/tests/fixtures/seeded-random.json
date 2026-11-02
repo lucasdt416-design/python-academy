@@ -1,0 +1,6 @@
+{
+ "code": "import random\nprint(random.randint(1, 100))\nprint(random.choice([\"moon\", \"star\", \"sun\"]))\nitems = [1, 2, 3, 4, 5]\nrandom.shuffle(items)\nprint(items)\nprint(random.random())\n",
+ "seed": 7,
+ "output": "42\nmoon\n[2, 3, 5, 1, 4]\n0.36568891691258554\n",
+ "default_output": "50\nstar\n[5, 2, 4, 3, 1]\n0.4049341374504143\n"
+}

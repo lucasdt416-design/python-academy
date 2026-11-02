@@ -41,6 +41,7 @@ A challenge opts in with `"validator": {"id": "browser-tests", "version": 1}` an
 | `cases[].expected` | The output the program should print, up to 10,000 characters |
 | `cases[].description` | Shown to the learner when the case fails, **hidden cases included**. For a hidden case it must not contain any of its inputs or expected lines; content loading fails if it does |
 | `cases[].visibility` | `visible` (default) or `hidden`. At least one case must be visible |
+| `seed` | Optional, per case: the number `random` is seeded with (section 9) |
 | `require`, `forbid` | Names from the construct list below; a name cannot be in both |
 | `time_limit_ms` | Per case, after Python has loaded: 500 to 10,000 (default 3,000) |
 
@@ -90,7 +91,7 @@ Each run status reported by the browser is one of: `ok`, `error`, `timeout`, `ou
 | Python raised an error | `execution_error` | `error`, with `error_type` and `line` |
 | Stopped at the time limit | `execution_error` | `timeout` |
 | Printed more than 10,000 characters | `execution_error` | `output_limit` |
-| An import the browser runtime does not have | `unsupported` | `unsupported` |
+| An import that is refused (section 9), or a module the browser runtime does not have | `unsupported` | `unsupported` |
 | Python could not start, or the reports do not match the plan (missing, extra or reordered cases, usually a page loaded before a content update) | `service_error` | (none) |
 
 - When several cases fail, `failed` describes the first **visible** one, because the learner can see its data. Otherwise it describes the first hidden one.
@@ -111,6 +112,7 @@ Each run status reported by the browser is one of: `ok`, `error`, `timeout`, `ou
 | Python load | 30 seconds, then `unavailable` | Runner |
 | Output per case | 10,000 characters | Worker stops the program; API rejects longer reports (422) |
 | Cases per check | 10 | Content validation; API rejects more (422) |
+| Imports | Only the modules in section 9 | The worker's import guard. A guide for learners, not a sandbox (section 9) |
 | Network | None for learner code | Worker removes the network APIs after Pyodide loads; the worker's existing Content-Security-Policy only allows the Pyodide CDN in any case |
 | State between cases | None | Fresh namespace per case. Output a case left unflushed (for example one stopped at the output limit) is flushed and dropped before the next case starts (fixed in EDU-03 part 1, handoff 27). Imported modules stay loaded within one run, which is harmless |
 | Request rate | Unchanged | The existing `check` and `attempts` rate limits |
@@ -169,3 +171,19 @@ A case can call a function the learner's program defined, instead of only readin
 Any function with a compatible signature passes, including one with defaults, `*args`, a `lambda` or a callable object. An error inside the function is an ordinary `execution_error`, with the line in the learner's code. A call case that reports `ok` with no usable `returned`, usually a page from before a content update, is `service_error`, as is a function-only status on an ordinary case.
 
 **Hidden calls are refused, for now.** A function runs in the browser, so a call's arguments have to reach the browser, and the server must never run learner code. The master run plan asks that hidden arguments never reach the browser, so a hidden call cannot exist. This leaves a gap: a learner can hard-code answers for the visible calls, and only hidden ordinary cases can catch that. Allowing hidden calls whose **arguments** reach the browser and whose **expected values** stay on the server would match what section 5 already accepts for hidden inputs. It is an owner decision, listed in handoff 29. The plan and the judge already keep the expected value of a case marked hidden on the server, and a test proves it, so the change would be to one validation rule.
+
+## 9. Allowed imports and seeded random (ENG-07)
+
+Status: **in review** (handoff 34).
+
+**The list:** `math`, `random`, `datetime`, `json`, `csv`, `re`, and their submodules. It is `ALLOWED_MODULES` in `frontend/public/python-worker.js`, the only copy. Anything else is refused with `ModuleNotFoundError`, in Try it and in checks alike, which a check reports as `unsupported`.
+
+**How it works.** Once Pyodide has loaded and the network APIs are gone, the worker replaces `__import__`. A module's own code imports what it needs as usual, because `random` needs `os`, for example. Only code that is not a module's own is limited: the learner's program, including `exec` and direct calls to `__import__`.
+
+**This is a guide for learners, not a sandbox.** Python cannot sandbox itself. `random._os` reaches `os`, and from there other modules. The guard stops a learner reaching these by accident, and keeps lessons honest about what is available. **The security boundary is the worker:** no network APIs, its Content-Security-Policy unchanged, and nothing from the page. No new protection should ever be built on the assumption that the guard can't be bypassed.
+
+**An allowed module does import blocked ones, inside itself.** `random` holds a reference to `os`, for example. That is expected, for the reason above.
+
+**Seeded random.** Before each case the worker seeds `random` with the case's `seed`, or 0. An optional `seed` on a case, from 0 to 2,147,483,647, is sent to the browser in the plan only when set, like a hidden case's inputs. Pyodide's `random` gives the same numbers as CPython 3.12 (tested). Try it is not seeded, so a learner sees different numbers. A learner's own `random.seed()` still works.
+
+**Adding a module.** Say why in a handoff, and check what it exposes. No lesson uses imports yet, so none of this changes what a learner meets in units 1 to 3, unless they import something.
