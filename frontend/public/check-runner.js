@@ -32,14 +32,16 @@ export function runCases(code, plan, {workerUrl = '/python-worker.js', loadLimit
    } else if (data.type === 'case') {
     clearTimeout(timer);
     reports.set(data.id, {id: data.id, status: data.status, output: String(data.output || '').slice(0, plan.output_limit),
-     errorType: data.errorType ?? null, line: data.line ?? null, message: data.message ?? null});
+     errorType: data.errorType ?? null, line: data.line ?? null, message: data.message ?? null,
+     // A function-call case (ENG-06): the value as JSON for the API, and as Python shows it for the page.
+     ...(data.returned != null ? {returned: data.returned, shown: data.shown} : {})});
    } else if (data.type === 'done') finish();
   };
-  worker.postMessage({mode: 'cases', code, cases: plan.cases.map(({id, inputs}) => ({id, inputs})), outputLimit: plan.output_limit});
+  worker.postMessage({mode: 'cases', code, cases: plan.cases.map(({id, inputs, call}) => ({id, inputs, ...(call ? {call} : {})})), outputLimit: plan.output_limit});
  });
 }
 
 /** The reports as the API accepts them: no error message, which can echo the learner's own text. */
 export function forSubmission(reports) {
- return reports.map(({id, status, output, errorType, line}) => ({id, status, output, error_type: errorType, line}));
+ return reports.map(({id, status, output, errorType, line, returned}) => ({id, status, output, error_type: errorType, line, ...(returned != null ? {returned} : {})}));
 }

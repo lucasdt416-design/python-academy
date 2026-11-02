@@ -1,0 +1,791 @@
+{
+ "catalog": {
+  "version": 1,
+  "courses": [
+   {
+    "id": "fixture",
+    "title": "TEST FIXTURE (never shown to learners)",
+    "summary": "Test data for function-call checks (ENG-06).",
+    "status": "released",
+    "prerequisites": {
+     "required": [],
+     "suggested": []
+    },
+    "units": [
+     {
+      "id": "fixture.u09",
+      "title": "TEST FIXTURE functions",
+      "summary": "Test data.",
+      "status": "released",
+      "complete": true,
+      "lessons": [
+       {
+        "id": "fixture.calls",
+        "title": "Call a function",
+        "concept": "TEST FIXTURE",
+        "description": "Not course content.",
+        "badge": "Fixture doubler"
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ "units": {
+  "fixture.u09": [
+   {
+    "id": "fixture.calls",
+    "title": "Call a function",
+    "concept": "TEST FIXTURE",
+    "badge": "Fixture doubler",
+    "description": "Not course content.",
+    "learnTitle": "Double a number: discover",
+    "learn": "Not course content.",
+    "detail": "Test data only.",
+    "example": "def add_one(n):\n    return n + 1\nprint(add_one(4))",
+    "exampleOutput": "5",
+    "exampleNote": "Not course content.",
+    "question": "Which is a test?",
+    "options": [
+     "This one",
+     "That one"
+    ],
+    "answer": 0,
+    "why": "Test data.",
+    "guided": "Change one thing and run it.",
+    "starter": "def double(n):\n    pass\n",
+    "challenge": "Define double(n), which returns twice n; share(total, people), which returns total divided by people; and greet(name), which prints Hello, then the name.",
+    "hints": [
+     "Each function does one small thing.",
+     "Use return to hand a value back to whoever called the function.",
+     "With other names: def triple(x): return x * 3"
+    ],
+    "inputs": [],
+    "exampleInputs": [],
+    "expected": null,
+    "errorHints": [
+     {
+      "tags": [
+       "fixture.calls.case.double-two"
+      ],
+      "text": "Look at what double hands back when it is called."
+     }
+    ],
+    "similarExample": null,
+    "otherWays": [],
+    "course": "fixture",
+    "unit": "fixture.u09",
+    "check": "browser-tests"
+   }
+  ]
+ },
+ "plans": {
+  "fixture.calls": {
+   "lesson_id": "fixture.calls",
+   "task_id": "fixture.calls.challenge",
+   "version": 1,
+   "time_limit_ms": 3000,
+   "output_limit": 10000,
+   "cases": [
+    {
+     "id": "double-two",
+     "visibility": "visible",
+     "description": "double(2)",
+     "inputs": [],
+     "call": {
+      "function": "double",
+      "args": [
+       2
+      ],
+      "kwargs": {}
+     },
+     "returns": {
+      "value": 4,
+      "tolerance": null
+     }
+    },
+    {
+     "id": "double-big",
+     "visibility": "visible",
+     "description": "double(21)",
+     "inputs": [],
+     "call": {
+      "function": "double",
+      "args": [
+       21
+      ],
+      "kwargs": {}
+     },
+     "returns": {
+      "value": 42,
+      "tolerance": null
+     }
+    },
+    {
+     "id": "share-third",
+     "visibility": "visible",
+     "description": "share(1, 3)",
+     "inputs": [],
+     "call": {
+      "function": "share",
+      "args": [
+       1,
+       3
+      ],
+      "kwargs": {}
+     },
+     "returns": {
+      "value": 0.3333,
+      "tolerance": 0.001
+     }
+    },
+    {
+     "id": "greet-kai",
+     "visibility": "visible",
+     "description": "greet(\"Kai\")",
+     "inputs": [],
+     "expected": "Hello, Kai",
+     "call": {
+      "function": "greet",
+      "args": [
+       "Kai"
+      ],
+      "kwargs": {}
+     },
+     "returns": {
+      "value": null,
+      "tolerance": null
+     }
+    }
+   ]
+  }
+ },
+ "scenarios": [
+  {
+   "name": "passed",
+   "request": {
+    "lesson_id": "fixture.calls",
+    "code": "def double(n):\n    return n * 2\ndef share(total, people):\n    return total / people\ndef greet(name):\n    print(\"Hello,\", name)\n",
+    "output": "",
+    "inputs": [],
+    "runs": [
+     {
+      "id": "double-two",
+      "status": "ok",
+      "output": "",
+      "error_type": null,
+      "line": null,
+      "returned": "4"
+     },
+     {
+      "id": "double-big",
+      "status": "ok",
+      "output": "",
+      "error_type": null,
+      "line": null,
+      "returned": "42"
+     },
+     {
+      "id": "share-third",
+      "status": "ok",
+      "output": "",
+      "error_type": null,
+      "line": null,
+      "returned": "0.3333333333333333"
+     },
+     {
+      "id": "greet-kai",
+      "status": "ok",
+      "output": "Hello, Kai\n",
+      "error_type": null,
+      "line": null,
+      "returned": "null"
+     }
+    ]
+   },
+   "response": {
+    "passed": true,
+    "result": "passed",
+    "feedback": "Your program printed the expected output for all 4 test cases. Read your code once more: could you explain each line to someone else?",
+    "rule": null,
+    "assessment": "browser_tests",
+    "cases": [
+     {
+      "id": "double-two",
+      "visibility": "visible",
+      "status": "passed"
+     },
+     {
+      "id": "double-big",
+      "visibility": "visible",
+      "status": "passed"
+     },
+     {
+      "id": "share-third",
+      "visibility": "visible",
+      "status": "passed"
+     },
+     {
+      "id": "greet-kai",
+      "visibility": "visible",
+      "status": "passed"
+     }
+    ],
+    "failed": null
+   }
+  },
+  {
+   "name": "wrong return",
+   "request": {
+    "lesson_id": "fixture.calls",
+    "code": "def double(n):\n    return n + 1\ndef share(total, people):\n    return total / people\ndef greet(name):\n    print(\"Hello,\", name)\n",
+    "output": "",
+    "inputs": [],
+    "runs": [
+     {
+      "id": "double-two",
+      "status": "ok",
+      "output": "",
+      "error_type": null,
+      "line": null,
+      "returned": "3"
+     },
+     {
+      "id": "double-big",
+      "status": "ok",
+      "output": "",
+      "error_type": null,
+      "line": null,
+      "returned": "22"
+     },
+     {
+      "id": "share-third",
+      "status": "ok",
+      "output": "",
+      "error_type": null,
+      "line": null,
+      "returned": "0.3333333333333333"
+     },
+     {
+      "id": "greet-kai",
+      "status": "ok",
+      "output": "Hello, Kai\n",
+      "error_type": null,
+      "line": null,
+      "returned": "null"
+     }
+    ]
+   },
+   "response": {
+    "passed": false,
+    "result": "needs_work",
+    "feedback": "For double(2), your function should return 4, but it returned 3.",
+    "rule": "fixture.calls.case.double-two",
+    "assessment": "browser_tests",
+    "cases": [
+     {
+      "id": "double-two",
+      "visibility": "visible",
+      "status": "failed"
+     },
+     {
+      "id": "double-big",
+      "visibility": "visible",
+      "status": "failed"
+     },
+     {
+      "id": "share-third",
+      "visibility": "visible",
+      "status": "passed"
+     },
+     {
+      "id": "greet-kai",
+      "visibility": "visible",
+      "status": "passed"
+     }
+    ],
+    "failed": {
+     "id": "double-two",
+     "visibility": "visible",
+     "description": "double(2)",
+     "reason": "wrong_return",
+     "error_type": null,
+     "line": null,
+     "expected_value": "4",
+     "actual_value": "3"
+    }
+   }
+  },
+  {
+   "name": "printed instead",
+   "request": {
+    "lesson_id": "fixture.calls",
+    "code": "def double(n):\n    print(n * 2)\ndef share(total, people):\n    return total / people\ndef greet(name):\n    print(\"Hello,\", name)\n",
+    "output": "4\n",
+    "inputs": [],
+    "runs": [
+     {
+      "id": "double-two",
+      "status": "ok",
+      "output": "4\n",
+      "error_type": null,
+      "line": null,
+      "returned": "null"
+     },
+     {
+      "id": "double-big",
+      "status": "ok",
+      "output": "42\n",
+      "error_type": null,
+      "line": null,
+      "returned": "null"
+     },
+     {
+      "id": "share-third",
+      "status": "ok",
+      "output": "",
+      "error_type": null,
+      "line": null,
+      "returned": "0.3333333333333333"
+     },
+     {
+      "id": "greet-kai",
+      "status": "ok",
+      "output": "Hello, Kai\n",
+      "error_type": null,
+      "line": null,
+      "returned": "null"
+     }
+    ]
+   },
+   "response": {
+    "passed": false,
+    "result": "needs_work",
+    "feedback": "For double(2), your function should return 4, but it returned None. It printed something instead: printing shows a value, and return hands it back.",
+    "rule": "fixture.calls.case.double-two",
+    "assessment": "browser_tests",
+    "cases": [
+     {
+      "id": "double-two",
+      "visibility": "visible",
+      "status": "failed"
+     },
+     {
+      "id": "double-big",
+      "visibility": "visible",
+      "status": "failed"
+     },
+     {
+      "id": "share-third",
+      "visibility": "visible",
+      "status": "passed"
+     },
+     {
+      "id": "greet-kai",
+      "visibility": "visible",
+      "status": "passed"
+     }
+    ],
+    "failed": {
+     "id": "double-two",
+     "visibility": "visible",
+     "description": "double(2)",
+     "reason": "wrong_return",
+     "error_type": null,
+     "line": null,
+     "expected_value": "4",
+     "actual_value": "None"
+    }
+   }
+  },
+  {
+   "name": "no function",
+   "request": {
+    "lesson_id": "fixture.calls",
+    "code": "def twice(n):\n    return n * 2\ndef share(total, people):\n    return total / people\ndef greet(name):\n    print(\"Hello,\", name)\n",
+    "output": "",
+    "inputs": [],
+    "runs": [
+     {
+      "id": "double-two",
+      "status": "no_function",
+      "output": "",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "double-big",
+      "status": "no_function",
+      "output": "",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "share-third",
+      "status": "ok",
+      "output": "",
+      "error_type": null,
+      "line": null,
+      "returned": "0.3333333333333333"
+     },
+     {
+      "id": "greet-kai",
+      "status": "ok",
+      "output": "Hello, Kai\n",
+      "error_type": null,
+      "line": null,
+      "returned": "null"
+     }
+    ]
+   },
+   "response": {
+    "passed": false,
+    "result": "needs_work",
+    "feedback": "Your program should define a function called double that takes 1 argument.",
+    "rule": "fixture.calls.case.double-two",
+    "assessment": "browser_tests",
+    "cases": [
+     {
+      "id": "double-two",
+      "visibility": "visible",
+      "status": "failed"
+     },
+     {
+      "id": "double-big",
+      "visibility": "visible",
+      "status": "failed"
+     },
+     {
+      "id": "share-third",
+      "visibility": "visible",
+      "status": "passed"
+     },
+     {
+      "id": "greet-kai",
+      "visibility": "visible",
+      "status": "passed"
+     }
+    ],
+    "failed": {
+     "id": "double-two",
+     "visibility": "visible",
+     "description": "double(2)",
+     "reason": "no_function",
+     "error_type": null,
+     "line": null
+    }
+   }
+  },
+  {
+   "name": "wrong parameters",
+   "request": {
+    "lesson_id": "fixture.calls",
+    "code": "def double():\n    return 4\ndef share(total, people):\n    return total / people\ndef greet(name):\n    print(\"Hello,\", name)\n",
+    "output": "",
+    "inputs": [],
+    "runs": [
+     {
+      "id": "double-two",
+      "status": "bad_signature",
+      "output": "",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "double-big",
+      "status": "bad_signature",
+      "output": "",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "share-third",
+      "status": "ok",
+      "output": "",
+      "error_type": null,
+      "line": null,
+      "returned": "0.3333333333333333"
+     },
+     {
+      "id": "greet-kai",
+      "status": "ok",
+      "output": "Hello, Kai\n",
+      "error_type": null,
+      "line": null,
+      "returned": "null"
+     }
+    ]
+   },
+   "response": {
+    "passed": false,
+    "result": "needs_work",
+    "feedback": "Your program should define a function called double that takes 1 argument. Yours cannot be called that way for double(2).",
+    "rule": "fixture.calls.case.double-two",
+    "assessment": "browser_tests",
+    "cases": [
+     {
+      "id": "double-two",
+      "visibility": "visible",
+      "status": "failed"
+     },
+     {
+      "id": "double-big",
+      "visibility": "visible",
+      "status": "failed"
+     },
+     {
+      "id": "share-third",
+      "visibility": "visible",
+      "status": "passed"
+     },
+     {
+      "id": "greet-kai",
+      "visibility": "visible",
+      "status": "passed"
+     }
+    ],
+    "failed": {
+     "id": "double-two",
+     "visibility": "visible",
+     "description": "double(2)",
+     "reason": "wrong_arguments",
+     "error_type": null,
+     "line": null
+    }
+   }
+  },
+  {
+   "name": "exception",
+   "request": {
+    "lesson_id": "fixture.calls",
+    "code": "def double(n):\n    return n + missing\ndef share(total, people):\n    return total / people\ndef greet(name):\n    print(\"Hello,\", name)\n",
+    "output": "",
+    "inputs": [],
+    "runs": [
+     {
+      "id": "double-two",
+      "status": "error",
+      "output": "",
+      "error_type": "NameError",
+      "line": 2
+     },
+     {
+      "id": "double-big",
+      "status": "error",
+      "output": "",
+      "error_type": "NameError",
+      "line": 2
+     },
+     {
+      "id": "share-third",
+      "status": "ok",
+      "output": "",
+      "error_type": null,
+      "line": null,
+      "returned": "0.3333333333333333"
+     },
+     {
+      "id": "greet-kai",
+      "status": "ok",
+      "output": "Hello, Kai\n",
+      "error_type": null,
+      "line": null,
+      "returned": "null"
+     }
+    ]
+   },
+   "response": {
+    "passed": false,
+    "result": "execution_error",
+    "feedback": "Python stopped with NameError on line 2 while running double(2). Read the error, change one thing, and run it again.",
+    "rule": null,
+    "assessment": "browser_tests",
+    "cases": [
+     {
+      "id": "double-two",
+      "visibility": "visible",
+      "status": "failed"
+     },
+     {
+      "id": "double-big",
+      "visibility": "visible",
+      "status": "failed"
+     },
+     {
+      "id": "share-third",
+      "visibility": "visible",
+      "status": "passed"
+     },
+     {
+      "id": "greet-kai",
+      "visibility": "visible",
+      "status": "passed"
+     }
+    ],
+    "failed": {
+     "id": "double-two",
+     "visibility": "visible",
+     "description": "double(2)",
+     "reason": "error",
+     "error_type": "NameError",
+     "line": 2
+    }
+   }
+  },
+  {
+   "name": "endless",
+   "request": {
+    "lesson_id": "fixture.calls",
+    "code": "def double(n):\n    while True:\n        pass\ndef share(total, people):\n    return total / people\ndef greet(name):\n    print(\"Hello,\", name)\n",
+    "output": "",
+    "inputs": [],
+    "runs": [
+     {
+      "id": "double-two",
+      "status": "timeout",
+      "output": "",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "double-big",
+      "status": "not_run",
+      "output": "",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "share-third",
+      "status": "not_run",
+      "output": "",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "greet-kai",
+      "status": "not_run",
+      "output": "",
+      "error_type": null,
+      "line": null
+     }
+    ]
+   },
+   "response": {
+    "passed": false,
+    "result": "execution_error",
+    "feedback": "Your program was still running after 3 seconds on double(2), so it was stopped. Check for a loop that never ends.",
+    "rule": null,
+    "assessment": "browser_tests",
+    "cases": [
+     {
+      "id": "double-two",
+      "visibility": "visible",
+      "status": "failed"
+     },
+     {
+      "id": "double-big",
+      "visibility": "visible",
+      "status": "not_run"
+     },
+     {
+      "id": "share-third",
+      "visibility": "visible",
+      "status": "not_run"
+     },
+     {
+      "id": "greet-kai",
+      "visibility": "visible",
+      "status": "not_run"
+     }
+    ],
+    "failed": {
+     "id": "double-two",
+     "visibility": "visible",
+     "description": "double(2)",
+     "reason": "timeout",
+     "error_type": null,
+     "line": null
+    }
+   }
+  },
+  {
+   "name": "not comparable",
+   "request": {
+    "lesson_id": "fixture.calls",
+    "code": "def double(n):\n    return {n}\ndef share(total, people):\n    return total / people\ndef greet(name):\n    print(\"Hello,\", name)\n",
+    "output": "",
+    "inputs": [],
+    "runs": [
+     {
+      "id": "double-two",
+      "status": "not_comparable",
+      "output": "",
+      "error_type": "set",
+      "line": null
+     },
+     {
+      "id": "double-big",
+      "status": "not_comparable",
+      "output": "",
+      "error_type": "set",
+      "line": null
+     },
+     {
+      "id": "share-third",
+      "status": "ok",
+      "output": "",
+      "error_type": null,
+      "line": null,
+      "returned": "0.3333333333333333"
+     },
+     {
+      "id": "greet-kai",
+      "status": "ok",
+      "output": "Hello, Kai\n",
+      "error_type": null,
+      "line": null,
+      "returned": "null"
+     }
+    ]
+   },
+   "response": {
+    "passed": false,
+    "result": "needs_work",
+    "feedback": "For double(2), your function returned a value this check cannot compare (set). Return a number, text, True or False, None, a list, a tuple or a dictionary with text keys.",
+    "rule": "fixture.calls.case.double-two",
+    "assessment": "browser_tests",
+    "cases": [
+     {
+      "id": "double-two",
+      "visibility": "visible",
+      "status": "failed"
+     },
+     {
+      "id": "double-big",
+      "visibility": "visible",
+      "status": "failed"
+     },
+     {
+      "id": "share-third",
+      "visibility": "visible",
+      "status": "passed"
+     },
+     {
+      "id": "greet-kai",
+      "visibility": "visible",
+      "status": "passed"
+     }
+    ],
+    "failed": {
+     "id": "double-two",
+     "visibility": "visible",
+     "description": "double(2)",
+     "reason": "not_comparable",
+     "error_type": "set",
+     "line": null
+    }
+   }
+  }
+ ]
+}
