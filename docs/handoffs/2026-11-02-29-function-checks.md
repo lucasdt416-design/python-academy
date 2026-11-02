@@ -3,7 +3,7 @@
 Date: 2026-11-02 (America/Toronto)  
 Written by: Claude Code (implementer), in a separate git worktree  
 For: the human maintainer, and ChatGPT or Claude chat (reviewer) without repository access  
-Status: **in_review**: one pull request (PR_NUMBER), not merged, not deployed. **No database migration, no new dependency, no lesson content.** Nothing a learner sees changes until a lesson uses it.
+Status: **in_review**: one pull request (#34), not merged, not deployed. **No database migration, no new dependency, no lesson content.** Nothing a learner sees changes until a lesson uses it.
 
 > **How to use this file:** upload it with `docs/plan/browser-checks.md` and handoffs 11 and 22. The pull request diff is the source of truth (`build.md` section 14).
 
@@ -25,7 +25,7 @@ the browser, and that the server never runs learner code.
 | Stage | S05, ENG-06 |
 | Base | `main`, at `4b70a28`. Nothing unmerged is needed. **No other PR needs to merge first** |
 | Part 2 boxes relied on | **None. No box is ticked.** S05's gate is "none" |
-| With #32 | Merges with no conflict in code (section 7) |
+| With #32 | A trial merge has no conflict (section 7) |
 
 ## 1. Step 0 (checks before building)
 
@@ -157,7 +157,7 @@ The two unit 2 recording tests, fixed afterwards (section 5), also failed in the
 - **It is practice-level evidence,** like every browser check. Someone who edits their browser's reports can claim any value (contract section 5).
 - **Sets and objects cannot be compared yet.** Unit 4 does not need it for functions, but unit 11 will.
 - **`returned` is capped at 10,000 characters as JSON.** Longer values are `not_comparable`, and the message names the type, not the length.
-- **The worker changes and #32's worker fix are in the same function.** A trial merge shows no conflict in code. It does not matter which merges first.
+- **The worker changes and #32's worker fix are in the same function.** A trial merge shows no conflict. It does not matter which merges first.
 - **The run log conflicts with #33.** Both add `docs/run-log.md`. When one merges, keep the copy with the most rows.
 - **Not tested with a real screen reader,** or on Safari or Firefox.
 
@@ -182,8 +182,8 @@ Each recommendation is **recommended, not yet confirmed**.
 
 | Where | What |
 | --- | --- |
-| Backlog ENG-06 | proposed → in_review (PR_NUMBER, handoff 29) |
-| Stage table | "29. ENG-06 \| Function-call checks \| in_review (PR_NUMBER, handoff 29)" |
+| Backlog ENG-06 | proposed → in_review (#34, handoff 29) |
+| Stage table | "29. ENG-06 \| Function-call checks \| in_review (#34, handoff 29)" |
 | Decision log | A chapter from sections 4 to 6 of this handoff |
 | Open questions | Question 1 |
 

@@ -11,7 +11,7 @@ The plan is [`docs/plan/master-run.md`](plan/master-run.md). A new session reads
 | S02 | none | none | none | none | blocked: waiting for B-R1 | 2026-11-02 | #32 is open, so S02 would have to chain on it |
 | S03 | none | none | none | none | blocked: waiting for B-S1 | 2026-11-02 | |
 | S04 | none | none | none | none | blocked: waiting for B-I5 | 2026-11-02 | |
-| S05 | `eng/function-checks` | `main` | PR_NUMBER | 29 | done | 2026-11-02 | Backend 611 and 622; types and build OK; Playwright 200; axe 0; 9 deliberate breaks caught. Hidden calls refused: owner question |
+| S05 | `eng/function-checks` | `main` | #34 | 29 | done | 2026-11-02 | Backend 611 and 622; types and build OK; Playwright 200; axe 0; 9 deliberate breaks caught. Hidden calls refused: owner question |
 | S06 | none | none | none | none | blocked: waiting for B-R1 and B-R2 | 2026-11-02 | Releases a unit in parts, on top of unit 3 |
 | S07 | none | none | none | none | blocked: dependency S06 | 2026-11-02 | |
 | S08 | none | none | none | none | blocked: waiting for B-R1 and B-R2 | 2026-11-02 | Also needs the earlier units, and an answer on hidden calls (handoff 29 question 1) |

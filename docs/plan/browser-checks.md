@@ -1,6 +1,6 @@
 # Browser behaviour checks: the contract (ENG-03)
 
-Last updated: 2026-11-02 (America/Toronto)  
+Last updated: 2026-10-26 (America/Toronto)  
 Status: **built** (merged, handoff 11). Used by all six lessons of Python unit 2 (EDU-04, handoffs 24 and 26). Since UI-05 (handoff 22, in review), the lesson page runs it for any lesson whose challenge has a browser check.  
 Related: [`course-catalog.md`](course-catalog.md) section 7.3 (why this exists); [`lesson-feedback.md`](lesson-feedback.md) (the feedback engine that will use the result fields); [`build.md`](../../build.md) sections 11 and 12.
 
