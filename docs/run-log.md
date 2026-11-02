@@ -16,7 +16,7 @@ The plan is [`docs/plan/master-run.md`](plan/master-run.md). A new session reads
 | S07 | none | none | none | none | blocked: dependency S06 | 2026-11-02 | |
 | S08 | none | none | none | none | blocked: waiting for B-R1 and B-R2 | 2026-11-02 | Also needs the earlier units, and an answer on hidden calls (handoff 29 question 1) |
 | S09 | none | none | none | none | blocked: dependency S08 | 2026-11-02 | |
-| S10 | `docs/course-designs` | `main` | PR_NUMBER | 30 | done | 2026-11-02 | Docs checks 0 problems; 257 IDs, no duplicates or clashes; outside links 200 |
+| S10 | `docs/course-designs` | `main` | #35 | 30 | done | 2026-11-02 | Docs checks 0 problems; 257 IDs, no duplicates or clashes; outside links 200 |
 | S11 | none | none | none | none | blocked: waiting for B-I8 and B-S2 | 2026-11-02 | |
 | S12 | none | none | none | none | blocked: waiting for B-I6 and B-I7 | 2026-11-02 | |
 | S13 | none | none | none | none | blocked: waiting for B-I2, B-I3 and B-I4 | 2026-11-02 | Also needs S04, S11 and S12 |

@@ -3,7 +3,7 @@
 Date: 2026-11-02 (America/Toronto)  
 Written by: Claude Code (implementer), in a separate git worktree  
 For: the human maintainer, and ChatGPT or Claude chat (reviewer) without repository access  
-Status: **in_review**: one pull request (PR_NUMBER), documentation only, not merged. No code, no catalog change, nothing decided.
+Status: **in_review**: one pull request (#35), documentation only, not merged. No code, no catalog change, nothing decided.
 
 > **How to use this file:** upload it with `docs/plan/courses/` and `docs/plan/teaching-design.md`. The pull request diff is the source of truth (`build.md` section 14).
 
@@ -109,7 +109,7 @@ Each course document ends with its own questions, and `courses/README.md` lists 
 
 | Where | What |
 | --- | --- |
-| Stage table | "30. Course designs \| Ten course design documents \| in_review (PR_NUMBER, handoff 30)" |
+| Stage table | "30. Course designs \| Ten course design documents \| in_review (#35, handoff 30)" |
 | Backlog WEB-01, DATA-01, NODE-01, CE-01, TOOL-03 | Point to the documents; remain `proposed` |
 | `teaching-design.md` section 6.6 | The age finding, once question 2 is answered |
 | Decision log | A chapter from sections 3 and 4 |
