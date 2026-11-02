@@ -28,9 +28,21 @@ The plan is [`docs/plan/master-run.md`](plan/master-run.md). A new session reads
 | S25 | none | none | none | none | blocked: waiting for B-P1 | 2026-11-02 | |
 | S26 | `docs/construct-rules` | `main` | #38 | 33 | done | 2026-11-02 | Docs checks 0 problems |
 | WWD1 | none | none | none | none | blocked: dependency S09 | 2026-11-02 | |
-| WD2 | `eng/allowlisted-imports` | `main` | #39 | 34 | done | 2026-11-02 | Backend 720 and 731; types and build OK; Playwright 252 twice; 9 deliberate breaks, one gap closed. One earlier run failed many Pyodide tests, cause not established |
+| WD2 | `eng/allowlisted-imports` | `main` | #39 | 34 | done | 2026-11-02 | On `ac167e3`: backend 802 and 813; types and build OK; Playwright 275; 9 deliberate breaks, one gap closed. One earlier run failed many Pyodide tests, cause not established |
+| WD3 | none | none | none | none | blocked: dependency WD2 and WD4 | 2026-11-02 | Both unmerged; chaining needs B-R1 |
+| WD4 | `eng/file-fixtures` | `main` | #40 | 35 | done | 2026-11-02 | Backend 813 and 824; types and build OK; Playwright 272; axe 0; 8 deliberate breaks caught. Text conflicts with #39; the combination was tested |
+| WD5 | none | none | none | none | stopped: spec contradicts itself | 2026-11-02 | References "stay server-side" but tests "run in the worker". See handoff 36 section 7 |
+| WD6 | none | none | none | none | blocked: dependency WD5 | 2026-11-02 | |
+| WD7 | none | none | none | none | blocked: dependency WD4 | 2026-11-02 | Unmerged; also needs B-R2 to release in parts |
+| WD8 | none | none | none | none | blocked: waiting for B-R2 | 2026-11-02 | Five lessons, and needs WD2 |
+| WD9 | none | none | none | none | blocked: dependency WD10 | 2026-11-02 | Its third lesson needs ENG-09 |
+| WD10 to WD12 | none | none | none | none | blocked: dependency S23 | 2026-11-02 | S23 needs B-A1 |
+| WE1 to WE4 | none | none | none | none | blocked: waiting for B-W1 | 2026-11-02 | |
+| WE5, UI-01 | `ui/cosmetic-fixes` | `main` | #41 | 36 | done | 2026-11-02 | Backend 785 and 796; types and build OK; Playwright 259; 3 deliberate breaks caught |
+| WE5, UI-02 to UI-04 | none | none | none | none | stopped: owner question | 2026-11-02 | See handoff 37 section 7 |
+| WE7, SEC-08 | `sec/pin-ci-actions` | `main` | #42 | 37 | done | 2026-11-02 | Backend 788 on SQLite; 3 deliberate breaks caught; CI proves the workflow. Out of queue order: see handoff 37 |
 
-Wave D from WD3 onward has not been reached; the run stopped at the cap of 5 open PRs. Owner merged #32, #33 and #34 on 2026-11-02.
+Owner merged #32 to #38 on 2026-11-02. Not reached or not started: WE6, the rest of WE7, WE8 and later.
 
 **Keeping this file mergeable:** every open run branch carries an identical copy of this file, so they merge in any order. If one conflicts after a merge, keep the copy with the most rows.
 
