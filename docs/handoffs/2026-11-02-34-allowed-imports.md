@@ -24,12 +24,12 @@ it doing so.
 | Field | Value |
 | --- | --- |
 | Stage | WD2, ENG-07. The plan's first stage in Wave D with its gate met: WWD1 depends on S09, which is blocked |
-| Base | `main`, at `8b5ef45`. **Merge #37 first, then update this PR before merging it** (section 7) |
+| Base | `main`, at `8b5ef45`. #37 has merged, and `main` was merged in at `ac167e3` |
 | Part 2 boxes relied on | **None.** Its gate is "none; security stage" |
 
 ## 1. Step 0
 
-`git fetch --all`, `gh pr list --state all`: #32, #33 and #34 merged by the owner. #35, #36, #37 and #38 open. This PR is the fifth open, which is the cap, so the run stops after it. Nothing like this on any branch. Worktree `../python-academy-imports`; the main folder was not switched.
+`git fetch --all`, `gh pr list --state all`: #32 to #34 merged by the owner, then #35 to #38 while this PR was open. Nothing like this on any branch. Worktree `../python-academy-imports`; the main folder was not switched.
 
 ## 2. Handoff record (build.md template)
 
@@ -50,7 +50,7 @@ it doing so.
 | `backend/app/content.py`, `backend/app/browser_checks.py` | The optional `seed`; the plan sends it when set; the corrected message |
 | `backend/tests/case_runner.py` | Seeds `random` the way the worker does |
 | `backend/tests/test_allowed_imports.py` (new, 17 tests), `frontend/tests/allowed-imports.spec.ts` (new, 19 tests), `frontend/tests/fixtures/seeded-random.json` (new) | Section 6 |
-| Fixtures `lesson-units-api.json`, `unit2-api.json`, `unit2-part2-api.json`, `unit3-api.json` | The corrected message |
+| Fixtures `lesson-units-api.json`, `unit2-api.json`, `unit2-part2-api.json`, `unit3-api.json`, `unit3-part2-api.json` | The corrected message |
 | `frontend/tests/fixtures/pyodide-errors.json` | Internal line numbers of the worker's own code, 7 to 5 and 9 to 7. Learners never see these |
 | `docs/plan/browser-checks.md` | Section 9, and two table rows |
 | `docs/run-log.md`, this handoff and its PDF | The record |
@@ -101,8 +101,9 @@ The guard replaces `__import__` after Pyodide has loaded and the network APIs ar
 | **`datetime.strptime` would have broken** | Reasoning about how C code imports, then a test | `_strptime` allowed. Break B6 proves the test catches it |
 | **Break B5 got past my first tests:** judging a dotted name by its last part failed nothing | Deliberate-break run | A new assertion that `import json.decoder` works. B5 now fails 2 tests |
 | The recording of worker errors held internal line numbers | Full Playwright run | Updated; learners never see these numbers |
+| **This PR and #37 failed one test together, with no text conflict:** #37's new recording held the old `unsupported` message | A trial merge of all five open PRs | After #37 merged, `main` was merged in here and the recording updated in 2 places |
 | A build failed with a symlinked `node_modules` | Probing | A real `npm ci` in this worktree. A link is enough for making a PDF, but not for a build |
-| **One full Playwright run failed many tests, cause not established** | Full suite, first run: 194 passed, with failures across specs that use real Pyodide | I only kept the last lines of that log. It did not recur in 3 later full runs: 251 passed with the one real failure above, then 252 and 252. I suspect the Pyodide CDN, **but did not confirm it.** Watch for it in CI |
+| **One full Playwright run failed many tests, cause not established** | Full suite, first run: 194 passed, with failures across specs that use real Pyodide | I only kept the last lines of that log. It did not recur in 4 later full runs: 251 passed with the one real failure above, then 252, 252 and 275. I suspect the Pyodide CDN, **but did not confirm it.** Watch for it in CI |
 
 ## 6. How it was tested
 
@@ -110,10 +111,10 @@ The guard replaces `__import__` after Pyodide has loaded and the network APIs ar
 
 | Command | Result |
 | --- | --- |
-| `cd backend && DATABASE_URL=sqlite:///<temp>.db ../../python-academy/backend/.venv/bin/python -m pytest -q` | **720 passed, 11 skipped** |
-| Same with `TEST_POSTGRES_URL=<local PostgreSQL 16 from pgserver>` | **731 passed** |
+| `cd backend && DATABASE_URL=sqlite:///<temp>.db ../../python-academy/backend/.venv/bin/python -m pytest -q`, on `ac167e3` | **802 passed, 11 skipped** |
+| Same with `TEST_POSTGRES_URL=<local PostgreSQL 16 from pgserver>` | **813 passed** |
 | `cd frontend && npx tsc --noEmit && npm run build` | OK |
-| `cd frontend && CI=1 npx playwright test` | **252 passed,** twice after a fresh build (see section 5) |
+| `cd frontend && CI=1 npx playwright test` | **275 passed** on `ac167e3`, and 252 twice before that merge (see section 5) |
 
 ### What the tests cover
 
@@ -148,7 +149,6 @@ The guard replaces `__import__` after Pyodide has loaded and the network APIs ar
 
 ## 7. Known limitations
 
-- **This PR and #37 break one test if both merge as they are, and GitHub will not warn you.** #37 adds a recording, `unit3-part2-api.json`, that holds the old `unsupported` message in 2 places. A trial merge of all five open PRs had no text conflict, but `test_the_recorded_answers_are_the_real_apis` failed in `test_unit3_part2.py` (1 failed, 801 passed). The fix is to merge #37, merge `main` into this branch, and update those 2 places. I did not chain the PRs, because box B-R1 is empty.
 - **A learner can get round the guard on purpose.** That is by design, as section 3 says.
 - **`sys` and others stop working for anyone already importing them.** No lesson does, and a check reports `unsupported`, so it never fails them wrongly.
 - **Try it has no friendly translation for the refused import.** It shows Python's message, which names the module.
@@ -182,7 +182,7 @@ The guard replaces `__import__` after Pyodide has loaded and the network APIs ar
 
 ## 11. Next concrete action
 
-The run has stopped at the open-PR cap. Merge what you accept and answer the questions. Then, if you wish, tick boxes in Part 2 and run the same prompt.
+Review and merge, then run the live checks.
 
 ## 12. Removing the worktree safely
 
