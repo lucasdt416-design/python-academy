@@ -4,9 +4,12 @@ Content lives in backend/content/ and is validated when the app starts, so a
 broken reference or duplicate ID stops the service instead of reaching
 learners. See backend/content/README.md for the format.
 """
+import json
+import keyword
+import math
 import re
 from pathlib import Path
-from typing import Annotated, Literal, Union
+from typing import Annotated, Any, Literal, Union
 
 from pydantic import BaseModel, ConfigDict, Field, ValidationError
 
@@ -77,6 +80,8 @@ class Validator(Strict):
 BROWSER_TESTS = 'browser-tests'
 # Most characters one case may print; the worker stops the program beyond this.
 OUTPUT_LIMIT = 10_000
+# Most characters one function-call case's arguments may take, as JSON.
+CALL_LIMIT = 2_000
 # Constructs a check can require or forbid, found by parsing the code, never by running it.
 CONSTRUCTS = {
     'for': 'a for loop', 'while': 'a while loop', 'if': 'an if statement', 'elif': 'elif',
@@ -87,15 +92,33 @@ CONSTRUCTS = {
 }
 
 
+class CheckCall(Strict):
+    """A function-call case (ENG-06): call this function, defined by the learner's program, with these values."""
+    function: str = Field(pattern=r'^[A-Za-z_][A-Za-z0-9_]*$', max_length=80)
+    args: list[Any] = Field(default=[], max_length=10)
+    kwargs: dict[str, Any] = Field(default={}, max_length=10)
+
+
+class CheckReturn(Strict):
+    """The value a called function should return, compared by browser_checks.same_value."""
+    value: Any
+    # How far a number may be from the expected one. Needed when the expected value has a fraction.
+    tolerance: float | None = Field(default=None, ge=0)
+
+
 class CheckCase(Strict):
-    """One run of the learner's program: replies fed to input(), and the output it should print."""
+    """One run of the learner's program: replies fed to input(), and the output it should print.
+    With `call`, the program runs and then the named function is called: `expected` is what the call
+    prints, and `returns` is what it should return. Such a case has at least one of the two."""
     id: str = Field(pattern=ID)
     # Shown to the learner when this case fails, for hidden cases too, so it must not give away
     # their inputs or expected output (checked in validate()).
     description: str = Field(min_length=1, max_length=200)
     inputs: list[Annotated[str, Field(max_length=500)]] = Field(default=[], max_length=10)
-    expected: str = Field(max_length=OUTPUT_LIMIT)
+    expected: str | None = Field(default=None, max_length=OUTPUT_LIMIT)
     visibility: Literal['visible', 'hidden'] = 'visible'
+    call: CheckCall | None = None
+    returns: CheckReturn | None = None
 
 
 class BrowserCheck(Strict):
@@ -338,6 +361,69 @@ def feedback_errors(lesson_id, challenge, seen):
     return sorted(set(errors), key=errors.index)
 
 
+def fractions_in(value):
+    """Is there a number with a fraction anywhere in this value? Exact comparison of those is a trap."""
+    if isinstance(value, float):
+        return value != int(value) if math.isfinite(value) else True
+    if isinstance(value, list):
+        return any(map(fractions_in, value))
+    if isinstance(value, dict):
+        return any(map(fractions_in, value.values()))
+    return False
+
+
+def numbers_in(value):
+    if isinstance(value, bool):
+        return False
+    if isinstance(value, (int, float)):
+        return True
+    if isinstance(value, list):
+        return any(map(numbers_in, value))
+    if isinstance(value, dict):
+        return any(map(numbers_in, value.values()))
+    return False
+
+
+def json_size(value):
+    """Characters as JSON, or None when it is not plain JSON (NaN and Infinity are not)."""
+    try:
+        return len(json.dumps(value, allow_nan=False))
+    except ValueError:
+        return None
+
+
+def call_errors(challenge, case):
+    """Problems with one case's function call and return value (ENG-06, browser-checks.md section 8)."""
+    name = f'{challenge.id} case {case.id}'
+    if case.call is None:
+        if case.returns is not None:
+            return [f'{name} has returns but no call']
+        return [f'{name} needs expected output'] if case.expected is None else []
+    errors = []
+    # The worker has to call the function, so the arguments of a hidden call would reach the browser.
+    if case.visibility == 'hidden':
+        errors.append(f'{name}: a function-call case cannot be hidden, because its arguments would reach the browser')
+    if case.expected is None and case.returns is None:
+        errors.append(f'{name} needs expected output, returns, or both')
+    if keyword.iskeyword(case.call.function):
+        errors.append(f'{name}: {case.call.function} cannot be a function name')
+    for key in case.call.kwargs:
+        if not key.isidentifier() or keyword.iskeyword(key):
+            errors.append(f'{name}: {key} cannot be a keyword argument')
+    size = json_size([case.call.args, case.call.kwargs])
+    if size is None or size > CALL_LIMIT:
+        errors.append(f'{name}: arguments must be plain JSON, up to {CALL_LIMIT} characters')
+    if case.returns is not None:
+        size = json_size(case.returns.value)
+        if size is None or size > OUTPUT_LIMIT:
+            errors.append(f'{name}: the return value must be plain JSON, up to {OUTPUT_LIMIT} characters')
+        elif case.returns.tolerance is None and fractions_in(case.returns.value):
+            errors.append(f'{name}: a return value with a fraction needs a tolerance')
+        if case.returns.tolerance is not None and not numbers_in(case.returns.value):
+            errors.append(f'{name}: a tolerance needs a number to apply to')
+    return errors
+
+
 def check_errors(challenge):
     """Problems with a challenge's browser check, if it has one."""
     check, errors = challenge.check, []
@@ -356,8 +442,9 @@ def check_errors(challenge):
     if set(check.require) & set(check.forbid):
         errors.append(f'{challenge.id} both requires and forbids {", ".join(sorted(set(check.require) & set(check.forbid)))}')
     for case in check.cases:
+        errors += call_errors(challenge, case)
         if case.visibility == 'hidden':
-            secrets = [value.strip() for value in case.inputs + case.expected.splitlines() if value.strip()]
+            secrets = [value.strip() for value in case.inputs + (case.expected or '').splitlines() if value.strip()]
             if any(value.casefold() in case.description.casefold() for value in secrets):
                 errors.append(f'{challenge.id} hidden case {case.id}: its description shows one of its inputs or expected lines')
     return errors
