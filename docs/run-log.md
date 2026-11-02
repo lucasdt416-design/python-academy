@@ -7,7 +7,7 @@ The plan is [`docs/plan/master-run.md`](plan/master-run.md). A new session reads
 | Stage | Branch | Base | PR | Handoff | Status | Date | Tests (one line) |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | S00 | none | none | none | none | done | 2026-11-02 | State check; differences below |
-| S01 | `docs/backlog-sync-3` | `main` | pending | 28 | in_progress | 2026-11-02 | Not run yet |
+| S01 | `docs/backlog-sync-3` | `main` | PR_NUMBER | 28 | done | 2026-11-02 | Docs checks 0 problems; backend 541 and 552; build OK; Playwright 173 |
 | S02 | none | none | none | none | blocked: waiting for B-R1 | 2026-11-02 | #32 is open, so S02 would have to chain on it |
 | S03 | none | none | none | none | blocked: waiting for B-S1 | 2026-11-02 | |
 | S04 | none | none | none | none | blocked: waiting for B-I5 | 2026-11-02 | |
