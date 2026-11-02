@@ -3,7 +3,7 @@
 Date: 2026-11-02 (America/Toronto)  
 Written by: Claude Code (implementer), in a separate git worktree  
 For: the human maintainer, and ChatGPT or Claude chat (reviewer) without repository access  
-Status: **in_review**: one pull request (PR_NUMBER), not merged, not deployed. No migration, no new dependency, and no lesson uses it yet.
+Status: **in_review**: one pull request (#46), not merged, not deployed. No migration, no new dependency, and no lesson uses it yet.
 
 > **How to use this file:** upload it with `docs/plan/browser-checks.md` and handoff 29. The pull request diff is the source of truth (`build.md` section 14).
 
@@ -118,8 +118,8 @@ None: no real lesson uses it.
 
 | Where | What |
 | --- | --- |
-| Backlog ENG-10 | proposed → in_review (PR_NUMBER, handoff 41) |
-| Stage table | "41. ENG-10 \| Learner tests against references \| in_review (PR_NUMBER, handoff 41)" |
+| Backlog ENG-10 | proposed → in_review (#46, handoff 41) |
+| Stage table | "41. ENG-10 \| Learner tests against references \| in_review (#46, handoff 41)" |
 | `browser-checks.md` | Number the new section |
 
 ## 12. Next concrete action
