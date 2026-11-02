@@ -109,10 +109,32 @@
         {
           "id": "py.u03",
           "title": "Repeat and explore",
-          "summary": "while and for loops that always finish.",
-          "status": "coming_soon",
+          "summary": "while and for loops that always finish. Running totals and loops inside loops come next.",
+          "status": "released",
           "complete": false,
-          "lessons": []
+          "lessons": [
+            {
+              "id": "py.while-loops",
+              "title": "Keep guessing",
+              "concept": "Loops \u00b7 while",
+              "description": "Let the player keep guessing the secret number until they get it right.",
+              "badge": "Patient guesser"
+            },
+            {
+              "id": "py.loop-termination",
+              "title": "Three tries",
+              "concept": "Loops \u00b7 stopping on time",
+              "description": "Give the player three tries, and make sure the loop always ends.",
+              "badge": "Loop closer"
+            },
+            {
+              "id": "py.for-range",
+              "title": "Step by step",
+              "concept": "Loops \u00b7 for and range()",
+              "description": "Count the steps of a staircase with a for loop and range(), two at a time.",
+              "badge": "Step counter"
+            }
+          ]
         },
         {
           "id": "py.u04",

@@ -72,7 +72,7 @@ Each translation has a **title**, an **explanation** of the likely cause, and a 
 | `ValueError: invalid literal for int() with base 10` | `int()` on text that is not a whole number | That text is not a whole number | "`int()` only turns text like `\"7\"` into a number. Check what was typed." (Unit 2) |
 | `ZeroDivisionError` | Dividing by zero | Division by zero | "A number on line {line} was divided by 0. Check the value before dividing." (Unit 2) |
 | `EOFError: Add a player reply…` (from our worker) | More `input()` calls than test replies | Not enough player replies | "Your program asked for input more times than there are player replies. Add a reply below, or check the number of `input()` calls." |
-| Stopped after 15 seconds (from the app) | Endless loop | Your program kept running | "It did not finish within 15 seconds, usually because a loop never ends. Check that the loop's condition can become false." (Unit 3) |
+| Stopped after 15 seconds (from the app) | Endless loop | Your program kept running | "It did not finish within 15 seconds, usually because a loop never ends. Check that something inside the loop changes, so that the loop can stop." (Reworded in EDU-03 part 1, handoff 27: "the condition can become false" did not help a learner who wrote `while True`.) |
 | Output limit (from the worker) | Very long output | Too much output | "Your program printed more than 20,000 characters. Print less, or check for a loop that never ends." |
 | Anything else | — | Python stopped on line {line} | "Read Python's message below, change one thing, and run it again." |
 

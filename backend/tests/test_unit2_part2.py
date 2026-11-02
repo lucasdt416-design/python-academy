@@ -115,8 +115,8 @@ def test_unit_2_is_complete_with_six_lessons_in_order():
     unit = next(u for u in py.units if u.id == 'py.u02')
     assert (unit.status, unit.lessons, unit.more_lessons_coming) == ('released', UNIT_2, False)
     assert 'come next' not in unit.summary and 'elif' in unit.summary
-    # Nothing in the real catalog is still being written.
-    assert not any(u.more_lessons_coming for c in part1.CATALOG.courses for u in c.units)
+    # Unit 2 is not still being written (unit 3, released in parts, is: tests/test_unit3_lessons.py).
+    assert [u.id for c in part1.CATALOG.courses for u in c.units if u.more_lessons_coming] == ['py.u03']
 
 
 def test_the_catalog_says_which_units_are_complete():
@@ -124,6 +124,7 @@ def test_the_catalog_says_which_units_are_complete():
     units = {u['id']: u['complete'] for c in catalog['courses'] for u in c['units']}
     assert units['py.u01'] is True and units['py.u02'] is True
     assert not any(complete for unit, complete in units.items() if unit not in ('py.u01', 'py.u02'))
+    assert units['py.u03'] is False  # released, still being written
 
 
 def test_more_lessons_coming_is_only_for_a_released_unit(tmp_path):
@@ -131,12 +132,12 @@ def test_more_lessons_coming_is_only_for_a_released_unit(tmp_path):
     import shutil
     shutil.copytree(content.CONTENT_DIR, root)
     data = json.loads((root / 'catalog.json').read_text())
-    data['courses'][0]['units'][2]['more_lessons_coming'] = True  # py.u03, coming soon
+    data['courses'][0]['units'][3]['more_lessons_coming'] = True  # py.u04, coming soon
     (root / 'catalog.json').write_text(json.dumps(data))
-    with pytest.raises(content.ContentError, match='unit py.u03 is coming soon, so it cannot also have more lessons coming'):
+    with pytest.raises(content.ContentError, match='unit py.u04 is coming soon, so it cannot also have more lessons coming'):
         content.load(root)
     # On a released unit it is allowed, and the catalog then calls the unit not complete.
-    data['courses'][0]['units'][2]['more_lessons_coming'] = False
+    data['courses'][0]['units'][3]['more_lessons_coming'] = False
     data['courses'][0]['units'][1]['more_lessons_coming'] = True
     (root / 'catalog.json').write_text(json.dumps(data))
     catalog, lessons = content.load(root)
@@ -330,8 +331,8 @@ def test_the_hints_with_the_challenges_own_names_still_do_not_pass(lesson_id):
     programs = {ASK + example}
     for size in range(1, len(pieces) + 1):
         for chosen in itertools.combinations(pieces, size):
-            body = part1.assemble(chosen)
-            programs.update({ASK + body, ASK + body + '\n' + example})
+            for body in {part1.assemble(chosen), part1.assemble(chosen, greedy=True)}:
+                programs.update({ASK + body, ASK + body + '\n' + example})
     programs = sorted(programs)
     passing = [p for p, r in zip(programs, judge_all(lesson_id, programs)) if r['result'] == 'passed']
     assert passing == []

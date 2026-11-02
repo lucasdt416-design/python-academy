@@ -13,7 +13,8 @@ UNIT1 = {'hello', 'variables', 'input', 'choices', 'adventure'}
 def release(catalog, units, planned=None):
     """Return a copy of catalog with the given units released, each with placeholder lessons.
 
-    units: unit IDs to release (py.u01 keeps its real lessons). planned: {course_id: n} gives
+    units: unit IDs to release in full (real lessons are kept; a unit still being written is treated as
+    finished being written). planned: {course_id: n} gives
     courses without units n coming-soon units first, so they can be released too.
     """
     courses = []
@@ -22,7 +23,7 @@ def release(catalog, units, planned=None):
         if not own and planned and course.id in planned:
             own = [Unit(id=f'{course.id}.u{n:02d}', title=f'{course.title} {n}', summary='', status='coming_soon')
                    for n in range(1, planned[course.id] + 1)]
-        own = [u.model_copy(update={'status': 'released', 'lessons': u.lessons or [f'{u.id}.l1', f'{u.id}.l2']})
+        own = [u.model_copy(update={'status': 'released', 'lessons': u.lessons or [f'{u.id}.l1', f'{u.id}.l2'], 'more_lessons_coming': False})
                if u.id in units else u for u in own]
         status = 'released' if any(u.status == 'released' for u in own) else course.status
         courses.append(course.model_copy(update={'units': own, 'status': status}))
@@ -65,12 +66,28 @@ def test_after_unit_1_python_continues_with_unit_2():
     assert (r.kind, r.unit, r.lesson) == ('continue', 'py.u02', 'py.arithmetic')
 
 
-def test_when_everything_released_is_done_the_coming_soon_courses_are_named():
+UNIT3_PART1 = {'py.while-loops', 'py.loop-termination', 'py.for-range'}
+
+
+def test_after_unit_2_python_continues_with_unit_3():
     r = recommend('hackathon', CATALOG, UNIT1 | UNIT2)
+    assert (r.kind, r.unit, r.lesson) == ('continue', 'py.u03', 'py.while-loops')
+
+
+def test_when_everything_released_is_done_the_coming_soon_courses_are_named():
+    # Unit 3 is released in parts (more_lessons_coming): it is not finished, and unit 4 is never named.
+    r = recommend('hackathon', CATALOG, UNIT1 | UNIT2 | UNIT3_PART1)
     assert r.kind == 'caught_up' and r.lesson is None
     assert r.reason == "You've finished everything available on your path so far."
-    assert r.notes[0] == 'Python Foundations unit 3, Repeat and explore, is next on your path. Its lessons are not written yet.'
+    assert r.notes[0] == 'Python Foundations unit 3, Repeat and explore, has more lessons on the way. You have finished every lesson in it so far.'
+    assert 'unit 4' not in ' '.join(r.notes)
     assert 'Hackathon Ready' in r.notes[1]
+
+
+def test_a_unit_with_no_lessons_written_is_named_as_such():
+    # The note for a planned unit with no lessons (rules version 2), now that unit 3 has lessons.
+    r = recommend('hackathon', release(CATALOG, PY[:3]), UNIT1 | UNIT2 | UNIT3_PART1)
+    assert r.notes[0] == 'Python Foundations unit 4, Keep track of a world, is next on your path. Its lessons are not written yet.'
 
 
 def test_part_of_unit_2_done_continues_unit_2():

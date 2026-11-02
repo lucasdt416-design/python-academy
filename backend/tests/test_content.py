@@ -37,10 +37,11 @@ def assert_invalid(root, message):
 def test_real_content_is_valid_and_matches_the_original_lessons():
     catalog, lessons = content.load()
     assert content.legacy_lessons(catalog, lessons) == json.loads(FIXTURE.read_text())
-    assert sorted(lessons) == sorted(content.LEGACY_LESSON_IDS | {'py.arithmetic', 'py.int-float', 'py.convert-input', 'py.compare', 'py.boolean-logic', 'py.elif'})
+    assert sorted(lessons) == sorted(content.LEGACY_LESSON_IDS | {'py.arithmetic', 'py.int-float', 'py.convert-input', 'py.compare', 'py.boolean-logic', 'py.elif',
+                                                                   'py.while-loops', 'py.loop-termination', 'py.for-range'})
     assert [c.id for c in catalog.courses] == ['py', 'hack', 'git', 'web', 'js', 'sql', 'data', 'cs', 'node', 'fullstack', 'ce']
     released = [(c.id, u.id) for c in catalog.courses for u in c.units if u.status == 'released']
-    assert released == [('py', 'py.u01'), ('py', 'py.u02')]
+    assert released == [('py', 'py.u01'), ('py', 'py.u02'), ('py', 'py.u03')]
     assert all(c.status == 'coming_soon' for c in catalog.courses if c.id != 'py')
 
 
@@ -69,8 +70,8 @@ def test_lesson_file_not_listed_in_a_unit_is_rejected(tree):
 
 
 def test_lesson_in_the_wrong_folder_is_rejected(tree):
-    (tree / 'py/u03').mkdir()
-    (tree / 'py/u01/hello.json').rename(tree / 'py/u03/hello.json')
+    (tree / 'py/u04').mkdir()
+    (tree / 'py/u01/hello.json').rename(tree / 'py/u04/hello.json')
     assert_invalid(tree, 'file must be at py/u01/hello.json')
 
 
@@ -123,11 +124,11 @@ def test_unknown_validator_is_rejected(tree):
 def test_coming_soon_unit_cannot_list_lessons(tree):
     def change(d):
         units = course(d, 'py')['units']
-        units[2]['lessons'] = units[0]['lessons']
+        units[3]['lessons'] = units[0]['lessons']
         units[0]['lessons'] = []
     edit(tree / 'catalog.json', change)
     assert_invalid(tree, 'released unit py.u01 has no lessons')
-    assert_invalid(tree, 'coming-soon unit py.u03 lists lessons')
+    assert_invalid(tree, 'coming-soon unit py.u04 lists lessons')
 
 
 def test_unknown_fields_are_rejected_to_catch_typos(tree):

@@ -1,7 +1,7 @@
 # Browser behaviour checks: the contract (ENG-03)
 
 Last updated: 2026-10-26 (America/Toronto)  
-Status: **built** (merged, handoff 11). Used by all six lessons of Python unit 2 (EDU-04, handoffs 24 and 26). Since UI-05 (handoff 22, in review), the lesson page runs it for any lesson whose challenge has a browser check.  
+Status: **built** (merged, handoff 11). Used by all six lessons of Python unit 2 (EDU-04, handoffs 24 and 26) and the first three of unit 3 (EDU-03, handoff 27). Since UI-05 (handoff 22, in review), the lesson page runs it for any lesson whose challenge has a browser check.  
 Related: [`course-catalog.md`](course-catalog.md) section 7.3 (why this exists); [`lesson-feedback.md`](lesson-feedback.md) (the feedback engine that will use the result fields); [`build.md`](../../build.md) sections 11 and 12.
 
 ## 1. Who does what
@@ -112,7 +112,7 @@ Each run status reported by the browser is one of: `ok`, `error`, `timeout`, `ou
 | Output per case | 10,000 characters | Worker stops the program; API rejects longer reports (422) |
 | Cases per check | 10 | Content validation; API rejects more (422) |
 | Network | None for learner code | Worker removes the network APIs after Pyodide loads; the worker's existing Content-Security-Policy only allows the Pyodide CDN in any case |
-| State between cases | None | Fresh namespace per case. Imported modules stay loaded within one run, which is harmless |
+| State between cases | None | Fresh namespace per case. Output a case left unflushed (for example one stopped at the output limit) is flushed and dropped before the next case starts (fixed in EDU-03 part 1, handoff 27). Imported modules stay loaded within one run, which is harmless |
 | Request rate | Unchanged | The existing `check` and `attempts` rate limits |
 
 ## 7. Not done here
