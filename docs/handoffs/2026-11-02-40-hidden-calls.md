@@ -3,7 +3,7 @@
 Date: 2026-11-02 (America/Toronto)  
 Written by: Claude Code (implementer), in a separate git worktree  
 For: the human maintainer, and ChatGPT or Claude chat (reviewer) without repository access  
-Status: **in_review**: one pull request (PR_NUMBER), not merged, not deployed. No migration, no new dependency, and no lesson uses it yet.
+Status: **in_review**: one pull request (#45), not merged, not deployed. No migration, no new dependency, and no lesson uses it yet.
 
 > **How to use this file:** upload it with `docs/plan/browser-checks.md` and handoff 29. The pull request diff is the source of truth (`build.md` section 14).
 
@@ -104,7 +104,7 @@ None.
 | Where | What |
 | --- | --- |
 | Backlog ENG-06 | Remove "Hidden calls are refused until the follow-up" |
-| Stage table | "40. ENG-06 follow-up \| Hidden function calls \| in_review (PR_NUMBER, handoff 40)" |
+| Stage table | "40. ENG-06 follow-up \| Hidden function calls \| in_review (#45, handoff 40)" |
 
 ## 11. Next concrete action
 
