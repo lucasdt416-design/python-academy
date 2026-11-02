@@ -8,7 +8,7 @@ The plan is [`docs/plan/master-run.md`](plan/master-run.md). A new session reads
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | S00 | none | none | none | none | done | 2026-11-02 | State check; differences below |
 | S01 | `docs/backlog-sync-3` | `main` | #33 | 28 | done | 2026-11-02 | Docs checks 0 problems; backend 541 and 552; build OK; Playwright 173 |
-| S02 | none | none | none | none | blocked: waiting for B-R1 | 2026-11-02 | #32 is open, so S02 would have to chain on it |
+| S02 | `content/py-u03-part2` | `main` | #37 | 32 | done | 2026-11-02 | Backend 785 and 796; types and build OK; Playwright 255; axe 0 once animations finish; 6 deliberate breaks caught |
 | S03 | none | none | none | none | blocked: waiting for B-S1 | 2026-11-02 | |
 | S04 | none | none | none | none | blocked: waiting for B-I5 | 2026-11-02 | |
 | S05 | `eng/function-checks` | `main` | #34 | 29 | done | 2026-11-02 | Backend 611 and 622; types and build OK; Playwright 200; axe 0; 9 deliberate breaks caught. Hidden calls refused: owner question |
@@ -16,14 +16,21 @@ The plan is [`docs/plan/master-run.md`](plan/master-run.md). A new session reads
 | S07 | none | none | none | none | blocked: dependency S06 | 2026-11-02 | |
 | S08 | none | none | none | none | blocked: waiting for B-R1 and B-R2 | 2026-11-02 | Also needs the earlier units, and an answer on hidden calls (handoff 29 question 1) |
 | S09 | none | none | none | none | blocked: dependency S08 | 2026-11-02 | |
-| S10 | not started | `main` | none | none | not started | | |
+| S10 | `docs/course-designs` | `main` | #35 | 30 | done | 2026-11-02 | Docs checks 0 problems; 257 proposed IDs, no clashes |
 | S11 | none | none | none | none | blocked: waiting for B-I8 and B-S2 | 2026-11-02 | |
 | S12 | none | none | none | none | blocked: waiting for B-I6 and B-I7 | 2026-11-02 | |
 | S13 | none | none | none | none | blocked: waiting for B-I2, B-I3 and B-I4 | 2026-11-02 | Also needs S04, S11 and S12 |
 | S14 | none | none | none | none | blocked: waiting for B-E1 | 2026-11-02 | |
-| S15 | not started | `main` | none | none | not started | | |
+| S15 | `docs/retention` | `main` | #36 | 31 | done | 2026-11-02 | Docs checks 0 problems; every table in `db.py` covered |
+| S16 to S18 | none | none | none | none | blocked: waiting for B-E1 | 2026-11-02 | |
+| S19, S20, S22 to S24 | none | none | none | none | blocked: waiting for B-A1 | 2026-11-02 | |
+| S21 | none | none | none | none | blocked: waiting for B-I2 | 2026-11-02 | |
+| S25 | none | none | none | none | blocked: waiting for B-P1 | 2026-11-02 | |
+| S26 | `docs/construct-rules` | `main` | #38 | 33 | done | 2026-11-02 | Docs checks 0 problems |
 
-S16 onward has not been reached; plan Part 6 is read in order.
+After S26, plan Part 6 continues with Wave D. Owner merged #32, #33 and #34 on 2026-11-02.
+
+**Keeping this file mergeable:** every open run branch carries an identical copy of this file, so they merge in any order. If one conflicts after a merge, keep the copy with the most rows.
 
 ## S00: state check, 2026-11-02
 
