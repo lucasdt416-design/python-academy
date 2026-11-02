@@ -1,9 +1,45 @@
 /* Dedicated worker; learner code runs locally, never on the application server. */
 importScripts('https://cdn.jsdelivr.net/pyodide/v0.27.7/full/pyodide.js');
+// ENG-07, docs/plan/browser-checks.md section 9. The only list of modules a learner's program may import.
+// To add one, say why in a handoff and check what it exposes: this list is also what stops a learner
+// reaching os, js or pyodide by accident.
+const ALLOWED_MODULES = ['math', 'random', 'datetime', 'json', 'csv', 're'];
+// What the worker itself needs, loaded before the import guard goes on. Runs once per worker.
+const SETUP = `
+import builtins as __academy_builtins
+import json as __academy_json
+import random as __academy_random
+import sys as __academy_sys
+
+def __academy_flush():
+    __academy_sys.stdout.flush()
+`;
+// The import guard. A module's own code imports what it needs as usual: random needs os, for example.
+// Only the learner's program is limited. This is a guide for learners and not a sandbox, because Python
+// cannot sandbox itself (random._os is one way round it). The real boundary is this worker, with no
+// network and its Content-Security-Policy.
+const GUARD = `
+__academy_allowed = frozenset(__academy_json.loads(__academy_allowed_json))
+# C code imports this one using the caller's globals, so datetime.strptime() looks like the learner's import.
+__academy_internal = frozenset({'_strptime'})
+__academy_real_import = __academy_builtins.__import__
+
+def __academy_import(name, globals=None, locals=None, fromlist=(), level=0):
+    owner = __academy_sys.modules.get((globals or {}).get('__name__'))
+    from_a_module = owner is not None and owner.__name__ != '__main__' and vars(owner) is globals
+    if not from_a_module and (level != 0 or name.partition('.')[0] not in __academy_allowed | __academy_internal):
+        raise ModuleNotFoundError(f"The module {name!r} is not available here.", name=name)
+    return __academy_real_import(name, globals, locals, fromlist, level)
+
+__academy_builtins.__import__ = __academy_import
+`;
+async function guardImports(py, extra = '') {
+ await py.runPythonAsync(SETUP + extra, {filename: '<academy>'});
+ py.globals.set('__academy_allowed_json', JSON.stringify(ALLOWED_MODULES));
+ await py.runPythonAsync(GUARD, {filename: '<academy>'});
+}
 // Replaces input() with the player replies typed on the page, in order.
 const REPLIES = `
-import json as __academy_json
-import builtins as __academy_builtins
 __academy_replies = iter(__academy_json.loads(__academy_input_json))
 def __academy_input(prompt=''):
     try:
@@ -46,6 +82,7 @@ self.onmessage = async ({data}) => {
   // Python reports the stop as "OSError: [Errno 29] I/O error", so the flag says why it happened.
   const py = await loadPyodide({stdout:s=>{output+=s+'\n';if(output.length>20000){capped=true;throw Error('Output exceeded 20,000 characters.');}}});
   noNetwork();
+  await guardImports(py);
   freshFiles(py, data.files);
   py.globals.set('__academy_input_json', JSON.stringify(data.inputs || []));
   // Its own file name, so an error inside it is not reported as a line of the learner's code.
@@ -129,13 +166,13 @@ async function runCases({code, cases, outputLimit}) {
   if (output.length > outputLimit) { capped = true; output = output.slice(0, outputLimit); throw new Error('Output limit reached.'); }
   return bytes.length;
  }});
- if (cases.some(c => c.call)) await py.runPythonAsync(CALLER, {filename: '<academy>'});
+ await guardImports(py, cases.some(c => c.call) ? CALLER : '');
  self.postMessage({type:'ready'});
- for (const {id, inputs} of cases) {
+ for (const {id, inputs, seed} of cases) {
   output = ''; capped = false;
   // Text an earlier case left in Python's output buffer (one stopped at the output limit leaves some)
   // belongs to that case: flush it out here and drop it, so it never shows up in this case's output.
-  try { py.runPython('import sys\nsys.stdout.flush()'); } catch {}
+  try { py.runPython('__academy_flush()'); } catch {}
   output = ''; capped = false;
   self.postMessage({type:'start', id});
   const namespace = py.toPy({__name__: '__main__'});
@@ -145,17 +182,19 @@ async function runCases({code, cases, outputLimit}) {
    py.globals.set('__academy_input_json', JSON.stringify(inputs || []));
    // Its own file name, so errors inside it are not reported as lines of the learner's code.
    await py.runPythonAsync(REPLIES, {filename: '<academy>'});
+   // The same random numbers every run, so a check can expect them (0 unless the case sets one).
+   await py.runPythonAsync(`__academy_random.seed(${Number(seed) || 0})`, {filename: '<academy>'});
    await py.runPythonAsync(code, {globals: namespace});
    let called = null;
    if (calls.get(id)) {
     // Only what the call itself prints is compared: a correct program may print other things first.
-    await py.runPythonAsync('import sys\nsys.stdout.flush()');
+    await py.runPythonAsync('__academy_flush()', {filename: '<academy>'});
     output = '';
     py.globals.set('__academy_namespace', namespace);
     py.globals.set('__academy_call_json', JSON.stringify(calls.get(id)));
     called = JSON.parse(await py.runPythonAsync(`__academy_call(__academy_namespace, __academy_call_json, ${outputLimit})`, {filename: '<academy>'}));
    }
-   await py.runPythonAsync('import sys\nsys.stdout.flush()');
+   await py.runPythonAsync('__academy_flush()', {filename: '<academy>'});
    report = capped ? {status: 'output_limit'} : {status: 'ok', ...called};
   } catch (e) {
    report = capped ? {status: 'output_limit'} : {status: 'error', errorType: e.type || e.name || null, line: lastLine(e.message), message: lastText(e.message)};

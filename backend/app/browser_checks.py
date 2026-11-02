@@ -53,6 +53,7 @@ def plan(lesson):
         'cases': [{'id': case.id, 'visibility': case.visibility, 'description': case.description, 'inputs': case.inputs,
                    **({'expected': case.expected} if case.visibility == 'visible' and case.expected is not None else {}),
                    **({'files': case.files} if case.files else {}),
+                   **({'seed': case.seed} if case.seed is not None else {}),
                    **({'call': case.call.model_dump()} if case.call else {}),
                    **({'returns': case.returns.model_dump()} if case.returns and case.visibility == 'visible' else {})}
                   for case in challenge.check.cases],
@@ -257,7 +258,7 @@ def judge(lesson, code, runs):
         return outcome('needs_work', f'Your program asked for more replies than {about} gives. Check how many times it calls input().', statuses, failed)
     if run.error_type in UNSUPPORTED:
         failed['reason'] = 'unsupported'
-        return outcome('unsupported', "These checks run Python's built-in features only, so that import can't be used here.", statuses, failed)
+        return outcome('unsupported', "These checks can use only a few of Python's modules, so that import can't be used here.", statuses, failed)
     where = f' on line {run.line}' if run.line else ''
     return outcome('execution_error', f'Python stopped with {run.error_type or "an error"}{where} while running {about}. '
                                       'Read the error, change one thing, and run it again.', statuses, failed)

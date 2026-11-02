@@ -135,6 +135,8 @@ class CheckCase(Strict):
     # ENG-08: files this case's program finds in its folder, by path. Like inputs, a hidden case's files
     # reach the browser, because the program runs there.
     files: dict[str, Annotated[str, Field(max_length=FILE_LIMIT)]] = {}
+    # ENG-07: the number random is seeded with before this case runs. The worker uses 0 if it is not set.
+    seed: int | None = Field(default=None, ge=0, le=2**31 - 1)
     call: CheckCall | None = None
     returns: CheckReturn | None = None
 

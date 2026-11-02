@@ -1697,7 +1697,7 @@
    "response": {
     "passed": false,
     "result": "unsupported",
-    "feedback": "These checks run Python's built-in features only, so that import can't be used here.",
+    "feedback": "These checks can use only a few of Python's modules, so that import can't be used here.",
     "rule": null,
     "assessment": "browser_tests",
     "cases": [
@@ -2224,7 +2224,7 @@
    "response": {
     "passed": false,
     "result": "unsupported",
-    "feedback": "These checks run Python's built-in features only, so that import can't be used here.",
+    "feedback": "These checks can use only a few of Python's modules, so that import can't be used here.",
     "rule": null,
     "assessment": "browser_tests",
     "cases": [
@@ -2660,7 +2660,7 @@
    "response": {
     "passed": false,
     "result": "unsupported",
-    "feedback": "These checks run Python's built-in features only, so that import can't be used here.",
+    "feedback": "These checks can use only a few of Python's modules, so that import can't be used here.",
     "rule": null,
     "assessment": "browser_tests",
     "cases": [

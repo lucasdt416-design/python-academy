@@ -20,7 +20,7 @@ import sys
 from app.browser_checks import CaseRun
 
 RUNNER = r'''
-import builtins, contextlib, io, json, os, pathlib, shutil, signal, sys, tempfile, traceback
+import builtins, contextlib, io, json, os, pathlib, random, shutil, signal, sys, tempfile, traceback
 jobs = json.load(sys.stdin)
 
 class TimeLimit(BaseException):
@@ -63,6 +63,7 @@ for job in jobs:
         for path, text in case.get('files', {}).items():
             pathlib.Path(path).parent.mkdir(parents=True, exist_ok=True)
             pathlib.Path(path).write_text(text)
+        random.seed(case.get('seed') or 0)
         out = Capped(job['limit'])
         report = {'id': case['id'], 'status': 'ok', 'error_type': None, 'line': None}
         try:
@@ -103,7 +104,7 @@ SECONDS = 0.5
 def reports(lesson, programs, timeout=120):
     """For each program, one report per check case, as the browser would send them (no error message)."""
     check = lesson.task('challenge').check
-    jobs = [{'code': code, 'limit': 10_000, 'seconds': SECONDS, 'cases': [{'id': c.id, 'inputs': c.inputs, 'files': getattr(c, 'files', {})} for c in check.cases]} for code in programs]
+    jobs = [{'code': code, 'limit': 10_000, 'seconds': SECONDS, 'cases': [{'id': c.id, 'inputs': c.inputs, 'files': getattr(c, 'files', {}), 'seed': getattr(c, 'seed', None)} for c in check.cases]} for code in programs]
     done = subprocess.run([sys.executable, '-I', '-c', RUNNER], input=json.dumps(jobs), capture_output=True, text=True, timeout=timeout, check=True)
     return [[CaseRun(**report) for report in program] for program in json.loads(done.stdout)]
 
@@ -117,7 +118,7 @@ def run(lesson, code, *more):
 def run_program(code, inputs):
     """Run a short program once with these replies, the way the "Try it" card does: (output, error type)."""
     from types import SimpleNamespace
-    case = SimpleNamespace(id='once', inputs=list(inputs))
+    case = SimpleNamespace(id='once', inputs=list(inputs), seed=None)
     lesson = SimpleNamespace(task=lambda kind: SimpleNamespace(check=SimpleNamespace(cases=[case])))
     report = reports(lesson, [code])[0][0]
     return report.output, report.error_type
