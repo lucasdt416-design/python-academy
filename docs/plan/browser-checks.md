@@ -104,6 +104,10 @@ Each run status reported by the browser is one of: `ok`, `error`, `timeout`, `ou
 - **A hidden case's inputs do reach the browser,** in the check plan only (the test also confirms that). They have to: the code runs in the learner's browser, and it cannot run a case without its inputs. Knowing an input does not give away the answer; the learner would still have to work out the correct output, which is the task itself.
 - **This is practice-level evidence, not tamper-proof** (`course-catalog.md` section 7.3). Someone who edits the reports their browser sends can claim any output. The same is true of unit 1 today. Checks that must resist that would need a separate, isolated hosted runner (deferred: cost, isolation and quotas).
 
+**The rule (owner's decision 28, 2026-11-02): hidden inputs may reach the browser, because the worker has to run them, and hidden expected results never do.** It applies to every kind of hidden data: replies, function arguments, files and SQL rows. For ENG-10, broken reference programs may reach the browser, and a correct one may as long as it isn't the lesson's answer.
+
+**The limit, stated honestly:** a learner who reads the hidden inputs could still hard-code the outputs. These checks are practice evidence, not a trusted grade. The leak tests stay, and they test the expected results.
+
 ## 6. Limits and safety
 
 | Limit | Value | Enforced by |

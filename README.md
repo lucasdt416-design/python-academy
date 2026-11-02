@@ -51,10 +51,10 @@ The catalog already lists the courses below. Only Python Foundations has release
 
 | Course | Status |
 | --- | --- |
-| Python Foundations (12 units) | Units 1 and 2 released; unit 3's first three lessons in review (PR #32); the rest planned |
+| Python Foundations (12 units) | Units 1, 2 and 3 released; the rest planned. Unit projects and end-of-unit checks are not built yet |
 | Hackathon Ready (7 units planned), Git and GitHub Essentials, Web Foundations: HTML and CSS, JavaScript and the DOM, Data and SQL, Data Investigation with Python, Computer Science Foundations, Node.js and APIs, Full-Stack Builder, Engineering Depth | Coming soon |
 
-Near-term work: the rest of unit 3 (loops), skill checks at the end of units, and a tester feedback button and admin inbox. Further out are a public story site that introduces the project, product polish, predict-first tasks and a possible AI helper. The full plan, with priorities and dependencies, is [`docs/plan/backlog.md`](docs/plan/backlog.md), which is the source of truth for the order of work.
+Near-term work: unit 4 (lists and dictionaries), skill checks at the end of units, and a tester feedback button and admin inbox. Further out are a public story site that introduces the project, product polish, predict-first tasks and a possible AI helper. The full plan, with priorities and dependencies, is [`docs/plan/backlog.md`](docs/plan/backlog.md), which is the source of truth for the order of work.
 
 ## How it works
 
