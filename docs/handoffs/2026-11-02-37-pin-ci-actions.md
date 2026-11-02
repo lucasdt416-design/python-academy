@@ -3,7 +3,7 @@
 Date: 2026-11-02 (America/Toronto)  
 Written by: Claude Code (implementer), in a separate git worktree  
 For: the human maintainer, and ChatGPT or Claude chat (reviewer) without repository access  
-Status: **in_review**: one pull request (PR_NUMBER), not merged. Changes the workflow file and adds a test. No app code, and nothing a learner sees.
+Status: **in_review**: one pull request (#42), not merged. Changes the workflow file and adds a test. No app code, and nothing a learner sees.
 
 > **How to use this file:** the pull request diff is the source of truth (`build.md` section 14).
 
@@ -102,8 +102,8 @@ Check this PR's CI is green. There is nothing to check on the site.
 
 | Where | What |
 | --- | --- |
-| Backlog SEC-08 | proposed → in_review for the pins (PR_NUMBER, handoff 37); dependency updates not done |
-| Stage table | "37. SEC-08 \| Pin CI actions \| in_review (PR_NUMBER, handoff 37)" |
+| Backlog SEC-08 | proposed → in_review for the pins (#42, handoff 37); dependency updates not done |
+| Stage table | "37. SEC-08 \| Pin CI actions \| in_review (#42, handoff 37)" |
 
 ## 11. Next concrete action
 
