@@ -59,6 +59,13 @@ test('runaway output is capped and the program stopped', async ({page}) => {
  expect(reports.map(r => r.status)).toEqual(['output_limit', 'output_limit', 'output_limit']);
 });
 
+test('output left over from a case stopped at the cap does not leak into the next case', async ({page}) => {
+ // Found in EDU-03 part 1: the next case's output began with text the capped case had not flushed.
+ const {reports} = await run(page, 'a = int(input())\nif a == 2:\n    while True:\n        print("x")\nprint("clean", a)');
+ expect(reports.map(r => r.status)).toEqual(['output_limit', 'ok', 'ok']);
+ expect(reports.slice(1).map(r => r.output)).toEqual(['clean 10\n', 'clean 4096\n']);
+});
+
 test('output with no final newline is still reported', async ({page}) => {
  const {reports} = await run(page, 'print(int(input()) + int(input()), end="")');
  expect(reports.map(r => r.output.trim())).toEqual(['5', '6', '6144']);

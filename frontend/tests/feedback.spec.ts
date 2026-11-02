@@ -35,6 +35,8 @@ const EXPECTED: [string, number, {id: string; title: string; line: number | null
  ['syntax-later-line', 1, {id: 'syntax', title: 'Python cannot read line 2', line: 2, where: 'On or just before line 2'}],
  ['indent-block', 1, {id: 'indent-block', title: 'The lines inside this `if` need indenting', line: 3, where: 'Line 3'}],
  ['indent-block-else', 1, {id: 'indent-block', title: 'The lines inside this `else` need indenting', line: 5, where: 'Line 5'}],
+ // A loop block (unit 3 onwards): while and for.
+ ['indent-loop', 3, {id: 'indent-loop', title: 'The lines inside this `for` loop need indenting', line: 2, where: 'Line 2'}],
  ['unexpected-indent', 1, {id: 'unexpected-indent', title: 'This line has extra spaces at the start', line: 2, where: 'Line 2'}],
  ['tabs', 1, {id: 'tabs', title: 'Tabs and spaces are mixed', line: 3, where: 'Line 3'}],
  ['name-case', 1, {id: 'name-case', title: 'Python is case-sensitive', line: 1, where: 'Line 1', text: 'Python knows `print`, not `Print`. Use all lowercase on line 1.'}],
@@ -59,14 +61,18 @@ for (const [id, unit, want] of EXPECTED) test(`translation: ${id}`, () => {
 
 test('translation: the endless-loop stop needs no Python message', () => {
  expect(explain({stop: 'timeout'}, {code: 'while True:\n    pass', unit: 1})).toEqual({id: 'timeout', title: 'Your program kept running',
-  text: 'It did not finish within 15 seconds, usually because a loop never ends. Check that the loop’s condition can become false.', line: null, where: null});
+  text: 'It did not finish within 15 seconds, usually because a loop never ends. Check that something inside the loop changes, so that the loop can stop.', line: null, where: null});
 });
 
-test('every translation in the specification is tested with a real error, 19 in all', () => {
+test('every translation in the specification is tested with a real error, 20 in all', () => {
  const tested = new Set([...EXPECTED.map(([, , want]) => want.id), 'timeout']);
  const all = [...TRANSLATIONS.map(t => t.id), ...Object.values(STOPS).map(s => s.id), OTHER.id];
- expect(all).toHaveLength(19);
+ expect(all).toHaveLength(20);
  expect([...tested].sort()).toEqual([...all].sort());
+});
+
+test('a loop translation is not used before unit 3, which teaches loops', () => {
+ expect(explainSample('indent-loop', 2)).toMatchObject({id: 'other', title: 'Python stopped on line 2', line: 2});
 });
 
 test('a translation for a later unit is not used in unit 1', () => {

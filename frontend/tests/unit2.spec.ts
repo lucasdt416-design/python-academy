@@ -265,12 +265,12 @@ for (const partial of ['more-coming', 'old-api'] as const) test(`after the last 
 test('the catalog and course page show unit 2 as open, with its six lessons', async ({page}) => {
  await mockApi(page);
  await page.goto('/courses');
- await expect(page.getByText('2 of 12 units open')).toBeVisible();
+ await expect(page.getByText('3 of 12 units open')).toBeVisible();
  await page.goto('/courses/py');
  const unit = page.getByRole('article', {name: 'Numbers and decisions'});
  await expect(unit.getByRole('link')).toHaveText([/Count the treasure.*Try it/, /Average the scores.*Try it/, /Score the riddle.*Try it/, /Too high or too low\?.*Try it/, /Close enough\?.*Try it/, /The riddle keeper's verdict.*Try it/]);
  await expect(unit.getByText('Coming soon')).toHaveCount(0);
- await expect(page.getByRole('article', {name: 'Repeat and explore'}).getByText('Coming soon')).toBeVisible();
+ await expect(page.getByRole('article', {name: 'Keep track of a world'}).getByText('Coming soon')).toBeVisible();
 });
 
 test('unit 2 fits a phone, with no sideways scrolling, and nothing moves with reduced motion', async ({page}) => {

@@ -1,0 +1,136 @@
+{
+  "id": "fixture.calls",
+  "version": 1,
+  "course": "fixture",
+  "unit": "fixture.u09",
+  "title": "Call a function",
+  "concept": "TEST FIXTURE",
+  "description": "Not course content.",
+  "badge": {
+    "id": "fixture.badge.calls",
+    "version": 1,
+    "title": "Fixture doubler",
+    "category": "practice"
+  },
+  "tasks": [
+    {
+      "id": "fixture.calls.discover",
+      "type": "discover",
+      "title": "Double a number: discover",
+      "body": "Not course content.",
+      "detail": "Test data only."
+    },
+    {
+      "id": "fixture.calls.example",
+      "type": "example",
+      "code": "def add_one(n):\n    return n + 1\nprint(add_one(4))",
+      "output": "5",
+      "note": "Not course content.",
+      "inputs": []
+    },
+    {
+      "id": "fixture.calls.predict",
+      "type": "predict",
+      "question": "Which is a test?",
+      "options": [
+        "This one",
+        "That one"
+      ],
+      "answer": 0,
+      "why": "Test data."
+    },
+    {
+      "id": "fixture.calls.guided",
+      "type": "guided",
+      "prompt": "Change one thing and run it."
+    },
+    {
+      "id": "fixture.calls.challenge",
+      "type": "challenge",
+      "prompt": "Define double(n), which returns twice n; share(total, people), which returns total divided by people; and greet(name), which prints Hello, then the name.",
+      "starter": "def double(n):\n    pass\n",
+      "hints": [
+        "Each function does one small thing.",
+        "Use return to hand a value back to whoever called the function.",
+        "With other names: def triple(x): return x * 3"
+      ],
+      "error_hints": [
+        {
+          "tags": [
+            "fixture.calls.case.double-two"
+          ],
+          "text": "Look at what double hands back when it is called."
+        }
+      ],
+      "similar_example": null,
+      "other_ways": [],
+      "input_labels": [],
+      "validator": {
+        "id": "browser-tests",
+        "version": 1
+      },
+      "check": {
+        "cases": [
+          {
+            "id": "double-two",
+            "description": "double(2)",
+            "call": {
+              "function": "double",
+              "args": [
+                2
+              ]
+            },
+            "returns": {
+              "value": 4
+            }
+          },
+          {
+            "id": "double-big",
+            "description": "double(21)",
+            "call": {
+              "function": "double",
+              "args": [
+                21
+              ]
+            },
+            "returns": {
+              "value": 42
+            }
+          },
+          {
+            "id": "share-third",
+            "description": "share(1, 3)",
+            "call": {
+              "function": "share",
+              "args": [
+                1,
+                3
+              ]
+            },
+            "returns": {
+              "value": 0.3333,
+              "tolerance": 0.001
+            }
+          },
+          {
+            "id": "greet-kai",
+            "description": "greet(\"Kai\")",
+            "call": {
+              "function": "greet",
+              "args": [
+                "Kai"
+              ]
+            },
+            "returns": {
+              "value": null
+            },
+            "expected": "Hello, Kai"
+          }
+        ],
+        "require": [],
+        "forbid": [],
+        "time_limit_ms": 3000
+      }
+    }
+  ]
+}

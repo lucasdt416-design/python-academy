@@ -23,7 +23,7 @@ IDs are stable: never rename or reuse one for different content. For a wording o
 
 Courses and units are `released` or `coming_soon`. A coming-soon course or unit has no lessons and cannot be started; the catalog shows it labelled "Coming soon". Release a unit by adding its lesson files, listing them in the unit, and changing its status.
 
-A unit released in parts (some of its planned lessons now, the rest later) also sets `"more_lessons_coming": true` until its last lesson is out. `/api/catalog` then gives the unit `complete: false`, the lesson page says "You finished every lesson released so far" instead of "Unit complete", and the recommendation says more lessons are on the way rather than pointing past the unit. Only a released unit may set it; it defaults to `false`.
+A unit released in parts (some of its planned lessons now, the rest later; unit 3 is the first) also sets `"more_lessons_coming": true` until its last lesson is out. `/api/catalog` then gives the unit `complete: false`, the lesson page says "You finished every lesson released so far" instead of "Unit complete", and the recommendation says more lessons are on the way rather than pointing past the unit. Only a released unit may set it; it defaults to `false`.
 
 ## Lessons
 
@@ -47,6 +47,8 @@ No hint, tagged hint or similar example, alone or combined, may pass the check: 
 ## Browser checks (unit 2 onwards)
 
 A challenge can be checked by running the learner's code in their browser against test cases, instead of the unit 1 `bounded-story` checker. Set `"validator": {"id": "browser-tests", "version": 1}` and add a `check` with `cases` (`inputs`, `expected`, `description`, `visibility`), and optionally `require`, `forbid` and `time_limit_ms`. A hidden case's `description` is shown to learners, so it must not contain its inputs or expected output; loading fails if it does. The full contract, including the limits and what "hidden" guarantees, is in [`docs/plan/browser-checks.md`](../../docs/plan/browser-checks.md). Python unit 2 (`py/u02/`) uses it. Its tests (`backend/tests/test_unit2_lessons.py`) show how to check a new lesson: every worked example and claim against real Python output, reference and alternative solutions passing, a wrong program for every case, and the hint audit. Browser-check challenges have no `messages`: a failing case is named by its `description`, and a hint can be tagged for it.
+
+A case can also call a function the learner defined, with `call` and `returns` (ENG-06, [section 8 of the contract](../../docs/plan/browser-checks.md#8-function-call-checks-eng-06)). No real lesson uses this yet. A call case must be visible, and a return value with a fraction needs a `tolerance`.
 
 ## Prerequisites
 
