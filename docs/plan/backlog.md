@@ -1,7 +1,7 @@
 # Python Academy backlog
 
-Last updated: 2026-10-27 (America/Toronto)  
-Status: **proposed**; decisions 11, 12, 13, 16, 18, 19, 21, 22 and 23 answered by the owner on 2026-10-25, decision 14 on 2026-10-26, and decisions 24 to 27 on 2026-10-27. Status words follow `build.md` section 18: proposed, ready, in_progress, in_review, verified, blocked, deferred. Priorities: **Now**, **Next**, **Later**, plus the timing words `build.md` section 13 already uses (for example "Before broader use").  
+Last updated: 2026-11-02 (America/Toronto)  
+Status: **proposed**; decisions 11, 12, 13, 16, 18, 19, 21, 22 and 23 answered by the owner on 2026-10-25, decision 14 on 2026-10-26, decisions 24 to 27 on 2026-10-27, and the three ID-01 answers on 2026-10-27 (`independent-learners.md` section 0). Status words follow `build.md` section 18: proposed, ready, in_progress, in_review, verified, blocked, deferred. Priorities: **Now**, **Next**, **Later**, plus the timing words `build.md` section 13 already uses (for example "Before broader use").  
 Related: [`build.md`](../../build.md), [`docs/plan/course-catalog.md`](course-catalog.md), [`docs/plan/feedback-security.md`](feedback-security.md).
 
 **This file is the source of truth for the order of work.** IDs and what they mean follow `build.md` section 13; where this file and `build.md` disagree on an ID, its meaning, or its priority, `build.md` wins until one is deliberately updated (section 8 lists the differences found when this file was added). A backlog item becomes `verified` only with linked evidence (PR, commit, test results, live check).
@@ -23,25 +23,40 @@ Decision numbers continue the sequence in `docs/plan/course-catalog.md` section 
 | 8. SEC-09 | Nonce-based page CSP, in Report-Only mode | in_review: merged (PR #14); owner's live check (handoff 08 section 10) not yet recorded |
 | 9. Teaching design and lesson feedback | `teaching-design.md`, `lesson-feedback.md`, `ai-helper.md`, new backlog items | verified (PR #15, documentation only) |
 | 10. ASSESS-07 | Honest unit 1 checks and hints | in_review: merged (PR #16); live check owed (see below) |
-| 11. ENG-03 | Browser behaviour checks | in_review (PR #17, handoff 11) |
+| 11. ENG-03 | Browser behaviour checks | in_review: merged (PR #17, handoff 11); live check owed (see below) |
 | 12. FB-01 | Admin and tester roles | in_review: merged (PR #21, handoff 12); live check owed (see below) |
 | 13. SITE-01 | Site and product design direction | in_review: merged (PR #19, handoff 13; documentation only) |
-| 14. DOC-01 and DOC-02 | Decision log and handoff template | in_review (PR #18, handoff 14) |
+| 14. DOC-01 and DOC-02 | Decision log and handoff template | in_review: merged (PR #18, handoff 14; documentation only) |
 | 15. ENG-04 part 1 | Lesson feedback engine: error translations, line highlight, hint ladder, honest result states | in_review: merged (PR #22, handoff 15); live check owed (see below) |
+| 16. BACKLOG-SYNC | Backlog synced with handoffs 09 to 14 | in_review: merged (PR #20, handoff 16; documentation only) |
+| 17. FB-02 | Anonymous feedback storage and `POST /api/feedback` (migration 0008) | in_review: merged (PR #24, handoff 17); live check owed (see below) |
+| 18. BACKLOG-SYNC-2 | Backlog synced with PRs #19 to #22 | in_review: merged (PR #23, handoff 18; documentation only) |
+| 19. ENG-04 part 2a | Check rules in content, tagged hints, similar examples, "Other ways to do it", hint-button outline | in_review: merged (PR #25, handoff 19); live check owed (see below) |
+| 20. FB-04 | Testers page at `/admin/testers` | in_review: merged (PR #26, handoff 20); live check owed (see below) |
+| 21. Docs sync | Reserved for a sync that never ran. The number stays empty, and no handoff 21 exists; that sync is stage 28 | — |
+| 22. UI-05 | Lessons per unit; browser checks on the lesson page | in_review: merged (PR #27, handoff 22); live check owed (see below) |
+| 23. README-01 | README with banner, screenshots, feature table and diagram | in_review: merged (PR #28, handoff 23; documentation only) |
+| 24. EDU-04 part 1 | Unit 2 lessons 1 to 3 | in_review: merged (PR #29, handoff 24); live check owed (see below) |
+| 25. ID-01 plan | Independent learner accounts, checked against the code | in_review: merged (PR #30, handoff 25; documentation only) |
+| 26. EDU-04 part 2 | Unit 2 lessons 4 to 6; unit lessons complete, with no unit project and no unit check | in_review: merged (PR #31, handoff 26); live check owed (see below) |
+| 27. EDU-03 part 1 | Unit 3 lessons 1 to 3, more lessons coming | in_review: PR #32 open, not merged (handoff 27 is on its branch); live check owed once merged |
+| 28. DOCS-SYNC | This sync (master run stage S01) | in_review (handoff 28) |
 
 ### Live checks still owed
 
 Merged work whose live check has not been recorded yet. Record the result here (date and what was seen), then move the item to `verified`.
 
-- **(a) Stage 7, SEC-03 sessions** (handoff 07 section 10): a copied `session` cookie makes `curl … /api/me` print `200`; after **Sign out** the same command prints `401`; another device that was signed in stays signed in.
-- **(b) ASSESS-07, honest unit 1 checks** (handoff 10 section 9): on `/preview?lesson=hello&card=5`, printing the same line twice (`print("hi")` twice) no longer passes; it says "Both lines say the same thing".
-- Also unrecorded: **stage 8, SEC-09** (handoff 08 section 10), the nonce headers and the console checks.
-- **(c) Stage 12, FB-01 admin and tester roles** (handoff 12 section 9; `ADMIN_EMAILS` must be set in Render first):
+**Every check still owed, with its PR.** None has a recorded result, so none of these is `verified`.
+
+- **(a) Stage 7, SEC-03 sessions, PR #13** (handoff 07 section 10): a copied `session` cookie makes `curl … /api/me` print `200`; after **Sign out** the same command prints `401`; another device that was signed in stays signed in.
+- **(b) ASSESS-07, honest unit 1 checks, PR #16** (handoff 10 section 9): on `/preview?lesson=hello&card=5`, printing the same line twice (`print("hi")` twice) no longer passes; it says "Both lines say the same thing".
+- Also unrecorded: **stage 8, SEC-09, PR #14** (handoff 08 section 10), the nonce headers and the console checks.
+- **(c) Stage 12, FB-01 admin and tester roles, PR #21** (handoff 12 section 9; `ADMIN_EMAILS` must be set in Render first):
   - Render → python-academy-api → Logs shows `Database schema is at migration 0007`.
   - Signed out, `/api/admin/students` gives `401`.
   - Signed in as a normal student, `/api/admin/students` gives `403`.
   - The admin session is short: after more than 1 hour unused, `/api/admin/students` gives `401` and you sign in again.
-- **(d) Stage 15, ENG-04 part 1 lesson feedback** (handoff 15 section 10):
+- **(d) Stage 15, ENG-04 part 1 lesson feedback, PR #22** (handoff 15 section 10):
   - **NameError:** on "Create your hero", card 5, `hero = "Kai"`, `tool = "map"`, `print(heor)` shows "Python stopped", "Python does not know heor", "Line 3", "Did you mean hero?"; line 3 is marked with ▶ and tinted; "Go to line 3" puts the cursor at the start of line 3.
   - **Python's message:** "Show Python's message" shows a short traceback for line 3, with no `/lib/python312.zip` lines.
   - **Syntax error:** on "Choose a path", card 5, removing the `:` after an `if` shows "This line needs a colon" and "On or just before line N", with that line marked.
@@ -52,6 +67,14 @@ Merged work whose live check has not been recorded yet. Record the result here (
   - **Nothing new is sent:** in DevTools → Network, a run with an error makes no request to `/api/check` or `/api/attempts`.
   - **No CSP reports** in DevTools → Console during these checks.
   - **Phone:** the NameError check on a phone, with no sideways scrolling.
+- **(e) Stage 11, ENG-03 browser checks, PR #17:** handoff 11 section 8.
+- **(f) Stage 17, FB-02 feedback storage, PR #24:** handoff 17 section 9.
+- **(g) Stage 19, ENG-04 part 2a, PR #25:** handoff 19 section 9.
+- **(h) Stage 20, FB-04 testers page, PR #26:** handoff 20 section 8.
+- **(i) Stage 22, UI-05 lessons per unit, PR #27:** handoff 22 section 8. Its note that the browser-check path cannot be checked live no longer holds: unit 2 uses it.
+- **(j) Stage 24, unit 2 part 1, PR #29:** handoff 24 section 8.
+- **(k) Stage 26, unit 2 part 2, PR #31:** handoff 26 section 8.
+- **(l) Stage 27, unit 3 part 1, PR #32 (not merged):** handoff 27 section 8, on that PR's branch, after it merges and deploys.
 
 ## 2. Suggested order
 
@@ -62,6 +85,8 @@ Merged work whose live check has not been recorded yet. Record the result here (
 5. **PILOT-01**: invite the first learner and collect feedback through the new button.
 6. **ENG-04** (lesson feedback engine) and **ASSESS-07** (honest unit 1 "Open the story" check; merged in PR #16), then **ENG-03** (browser behaviour checks; in review, PR #17), then **EDU-04** (Python unit 2) with its first **unit check**. PLAN-03 (review of `teaching-design.md`) can run alongside and should finish before unit 2 content is written.
 7. **OPS-05**: cost review (the owner has set a reminder for 2026-11-08).
+
+**State on 2026-11-02:** items 3, 4 and 6 above were written before stages 16 to 27. Since then FB-02, FB-04, ENG-04 part 2a, UI-05 and unit 2's lessons have merged, and unit 3 part 1 is open as PR #32. Unit 2 shipped without its unit check. `docs/plan/master-run.md` holds a proposed queue for the remaining work; it decides nothing, and an item in it is decided only when the owner says so.
 
 ## 3. Feature spec: testers, feedback, admin inbox
 
@@ -116,11 +141,14 @@ Recorded in the plan as section 12 of `docs/plan/course-catalog.md`.
 | SEC-02 | Next | Make the API a private Render service with no public URL; confirm the frontend proxy still works | None | proposed |
 | SEC-03 | Next | Logout revokes the session on the server. Before stage 7 a copied cookie kept working after logout, and for as long as it was used at least once a day. Stage 7: the cookie holds only a random session ID, the `sessions` table (migration 0006) holds the session, logout deletes it; 7-day absolute and 24-hour idle limits. Required before the admin inbox (FB-06) ships, see `feedback-security.md` | Migration | in_review: merged (PR #13); live check owed, section 1 (a) |
 | SEC-04 | Now | Security headers: Content-Security-Policy and HSTS on the main app. Stage 6 adds HSTS, `frame-ancestors 'none'` (enforced) and the page CSP in Report-Only mode; the item is verified once the CSP is switched to enforce mode after a clean live check | None | in_review: headers live and checked 2026-10-25 (handoff 06 section 13.7); enforce mode not yet switched |
+| SEC-10 | Now | Check whether any Google account can sign in today (`independent-learners.md` section 6.1); if so, record it and bring ID-01c forward | Owner check | proposed |
+| SEC-11 | Next | Keep Google's one-time sign-in code out of the API access log (`independent-learners.md` section 5.1): turn off uvicorn's access log or filter query strings, and confirm what Render's own request logs keep. Related to SEC-06 (invitation tokens) | None | proposed |
 | SEC-05 | Later | Pyodide and CDN integrity: self-host or pin with integrity checks where possible | None | proposed |
 | SEC-06 | Later | Keep invitation tokens out of URLs and request logs | None | proposed |
 | SEC-07 | Next | Branch protection on `main` requiring passing checks (owner action; may need a paid GitHub plan, otherwise merge only on all-green) | Owner | proposed |
 | SEC-08 | Later | Pin CI actions to commit SHAs; routine dependency updates | None | proposed |
 | SEC-09 | Next | Replace `'unsafe-inline'` in the page CSP's `script-src` with per-request nonces (a Next.js proxy file and dynamic rendering), so injected inline script is blocked. Stage 8: `frontend/proxy.ts` makes a nonce per page request; every page now renders per request; the nonce policy is sent in Report-Only mode next to handoff 06's policy; enforcing it is one line (handoff 08 section 5). Proposed as a dependency of the admin inbox (FB-06), owner to confirm | SEC-04 | in_review: merged (PR #14), Report-Only; live check owed (handoff 08 section 10); enforce after a week of clean consoles |
+| ENG-11 | — | Proposed by the master run: Move rate-limit counters from memory to the database, with behaviour identical to today; needed before more than one API instance | Migration | proposed |
 | OPS-01 | Before broad rollout | Confirm staging, recovery, privacy, quotas and alerts (umbrella item; OPS-02 to OPS-04 are parts of it) | OPS-02, OPS-03, OPS-04 | proposed |
 | OPS-02 | Next | Part of OPS-01: confirm backups and a restore drill; add staging | None | proposed |
 | OPS-03 | Later | Part of OPS-01: operational alerts | OPS-02 | proposed |
@@ -131,14 +159,15 @@ Recorded in the plan as section 12 of `docs/plan/course-catalog.md`.
 
 | ID | Priority | Item | Depends on | Status |
 | --- | --- | --- | --- | --- |
-| DOC-01 | Next | Every handoff includes "Decisions and why", "Bugs found and how they were fixed" and "How it was tested" (`build.md` section 14) | None | in_review (PR #18, handoff 14) |
-| DOC-02 | Later | Decision log (`docs/plan/decision-log.md`), kept up to date each stage, and a book and course built from it (`docs/plan/engineering-book-outline.md`) | DOC-01 | in_review (PR #18, handoff 14): log backfilled and outline proposed; book and course not written |
+| DOC-01 | Next | Every handoff includes "Decisions and why", "Bugs found and how they were fixed" and "How it was tested" (`build.md` section 14) | None | in_review: merged (PR #18, handoff 14) |
+| DOC-02 | Later | Decision log (`docs/plan/decision-log.md`), kept up to date each stage, and a book and course built from it (`docs/plan/engineering-book-outline.md`) | DOC-01 | in_review: merged (PR #18, handoff 14): log backfilled and outline proposed; book and course not written |
+| README-01 | Next | README with banner, screenshots, feature table and diagram, each claim checked against the code. Kept up to date by each docs sync | None | in_review: merged (PR #28, handoff 23) |
 
 ### Public website (handoff 13)
 
 | ID | Priority | Item | Depends on | Status |
 | --- | --- | --- | --- | --- |
-| SITE-01 | Next | Design direction for the public story site and the product's look (`docs/plan/site-design.md`): three story concepts, illustration approach, motion and performance budget, architecture, accessibility, staged plan | None | in_review (PR #19, handoff 13) |
+| SITE-01 | Next | Design direction for the public story site and the product's look (`docs/plan/site-design.md`): three story concepts, illustration approach, motion and performance budget, architecture, accessibility, staged plan | None | in_review: merged (PR #19, handoff 13) |
 | SITE-02 | Next | Public landing story site: the chosen concept as a separate static site (proposed), built in three PRs: skeleton with still scenes and strict headers; scroll motion with reduced motion and a pause button; interactive moments. Within the section 3 budget, 0 axe violations | SITE-01 decisions (concept, architecture) | proposed |
 | SITE-03 | Later | Product polish to match the story, not a redesign: colour and spacing tokens, catalog grouping with course emblems, course header art, a short lesson celebration; calm and fast | SITE-02 (shared style) | proposed |
 | SITE-04 | Later | Custom domain and possible rename: choose a name, buy a domain (paid, owner decision), DNS, `APP_ORIGIN` and `API_ORIGIN`, Google OAuth settings, redirects, one-time sign-in again | Owner decision on name and cost; `build.md` section 16 (brand) | proposed |
@@ -148,9 +177,9 @@ Recorded in the plan as section 12 of `docs/plan/course-catalog.md`.
 | ID | Priority | Item | Depends on | Status |
 | --- | --- | --- | --- | --- |
 | FB-01 | Next | Decide admin identity (email allowlist) and record it in the plan; tester rules (students only, decision 23) and parents' access (none, decision 19) are decided. Built in stage 12: `ADMIN_EMAILS`, short admin sessions, the tester flag (migration 0007) | Decisions 14, 17; ID-01 | in_review: merged (PR #21, handoff 12); live check owed, section 1 (c) |
-| FB-02 | Next | Migration: anonymous `feedback` table (no user ID), tester flag, short-lived rate-limit counters, 50-day cleanup, 90-item cap | FB-01 | proposed |
+| FB-02 | Next | Migration: anonymous `feedback` table (no user ID), tester flag, short-lived rate-limit counters, 50-day cleanup, 90-item cap. Built in stage 17: migration 0008 and `POST /api/feedback` | FB-01 | in_review: merged (PR #24, handoff 17); live check owed, section 1 (f) |
 | FB-03 | Next | Admin role and server-side guard, with tests for 403 on every admin route. Handoff 12 section 8: the guard and the route-enumeration tests are delivered in PR #21; the inbox routes remain | FB-01 | in_review: merged (PR #21) |
-| FB-04 | Next | Admin page to mark students as testers (student accounts only). The API exists (PR #21: `GET /api/admin/students`, `POST /api/admin/testers`); the page does not | FB-03 | proposed |
+| FB-04 | Next | Admin page to mark students as testers (student accounts only). The API came with PR #21 (`GET /api/admin/students`, `POST /api/admin/testers`); the page at `/admin/testers` came with PR #26 | FB-03 | in_review: merged (PR #26, handoff 20); live check owed, section 1 (h) |
 | FB-05 | Next | Feedback button and form (testers and the admin; never parents) with auto-attached context and optional code | FB-02, SEC-01, OPS-04 | proposed |
 | FB-06 | Next | Admin inbox: list, filters, statuses, notes, GitHub issue link | FB-03, FB-05, SEC-03 | proposed |
 | FB-07 | Next | "Copy digest" export for pasting into an assistant, with no emails and no code by default | FB-06 | proposed |
@@ -163,16 +192,23 @@ Recorded in the plan as section 12 of `docs/plan/course-catalog.md`.
 | ID | Priority | Item | Depends on | Status |
 | --- | --- | --- | --- | --- |
 | ENG-04 | Next | Lesson feedback engine (`docs/plan/lesson-feedback.md`): friendly translations of common Python errors, the offending line highlighted in the editor, check-specific messages that only claim what was checked, progressive hints beside the error, predict-first tasks; tests that no hint, example or message adds up to a full solution. Before unit 2. Uses the `failed` fields of the ENG-03 result (`docs/plan/browser-checks.md` section 4, added by PR #17). Part 1 (stage 15): translations, line highlight, hint ladder, honest result states | None | in_review: merged (PR #22, handoff 15); live check owed, section 1 (d) |
-| ENG-04b | Next | Part 2: named check rules and message IDs in content; hints tagged to errors and rules; a similar example after hint 3; "Other ways to do it" after passing; predict-first; support-data measurements. Also the hint-button outline after two failed runs (decision 25). Before EDU-04 (unit 2) | ENG-04 | proposed |
+| ENG-04b | Next | Part 2: named check rules and message IDs in content; hints tagged to errors and rules; a similar example after hint 3; "Other ways to do it" after passing; predict-first; support-data measurements. Also the hint-button outline after two failed runs (decision 25). Part 2a: rules, tagged hints, similar example, other ways, outline. Predict-first and measurements moved to ENG-04c (handoff 19) | ENG-04 | in_review: merged (PR #25, handoff 19); live check owed, section 1 (g) |
+| ENG-04c | Next | Part 2b: predict-first tasks, measurements and support data. Measurements need a privacy review (no user ID, no code, stated retention) | ENG-04b | proposed |
 | ASSESS-07 | Next | Make the unit 1 "Open the story" (`hello`) check honest: the success message says only what was checked; the two lines must differ, contain letters and not copy the worked example or a hint; reword the prompt; replace hint 3 with a partial pattern; also rewrite the `input` hints, which combined into a passing answer, and the `variables` hints, which spelled out the whole `print` line (`lesson-feedback.md` appendix A and section 8). New task version; learners who passed keep it; no XP change. Before unit 2 | ENG-01 | in_review: merged (PR #16); live check owed, section 1 (b) |
-| ASSESS-08 | Next | Reword unit 1 hints to fit "a nudge, a bigger hint, the approach", still with no hint passing the check (handoff 15 section 11). Done as part of ENG-04b (decision 27) | ENG-04b | proposed |
-| ENG-03 | Next | Browser behaviour-check contract: the Pyodide worker runs learner code against test cases from the content file, with limits and result states including `execution_error` | None | in_review (PR #17, handoff 11) |
+| ASSESS-08 | Next | Reword unit 1 hints to fit "a nudge, a bigger hint, the approach", still with no hint passing the check (handoff 15 section 11). Done as part of ENG-04b (decision 27) | ENG-04b | in_review: merged (PR #25, handoff 19); live check owed, section 1 (g) |
+| ENG-03 | Next | Browser behaviour-check contract: the Pyodide worker runs learner code against test cases from the content file, with limits and result states including `execution_error` | None | in_review: merged (PR #17, handoff 11); live check owed, section 1 (e) |
 | ASSESS-01 | Next | Decide the remaining unit-check rule (the pass rule, decision 15) and record it in the plan | None | proposed |
 | ASSESS-02 | Next | Content schema: `unit_check` task type, level variants (high school, university) and validation | ENG-03 | proposed |
-| ASSESS-06 | Next | Learner level setting (self-chosen, never a birthdate; decision 21) used to pick the check variant | ASSESS-02 | proposed |
+| ASSESS-06 | Next | Learner level setting (self-chosen, never a birthdate; decision 21) used to pick the check variant. Also asked once at onboarding (ID-01 stage E), still self-chosen and never from a birthdate | ASSESS-02; for onboarding, ID-01d | proposed |
 | ASSESS-03 | Next | Unit check interface (cards, retake with new variants, "Unable to assess" handling) | ASSESS-02 | proposed |
 | ASSESS-04 | Next | Unit check for unit 1 using the existing bounded checker; optional for learners who already completed unit 1, and earns the badge (decision 22) | ASSESS-02 | proposed |
 | ASSESS-05 | Next | Award the unit's skill badge (no XP) from the check through the existing ledgers; the unit project keeps its 200 XP (decision 16) | ASSESS-03 | proposed |
+| ENG-06 | — | Proposed by the master run: Function-call checks: an additive extension of the ENG-03 contract, so a check can call a function the learner defined | ENG-03 | proposed |
+| ENG-07 | — | Proposed by the master run: Allowlisted standard-library imports and seeded `random` (a security stage) | None | proposed |
+| ENG-08 | — | Proposed by the master run: Virtual filesystem fixtures and several files, in Pyodide's in-memory filesystem only | None | proposed |
+| ENG-09 | — | Proposed by the master run: Rubric, self-review and local-tutorial task types, with evidence labelled as self-reported | PROJ-01 | proposed |
+| ENG-10 | — | Proposed by the master run: Run learner tests against correct and broken reference implementations; references stay server-side | ENG-06 | proposed |
+| PROJ-01 | — | Proposed by the master run: Unit project mechanism: three versions and one award per unit (200 XP) | Decision 15 | proposed |
 | ENG-05 | Later | Optional AI helper, "Explain my error" (`docs/plan/ai-helper.md`): server-side key only, off by default, per-user and global daily caps, a hard provider spending limit, never grades or writes solutions. Design note only; not to be built until the owner decides section 9 of that note (cost, provider terms for 13 to 17 year olds, consent) | ENG-04, owner decisions | deferred |
 | EDU-01 | Next | Write placement question and task examples for the current four skills (Issue #4) | None | proposed |
 | EDU-02 | After design | Pilot placement (the optional skills check) on one skill before all four | EDU-01, ENG-03 | proposed |
@@ -181,8 +217,8 @@ Recorded in the plan as section 12 of `docs/plan/course-catalog.md`.
 
 | ID | Priority | Item | Depends on | Status |
 | --- | --- | --- | --- | --- |
-| EDU-04 | Next | Python unit 2, Numbers and decisions, with its unit check | ENG-03, ASSESS-02, ENG-04, ASSESS-07 | proposed |
-| EDU-03 | After checker design | Python unit 3, Repeat and explore (loops that always end), with a project extension | EDU-04 | proposed |
+| EDU-04 | Next | Python unit 2, Numbers and decisions, with its unit check. Part 1 (lessons 1 to 3) and part 2 (lessons 4 to 6) are merged; the unit check is not built, and neither is the unit project | ENG-03, ASSESS-02, ENG-04, ASSESS-07 | in_review: lessons merged (PRs #29 and #31, handoffs 24 and 26); live checks owed, section 1 (j) and (k) |
+| EDU-03 | After checker design | Python unit 3, Repeat and explore (loops that always end), with a project extension. Part 1 (`py.while-loops`, `py.loop-termination`, `py.for-range`) is open; part 2 (`py.accumulate`, `py.nested-loops`) is not started | EDU-04 | in_review: part 1 only, PR #32 open, not merged (handoff 27) |
 | EDU-05 | — | Not used: this ID was briefly unit 3, which is EDU-03 in `build.md` | — | deferred |
 | EDU-06 | Next | Unit 4, Keep track of a world (lists, dicts, sets) | EDU-03 | proposed |
 | EDU-07 | Next | Unit 5, Organize your code (functions); project Adventure v2 | EDU-06 | proposed |
@@ -205,11 +241,18 @@ Recorded in the plan as section 12 of `docs/plan/course-catalog.md`.
 | UI-02 | Later | "Not now" button and storage for dismissed recommendations | None | proposed |
 | UI-03 | Later | Record when a learner overrides a recommendation (plan 4.4) | None | proposed |
 | UI-04 | Later | Pause a course (plan 4.2) | None | proposed |
-| UI-05 | Next | Lesson page reads lessons per unit instead of the legacy shape (needed once unit 2 exists). With ENG-04, this is the step that connects the lesson page to the ENG-03 browser-check contract (handoff 11): it must call `check-runner.js` from the lesson page for lessons with browser checks (handoff 15 section 11) | None | proposed |
+| UI-05 | Next | Lesson page reads lessons per unit instead of the legacy shape (needed once unit 2 exists). With ENG-04, this is the step that connects the lesson page to the ENG-03 browser-check contract (handoff 11): it must call `check-runner.js` from the lesson page for lessons with browser checks (handoff 15 section 11) | None | in_review: merged (PR #27, handoff 22); live check owed, section 1 (i) |
 | UI-06 | Later | Show a goal-specific capstone when a path is finished (proposed mapping: scratch to Python final project, hackathons to Hackathon Ready, university to Engineering Depth, websites to Full-Stack Builder, data to Data Investigation) | Decision 20 | proposed |
-| ID-01 | Next | Decide independent adult learner onboarding and visibility: account lifecycle, adult control, parent boundaries, migration | Product decision | proposed |
+| ID-01 | Next | Independent learner accounts: the plan (`independent-learners.md`). Decided 2026-10-27: 16 or older, self-declared; anyone with a Google account; level-based recommendations later. Split into ID-01a to ID-01f and ASSESS-06 | Product decision (made) | in_review: plan merged (PR #30, handoff 25; documentation only) |
+| ID-01a | Next | Privacy notice and data inventory (stage A) | ID-01 | proposed |
+| ID-01b | Next | Export and delete my account (stage B) | ID-01a | proposed |
+| ID-01c | Next | Sign-ups switch, daily cap, admin disable or delete (stage C) | None | proposed |
+| ID-01d | Next | Independent enrolment, 16 or older (stage D) | ID-01a, ID-01b, ID-01c | proposed |
+| ID-01e | Next | Invited group first, then publishing the Google app and, if needed, a custom domain (stage F) | ID-01a to ID-01d, ASSESS-06, OPS-02, SEC-09, SEC-11 | proposed |
+| ID-01f | Later | Level-based recommendations (stage G) | ASSESS-06 | proposed |
 | QA-01 | Before broader use | Audit core lesson accessibility and grading reports: real screen reader, Safari and Firefox, reproducible defects and retest evidence | None | proposed |
 | QA-02 | Before broader use | Part of QA-01: report on incorrect grading rejections (uses feedback data) | FB-06 | proposed |
+| QA-03 | — | Proposed by the master run: Cross-browser CI (Firefox, WebKit), non-blocking first; increases CI time | None | proposed |
 
 ## 6. Decisions
 
@@ -236,6 +279,10 @@ Numbers continue from `docs/plan/course-catalog.md` section 9.
 | 27 | Reword the unit 1 hints to fit the hint ladder? | Yes, in ENG-04b (ASSESS-08) (answered 2026-10-27) |
 
 The questions raised when this file was added (handoff 05) were answered by the owner on 2026-10-25 and are recorded above as decisions 16, 18, 21, 22 and 23, and in items SEC-03, OPS-05 and PLAN-01.
+
+**Answered on 2026-10-27 (`independent-learners.md` section 0), not numbered:** an independent learner account is for people 16 or older, self-declared; anyone with a Google account may sign up once the Google app is published; level-based recommendations come later.
+
+Questions from handoffs 22 to 27 that are still open, with their recommendations, are listed in `decision-log.md`, in the section "Open, awaiting the owner". Handoff 22 also asks for a row for construct rule IDs in browser checks. It has no ID yet, so it is listed there and not here.
 
 ## 7. Maintenance
 

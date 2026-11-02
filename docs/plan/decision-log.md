@@ -1,7 +1,7 @@
 # Decision log: how Python Academy was built
 
-Last updated: 2026-10-26 (America/Toronto)  
-Status: **backfilled** from handoffs 01 to 11, the merged pull request descriptions (#1 to #16, plus #17, which was still open) and the commit history up to `27ab31b`. From handoff 14 on, each handoff adds its own chapter (`build.md` section 14, "Handoff template").  
+Last updated: 2026-11-02 (America/Toronto)  
+Status: **backfilled** from handoffs 01 to 11, the merged pull request descriptions (#1 to #16, plus #17, which was still open) and the commit history up to `27ab31b`. From handoff 14 on, each handoff adds its own chapter (`build.md` section 14, "Handoff template"). Chapters 18 to 22 were added together in handoff 28 from handoffs 22, 24, 25, 26 and 27, which did not edit this file.  
 Backlog: DOC-01 (decision sections in every handoff) and DOC-02 (this log); proposed in handoff 14.  
 Related: [`engineering-book-outline.md`](engineering-book-outline.md) (the book and course this log feeds); [`docs/handoffs/`](../handoffs/).
 
@@ -40,6 +40,11 @@ Terms in **bold** the first time they appear are explained in the [glossary](#gl
 | [15](#chapter-15-feedback-nobody-can-trace-fb-02) | FB-02 anonymous feedback storage | #24 | In review when this chapter was written |
 | [16](#chapter-16-hints-that-fit-the-problem-eng-04-part-2a) | ENG-04 part 2a: check rules, tagged hints, hint rewording | #25 | Merged; written from handoff 19 after #24 merged |
 | [17](#chapter-17-a-page-that-trusts-the-server-fb-04) | FB-04 testers page | #26 | In review when this chapter was written |
+| [18](#chapter-18-one-unit-at-a-time-ui-05) | UI-05 lessons per unit; browser checks on the lesson page | #27 | Merged; live check not yet recorded |
+| [19](#chapter-19-the-first-new-lessons-edu-04-part-1) | EDU-04 part 1, unit 2 lessons 1 to 3 | #29 | Merged; live check not yet recorded |
+| [20](#chapter-20-who-may-sign-up-id-01-plan) | ID-01 plan and the owner's three answers | #30 | Merged (documentation) |
+| [21](#chapter-21-saying-a-unit-is-finished-only-when-it-is-edu-04-part-2) | EDU-04 part 2, unit 2 lessons 4 to 6 | #31 | Merged; live check not yet recorded |
+| [22](#chapter-22-loops-that-always-finish-edu-03-part-1) | EDU-03 part 1, unit 3 lessons 1 to 3 | #32 | Open, not merged, when this chapter was written |
 
 ---
 
@@ -760,6 +765,225 @@ These ideas appear in several chapters. They are good candidates for chapters of
 | Backend tests (unchanged) | The real API gives 401 and 403 on these routes (FB-01) |
 
 - **Deliberate-break controls:** showing the page to a refused visitor (4 tests failed), sending the first student's ID whichever switch was pressed (2), and flipping the switch before the server answered (4).
+
+---
+
+## Chapter 18. One unit at a time (UI-05)
+
+**Sources:** handoff 22 (PR #27, merged 2026-10-27).
+
+**Live check:** not yet recorded (handoff 22 section 8).
+
+**What was built:** a route, `GET /api/units/{unit}/lessons`, and a lesson page that loads one unit and can run browser checks. `/api/lessons` was left exactly as it was.
+
+### Decisions and why
+
+| Decision | Options considered | Reason | Who decided |
+| --- | --- | --- | --- |
+| A new route per unit, with `/api/lessons` untouched | Add the per-unit data to `/api/lessons`; reshape it | The page and API deploy separately, so leaving the old route alone is the safest additive change | Implementer |
+| The page finds the unit through `/api/catalog` | A new "which unit is this lesson in" route | The catalog already lists units and their lessons | Implementer |
+| Fall back to `/api/lessons` on any failure of the new path | Show an error | A new page with an old API, or a hiccup, still gives unit 1 | Implementer |
+| Unit 1 keeps its own heading and pictures; other units use the catalog's title and summary | Make unit 1 generic too | Unit 1 had to behave exactly as before | Owner rule; the wording for later units is an implementer assumption |
+| The Output panel shows visible cases only | Show every case | Hidden cases are hidden, and their output adds nothing for the learner | Implementer |
+| A Python error is explained from the browser's report | Show the judge's sentence | `lesson-feedback.md` section 6 says an `execution_error` shows the error translation | Spec |
+| Rule IDs only for wrong output (`<lesson>.case.<case id>`) | A rule ID for every reason | Wrong output is what handoff 19 named, and it fits the content model with a few lines | Implementer (assumption) |
+| An API failure shows unit 1's alert, not "Check unavailable" | A new message | The same behaviour in both flows | Implementer (assumption) |
+| Recorded real API answers drive the browser tests | Hand-written mocks | A backend test proves each recording is what the API says, so the mocks cannot drift | Implementer |
+| "Send learner code to the API" was tested as sending Python's message | Removing the code from the request | ENG-03 sends the code by design; Python's message, which can echo learner text, must never be sent | Implementer (assumption) |
+
+### Bugs found and how they were fixed
+
+- **An empty answer from an older mock or proxy made the page fail instead of falling back.** Found by reasoning and confirmed by the full run. The page now falls back unless the unit answer is a non-empty list.
+- **A mock chose a recorded answer by code alone,** so "Python could not start" returned "passed". A test failed; the mock now answers only for the exact recorded request.
+- **Treating `execution_error` as a pass was caught by only one test.** The deliberate-break run showed this, and two more tests now catch it.
+- **A deliberate break would not compile,** because TypeScript saw the comparison could never be true. It was rewritten with a cast so the tests could be checked.
+- **Near-miss:** axe reported colour contrast on card 1. It was the card's existing fade-in, not this change; scanning after the fade gives 0 violations.
+- **Building with a placeholder recordings file failed the type check.** The file now always has its full shape.
+
+### How it was tested
+
+| Kind of test | What it proves |
+| --- | --- |
+| Backend tests (367 passed and 11 skipped on SQLite; 378 passed on PostgreSQL) | The route's answers; `/api/lessons` equals the frozen fixture; XP and badges are not given twice |
+| Browser tests (125 passed) | Every result state with real Pyodide; unit 1's 55 texts match a snapshot taken before the change |
+| axe at 1280 px and 375 px | 0 violations on the new states, after the fade-in |
+
+- **Mocks:** browser tests answer API calls with recorded real answers. Python, the worker and the runner are real.
+- **Deliberate-break controls:** sending Python's message (11 tests failed), sending hidden expected output (3), `execution_error` as a pass (3 after strengthening, 1 before), unit 1 losing its heading (2).
+
+---
+
+## Chapter 19. The first new lessons (EDU-04 part 1)
+
+**Sources:** handoff 24 (PR #29, merged 2026-10-27).
+
+**Live check:** not yet recorded (handoff 24 section 8).
+
+**What was built:** `py.arithmetic`, `py.int-float` and `py.convert-input`, the first real lessons to use browser checks.
+
+### Decisions and why
+
+| Decision | Options considered | Reason | Who decided |
+| --- | --- | --- | --- |
+| Release unit 2 with three lessons | Keep it `coming_soon` until part 2 | The owner's preference; the pages were checked and reworded so they end honestly | Owner preference; implementer checked the pages |
+| Lessons 1 and 2 hand over the `int(input())` lines | No input in lessons 1 and 2 | Without replies, printing the expected text would pass; with replies, hidden cases catch it | Implementer (assumption) |
+| "Print just the two numbers" | Accept labels or sentences | The judge compares lines exactly, so numbers alone judge the maths and any correct method passes | Implementer |
+| An empty reply is a test case; a reply like `ten` is not | A `ten` case | A correct program stops on `ten`, and the contract has no "expected error" case | Implementer (assumption) |
+| Fix-the-bug as closely as five cards allow | A new task type | A fix-the-bug card is a schema change | Implementer (assumption) |
+| One practice badge per lesson | None, as `course-catalog.md` section 6.2 proposes | The owner's instruction. The plan's line still disagrees and is listed as open below | Owner |
+| No `require` or `forbid` constructs | Require `int()` in lesson 3 | The cases already force the behaviour, so no rule naming was invented | Implementer |
+| Reword one unit 2 error explanation | Leave it | It told learners to use `str()` where `int()` is usually the right fix | Implementer |
+| A test-only stand-in for the browser worker (`case_runner.py`) | Only browser tests | It checks 80+ programs and thousands of hint combinations in seconds; browser tests prove Pyodide sends the same reports | Implementer |
+| Catalog and course versions unchanged | Bump them | Nothing saved refers to them | Implementer |
+
+### Bugs found and how they were fixed
+
+- **"Unit complete" after three of six lessons.** Found by checking the page after the last available lesson. Reworded, and a browser test guards it.
+- **Misleading advice:** adding a number to a reply that was still text suggested `str(...)`, which makes `10 + 3` print `103`. Found in the no-mock run. The explanation now names `int(...)` too.
+- **Near-miss:** the first hint audit read prose as code and missed real code. A test now proves the audit finds the code it should.
+- **Near-miss:** 9 "CSP violations" came from the implementer's own axe script, one per scan. The app logged none.
+- **Near-miss:** 13 browser tests failed in one run that shared the machine with the backend suites. Alone, all pass. This is why suites run alone.
+
+### How it was tested
+
+The full commands and counts are in handoff 24 section 6. The handoff lists content validation, hint audits, real-Pyodide browser tests, leak tests and axe. **Mocks:** browser tests answer API calls with recorded real answers.
+
+---
+
+## Chapter 20. Who may sign up (ID-01 plan)
+
+**Sources:** handoff 25 and `independent-learners.md` (PR #30, merged 2026-10-27).
+
+**What was built:** a plan only. No account behaviour changed.
+
+### Decisions and why
+
+**Decided by the owner on 2026-10-27 (`independent-learners.md` section 0):**
+
+| Decision | Detail |
+| --- | --- |
+| An independent learner account is for people 16 or older | Self-declared, like the existing age gate, and never identity verification. Learners under 16 keep the parent-invitation path (13 and up), unchanged |
+| Anyone with a Google account may sign up | Once the Google app is published. The plan's section 6.1 says sign-in may already be open (SEC-10, unconfirmed) |
+| Level-based recommendations come later | A pointer to an outside course would be a link only, never copied content, with its terms checked first |
+
+Reasoning not recorded for these three answers. Every other item in the plan is a proposal.
+
+### Bugs found and how they were fixed
+
+No code changed. Checking the draft against the code and Google's help pages is recorded in handoff 25 sections 3 to 5.
+
+### How it was tested
+
+Documentation only: each claim about today's app was checked against the code (handoff 25 section 3), and links and tables were checked (handoff 25 section 7).
+
+---
+
+## Chapter 21. Saying a unit is finished only when it is (EDU-04 part 2)
+
+**Sources:** handoff 26 (PR #31, merged 2026-10-28).
+
+**Live check:** not yet recorded (handoff 26 section 8).
+
+**What was built:** `py.compare`, `py.boolean-logic` and `py.elif`, plus `more_lessons_coming` in content and `complete` in `/api/catalog`. Unit 2's lessons are complete. It has no unit project and no unit check.
+
+### Decisions and why
+
+| Decision | Options considered | Reason | Who decided |
+| --- | --- | --- | --- |
+| No construct rules; the cases force `and`, `or` and `elif` | `uses-elif`, `uses-and` rules | Each lesson could be checked fairly by behaviour, and a forced construct would reject correct alternatives | Implementer, within the owner's rule |
+| `more_lessons_coming` (content) and `complete` (API) | A planned-lesson count; comparing with the plan; "released so far" forever | One boolean is the smallest fact that answers the question | Implementer (assumption: the name) |
+| A missing `complete` reads as not known | Read missing as complete | During a deploy an older API has no field, and "released so far" is never false | Implementer |
+| "Its lessons are not written yet." for an unwritten unit | Keep "coming soon"; drop the note | The owner asked for what is true; the exact wording is the implementer's | Owner rule; implementer wording (assumption) |
+| `RULES_VERSION` 1 to 2 | Keep 1 | "Unit done" changed meaning for a unit still being written | Implementer |
+| Outputs are `True`/`False` or a number | Words such as "too high" | Exact-output checks would judge wording too | Implementer |
+| Lesson 6's points use `and` | `abs()` only | It joins the unit's ideas; `abs()` is shown as another way | Implementer |
+| One practice badge per lesson | None per lesson | The owner's rule, as in part 1; the plan's line is still open | Owner |
+
+### Bugs found and how they were fixed
+
+- **The hint audit could not read `elif …:` or `else:` in a hint,** so lesson 6's approach went untested. A test failed; the audit now assembles a valid chain.
+- **A tagged hint that could never be shown.** A test caught it, and it was removed before the first commit.
+- **Near-miss:** hidden outputs repeat visible ones, so searching answers for them proves nothing. The leak test now checks the plan's structure, and a deliberate break shows it fails.
+- **Near-miss:** 9 "CSP" console lines came from the implementer's own axe injection, as in handoff 24.
+
+### How it was tested
+
+The commands and counts are in handoff 26 section 6.
+
+- **Mocks:** browser tests answer API calls with recorded real answers.
+- **Deliberate-break controls:** a hint that spells out the answer (5 tests failed), a check that accepts separate `if`s (16), hidden output in the plan (12), always saying "Unit complete" (2), a unit still being written treated as finished (1).
+
+---
+
+## Chapter 22. Loops that always finish (EDU-03 part 1)
+
+**Sources:** handoff 27, on branch `content/py-u03-part1` (PR #32, **open and not merged** when this chapter was written).
+
+**What was built:** `py.while-loops`, `py.loop-termination` and `py.for-range`, with `more_lessons_coming: true`, and a worker fix.
+
+### Decisions and why
+
+| Decision | Options considered | Reason | Who decided |
+| --- | --- | --- | --- |
+| Continue the riddle-keeper story | A new story for unit 3 | The guessing game is known, so repeating is the only new idea | Implementer (assumption) |
+| No construct rules; `for` shown as another way | A `uses-for` or `uses-while` rule | The owner's rule; a `for` loop cannot be told from a `while` loop by what it prints | Owner rule |
+| `RULES_VERSION` stays 2 | Bump to 3 | The owner's rule is to bump only if the rules change, and they did not | Owner rule |
+| `extra-replies` visible and before `out-of-tries` | Only `out-of-tries` | A missing limit then gets a hint about the limit, not "ran out of replies" | Implementer |
+| Fix the worker's leftover-output bug in this PR | A separate PR | Found while testing this unit; three lines; otherwise feedback could show another case's output | Implementer (assumption) |
+| A new `indent-loop` translation | Keep the generic text | The generic text says "if", and this is the first error many learners see in the unit | Implementer |
+| The timeout explanation names loops in every unit | A unit 3-only text | The explanation is shared, and an endless loop is the usual cause | Implementer (assumption) |
+| The test runner stops a case after 0.5 seconds | The browser's 3 seconds | Test samples only; it keeps the suite fast | Implementer |
+| One practice badge per lesson | None per lesson | As in units 1 and 2; the plan's line is still open | Owner |
+
+### Bugs found and how they were fixed
+
+- **Worker leak:** output from a case stopped at the output limit appeared at the start of the next case's output. A recorded request did not match. The worker now flushes and discards Python's buffer before each case, and a browser test guards it.
+- **An older recording contained that leak** in its request. Re-recording found it; the answer was unchanged.
+- **The hint audit could not build a loop with two lines inside it.** The audit found no runnable program for lesson 1; it now keeps indented lines together.
+- **The test runner had no time limit,** so an endless sample hung the suite. It now stops a case after 0.5 seconds.
+- **Near-miss:** a sample meant to loop for ever passed its first case. It was rewritten.
+- **Near-miss:** 9 "CSP" console lines came from the implementer's own axe injection.
+
+### How it was tested
+
+| Kind of test | What it proves |
+| --- | --- |
+| Backend tests (633 passed and 11 skipped on SQLite; 644 passed on PostgreSQL) | Content validation, card claims run in Python, correct and wrong samples, hint audit, XP once, units 1 and 2 unchanged |
+| Browser tests (205 passed) | Each lesson end to end with real Pyodide, including an endless loop stopped at 3 seconds |
+| No-mock run | Real API, production build and real Pyodide; 0 axe violations at 1280 px and 375 px |
+
+- **Mocks:** browser tests answer API calls with recorded real answers.
+- **Deliberate-break controls:** a hint that spells out the loop (4 tests failed), lesson 2 without its limit cases (7), hidden output in the plan (16), the worker's flush removed (3), `more_lessons_coming` removed (11).
+
+---
+
+## Open, awaiting the owner
+
+Nothing in this table is decided. Each recommendation is the implementer's or the planning chat's, **recommended, not yet confirmed**. The master run's Part 2 boxes were all empty on 2026-11-02, so none of these was answered there.
+
+| Question | From | Recommendation |
+| --- | --- | --- |
+| Can a Google account outside the test list sign in today? (SEC-10) | Handoff 25; plan section 11 | Check this week; it decides how urgent ID-01c is |
+| Filter query strings out of the API access log, or turn it off? (SEC-11) | Handoff 25; plan section 11 | Filter, so request lines stay useful |
+| Independent learner as a `student` with no parent | Plan section 11 | Yes |
+| A parent who also wants to learn uses a second Google account | Plan section 11 | Yes, for now |
+| Keep storing the full date of birth | Plan section 11 | Keep for now; review in stage D |
+| Daily cap on new accounts | Plan section 11 | 20 a day to start |
+| Delete inactive accounts after 24 months | Plan section 11 | Yes, and say so in the notice |
+| Who may ask to delete an invited student | Plan section 11 | Both the student and the parent |
+| Contact address for the privacy notice | Plan section 11 | No recommendation; the owner chooses |
+| Must a custom domain come before publishing the Google app? | Plan section 11 | Check the Google console first |
+| Write a short terms of service page | Handoff 25 | Yes, with the privacy notice |
+| One practice badge per lesson against `course-catalog.md` section 6.2 | Handoffs 24, 26, 27 | Update section 6.2 to say one per lesson (master run box B-U3) |
+| What counts as passing a unit check (decision 15) | Backlog section 6 | All core tasks pass; hints allowed and recorded as support data |
+| Field names `more_lessons_coming` and `complete` | Handoff 26 | Keep them (master run box B-U1) |
+| "Its lessons are not written yet" for a unit, and "is coming soon" for a course | Handoff 26 | Keep as is; a course and a unit are different promises |
+| Unit 3: carry the story on, give the worker fix a backlog row, and keep the timeout wording in every unit | Handoff 27 | Yes to each |
+| Construct rules for nested loops | Handoff 27 | None for part 2; revisit with the unit check |
+| Construct rule IDs for browser checks (a backlog row; no ID yet) | Handoffs 22, 24 | Master run stage S26 proposes names; no code until decided |
+| Later units show the catalog title; API failure shows unit 1's alert; "send learner code" read as "send Python's message" | Handoff 22 | No recommendation recorded |
+| `int(input())` handed over early; `ten` taught but not tested; fix-the-bug through the predict and Try it cards | Handoff 24 | No recommendation recorded |
+| README: is "one grade 9 student" right; licence; stack screenshots on a phone; old facts in a collapsible section | Handoff 23 | No recommendation recorded |
 
 ---
 
