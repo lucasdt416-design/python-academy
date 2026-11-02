@@ -61,9 +61,9 @@ def test_the_guard_is_on_before_any_learner_code_in_both_modes():
 
 def test_the_worker_imports_nothing_after_the_guard_is_on():
     # Its own imports would be refused too, because they would look like the learner's.
-    after = WORKER[WORKER.index('const REPLIES = '):]
-    lines = [line for line in after.split('const CALLER = `')[0].splitlines() + after.split('`;', 2)[2].splitlines() if re.match(r'\s*(import|from) \w', line)]
-    assert lines == []
+    # CALLER is loaded before the guard, so its imports are fine.
+    after = re.sub(r'const CALLER = `.*?`;', '', WORKER[WORKER.index('const REPLIES = '):], flags=re.S)
+    assert [line for line in after.splitlines() if re.match(r'\s*(import|from) \w', line)] == []
     assert 'runPython(\'import' not in WORKER and 'runPythonAsync(\'import' not in WORKER
 
 
