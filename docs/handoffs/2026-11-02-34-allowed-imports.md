@@ -24,7 +24,7 @@ it doing so.
 | Field | Value |
 | --- | --- |
 | Stage | WD2, ENG-07. The plan's first stage in Wave D with its gate met: WWD1 depends on S09, which is blocked |
-| Base | `main`, at `8b5ef45`. No other PR needs to merge first |
+| Base | `main`, at `8b5ef45`. **Merge #37 first, then update this PR before merging it** (section 7) |
 | Part 2 boxes relied on | **None.** Its gate is "none; security stage" |
 
 ## 1. Step 0
@@ -148,6 +148,7 @@ The guard replaces `__import__` after Pyodide has loaded and the network APIs ar
 
 ## 7. Known limitations
 
+- **This PR and #37 break one test if both merge as they are, and GitHub will not warn you.** #37 adds a recording, `unit3-part2-api.json`, that holds the old `unsupported` message in 2 places. A trial merge of all five open PRs had no text conflict, but `test_the_recorded_answers_are_the_real_apis` failed in `test_unit3_part2.py` (1 failed, 801 passed). The fix is to merge #37, merge `main` into this branch, and update those 2 places. I did not chain the PRs, because box B-R1 is empty.
 - **A learner can get round the guard on purpose.** That is by design, as section 3 says.
 - **`sys` and others stop working for anyone already importing them.** No lesson does, and a check reports `unsupported`, so it never fails them wrongly.
 - **Try it has no friendly translation for the refused import.** It shows Python's message, which names the module.
