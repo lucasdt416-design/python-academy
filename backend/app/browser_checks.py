@@ -52,6 +52,7 @@ def plan(lesson):
         'time_limit_ms': challenge.check.time_limit_ms, 'output_limit': OUTPUT_LIMIT,
         'cases': [{'id': case.id, 'visibility': case.visibility, 'description': case.description, 'inputs': case.inputs,
                    **({'expected': case.expected} if case.visibility == 'visible' and case.expected is not None else {}),
+                   **({'files': case.files} if case.files else {}),
                    **({'call': case.call.model_dump()} if case.call else {}),
                    **({'returns': case.returns.model_dump()} if case.returns and case.visibility == 'visible' else {})}
                   for case in challenge.check.cases],

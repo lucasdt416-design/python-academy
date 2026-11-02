@@ -1,0 +1,992 @@
+{
+ "catalog": {
+  "version": 1,
+  "courses": [
+   {
+    "id": "py",
+    "title": "Python Foundations",
+    "summary": "Write your first programs, then grow them into tested, organized projects.",
+    "status": "released",
+    "prerequisites": {
+     "required": [],
+     "suggested": []
+    },
+    "units": [
+     {
+      "id": "py.u01",
+      "title": "Build Your Own Adventure",
+      "summary": "Output, variables, input, and choices in one connected story.",
+      "status": "released",
+      "complete": true,
+      "lessons": [
+       {
+        "id": "hello",
+        "title": "Open the story",
+        "concept": "Output · print()",
+        "description": "Give your adventure a setting and a surprise.",
+        "badge": "Story spark"
+       },
+       {
+        "id": "variables",
+        "title": "Create your hero",
+        "concept": "Variables · strings",
+        "description": "Give the adventure a hero and a useful tool.",
+        "badge": "Character creator"
+       },
+       {
+        "id": "input",
+        "title": "Meet the player",
+        "concept": "Interaction · input()",
+        "description": "Let someone else name the hero.",
+        "badge": "Conversation starter"
+       },
+       {
+        "id": "choices",
+        "title": "Choose a path",
+        "concept": "Decisions · if / else",
+        "description": "Make the story respond to a choice.",
+        "badge": "Path finder"
+       },
+       {
+        "id": "adventure",
+        "title": "Launch your adventure",
+        "concept": "Combine your skills",
+        "description": "Bring a player, a setting, and a choice into one small game.",
+        "badge": "Adventure maker"
+       }
+      ]
+     },
+     {
+      "id": "py.u02",
+      "title": "Numbers and decisions",
+      "summary": "Arithmetic, whole numbers and decimals, numbers from input(), comparisons, Boolean logic and elif.",
+      "status": "released",
+      "complete": true,
+      "lessons": [
+       {
+        "id": "py.arithmetic",
+        "title": "Count the treasure",
+        "concept": "Arithmetic · + - * / // %",
+        "description": "Give your adventure a score, and share out a chest of coins.",
+        "badge": "Treasure counter"
+       },
+       {
+        "id": "py.int-float",
+        "title": "Average the scores",
+        "concept": "Numbers · int and float",
+        "description": "Find the average of two riddle scores, decimals and all.",
+        "badge": "Score keeper"
+       },
+       {
+        "id": "py.convert-input",
+        "title": "Score the riddle",
+        "concept": "Conversion · int(input())",
+        "description": "Turn the player's replies into numbers, and keep score when a riddle is solved or missed.",
+        "badge": "Riddle scorer"
+       },
+       {
+        "id": "py.compare",
+        "title": "Too high or too low?",
+        "concept": "Comparisons · < > <= >= == !=",
+        "description": "Compare the player's guess with the riddle keeper's secret number.",
+        "badge": "Riddle judge"
+       },
+       {
+        "id": "py.boolean-logic",
+        "title": "Close enough?",
+        "concept": "Logic · and, or, not",
+        "description": "Decide whether a guess is close or out of range by joining comparisons together.",
+        "badge": "Close call"
+       },
+       {
+        "id": "py.elif",
+        "title": "The riddle keeper's verdict",
+        "concept": "Decisions · elif",
+        "description": "Give points for a guess by how close it is, choosing exactly one branch.",
+        "badge": "Fair verdict"
+       }
+      ]
+     },
+     {
+      "id": "py.u03",
+      "title": "Repeat and explore",
+      "summary": "while and for loops that always finish, running totals, and loops inside loops.",
+      "status": "released",
+      "complete": true,
+      "lessons": [
+       {
+        "id": "py.while-loops",
+        "title": "Keep guessing",
+        "concept": "Loops · while",
+        "description": "Let the player keep guessing the secret number until they get it right.",
+        "badge": "Patient guesser"
+       },
+       {
+        "id": "py.loop-termination",
+        "title": "Three tries",
+        "concept": "Loops · stopping on time",
+        "description": "Give the player three tries, and make sure the loop always ends.",
+        "badge": "Loop closer"
+       },
+       {
+        "id": "py.for-range",
+        "title": "Step by step",
+        "concept": "Loops · for and range()",
+        "description": "Count the steps of a staircase with a for loop and range(), two at a time.",
+        "badge": "Step counter"
+       },
+       {
+        "id": "py.accumulate",
+        "title": "Keep the score",
+        "concept": "Loops · running totals and counters",
+        "description": "Add up the points from every round of the riddle keeper's game, count the empty rounds, and find the average.",
+        "badge": "Tally keeper"
+       },
+       {
+        "id": "py.nested-loops",
+        "title": "Rooms on the map",
+        "concept": "Loops · a loop inside a loop",
+        "description": "Walk the riddle keeper's map row by row, count the coins in each room, and add them all up.",
+        "badge": "Map reader"
+       }
+      ]
+     },
+     {
+      "id": "py.u04",
+      "title": "Keep track of a world",
+      "summary": "Lists, dictionaries, and sets.",
+      "status": "coming_soon",
+      "complete": false,
+      "lessons": []
+     },
+     {
+      "id": "py.u05",
+      "title": "Organize your code",
+      "summary": "Functions, parameters, return values, and scope.",
+      "status": "coming_soon",
+      "complete": false,
+      "lessons": []
+     },
+     {
+      "id": "py.u06",
+      "title": "Recover and investigate",
+      "summary": "Tracebacks, debugging, and exceptions.",
+      "status": "coming_soon",
+      "complete": false,
+      "lessons": []
+     },
+     {
+      "id": "py.u07",
+      "title": "Libraries and modules",
+      "summary": "Importing and using the standard library.",
+      "status": "coming_soon",
+      "complete": false,
+      "lessons": []
+     },
+     {
+      "id": "py.u08",
+      "title": "Trust your changes",
+      "summary": "Tests, boundaries, and refactoring.",
+      "status": "coming_soon",
+      "complete": false,
+      "lessons": []
+     },
+     {
+      "id": "py.u09",
+      "title": "Save and load",
+      "summary": "Text files, JSON, and CSV.",
+      "status": "coming_soon",
+      "complete": false,
+      "lessons": []
+     },
+     {
+      "id": "py.u10",
+      "title": "Patterns in text",
+      "summary": "String methods and regular expressions.",
+      "status": "coming_soon",
+      "complete": false,
+      "lessons": []
+     },
+     {
+      "id": "py.u11",
+      "title": "Model a larger program",
+      "summary": "Classes and composition.",
+      "status": "coming_soon",
+      "complete": false,
+      "lessons": []
+     },
+     {
+      "id": "py.u12",
+      "title": "Final project",
+      "summary": "Plan, build, test, and explain a project of your own.",
+      "status": "coming_soon",
+      "complete": false,
+      "lessons": []
+     }
+    ]
+   },
+   {
+    "id": "hack",
+    "title": "Hackathon Ready",
+    "summary": "Scope, build, and demo a small working project with a team, against the clock.",
+    "status": "coming_soon",
+    "prerequisites": {
+     "required": [
+      "py.u01",
+      "py.u02",
+      "py.u03",
+      "py.u04",
+      "py.u05",
+      "py.u06",
+      "py.u07"
+     ],
+     "suggested": [
+      "git",
+      "web"
+     ]
+    },
+    "units": [
+     {
+      "id": "hack.u01",
+      "title": "Idea to MVP",
+      "summary": "Cut an idea down to a minimum viable product.",
+      "status": "coming_soon",
+      "complete": false,
+      "lessons": []
+     },
+     {
+      "id": "hack.u02",
+      "title": "Time-boxing",
+      "summary": "Plan in fixed time blocks and know what to drop.",
+      "status": "coming_soon",
+      "complete": false,
+      "lessons": []
+     },
+     {
+      "id": "hack.u03",
+      "title": "Teamwork with Git branches",
+      "summary": "Feature branches, small pull requests, and reviews.",
+      "status": "coming_soon",
+      "complete": false,
+      "lessons": []
+     },
+     {
+      "id": "hack.u04",
+      "title": "Using public APIs safely",
+      "summary": "Rate limits, terms of use, and keeping keys out of frontend code.",
+      "status": "coming_soon",
+      "complete": false,
+      "lessons": []
+     },
+     {
+      "id": "hack.u05",
+      "title": "Quick UI prototyping",
+      "summary": "From a paper sketch to a minimal working interface.",
+      "status": "coming_soon",
+      "complete": false,
+      "lessons": []
+     },
+     {
+      "id": "hack.u06",
+      "title": "Demo and pitching",
+      "summary": "A two-minute demo that shows what works.",
+      "status": "coming_soon",
+      "complete": false,
+      "lessons": []
+     },
+     {
+      "id": "hack.u07",
+      "title": "Judging criteria",
+      "summary": "How projects are judged, and assessing your own honestly.",
+      "status": "coming_soon",
+      "complete": false,
+      "lessons": []
+     }
+    ]
+   },
+   {
+    "id": "git",
+    "title": "Git and GitHub Essentials",
+    "summary": "Track changes, work on branches, and open your first pull request.",
+    "status": "coming_soon",
+    "prerequisites": {
+     "required": [
+      "py.u01"
+     ],
+     "suggested": [
+      "py.u05"
+     ]
+    },
+    "units": []
+   },
+   {
+    "id": "web",
+    "title": "Web Foundations: HTML and CSS",
+    "summary": "Build an accessible, responsive personal website.",
+    "status": "coming_soon",
+    "prerequisites": {
+     "required": [
+      "py.u01",
+      "py.u02",
+      "py.u03"
+     ],
+     "suggested": [
+      "git"
+     ]
+    },
+    "units": []
+   },
+   {
+    "id": "js",
+    "title": "JavaScript and the DOM",
+    "summary": "Make web pages interactive with events and state.",
+    "status": "coming_soon",
+    "prerequisites": {
+     "required": [
+      "web",
+      "py.u01",
+      "py.u02",
+      "py.u03",
+      "py.u04",
+      "py.u05"
+     ],
+     "suggested": [
+      "git"
+     ]
+    },
+    "units": []
+   },
+   {
+    "id": "sql",
+    "title": "Data and SQL",
+    "summary": "Ask questions of real tables with queries, joins, and constraints.",
+    "status": "coming_soon",
+    "prerequisites": {
+     "required": [
+      "py.u01",
+      "py.u02",
+      "py.u03",
+      "py.u04"
+     ],
+     "suggested": [
+      "web"
+     ]
+    },
+    "units": []
+   },
+   {
+    "id": "data",
+    "title": "Data Investigation with Python",
+    "summary": "Answer an original question with a documented dataset.",
+    "status": "coming_soon",
+    "prerequisites": {
+     "required": [
+      "py.u01",
+      "py.u02",
+      "py.u03",
+      "py.u04",
+      "py.u05",
+      "py.u06",
+      "py.u07",
+      "py.u08",
+      "py.u09",
+      "sql"
+     ],
+     "suggested": [
+      "cs"
+     ]
+    },
+    "units": []
+   },
+   {
+    "id": "cs",
+    "title": "Computer Science Foundations",
+    "summary": "Representation, searching, sorting, complexity, and recursion.",
+    "status": "coming_soon",
+    "prerequisites": {
+     "required": [
+      "py.u01",
+      "py.u02",
+      "py.u03",
+      "py.u04",
+      "py.u05"
+     ],
+     "suggested": [
+      "py.u06",
+      "py.u07",
+      "py.u08"
+     ]
+    },
+    "units": []
+   },
+   {
+    "id": "node",
+    "title": "Node.js and APIs",
+    "summary": "Build an API with routes, validation, and a database.",
+    "status": "coming_soon",
+    "prerequisites": {
+     "required": [
+      "js",
+      "sql"
+     ],
+     "suggested": [
+      "git"
+     ]
+    },
+    "units": []
+   },
+   {
+    "id": "fullstack",
+    "title": "Full-Stack Builder",
+    "summary": "Ship a client, API, and database project with automated checks.",
+    "status": "coming_soon",
+    "prerequisites": {
+     "required": [
+      "node",
+      "git"
+     ],
+     "suggested": [
+      "cs"
+     ]
+    },
+    "units": []
+   },
+   {
+    "id": "ce",
+    "title": "Engineering Depth",
+    "summary": "Electives in C and memory, discrete foundations, numerical methods, and embedded simulation.",
+    "status": "coming_soon",
+    "prerequisites": {
+     "required": [
+      "cs",
+      "py"
+     ],
+     "suggested": []
+    },
+    "units": []
+   },
+   {
+    "id": "fixture",
+    "title": "TEST FIXTURE (never shown to learners)",
+    "summary": "Test data for file checks (ENG-08).",
+    "status": "released",
+    "prerequisites": {
+     "required": [],
+     "suggested": []
+    },
+    "units": [
+     {
+      "id": "fixture.u08",
+      "title": "TEST FIXTURE files",
+      "summary": "Test data.",
+      "status": "released",
+      "complete": true,
+      "lessons": [
+       {
+        "id": "fixture.files",
+        "title": "TEST FIXTURE add up a file",
+        "concept": "Files",
+        "description": "Test data.",
+        "badge": "TEST FIXTURE badge"
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ "units": {
+  "fixture.u08": [
+   {
+    "id": "fixture.files",
+    "title": "TEST FIXTURE add up a file",
+    "concept": "Files",
+    "badge": "TEST FIXTURE badge",
+    "description": "Test data.",
+    "learnTitle": "Read a file",
+    "learn": "Test data.",
+    "detail": "Test data.",
+    "example": "with open(\"note.txt\") as f:\n    print(f.read())",
+    "exampleOutput": "hello from the file",
+    "exampleNote": "Test data.",
+    "question": "Test data?",
+    "options": [
+     "Yes",
+     "No"
+    ],
+    "answer": 0,
+    "why": "Test data.",
+    "guided": "Test data.",
+    "starter": "# Open scores.txt\n",
+    "challenge": "Add up the numbers in scores.txt, one per line. Print just the total.",
+    "hints": [
+     "Open it.",
+     "Loop over its lines.",
+     "Add them up."
+    ],
+    "inputs": [],
+    "exampleInputs": [],
+    "expected": null,
+    "errorHints": [
+     {
+      "tags": [
+       "FileNotFoundError"
+      ],
+      "text": "Open the file by the name in the challenge: scores.txt."
+     },
+     {
+      "tags": [
+       "fixture.files.case.small",
+       "fixture.files.case.nested"
+      ],
+      "text": "Add every line of the file, not numbers typed into the code."
+     },
+     {
+      "tags": [
+       "fixture.files.case.other"
+      ],
+      "text": "Read the numbers from the file each time, as a different file may be given."
+     }
+    ],
+    "similarExample": {
+     "code": "print(1 + 2)",
+     "note": "Test data."
+    },
+    "otherWays": [
+     {
+      "code": "print(sum(int(n) for n in open(\"scores.txt\")))",
+      "note": "Test data."
+     }
+    ],
+    "exampleFiles": {
+     "note.txt": "hello from the file"
+    },
+    "challengeFiles": {
+     "scores.txt": "3\n4\n"
+    },
+    "course": "fixture",
+    "unit": "fixture.u08",
+    "check": "browser-tests"
+   }
+  ]
+ },
+ "plans": {
+  "fixture.files": {
+   "lesson_id": "fixture.files",
+   "task_id": "fixture.files.challenge",
+   "version": 1,
+   "time_limit_ms": 3000,
+   "output_limit": 10000,
+   "cases": [
+    {
+     "id": "small",
+     "visibility": "visible",
+     "description": "a file of two scores",
+     "inputs": [],
+     "expected": "7",
+     "files": {
+      "scores.txt": "3\n4\n"
+     }
+    },
+    {
+     "id": "nested",
+     "visibility": "visible",
+     "description": "a file with a note in a folder beside it",
+     "inputs": [],
+     "expected": "10",
+     "files": {
+      "scores.txt": "10\n",
+      "notes/old.txt": "ignore me"
+     }
+    },
+    {
+     "id": "other",
+     "visibility": "hidden",
+     "description": "a longer file you cannot see",
+     "inputs": [],
+     "files": {
+      "scores.txt": "20\n21\n22\n"
+     }
+    }
+   ]
+  }
+ },
+ "scenarios": [
+  {
+   "name": "passed",
+   "request": {
+    "lesson_id": "fixture.files",
+    "code": "total = 0\nwith open(\"scores.txt\") as f:\n    for line in f:\n        total = total + int(line)\nprint(total)\n",
+    "output": "7\n",
+    "inputs": [],
+    "runs": [
+     {
+      "id": "small",
+      "status": "ok",
+      "output": "7\n",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "nested",
+      "status": "ok",
+      "output": "10\n",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "other",
+      "status": "ok",
+      "output": "63\n",
+      "error_type": null,
+      "line": null
+     }
+    ]
+   },
+   "response": {
+    "passed": true,
+    "result": "passed",
+    "feedback": "Your program printed the expected output for all 3 test cases, including 1 hidden case. Read your code once more: could you explain each line to someone else?",
+    "rule": null,
+    "assessment": "browser_tests",
+    "cases": [
+     {
+      "id": "small",
+      "visibility": "visible",
+      "status": "passed"
+     },
+     {
+      "id": "nested",
+      "visibility": "visible",
+      "status": "passed"
+     },
+     {
+      "id": "other",
+      "visibility": "hidden",
+      "status": "passed"
+     }
+    ],
+    "failed": null
+   }
+  },
+  {
+   "name": "other way passed",
+   "request": {
+    "lesson_id": "fixture.files",
+    "code": "print(sum(int(n) for n in open(\"scores.txt\")))\n",
+    "output": "7\n",
+    "inputs": [],
+    "runs": [
+     {
+      "id": "small",
+      "status": "ok",
+      "output": "7\n",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "nested",
+      "status": "ok",
+      "output": "10\n",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "other",
+      "status": "ok",
+      "output": "63\n",
+      "error_type": null,
+      "line": null
+     }
+    ]
+   },
+   "response": {
+    "passed": true,
+    "result": "passed",
+    "feedback": "Your program printed the expected output for all 3 test cases, including 1 hidden case. Read your code once more: could you explain each line to someone else?",
+    "rule": null,
+    "assessment": "browser_tests",
+    "cases": [
+     {
+      "id": "small",
+      "visibility": "visible",
+      "status": "passed"
+     },
+     {
+      "id": "nested",
+      "visibility": "visible",
+      "status": "passed"
+     },
+     {
+      "id": "other",
+      "visibility": "hidden",
+      "status": "passed"
+     }
+    ],
+    "failed": null
+   }
+  },
+  {
+   "name": "needs_work",
+   "request": {
+    "lesson_id": "fixture.files",
+    "code": "print(7)\n",
+    "output": "7\n",
+    "inputs": [],
+    "runs": [
+     {
+      "id": "small",
+      "status": "ok",
+      "output": "7\n",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "nested",
+      "status": "ok",
+      "output": "7\n",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "other",
+      "status": "ok",
+      "output": "7\n",
+      "error_type": null,
+      "line": null
+     }
+    ]
+   },
+   "response": {
+    "passed": false,
+    "result": "needs_work",
+    "feedback": "For a file with a note in a folder beside it, line 1 should be \"10\", but your program printed \"7\".",
+    "rule": "fixture.files.case.nested",
+    "assessment": "browser_tests",
+    "cases": [
+     {
+      "id": "small",
+      "visibility": "visible",
+      "status": "passed"
+     },
+     {
+      "id": "nested",
+      "visibility": "visible",
+      "status": "failed"
+     },
+     {
+      "id": "other",
+      "visibility": "hidden",
+      "status": "failed"
+     }
+    ],
+    "failed": {
+     "id": "nested",
+     "visibility": "visible",
+     "description": "a file with a note in a folder beside it",
+     "reason": "wrong_output",
+     "error_type": null,
+     "line": null,
+     "line_number": 1,
+     "expected_line": "10",
+     "actual_line": "7"
+    }
+   }
+  },
+  {
+   "name": "hidden",
+   "request": {
+    "lesson_id": "fixture.files",
+    "code": "print(7 if len(open(\"scores.txt\").read()) == 4 else 10)\n",
+    "output": "7\n",
+    "inputs": [],
+    "runs": [
+     {
+      "id": "small",
+      "status": "ok",
+      "output": "7\n",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "nested",
+      "status": "ok",
+      "output": "10\n",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "other",
+      "status": "ok",
+      "output": "10\n",
+      "error_type": null,
+      "line": null
+     }
+    ]
+   },
+   "response": {
+    "passed": false,
+    "result": "needs_work",
+    "feedback": "Your program printed something different for a longer file you cannot see (a hidden test case). Check that it works from the replies it is given, not from fixed values.",
+    "rule": "fixture.files.case.other",
+    "assessment": "browser_tests",
+    "cases": [
+     {
+      "id": "small",
+      "visibility": "visible",
+      "status": "passed"
+     },
+     {
+      "id": "nested",
+      "visibility": "visible",
+      "status": "passed"
+     },
+     {
+      "id": "other",
+      "visibility": "hidden",
+      "status": "failed"
+     }
+    ],
+    "failed": {
+     "id": "other",
+     "visibility": "hidden",
+     "description": "a longer file you cannot see",
+     "reason": "wrong_output",
+     "error_type": null,
+     "line": null
+    }
+   }
+  },
+  {
+   "name": "missing file",
+   "request": {
+    "lesson_id": "fixture.files",
+    "code": "print(open(\"score.txt\").read())\n",
+    "output": "",
+    "inputs": [],
+    "runs": [
+     {
+      "id": "small",
+      "status": "error",
+      "output": "",
+      "error_type": "FileNotFoundError",
+      "line": 1
+     },
+     {
+      "id": "nested",
+      "status": "error",
+      "output": "",
+      "error_type": "FileNotFoundError",
+      "line": 1
+     },
+     {
+      "id": "other",
+      "status": "error",
+      "output": "",
+      "error_type": "FileNotFoundError",
+      "line": 1
+     }
+    ]
+   },
+   "response": {
+    "passed": false,
+    "result": "execution_error",
+    "feedback": "Python stopped with FileNotFoundError on line 1 while running a file of two scores. Read the error, change one thing, and run it again.",
+    "rule": null,
+    "assessment": "browser_tests",
+    "cases": [
+     {
+      "id": "small",
+      "visibility": "visible",
+      "status": "failed"
+     },
+     {
+      "id": "nested",
+      "visibility": "visible",
+      "status": "failed"
+     },
+     {
+      "id": "other",
+      "visibility": "hidden",
+      "status": "failed"
+     }
+    ],
+    "failed": {
+     "id": "small",
+     "visibility": "visible",
+     "description": "a file of two scores",
+     "reason": "error",
+     "error_type": "FileNotFoundError",
+     "line": 1
+    }
+   }
+  },
+  {
+   "name": "leftover between cases",
+   "request": {
+    "lesson_id": "fixture.files",
+    "code": "try:\n    open(\"left.txt\")\n    print(1)\nexcept FileNotFoundError:\n    print(0)\nopen(\"left.txt\", \"w\").write(\"x\")\n",
+    "output": "0\n",
+    "inputs": [],
+    "runs": [
+     {
+      "id": "small",
+      "status": "ok",
+      "output": "0\n",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "nested",
+      "status": "ok",
+      "output": "0\n",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "other",
+      "status": "ok",
+      "output": "0\n",
+      "error_type": null,
+      "line": null
+     }
+    ]
+   },
+   "response": {
+    "passed": false,
+    "result": "needs_work",
+    "feedback": "For a file of two scores, line 1 should be \"7\", but your program printed \"0\".",
+    "rule": "fixture.files.case.small",
+    "assessment": "browser_tests",
+    "cases": [
+     {
+      "id": "small",
+      "visibility": "visible",
+      "status": "failed"
+     },
+     {
+      "id": "nested",
+      "visibility": "visible",
+      "status": "failed"
+     },
+     {
+      "id": "other",
+      "visibility": "hidden",
+      "status": "failed"
+     }
+    ],
+    "failed": {
+     "id": "small",
+     "visibility": "visible",
+     "description": "a file of two scores",
+     "reason": "wrong_output",
+     "error_type": null,
+     "line": null,
+     "line_number": 1,
+     "expected_line": "7",
+     "actual_line": "0"
+    }
+   }
+  }
+ ]
+}

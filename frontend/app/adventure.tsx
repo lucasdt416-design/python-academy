@@ -4,7 +4,7 @@ import {type Catalog,type Course,type Unit,unitNumber} from './catalog-data';
 import CodeEditor,{goToLine} from './code-editor';
 import {type ErrorHint,type Explanation,HINT_TEXT,type HintStep,OUTLINE_AFTER,RESULTS,type Result,STATE_LABELS,type Sample,checkLine,explain,nextHint,parseError,pythonMessage} from './feedback';
 
-type Lesson = {id:string;title:string;concept:string;badge:string;description:string;learnTitle:string;learn:string;detail:string;example:string;exampleOutput:string;exampleNote:string;question:string;options:string[];answer:number;why:string;guided:string;starter:string;challenge:string;hints:string[];inputs:string[];exampleInputs:string[];errorHints?:ErrorHint[];similarExample?:Sample|null;otherWays?:Sample[];course?:string;unit?:string;check?:string};
+type Lesson = {id:string;title:string;concept:string;badge:string;description:string;learnTitle:string;learn:string;detail:string;example:string;exampleFiles?:Record<string,string>;challengeFiles?:Record<string,string>;exampleOutput:string;exampleNote:string;question:string;options:string[];answer:number;why:string;guided:string;starter:string;challenge:string;hints:string[];inputs:string[];exampleInputs:string[];errorHints?:ErrorHint[];similarExample?:Sample|null;otherWays?:Sample[];course?:string;unit?:string;check?:string};
 /** A browser check (ENG-03): what GET /api/checks/<lesson> gives, and what public/check-runner.js reports per case. Hidden cases come without expected output. */
 type Plan={time_limit_ms:number;output_limit:number;cases:{id:string;visibility:'visible'|'hidden';description:string;inputs:string[]}[]};
 type CaseReport={id:string;status:string;output:string;errorType:string|null;line:number|null;message:string|null;shown?:string};
@@ -50,6 +50,9 @@ function World({chapter}:{chapter:number}){
  </svg>;
 }
 
+function LessonFiles({files,sample=false}:{files:Record<string,string>;sample?:boolean}){
+ return <section className="lesson-files" aria-labelledby="lesson-files-title"><h3 id="lesson-files-title">{sample?'A sample of the files your program gets':'Files your program can open'}</h3><p className="muted">Files here are temporary. Your program can read and change them while it runs, then they are gone, and nothing is saved.{sample?' The check also tries other files you cannot see.':''}</p>{Object.entries(files).map(([name,text])=><figure key={name}><figcaption><code>{name}</code></figcaption><pre className="output" tabIndex={0}>{text}</pre></figure>)}</section>;
+}
 export default function Adventure({preview,onSaved,lessonId}:{preview:boolean;onSaved:()=>void;lessonId?:string}){
  const [lessons,setLessons]=useState<Lesson[]>([]),[selected,setSelected]=useState(0),[stage,setStage]=useState(0),[code,setCode]=useState(''),[output,setOutput]=useState(''),[report,setReport]=useState<Report|null>(null),[errorLine,setErrorLine]=useState<number|null>(null),[error,setError]=useState(''),[prediction,setPrediction]=useState<number|null>(null),[shownHints,setShownHints]=useState<HintStep[]>([]),[failedRuns,setFailedRuns]=useState(0),[replies,setReplies]=useState<string[]>([]),[done,setDone]=useState<string[]>([]),[running,setRunning]=useState(false),[passed,setPassed]=useState(false),[drafts,setDrafts]=useState<Record<string,string>>({}),[place,setPlace]=useState<Place|null>(null),[menuOpen,setMenuOpen]=useState(false);
  const worker=useRef<Worker|null>(null),timer=useRef<ReturnType<typeof setTimeout>|null>(null),heading=useRef<HTMLHeadingElement>(null),editor=useRef<HTMLTextAreaElement>(null),version=useRef(0);
@@ -108,7 +111,7 @@ export default function Adventure({preview,onSaved,lessonId}:{preview:boolean;on
    }catch(e){if(version.current===runVersion)setError((e as Error).message);}
    finally{if(version.current===runVersion)setRunning(false);}
   };
-  w.postMessage({code:runCode,inputs:runInputs});
+  w.postMessage({code:runCode,inputs:runInputs,files:lesson.exampleFiles});
  }
  /** Shows a check result. Only the result state counts as a pass; an unknown state is shown as the
   * check being unavailable. A Python error explained in the browser replaces the check's own words. */
@@ -172,10 +175,10 @@ export default function Adventure({preview,onSaved,lessonId}:{preview:boolean;on
     <p className="eyebrow">{stages[stage].toUpperCase()} · {lesson.concept}</p>
     <h2 ref={heading} tabIndex={-1}>{stage===0?lesson.learnTitle:stage===1?'Watch the story take shape':stage===2?'What do you think happens?':stage===3?'Make one small change':'Make it your own'}</h2>
     {stage===0&&<>{unitOne&&<World chapter={selected}/>}<p className="lead">{lesson.learn}</p><p>{lesson.detail}</p></>}
-    {stage===1&&<><p>Read this working example, one line at a time.</p><pre className="example-code"><code>{lesson.example}</code></pre>{lesson.inputs.length>0&&<p className="reply-note">Player replies: {lesson.exampleInputs.join(' → ')}</p>}<h3>What appears on screen</h3><pre className="output">{lesson.exampleOutput}</pre><p>{lesson.exampleNote}</p></>}
+    {stage===1&&<><p>Read this working example, one line at a time.</p><pre className="example-code"><code>{lesson.example}</code></pre>{lesson.inputs.length>0&&<p className="reply-note">Player replies: {lesson.exampleInputs.join(' → ')}</p>}<h3>What appears on screen</h3><pre className="output">{lesson.exampleOutput}</pre><p>{lesson.exampleNote}</p>{lesson.exampleFiles&&<LessonFiles files={lesson.exampleFiles}/>}</>}
     {stage===2&&<><pre className="example-code"><code>{lesson.example}</code></pre><fieldset className="prediction"><legend>{lesson.question}</legend>{lesson.options.map((option,index)=><button key={option} aria-pressed={prediction===index} onClick={()=>setPrediction(index)}>{option}</button>)}</fieldset>{prediction!==null&&<p className="feedback" role="status">{prediction===lesson.answer?'That’s it! ':'Let’s look again. '}{lesson.why}</p>}</>}
-    {stage===3&&<>{unitOne&&<World chapter={selected}/>}<p className="lead">{lesson.guided}</p><p>The working example is in your editor. Experiment freely—you can always reset it.</p></>}
-    {stage===4&&<><p className="lead">{lesson.challenge}</p><p className="reward-note">Complete the challenge to earn the {lesson.badge} badge and 100 XP.</p><p className="muted">Hints are beside your code. Take them one at a time, only if you want them.</p></>}
+    {stage===3&&<>{unitOne&&<World chapter={selected}/>}<p className="lead">{lesson.guided}</p><p>The working example is in your editor. Experiment freely—you can always reset it.</p>{lesson.exampleFiles&&<LessonFiles files={lesson.exampleFiles}/>}</>}
+    {stage===4&&<><p className="lead">{lesson.challenge}</p><p className="reward-note">Complete the challenge to earn the {lesson.badge} badge and 100 XP.</p><p className="muted">Hints are beside your code. Take them one at a time, only if you want them.</p>{lesson.challengeFiles&&<LessonFiles files={lesson.challengeFiles} sample/>}</>}
    </div>
    {stage>=3&&<section className="editor-panel" aria-label="Python playground"><div className="editor-top"><span>story.py</span><span>Python playground</span></div><label htmlFor="code">Your Python code</label><CodeEditor code={code} onChange={edit} disabled={running} errorLine={errorLine} describedBy={report?'editor-help code-feedback':'editor-help'} editor={editor}/><p id="editor-help" className="muted">Tab inserts four spaces. Shift + Tab leaves the editor.</p>
     {checked&&<p className="reply-note">This challenge runs your program with its own replies, including some you cannot see, and checks what it prints.</p>}

@@ -37,7 +37,7 @@ export function runCases(code, plan, {workerUrl = '/python-worker.js', loadLimit
      ...(data.returned != null ? {returned: data.returned, shown: data.shown} : {})});
    } else if (data.type === 'done') finish();
   };
-  worker.postMessage({mode: 'cases', code, cases: plan.cases.map(({id, inputs, call}) => ({id, inputs, ...(call ? {call} : {})})), outputLimit: plan.output_limit});
+  worker.postMessage({mode: 'cases', code, cases: plan.cases.map(({id, inputs, call, files}) => ({id, inputs, ...(call ? {call} : {}), ...(files ? {files} : {})})), outputLimit: plan.output_limit});
  });
 }
 

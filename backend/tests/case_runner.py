@@ -20,7 +20,7 @@ import sys
 from app.browser_checks import CaseRun
 
 RUNNER = r'''
-import builtins, contextlib, io, json, signal, sys, traceback
+import builtins, contextlib, io, json, os, pathlib, shutil, signal, sys, tempfile, traceback
 jobs = json.load(sys.stdin)
 
 class TimeLimit(BaseException):
@@ -57,6 +57,12 @@ for job in jobs:
             except StopIteration:
                 raise EOFError('Add a player reply for each input() call, in order.')
         builtins.input = fake_input
+        # A folder of its own for each case, holding only that case's files, as the worker does.
+        folder = tempfile.mkdtemp()
+        os.chdir(folder)
+        for path, text in case.get('files', {}).items():
+            pathlib.Path(path).parent.mkdir(parents=True, exist_ok=True)
+            pathlib.Path(path).write_text(text)
         out = Capped(job['limit'])
         report = {'id': case['id'], 'status': 'ok', 'error_type': None, 'line': None}
         try:
@@ -79,6 +85,8 @@ for job in jobs:
                     report['line'] = frames[-1] if frames else None
         finally:
             signal.setitimer(signal.ITIMER_REAL, 0)
+            os.chdir('/')
+            shutil.rmtree(folder, ignore_errors=True)
         # The browser never hears back from a case it stopped, so it reports no output for it.
         report['output'] = '' if report['status'] == 'timeout' else out.getvalue()
         reports.append(report)
@@ -95,7 +103,7 @@ SECONDS = 0.5
 def reports(lesson, programs, timeout=120):
     """For each program, one report per check case, as the browser would send them (no error message)."""
     check = lesson.task('challenge').check
-    jobs = [{'code': code, 'limit': 10_000, 'seconds': SECONDS, 'cases': [{'id': c.id, 'inputs': c.inputs} for c in check.cases]} for code in programs]
+    jobs = [{'code': code, 'limit': 10_000, 'seconds': SECONDS, 'cases': [{'id': c.id, 'inputs': c.inputs, 'files': getattr(c, 'files', {})} for c in check.cases]} for code in programs]
     done = subprocess.run([sys.executable, '-I', '-c', RUNNER], input=json.dumps(jobs), capture_output=True, text=True, timeout=timeout, check=True)
     return [[CaseRun(**report) for report in program] for program in json.loads(done.stdout)]
 
