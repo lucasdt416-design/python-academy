@@ -3,7 +3,7 @@
 Date: 2026-11-02 (America/Toronto)  
 Written by: Claude Code (implementer), in a separate git worktree  
 For: the human maintainer, and ChatGPT or Claude chat (reviewer) without repository access  
-Status: **in_review**: one pull request (PR_NUMBER), not merged, not deployed. **No migration, no new dependency.** The worker's Content-Security-Policy is unchanged. **This is a security stage:** read section 3 first.
+Status: **in_review**: one pull request (#39), not merged, not deployed. **No migration, no new dependency.** The worker's Content-Security-Policy is unchanged. **This is a security stage:** read section 3 first.
 
 > **How to use this file:** upload it with `docs/plan/browser-checks.md` (section 9) and handoffs 11 and 29. The pull request diff is the source of truth (`build.md` section 14).
 
@@ -174,8 +174,8 @@ The guard replaces `__import__` after Pyodide has loaded and the network APIs ar
 
 | Where | What |
 | --- | --- |
-| Backlog ENG-07 | proposed → in_review (PR_NUMBER, handoff 34) |
-| Stage table | "34. ENG-07 \| Allowed imports, seeded random \| in_review (PR_NUMBER, handoff 34)" |
+| Backlog ENG-07 | proposed → in_review (#39, handoff 34) |
+| Stage table | "34. ENG-07 \| Allowed imports, seeded random \| in_review (#39, handoff 34)" |
 | `master-run.md` Part 9 | Correct "Today any import is `unsupported`" |
 | Decision log | A chapter from sections 3 to 6 |
 
