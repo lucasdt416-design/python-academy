@@ -27,8 +27,10 @@ The plan is [`docs/plan/master-run.md`](plan/master-run.md). A new session reads
 | S21 | none | none | none | none | blocked: waiting for B-I2 | 2026-11-02 | |
 | S25 | none | none | none | none | blocked: waiting for B-P1 | 2026-11-02 | |
 | S26 | `docs/construct-rules` | `main` | #38 | 33 | done | 2026-11-02 | Docs checks 0 problems |
+| WWD1 | none | none | none | none | blocked: dependency S09 | 2026-11-02 | |
+| WD2 | `eng/allowlisted-imports` | `main` | #39 | 34 | done | 2026-11-02 | Backend 720 and 731; types and build OK; Playwright 252 twice; 9 deliberate breaks, one gap closed. One earlier run failed many Pyodide tests, cause not established |
 
-After S26, plan Part 6 continues with Wave D. Owner merged #32, #33 and #34 on 2026-11-02.
+Wave D from WD3 onward has not been reached; the run stopped at the cap of 5 open PRs. Owner merged #32, #33 and #34 on 2026-11-02.
 
 **Keeping this file mergeable:** every open run branch carries an identical copy of this file, so they merge in any order. If one conflicts after a merge, keep the copy with the most rows.
 
