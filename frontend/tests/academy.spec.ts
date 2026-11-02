@@ -270,3 +270,26 @@ test('an injected inline script without the nonce is reported as blocked',async(
  expect(ran).toEqual({injected:!enforced,guessed:!enforced,trusted:true});
  found.length=0;// expected reports, checked above
 });
+
+// UI-01: cosmetic fixes
+const top = (l: import('@playwright/test').Locator) => l.boundingBox().then(b => b!.y);
+for (const width of [1280, 1024, 375]) test(`on a course card the two chips share a line, and the units count stays on one line, at ${width} px`, async ({page}) => {
+ await page.setViewportSize({width, height: 900});
+ await mockApi(page, 'student', ['hello']);
+ await page.goto('/courses');
+ const card = page.getByRole('article', {name: 'Python Foundations'});
+ const [available, recommended, meta] = [card.getByText('Available', {exact: true}), card.getByText('Recommended', {exact: true}), card.locator('.course-meta')];
+ await expect(recommended).toBeVisible();
+ expect(await top(recommended)).toBe(await top(available));
+ const box = (await meta.boundingBox())!;
+ expect(box.height).toBeLessThan(26);
+ expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+});
+test('the parent view shows a learner\'s goal at reading size', async ({page}) => {
+ await mockApi(page, 'parent');
+ await page.route('**/api/family', route => route.fulfill({contentType: 'application/json', body: JSON.stringify([{id: 2, email: 'ava@example.com', attempts: [], completed: [], goal: null}])}));
+ await page.goto('/');
+ const goal = page.getByText('Goal: not chosen yet');
+ await expect(goal).toBeVisible();
+ expect(parseFloat(await goal.evaluate(el => getComputedStyle(el).fontSize))).toBeGreaterThanOrEqual(14);
+});
