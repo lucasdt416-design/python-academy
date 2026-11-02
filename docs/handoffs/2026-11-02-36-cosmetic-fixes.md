@@ -3,7 +3,7 @@
 Date: 2026-11-02 (America/Toronto)  
 Written by: Claude Code (implementer), in a separate git worktree  
 For: the human maintainer, and ChatGPT or Claude chat (reviewer) without repository access  
-Status: **in_review**: one pull request (PR_NUMBER), not merged, not deployed. CSS and one class name only.
+Status: **in_review**: one pull request (#41), not merged, not deployed. CSS and one class name only.
 
 > **How to use this file:** the pull request diff is the source of truth (`build.md` section 14).
 
@@ -98,9 +98,9 @@ Plan Part 9 says "references stay server-side; tests run in the worker with limi
 
 | Where | What |
 | --- | --- |
-| Backlog UI-01 | proposed → in_review (PR_NUMBER, handoff 36) |
+| Backlog UI-01 | proposed → in_review (#41, handoff 36) |
 | Backlog ENG-10 | Note the contradiction and question 2 |
-| Stage table | "36. UI-01 \| Cosmetic fixes \| in_review (PR_NUMBER, handoff 36)" |
+| Stage table | "36. UI-01 \| Cosmetic fixes \| in_review (#41, handoff 36)" |
 
 ## 11. Next concrete action
 
