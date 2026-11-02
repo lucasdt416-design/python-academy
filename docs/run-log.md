@@ -21,10 +21,10 @@ The plan is [`docs/plan/master-run.md`](plan/master-run.md). A new session reads
 | S12 | none | none | none | none | blocked: waiting for B-I6 and B-I7 | 2026-11-02 | |
 | S13 | none | none | none | none | blocked: waiting for B-I2, B-I3 and B-I4 | 2026-11-02 | Also needs S04, S11 and S12 |
 | S14 | none | none | none | none | blocked: waiting for B-E1 | 2026-11-02 | |
-| S15 | `docs/retention` | `main` | PR_NUMBER | 31 | done | 2026-11-02 | Docs checks 0 problems; every database table covered |
+| S15 | `docs/retention` | `main` | #36 | 31 | done | 2026-11-02 | Docs checks 0 problems; every database table covered |
 
 
-**stopped: open-PR cap (5) reached on 2026-11-02:** #32, #33, #34, #35 and the PR for S15 are open. S16 onward has not been reached. A new session continues in plan order, and this newest log is on `docs/retention`.
+**stopped: open-PR cap (5) reached on 2026-11-02:** #32, #33, #34, #35 and #36 are open. S16 onward has not been reached. A new session continues in plan order, and this newest log is on `docs/retention`.
 
 ## S00: state check, 2026-11-02
 
