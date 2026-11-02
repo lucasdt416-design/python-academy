@@ -124,6 +124,12 @@ export const TRANSLATIONS: readonly Translation[] = [
    const block = e.type === 'IndentationError' ? /expected an indented block after '(if|elif|else)' statement/.exec(e.message)?.[1] : null;
    return block ? {line: e.line, block} : null;
   }},
+ {id: 'indent-loop', unit: 3, title: 'The lines inside this `{block}` loop need indenting',
+  text: 'Lines that belong to a loop start with four spaces, so Python knows they repeat. Indent line {line}.',
+  match: e => {
+   const block = e.type === 'IndentationError' ? /expected an indented block after '(while|for)' statement/.exec(e.message)?.[1] : null;
+   return block ? {line: e.line, block} : null;
+  }},
  {id: 'unexpected-indent', unit: 1, title: 'This line has extra spaces at the start',
   text: 'Line {line} starts with spaces but is not inside a block. Remove the spaces at the start of the line.',
   match: is('IndentationError', /unexpected indent/)},
@@ -167,7 +173,7 @@ export const TRANSLATIONS: readonly Translation[] = [
 /** When the page stopped the program. These describe what the app did, so they apply in every unit. */
 export const STOPS = {
  timeout: {id: 'timeout', title: 'Your program kept running',
-  text: 'It did not finish within {seconds} seconds, usually because a loop never ends. Check that the loop’s condition can become false.'},
+  text: 'It did not finish within {seconds} seconds, usually because a loop never ends. Check that something inside the loop changes, so that the loop can stop.'},
  output_limit: {id: 'output-limit', title: 'Too much output',
   text: 'Your program printed more than {limit} characters. Print less, or check for a loop that never ends.'},
 } as const;

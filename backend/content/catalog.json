@@ -11,7 +11,7 @@
       "units": [
         {"id": "py.u01", "title": "Build Your Own Adventure", "summary": "Output, variables, input, and choices in one connected story.", "status": "released", "lessons": ["hello", "variables", "input", "choices", "adventure"]},
         {"id": "py.u02", "title": "Numbers and decisions", "summary": "Arithmetic, whole numbers and decimals, numbers from input(), comparisons, Boolean logic and elif.", "status": "released", "lessons": ["py.arithmetic", "py.int-float", "py.convert-input", "py.compare", "py.boolean-logic", "py.elif"]},
-        {"id": "py.u03", "title": "Repeat and explore", "summary": "while and for loops that always finish.", "status": "coming_soon", "lessons": []},
+        {"id": "py.u03", "title": "Repeat and explore", "summary": "while and for loops that always finish. Running totals and loops inside loops come next.", "status": "released", "lessons": ["py.while-loops", "py.loop-termination", "py.for-range"], "more_lessons_coming": true},
         {"id": "py.u04", "title": "Keep track of a world", "summary": "Lists, dictionaries, and sets.", "status": "coming_soon", "lessons": []},
         {"id": "py.u05", "title": "Organize your code", "summary": "Functions, parameters, return values, and scope.", "status": "coming_soon", "lessons": []},
         {"id": "py.u06", "title": "Recover and investigate", "summary": "Tracebacks, debugging, and exceptions.", "status": "coming_soon", "lessons": []},

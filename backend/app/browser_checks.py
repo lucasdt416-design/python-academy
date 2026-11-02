@@ -9,6 +9,7 @@ Hidden cases: their expected output is only ever used here. Responses name a fai
 by its description, which content validation keeps free of its inputs and expected output.
 """
 import ast
+import json
 from typing import Literal
 
 from pydantic import BaseModel, Field
@@ -19,6 +20,8 @@ from .lesson_checks import SERVICE_ERROR
 CALLS = {'input', 'print', 'int', 'float', 'str', 'range', 'len', 'eval', 'exec', 'open'}
 # Errors that mean "this runtime cannot do that", not a learner mistake.
 UNSUPPORTED = {'ModuleNotFoundError', 'ImportError'}
+# Statuses only a function-call case can report.
+FUNCTION_ONLY = {'no_function', 'bad_signature', 'not_comparable'}
 
 
 class CaseRun(BaseModel):
@@ -26,10 +29,15 @@ class CaseRun(BaseModel):
     id: str = Field(max_length=80)
     # ok: finished. error: Python raised. timeout / output_limit: the page stopped it.
     # not_run: an earlier case was stopped. unavailable: Python could not start.
-    status: Literal['ok', 'error', 'timeout', 'output_limit', 'not_run', 'unavailable']
+    # Function-call cases only: no_function, bad_signature, and not_comparable, when the returned
+    # value is not one the check can compare (error_type then holds its type's name).
+    status: Literal['ok', 'error', 'timeout', 'output_limit', 'not_run', 'unavailable', 'no_function', 'bad_signature', 'not_comparable']
     output: str = Field(default='', max_length=OUTPUT_LIMIT)
     error_type: str | None = Field(default=None, max_length=80, pattern=r'^[A-Za-z_][A-Za-z0-9_.]*$')
     line: int | None = Field(default=None, ge=1, le=100_000)
+    # Function-call cases only: what the function returned, as JSON text. Sent only when there is one,
+    # and left out of a dump, so an ordinary case's report keeps exactly the shape it always had.
+    returned: str | None = Field(default=None, max_length=OUTPUT_LIMIT, exclude=True)
 
 
 def applies(lesson):
@@ -43,7 +51,9 @@ def plan(lesson):
         'lesson_id': lesson.id, 'task_id': challenge.id, 'version': challenge.version,
         'time_limit_ms': challenge.check.time_limit_ms, 'output_limit': OUTPUT_LIMIT,
         'cases': [{'id': case.id, 'visibility': case.visibility, 'description': case.description, 'inputs': case.inputs,
-                   **({'expected': case.expected} if case.visibility == 'visible' else {})}
+                   **({'expected': case.expected} if case.visibility == 'visible' and case.expected is not None else {}),
+                   **({'call': case.call.model_dump()} if case.call else {}),
+                   **({'returns': case.returns.model_dump()} if case.returns and case.visibility == 'visible' else {})}
                   for case in challenge.check.cases],
     }
 
@@ -84,6 +94,45 @@ def output_lines(text):
     while lines and not lines[-1]:
         lines.pop()
     return lines
+
+
+def same_value(want, got, tolerance=None):
+    """The equality rule for returned values (docs/plan/browser-checks.md section 8)."""
+    if isinstance(want, bool) or isinstance(got, bool):
+        return want is got
+    if isinstance(want, (int, float)) and isinstance(got, (int, float)):
+        if tolerance is None:
+            return want == got
+        try:
+            return abs(want - got) <= tolerance
+        except OverflowError:
+            return False
+    if isinstance(want, list) and isinstance(got, list):
+        return len(want) == len(got) and all(same_value(a, b, tolerance) for a, b in zip(want, got))
+    if isinstance(want, dict) and isinstance(got, dict):
+        return want.keys() == got.keys() and all(same_value(want[key], got[key], tolerance) for key in want)
+    return type(want) is type(got) and want == got
+
+
+def returned_value(text):
+    """(True, value) for the JSON text the browser reported, or (False, None) if it is not valid JSON."""
+    def not_json(name):
+        raise ValueError(name)
+    try:
+        return True, json.loads(text, parse_constant=not_json)
+    except (TypeError, ValueError, RecursionError):
+        return False, None
+
+
+def shown(value):
+    """A value as the learner would see it in Python, kept short."""
+    text = repr(value)
+    return text if len(text) <= 200 else text[:200] + '…'
+
+
+def takes(call):
+    count = len(call.args) + len(call.kwargs)
+    return f'takes {"no arguments" if not count else "1 argument" if count == 1 else f"{count} arguments"}'
 
 
 def first_difference(expected, actual):
@@ -129,10 +178,20 @@ def judge(lesson, code, runs):
     for run in runs:
         case = cases[run.id]
         problem = None
+        if run.status in FUNCTION_ONLY and not case.call:
+            return outcome('service_error', SERVICE_ERROR)
         if run.status == 'ok':
-            difference = first_difference(case.expected, run.output)
-            if difference:
-                problem = ('wrong_output', difference)
+            if case.returns:
+                valid, value = returned_value(run.returned)
+                if not valid:
+                    # A page from before a content update runs the program but makes no call.
+                    return outcome('service_error', SERVICE_ERROR)
+                if not same_value(case.returns.value, value, case.returns.tolerance):
+                    problem = ('wrong_return', value)
+            if not problem and case.expected is not None:
+                difference = first_difference(case.expected, run.output)
+                if difference:
+                    problem = ('wrong_output', difference)
         elif run.status != 'not_run':
             problem = (run.status, None)
         statuses.append({'id': case.id, 'visibility': case.visibility,
@@ -152,6 +211,25 @@ def judge(lesson, code, runs):
     failed = {'id': case.id, 'visibility': case.visibility, 'description': case.description, 'reason': reason,
               'error_type': run.error_type, 'line': run.line}
     about = case.description
+    case_rule = f'{lesson.id}.case.{case.id}'
+    if reason == 'no_function':
+        return outcome('needs_work', f'Your program should define a function called {case.call.function} that {takes(case.call)}.', statuses, failed, rule=case_rule)
+    if reason == 'bad_signature':
+        failed['reason'] = 'wrong_arguments'
+        return outcome('needs_work', f'Your program should define a function called {case.call.function} that {takes(case.call)}. '
+                                     f'Yours cannot be called that way for {about}.', statuses, failed, rule=case_rule)
+    if reason == 'not_comparable':
+        return outcome('needs_work', f'For {about}, your function returned a value this check cannot compare ({run.error_type or "unknown"}). '
+                                     'Return a number, text, True or False, None, a list, a tuple or a dictionary with text keys.', statuses, failed, rule=case_rule)
+    if reason == 'wrong_return':
+        if case.visibility == 'visible':
+            failed.update(expected_value=shown(case.returns.value), actual_value=shown(difference))
+            message = f'For {about}, your function should return {shown(case.returns.value)}, but it returned {shown(difference)}.'
+            if difference is None and run.output.strip():
+                message += ' It printed something instead: printing shows a value, and return hands it back.'
+        else:
+            message = f'Your function returned something different for {about} (a hidden test case).'
+        return outcome('needs_work', message, statuses, failed, rule=case_rule)
     if reason == 'wrong_output':
         if case.visibility == 'visible':
             number, want, got = difference
@@ -165,7 +243,7 @@ def judge(lesson, code, runs):
         else:
             message = (f'Your program printed something different for {about} (a hidden test case). '
                        'Check that it works from the replies it is given, not from fixed values.')
-        return outcome('needs_work', message, statuses, failed, rule=f'{lesson.id}.case.{case.id}')
+        return outcome('needs_work', message, statuses, failed, rule=case_rule)
     seconds = check.time_limit_ms / 1000
     if reason == 'timeout':
         return outcome('execution_error', f'Your program was still running after {seconds:g} seconds on {about}, so it was stopped. '

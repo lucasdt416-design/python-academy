@@ -1,0 +1,208 @@
+{
+  "id": "py.while-loops",
+  "version": 1,
+  "course": "py",
+  "unit": "py.u03",
+  "title": "Keep guessing",
+  "concept": "Loops · while",
+  "description": "Let the player keep guessing the secret number until they get it right.",
+  "badge": {
+    "id": "py.badge.patient-guesser",
+    "version": 1,
+    "title": "Patient guesser",
+    "category": "practice"
+  },
+  "tasks": [
+    {
+      "id": "py.while-loops.discover",
+      "type": "discover",
+      "title": "Repeat while something is true",
+      "body": "A while loop repeats a block of code for as long as its condition is True. Python checks the condition, runs the indented block, then checks again. When the condition becomes False, the loop ends and the program carries on below it.",
+      "detail": "Something inside the loop must change, or the condition stays True forever. To keep asking the player, call input() once before the loop and again at the end of the block. If the condition is False the very first time, the block never runs at all."
+    },
+    {
+      "id": "py.while-loops.example",
+      "type": "example",
+      "code": "# Keep asking until the password is moon\nword = input(\"Password? \")\nwhile word != \"moon\":\n    print(\"The door stays shut.\")\n    word = input(\"Password? \")\nprint(\"The door opens.\")",
+      "output": "The door stays shut.\nThe door stays shut.\nThe door opens.",
+      "note": "The condition is checked before each repeat. star and sun are not moon, so the block runs twice. When word becomes moon, the condition is False, the loop ends, and the last line runs.",
+      "inputs": [
+        "star",
+        "sun",
+        "moon"
+      ]
+    },
+    {
+      "id": "py.while-loops.predict",
+      "type": "predict",
+      "question": "If the first reply were moon, what would the program print?",
+      "options": [
+        "Only The door opens.",
+        "The door stays shut. once, then The door opens.",
+        "Nothing at all"
+      ],
+      "answer": 0,
+      "why": "word != \"moon\" is False straight away, so the block never runs. Python goes on to the last line and prints The door opens."
+    },
+    {
+      "id": "py.while-loops.guided",
+      "type": "guided",
+      "prompt": "Run it, then change the replies so that moon comes first, then last. Predict how many times The door stays shut. appears before each run. Then try three wrong replies and read what happens when the replies run out."
+    },
+    {
+      "id": "py.while-loops.challenge",
+      "type": "challenge",
+      "prompt": "The riddle keeper lets the player keep guessing. The starter asks for the secret number and the first guess. While the guess is wrong, print True if it is too high or False if it is too low, then ask for another guess. When the guess is right, the loop ends. Print just the True and False lines. The check tries several runs of guesses, including some you can't see.",
+      "starter": "# These two lines ask for the secret number and the first guess\nsecret = int(input(\"Secret number? \"))\nguess = int(input(\"Your guess? \"))\n# While the guess is wrong: print whether it is too high, then ask again\n",
+      "hints": [
+        "You need a loop that repeats while the guess is not the secret. Inside it, two things happen: a print() and a new guess.",
+        "Look at the comment. The loop's condition compares guess with secret using !=. The last line inside the loop asks for the next guess, the same way the starter asked for the first one.",
+        "A pattern from the worked example: while word != \"moon\": with an indented print(), then an indented line that asks again. Your loop compares numbers instead of words."
+      ],
+      "error_hints": [
+        {
+          "tags": [
+            "EOFError"
+          ],
+          "text": "Your loop asked for another guess after the last reply. Check that it stops as soon as the guess is right: that is when its condition should become False."
+        },
+        {
+          "tags": [
+            "NameError"
+          ],
+          "text": "Use the names from the starter, secret and guess, and spell them the same inside the loop."
+        },
+        {
+          "tags": [
+            "IndentationError"
+          ],
+          "text": "The lines inside the loop start with four spaces, so Python knows they belong to it."
+        },
+        {
+          "tags": [
+            "TypeError"
+          ],
+          "text": "Each new guess needs int(...) too, like the first one. Python can't compare text with a number using >."
+        },
+        {
+          "tags": [
+            "py.while-loops.case.three-tries"
+          ],
+          "text": "With a secret of 7 and guesses of 9, 3 and 7, the lines are True, then False. If only True printed, your program checked once with if; a while loop checks again after every guess."
+        },
+        {
+          "tags": [
+            "py.while-loops.case.first-try"
+          ],
+          "text": "When the first guess is right, the loop never runs and nothing is printed. If your program printed a line, check that the print() is inside the loop."
+        },
+        {
+          "tags": [
+            "py.while-loops.case.many-low"
+          ],
+          "text": "Three low guesses print three False lines. Make sure your loop keeps going for as long as the guess is wrong, however many guesses that takes."
+        },
+        {
+          "tags": [
+            "py.while-loops.case.below-zero"
+          ],
+          "text": "Guesses below zero compare the same way. Compare guess with secret, not with particular numbers."
+        },
+        {
+          "tags": [
+            "py.while-loops.case.long"
+          ],
+          "text": "Your loop needs to keep going for as many wrong guesses as the player makes, not for a fixed number of them."
+        }
+      ],
+      "similar_example": {
+        "code": "steps = 1\nwhile steps < 50:\n    steps = steps * 3\nprint(steps)",
+        "note": "The loop keeps tripling steps while it is under 50: 1, 3, 9, 27, then 81. 81 < 50 is False, so the loop stops and 81 is printed. Your challenge repeats while a guess is wrong, and asks for a new guess each time."
+      },
+      "other_ways": [
+        {
+          "code": "secret = int(input(\"Secret number? \"))\nguess = int(input(\"Your guess? \"))\nwhile guess != secret:\n    too_high = guess > secret\n    print(too_high)\n    guess = int(input(\"Your guess? \"))",
+          "note": "Keep the answer in a variable, then print it."
+        },
+        {
+          "code": "secret = int(input(\"Secret number? \"))\nwhile True:\n    guess = int(input(\"Your guess? \"))\n    if guess == secret:\n        break\n    print(guess > secret)",
+          "note": "while True repeats until break leaves the loop, so input() is written only once. The next lesson looks at how loops end."
+        }
+      ],
+      "input_labels": [
+        "Reply 1",
+        "Reply 2",
+        "Reply 3"
+      ],
+      "check": {
+        "cases": [
+          {
+            "id": "three-tries",
+            "description": "a secret of 7 and guesses of 9, 3 and 7",
+            "inputs": [
+              "7",
+              "9",
+              "3",
+              "7"
+            ],
+            "expected": "True\nFalse"
+          },
+          {
+            "id": "first-try",
+            "description": "a secret of 5, guessed first time",
+            "inputs": [
+              "5",
+              "5"
+            ],
+            "expected": ""
+          },
+          {
+            "id": "many-low",
+            "description": "a secret of 10 and guesses of 1, 2, 3 and 10",
+            "inputs": [
+              "10",
+              "1",
+              "2",
+              "3",
+              "10"
+            ],
+            "expected": "False\nFalse\nFalse"
+          },
+          {
+            "id": "below-zero",
+            "description": "a secret below zero",
+            "inputs": [
+              "-4",
+              "0",
+              "-9",
+              "-4"
+            ],
+            "expected": "True\nFalse",
+            "visibility": "hidden"
+          },
+          {
+            "id": "long",
+            "description": "a long run of guesses",
+            "inputs": [
+              "50",
+              "90",
+              "10",
+              "60",
+              "40",
+              "55",
+              "50"
+            ],
+            "expected": "True\nFalse\nTrue\nFalse\nTrue",
+            "visibility": "hidden"
+          }
+        ],
+        "time_limit_ms": 3000
+      },
+      "validator": {
+        "id": "browser-tests",
+        "version": 1
+      },
+      "version": 1
+    }
+  ]
+}
