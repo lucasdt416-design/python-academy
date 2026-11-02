@@ -39,8 +39,18 @@ Decision numbers continue the sequence in `docs/plan/course-catalog.md` section 
 | 24. EDU-04 part 1 | Unit 2 lessons 1 to 3 | in_review: merged (PR #29, handoff 24); live check owed (see below) |
 | 25. ID-01 plan | Independent learner accounts, checked against the code | in_review: merged (PR #30, handoff 25; documentation only) |
 | 26. EDU-04 part 2 | Unit 2 lessons 4 to 6; unit lessons complete, with no unit project and no unit check | in_review: merged (PR #31, handoff 26); live check owed (see below) |
-| 27. EDU-03 part 1 | Unit 3 lessons 1 to 3, more lessons coming | in_review: PR #32 open, not merged (handoff 27 is on its branch); live check owed once merged |
-| 28. DOCS-SYNC | This sync (master run stage S01) | in_review (handoff 28) |
+| 27. EDU-03 part 1 | Unit 3 lessons 1 to 3 | in_review: merged (PR #32, handoff 27); live check owed (see below) |
+| 28. DOCS-SYNC | Docs sync (master run S01) | in_review: merged (PR #33, handoff 28; documentation only) |
+| 29. ENG-06 | Function-call checks | in_review: merged (PR #34, handoff 29); no lesson uses them yet |
+| 30. Course designs | Ten course design documents | in_review: merged (PR #35, handoff 30; documentation only) |
+| 31. OPS-04 | Data retention policy | in_review: merged (PR #36, handoff 31; documentation only) |
+| 32. EDU-03 part 2 | Unit 3 lessons 4 and 5; unit lessons complete, with no unit project and no unit check | in_review: merged (PR #37, handoff 32); live check owed (see below) |
+| 33. Construct rules | Naming proposal | in_review: merged (PR #38, handoff 33; documentation only) |
+| 34. ENG-07 | Allowed imports and seeded random | in_review: merged (PR #39, handoff 34); live check owed (see below) |
+| 35. ENG-08 | File fixtures; each check case starts clean | in_review (PR #40, handoff 35) |
+| 36. UI-01 | Two cosmetic fixes | in_review: merged (PR #41, handoff 36); live check owed (see below) |
+| 37. SEC-08 | CI actions pinned to commits | in_review: merged (PR #42, handoff 37) |
+| 38. DOCS-SYNC | This sync, with the owner's answers of 2026-11-02 | in_review (handoff 38) |
 
 ### Live checks still owed
 
@@ -74,7 +84,10 @@ Merged work whose live check has not been recorded yet. Record the result here (
 - **(i) Stage 22, UI-05 lessons per unit, PR #27:** handoff 22 section 8. Its note that the browser-check path cannot be checked live no longer holds: unit 2 uses it.
 - **(j) Stage 24, unit 2 part 1, PR #29:** handoff 24 section 8.
 - **(k) Stage 26, unit 2 part 2, PR #31:** handoff 26 section 8.
-- **(l) Stage 27, unit 3 part 1, PR #32 (not merged):** handoff 27 section 8, on that PR's branch, after it merges and deploys.
+- **(l) Stage 27, unit 3 part 1, PR #32:** handoff 27 section 8.
+- **(m) Stage 32, unit 3 part 2, PR #37:** handoff 32 section 9.
+- **(n) Stage 34, allowed imports, PR #39:** handoff 34 section 8.
+- **(o) Stage 36, cosmetic fixes, PR #41:** handoff 36 section 8.
 
 ## 2. Suggested order
 
@@ -86,7 +99,7 @@ Merged work whose live check has not been recorded yet. Record the result here (
 6. **ENG-04** (lesson feedback engine) and **ASSESS-07** (honest unit 1 "Open the story" check; merged in PR #16), then **ENG-03** (browser behaviour checks; in review, PR #17), then **EDU-04** (Python unit 2) with its first **unit check**. PLAN-03 (review of `teaching-design.md`) can run alongside and should finish before unit 2 content is written.
 7. **OPS-05**: cost review (the owner has set a reminder for 2026-11-08).
 
-**State on 2026-11-02:** items 3, 4 and 6 above were written before stages 16 to 27. Since then FB-02, FB-04, ENG-04 part 2a, UI-05 and unit 2's lessons have merged, and unit 3 part 1 is open as PR #32. Unit 2 shipped without its unit check. `docs/plan/master-run.md` holds a proposed queue for the remaining work; it decides nothing, and an item in it is decided only when the owner says so.
+**State on 2026-11-02:** items 3, 4 and 6 above were written before stages 16 to 27. Since then FB-02, FB-04, ENG-04 part 2a, UI-05 and unit 2's lessons have merged, and unit 3 is merged in full (PRs #32 and #37). Unit 2 shipped without its unit check. `docs/plan/master-run.md` holds a proposed queue for the remaining work; it decides nothing, and an item in it is decided only when the owner says so.
 
 ## 3. Feature spec: testers, feedback, admin inbox
 
@@ -146,13 +159,13 @@ Recorded in the plan as section 12 of `docs/plan/course-catalog.md`.
 | SEC-05 | Later | Pyodide and CDN integrity: self-host or pin with integrity checks where possible | None | proposed |
 | SEC-06 | Later | Keep invitation tokens out of URLs and request logs | None | proposed |
 | SEC-07 | Next | Branch protection on `main` requiring passing checks (owner action; may need a paid GitHub plan, otherwise merge only on all-green) | Owner | proposed |
-| SEC-08 | Later | Pin CI actions to commit SHAs; routine dependency updates | None | proposed |
+| SEC-08 | Later | Pin CI actions to commit SHAs (merged, PR #42, handoff 37); routine updates by Dependabot for GitHub Actions only, monthly (decision 31) | None | in_review |
 | SEC-09 | Next | Replace `'unsafe-inline'` in the page CSP's `script-src` with per-request nonces (a Next.js proxy file and dynamic rendering), so injected inline script is blocked. Stage 8: `frontend/proxy.ts` makes a nonce per page request; every page now renders per request; the nonce policy is sent in Report-Only mode next to handoff 06's policy; enforcing it is one line (handoff 08 section 5). Proposed as a dependency of the admin inbox (FB-06), owner to confirm | SEC-04 | in_review: merged (PR #14), Report-Only; live check owed (handoff 08 section 10); enforce after a week of clean consoles |
 | ENG-11 | — | Proposed by the master run: Move rate-limit counters from memory to the database, with behaviour identical to today; needed before more than one API instance | Migration | proposed |
 | OPS-01 | Before broad rollout | Confirm staging, recovery, privacy, quotas and alerts (umbrella item; OPS-02 to OPS-04 are parts of it) | OPS-02, OPS-03, OPS-04 | proposed |
 | OPS-02 | Next | Part of OPS-01: confirm backups and a restore drill; add staging | None | proposed |
 | OPS-03 | Later | Part of OPS-01: operational alerts | OPS-02 | proposed |
-| OPS-04 | Next | Part of OPS-01: data retention policy: feedback 50 days max and 90 items max (decision 18); goals and placement data to be decided | Before FB-05 ships | proposed |
+| OPS-04 | Next | Part of OPS-01: data retention policy (`retention.md`, merged, PR #36, handoff 31). Its questions are open, and nothing in it is built | Before FB-05 ships | in_review |
 | OPS-05 | Next | Reduce Render costs: review billing, workspace plan, 15 GB database storage; later consider one combined service or a free-tier database (reminder set by the owner for 2026-11-08) | Billing screenshot | proposed |
 
 ### Documentation (handoff 14)
@@ -203,11 +216,12 @@ Recorded in the plan as section 12 of `docs/plan/course-catalog.md`.
 | ASSESS-03 | Next | Unit check interface (cards, retake with new variants, "Unable to assess" handling) | ASSESS-02 | proposed |
 | ASSESS-04 | Next | Unit check for unit 1 using the existing bounded checker; optional for learners who already completed unit 1, and earns the badge (decision 22) | ASSESS-02 | proposed |
 | ASSESS-05 | Next | Award the unit's skill badge (no XP) from the check through the existing ledgers; the unit project keeps its 200 XP (decision 16) | ASSESS-03 | proposed |
-| ENG-06 | — | Proposed by the master run: Function-call checks: an additive extension of the ENG-03 contract, so a check can call a function the learner defined | ENG-03 | proposed |
-| ENG-07 | — | Proposed by the master run: Allowlisted standard-library imports and seeded `random` (a security stage) | None | proposed |
-| ENG-08 | — | Proposed by the master run: Virtual filesystem fixtures and several files, in Pyodide's in-memory filesystem only | None | proposed |
+| ENG-06 | — | Function-call checks: an additive extension of the ENG-03 contract, so a check can call a function the learner defined. Merged (PR #34, handoff 29). Hidden calls are refused until the follow-up for decision 28 | ENG-03 | in_review |
+| ENG-07 | — | Allowed imports and seeded `random` (a security stage). Merged (PR #39, handoff 34); live check pending | None | in_review |
+| ENG-08 | — | File fixtures in Pyodide's in-memory filesystem (PR #40, handoff 35). A learner's own second file is ENG-08b | None | in_review |
+| ENG-08b | Before unit 7 | A learner's own second file, for `py.own-modules`. A file named `random.py` or `os.py` must not shadow or get past the import guard, and the guard applies inside learner modules too (decision 30) | ENG-07, ENG-08 | proposed |
 | ENG-09 | — | Proposed by the master run: Rubric, self-review and local-tutorial task types, with evidence labelled as self-reported | PROJ-01 | proposed |
-| ENG-10 | — | Proposed by the master run: Run learner tests against correct and broken reference implementations; references stay server-side | ENG-06 | proposed |
+| ENG-10 | — | Run learner tests against correct and broken reference implementations, in the worker. Broken references may reach the browser, and a correct one may where it isn't the lesson's answer (decision 28) | ENG-06 | proposed |
 | PROJ-01 | — | Proposed by the master run: Unit project mechanism: three versions and one award per unit (200 XP) | Decision 15 | proposed |
 | ENG-05 | Later | Optional AI helper, "Explain my error" (`docs/plan/ai-helper.md`): server-side key only, off by default, per-user and global daily caps, a hard provider spending limit, never grades or writes solutions. Design note only; not to be built until the owner decides section 9 of that note (cost, provider terms for 13 to 17 year olds, consent) | ENG-04, owner decisions | deferred |
 | EDU-01 | Next | Write placement question and task examples for the current four skills (Issue #4) | None | proposed |
@@ -218,7 +232,7 @@ Recorded in the plan as section 12 of `docs/plan/course-catalog.md`.
 | ID | Priority | Item | Depends on | Status |
 | --- | --- | --- | --- | --- |
 | EDU-04 | Next | Python unit 2, Numbers and decisions, with its unit check. Part 1 (lessons 1 to 3) and part 2 (lessons 4 to 6) are merged; the unit check is not built, and neither is the unit project | ENG-03, ASSESS-02, ENG-04, ASSESS-07 | in_review: lessons merged (PRs #29 and #31, handoffs 24 and 26); live checks owed, section 1 (j) and (k) |
-| EDU-03 | After checker design | Python unit 3, Repeat and explore (loops that always end), with a project extension. Part 1 (`py.while-loops`, `py.loop-termination`, `py.for-range`) is open; part 2 (`py.accumulate`, `py.nested-loops`) is not started | EDU-04 | in_review: part 1 only, PR #32 open, not merged (handoff 27) |
+| EDU-03 | After checker design | Python unit 3, Repeat and explore (loops that always end). All five lessons merged (PRs #32 and #37, handoffs 27 and 32); live checks pending. Its project and check are still to do | EDU-04 | in_review |
 | EDU-05 | — | Not used: this ID was briefly unit 3, which is EDU-03 in `build.md` | — | deferred |
 | EDU-06 | Next | Unit 4, Keep track of a world (lists, dicts, sets) | EDU-03 | proposed |
 | EDU-07 | Next | Unit 5, Organize your code (functions); project Adventure v2 | EDU-06 | proposed |
@@ -237,10 +251,10 @@ Recorded in the plan as section 12 of `docs/plan/course-catalog.md`.
 
 | ID | Priority | Item | Depends on | Status |
 | --- | --- | --- | --- | --- |
-| UI-01 | Next | Cosmetic fixes: stacked chips on the Python course card; small "Goal:" text in the parent view | None | proposed |
-| UI-02 | Later | "Not now" button and storage for dismissed recommendations | None | proposed |
-| UI-03 | Later | Record when a learner overrides a recommendation (plan 4.4) | None | proposed |
-| UI-04 | Later | Pause a course (plan 4.2) | None | proposed |
+| UI-01 | Next | Cosmetic fixes: stacked chips on the Python course card; small "Goal:" text in the parent view. Merged (PR #41, handoff 36); live check pending | None | in_review |
+| UI-02 | Later | "Not now" button and storage for dismissed recommendations. **Wait** (decision 29) | Decision 29 | proposed |
+| UI-03 | Later | Record when a learner overrides a recommendation (plan 4.4). **Wait** (decision 29) | Decision 29 | proposed |
+| UI-04 | Later | Pause a course (plan 4.2). **Wait** (decision 29) | Decision 29 | proposed |
 | UI-05 | Next | Lesson page reads lessons per unit instead of the legacy shape (needed once unit 2 exists). With ENG-04, this is the step that connects the lesson page to the ENG-03 browser-check contract (handoff 11): it must call `check-runner.js` from the lesson page for lessons with browser checks (handoff 15 section 11) | None | in_review: merged (PR #27, handoff 22); live check owed, section 1 (i) |
 | UI-06 | Later | Show a goal-specific capstone when a path is finished (proposed mapping: scratch to Python final project, hackathons to Hackathon Ready, university to Engineering Depth, websites to Full-Stack Builder, data to Data Investigation) | Decision 20 | proposed |
 | ID-01 | Next | Independent learner accounts: the plan (`independent-learners.md`). Decided 2026-10-27: 16 or older, self-declared; anyone with a Google account; level-based recommendations later. Split into ID-01a to ID-01f and ASSESS-06 | Product decision (made) | in_review: plan merged (PR #30, handoff 25; documentation only) |
@@ -277,6 +291,10 @@ Numbers continue from `docs/plan/course-catalog.md` section 9.
 | 25 | Highlight the hint button after two failed runs? (`lesson-feedback.md` section 11, decision 3) | Yes, as a gentle outline, in ENG-04b (answered 2026-10-27) |
 | 26 | ENG-04 part 1 assumptions 1 to 3 (handoff 15 section 5): the timeout message in every unit; the indent message also for `else` and `elif`; naming the real built-in in the case-sensitivity message | Accepted (answered 2026-10-27) |
 | 27 | Reword the unit 1 hints to fit the hint ladder? | Yes, in ENG-04b (ASSESS-08) (answered 2026-10-27) |
+| 28 | May hidden data reach the browser? | Yes, with one rule: hidden inputs reach the browser, because the worker has to run them, and hidden expected results never do. For ENG-10, broken reference programs may reach the browser, and a correct one may as long as it isn't the lesson's answer. `browser-checks.md` section 5 states the rule and its limit, and the leak tests stay (answered 2026-11-02) |
+| 29 | Build UI-02 to UI-04 now? | Wait. Dismissing the only released course leaves nothing to recommend, they would store personal data the retention policy doesn't cover yet, and they would take migration 0009, planned for the sign-ups switch (answered 2026-11-02) |
+| 30 | A learner's own second file? | Its own stage before unit 7 (ENG-08b). A learner file named `random.py` or `os.py` must not shadow or get past the import guard, and the guard applies inside learner modules too (answered 2026-11-02) |
+| 31 | Automatic updates for pinned CI actions? | Yes: Dependabot for GitHub Actions only, monthly. It only opens PRs for review (answered 2026-11-02) |
 
 The questions raised when this file was added (handoff 05) were answered by the owner on 2026-10-25 and are recorded above as decisions 16, 18, 21, 22 and 23, and in items SEC-03, OPS-05 and PLAN-01.
 
