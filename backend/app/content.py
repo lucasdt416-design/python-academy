@@ -117,6 +117,8 @@ class CheckCase(Strict):
     inputs: list[Annotated[str, Field(max_length=500)]] = Field(default=[], max_length=10)
     expected: str | None = Field(default=None, max_length=OUTPUT_LIMIT)
     visibility: Literal['visible', 'hidden'] = 'visible'
+    # ENG-07: the number random is seeded with before this case runs. The worker uses 0 if it is not set.
+    seed: int | None = Field(default=None, ge=0, le=2**31 - 1)
     call: CheckCall | None = None
     returns: CheckReturn | None = None
 

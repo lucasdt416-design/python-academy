@@ -20,7 +20,7 @@ import sys
 from app.browser_checks import CaseRun
 
 RUNNER = r'''
-import builtins, contextlib, io, json, signal, sys, traceback
+import builtins, contextlib, io, json, random, signal, sys, traceback
 jobs = json.load(sys.stdin)
 
 class TimeLimit(BaseException):
@@ -57,6 +57,7 @@ for job in jobs:
             except StopIteration:
                 raise EOFError('Add a player reply for each input() call, in order.')
         builtins.input = fake_input
+        random.seed(case.get('seed') or 0)
         out = Capped(job['limit'])
         report = {'id': case['id'], 'status': 'ok', 'error_type': None, 'line': None}
         try:
@@ -95,7 +96,7 @@ SECONDS = 0.5
 def reports(lesson, programs, timeout=120):
     """For each program, one report per check case, as the browser would send them (no error message)."""
     check = lesson.task('challenge').check
-    jobs = [{'code': code, 'limit': 10_000, 'seconds': SECONDS, 'cases': [{'id': c.id, 'inputs': c.inputs} for c in check.cases]} for code in programs]
+    jobs = [{'code': code, 'limit': 10_000, 'seconds': SECONDS, 'cases': [{'id': c.id, 'inputs': c.inputs, 'seed': c.seed} for c in check.cases]} for code in programs]
     done = subprocess.run([sys.executable, '-I', '-c', RUNNER], input=json.dumps(jobs), capture_output=True, text=True, timeout=timeout, check=True)
     return [[CaseRun(**report) for report in program] for program in json.loads(done.stdout)]
 
@@ -109,7 +110,7 @@ def run(lesson, code, *more):
 def run_program(code, inputs):
     """Run a short program once with these replies, the way the "Try it" card does: (output, error type)."""
     from types import SimpleNamespace
-    case = SimpleNamespace(id='once', inputs=list(inputs))
+    case = SimpleNamespace(id='once', inputs=list(inputs), seed=None)
     lesson = SimpleNamespace(task=lambda kind: SimpleNamespace(check=SimpleNamespace(cases=[case])))
     report = reports(lesson, [code])[0][0]
     return report.output, report.error_type
