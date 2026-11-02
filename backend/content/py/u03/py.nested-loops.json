@@ -1,0 +1,188 @@
+{
+  "id": "py.nested-loops",
+  "version": 1,
+  "course": "py",
+  "unit": "py.u03",
+  "title": "Rooms on the map",
+  "concept": "Loops · a loop inside a loop",
+  "description": "Walk the riddle keeper's map row by row, count the coins in each room, and add them all up.",
+  "badge": {
+    "id": "py.badge.map-reader",
+    "version": 1,
+    "title": "Map reader",
+    "category": "practice"
+  },
+  "tasks": [
+    {
+      "id": "py.nested-loops.discover",
+      "type": "discover",
+      "title": "Put a loop inside a loop",
+      "body": "A loop's block can hold another loop. The inner loop runs all the way through, every time the outer loop goes round once. So an outer loop of 2 turns and an inner loop of 3 turns runs the inner block 6 times.",
+      "detail": "The outer loop's line starts at the left, the inner loop's line has four spaces, and the inner block has eight. for and range() start the inner loop again by themselves. With while, the inner counter has to be set back to its start inside the outer loop, or the inner loop only runs the first time."
+    },
+    {
+      "id": "py.nested-loops.example",
+      "type": "example",
+      "code": "# Number the seats: two rows of three\nfor row in range(1, 3):\n    for seat in range(1, 4):\n        print(row * 10 + seat)",
+      "output": "11\n12\n13\n21\n22\n23",
+      "note": "row starts at 1, and seat runs through 1, 2 and 3. Then row becomes 2, and seat starts again from 1. Multiplying by 10 is just a way to show both numbers at once: 23 is row 2, seat 3.",
+      "inputs": []
+    },
+    {
+      "id": "py.nested-loops.predict",
+      "type": "predict",
+      "question": "If the two for lines swapped places, so that seat is the outer loop and row the inner one, what would the first three lines print?",
+      "options": [
+        "11, 21 and 12",
+        "11, 12 and 13",
+        "11, 21 and 31"
+      ],
+      "answer": 0,
+      "why": "The inner loop finishes first. seat stays at 1 while row runs through 1 and 2, giving 11 and 21. Then seat becomes 2 and row starts again, giving 12."
+    },
+    {
+      "id": "py.nested-loops.guided",
+      "type": "guided",
+      "prompt": "Predict, then run: swap the two for lines, with row and seat keeping their ranges. Put them back. Then change range(1, 3) to range(1, 4) and predict how many lines print before you run."
+    },
+    {
+      "id": "py.nested-loops.challenge",
+      "type": "challenge",
+      "prompt": "The riddle keeper's map is a grid of rooms. Rows and columns are counted from 1, and a room holds its row number times its column number in coins, so row 2, column 3 holds 6. Ask for the number of rows, then the number of columns. Going through the rows in order, and left to right along each row, print the coins in every room, one per line. On the last line, print the total coins. Print just the numbers.",
+      "starter": "# Ask for the rows and the columns, then walk the map\n",
+      "hints": [
+        "One for loop goes through the rows. Inside its block, another for loop goes through the columns of that row.",
+        "Rows and columns count from 1, and range() stops before its second number. The total starts at 0 above both loops, and prints below both of them.",
+        "A pattern with other names: for shelf in range(1, shelves + 1): holds for book in range(1, books + 1): one step further in. The rooms need your own names, your own sum, and a total."
+      ],
+      "error_hints": [
+        {
+          "tags": [
+            "TypeError"
+          ],
+          "text": "range() needs whole numbers. Turn each reply into a number with int(...) before you use it."
+        },
+        {
+          "tags": [
+            "NameError"
+          ],
+          "text": "Use one name for the rows and one for the columns, and give each a value with input() before the loops."
+        },
+        {
+          "tags": [
+            "IndentationError"
+          ],
+          "text": "Each loop's block goes four spaces further in than its for line: four for the inner for line, and eight for the lines inside it."
+        },
+        {
+          "tags": [
+            "EOFError"
+          ],
+          "text": "This program needs only two replies, the rows and the columns. Ask for them once, above the loops."
+        },
+        {
+          "tags": [
+            "py.nested-loops.case.wide"
+          ],
+          "text": "With 2 rows of 3 columns, the coins go 1, 2, 3, then 2, 4, 6, and the total is 18. If you see 1, 2, 2, 4, 3, 6, the two loops are the wrong way round. If only the first row printed, the inner counter did not start again."
+        },
+        {
+          "tags": [
+            "py.nested-loops.case.tall"
+          ],
+          "text": "With 3 rows of 2 columns, the coins go 1, 2, then 2, 4, then 3, 6. Use the replies in your range() calls, not numbers typed into the code."
+        },
+        {
+          "tags": [
+            "py.nested-loops.case.single"
+          ],
+          "text": "A map of one room holds 1 coin, so the lines are 1 and then the total, 1. The total line is always printed."
+        },
+        {
+          "tags": [
+            "py.nested-loops.case.more-rows"
+          ],
+          "text": "Check a map with more rows than the examples: the outer range() has to follow the rows reply."
+        },
+        {
+          "tags": [
+            "py.nested-loops.case.more-columns"
+          ],
+          "text": "Check a map with more columns than the examples: the inner range() has to follow the columns reply."
+        }
+      ],
+      "similar_example": {
+        "code": "for hour in range(1, 3):\n    for minute in range(0, 60, 30):\n        print(hour * 100 + minute)",
+        "note": "A clock that strikes every half hour shows 100, 130, 200 and 230: for each hour, the minutes start again from 0. Your challenge goes through rows and columns, counts from 1, and adds everything up."
+      },
+      "other_ways": [
+        {
+          "code": "rows = int(input(\"Rows? \"))\ncolumns = int(input(\"Columns? \"))\ntotal = 0\nrow = 1\nwhile row <= rows:\n    column = 1\n    while column <= columns:\n        print(row * column)\n        total = total + row * column\n        column = column + 1\n    row = row + 1\nprint(total)",
+          "note": "The same walk with while loops. Look at column = 1: it sits inside the outer loop, so each row starts again from the first column. for and range() do that for you."
+        },
+        {
+          "code": "rows = int(input(\"Rows? \"))\ncolumns = int(input(\"Columns? \"))\ntotal = 0\nfor room in range(rows * columns):\n    row = room // columns + 1\n    column = room % columns + 1\n    print(row * column)\n    total = total + row * column\nprint(total)",
+          "note": "One loop over every room, working out its row and column with // and %. It is correct and clever, but two loops say what you mean more plainly."
+        }
+      ],
+      "input_labels": [],
+      "check": {
+        "cases": [
+          {
+            "id": "wide",
+            "description": "a map of 2 rows and 3 columns",
+            "inputs": [
+              "2",
+              "3"
+            ],
+            "expected": "1\n2\n3\n2\n4\n6\n18"
+          },
+          {
+            "id": "tall",
+            "description": "a map of 3 rows and 2 columns",
+            "inputs": [
+              "3",
+              "2"
+            ],
+            "expected": "1\n2\n2\n4\n3\n6\n18"
+          },
+          {
+            "id": "single",
+            "description": "a map of one room",
+            "inputs": [
+              "1",
+              "1"
+            ],
+            "expected": "1\n1"
+          },
+          {
+            "id": "more-rows",
+            "description": "a map with more rows",
+            "inputs": [
+              "4",
+              "3"
+            ],
+            "expected": "1\n2\n3\n2\n4\n6\n3\n6\n9\n4\n8\n12\n60",
+            "visibility": "hidden"
+          },
+          {
+            "id": "more-columns",
+            "description": "a map with more columns",
+            "inputs": [
+              "2",
+              "6"
+            ],
+            "expected": "1\n2\n3\n4\n5\n6\n2\n4\n6\n8\n10\n12\n63",
+            "visibility": "hidden"
+          }
+        ],
+        "time_limit_ms": 3000
+      },
+      "validator": {
+        "id": "browser-tests",
+        "version": 1
+      },
+      "version": 1
+    }
+  ]
+}
