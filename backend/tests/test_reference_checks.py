@@ -102,6 +102,13 @@ def test_a_refused_import_is_not_counted_as_a_bug_caught(lesson):
     assert client.post('/api/check', json={'lesson_id': LESSON_ID, 'code': 'import os\n', 'output': '', 'runs': runs}, headers=HEADERS).json()['result'] == 'unsupported'
 
 
+def test_a_refused_import_on_a_broken_reference_alone_is_not_a_bug_caught(lesson):
+    # An author's reference that imports something refused: the tests did not catch anything.
+    runs = [r.model_dump() for r in reports(lesson, [GOOD])[0]]
+    runs[1].update(status='error', error_type='ModuleNotFoundError', line=None)
+    assert client.post('/api/check', json={'lesson_id': LESSON_ID, 'code': GOOD, 'output': '', 'runs': runs}, headers=HEADERS).json()['result'] == 'unsupported'
+
+
 def test_a_timeout_is_never_a_pass(lesson):
     answer = judged(lesson, 'while True:\n    pass\n')
     assert answer['result'] == 'execution_error' and answer['failed']['reason'] == 'timeout'
