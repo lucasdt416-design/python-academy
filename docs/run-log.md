@@ -54,7 +54,7 @@ Owner merged #32 to #39, #41 and #42 on 2026-11-02. The run stopped at the cap o
 
 **Part 2 boxes:** none is ticked in `MASTER-RUN.md`, and the copy in `~/Downloads` is byte-identical. Nothing that needs a box was done. An unticked B-R1 means no chained PRs in this run, so each stage either starts from `origin/main` or is blocked. The plan's estimate that a first run does "S01, S02, S05, S06 and S07" assumes chaining is allowed.
 
-**Open-PR cap:** the default of 5 applies. #32 is open, which leaves room for 4 more.
+**Open-PR cap:** the default of 5 applies. #32 is open, which leaves room for 4 more. Lucas raised the cap to 7 later on 2026-11-02. B-R1 stays empty, so there is still no chaining.
 
 **Confirmed against the repository:** PR #32 is open and unmerged, targeting `main`. All PRs named as merged in Part 3 are merged, including #17 and #18. The newest migration on `main` is 0008. No handoff 21 exists. The highest handoff number on any branch is 27, on #32's branch, so the next free number is 28. `course-catalog.md` section 6.2 and the README are stale as described.
 

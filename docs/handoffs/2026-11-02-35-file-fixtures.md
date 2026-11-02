@@ -23,7 +23,7 @@ no hidden expected output reaches the browser, and that the page's wording is tr
 | Field | Value |
 | --- | --- |
 | Stage | WD4, ENG-08 |
-| Base | `main`, at `ac167e3`, then merged again at `1947f7a` after #39, #41 and #42 merged |
+| Base | `main`, at `ac167e3`, then merged again at `1947f7a` after #39, #41 and #42 merged, and at `16ed93a` after #45 merged. `main` was merged once more afterwards, for #47 to #49, which change only `ci.yml` |
 | Part 2 boxes relied on | **None** |
 | Stages passed over | WD3 needs WD2 and this one, both unmerged, and chaining needs B-R1 |
 
@@ -87,10 +87,11 @@ no hidden expected output reaches the browser, and that the page's wording is tr
 
 | Command | Result |
 | --- | --- |
-| `cd backend && DATABASE_URL=sqlite:///<temp>.db ../../python-academy/backend/.venv/bin/python -m pytest -q`, on `1947f7a` | **833 passed, 11 skipped** |
-| Same with `TEST_POSTGRES_URL=<local PostgreSQL 16 from pgserver>` | **844 passed** |
+| `cd backend && DATABASE_URL=sqlite:///<temp>.db ../../python-academy/backend/.venv/bin/python -m pytest -q`, on `16ed93a` | **842 passed, 11 skipped** |
+| Same with `TEST_POSTGRES_URL=<local PostgreSQL 16 from pgserver>` | **853 passed** |
 | `cd frontend && npx tsc --noEmit && npm run build` | OK |
-| `cd frontend && CI=1 npx playwright test` | **296 passed** |
+| `cd frontend && CI=1 npx playwright test`, in GitHub CI on `16ed93a`, push and pull request runs | **299 passed, both runs** |
+| The same on my Mac, on `16ed93a` | **Not clean: see section 8** |
 | axe-core 4.10.3 on the lesson's cards 2, 4 and 5, at 1280 px and 375 px, once animations finish | **0 violations** |
 
 ### What the tests cover
@@ -132,6 +133,10 @@ no hidden expected output reaches the browser, and that the page's wording is tr
 ## 8. Merging with #39
 
 #39 merged first, so I merged `main` into this branch. The 7 conflicted files were all places where both add a line. The code matches the combination tested earlier.
+
+#45 then merged first too, and `backend/app/content.py` conflicted, because both PRs add to the check that a hidden case's description does not quote hidden data. The merged check covers inputs, file lines, call values and expected lines.
+
+**The full browser suite did not pass on my Mac at `16ed93a`.** Run one: 25 of 299 failed. Run two, with 3 workers: 33 failed, a different set. Of those, 23 of the first 25 and all 33 of the second passed when rerun, and the last 2 passed three more times alone. The errors I read were mostly results not appearing in time, and a few programs hitting the 15-second limit. **The same commit passed all 299 twice in GitHub CI,** so I am relying on CI for this merge. The Mac was short of free memory and running other apps, but that cause is not established, and I did not run `main` on it as a comparison.
 
 ## 9. Live checks for you
 
