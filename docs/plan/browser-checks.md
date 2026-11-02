@@ -173,6 +173,22 @@ Any function with a compatible signature passes, including one with defaults, `*
 
 **Hidden calls are refused, for now.** A function runs in the browser, so a call's arguments have to reach the browser, and the server must never run learner code. The master run plan asks that hidden arguments never reach the browser, so a hidden call cannot exist. This leaves a gap: a learner can hard-code answers for the visible calls, and only hidden ordinary cases can catch that. Allowing hidden calls whose **arguments** reach the browser and whose **expected values** stay on the server would match what section 5 already accepts for hidden inputs. It is an owner decision, listed in handoff 29. The plan and the judge already keep the expected value of a case marked hidden on the server, and a test proves it, so the change would be to one validation rule.
 
+## 9. Allowed imports and seeded random (ENG-07)
+
+Status: **in review** (handoff 34).
+
+**The list:** `math`, `random`, `datetime`, `json`, `csv`, `re`, and their submodules. It is `ALLOWED_MODULES` in `frontend/public/python-worker.js`, the only copy. Anything else is refused with `ModuleNotFoundError`, in Try it and in checks alike, which a check reports as `unsupported`.
+
+**How it works.** Once Pyodide has loaded and the network APIs are gone, the worker replaces `__import__`. A module's own code imports what it needs as usual, because `random` needs `os`, for example. Only code that is not a module's own is limited: the learner's program, including `exec` and direct calls to `__import__`.
+
+**This is a guide for learners, not a sandbox.** Python cannot sandbox itself. `random._os` reaches `os`, and from there other modules. The guard stops a learner reaching these by accident, and keeps lessons honest about what is available. **The security boundary is the worker:** no network APIs, its Content-Security-Policy unchanged, and nothing from the page. No new protection should ever be built on the assumption that the guard can't be bypassed.
+
+**An allowed module does import blocked ones, inside itself.** `random` holds a reference to `os`, for example. That is expected, for the reason above.
+
+**Seeded random.** Before each case the worker seeds `random` with the case's `seed`, or 0. An optional `seed` on a case, from 0 to 2,147,483,647, is sent to the browser in the plan only when set, like a hidden case's inputs. Pyodide's `random` gives the same numbers as CPython 3.12 (tested). Try it is not seeded, so a learner sees different numbers. A learner's own `random.seed()` still works.
+
+**Adding a module.** Say why in a handoff, and check what it exposes. No lesson uses imports yet, so none of this changes what a learner meets in units 1 to 3, unless they import something.
+
 ## 10. File fixtures (ENG-08)
 
 Status: **in review** (handoff 35).
@@ -189,18 +205,3 @@ A case can give its program files, and a worked example can give its "Try it" ca
 | What the page shows | The example's files, and one visible case's files as a sample |
 
 **Not built: a learner's own second file.** `py.own-modules` needs a second editor tab, a change to what the page sends and, with ENG-07, a way to allow the learner's own module. That is a separate stage (handoff 35, question 1).
-## 9. Allowed imports and seeded random (ENG-07)
-
-Status: **in review** (handoff 34).
-
-**The list:** `math`, `random`, `datetime`, `json`, `csv`, `re`, and their submodules. It is `ALLOWED_MODULES` in `frontend/public/python-worker.js`, the only copy. Anything else is refused with `ModuleNotFoundError`, in Try it and in checks alike, which a check reports as `unsupported`.
-
-**How it works.** Once Pyodide has loaded and the network APIs are gone, the worker replaces `__import__`. A module's own code imports what it needs as usual, because `random` needs `os`, for example. Only code that is not a module's own is limited: the learner's program, including `exec` and direct calls to `__import__`.
-
-**This is a guide for learners, not a sandbox.** Python cannot sandbox itself. `random._os` reaches `os`, and from there other modules. The guard stops a learner reaching these by accident, and keeps lessons honest about what is available. **The security boundary is the worker:** no network APIs, its Content-Security-Policy unchanged, and nothing from the page. No new protection should ever be built on the assumption that the guard can't be bypassed.
-
-**An allowed module does import blocked ones, inside itself.** `random` holds a reference to `os`, for example. That is expected, for the reason above.
-
-**Seeded random.** Before each case the worker seeds `random` with the case's `seed`, or 0. An optional `seed` on a case, from 0 to 2,147,483,647, is sent to the browser in the plan only when set, like a hidden case's inputs. Pyodide's `random` gives the same numbers as CPython 3.12 (tested). Try it is not seeded, so a learner sees different numbers. A learner's own `random.seed()` still works.
-
-**Adding a module.** Say why in a handoff, and check what it exposes. No lesson uses imports yet, so none of this changes what a learner meets in units 1 to 3, unless they import something.

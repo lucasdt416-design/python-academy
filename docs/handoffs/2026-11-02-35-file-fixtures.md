@@ -23,7 +23,7 @@ no hidden expected output reaches the browser, and that the page's wording is tr
 | Field | Value |
 | --- | --- |
 | Stage | WD4, ENG-08 |
-| Base | `main`, at `ac167e3`. **Text conflicts with #39 in 6 files** (section 8) |
+| Base | `main`, at `ac167e3`, then merged again at `1947f7a` after #39, #41 and #42 merged |
 | Part 2 boxes relied on | **None** |
 | Stages passed over | WD3 needs WD2 and this one, both unmerged, and chaining needs B-R1 |
 
@@ -69,7 +69,6 @@ no hidden expected output reaches the browser, and that the page's wording is tr
 | Empty `/home/pyodide` and `/tmp`, leaving `/lib` alone | A new folder per case | A new folder would leave old files reachable by path | Implementer |
 | The challenge shows one visible case's files as a sample | All, or none | A learner needs to see the format, and it is honest about there being others | Implementer (**assumption 3**) |
 | Wording: "Files here are temporary…" | Say nothing | Plan Part 9 asks for it | Plan |
-| A new section without a number in `browser-checks.md` | Number it | #39 also adds a section 9. The docs sync can number them | Implementer |
 | `FileNotFoundError` allowed as a hint tag | Leave it out | It will be the most common error in these lessons | Implementer |
 
 ## 5. Bugs found and how they were fixed
@@ -88,12 +87,11 @@ no hidden expected output reaches the browser, and that the page's wording is tr
 
 | Command | Result |
 | --- | --- |
-| `cd backend && DATABASE_URL=sqlite:///<temp>.db ../../python-academy/backend/.venv/bin/python -m pytest -q` | **813 passed, 11 skipped** |
-| Same with `TEST_POSTGRES_URL=<local PostgreSQL 16 from pgserver>` | **824 passed** |
+| `cd backend && DATABASE_URL=sqlite:///<temp>.db ../../python-academy/backend/.venv/bin/python -m pytest -q`, on `1947f7a` | **833 passed, 11 skipped** |
+| Same with `TEST_POSTGRES_URL=<local PostgreSQL 16 from pgserver>` | **844 passed** |
 | `cd frontend && npx tsc --noEmit && npm run build` | OK |
-| `cd frontend && CI=1 npx playwright test` | **272 passed** |
+| `cd frontend && CI=1 npx playwright test` | **296 passed** |
 | axe-core 4.10.3 on the lesson's cards 2, 4 and 5, at 1280 px and 375 px, once animations finish | **0 violations** |
-| A trial merge with #39, conflicts resolved (section 8) | Backend passes in full. Playwright **292 passed**, and the two specs again after the last fix |
 
 ### What the tests cover
 
@@ -133,7 +131,7 @@ no hidden expected output reaches the browser, and that the page's wording is tr
 
 ## 8. Merging with #39
 
-Both PRs change the same lines in 6 files, so whichever merges second will show conflicts on GitHub. All are places where both add a line. I already tested the combined result, so once one is merged, tell me and I'll update the other.
+#39 merged first, so I merged `main` into this branch. The 7 conflicted files were all places where both add a line. The code matches the combination tested earlier.
 
 ## 9. Live checks for you
 
@@ -141,10 +139,10 @@ No real lesson has files yet, so there is nothing new to see. Please check that 
 
 ## 10. Questions for you
 
-1. **A learner's own second file.** Build it as its own stage before unit 7? *Recommended, not yet confirmed: yes. It needs its own ID, for which ENG-08b is my suggestion.*
+1. **A learner's own second file:** answered by the owner on 2026-11-02: its own stage before unit 7, and the import guard must apply inside learner modules. Proposed ID: ENG-08b.
 2. **Assumption 2, the limits.** *Recommended, not yet confirmed: keep them.*
 3. **Assumption 3, showing a sample.** *Recommended, not yet confirmed: keep it.*
-4. **Hidden data in the browser,** still open from handoffs 29 and 30. Files are now a fourth kind. *Recommended, not yet confirmed: one rule for all: hidden data may reach the browser, and hidden expected results may not.*
+4. **Hidden data in the browser:** answered by the owner on 2026-11-02. It may reach the browser, and hidden expected results may not.
 
 ## 11. For the docs sync
 
@@ -153,12 +151,11 @@ No real lesson has files yet, so there is nothing new to see. Please check that 
 | Backlog ENG-08 | proposed → in_review (#40, handoff 35), noting the second file is not built |
 | Backlog, maybe a new row | The state-between-cases fix |
 | Stage table | "35. ENG-08 \| File fixtures \| in_review (#40, handoff 35)" |
-| `browser-checks.md` | Number the new sections |
 | Decision log | A chapter from sections 3 to 6 |
 
 ## 12. Next concrete action
 
-Merge #39 or this one, tell me, and I'll update the other.
+Review and merge.
 
 ## 13. Removing the worktree safely
 
