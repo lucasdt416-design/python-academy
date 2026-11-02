@@ -73,8 +73,8 @@ New tests measure the page: the chips have the same top at 1280, 1024 and 375 px
 
 | Deliberate break (each undone) | Tests that failed |
 | --- | --- |
-| B1. The row no longer wraps | **3** |
-| B2. The goal goes back to the muted style | **2**: the new test, and one more that matched it |
+| B1. The row no longer wraps | **3**, one per width (also run with the `nowrap` line present) |
+| B2. The goal goes back to the muted style | **1**: the new goal test. The run showed 2 because the `nowrap` line of B3 was still in the code at the time |
 | B3. The `nowrap` line added back | **1**, at 375 px |
 
 **Mocks:** recorded-style API answers, as in `academy.spec.ts`. **Not checked:** real phones, or a screen reader; no text changed.
