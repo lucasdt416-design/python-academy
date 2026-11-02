@@ -1,0 +1,212 @@
+{
+  "id": "py.accumulate",
+  "version": 1,
+  "course": "py",
+  "unit": "py.u03",
+  "title": "Keep the score",
+  "concept": "Loops · running totals and counters",
+  "description": "Add up the points from every round of the riddle keeper's game, count the empty rounds, and find the average.",
+  "badge": {
+    "id": "py.badge.tally-keeper",
+    "version": 1,
+    "title": "Tally keeper",
+    "category": "practice"
+  },
+  "tasks": [
+    {
+      "id": "py.accumulate.discover",
+      "type": "discover",
+      "title": "Build up an answer, one turn at a time",
+      "body": "A running total starts at 0 before the loop. Inside the loop, total = total + coins adds this turn's number to what is already there. When the loop ends, total holds the sum of them all.",
+      "detail": "A counter works the same way, but adds 1 each time something happens, often inside an if. The start line goes above the loop, so it runs once: inside the loop it would wipe the total every turn. For an average, divide the total by how many numbers there were, after the loop."
+    },
+    {
+      "id": "py.accumulate.example",
+      "type": "example",
+      "code": "# Three chests: add up the coins, then find the average\nchests = 3\ntotal = 0\nfor chest in range(chests):\n    coins = int(input(\"Coins in this chest? \"))\n    total = total + coins\nprint(total)\nprint(total / chests)",
+      "output": "12\n4.0",
+      "note": "total starts at 0 and grows: 4, then 4 again, then 12. The two print lines are below the loop, not indented, so they run once, after the last chest. Dividing with / always gives a float, so the average shows as 4.0.",
+      "inputs": [
+        "4",
+        "0",
+        "8"
+      ]
+    },
+    {
+      "id": "py.accumulate.predict",
+      "type": "predict",
+      "question": "Suppose total = 0 moves inside the loop, as the first line of its block. With the same replies, what would print(total) show?",
+      "options": [
+        "8",
+        "12",
+        "0"
+      ],
+      "answer": 0,
+      "why": "total goes back to 0 at the start of every turn, so each chest forgets the ones before it. Only the last chest's 8 is left when the loop ends."
+    },
+    {
+      "id": "py.accumulate.guided",
+      "type": "guided",
+      "prompt": "Predict, then run: move total = 0 inside the loop, as the first line of its block, and check your prediction. Put it back above the loop. Then add a counter for empty chests: start it above the loop, add 1 inside an if, and print it at the end."
+    },
+    {
+      "id": "py.accumulate.challenge",
+      "type": "challenge",
+      "prompt": "The riddle keeper's game now has rounds. Ask how many rounds were played (always at least 1), then ask for the points from each round. Print three lines: the total points, how many rounds scored 0, and the average points per round, using /. Print just the numbers.",
+      "starter": "# Ask for the rounds, then the points from each round\n",
+      "hints": [
+        "You need two things that build up as the loop runs, and both start at 0 above the loop: one for the points, and one for the rounds that scored 0.",
+        "A for loop over range() runs once per round. Ask for that round's points inside it. The three print lines go after the loop, with no indent.",
+        "A pattern with other names: start with distance = 0, and inside the loop use distance = distance + miles. Your loop also needs a counter, and an if to decide when it goes up."
+      ],
+      "error_hints": [
+        {
+          "tags": [
+            "TypeError"
+          ],
+          "text": "A reply from input() is text. Turn it into a number with int(...) before you add it up or use it in range()."
+        },
+        {
+          "tags": [
+            "NameError"
+          ],
+          "text": "Give each name a value before the loop uses it, and spell it the same way every time."
+        },
+        {
+          "tags": [
+            "IndentationError"
+          ],
+          "text": "The lines that repeat start with four spaces. A line inside an if inside the loop starts with eight."
+        },
+        {
+          "tags": [
+            "EOFError"
+          ],
+          "text": "Your loop asked for more points than there were rounds. range(rounds) already runs exactly once per round."
+        },
+        {
+          "tags": [
+            "ZeroDivisionError"
+          ],
+          "text": "The average divides by the number of rounds played, and that is always at least 1. Check which number comes after the /."
+        },
+        {
+          "tags": [
+            "py.accumulate.case.one-round"
+          ],
+          "text": "With one round of 10 points, the lines are 10, 0 and 10.0. A total or a counter that starts above 0 is already wrong here, and // gives 10 where / gives 10.0."
+        },
+        {
+          "tags": [
+            "py.accumulate.case.three-rounds"
+          ],
+          "text": "With rounds of 10, 0 and 5, the lines are 15, 1 and 5.0. If your total says 5, it goes back to 0 on every turn: its start line belongs above the loop."
+        },
+        {
+          "tags": [
+            "py.accumulate.case.no-points"
+          ],
+          "text": "With two rounds of 0, the lines are 0, 2 and 0.0. Every round that scores 0 counts, even when nothing has been scored yet."
+        },
+        {
+          "tags": [
+            "py.accumulate.case.many-rounds"
+          ],
+          "text": "Check a longer game: use the number of rounds in range() and in the average, and / rather than //, which throws away the part after the point."
+        },
+        {
+          "tags": [
+            "py.accumulate.case.more-empty"
+          ],
+          "text": "Check a game with more than one empty round: the counter goes up every time a round scores 0."
+        }
+      ],
+      "similar_example": {
+        "code": "gold = 1\nfor day in range(3):\n    gold = gold * 2\nprint(gold)",
+        "note": "Another answer that builds up: the gold doubles each day, giving 8 after three days. It starts at 1, because doubling 0 would stay 0. Your challenge adds up every round and counts the empty ones instead."
+      },
+      "other_ways": [
+        {
+          "code": "rounds = int(input(\"Rounds? \"))\ntotal = 0\nempty = 0\ncount = 0\nwhile count < rounds:\n    points = int(input(\"Points? \"))\n    total = total + points\n    if points == 0:\n        empty = empty + 1\n    count = count + 1\nprint(total)\nprint(empty)\nprint(total / rounds)",
+          "note": "The same totals with a while loop, which needs its own count of the rounds so far. for and range() do that counting for you."
+        },
+        {
+          "code": "rounds = int(input(\"Rounds? \"))\ntotal = 0\nscored = 0\nfor game in range(rounds):\n    points = int(input(\"Points? \"))\n    total += points\n    if points > 0:\n        scored += 1\nprint(total)\nprint(rounds - scored)\nprint(total / rounds)",
+          "note": "Count the rounds that scored instead, and take them away from all the rounds. += is a short way to write total = total + points."
+        }
+      ],
+      "input_labels": [
+        "Reply 1",
+        "Reply 2",
+        "Reply 3"
+      ],
+      "check": {
+        "cases": [
+          {
+            "id": "one-round",
+            "description": "a single round of 10 points",
+            "inputs": [
+              "1",
+              "10"
+            ],
+            "expected": "10\n0\n10.0"
+          },
+          {
+            "id": "three-rounds",
+            "description": "rounds of 10, 0 and 5 points",
+            "inputs": [
+              "3",
+              "10",
+              "0",
+              "5"
+            ],
+            "expected": "15\n1\n5.0"
+          },
+          {
+            "id": "no-points",
+            "description": "two rounds of 0 points",
+            "inputs": [
+              "2",
+              "0",
+              "0"
+            ],
+            "expected": "0\n2\n0.0"
+          },
+          {
+            "id": "many-rounds",
+            "description": "a longer game",
+            "inputs": [
+              "5",
+              "1",
+              "5",
+              "10",
+              "0",
+              "1"
+            ],
+            "expected": "17\n1\n3.4",
+            "visibility": "hidden"
+          },
+          {
+            "id": "more-empty",
+            "description": "a game with several empty rounds",
+            "inputs": [
+              "4",
+              "0",
+              "10",
+              "5",
+              "0"
+            ],
+            "expected": "15\n2\n3.75",
+            "visibility": "hidden"
+          }
+        ],
+        "time_limit_ms": 3000
+      },
+      "validator": {
+        "id": "browser-tests",
+        "version": 1
+      },
+      "version": 1
+    }
+  ]
+}
