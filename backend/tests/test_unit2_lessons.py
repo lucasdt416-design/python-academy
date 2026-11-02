@@ -335,6 +335,28 @@ def hint_pieces(lesson_id):
     return list(dict.fromkeys(p for text in texts for p in fragments(text))), task.similar_example.code.splitlines()
 
 
+def assemble_nested(chosen, after=0):
+    """One program from hint pieces with each block header inside the one before it, and every other line
+    inside the deepest block, so two loop headers in a hint become a loop inside a loop (unit 3 part 2).
+    after: this many of the last lines go below all the blocks, as a print(total) would."""
+    lines, depth = [], 0
+    for piece in chosen[:len(chosen) - after]:
+        lines.append('    ' * depth + piece)
+        depth += piece.endswith(':')
+    if lines and lines[-1].endswith(':'):
+        lines.append('    ' * depth + 'pass')
+    return '\n'.join([*lines, *chosen[len(chosen) - after:]])
+
+
+def assemblies(chosen):
+    programs = {assemble(chosen), assemble(chosen, greedy=True), assemble_nested(chosen)}
+    for after in range(1, len(chosen)):
+        if chosen[-after].endswith(':'):
+            break
+        programs.add(assemble_nested(chosen, after))
+    return programs
+
+
 def assemble(chosen, greedy=False):
     """One program from hint pieces in order: a line after a block header is indented, except elif and
     else, which close the block above them (with pass if it was empty). greedy: every line after a header
@@ -366,7 +388,7 @@ def candidates(lesson_id):
     programs = set()
     for size in range(1, len(pieces) + 1):
         for chosen in itertools.combinations(pieces, size):
-            for body in {assemble(chosen), assemble(chosen, greedy=True)}:
+            for body in assemblies(chosen):
                 programs.update({body, starter + body})
     whole = '\n'.join(example)
     programs.update({whole, starter + whole, starter + '\n'.join(pieces) + '\n' + whole})

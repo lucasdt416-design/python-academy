@@ -1,5 +1,5 @@
-"""Python unit 3, part 1 (EDU-03): py.while-loops, py.loop-termination and py.for-range, released with
-more lessons coming (py.accumulate and py.nested-loops are part 2).
+"""Python unit 3, part 1 (EDU-03): py.while-loops, py.loop-termination and py.for-range. Part 2 and the
+complete unit are in tests/test_unit3_part2.py.
 
 The same checks as unit 2 (tests/test_unit2_lessons.py and test_unit2_part2.py, whose helpers this file
 reuses): tests/case_runner.py plays the browser's part, and the real judge decides. Loops add three ways a
@@ -19,13 +19,11 @@ import pytest
 from fastapi.testclient import TestClient
 
 import test_unit2_lessons as part1
-from app import content, recommend as rules
 from app.main import app
 from case_runner import reports, run, run_program
 
 LESSONS = part1.LESSONS
 UNIT_3 = ['py.while-loops', 'py.loop-termination', 'py.for-range']
-PART_2 = ['py.accumulate', 'py.nested-loops']  # the rest of py.u03, proposed for the next PR
 HEADERS = part1.HEADERS
 RECORDED_FILE = Path(__file__).resolve().parents[2] / 'frontend/tests/fixtures/unit3-api.json'
 challenge, case_rules, judge, judge_all = part1.challenge, part1.case_rules, part1.judge, part1.judge_all
@@ -107,29 +105,6 @@ WRONG = {
 
 def wrong_program(lesson_id, body):
     return STARTER_LINES[lesson_id] + body
-
-
-# The unit, released in parts
-
-def test_unit_3_is_released_with_its_first_three_lessons_and_more_coming():
-    py = next(c for c in part1.CATALOG.courses if c.id == 'py')
-    unit = next(u for u in py.units if u.id == 'py.u03')
-    assert (unit.status, unit.lessons, unit.more_lessons_coming) == ('released', UNIT_3, True)
-    assert 'come next' in unit.summary
-    assert not set(PART_2) & set(LESSONS), 'part 2 lessons belong to the next PR'
-    assert [u.id for u in py.units if u.status == 'released'] == ['py.u01', 'py.u02', 'py.u03']
-
-
-def test_the_catalog_says_unit_3_is_not_complete_and_units_1_and_2_are():
-    units = {u['id']: u for c in TestClient(app).get('/api/catalog').json()['courses'] for u in c['units']}
-    assert (units['py.u01']['complete'], units['py.u02']['complete'], units['py.u03']['complete']) == (True, True, False)
-    assert [l['id'] for l in units['py.u03']['lessons']] == UNIT_3
-
-
-def test_the_recommendation_rules_did_not_change():
-    # Unit 3 is the first real use of more_lessons_coming (PR #31). The rules already handle it, so
-    # the version stays 2.
-    assert rules.RULES_VERSION == 2
 
 
 @pytest.mark.parametrize('lesson_id', UNIT_3)
@@ -418,9 +393,6 @@ SCENARIOS = [
     ('for unsupported', 'py.for-range', 'import turtle\n' + REFERENCE['py.for-range'], 'unsupported'),
 ]
 
-ALL_RELEASED = [l for c in part1.CATALOG.courses for u in c.units if u.status == 'released' for l in u.lessons]
-
-
 def recommendation_after(lessons):
     """The real /api/recommendation for a student who has finished these lessons."""
     from app.db import Base, XpAward
@@ -446,7 +418,6 @@ def build_recordings():
     recorded = {'catalog': client.get('/api/catalog').json(),
                 'units': {'py.u03': client.get('/api/units/py.u03/lessons').json()},
                 'plans': {i: client.get(f'/api/checks/{i}').json() for i in UNIT_3},
-                'recommendation': recommendation_after(ALL_RELEASED),
                 'scenarios': []}
     for name, lesson_id, code, kind in SCENARIOS:
         runs = None
@@ -458,16 +429,6 @@ def build_recordings():
         s['response'] = client.post('/api/check', json=s['request'], headers=HEADERS).json()
         recorded['scenarios'].append(s)
     return recorded
-
-
-def test_the_home_recommendation_says_unit_3_has_more_lessons_and_never_names_unit_4():
-    r = recommendation_after(ALL_RELEASED)
-    assert r['kind'] == 'caught_up' and r['lesson'] is None
-    assert r['notes'][0] == 'Python Foundations unit 3, Repeat and explore, has more lessons on the way. You have finished every lesson in it so far.'
-    assert 'unit 4' not in json.dumps(r) and 'Keep track of a world' not in json.dumps(r)
-    # Partway through unit 3: continue it.
-    r = recommendation_after([l for l in ALL_RELEASED if l != 'py.for-range'])
-    assert (r['kind'], r['unit'], r['lesson']) == ('continue', 'py.u03', 'py.for-range')
 
 
 def test_the_recorded_answers_are_the_real_apis():

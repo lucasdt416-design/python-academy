@@ -21,28 +21,28 @@
             {
               "id": "hello",
               "title": "Open the story",
-              "concept": "Output \u00b7 print()",
+              "concept": "Output · print()",
               "description": "Give your adventure a setting and a surprise.",
               "badge": "Story spark"
             },
             {
               "id": "variables",
               "title": "Create your hero",
-              "concept": "Variables \u00b7 strings",
+              "concept": "Variables · strings",
               "description": "Give the adventure a hero and a useful tool.",
               "badge": "Character creator"
             },
             {
               "id": "input",
               "title": "Meet the player",
-              "concept": "Interaction \u00b7 input()",
+              "concept": "Interaction · input()",
               "description": "Let someone else name the hero.",
               "badge": "Conversation starter"
             },
             {
               "id": "choices",
               "title": "Choose a path",
-              "concept": "Decisions \u00b7 if / else",
+              "concept": "Decisions · if / else",
               "description": "Make the story respond to a choice.",
               "badge": "Path finder"
             },
@@ -65,42 +65,42 @@
             {
               "id": "py.arithmetic",
               "title": "Count the treasure",
-              "concept": "Arithmetic \u00b7 + - * / // %",
+              "concept": "Arithmetic · + - * / // %",
               "description": "Give your adventure a score, and share out a chest of coins.",
               "badge": "Treasure counter"
             },
             {
               "id": "py.int-float",
               "title": "Average the scores",
-              "concept": "Numbers \u00b7 int and float",
+              "concept": "Numbers · int and float",
               "description": "Find the average of two riddle scores, decimals and all.",
               "badge": "Score keeper"
             },
             {
               "id": "py.convert-input",
               "title": "Score the riddle",
-              "concept": "Conversion \u00b7 int(input())",
+              "concept": "Conversion · int(input())",
               "description": "Turn the player's replies into numbers, and keep score when a riddle is solved or missed.",
               "badge": "Riddle scorer"
             },
             {
               "id": "py.compare",
               "title": "Too high or too low?",
-              "concept": "Comparisons \u00b7 < > <= >= == !=",
+              "concept": "Comparisons · < > <= >= == !=",
               "description": "Compare the player's guess with the riddle keeper's secret number.",
               "badge": "Riddle judge"
             },
             {
               "id": "py.boolean-logic",
               "title": "Close enough?",
-              "concept": "Logic \u00b7 and, or, not",
+              "concept": "Logic · and, or, not",
               "description": "Decide whether a guess is close or out of range by joining comparisons together.",
               "badge": "Close call"
             },
             {
               "id": "py.elif",
               "title": "The riddle keeper's verdict",
-              "concept": "Decisions \u00b7 elif",
+              "concept": "Decisions · elif",
               "description": "Give points for a guess by how close it is, choosing exactly one branch.",
               "badge": "Fair verdict"
             }
@@ -109,30 +109,44 @@
         {
           "id": "py.u03",
           "title": "Repeat and explore",
-          "summary": "while and for loops that always finish. Running totals and loops inside loops come next.",
+          "summary": "while and for loops that always finish, running totals, and loops inside loops.",
           "status": "released",
-          "complete": false,
+          "complete": true,
           "lessons": [
             {
               "id": "py.while-loops",
               "title": "Keep guessing",
-              "concept": "Loops \u00b7 while",
+              "concept": "Loops · while",
               "description": "Let the player keep guessing the secret number until they get it right.",
               "badge": "Patient guesser"
             },
             {
               "id": "py.loop-termination",
               "title": "Three tries",
-              "concept": "Loops \u00b7 stopping on time",
+              "concept": "Loops · stopping on time",
               "description": "Give the player three tries, and make sure the loop always ends.",
               "badge": "Loop closer"
             },
             {
               "id": "py.for-range",
               "title": "Step by step",
-              "concept": "Loops \u00b7 for and range()",
+              "concept": "Loops · for and range()",
               "description": "Count the steps of a staircase with a for loop and range(), two at a time.",
               "badge": "Step counter"
+            },
+            {
+              "id": "py.accumulate",
+              "title": "Keep the score",
+              "concept": "Loops · running totals and counters",
+              "description": "Add up the points from every round of the riddle keeper's game, count the empty rounds, and find the average.",
+              "badge": "Tally keeper"
+            },
+            {
+              "id": "py.nested-loops",
+              "title": "Rooms on the map",
+              "concept": "Loops · a loop inside a loop",
+              "description": "Walk the riddle keeper's map row by row, count the coins in each room, and add them all up.",
+              "badge": "Map reader"
             }
           ]
         },

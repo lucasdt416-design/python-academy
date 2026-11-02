@@ -67,6 +67,7 @@ def test_after_unit_1_python_continues_with_unit_2():
 
 
 UNIT3_PART1 = {'py.while-loops', 'py.loop-termination', 'py.for-range'}
+UNIT3 = UNIT3_PART1 | {'py.accumulate', 'py.nested-loops'}
 
 
 def test_after_unit_2_python_continues_with_unit_3():
@@ -75,18 +76,21 @@ def test_after_unit_2_python_continues_with_unit_3():
 
 
 def test_when_everything_released_is_done_the_coming_soon_courses_are_named():
-    # Unit 3 is released in parts (more_lessons_coming): it is not finished, and unit 4 is never named.
-    r = recommend('hackathon', CATALOG, UNIT1 | UNIT2 | UNIT3_PART1)
+    r = recommend('hackathon', CATALOG, UNIT1 | UNIT2 | UNIT3)
     assert r.kind == 'caught_up' and r.lesson is None
     assert r.reason == "You've finished everything available on your path so far."
-    assert r.notes[0] == 'Python Foundations unit 3, Repeat and explore, has more lessons on the way. You have finished every lesson in it so far.'
-    assert 'unit 4' not in ' '.join(r.notes)
+    assert r.notes[0] == 'Python Foundations unit 4, Keep track of a world, is next on your path. Its lessons are not written yet.'
     assert 'Hackathon Ready' in r.notes[1]
 
 
+def test_partway_through_unit_3_continues_it():
+    r = recommend('hackathon', CATALOG, UNIT1 | UNIT2 | UNIT3_PART1)
+    assert (r.kind, r.unit, r.lesson) == ('continue', 'py.u03', 'py.accumulate')
+
+
 def test_a_unit_with_no_lessons_written_is_named_as_such():
-    # The note for a planned unit with no lessons (rules version 2), now that unit 3 has lessons.
-    r = recommend('hackathon', release(CATALOG, PY[:3]), UNIT1 | UNIT2 | UNIT3_PART1)
+    # The note for a planned unit with no lessons (rules version 2).
+    r = recommend('hackathon', CATALOG, UNIT1 | UNIT2 | UNIT3)
     assert r.notes[0] == 'Python Foundations unit 4, Keep track of a world, is next on your path. Its lessons are not written yet.'
 
 

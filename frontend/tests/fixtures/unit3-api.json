@@ -110,9 +110,9 @@
      {
       "id": "py.u03",
       "title": "Repeat and explore",
-      "summary": "while and for loops that always finish. Running totals and loops inside loops come next.",
+      "summary": "while and for loops that always finish, running totals, and loops inside loops.",
       "status": "released",
-      "complete": false,
+      "complete": true,
       "lessons": [
        {
         "id": "py.while-loops",
@@ -134,6 +134,20 @@
         "concept": "Loops · for and range()",
         "description": "Count the steps of a staircase with a for loop and range(), two at a time.",
         "badge": "Step counter"
+       },
+       {
+        "id": "py.accumulate",
+        "title": "Keep the score",
+        "concept": "Loops · running totals and counters",
+        "description": "Add up the points from every round of the riddle keeper's game, count the empty rounds, and find the average.",
+        "badge": "Tally keeper"
+       },
+       {
+        "id": "py.nested-loops",
+        "title": "Rooms on the map",
+        "concept": "Loops · a loop inside a loop",
+        "description": "Walk the riddle keeper's map row by row, count the coins in each room, and add them all up.",
+        "badge": "Map reader"
        }
       ]
      },
@@ -765,6 +779,230 @@
     "course": "py",
     "unit": "py.u03",
     "check": "browser-tests"
+   },
+   {
+    "id": "py.accumulate",
+    "title": "Keep the score",
+    "concept": "Loops · running totals and counters",
+    "badge": "Tally keeper",
+    "description": "Add up the points from every round of the riddle keeper's game, count the empty rounds, and find the average.",
+    "learnTitle": "Build up an answer, one turn at a time",
+    "learn": "A running total starts at 0 before the loop. Inside the loop, total = total + coins adds this turn's number to what is already there. When the loop ends, total holds the sum of them all.",
+    "detail": "A counter works the same way, but adds 1 each time something happens, often inside an if. The start line goes above the loop, so it runs once: inside the loop it would wipe the total every turn. For an average, divide the total by how many numbers there were, after the loop.",
+    "example": "# Three chests: add up the coins, then find the average\nchests = 3\ntotal = 0\nfor chest in range(chests):\n    coins = int(input(\"Coins in this chest? \"))\n    total = total + coins\nprint(total)\nprint(total / chests)",
+    "exampleOutput": "12\n4.0",
+    "exampleNote": "total starts at 0 and grows: 4, then 4 again, then 12. The two print lines are below the loop, not indented, so they run once, after the last chest. Dividing with / always gives a float, so the average shows as 4.0.",
+    "question": "Suppose total = 0 moves inside the loop, as the first line of its block. With the same replies, what would print(total) show?",
+    "options": [
+     "8",
+     "12",
+     "0"
+    ],
+    "answer": 0,
+    "why": "total goes back to 0 at the start of every turn, so each chest forgets the ones before it. Only the last chest's 8 is left when the loop ends.",
+    "guided": "Predict, then run: move total = 0 inside the loop, as the first line of its block, and check your prediction. Put it back above the loop. Then add a counter for empty chests: start it above the loop, add 1 inside an if, and print it at the end.",
+    "starter": "# Ask for the rounds, then the points from each round\n",
+    "challenge": "The riddle keeper's game now has rounds. Ask how many rounds were played (always at least 1), then ask for the points from each round. Print three lines: the total points, how many rounds scored 0, and the average points per round, using /. Print just the numbers.",
+    "hints": [
+     "You need two things that build up as the loop runs, and both start at 0 above the loop: one for the points, and one for the rounds that scored 0.",
+     "A for loop over range() runs once per round. Ask for that round's points inside it. The three print lines go after the loop, with no indent.",
+     "A pattern with other names: start with distance = 0, and inside the loop use distance = distance + miles. Your loop also needs a counter, and an if to decide when it goes up."
+    ],
+    "inputs": [
+     "Reply 1",
+     "Reply 2",
+     "Reply 3"
+    ],
+    "exampleInputs": [
+     "4",
+     "0",
+     "8"
+    ],
+    "expected": null,
+    "errorHints": [
+     {
+      "tags": [
+       "TypeError"
+      ],
+      "text": "A reply from input() is text. Turn it into a number with int(...) before you add it up or use it in range()."
+     },
+     {
+      "tags": [
+       "NameError"
+      ],
+      "text": "Give each name a value before the loop uses it, and spell it the same way every time."
+     },
+     {
+      "tags": [
+       "IndentationError"
+      ],
+      "text": "The lines that repeat start with four spaces. A line inside an if inside the loop starts with eight."
+     },
+     {
+      "tags": [
+       "EOFError"
+      ],
+      "text": "Your loop asked for more points than there were rounds. range(rounds) already runs exactly once per round."
+     },
+     {
+      "tags": [
+       "ZeroDivisionError"
+      ],
+      "text": "The average divides by the number of rounds played, and that is always at least 1. Check which number comes after the /."
+     },
+     {
+      "tags": [
+       "py.accumulate.case.one-round"
+      ],
+      "text": "With one round of 10 points, the lines are 10, 0 and 10.0. A total or a counter that starts above 0 is already wrong here, and // gives 10 where / gives 10.0."
+     },
+     {
+      "tags": [
+       "py.accumulate.case.three-rounds"
+      ],
+      "text": "With rounds of 10, 0 and 5, the lines are 15, 1 and 5.0. If your total says 5, it goes back to 0 on every turn: its start line belongs above the loop."
+     },
+     {
+      "tags": [
+       "py.accumulate.case.no-points"
+      ],
+      "text": "With two rounds of 0, the lines are 0, 2 and 0.0. Every round that scores 0 counts, even when nothing has been scored yet."
+     },
+     {
+      "tags": [
+       "py.accumulate.case.many-rounds"
+      ],
+      "text": "Check a longer game: use the number of rounds in range() and in the average, and / rather than //, which throws away the part after the point."
+     },
+     {
+      "tags": [
+       "py.accumulate.case.more-empty"
+      ],
+      "text": "Check a game with more than one empty round: the counter goes up every time a round scores 0."
+     }
+    ],
+    "similarExample": {
+     "code": "gold = 1\nfor day in range(3):\n    gold = gold * 2\nprint(gold)",
+     "note": "Another answer that builds up: the gold doubles each day, giving 8 after three days. It starts at 1, because doubling 0 would stay 0. Your challenge adds up every round and counts the empty ones instead."
+    },
+    "otherWays": [
+     {
+      "code": "rounds = int(input(\"Rounds? \"))\ntotal = 0\nempty = 0\ncount = 0\nwhile count < rounds:\n    points = int(input(\"Points? \"))\n    total = total + points\n    if points == 0:\n        empty = empty + 1\n    count = count + 1\nprint(total)\nprint(empty)\nprint(total / rounds)",
+      "note": "The same totals with a while loop, which needs its own count of the rounds so far. for and range() do that counting for you."
+     },
+     {
+      "code": "rounds = int(input(\"Rounds? \"))\ntotal = 0\nscored = 0\nfor game in range(rounds):\n    points = int(input(\"Points? \"))\n    total += points\n    if points > 0:\n        scored += 1\nprint(total)\nprint(rounds - scored)\nprint(total / rounds)",
+      "note": "Count the rounds that scored instead, and take them away from all the rounds. += is a short way to write total = total + points."
+     }
+    ],
+    "course": "py",
+    "unit": "py.u03",
+    "check": "browser-tests"
+   },
+   {
+    "id": "py.nested-loops",
+    "title": "Rooms on the map",
+    "concept": "Loops · a loop inside a loop",
+    "badge": "Map reader",
+    "description": "Walk the riddle keeper's map row by row, count the coins in each room, and add them all up.",
+    "learnTitle": "Put a loop inside a loop",
+    "learn": "A loop's block can hold another loop. The inner loop runs all the way through, every time the outer loop goes round once. So an outer loop of 2 turns and an inner loop of 3 turns runs the inner block 6 times.",
+    "detail": "The outer loop's line starts at the left, the inner loop's line has four spaces, and the inner block has eight. for and range() start the inner loop again by themselves. With while, the inner counter has to be set back to its start inside the outer loop, or the inner loop only runs the first time.",
+    "example": "# Number the seats: two rows of three\nfor row in range(1, 3):\n    for seat in range(1, 4):\n        print(row * 10 + seat)",
+    "exampleOutput": "11\n12\n13\n21\n22\n23",
+    "exampleNote": "row starts at 1, and seat runs through 1, 2 and 3. Then row becomes 2, and seat starts again from 1. Multiplying by 10 is just a way to show both numbers at once: 23 is row 2, seat 3.",
+    "question": "If the two for lines swapped places, so that seat is the outer loop and row the inner one, what would the first three lines print?",
+    "options": [
+     "11, 21 and 12",
+     "11, 12 and 13",
+     "11, 21 and 31"
+    ],
+    "answer": 0,
+    "why": "The inner loop finishes first. seat stays at 1 while row runs through 1 and 2, giving 11 and 21. Then seat becomes 2 and row starts again, giving 12.",
+    "guided": "Predict, then run: swap the two for lines, with row and seat keeping their ranges. Put them back. Then change range(1, 3) to range(1, 4) and predict how many lines print before you run.",
+    "starter": "# Ask for the rows and the columns, then walk the map\n",
+    "challenge": "The riddle keeper's map is a grid of rooms. Rows and columns are counted from 1, and a room holds its row number times its column number in coins, so row 2, column 3 holds 6. Ask for the number of rows, then the number of columns. Going through the rows in order, and left to right along each row, print the coins in every room, one per line. On the last line, print the total coins. Print just the numbers.",
+    "hints": [
+     "One for loop goes through the rows. Inside its block, another for loop goes through the columns of that row.",
+     "Rows and columns count from 1, and range() stops before its second number. The total starts at 0 above both loops, and prints below both of them.",
+     "A pattern with other names: for shelf in range(1, shelves + 1): holds for book in range(1, books + 1): one step further in. The rooms need your own names, your own sum, and a total."
+    ],
+    "inputs": [],
+    "exampleInputs": [],
+    "expected": null,
+    "errorHints": [
+     {
+      "tags": [
+       "TypeError"
+      ],
+      "text": "range() needs whole numbers. Turn each reply into a number with int(...) before you use it."
+     },
+     {
+      "tags": [
+       "NameError"
+      ],
+      "text": "Use one name for the rows and one for the columns, and give each a value with input() before the loops."
+     },
+     {
+      "tags": [
+       "IndentationError"
+      ],
+      "text": "Each loop's block goes four spaces further in than its for line: four for the inner for line, and eight for the lines inside it."
+     },
+     {
+      "tags": [
+       "EOFError"
+      ],
+      "text": "This program needs only two replies, the rows and the columns. Ask for them once, above the loops."
+     },
+     {
+      "tags": [
+       "py.nested-loops.case.wide"
+      ],
+      "text": "With 2 rows of 3 columns, the coins go 1, 2, 3, then 2, 4, 6, and the total is 18. If you see 1, 2, 2, 4, 3, 6, the two loops are the wrong way round. If only the first row printed, the inner counter did not start again."
+     },
+     {
+      "tags": [
+       "py.nested-loops.case.tall"
+      ],
+      "text": "With 3 rows of 2 columns, the coins go 1, 2, then 2, 4, then 3, 6. Use the replies in your range() calls, not numbers typed into the code."
+     },
+     {
+      "tags": [
+       "py.nested-loops.case.single"
+      ],
+      "text": "A map of one room holds 1 coin, so the lines are 1 and then the total, 1. The total line is always printed."
+     },
+     {
+      "tags": [
+       "py.nested-loops.case.more-rows"
+      ],
+      "text": "Check a map with more rows than the examples: the outer range() has to follow the rows reply."
+     },
+     {
+      "tags": [
+       "py.nested-loops.case.more-columns"
+      ],
+      "text": "Check a map with more columns than the examples: the inner range() has to follow the columns reply."
+     }
+    ],
+    "similarExample": {
+     "code": "for hour in range(1, 3):\n    for minute in range(0, 60, 30):\n        print(hour * 100 + minute)",
+     "note": "A clock that strikes every half hour shows 100, 130, 200 and 230: for each hour, the minutes start again from 0. Your challenge goes through rows and columns, counts from 1, and adds everything up."
+    },
+    "otherWays": [
+     {
+      "code": "rows = int(input(\"Rows? \"))\ncolumns = int(input(\"Columns? \"))\ntotal = 0\nrow = 1\nwhile row <= rows:\n    column = 1\n    while column <= columns:\n        print(row * column)\n        total = total + row * column\n        column = column + 1\n    row = row + 1\nprint(total)",
+      "note": "The same walk with while loops. Look at column = 1: it sits inside the outer loop, so each row starts again from the first column. for and range() do that for you."
+     },
+     {
+      "code": "rows = int(input(\"Rows? \"))\ncolumns = int(input(\"Columns? \"))\ntotal = 0\nfor room in range(rows * columns):\n    row = room // columns + 1\n    column = room % columns + 1\n    print(row * column)\n    total = total + row * column\nprint(total)",
+      "note": "One loop over every room, working out its row and column with // and %. It is correct and clever, but two loops say what you mean more plainly."
+     }
+    ],
+    "course": "py",
+    "unit": "py.u03",
+    "check": "browser-tests"
    }
   ]
  },
@@ -967,19 +1205,6 @@
     }
    ]
   }
- },
- "recommendation": {
-  "kind": "caught_up",
-  "reason": "You've finished everything available on your path so far.",
-  "course": null,
-  "unit": null,
-  "lesson": null,
-  "options": [],
-  "notes": [
-   "Python Foundations unit 3, Repeat and explore, has more lessons on the way. You have finished every lesson in it so far.",
-   "Coming soon on your path: Git and GitHub Essentials, Web Foundations: HTML and CSS, JavaScript and the DOM, Data and SQL."
-  ],
-  "rules_version": 2
  },
  "scenarios": [
   {

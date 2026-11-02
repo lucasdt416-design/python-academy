@@ -38,7 +38,7 @@ def test_real_content_is_valid_and_matches_the_original_lessons():
     catalog, lessons = content.load()
     assert content.legacy_lessons(catalog, lessons) == json.loads(FIXTURE.read_text())
     assert sorted(lessons) == sorted(content.LEGACY_LESSON_IDS | {'py.arithmetic', 'py.int-float', 'py.convert-input', 'py.compare', 'py.boolean-logic', 'py.elif',
-                                                                   'py.while-loops', 'py.loop-termination', 'py.for-range'})
+                                                                   'py.while-loops', 'py.loop-termination', 'py.for-range', 'py.accumulate', 'py.nested-loops'})
     assert [c.id for c in catalog.courses] == ['py', 'hack', 'git', 'web', 'js', 'sql', 'data', 'cs', 'node', 'fullstack', 'ce']
     released = [(c.id, u.id) for c in catalog.courses for u in c.units if u.status == 'released']
     assert released == [('py', 'py.u01'), ('py', 'py.u02'), ('py', 'py.u03')]

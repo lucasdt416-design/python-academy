@@ -110,9 +110,9 @@
      {
       "id": "py.u03",
       "title": "Repeat and explore",
-      "summary": "while and for loops that always finish. Running totals and loops inside loops come next.",
+      "summary": "while and for loops that always finish, running totals, and loops inside loops.",
       "status": "released",
-      "complete": false,
+      "complete": true,
       "lessons": [
        {
         "id": "py.while-loops",
@@ -134,6 +134,20 @@
         "concept": "Loops · for and range()",
         "description": "Count the steps of a staircase with a for loop and range(), two at a time.",
         "badge": "Step counter"
+       },
+       {
+        "id": "py.accumulate",
+        "title": "Keep the score",
+        "concept": "Loops · running totals and counters",
+        "description": "Add up the points from every round of the riddle keeper's game, count the empty rounds, and find the average.",
+        "badge": "Tally keeper"
+       },
+       {
+        "id": "py.nested-loops",
+        "title": "Rooms on the map",
+        "concept": "Loops · a loop inside a loop",
+        "description": "Walk the riddle keeper's map row by row, count the coins in each room, and add them all up.",
+        "badge": "Map reader"
        }
       ]
      },

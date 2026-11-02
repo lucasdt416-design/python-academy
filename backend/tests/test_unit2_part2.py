@@ -115,16 +115,14 @@ def test_unit_2_is_complete_with_six_lessons_in_order():
     unit = next(u for u in py.units if u.id == 'py.u02')
     assert (unit.status, unit.lessons, unit.more_lessons_coming) == ('released', UNIT_2, False)
     assert 'come next' not in unit.summary and 'elif' in unit.summary
-    # Unit 2 is not still being written (unit 3, released in parts, is: tests/test_unit3_lessons.py).
-    assert [u.id for c in part1.CATALOG.courses for u in c.units if u.more_lessons_coming] == ['py.u03']
+    assert not unit.more_lessons_coming
 
 
 def test_the_catalog_says_which_units_are_complete():
     catalog = TestClient(app).get('/api/catalog').json()
     units = {u['id']: u['complete'] for c in catalog['courses'] for u in c['units']}
-    assert units['py.u01'] is True and units['py.u02'] is True
-    assert not any(complete for unit, complete in units.items() if unit not in ('py.u01', 'py.u02'))
-    assert units['py.u03'] is False  # released, still being written
+    assert units['py.u01'] is True and units['py.u02'] is True and units['py.u03'] is True
+    assert not any(complete for unit, complete in units.items() if unit not in ('py.u01', 'py.u02', 'py.u03'))
 
 
 def test_more_lessons_coming_is_only_for_a_released_unit(tmp_path):
