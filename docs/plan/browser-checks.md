@@ -187,3 +187,20 @@ Status: **in review** (handoff 34).
 **Seeded random.** Before each case the worker seeds `random` with the case's `seed`, or 0. An optional `seed` on a case, from 0 to 2,147,483,647, is sent to the browser in the plan only when set, like a hidden case's inputs. Pyodide's `random` gives the same numbers as CPython 3.12 (tested). Try it is not seeded, so a learner sees different numbers. A learner's own `random.seed()` still works.
 
 **Adding a module.** Say why in a handoff, and check what it exposes. No lesson uses imports yet, so none of this changes what a learner meets in units 1 to 3, unless they import something.
+
+## Learner tests against reference programs (ENG-10)
+
+Status: **in review** (handoff 41).
+
+The learner's program is a set of tests, usually `assert` lines. Each case loads a **reference program** first, in the same fresh namespace, then runs the learner's tests. The result is judged by whether they ran to the end.
+
+| A case's `test_should` | The tests ran to the end | A test stopped them |
+| --- | --- | --- |
+| `pass` (correct reference) | Good | `AssertionError`: "A test failed on …, which is correct". Any other error is a Python error, explained as usual |
+| `fail` (broken reference) | "Your tests all passed on …, which has a bug" | Good, whatever the error, because the first case has shown that the tests run on correct code. A refused import is the exception: it is `unsupported` |
+
+**Rules, checked when content loads:** every case has a `reference`, the first case is visible with `test_should: pass`, and at least one has `test_should: fail`. A reference case has no `call`, `returns` or `expected`. A reference must parse.
+
+**What reaches the browser (decision 28).** Every reference, in the plan, because the tests run there. **So a correct reference must not be the lesson's answer.** Content validation can't check that; authors must. In unit 8 the learner writes tests, not the code under test, so this holds. A hidden case's `test_should` is its expected result and is not sent, and a hidden failure is named only by its description.
+
+**Limits.** A learner who reads a broken reference could write a test aimed only at that bug, and these are practice evidence (section 5). Output is ignored. Imports in a reference follow the same list as the learner's.

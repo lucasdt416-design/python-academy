@@ -6,7 +6,7 @@ import {type ErrorHint,type Explanation,HINT_TEXT,type HintStep,OUTLINE_AFTER,RE
 
 type Lesson = {id:string;title:string;concept:string;badge:string;description:string;learnTitle:string;learn:string;detail:string;example:string;exampleOutput:string;exampleNote:string;question:string;options:string[];answer:number;why:string;guided:string;starter:string;challenge:string;hints:string[];inputs:string[];exampleInputs:string[];errorHints?:ErrorHint[];similarExample?:Sample|null;otherWays?:Sample[];course?:string;unit?:string;check?:string};
 /** A browser check (ENG-03): what GET /api/checks/<lesson> gives, and what public/check-runner.js reports per case. Hidden cases come without expected output. */
-type Plan={time_limit_ms:number;output_limit:number;cases:{id:string;visibility:'visible'|'hidden';description:string;inputs:string[]}[]};
+type Plan={time_limit_ms:number;output_limit:number;cases:{id:string;visibility:'visible'|'hidden';description:string;inputs:string[];test_should?:'pass'|'fail'}[]};
 type CaseReport={id:string;status:string;output:string;errorType:string|null;line:number|null;message:string|null;shown?:string};
 type Place={course:Course;unit:Unit};
 /** The released unit holding this lesson, or the first released unit when there is none (the lesson page's default). */
@@ -17,7 +17,7 @@ function findUnit(catalog:Catalog,lessonId:string|null):Place|null{
 /** What the Output panel shows after a browser check: each visible case's output. Hidden cases are not shown. */
 function caseOutput(plan:Plan,reports:CaseReport[]){
  const stopped:Record<string,string>={timeout:`(stopped: still running after ${plan.time_limit_ms/1000} seconds)`,not_run:'(not run)',unavailable:'(Python could not start)',error:'(Python stopped)',no_function:'(that function is not defined)',bad_signature:'(that function takes different arguments)',not_comparable:'(this check cannot compare the returned value)'};
- return plan.cases.filter(c=>c.visibility==='visible').map(c=>{const r=reports.find(x=>x.id===c.id);const printed=(r?.output??'').replace(/\n$/,'');return `With ${c.description}:\n${[printed,r?.shown!=null?`Returned: ${r.shown}`:'',r?.status==='output_limit'?'(stopped: too much output)':r&&r.status!=='ok'?stopped[r.status]??'':''].filter(Boolean).join('\n')||'(nothing printed)'}`;}).join('\n\n');
+ return plan.cases.filter(c=>c.visibility==='visible').map(c=>{const r=reports.find(x=>x.id===c.id);if(c.test_should&&(r?.status==='ok'||r?.status==='error'))return `With ${c.description}:\n${r.status==='ok'?'(your tests all passed)':'(a test stopped here)'}`;const printed=(r?.output??'').replace(/\n$/,'');return `With ${c.description}:\n${[printed,r?.shown!=null?`Returned: ${r.shown}`:'',r?.status==='output_limit'?'(stopped: too much output)':r&&r.status!=='ok'?stopped[r.status]??'':''].filter(Boolean).join('\n')||'(nothing printed)'}`;}).join('\n\n');
 }
 const stages=['Discover','See it work','Predict','Try it','Your challenge'];
 /** What the last run showed: a check result, a run with no check, or a Python error explained (app/feedback.ts).
