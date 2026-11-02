@@ -146,7 +146,7 @@ A case can call a function the learner's program defined, instead of only readin
 | `returns.value` | What the function should return, as plain JSON (`null` is `None`), up to 10,000 characters |
 | `returns.tolerance` | How far a number may be from the expected one. **Required** when the expected value holds a number with a fraction; content loading fails otherwise. Refused when there is no number for it to apply to |
 | `expected` | Optional on a call: what the call should print. A call needs `expected`, `returns`, or both |
-| `visibility` | **A call must be visible.** Content loading refuses a hidden call (below) |
+| `visibility` | `visible` or `hidden`. A hidden call's arguments reach the browser, and its answer never does (below) |
 
 **What happens.** The worker runs the program as usual, with the case's replies, in a fresh namespace. It discards what the program printed so far, because a correct program may print other things first or call its own function. It then calls the function and reports what the call printed and returned. The per-case time limit and the output cap cover the program and the call together, and the worker is stopped the same way. `returned` is JSON text, sent only for a call that returned a value it can compare; the page also keeps Python's own display of the value, which stays in the browser.
 
@@ -174,7 +174,7 @@ A case can call a function the learner's program defined, instead of only readin
 
 Any function with a compatible signature passes, including one with defaults, `*args`, a `lambda` or a callable object. An error inside the function is an ordinary `execution_error`, with the line in the learner's code. A call case that reports `ok` with no usable `returned`, usually a page from before a content update, is `service_error`, as is a function-only status on an ordinary case.
 
-**Hidden calls are refused, for now.** A function runs in the browser, so a call's arguments have to reach the browser, and the server must never run learner code. The master run plan asks that hidden arguments never reach the browser, so a hidden call cannot exist. This leaves a gap: a learner can hard-code answers for the visible calls, and only hidden ordinary cases can catch that. Allowing hidden calls whose **arguments** reach the browser and whose **expected values** stay on the server would match what section 5 already accepts for hidden inputs. It is an owner decision, listed in handoff 29. The plan and the judge already keep the expected value of a case marked hidden on the server, and a test proves it, so the change would be to one validation rule.
+**Hidden calls (decision 28).** A function runs in the browser, so a hidden call's arguments reach the browser, in the plan, like a hidden case's inputs. Its expected return value and output never do. A failing hidden call is named by its description only, and the description may not quote its arguments or answer (content loading refuses it). See section 5 for the limit: a learner who reads the arguments could hard-code answers. This is practice evidence.
 
 ## 9. Allowed imports and seeded random (ENG-07)
 

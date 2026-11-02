@@ -402,9 +402,6 @@ def call_errors(challenge, case):
             return [f'{name} has returns but no call']
         return [f'{name} needs expected output'] if case.expected is None else []
     errors = []
-    # The worker has to call the function, so the arguments of a hidden call would reach the browser.
-    if case.visibility == 'hidden':
-        errors.append(f'{name}: a function-call case cannot be hidden, because its arguments would reach the browser')
     if case.expected is None and case.returns is None:
         errors.append(f'{name} needs expected output, returns, or both')
     if keyword.iskeyword(case.call.function):
@@ -446,9 +443,12 @@ def check_errors(challenge):
     for case in check.cases:
         errors += call_errors(challenge, case)
         if case.visibility == 'hidden':
-            secrets = [value.strip() for value in case.inputs + (case.expected or '').splitlines() if value.strip()]
+            # Decision 28: a hidden call's arguments do reach the browser, but the page must not show them.
+            call_values = [json.dumps(value) if not isinstance(value, str) else value for value in (case.call.args + list(case.call.kwargs.values()) if case.call else [])]
+            answer = [json.dumps(case.returns.value)] if case.returns and case.returns.value is not None else []
+            secrets = [value.strip() for value in case.inputs + call_values + answer + (case.expected or '').splitlines() if value.strip()]
             if any(value.casefold() in case.description.casefold() for value in secrets):
-                errors.append(f'{challenge.id} hidden case {case.id}: its description shows one of its inputs or expected lines')
+                errors.append(f'{challenge.id} hidden case {case.id}: its description shows one of its inputs, call values or expected lines')
     return errors
 
 

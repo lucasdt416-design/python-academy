@@ -1,0 +1,115 @@
+{
+  "id": "fixture.hidden-calls",
+  "version": 1,
+  "course": "fixture",
+  "unit": "fixture.u10",
+  "title": "TEST FIXTURE triple",
+  "concept": "Functions",
+  "description": "Test data.",
+  "badge": {
+    "id": "fixture.badge.hidden-calls",
+    "version": 1,
+    "title": "TEST FIXTURE badge",
+    "category": "practice"
+  },
+  "tasks": [
+    {
+      "id": "fixture.hidden-calls.discover",
+      "type": "discover",
+      "title": "Call a function",
+      "body": "Test data.",
+      "detail": "Test data."
+    },
+    {
+      "id": "fixture.hidden-calls.example",
+      "type": "example",
+      "code": "print(1)",
+      "output": "1",
+      "note": "Test data.",
+      "inputs": []
+    },
+    {
+      "id": "fixture.hidden-calls.predict",
+      "type": "predict",
+      "question": "Test data?",
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "answer": 0,
+      "why": "Test data."
+    },
+    {
+      "id": "fixture.hidden-calls.guided",
+      "type": "guided",
+      "prompt": "Test data."
+    },
+    {
+      "id": "fixture.hidden-calls.challenge",
+      "type": "challenge",
+      "prompt": "Write triple(n), which returns n times 3.",
+      "starter": "# Write triple\n",
+      "hints": [
+        "One.",
+        "Two.",
+        "Three."
+      ],
+      "error_hints": [
+        {
+          "tags": [
+            "fixture.hidden-calls.case.other"
+          ],
+          "text": "Use the value of n, not a fixed answer."
+        }
+      ],
+      "similar_example": {
+        "code": "print(2)",
+        "note": "Test data."
+      },
+      "other_ways": [
+        {
+          "code": "def triple(n):\n    return n + n + n",
+          "note": "Test data."
+        }
+      ],
+      "input_labels": [],
+      "check": {
+        "cases": [
+          {
+            "id": "small",
+            "description": "triple(2)",
+            "call": {
+              "function": "triple",
+              "args": [
+                2
+              ]
+            },
+            "returns": {
+              "value": 6
+            }
+          },
+          {
+            "id": "other",
+            "description": "another number you cannot see",
+            "visibility": "hidden",
+            "call": {
+              "function": "triple",
+              "args": [
+                57
+              ]
+            },
+            "returns": {
+              "value": 171
+            }
+          }
+        ],
+        "time_limit_ms": 3000
+      },
+      "validator": {
+        "id": "browser-tests",
+        "version": 1
+      },
+      "version": 1
+    }
+  ]
+}
