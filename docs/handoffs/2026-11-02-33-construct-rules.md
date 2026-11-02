@@ -3,7 +3,7 @@
 Date: 2026-11-02 (America/Toronto)  
 Written by: Claude Code (implementer), in a separate git worktree  
 For: the human maintainer, and ChatGPT or Claude chat (reviewer) without repository access  
-Status: **in_review**: one pull request (PR_NUMBER), documentation only, not merged. No code changes, and nothing decided.
+Status: **in_review**: one pull request (#38), documentation only, not merged. No code changes, and nothing decided.
 
 > **How to use this file:** upload it with `docs/plan/construct-rules.md`, `docs/plan/browser-checks.md` and handoffs 22 and 24. The pull request diff is the source of truth (`build.md` section 14).
 
@@ -29,7 +29,7 @@ when a lesson may use a rule is the right one.
 
 ## 1. Step 0
 
-`git fetch --all` and `gh pr list --state all`: #32 and #33 merged by the owner; #34, #35 and #36 open, plus the S02 PR. This PR is the fifth open, which is the cap, so the run stops after it. No proposal for this on any branch. Worktree `../python-academy-construct`; the main folder was not switched.
+`git fetch --all` and `gh pr list --state all`: #34 merged during the stage; #35 and #36 open, plus #37 (S02). No proposal for this on any branch. Worktree `../python-academy-construct`; the main folder was not switched.
 
 ## 2. Handoff record (build.md template)
 
@@ -79,7 +79,7 @@ Two slips in my first draft, found by re-reading it against the code: it said 14
 
 | Check | Method | Result |
 | --- | --- | --- |
-| Links and tables | The script from handoff 28 | DOCCHECK_RESULT |
+| Links and tables | The script from handoff 28 | **2 local links and 84 table rows, 0 problems** |
 | Claims about the code | Section 3's commands, and reading `content.py` and `browser_checks.py` at `59f8d0b` | All hold |
 
 **Suites:** not run, as plan section 1.8 allows for a documentation stage; CI runs them. **Mocks:** none. **Deliberate-break controls:** none. **What this does not prove:** section 5 of the proposal is a reading of lesson plans that are not written yet.
@@ -88,7 +88,7 @@ Two slips in my first draft, found by re-reading it against the code: it said 14
 
 - **Section 5's table is a judgement,** made before those lessons exist.
 - **The proposal has never been tried.** The first lesson that needs it may show a gap.
-- **The run log conflicts** are handled as described in the final report.
+- **The run log:** every open run branch carries an identical copy, so it should not conflict.
 
 ## 8. Live checks for you
 
@@ -106,12 +106,12 @@ Section 7 of `construct-rules.md` has five, each **recommended, not yet confirme
 | Where | What |
 | --- | --- |
 | Backlog | A row for construct rule IDs (handoffs 22 and 24 asked for one), `proposed`, pointing at the document |
-| Stage table | "33. Construct rules \| Naming proposal \| in_review (PR_NUMBER, handoff 33)" |
+| Stage table | "33. Construct rules \| Naming proposal \| in_review (#38, handoff 33)" |
 | Decision log | Replace "Construct rule IDs for browser checks" under "Open, awaiting the owner" with a link to the document's questions |
 
 ## 11. Next concrete action
 
-The run has stopped at the open-PR cap. Answer the questions, merge what you accept, tick boxes in Part 2, then run the same prompt again.
+Answer the questions, and merge this if you accept the document as a record of the proposal.
 
 ## 12. Removing the worktree safely
 
