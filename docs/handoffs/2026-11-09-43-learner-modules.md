@@ -22,9 +22,9 @@ lessons without learner files. Say whether "tell a learner's module by where it 
 | Field | Value |
 | --- | --- |
 | Stage | ENG-08b (backlog), before unit 7. Owner decision 30: its own stage |
-| Base | `main`, at `34527cb`, after #40 (ENG-08) merged |
+| Base | `main`, at `34527cb`, after #40 (ENG-08) merged; merged again after #46 and #50 merged |
 | Part 2 boxes relied on | **None** |
-| Merge order | **After #46 and #50.** Text conflicts with both (section 8) |
+| Merge order | #46 and #50 are merged, and this branch is updated. No other PR needs to merge first |
 
 ## 1. Step 0
 
@@ -109,7 +109,7 @@ lessons without learner files. Say whether "tell a learner's module by where it 
 
 ## 8. Merging with #46 and #50
 
-A trial merge shows text conflicts: with #46 in `case_runner.py`, `browser-checks.md` and `check-runner.js`, and with #50 in `adventure.tsx`. All are lines both PRs change. **Merge #46 and #50 first, then tell me,** and I'll update this PR. The run log here is #50's copy with one entry added, so it merges cleanly.
+Both merged first, on 2026-11-09, so I merged `main` into this branch. Five files conflicted, all lines both sides changed, and I kept both: the worker gets each case's reference (ENG-10) and the learner's files; the editor keeps #50's instruction about Esc; `browser-checks.md` has section 11 (ENG-10, now marked built) and then section 12. After the merge: backend **894 passed, 11 skipped** on SQLite; types and build OK; **89 passed** in the learner-files, reference, keyboard, accessibility, file, unit 1 and allowed-imports specs. The full browser suite runs in CI.
 
 ## 9. Live checks for you
 
@@ -130,7 +130,7 @@ None until a lesson uses learner files. After deploying, check that a unit 2 or 
 
 ## 12. Next concrete action
 
-Merge #46 and #50, then tell me. I'll update this PR, and it can be merged once CI is green.
+Merge this PR once CI is green.
 
 ## 13. Removing the worktree safely
 
