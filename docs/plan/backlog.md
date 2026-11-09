@@ -47,10 +47,23 @@ Decision numbers continue the sequence in `docs/plan/course-catalog.md` section 
 | 32. EDU-03 part 2 | Unit 3 lessons 4 and 5; unit lessons complete, with no unit project and no unit check | in_review: merged (PR #37, handoff 32); live check owed (see below) |
 | 33. Construct rules | Naming proposal | in_review: merged (PR #38, handoff 33; documentation only) |
 | 34. ENG-07 | Allowed imports and seeded random | in_review: merged (PR #39, handoff 34); live check owed (see below) |
-| 35. ENG-08 | File fixtures; each check case starts clean | in_review (PR #40, handoff 35) |
+| 35. ENG-08 | File fixtures; each check case starts clean | in_review: merged (PR #40, handoff 35); live check owed (see below) |
 | 36. UI-01 | Two cosmetic fixes | in_review: merged (PR #41, handoff 36); live check owed (see below) |
 | 37. SEC-08 | CI actions pinned to commits | in_review: merged (PR #42, handoff 37) |
-| 38. DOCS-SYNC | This sync, with the owner's answers of 2026-11-02 | in_review (handoff 38) |
+| 38. DOCS-SYNC | Docs sync, with the owner's answers of 2026-11-02 | in_review: merged (PR #43, handoff 38; documentation only) |
+| 39. Dependabot | GitHub Actions only, monthly (decision 31) | in_review: merged (PR #44, handoff 39); its first PRs, #47 to #49, are merged too |
+| 40. Hidden calls | A hidden case may call a function; its arguments reach the browser, its result never does (decision 28) | in_review: merged (PR #45, handoff 40); no lesson uses it yet |
+| 41. ENG-10 | Learner tests against correct and broken reference programs | in_review: merged (PR #46, handoff 41); no lesson uses it yet |
+| 42. QA-01a, QA-03 | Keyboard fix in the editor (Esc, then Tab), keyboard-only tests, axe audit, screen reader sheet, Firefox and WebKit report | in_review: merged (PR #50, handoff 42); live check owed (see below) |
+| 43. ENG-08b | The learner's own files; no file can stand in for a Python module (decision 30) | in_review: merged (PR #51, handoff 43); no lesson uses it yet |
+| 44. SEC-05 | Pyodide pinned, every file checked against a SHA-256 hash | in_review (PR #52, handoff 44) |
+| 45. SEC-06 | Invitation tokens after `#`, out of addresses and logs | in_review (PR #53, handoff 45) |
+| 46. ENG-11 | Rate-limit counters in the database (migration 0010) | in_review (PR #54, handoff 46) |
+| 47. QA-03 follow-up | Tests that failed only in Firefox or WebKit | in_review (PR #55, handoff 47) |
+| 48. EDU-01 | Placement questions and tasks for unit 1 | in_review (PR #56, handoff 48; documentation only) |
+| 49. EDU-10 | Video scripts for unit 1 | in_review (PR #57, handoff 49; documentation only) |
+| 50. DOC-03 | Book and course outline, expanded | in_review (PR #58, handoff 50; documentation only) |
+| 51. DOCS-SYNC | This sync | in_review (handoff 51) |
 
 ### Live checks still owed
 
@@ -88,6 +101,10 @@ Merged work whose live check has not been recorded yet. Record the result here (
 - **(m) Stage 32, unit 3 part 2, PR #37:** handoff 32 section 9.
 - **(n) Stage 34, allowed imports, PR #39:** handoff 34 section 8.
 - **(o) Stage 36, cosmetic fixes, PR #41:** handoff 36 section 8.
+- **(p) Stage 35, file fixtures, PR #40:** handoff 35 section 9: units 2 and 3 work as before, with no CSP reports.
+- **(q) Stage 39, Dependabot, PR #44:** handoff 39 section 8. Seen: PRs #47 to #49 appeared and were merged on 2026-11-02.
+- **(r) Stage 42, keyboard and accessibility, PR #50:** handoff 42 section 8: in a challenge, Tab adds four spaces, then Esc and Tab moves to "Run & check challenge".
+- **(s) Stage 43, learner files, PR #51:** handoff 43 section 9: units 2 and 3 work as before, with no CSP reports.
 
 ## 2. Suggested order
 
@@ -156,12 +173,12 @@ Recorded in the plan as section 12 of `docs/plan/course-catalog.md`.
 | SEC-04 | Now | Security headers: Content-Security-Policy and HSTS on the main app. Stage 6 adds HSTS, `frame-ancestors 'none'` (enforced) and the page CSP in Report-Only mode; the item is verified once the CSP is switched to enforce mode after a clean live check | None | in_review: headers live and checked 2026-10-25 (handoff 06 section 13.7); enforce mode not yet switched |
 | SEC-10 | Now | Check whether any Google account can sign in today (`independent-learners.md` section 6.1); if so, record it and bring ID-01c forward | Owner check | proposed |
 | SEC-11 | Next | Keep Google's one-time sign-in code out of the API access log (`independent-learners.md` section 5.1): turn off uvicorn's access log or filter query strings, and confirm what Render's own request logs keep. Related to SEC-06 (invitation tokens) | None | proposed |
-| SEC-05 | Later | Pyodide and CDN integrity: self-host or pin with integrity checks where possible | None | proposed |
-| SEC-06 | Later | Keep invitation tokens out of URLs and request logs | None | proposed |
+| SEC-05 | Later | Pyodide and CDN integrity: self-host or pin with integrity checks where possible. Pinned with SHA-256 checks of every file, without self-hosting (PR #52, handoff 44) | None | in_review |
+| SEC-06 | Later | Keep invitation tokens out of URLs and request logs. Links carry the token after `#`; older links still work (PR #53, handoff 45) | None | in_review |
 | SEC-07 | Next | Branch protection on `main` requiring passing checks (owner action; may need a paid GitHub plan, otherwise merge only on all-green) | Owner | proposed |
 | SEC-08 | Later | Pin CI actions to commit SHAs (merged, PR #42, handoff 37); routine updates by Dependabot for GitHub Actions only, monthly (decision 31) | None | in_review |
 | SEC-09 | Next | Replace `'unsafe-inline'` in the page CSP's `script-src` with per-request nonces (a Next.js proxy file and dynamic rendering), so injected inline script is blocked. Stage 8: `frontend/proxy.ts` makes a nonce per page request; every page now renders per request; the nonce policy is sent in Report-Only mode next to handoff 06's policy; enforcing it is one line (handoff 08 section 5). Proposed as a dependency of the admin inbox (FB-06), owner to confirm | SEC-04 | in_review: merged (PR #14), Report-Only; live check owed (handoff 08 section 10); enforce after a week of clean consoles |
-| ENG-11 | — | Proposed by the master run: Move rate-limit counters from memory to the database, with behaviour identical to today; needed before more than one API instance | Migration | proposed |
+| ENG-11 | — | Proposed by the master run: Move rate-limit counters from memory to the database, with behaviour identical to today; needed before more than one API instance. Built with migration 0010, as decision 29 keeps 0009 for S04; feedback's per-tester counters stay in memory (PR #54, handoff 46) | Migration | in_review |
 | OPS-01 | Before broad rollout | Confirm staging, recovery, privacy, quotas and alerts (umbrella item; OPS-02 to OPS-04 are parts of it) | OPS-02, OPS-03, OPS-04 | proposed |
 | OPS-02 | Next | Part of OPS-01: confirm backups and a restore drill; add staging | None | proposed |
 | OPS-03 | Later | Part of OPS-01: operational alerts | OPS-02 | proposed |
@@ -174,6 +191,7 @@ Recorded in the plan as section 12 of `docs/plan/course-catalog.md`.
 | --- | --- | --- | --- | --- |
 | DOC-01 | Next | Every handoff includes "Decisions and why", "Bugs found and how they were fixed" and "How it was tested" (`build.md` section 14) | None | in_review: merged (PR #18, handoff 14) |
 | DOC-02 | Later | Decision log (`docs/plan/decision-log.md`), kept up to date each stage, and a book and course built from it (`docs/plan/engineering-book-outline.md`) | DOC-01 | in_review: merged (PR #18, handoff 14): log backfilled and outline proposed; book and course not written |
+| DOC-03 | Later | Proposed by the master run (stage WE11): expand the book and course outline from the decision log. Expanded (PR #58, handoff 50); no chapter written | DOC-02 | in_review |
 | README-01 | Next | README with banner, screenshots, feature table and diagram, each claim checked against the code. Kept up to date by each docs sync | None | in_review: merged (PR #28, handoff 23) |
 
 ### Public website (handoff 13)
@@ -216,16 +234,16 @@ Recorded in the plan as section 12 of `docs/plan/course-catalog.md`.
 | ASSESS-03 | Next | Unit check interface (cards, retake with new variants, "Unable to assess" handling) | ASSESS-02 | proposed |
 | ASSESS-04 | Next | Unit check for unit 1 using the existing bounded checker; optional for learners who already completed unit 1, and earns the badge (decision 22) | ASSESS-02 | proposed |
 | ASSESS-05 | Next | Award the unit's skill badge (no XP) from the check through the existing ledgers; the unit project keeps its 200 XP (decision 16) | ASSESS-03 | proposed |
-| ENG-06 | — | Function-call checks: an additive extension of the ENG-03 contract, so a check can call a function the learner defined. Merged (PR #34, handoff 29). Hidden calls are refused until the follow-up for decision 28 | ENG-03 | in_review |
+| ENG-06 | — | Function-call checks: an additive extension of the ENG-03 contract, so a check can call a function the learner defined. Merged (PR #34, handoff 29). Hidden calls, under decision 28, merged too (PR #45, handoff 40) | ENG-03 | in_review |
 | ENG-07 | — | Allowed imports and seeded `random` (a security stage). Merged (PR #39, handoff 34); live check pending | None | in_review |
-| ENG-08 | — | File fixtures in Pyodide's in-memory filesystem (PR #40, handoff 35). A learner's own second file is ENG-08b | None | in_review |
-| ENG-08b | Before unit 7 | A learner's own second file, for `py.own-modules`. A file named `random.py` or `os.py` must not shadow or get past the import guard, and the guard applies inside learner modules too (decision 30) | ENG-07, ENG-08 | proposed |
+| ENG-08 | — | File fixtures in Pyodide's in-memory filesystem. Merged (PR #40, handoff 35). A learner's own second file is ENG-08b | None | in_review |
+| ENG-08b | Before unit 7 | A learner's own second file, for `py.own-modules`. A file named `random.py` or `os.py` must not shadow or get past the import guard, and the guard applies inside learner modules too (decision 30). Merged (PR #51, handoff 43); it also closed a way round the guard (a program writing `datetime.py`) | ENG-07, ENG-08 | in_review |
 | ENG-09 | — | Proposed by the master run: Rubric, self-review and local-tutorial task types, with evidence labelled as self-reported | PROJ-01 | proposed |
-| ENG-10 | — | Run learner tests against correct and broken reference implementations, in the worker. Broken references may reach the browser, and a correct one may where it isn't the lesson's answer (decision 28) | ENG-06 | proposed |
+| ENG-10 | — | Run learner tests against correct and broken reference implementations, in the worker. Broken references may reach the browser, and a correct one may where it isn't the lesson's answer (decision 28). Merged (PR #46, handoff 41) | ENG-06 | in_review |
 | PROJ-01 | — | Proposed by the master run: Unit project mechanism: three versions and one award per unit (200 XP) | Decision 15 | proposed |
 | ENG-05 | Later | Optional AI helper, "Explain my error" (`docs/plan/ai-helper.md`): server-side key only, off by default, per-user and global daily caps, a hard provider spending limit, never grades or writes solutions. Design note only; not to be built until the owner decides section 9 of that note (cost, provider terms for 13 to 17 year olds, consent) | ENG-04, owner decisions | deferred |
-| EDU-01 | Next | Write placement question and task examples for the current four skills (Issue #4) | None | proposed |
-| EDU-02 | After design | Pilot placement (the optional skills check) on one skill before all four | EDU-01, ENG-03 | proposed |
+| EDU-01 | Next | Write placement question and task examples for the current four skills (Issue #4). Proposed in `placement.md` (PR #56, handoff 48) | None | in_review |
+| EDU-02 | After design | Pilot placement (the optional skills check) on one skill before all four. Waits for EDU-01's review and the placement storage decision (`retention.md`) | EDU-01, ENG-03 | proposed |
 
 ### Curriculum
 
@@ -241,7 +259,7 @@ Recorded in the plan as section 12 of `docs/plan/course-catalog.md`.
 | TOOL-01 | Alongside projects | Draft "Git versus GitHub" and "first commit" lessons with a safe practice repo | Python unit 1 | proposed |
 | TOOL-02 | Later | The full Git and GitHub Essentials course, including a real first pull request | TOOL-01 | proposed |
 | TOOL-03 | Later | "Working with AI" course (`ai`): verifying AI answers, asking well, setting up Claude and Claude Code in a practice repository, AI with GitHub, connecting tools safely, handoffs (`teaching-design.md` section 6.6). Before writing the setup units: check each provider's minimum age and cost, and keep a no-cost path | TOOL-01, PLAN-03 | proposed |
-| EDU-10 | Later | Video scripts for lessons: short (under about 6 minutes), one idea each, pause-and-predict moments, captions and transcripts, lessons still work without them (`teaching-design.md` section 7). Scripts only; recording and hosting are separate decisions | PLAN-03 | proposed |
+| EDU-10 | Later | Video scripts for lessons: short (under about 6 minutes), one idea each, pause-and-predict moments, captions and transcripts, lessons still work without them (`teaching-design.md` section 7). Scripts only; recording and hosting are separate decisions Unit 1 scripts drafted (PR #57, handoff 49). | PLAN-03 | in_review |
 | WEB-01 | Later | Design the website project track and isolated previews | Earlier courses | proposed |
 | DATA-01 | Later | Design the SQL runtime and first investigation project | Earlier courses | proposed |
 | NODE-01 | Later | Plan the Node.js/SQL capstone | WEB-01, DATA-01 | proposed |
@@ -264,9 +282,9 @@ Recorded in the plan as section 12 of `docs/plan/course-catalog.md`.
 | ID-01d | Next | Independent enrolment, 16 or older (stage D) | ID-01a, ID-01b, ID-01c | proposed |
 | ID-01e | Next | Invited group first, then publishing the Google app and, if needed, a custom domain (stage F) | ID-01a to ID-01d, ASSESS-06, OPS-02, SEC-09, SEC-11 | proposed |
 | ID-01f | Later | Level-based recommendations (stage G) | ASSESS-06 | proposed |
-| QA-01 | Before broader use | Audit core lesson accessibility and grading reports: real screen reader, Safari and Firefox, reproducible defects and retest evidence | None | proposed |
+| QA-01 | Before broader use | Audit core lesson accessibility and grading reports: real screen reader, Safari and Firefox, reproducible defects and retest evidence Part a built: keyboard-only tests, an axe audit, a manual screen reader sheet (PR #50, handoff 42). The manual checks need people and are not run. | None | in_review |
 | QA-02 | Before broader use | Part of QA-01: report on incorrect grading rejections (uses feedback data) | FB-06 | proposed |
-| QA-03 | — | Proposed by the master run: Cross-browser CI (Firefox, WebKit), non-blocking first; increases CI time | None | proposed |
+| QA-03 | — | Proposed by the master run: Cross-browser CI (Firefox, WebKit), non-blocking first; increases CI time Built as a non-blocking weekly report (PR #50, handoff 42); test-only fixes after its first run (PR #55, handoff 47). | None | in_review |
 
 ## 6. Decisions
 
