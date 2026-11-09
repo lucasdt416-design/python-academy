@@ -102,7 +102,7 @@ keyboard, that the audit cannot pass by accident, and that the sheet would catch
 
 - **axe finds only some problems,** roughly a third of real ones by common estimates. It is no substitute for the manual sheet.
 - **Not audited:** units 2 and 3 lesson pages, the testers page and the parent pages. They can be added the same way.
-- **The cross-browser workflow has run only on this PR.** Expect failures at first, especially in WebKit with Pyodide. That is what non-blocking is for: read the report, then decide what to fix.
+- **The cross-browser report's first run, on this PR:** Firefox 19 failed and 288 passed, WebKit 21 failed and 286 passed. 18 in each were the audit itself: in those browsers, adding axe as a script trips the page's Report-Only policy. Fixed by `test.use({bypassCSP: true})` in the audit only, and checked: in Firefox locally, 18 passed with it and 18 failed without it. **Still failing:** "the app refuses to be shown inside a frame" in both, and in WebKit the unit 1 snapshot and one unit 3 test. Not investigated yet; they are for the weekly report to track. The next run is weekly, or by hand once merged.
 - **The manual sheet has not been run.**
 
 ## 8. Live checks for you

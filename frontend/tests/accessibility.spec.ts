@@ -9,6 +9,11 @@ import goals from '../../backend/tests/fixtures/goals_v1.json';
  * of real problems, so this sits beside the keyboard tests (keyboard.spec.ts) and the manual sheet
  * for real screen readers (docs/plan/screen-reader-test-sheet.md), never instead of them. */
 
+// axe is added to the page as a script. In Firefox and WebKit that trips the page's Report-Only policy
+// (SEC-04), and the script is reported as refused, so these tests ask the browser to ignore the policy.
+// They check the page, not the policy, which academy.spec.ts and the other specs check in every browser.
+test.use({bypassCSP: true});
+
 const AXE = path.join(__dirname, '..', 'node_modules', 'axe-core', 'axe.min.js');
 const TAGS = ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'];
 const WIDTHS = [{name: 'desktop', width: 1280, height: 900}, {name: 'phone', width: 375, height: 812}];
