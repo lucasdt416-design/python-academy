@@ -229,10 +229,18 @@ test('the lesson page runs Python with the security headers on',async({page})=>{
  await expect(page.locator('.execution-output')).toHaveText('A forest.\nA dragon!',{timeout:25000});await expect(page.getByText('Story spark badge earned!',{exact:true})).toBeVisible();
 });
 test('the app refuses to be shown inside a frame',async({page})=>{
- // frame-ancestors 'none' blocks every framing page, even our own origin (Chromium blocks a fake outside site earlier, for other reasons).
- await page.route('**/framing-test',route=>route.fulfill({contentType:'text/html',body:'<iframe src="/"></iframe>'}));
- const refused=page.waitForEvent('console',m=>m.text().includes(`violates the following Content Security Policy directive: "frame-ancestors 'none'"`));
- await page.goto('/framing-test');await refused;await expect.poll(()=>page.frames()[1]?.url()).toMatch(/^chrome-error:/);
+ // frame-ancestors 'none' blocks every framing page, even our own origin. Each browser shows a refused
+ // frame its own way (Chromium a chrome-error page, Firefox and WebKit an empty one), so this checks what
+ // the frame holds. The control frame, a page without the header, proves the test can see inside one.
+ await mockApi(page,null);
+ await page.route('**/framed-control',route=>route.fulfill({contentType:'text/html',body:'<p>control page</p>'}));
+ await page.route('**/framing-test',route=>route.fulfill({contentType:'text/html',body:'<iframe id="app" src="/"></iframe><iframe id="control" src="/framed-control"></iframe>'}));
+ await page.goto('/framing-test');
+ const inside=(id:string)=>page.frameLocator('#'+id).locator('body').innerText({timeout:2000}).catch(()=>'');
+ await expect.poll(()=>inside('control')).toContain('control page');
+ await page.waitForTimeout(1500);
+ expect(await inside('app')).not.toContain('Python');
+ expect((await page.request.get('/')).headers()['content-security-policy']).toContain("frame-ancestors 'none'");
 });
 test('rate-limited checks explain the wait and keep the draft',async({page})=>{
  await mockApi(page,null);await page.route('**/api/check',route=>route.fulfill({status:429,headers:{'Retry-After':'42'},contentType:'application/json',body:JSON.stringify({detail:'Too many checks for now. Please wait 42 seconds and try again. Your code is unchanged.'})}));

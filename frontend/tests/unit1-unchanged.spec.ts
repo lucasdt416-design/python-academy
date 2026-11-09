@@ -20,7 +20,11 @@ async function mockApi(page: Page) {
   await route.fulfill({contentType: 'application/json', body: JSON.stringify(body)});
  });
 }
+// WebKit reports a <progress> bar as two extra blank lines, which Chromium does not, so runs of blank
+// lines count as one, on the page and in the snapshot. Every line of text must still match exactly.
+const lines = (value: string) => value.replace(/\n{3,}/g, '\n\n');
 const text = (page: Page) => page.locator('section.adventure').innerText();
+const normal = (texts: Record<string, string>) => Object.fromEntries(Object.entries(texts).map(([key, value]) => [key, lines(value)]));
 
 test('every unit 1 card, hint and result reads exactly as before UI-05', async ({page}) => {
  test.setTimeout(300000);
@@ -48,5 +52,5 @@ test('every unit 1 card, hint and result reads exactly as before UI-05', async (
   seen[`${lesson.id} try it result`] = await page.locator('.editor-panel').innerText();
  }
  if (WRITE) fs.writeFileSync(SNAPSHOT, JSON.stringify(seen, null, 1) + '\n');
- expect(seen).toEqual(JSON.parse(fs.readFileSync(SNAPSHOT, 'utf8')));
+ expect(normal(seen)).toEqual(normal(JSON.parse(fs.readFileSync(SNAPSHOT, 'utf8'))));
 });
