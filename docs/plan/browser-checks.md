@@ -229,7 +229,7 @@ The learner's program is a set of tests, usually `assert` lines. Each case loads
 
 ## 12. The learner's own files (ENG-08b)
 
-Status: **in review** (handoff 43).
+Status: **built** (#51, handoff 43).
 
 A "Try it" card or a challenge can give the learner up to 3 files of their own, such as `helpers.py`, beside the program. Each has a tab above the editor, and the program imports it by name.
 
@@ -244,3 +244,19 @@ A "Try it" card or a challenge can give the learner up to 3 files of their own, 
 | Errors | An error inside a learner's file is reported at the program's line that called it, and "Go to line" opens `main.py` |
 
 **Limits.** Construct rules (`require`, `forbid`) see only the program. The guard is still a guide, not a sandbox (section 9): `__import__("os", vars(random))` from a learner's file still gets past it, as `random._os` does. No real lesson uses learner files yet.
+
+## 13. Pyodide pinned and checked (SEC-05)
+
+Status: **in review** (handoff 44).
+
+Pyodide still comes from the jsDelivr CDN, at version 0.27.7. **Every file it starts from is checked against a SHA-256 hash in `python-worker.js` before it is used**: `pyodide.js`, `pyodide.asm.js`, `pyodide.asm.wasm`, `python_stdlib.zip` and `pyodide-lock.json`. The hashes came from the CDN and match the official npm package `pyodide@0.27.7`, whose own integrity hash matches the npm registry.
+
+| What | How |
+| --- | --- |
+| Checking | The worker fetches all five files first and checks each one. Only then does Pyodide start, from those bytes. **A changed or missing file means Python is unavailable,** in Try it and in checks, and nothing from it runs |
+| Scripts | The two scripts are run from their checked bytes. `importScripts()` is no longer used, and the worker's policy no longer allows scripts from the CDN: `script-src 'unsafe-eval'` only. Connections still go only to the CDN |
+| Other files | Anything else Pyodide asks the CDN for while it starts is refused. Today it asks for exactly these five (tested) |
+| After loading | The worker drops its own copy of `fetch`, as well as removing the global ones, so learner code can't reach the network that way |
+| Updating Pyodide | Change the version and all five hashes together, from the npm package, and run `pyodide-integrity.spec.ts`, which checks the hashes against the CDN |
+
+**Why not self-host?** It would need the npm package as a dependency, and about 14 MB of files served by the app. Checked hashes give the same guarantee that the files are the ones reviewed, without either. Self-hosting is still an option if the CDN becomes unreliable.

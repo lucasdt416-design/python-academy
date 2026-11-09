@@ -1,5 +1,56 @@
 /* Dedicated worker; learner code runs locally, never on the application server. */
-importScripts('https://cdn.jsdelivr.net/pyodide/v0.27.7/full/pyodide.js');
+// SEC-05, docs/plan/browser-checks.md section 13. Pyodide comes from the CDN, pinned to one version, and
+// every file it starts from is checked against these SHA-256 hashes before it is used. A file that has
+// changed is never run: the worker reports that Python is unavailable. To move to another version,
+// change PYODIDE and every hash together, from the npm package as handoff 44 describes;
+// frontend/tests/pyodide-integrity.spec.ts checks the hashes against the CDN.
+const PYODIDE = 'https://cdn.jsdelivr.net/pyodide/v0.27.7/full/';
+const PYODIDE_SHA256 = {
+ 'pyodide.js': 'b4cb23a53aba19c221659b9fb40a2f18281d685691dc06647fb0afd0681baf98',
+ 'pyodide.asm.js': '6b4c90de5b7172873f04f21884d0e9d2274e305fe32116558fe3e4fbe3618d51',
+ 'pyodide.asm.wasm': 'a50dd1843f805a0b7c45b61037ee0d7b26dfe85efe0e18ef95a34ad24e401f5f',
+ 'python_stdlib.zip': '16611534726e5d8ac2bd8f926410b2dcb8d6f49aa24913463533b457a2115c16',
+ 'pyodide-lock.json': '9c45b916001a750f4102fc287494f3eab215909c7535c626a20db80fd6333e2c',
+};
+// Kept only until Pyodide has loaded: noNetwork() drops it, so learner code can't find it later.
+let realFetch = self.fetch.bind(self);
+/** One Pyodide file, only if its bytes match the hash above. */
+async function verified(name) {
+ const response = await realFetch(PYODIDE + name, {credentials: 'omit'});
+ if (!response.ok) throw new Error(`${name} could not load`);
+ const bytes = await response.arrayBuffer();
+ const hex = [...new Uint8Array(await crypto.subtle.digest('SHA-256', bytes))].map(b => b.toString(16).padStart(2, '0')).join('');
+ if (hex !== PYODIDE_SHA256[name]) throw new Error(`${name} does not match its pinned hash`);
+ return bytes;
+}
+// Every file is fetched and checked before Pyodide starts, so a changed one stops it at once (a changed
+// .wasm would otherwise leave Pyodide waiting for ever). The two scripts are run from checked bytes
+// instead of importScripts(), which can't check anything: the worker's policy allows 'unsafe-eval' for
+// Pyodide already, and no longer allows scripts from the CDN at all. Pyodide sees _createPyodideModule
+// is defined, and doesn't load pyodide.asm.js again.
+const checked = Promise.all(Object.keys(PYODIDE_SHA256).map(async name => [name, await verified(name)])).then(Object.fromEntries);
+checked.catch(() => {});
+let started = null;
+function runScripts(files) {
+ if (!started) {
+  const decoder = new TextDecoder();
+  (0, eval)(decoder.decode(files['pyodide.js']));
+  (0, eval)(decoder.decode(files['pyodide.asm.js']));
+  started = true;
+ }
+}
+/** loadPyodide(), from the checked files only. Anything else it asks the CDN for is refused. */
+async function startPyodide(options = {}) {
+ const files = await checked;
+ runScripts(files);
+ self.fetch = async url => {
+  const name = String(url).startsWith(PYODIDE) ? String(url).slice(PYODIDE.length) : null;
+  if (!name || !(name in files)) throw new Error(`Pyodide asked for ${url}, which is not pinned`);
+  return new Response(files[name].slice(0), {headers: {'Content-Type': name.endsWith('.wasm') ? 'application/wasm' : 'application/octet-stream'}});
+ };
+ try { return await loadPyodide({indexURL: PYODIDE, ...options}); }
+ finally { self.fetch = realFetch; }
+}
 // ENG-07, docs/plan/browser-checks.md section 9. The only list of modules a learner's program may import.
 // To add one, say why in a handoff and check what it exposes: this list is also what stops a learner
 // reaching os, js or pyodide by accident.
@@ -103,8 +154,9 @@ async function ownFiles(py, modules) {
  await py.runPythonAsync('__academy_take_own(__academy_own_json)\n__academy_forget()', {filename: '<academy>'});
 }
 // No network for learner code. Called once Pyodide has loaded, so nothing else needs these. The
-// worker's Content-Security-Policy also only allows connections to the Pyodide CDN.
+// worker's Content-Security-Policy also only allows connections to the Pyodide CDN, and no scripts from it.
 function noNetwork() {
+ realFetch = null;
  for (const name of ['fetch', 'XMLHttpRequest', 'WebSocket', 'EventSource', 'importScripts', 'caches']) {
   try { Object.defineProperty(self, name, {value: undefined, configurable: false}); } catch { self[name] = undefined; }
  }
@@ -114,7 +166,7 @@ self.onmessage = async ({data}) => {
  let output = '', capped = false;
  try {
   // Python reports the stop as "OSError: [Errno 29] I/O error", so the flag says why it happened.
-  const py = await loadPyodide({stdout:s=>{output+=s+'\n';if(output.length>20000){capped=true;throw Error('Output exceeded 20,000 characters.');}}});
+  const py = await startPyodide({stdout:s=>{output+=s+'\n';if(output.length>20000){capped=true;throw Error('Output exceeded 20,000 characters.');}}});
   noNetwork();
   await guardImports(py);
   freshFiles(py, {...data.files, ...data.modules});
@@ -192,7 +244,7 @@ async function runCases({code, cases, outputLimit, modules}) {
  const given = new Map(cases.map(c => [c.id, c.files]));
  const references = new Map(cases.map(c => [c.id, c.reference]));
  let py;
- try { py = await loadPyodide(); } catch { self.postMessage({type:'unavailable'}); return; }
+ try { py = await startPyodide(); } catch { self.postMessage({type:'unavailable'}); return; }
  noNetwork();
  let output = '', capped = false;
  // write (not batched) also delivers a last line that has no newline.

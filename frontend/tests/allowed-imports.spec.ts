@@ -153,5 +153,6 @@ test('Try it is not seeded, so a learner sees different numbers', async ({page})
 
 test('the worker\'s Content-Security-Policy is unchanged', async ({request}) => {
  const answer = await request.get('/python-worker.js');
- expect(answer.headers()['content-security-policy']).toBe("default-src 'none'; script-src 'unsafe-eval' https://cdn.jsdelivr.net; connect-src https://cdn.jsdelivr.net");
+ // SEC-05 removed the CDN from script-src: Pyodide's scripts are checked and run from their bytes.
+ expect(answer.headers()['content-security-policy']).toBe("default-src 'none'; script-src 'unsafe-eval'; connect-src https://cdn.jsdelivr.net");
 });
