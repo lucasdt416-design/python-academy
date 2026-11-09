@@ -977,7 +977,7 @@ Each handoff holds its own decisions, bugs and tests. What later readers will wa
 
 ## Master run, third batch (handoffs 38 to 50)
 
-Each handoff holds its own decisions, bugs and tests. Handoffs 44 to 50 are on pull requests still open when this was written (#52 to #58).
+Each handoff holds its own decisions, bugs and tests. Handoffs 44 to 50 were on pull requests still open when this was written (#52 to #58); all were merged on 2026-11-09.
 
 | Stage | What was learned |
 | --- | --- |
@@ -997,9 +997,20 @@ Each handoff holds its own decisions, bugs and tests. Handoffs 44 to 50 are on p
 
 **Local test runs** on the owner's Mac were unreliable during this batch: 25, then 33, timing-type failures in full browser runs, each passing on rerun, with the same commit clean in CI (handoff 35 section 8). Since then, the full browser suite has been left to CI.
 
+## Master run, fourth batch (handoffs 51 to 54)
+
+Each handoff holds its own decisions, bugs and tests.
+
+| Stage | What was learned |
+| --- | --- |
+| Docs sync (51) | One identical run log on every open branch lets them merge in any order |
+| Visual redesign (52) | **The challenge ticket shows only what the API already sends:** visible cases with their expected output, hidden ones as a count. A doctored plan proved the page would not show a hidden output even if one arrived. The page policy's `img-src 'self'` blocked the prototype's `data:` texture, so it became a file. A hover transition on every button broke the rule that the hint nudge never animates, and an existing test caught it. Unit 1's snapshot was re-recorded; only page chrome changed |
+| History scan (53) | The repository went public with no secret in its history. What is public: authors' Gmail addresses in commit metadata, and Render resource IDs, which are not credentials. A scanner can run from a checked release archive without adding a dependency |
+| Docs sync (54) | SITE-03 rescoped to what the redesign left; SITE-02 left as questions |
+
 ## Open, awaiting the owner
 
-Nothing in this table is decided. Each recommendation is the implementer's or the planning chat's, **recommended, not yet confirmed**. The master run's Part 2 boxes were all empty on 2026-11-02, so none of these was answered there.
+Nothing in this table is decided. Each recommendation is the implementer's or the planning chat's, **recommended, not yet confirmed**. The master run's Part 2 boxes were all empty on 2026-11-02 and still were on 2026-11-09, so none of these was answered there.
 
 | Question | From | Recommendation |
 | --- | --- | --- |
@@ -1035,6 +1046,14 @@ Nothing in this table is decided. Each recommendation is the implementer's or th
 | Later units show the catalog title; API failure shows unit 1's alert; "send learner code" read as "send Python's message" | Handoff 22 | No recommendation recorded |
 | `int(input())` handed over early; `ten` taught but not tested; fix-the-bug through the predict and Try it cards | Handoff 24 | No recommendation recorded |
 | README: is "one grade 9 student" right; licence; stack screenshots on a phone; old facts in a collapsible section | Handoff 23 | No recommendation recorded |
+| 1. Lesson stage names: switch "See it work" and "Your challenge" to the prototype's "Worked example" and "Challenge"? | Handoff 52, question 1 | Yes, in a small follow-up that also updates the lesson tests |
+| 2. Code text inside lesson pictures, against `site-design.md` section 2's "no text inside images" | Handoff 52, question 2 | Yes for code, never sentences; then update `site-design.md` (also its "soft gradients", as the pictures are flat) |
+| 3. Parents' view: keep "how many of their attempts passed", or list each attempt? | Handoff 52, question 3 | Keep the count |
+| Is SITE-02, a separate public story site, still wanted now that the signed-out home works as a landing page? If so, does it share the product's stylesheet, and do box B-W1's seven points still hold? | Handoff 52 section 7 | No recommendation; the owner decides |
+| What is left of SITE-03: course emblems, a lesson celebration, new README screenshots? | Handoff 52 section 7; handoff 54 | Those three, as one small visual PR |
+| Commit emails: use GitHub's no-reply address for future commits | Handoff 53 | Yes |
+| Keep the Render resource IDs in `DEPLOYMENT.md` | Handoff 53 | Keep; they are not credentials |
+| Add a gitleaks scan to CI (a new pinned action or binary, so it needs a yes) | Handoff 53 | Yes, pinned by commit, scanning new commits only |
 
 ---
 
