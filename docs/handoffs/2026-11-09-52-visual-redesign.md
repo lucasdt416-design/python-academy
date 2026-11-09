@@ -3,7 +3,7 @@
 Date: 2026-11-09 (America/Toronto)  
 Written by: Claude Code (implementer), in a separate git worktree  
 For: the human maintainer, and ChatGPT or Claude chat (reviewer) without repository access  
-Status: **in_review**: one pull request, not merged, not deployed. **No migration, no new dependency, no backend change, no Content-Security-Policy change.**
+Status: **in_review**: one pull request (#60), not merged, not deployed. **No migration, no new dependency, no backend change, no Content-Security-Policy change.**
 
 > **How to use this file:** upload it with `docs/design/prototype/index.html` (the design source) and `docs/design/art-style.md`. The pull request diff is the source of truth (`build.md` section 14).
 
