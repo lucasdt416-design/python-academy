@@ -3,7 +3,7 @@
 Date: 2026-11-09 (America/Toronto)  
 Written by: Claude Code (implementer), in a separate git worktree  
 For: the human maintainer, and ChatGPT or Claude chat (reviewer) without repository access  
-Status: **in_review**: one pull request, not merged. **Test changes only:** nothing a learner sees changes.
+Status: **in_review**: one pull request (#55), not merged. **Test changes only:** nothing a learner sees changes.
 
 > **How to use this file:** upload it with handoff 42. The pull request diff is the source of truth (`build.md` section 14).
 
@@ -67,7 +67,7 @@ None.
 
 | Where | What |
 | --- | --- |
-| Backlog | QA-03: the first report's test-only failures fixed (#PR, handoff 47) |
+| Backlog | QA-03: the first report's test-only failures fixed (#55, handoff 47) |
 
 ## 7. Next concrete action
 
