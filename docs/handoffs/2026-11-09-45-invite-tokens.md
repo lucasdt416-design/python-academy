@@ -3,7 +3,7 @@
 Date: 2026-11-09 (America/Toronto)  
 Written by: Claude Code (implementer), in a separate git worktree  
 For: the human maintainer, and ChatGPT or Claude chat (reviewer) without repository access  
-Status: **in_review**: one pull request, not merged, not deployed. **No migration, no new dependency.** Changes the invitation link a parent copies.
+Status: **in_review**: one pull request (#53), not merged, not deployed. **No migration, no new dependency.** Changes the invitation link a parent copies.
 
 > **How to use this file:** upload it alone, or with `docs/plan/independent-learners.md`. The pull request diff is the source of truth (`build.md` section 14).
 
@@ -105,8 +105,8 @@ None.
 
 | Where | What |
 | --- | --- |
-| Backlog | SEC-06 `in_review` (#PR, handoff 45) |
-| Stage table | "45. Invitation tokens \| SEC-06 \| in_review (#PR, handoff 45)" |
+| Backlog | SEC-06 `in_review` (#53, handoff 45) |
+| Stage table | "45. Invitation tokens \| SEC-06 \| in_review (#53, handoff 45)" |
 
 ## 11. Next concrete action
 
