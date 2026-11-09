@@ -3,7 +3,7 @@
 Date: 2026-11-09 (America/Toronto)  
 Written by: Claude Code (implementer), in a separate git worktree  
 For: the human maintainer, and ChatGPT or Claude chat (reviewer) without repository access  
-Status: **in_review**: one pull request, not merged, not deployed. **No migration, no new dependency, no real lesson uses it yet.** Closes a way round the import guard that exists on `main` today (section 5).
+Status: **in_review**: one pull request (#51), not merged, not deployed. **No migration, no new dependency, no real lesson uses it yet.** Closes a way round the import guard that exists on `main` today (section 5).
 
 > **How to use this file:** upload it with `docs/plan/browser-checks.md` (sections 9, 10 and 12) and handoffs 34 and 35. The pull request diff is the source of truth (`build.md` section 14).
 
@@ -124,8 +124,8 @@ None until a lesson uses learner files. After deploying, check that a unit 2 or 
 
 | Where | What |
 | --- | --- |
-| Backlog | ENG-08b `in_review` (#PR, handoff 43). ENG-08 `done` (#40) |
-| Stage table | "43. Learner files \| ENG-08b \| in_review (#PR, handoff 43)" |
+| Backlog | ENG-08b `in_review` (#51, handoff 43). ENG-08 `done` (#40) |
+| Stage table | "43. Learner files \| ENG-08b \| in_review (#51, handoff 43)" |
 | Decision log | Decision 30 met; the way round the guard found and closed |
 
 ## 12. Next concrete action
