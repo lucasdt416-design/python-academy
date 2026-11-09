@@ -80,3 +80,8 @@ Built in `qa/accessibility-browsers`, handoff 42. The audit needs `axe-core`, a 
 ## ENG-08b: the learner's own files, 2026-11-09
 
 Built in `eng/learner-modules`, handoff 43, after #40 merged (its dependency). Decision 30 is met: names Python already has are refused, the guard applies inside learner files, and no file can stand in for a Python module. Found on the way: on `main`, a program could write `datetime.py`, import it, and import `os` from inside it. Closed here. **Merge after #46 and #50:** it has text conflicts with both, which I will resolve.
+
+## SEC-05: Pyodide pinned and checked, 2026-11-09
+
+Built in `sec/pyodide-integrity`, handoff 44, after #51 merged. Lucas lifted the open-PR cap on 2026-11-09 ("u can make as many as you want"). B-R1 is still empty, so each stage starts from `main`. No new dependency: checked hashes instead of self-hosting.
+

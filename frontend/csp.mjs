@@ -11,4 +11,4 @@ export function noncePolicy(nonce) {
 
 // Pyodide runs in this worker, which has its own enforced policy: it may load Pyodide from the CDN
 // and compile it ('unsafe-eval' covers WebAssembly), and nothing else.
-export const WORKER_POLICY = "default-src 'none'; script-src 'unsafe-eval' https://cdn.jsdelivr.net; connect-src https://cdn.jsdelivr.net";
+export const WORKER_POLICY = "default-src 'none'; script-src 'unsafe-eval'; connect-src https://cdn.jsdelivr.net";
