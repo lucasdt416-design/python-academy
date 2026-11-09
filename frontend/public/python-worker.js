@@ -7,9 +7,17 @@ const ALLOWED_MODULES = ['math', 'random', 'datetime', 'json', 'csv', 're'];
 // What the worker itself needs, loaded before the import guard goes on. Runs once per worker.
 const SETUP = `
 import builtins as __academy_builtins
+import importlib as __academy_importlib
 import json as __academy_json
 import random as __academy_random
+import re as __academy_re
 import sys as __academy_sys
+# Decision 30. Every allowed module is loaded now, from Python's own library, and the program's folder
+# goes after that library on the import path, so a file named random.py or datetime.py, given or
+# written by the program, can never stand in for the real one.
+import csv as __academy_csv, datetime as __academy_datetime, math as __academy_math
+__academy_sys.dont_write_bytecode = True
+__academy_sys.path[:] = [p for p in __academy_sys.path if p not in ('', '.', '/home/pyodide')] + ['/home/pyodide']
 
 def __academy_flush():
     __academy_sys.stdout.flush()
@@ -23,13 +31,34 @@ __academy_allowed = frozenset(__academy_json.loads(__academy_allowed_json))
 # C code imports this one using the caller's globals, so datetime.strptime() looks like the learner's import.
 __academy_internal = frozenset({'_strptime'})
 __academy_real_import = __academy_builtins.__import__
+# ENG-08b: the learner's own files for this run, by module name. They may be imported, and the guard
+# applies inside them as in the program itself (decision 30).
+__academy_own = set()
+__academy_names = frozenset(__academy_sys.stdlib_module_names) | frozenset(__academy_sys.builtin_module_names) | {'js', 'pyodide', 'pyodide_js', 'micropip'}
+
+def __academy_learners(module):
+    return (getattr(module, '__file__', None) or '').startswith('/home/pyodide/')
 
 def __academy_import(name, globals=None, locals=None, fromlist=(), level=0):
     owner = __academy_sys.modules.get((globals or {}).get('__name__'))
-    from_a_module = owner is not None and owner.__name__ != '__main__' and vars(owner) is globals
-    if not from_a_module and (level != 0 or name.partition('.')[0] not in __academy_allowed | __academy_internal):
+    from_a_module = owner is not None and owner.__name__ != '__main__' and vars(owner) is globals and not __academy_learners(owner)
+    if not from_a_module and (level != 0 or name.partition('.')[0] not in __academy_allowed | __academy_internal | __academy_own):
         raise ModuleNotFoundError(f"The module {name!r} is not available here.", name=name)
     return __academy_real_import(name, globals, locals, fromlist, level)
+
+def __academy_take_own(names_json):
+    names = __academy_json.loads(names_json)
+    for name in names:
+        if not __academy_re.fullmatch(r'[a-z][a-z0-9_]{0,30}[.]py', name) or name[:-3] in __academy_names:
+            raise ImportError(f"A file named {name} would hide one of Python's own modules, so it cannot be used.")
+    __academy_own.clear()
+    __academy_own.update(name[:-3] for name in names)
+
+# Learner modules start again in every case: none stays loaded from the case before.
+def __academy_forget():
+    for name in [name for name, module in list(__academy_sys.modules.items()) if __academy_learners(module)]:
+        del __academy_sys.modules[name]
+    __academy_importlib.invalidate_caches()
 
 __academy_builtins.__import__ = __academy_import
 `;
@@ -68,6 +97,11 @@ function freshFiles({FS}, files) {
   FS.writeFile(`${HOME}/${path}`, text);
  }
 }
+// The learner's own files (ENG-08b) are written with the given ones; this says which may be imported.
+async function ownFiles(py, modules) {
+ py.globals.set('__academy_own_json', JSON.stringify(Object.keys(modules || {})));
+ await py.runPythonAsync('__academy_take_own(__academy_own_json)\n__academy_forget()', {filename: '<academy>'});
+}
 // No network for learner code. Called once Pyodide has loaded, so nothing else needs these. The
 // worker's Content-Security-Policy also only allows connections to the Pyodide CDN.
 function noNetwork() {
@@ -83,7 +117,8 @@ self.onmessage = async ({data}) => {
   const py = await loadPyodide({stdout:s=>{output+=s+'\n';if(output.length>20000){capped=true;throw Error('Output exceeded 20,000 characters.');}}});
   noNetwork();
   await guardImports(py);
-  freshFiles(py, data.files);
+  freshFiles(py, {...data.files, ...data.modules});
+  await ownFiles(py, data.modules);
   py.globals.set('__academy_input_json', JSON.stringify(data.inputs || []));
   // Its own file name, so an error inside it is not reported as a line of the learner's code.
   await py.runPythonAsync(REPLIES, {filename: '<academy>'});
@@ -152,7 +187,7 @@ def __academy_call(namespace, call_json, limit):
         return __academy_json_module.dumps({'status': 'not_comparable', 'errorType': name})
     return __academy_json_module.dumps({'status': 'ok', 'returned': text, 'shown': repr(value)[:200]})
 `;
-async function runCases({code, cases, outputLimit}) {
+async function runCases({code, cases, outputLimit, modules}) {
  const calls = new Map(cases.map(c => [c.id, c.call]));
  const given = new Map(cases.map(c => [c.id, c.files]));
  let py;
@@ -178,7 +213,8 @@ async function runCases({code, cases, outputLimit}) {
   const namespace = py.toPy({__name__: '__main__'});
   let report;
   try {
-   freshFiles(py, given.get(id));
+   freshFiles(py, {...given.get(id), ...modules});
+   await ownFiles(py, modules);
    py.globals.set('__academy_input_json', JSON.stringify(inputs || []));
    // Its own file name, so errors inside it are not reported as lines of the learner's code.
    await py.runPythonAsync(REPLIES, {filename: '<academy>'});

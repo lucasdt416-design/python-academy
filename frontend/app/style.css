@@ -39,3 +39,5 @@
 .tester-table td:last-child{width:1%;overflow-wrap:normal}.tester-switch{white-space:nowrap}
 .lesson-files{margin-top:18px}.lesson-files figure{margin:10px 0 0}.lesson-files figcaption{margin-bottom:4px}
 .learner-goal{font-size:15px;color:#24483c}
+/* ENG-08b: one tab per file, when a card has the learner's own files. */
+.file-tabs{display:flex;flex-wrap:wrap;gap:6px}.file-tabs button{font:12px monospace;padding:4px 10px;border:1px solid #a6b6aa;border-radius:6px;background:#fff;color:#202e2b;min-height:32px}.file-tabs button[aria-selected="true"]{background:#20463c;border-color:#20463c;color:#fff}.file-tabs button:focus-visible{outline:3px solid #2867c8;outline-offset:2px}

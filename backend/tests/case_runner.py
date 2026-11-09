@@ -60,9 +60,14 @@ for job in jobs:
         # A folder of its own for each case, holding only that case's files, as the worker does.
         folder = tempfile.mkdtemp()
         os.chdir(folder)
-        for path, text in case.get('files', {}).items():
+        for path, text in {**case.get('files', {}), **job.get('modules', {})}.items():
             pathlib.Path(path).parent.mkdir(parents=True, exist_ok=True)
             pathlib.Path(path).write_text(text)
+        # The learner's own files (ENG-08b) import by name, after Python's own library, and start again
+        # in every case, as in the worker.
+        sys.path.append(folder)
+        for name in [n for n, m in sys.modules.items() if (getattr(m, '__file__', None) or '').startswith(tempfile.gettempdir())]:
+            del sys.modules[name]
         random.seed(case.get('seed') or 0)
         out = Capped(job['limit'])
         report = {'id': case['id'], 'status': 'ok', 'error_type': None, 'line': None}
@@ -87,6 +92,7 @@ for job in jobs:
         finally:
             signal.setitimer(signal.ITIMER_REAL, 0)
             os.chdir('/')
+            sys.path.remove(folder)
             shutil.rmtree(folder, ignore_errors=True)
         # The browser never hears back from a case it stopped, so it reports no output for it.
         report['output'] = '' if report['status'] == 'timeout' else out.getvalue()
@@ -101,10 +107,12 @@ json.dump(results, sys.__stdout__)
 SECONDS = 0.5
 
 
-def reports(lesson, programs, timeout=120):
-    """For each program, one report per check case, as the browser would send them (no error message)."""
+def reports(lesson, programs, timeout=120, modules=None):
+    """For each program, one report per check case, as the browser would send them (no error message).
+    modules: the learner's own files (ENG-08b), the challenge's starting code unless given."""
     check = lesson.task('challenge').check
-    jobs = [{'code': code, 'limit': 10_000, 'seconds': SECONDS, 'cases': [{'id': c.id, 'inputs': c.inputs, 'files': getattr(c, 'files', {}), 'seed': getattr(c, 'seed', None)} for c in check.cases]} for code in programs]
+    own = getattr(lesson.task('challenge'), 'modules', {}) if modules is None else modules
+    jobs = [{'code': code, 'modules': own, 'limit': 10_000, 'seconds': SECONDS, 'cases': [{'id': c.id, 'inputs': c.inputs, 'files': getattr(c, 'files', {}), 'seed': getattr(c, 'seed', None)} for c in check.cases]} for code in programs]
     done = subprocess.run([sys.executable, '-I', '-c', RUNNER], input=json.dumps(jobs), capture_output=True, text=True, timeout=timeout, check=True)
     return [[CaseRun(**report) for report in program] for program in json.loads(done.stdout)]
 

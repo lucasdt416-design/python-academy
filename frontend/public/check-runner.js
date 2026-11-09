@@ -7,7 +7,8 @@
  */
 export const LOAD_LIMIT_MS = 30000;
 
-export function runCases(code, plan, {workerUrl = '/python-worker.js', loadLimitMs = LOAD_LIMIT_MS} = {}) {
+/** modules: the learner's own files (ENG-08b), by name. They go to the worker only, never to the API. */
+export function runCases(code, plan, {workerUrl = '/python-worker.js', loadLimitMs = LOAD_LIMIT_MS, modules = {}} = {}) {
  return new Promise(resolve => {
   const reports = new Map(plan.cases.map(c => [c.id, {id: c.id, status: 'not_run', output: '', errorType: null, line: null, message: null}]));
   const worker = new Worker(workerUrl);
@@ -37,7 +38,7 @@ export function runCases(code, plan, {workerUrl = '/python-worker.js', loadLimit
      ...(data.returned != null ? {returned: data.returned, shown: data.shown} : {})});
    } else if (data.type === 'done') finish();
   };
-  worker.postMessage({mode: 'cases', code, cases: plan.cases.map(({id, inputs, call, files, seed}) => ({id, inputs, ...(call ? {call} : {}), ...(files ? {files} : {}), ...(seed ? {seed} : {})})), outputLimit: plan.output_limit});
+  worker.postMessage({mode: 'cases', code, cases: plan.cases.map(({id, inputs, call, files, seed}) => ({id, inputs, ...(call ? {call} : {}), ...(files ? {files} : {}), ...(seed ? {seed} : {})})), outputLimit: plan.output_limit, modules});
  });
 }
 

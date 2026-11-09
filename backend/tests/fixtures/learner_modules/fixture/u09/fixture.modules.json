@@ -1,0 +1,118 @@
+{
+  "id": "fixture.modules",
+  "version": 1,
+  "course": "fixture",
+  "unit": "fixture.u09",
+  "title": "TEST FIXTURE learner files",
+  "concept": "Files",
+  "description": "Test data.",
+  "badge": {
+    "id": "fixture.badge.modules",
+    "version": 1,
+    "title": "TEST FIXTURE badge",
+    "category": "practice"
+  },
+  "tasks": [
+    {
+      "id": "fixture.modules.discover",
+      "type": "discover",
+      "title": "Use your own module",
+      "body": "Test data.",
+      "detail": "Test data."
+    },
+    {
+      "id": "fixture.modules.example",
+      "type": "example",
+      "code": "import greet\nprint(greet.hello(\"Kai\"))",
+      "output": "Hello, Kai",
+      "note": "Test data.",
+      "inputs": [],
+      "modules": {
+        "greet.py": "def hello(name):\n    return \"Hello, \" + name\n"
+      }
+    },
+    {
+      "id": "fixture.modules.predict",
+      "type": "predict",
+      "question": "Test data?",
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "answer": 0,
+      "why": "Test data."
+    },
+    {
+      "id": "fixture.modules.guided",
+      "type": "guided",
+      "prompt": "Test data."
+    },
+    {
+      "id": "fixture.modules.challenge",
+      "type": "challenge",
+      "prompt": "Read numbers on one line, and print their total. Write total(numbers) in scores.py; main.py uses it.",
+      "starter": "import scores\n\nnumbers = [int(n) for n in input().split()]\nprint(scores.total(numbers))\n",
+      "hints": [
+        "Open scores.py.",
+        "Define total with one parameter.",
+        "Add the numbers up and return the sum."
+      ],
+      "error_hints": [
+        {
+          "tags": [
+            "NameError"
+          ],
+          "text": "Check the spelling of each name, in main.py and in scores.py."
+        },
+        {
+          "tags": [
+            "fixture.modules.case.small",
+            "fixture.modules.case.other"
+          ],
+          "text": "Return the sum of every number in the list."
+        }
+      ],
+      "similar_example": {
+        "code": "print(1 + 2)",
+        "note": "Test data."
+      },
+      "other_ways": [
+        {
+          "code": "import scores\n\nprint(scores.total(int(n) for n in input().split()))",
+          "note": "Test data."
+        }
+      ],
+      "input_labels": [],
+      "check": {
+        "cases": [
+          {
+            "id": "small",
+            "description": "two numbers",
+            "inputs": [
+              "3 4"
+            ],
+            "expected": "7"
+          },
+          {
+            "id": "other",
+            "description": "three larger numbers",
+            "inputs": [
+              "10 20 30"
+            ],
+            "expected": "60",
+            "visibility": "hidden"
+          }
+        ],
+        "time_limit_ms": 3000
+      },
+      "validator": {
+        "id": "browser-tests",
+        "version": 1
+      },
+      "version": 1,
+      "modules": {
+        "scores.py": "# Write total(numbers) here: it returns the sum of the list.\n"
+      }
+    }
+  ]
+}

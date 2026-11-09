@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "courses": [
+    {
+      "id": "fixture",
+      "version": 1,
+      "title": "TEST FIXTURE (never shown to learners)",
+      "summary": "Test data for learner files (ENG-08b).",
+      "status": "released",
+      "units": [
+        {
+          "id": "fixture.u09",
+          "title": "TEST FIXTURE learner files",
+          "summary": "Test data.",
+          "status": "released",
+          "lessons": [
+            "fixture.modules"
+          ]
+        }
+      ]
+    }
+  ]
+}

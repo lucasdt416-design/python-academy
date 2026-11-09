@@ -8,6 +8,7 @@ import json
 import keyword
 import math
 import re
+import sys
 from pathlib import Path
 from typing import Annotated, Any, Literal, Union
 
@@ -54,9 +55,38 @@ FILE_LIMIT = 10_000
 FILE_PATH = re.compile(r'^[A-Za-z0-9][A-Za-z0-9_-]*(\.[A-Za-z0-9]+)*(/[A-Za-z0-9][A-Za-z0-9_-]*(\.[A-Za-z0-9]+)*)*$')
 
 
+# Decision 30: no file a program gets, given or the learner's own, may be named like a module Python
+# already has, so `import random` is always Python's random. The worker also puts these files after
+# Python's own library on the import path, so this is a second line, not the only one.
+PYTHON_MODULES = frozenset(sys.stdlib_module_names) | frozenset(sys.builtin_module_names) | {'js', 'pyodide', 'pyodide_js', 'micropip'}
+
+
+def hides_a_module(path):
+    return path.endswith('.py') and '/' not in path and path[:-3] in PYTHON_MODULES
+
+
 def file_errors(owner, files):
     errors = [f'{owner} has more than {FILES_PER_CASE} files'] if len(files) > FILES_PER_CASE else []
     errors += [f'{owner} has an unsafe file path {path!r}' for path in files if len(path) > 100 or not FILE_PATH.match(path)]
+    errors += [f"{owner} has a file {path!r} that would hide Python's own {path[:-3]} module" for path in files if hides_a_module(path)]
+    return errors
+
+
+# ENG-08b: the learner's own extra files, which they edit in their own tabs and import by name. At most
+# this many per card. A name is short, lowercase and ends in .py, so it is also a module name.
+MODULES_PER_TASK = 3
+MODULE_NAME = re.compile(r'^[a-z][a-z0-9_]{0,30}\.py$')
+
+
+def module_errors(owner, modules, given=()):
+    errors = [f'{owner} has more than {MODULES_PER_TASK} learner files'] if len(modules) > MODULES_PER_TASK else []
+    for name in modules:
+        if not MODULE_NAME.match(name) or keyword.iskeyword(name[:-3]):
+            errors.append(f'{owner}: a learner file {name!r} needs a short lowercase name that ends in .py')
+        elif hides_a_module(name):
+            errors.append(f"{owner}: a learner file {name!r} would hide Python's own {name[:-3]} module")
+        if name in given:
+            errors.append(f'{owner}: {name!r} is both a learner file and a given file')
     return errors
 
 
@@ -68,6 +98,8 @@ class Example(TaskBase):
     inputs: list[str] = []
     # ENG-08: files the example's program finds in its folder, on the page and on the "Try it" card.
     files: dict[str, Annotated[str, Field(max_length=FILE_LIMIT)]] = {}
+    # ENG-08b: the learner's own files on the "Try it" card, by name, with the code each starts with.
+    modules: dict[str, Annotated[str, Field(max_length=FILE_LIMIT)]] = {}
 
 
 class Predict(TaskBase):
@@ -185,6 +217,9 @@ class Challenge(TaskBase):
     # Messages for the checker's named rules, by stable ID (bounded-story checks only).
     messages: list[CheckMessage] = []
     input_labels: list[str] = []
+    # ENG-08b: the learner's own files, by name, with the code each starts with. They stay in the
+    # browser: the page never sends them, so the API checks only what the program printed.
+    modules: dict[str, Annotated[str, Field(max_length=FILE_LIMIT)]] = {}
     validator: Validator
     check: BrowserCheck | None = None
 
@@ -338,6 +373,11 @@ def validate(catalog, lessons):
             errors.append(f'{challenge.id} uses unknown validator {challenge.validator.id} v{challenge.validator.version}')
         errors += check_errors(challenge)
         errors += file_errors(example.id, example.files)
+        errors += module_errors(example.id, example.modules, example.files)
+        given = {path for case in (challenge.check.cases if challenge.check else []) for path in case.files}
+        errors += module_errors(challenge.id, challenge.modules, given)
+        if challenge.modules and challenge.validator.id != BROWSER_TESTS:
+            errors.append(f'{challenge.id} has learner files, which only a browser check can run')
         errors += feedback_errors(lesson.id, challenge, rule_ids)
         if lesson.badge:
             if lesson.badge.id in badge_ids:
@@ -517,6 +557,9 @@ def lesson_view(lesson):
         # ENG-08, only for a lesson that has files. A challenge shows one visible case's files as a sample.
         **({'exampleFiles': example.files} if example.files else {}),
         **({'challengeFiles': sample} if (sample := sample_files(challenge)) else {}),
+        # ENG-08b, only for a lesson with the learner's own files: each name and the code it starts with.
+        **({'exampleModules': example.modules} if example.modules else {}),
+        **({'challengeModules': challenge.modules} if challenge.modules else {}),
     }
 
 
