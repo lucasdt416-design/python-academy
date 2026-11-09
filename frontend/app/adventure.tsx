@@ -4,7 +4,7 @@ import {type Catalog,type Course,type Unit,unitNumber} from './catalog-data';
 import CodeEditor,{goToLine} from './code-editor';
 import {type ErrorHint,type Explanation,HINT_TEXT,type HintStep,OUTLINE_AFTER,RESULTS,type Result,STATE_LABELS,type Sample,checkLine,explain,nextHint,parseError,pythonMessage} from './feedback';
 
-type Lesson = {id:string;title:string;concept:string;badge:string;description:string;learnTitle:string;learn:string;detail:string;example:string;exampleFiles?:Record<string,string>;challengeFiles?:Record<string,string>;exampleOutput:string;exampleNote:string;question:string;options:string[];answer:number;why:string;guided:string;starter:string;challenge:string;hints:string[];inputs:string[];exampleInputs:string[];errorHints?:ErrorHint[];similarExample?:Sample|null;otherWays?:Sample[];course?:string;unit?:string;check?:string};
+type Lesson = {id:string;title:string;concept:string;badge:string;description:string;learnTitle:string;learn:string;detail:string;example:string;exampleFiles?:Record<string,string>;challengeFiles?:Record<string,string>;exampleModules?:Record<string,string>;challengeModules?:Record<string,string>;exampleOutput:string;exampleNote:string;question:string;options:string[];answer:number;why:string;guided:string;starter:string;challenge:string;hints:string[];inputs:string[];exampleInputs:string[];errorHints?:ErrorHint[];similarExample?:Sample|null;otherWays?:Sample[];course?:string;unit?:string;check?:string};
 /** A browser check (ENG-03): what GET /api/checks/<lesson> gives, and what public/check-runner.js reports per case. Hidden cases come without expected output. */
 type Plan={time_limit_ms:number;output_limit:number;cases:{id:string;visibility:'visible'|'hidden';description:string;inputs:string[];test_should?:'pass'|'fail'}[]};
 type CaseReport={id:string;status:string;output:string;errorType:string|null;line:number|null;message:string|null;shown?:string};
@@ -54,9 +54,13 @@ function LessonFiles({files,sample=false}:{files:Record<string,string>;sample?:b
  return <section className="lesson-files" aria-labelledby="lesson-files-title"><h3 id="lesson-files-title">{sample?'A sample of the files your program gets':'Files your program can open'}</h3><p className="muted">Files here are temporary. Your program can read and change them while it runs, then they are gone, and nothing is saved.{sample?' The check also tries other files you cannot see.':''}</p>{Object.entries(files).map(([name,text])=><figure key={name}><figcaption><code>{name}</code></figcaption><pre className="output" tabIndex={0}>{text}</pre></figure>)}</section>;
 }
 export default function Adventure({preview,onSaved,lessonId}:{preview:boolean;onSaved:()=>void;lessonId?:string}){
- const [lessons,setLessons]=useState<Lesson[]>([]),[selected,setSelected]=useState(0),[stage,setStage]=useState(0),[code,setCode]=useState(''),[output,setOutput]=useState(''),[report,setReport]=useState<Report|null>(null),[errorLine,setErrorLine]=useState<number|null>(null),[error,setError]=useState(''),[prediction,setPrediction]=useState<number|null>(null),[shownHints,setShownHints]=useState<HintStep[]>([]),[failedRuns,setFailedRuns]=useState(0),[replies,setReplies]=useState<string[]>([]),[done,setDone]=useState<string[]>([]),[running,setRunning]=useState(false),[passed,setPassed]=useState(false),[drafts,setDrafts]=useState<Record<string,string>>({}),[place,setPlace]=useState<Place|null>(null),[menuOpen,setMenuOpen]=useState(false);
+ const [lessons,setLessons]=useState<Lesson[]>([]),[selected,setSelected]=useState(0),[stage,setStage]=useState(0),[code,setCode]=useState(''),[output,setOutput]=useState(''),[report,setReport]=useState<Report|null>(null),[errorLine,setErrorLine]=useState<number|null>(null),[error,setError]=useState(''),[prediction,setPrediction]=useState<number|null>(null),[shownHints,setShownHints]=useState<HintStep[]>([]),[failedRuns,setFailedRuns]=useState(0),[replies,setReplies]=useState<string[]>([]),[done,setDone]=useState<string[]>([]),[running,setRunning]=useState(false),[passed,setPassed]=useState(false),[drafts,setDrafts]=useState<Record<string,string>>({}),[place,setPlace]=useState<Place|null>(null),[menuOpen,setMenuOpen]=useState(false),[tab,setTab]=useState('');
  const worker=useRef<Worker|null>(null),timer=useRef<ReturnType<typeof setTimeout>|null>(null),heading=useRef<HTMLHeadingElement>(null),editor=useRef<HTMLTextAreaElement>(null),version=useRef(0);
  const lesson=lessons[selected];
+ // ENG-08b: the learner's own extra files on this card, by name, and what each holds now. '' is the program itself.
+ const cardModules=stage===3?lesson?.exampleModules:stage===4?lesson?.challengeModules:undefined;
+ const moduleCode=(name:string)=>drafts[lesson.id+':'+stage+':'+name]??cardModules?.[name]??'';
+ const ownFiles=()=>Object.fromEntries(Object.keys(cardModules??{}).map(name=>[name,moduleCode(name)]));
  useEffect(()=>{
   let active=true;
   const query=new URLSearchParams(location.search),wanted=lessonId??query.get('lesson');
@@ -77,8 +81,8 @@ export default function Adventure({preview,onSaved,lessonId}:{preview:boolean;on
  function focusCard(){requestAnimationFrame(()=>heading.current?.focus());}
  function address(index:number,card:number){window.history.replaceState({},'',preview?`/preview?lesson=${lessons[index].id}&card=${card+1}`:`/learn/${lessons[index].id}`);}
  function clear(){setReport(null);setErrorLine(null);}
- function move(card:number){stop();setStage(card);clear();setError('');setOutput('');setShownHints([]);setFailedRuns(0);setPassed(false);if(card===4)setCode(drafts[lesson.id+':4']??lesson.starter);else if(card===3)setCode(drafts[lesson.id+':3']??lesson.example);address(selected,card);focusCard();}
- function choose(index:number){stop();setMenuOpen(false);setSelected(index);setStage(0);setCode(lessons[index].example);setReplies(lessons[index].exampleInputs);setOutput('');setError('');clear();setShownHints([]);setFailedRuns(0);setPrediction(null);setPassed(false);address(index,0);focusCard();}
+ function move(card:number){stop();setTab('');setStage(card);clear();setError('');setOutput('');setShownHints([]);setFailedRuns(0);setPassed(false);if(card===4)setCode(drafts[lesson.id+':4']??lesson.starter);else if(card===3)setCode(drafts[lesson.id+':3']??lesson.example);address(selected,card);focusCard();}
+ function choose(index:number){stop();setTab('');setMenuOpen(false);setSelected(index);setStage(0);setCode(lessons[index].example);setReplies(lessons[index].exampleInputs);setOutput('');setError('');clear();setShownHints([]);setFailedRuns(0);setPrediction(null);setPassed(false);address(index,0);focusCard();}
  function edit(value:string){
   // A check result is about the code that was checked, so it goes. A Python error stays until the next
   // run, but its highlight goes once that line changes (lesson-feedback.md section 5).
@@ -86,13 +90,22 @@ export default function Adventure({preview,onSaved,lessonId}:{preview:boolean;on
   if(errorLine&&(code.split('\n')[errorLine-1]!==value.split('\n')[errorLine-1]||code.split('\n').length!==value.split('\n').length))setErrorLine(null);
   setCode(value);setPassed(false);setDrafts(old=>({...old,[lesson.id+':'+stage]:value}));
  }
+ /** An edit to one of the learner's own files: like edit(), without touching the program's error line. */
+ function editModule(name:string,value:string){if(report?.state!=='execution_error')setReport(null);setPassed(false);setDrafts(old=>({...old,[lesson.id+':'+stage+':'+name]:value}));}
+ /** Tabs for the files (WAI-ARIA tabs): the arrow keys, Home and End move between them. */
+ function tabKeys(event:React.KeyboardEvent<HTMLDivElement>){
+  const names=['',...Object.keys(cardModules??{})],at=names.indexOf(tab);
+  const to={ArrowRight:at+1,ArrowLeft:at-1,Home:0,End:names.length-1}[event.key];
+  if(to===undefined)return;event.preventDefault();const name=names[(to+names.length)%names.length];setTab(name);
+  requestAnimationFrame(()=>document.getElementById('tab-'+(name||'main'))?.focus());
+ }
  function stopped(explanation:Explanation,python?:string,tag?:string|null){setReport({state:'execution_error',text:explanation.text,explanation,python,tag});setErrorLine(explanation.line);}
  // Runs on the challenge card that Python stopped or the check did not pass, in a row (decision 25).
  function failed(challenge:boolean){if(challenge)setFailedRuns(n=>n+1);}
  async function run(){
   stop();setRunning(true);clear();setError('');setOutput('Starting Python…');setPassed(false);
-  const runVersion=version.current,runCode=code,runInputs=[...replies],runLesson=lesson.id,challenge=stage===4,context={code:runCode,unit:place?unitNumber(place.unit):1};
-  if(challenge&&lesson.check==='browser-tests')return runChecks(runVersion,runCode,runLesson,context);
+  const runVersion=version.current,runCode=code,runModules=ownFiles(),runInputs=[...replies],runLesson=lesson.id,challenge=stage===4,context={code:runCode,unit:place?unitNumber(place.unit):1};
+  if(challenge&&lesson.check==='browser-tests')return runChecks(runVersion,runCode,runLesson,context,runModules);
   const w=new Worker('/python-worker.js');worker.current=w;
   timer.current=setTimeout(()=>{if(version.current!==runVersion)return;stop();setOutput('Execution stopped after 15 seconds.');stopped(explain({stop:'timeout'},context));failed(challenge);},15000);
   w.onerror=()=>{if(version.current!==runVersion)return;stop();setOutput('Python could not start. Check your connection and try again.');};
@@ -111,7 +124,7 @@ export default function Adventure({preview,onSaved,lessonId}:{preview:boolean;on
    }catch(e){if(version.current===runVersion)setError((e as Error).message);}
    finally{if(version.current===runVersion)setRunning(false);}
   };
-  w.postMessage({code:runCode,inputs:runInputs,files:lesson.exampleFiles});
+  w.postMessage({code:runCode,inputs:runInputs,files:lesson.exampleFiles,modules:runModules});
  }
  /** Shows a check result. Only the result state counts as a pass; an unknown state is shown as the
   * check being unavailable. A Python error explained in the browser replaces the check's own words. */
@@ -128,12 +141,13 @@ export default function Adventure({preview,onSaved,lessonId}:{preview:boolean;on
  /** A challenge with a browser check (ENG-03, docs/plan/browser-checks.md): the cases run here, in a
   * fresh worker per run (public/check-runner.js), and only the reported output, status, error type
   * and line go to the API, which compares them with the expected output. Python's message stays here. */
- async function runChecks(runVersion:number,runCode:string,runLesson:string,context:{code:string;unit:number}){
+ async function runChecks(runVersion:number,runCode:string,runLesson:string,context:{code:string;unit:number},runModules:Record<string,string>){
   setOutput('Running the test cases…');
   try{
    const plan:Plan=await api(`checks/${runLesson}`);
    const runner=await import(/* webpackIgnore: true */ /* turbopackIgnore: true */ '/check-runner.js' as string);
-   const reports:CaseReport[]=await runner.runCases(runCode,plan);
+   // The learner's own files go to the worker only: the API gets the reports, as for the program.
+   const reports:CaseReport[]=await runner.runCases(runCode,plan,{modules:runModules});
    if(version.current!==runVersion)return;
    setOutput(caseOutput(plan,reports));
    const result=await api(preview?'check':'attempts',{lesson_id:runLesson,code:runCode,output:reports[0]?.output??'',inputs:[],runs:runner.forSubmission(reports)});
@@ -180,12 +194,12 @@ export default function Adventure({preview,onSaved,lessonId}:{preview:boolean;on
     {stage===3&&<>{unitOne&&<World chapter={selected}/>}<p className="lead">{lesson.guided}</p><p>The working example is in your editor. Experiment freely—you can always reset it.</p>{lesson.exampleFiles&&<LessonFiles files={lesson.exampleFiles}/>}</>}
     {stage===4&&<><p className="lead">{lesson.challenge}</p><p className="reward-note">Complete the challenge to earn the {lesson.badge} badge and 100 XP.</p><p className="muted">Hints are beside your code. Take them one at a time, only if you want them.</p>{lesson.challengeFiles&&<LessonFiles files={lesson.challengeFiles} sample/>}</>}
    </div>
-   {stage>=3&&<section className="editor-panel" aria-label="Python playground"><div className="editor-top"><span>story.py</span><span>Python playground</span></div><label htmlFor="code">Your Python code</label><CodeEditor code={code} onChange={edit} disabled={running} errorLine={errorLine} describedBy={report?'editor-help code-feedback':'editor-help'} editor={editor}/><p id="editor-help" className="muted">Tab inserts four spaces. To leave the editor, press Esc and then Tab, or Shift + Tab to go back.</p>
+   {stage>=3&&<section className="editor-panel" aria-label="Python playground"><div className="editor-top">{cardModules?<div className="file-tabs" role="tablist" aria-label="Your files" onKeyDown={tabKeys}>{['',...Object.keys(cardModules)].map(name=><button key={name||'main'} id={'tab-'+(name||'main')} role="tab" aria-selected={tab===name} aria-controls="code-panel" tabIndex={tab===name?0:-1} onClick={()=>setTab(name)}>{name||'main.py'}</button>)}</div>:<span>story.py</span>}<span>Python playground</span></div><div id="code-panel" {...(cardModules?{role:'tabpanel','aria-labelledby':'tab-'+(tab||'main')}:{})}><label htmlFor="code">Your Python code{tab?`: ${tab}`:''}</label><CodeEditor code={tab?moduleCode(tab):code} onChange={value=>tab?editModule(tab,value):edit(value)} disabled={running} errorLine={tab?null:errorLine} describedBy={report?'editor-help code-feedback':'editor-help'} editor={editor}/></div><p id="editor-help" className="muted">Tab inserts four spaces. To leave the editor, press Esc and then Tab, or Shift + Tab to go back.</p>
     {checked&&<p className="reply-note">This challenge runs your program with its own replies, including some you cannot see, and checks what it prints.</p>}
     {lesson.inputs.length>0&&!checked&&<fieldset className="player-replies"><legend>Player replies</legend><p>input() reads these in order. Prompts ask for your replies; only print() messages appear in Output.</p>{lesson.inputs.map((label,i)=><label key={label} htmlFor={'reply-'+i}>{label}<input id={'reply-'+i} maxLength={500} disabled={running} value={replies[i]??''} onChange={e=>{setReplies(old=>old.map((v,j)=>j===i?e.target.value:v));setPassed(false);if(report?.state!=='execution_error')setReport(null);}}/></label>)}</fieldset>}
-    <div className="actions"><button className="primary" disabled={running} onClick={run}>{running?'Running…':stage===4?'Run & check challenge':'Run Python →'}</button>{running&&<button onClick={()=>{stop();setOutput('Execution stopped.');}}>Stop</button>}<button disabled={running} onClick={()=>{edit(stage===4?lesson.starter:lesson.example);setOutput('');clear();}}>Reset code</button></div><h3>Output</h3><pre className="output execution-output" aria-live="polite">{output||'Your story will appear here.'}</pre>
+    <div className="actions"><button className="primary" disabled={running} onClick={run}>{running?'Running…':stage===4?'Run & check challenge':'Run Python →'}</button>{running&&<button onClick={()=>{stop();setOutput('Execution stopped.');}}>Stop</button>}<button disabled={running} onClick={()=>{if(tab)editModule(tab,cardModules?.[tab]??'');else edit(stage===4?lesson.starter:lesson.example);setOutput('');clear();}}>Reset code</button></div><h3>Output</h3><pre className="output execution-output" aria-live="polite">{output||'Your story will appear here.'}</pre>
     <div id="code-feedback" className={'result'+(report?' '+report.state.replace('_','-'):'')} role="status">{report&&<><p className="result-state">{STATE_LABELS[report.state]}</p>{report.explanation?<><p className="result-title">{withCode(report.explanation.title)}</p>{report.explanation.where&&<p className="result-where">{report.explanation.where}</p>}<p>{withCode(report.explanation.text)}</p></>:<p>{report.text}</p>}</>}</div>
-    {report&&(errorLine||report.python)&&<div className="result-actions">{errorLine&&<button onClick={()=>editor.current&&goToLine(editor.current,errorLine)}>Go to line {errorLine}</button>}{report.python&&<details><summary>Show Python’s message</summary><pre className="python-message">{report.python}</pre></details>}</div>}
+    {report&&(errorLine||report.python)&&<div className="result-actions">{errorLine&&<button onClick={()=>{setTab('');requestAnimationFrame(()=>editor.current&&goToLine(editor.current,errorLine));}}>Go to line {errorLine}{cardModules?' of main.py':''}</button>}{report.python&&<details><summary>Show Python’s message</summary><pre className="python-message">{report.python}</pre></details>}</div>}
     {stage===4&&<section className="hint-ladder" aria-labelledby="hints-title"><h3 id="hints-title">Hints</h3><ol aria-live="polite">{shownHints.map(hint=><li className="hint" key={hint.key}><strong>{hint.label}.</strong> {hint.text}{hint.code&&<pre className="example-code"><code>{hint.code}</code></pre>}</li>)}</ol><button className={outlined?'suggested':undefined} aria-disabled={!next} aria-describedby={outlined?'hint-suggested':undefined} onClick={()=>{if(next)setShownHints(old=>[...old,next]);}}>{next?next.button:HINT_TEXT.done}</button>{outlined&&<p id="hint-suggested" className="visually-hidden">{HINT_TEXT.suggested}</p>}{!next&&<p className="muted">{HINT_TEXT.noAnswer}</p>}</section>}
     {passed&&stage===4&&otherWays.length>0&&<section className="other-ways" aria-labelledby="other-ways-title"><h3 id="other-ways-title">{HINT_TEXT.otherWays}</h3><p className="muted">{HINT_TEXT.otherWaysIntro}</p>{otherWays.map(way=><figure key={way.code}><pre className="example-code"><code>{way.code}</code></pre><figcaption>{way.note}</figcaption></figure>)}</section>}
     {error&&<p className="notice" role="alert">{error}</p>}<p className="muted">Python runs in your browser. Challenge checks cover the syntax taught in this chapter; badges mark practice, not mastery.</p>

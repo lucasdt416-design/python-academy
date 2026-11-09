@@ -183,7 +183,7 @@ Status: **in review** (handoff 34).
 
 **The list:** `math`, `random`, `datetime`, `json`, `csv`, `re`, and their submodules. It is `ALLOWED_MODULES` in `frontend/public/python-worker.js`, the only copy. Anything else is refused with `ModuleNotFoundError`, in Try it and in checks alike, which a check reports as `unsupported`.
 
-**How it works.** Once Pyodide has loaded and the network APIs are gone, the worker replaces `__import__`. A module's own code imports what it needs as usual, because `random` needs `os`, for example. Only code that is not a module's own is limited: the learner's program, including `exec` and direct calls to `__import__`.
+**How it works.** Once Pyodide has loaded and the network APIs are gone, the worker replaces `__import__`. A module's own code imports what it needs as usual, because `random` needs `os`, for example. Only code that is not a module's own is limited: the learner's program, including `exec` and direct calls to `__import__`, and, since ENG-08b, the learner's own files too (section 12).
 
 **This is a guide for learners, not a sandbox.** Python cannot sandbox itself. `random._os` reaches `os`, and from there other modules. The guard stops a learner reaching these by accident, and keeps lessons honest about what is available. **The security boundary is the worker:** no network APIs, its Content-Security-Policy unchanged, and nothing from the page. No new protection should ever be built on the assumption that the guard can't be bypassed.
 
@@ -208,11 +208,11 @@ A case can give its program files, and a worked example can give its "Try it" ca
 | Hidden cases | **A hidden case's files reach the browser,** in the plan, like its inputs: the program has to read them. The page never shows them, and a hidden description may not quote their lines. Hidden expected output still never leaves the server |
 | What the page shows | The example's files, and one visible case's files as a sample |
 
-**Not built: a learner's own second file.** `py.own-modules` needs a second editor tab, a change to what the page sends and, with ENG-07, a way to allow the learner's own module. That is a separate stage (handoff 35, question 1).
+**A given file can't stand in for one of Python's modules** (decision 30): content refuses a top-level file such as `random.py`, and the worker looks in the program's folder only after Python's own library. A learner's own second file is section 12.
 
 ## 11. Learner tests against reference programs (ENG-10)
 
-Status: **in review** (handoff 41).
+Status: **built** (#46, handoff 41).
 
 The learner's program is a set of tests, usually `assert` lines. Each case loads a **reference program** first, in the same fresh namespace, then runs the learner's tests. The result is judged by whether they ran to the end.
 
@@ -226,3 +226,21 @@ The learner's program is a set of tests, usually `assert` lines. Each case loads
 **What reaches the browser (decision 28).** Every reference, in the plan, because the tests run there. **So a correct reference must not be the lesson's answer.** Content validation can't check that; authors must. In unit 8 the learner writes tests, not the code under test, so this holds. A hidden case's `test_should` is its expected result and is not sent, and a hidden failure is named only by its description.
 
 **Limits.** A learner who reads a broken reference could write a test aimed only at that bug, and these are practice evidence (section 5). Output is ignored. Imports in a reference follow the same list as the learner's.
+
+## 12. The learner's own files (ENG-08b)
+
+Status: **in review** (handoff 43).
+
+A "Try it" card or a challenge can give the learner up to 3 files of their own, such as `helpers.py`, beside the program. Each has a tab above the editor, and the program imports it by name.
+
+| Rule | Value |
+| --- | --- |
+| Content | `modules` on the example or the challenge: a name and the code it starts with, up to 10,000 characters. A challenge with learner files must use a browser check |
+| Names | Short, lowercase, ending in `.py`, and a valid module name. **Never a name Python already has** (decision 30): `random.py`, `os.py`, `math.py` and every other standard library, built-in or Pyodide module are refused when content loads, and refused again by the worker |
+| The import guard | **Applies inside the learner's files,** as in the program. A file of theirs may import the allowed modules and their other files, nothing else. The guard tells a learner's file from Python's own by where it lives: under `/home/pyodide` |
+| Shadowing | The worker loads every allowed module before the learner's code runs, and puts the program's folder after Python's own library on the import path. So no file, given, the learner's own or written by the program while it runs, can replace a module Python has. Before this stage, a program could write `datetime.py`, import it, and import `os` from inside it |
+| Between cases | Each case gets the files as they were when the learner pressed Run. Anything a case loaded or changed is forgotten before the next |
+| What reaches the API | **Nothing of the learner's files.** The API gets the program, as before, and the reports. It checks what the program printed |
+| Errors | An error inside a learner's file is reported at the program's line that called it, and "Go to line" opens `main.py` |
+
+**Limits.** Construct rules (`require`, `forbid`) see only the program. The guard is still a guide, not a sandbox (section 9): `__import__("os", vars(random))` from a learner's file still gets past it, as `random._os` does. No real lesson uses learner files yet.

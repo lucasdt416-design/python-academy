@@ -76,3 +76,7 @@ Owner merged #32 to #39, #41 and #42 on 2026-11-02. The run stopped at the cap o
 ## WE6: keyboard tests, accessibility audit, screen reader sheet, cross-browser report, 2026-11-02 to 2026-11-08
 
 Built in `qa/accessibility-browsers`, handoff 42. The audit needs `axe-core`, a new dependency, so it stopped and asked (plan section 1.6); Lucas approved it on 2026-11-08, after making the repository public. UI-02 to UI-04 stay skipped by decision 29.
+
+## ENG-08b: the learner's own files, 2026-11-09
+
+Built in `eng/learner-modules`, handoff 43, after #40 merged (its dependency). Decision 30 is met: names Python already has are refused, the guard applies inside learner files, and no file can stand in for a Python module. Found on the way: on `main`, a program could write `datetime.py`, import it, and import `os` from inside it. Closed here. **Merge after #46 and #50:** it has text conflicts with both, which I will resolve.
