@@ -1,0 +1,39 @@
+# QA-03: the browser tests on Firefox and WebKit, first as a non-blocking report.
+# Not on every push: each browser takes about as long as the Chromium run, and a failing report job
+# would look like a failing PR. Weekly, by hand (Actions tab), and on a PR that changes this file.
+name: Cross-browser report
+on:
+  schedule:
+    - cron: '0 9 * * 1'
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - .github/workflows/cross-browser.yml
+permissions:
+  contents: read
+jobs:
+  browsers:
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        browser: [firefox, webkit]
+    env:
+      NODE_ENV: production
+      PW_BROWSER: ${{ matrix.browser }}
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+      - run: npm ci --include=dev
+      - run: npm run build
+      - run: npx playwright install --with-deps ${{ matrix.browser }}
+      - run: npm run test:e2e

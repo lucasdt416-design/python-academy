@@ -7,7 +7,8 @@ export default defineConfig({
     baseURL: 'http://127.0.0.1:3000',
     // Opt-in only for isolated test environments with an HTTPS inspection proxy.
     ignoreHTTPSErrors: process.env.TEST_IGNORE_HTTPS_ERRORS === '1',
-    browserName: 'chromium',
+    // Chromium unless the cross-browser workflow (QA-03) names another.
+    browserName: (process.env.PW_BROWSER ?? 'chromium') as 'chromium' | 'firefox' | 'webkit',
     launchOptions: process.env.CHROMIUM_PATH ? {
       executablePath: process.env.CHROMIUM_PATH,
       args: ['--no-sandbox', '--disable-dev-shm-usage'],

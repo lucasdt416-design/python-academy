@@ -72,3 +72,7 @@ Owner merged #32 to #39, #41 and #42 on 2026-11-02. The run stopped at the cap o
 | Part 6 stage WD1 | Written "WWD1", a typing slip |
 | Worktree `../python-academy-sync3` may exist | It did not; this run created it for S01 |
 | About 30 remote branches | 33 lines in `git branch -r`, including `origin/HEAD` |
+
+## WE6: keyboard tests, accessibility audit, screen reader sheet, cross-browser report, 2026-11-02 to 2026-11-08
+
+Built in `qa/accessibility-browsers`, handoff 42. The audit needs `axe-core`, a new dependency, so it stopped and asked (plan section 1.6); Lucas approved it on 2026-11-08, after making the repository public. UI-02 to UI-04 stay skipped by decision 29.
