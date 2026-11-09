@@ -80,3 +80,8 @@ Built in `qa/accessibility-browsers`, handoff 42. The audit needs `axe-core`, a 
 ## ENG-08b: the learner's own files, 2026-11-09
 
 Built in `eng/learner-modules`, handoff 43, after #40 merged (its dependency). Decision 30 is met: names Python already has are refused, the guard applies inside learner files, and no file can stand in for a Python module. Found on the way: on `main`, a program could write `datetime.py`, import it, and import `os` from inside it. Closed here. **Merge after #46 and #50:** it has text conflicts with both, which I will resolve.
+
+## WE8: placement examples (EDU-01), 2026-11-09
+
+Built in `docs/placement-examples`, handoff 48, docs only. **EDU-02, the pilot, is skipped:** it needs this design reviewed by Lucas and the placement storage decision that `retention.md` leaves open. Lucas lifted the open-PR cap on 2026-11-09. B-R1 is still empty.
+
