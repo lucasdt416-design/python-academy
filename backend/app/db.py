@@ -151,3 +151,13 @@ class Feedback(Base):
     code: Mapped[str | None] = mapped_column(Text, nullable=True)
     # new, triaged, in_progress, fixed or wont_fix; fixed and wont_fix count as resolved.
     status: Mapped[str] = mapped_column(String(20), default='new', server_default='new')
+
+
+class RateCount(Base):
+    """One rate-limit window (ENG-11, app/limits.py). The key is a keyed hash of the rule, the window
+    length and who is counted, so a row holds no user ID, address, request body or code."""
+    __tablename__ = 'rate_limits'
+    key: Mapped[str] = mapped_column(String(32), primary_key=True)
+    # When this window started, in milliseconds since 1970 (UTC).
+    window_start: Mapped[int] = mapped_column(BigInteger)
+    count: Mapped[int] = mapped_column(Integer)

@@ -10,6 +10,7 @@ import secrets
 import pytest
 from fastapi.testclient import TestClient
 from itsdangerous import TimestampSigner
+from sqlalchemy import select, text
 from sqlalchemy.orm import Session
 
 import app.limits as limits
@@ -219,18 +220,23 @@ def test_counters_and_logs_hold_no_code_ids_or_addresses(caplog):
     with caplog.at_level(logging.INFO):
         for _ in range(RULES['check'].user[0][0] + 1):
             check('203.0.113.77', SECRET_CODE)
-    stored = json.dumps(list(LIMITER.counts.items()))
-    for text in ('my-secret-learner-code', '203.0.113.77', 'u:1', 'learner@example.com'):
-        assert text not in stored and text not in caplog.text
+    # ENG-11: the counters are in the database now, so that is where to look.
+    with engine.connect() as conn:
+        table = [tuple(row) for row in conn.execute(text('SELECT key, window_start, count FROM rate_limits'))]
+    stored = json.dumps(table) + json.dumps(list(LIMITER.counts.items()))
+    assert table
+    for found in ('my-secret-learner-code', '203.0.113.77', 'u:1', 'learner@example.com'):
+        assert found not in stored and found not in caplog.text
     assert 'Rate limited: rule=check scope=user' in caplog.text
-    assert all(isinstance(start, float) and isinstance(count, int) for start, count in LIMITER.counts.values())
+    assert all(isinstance(start, int) and isinstance(count, int) for _, start, count in table)
 
 
 def test_counter_memory_is_bounded(monkeypatch, setup):
     import app.limits as limits
     monkeypatch.setattr(limits, 'MAX_KEYS', 100)
+    # Memory holds private counters, and all of them when the database is down.
     for n in range(300):
-        LIMITER.hit('check', f'ip:{n}', RULES['check'].ip)
+        LIMITER.hit('check', f'ip:{n}', RULES['check'].ip, private=True)
     assert len(LIMITER.counts) <= 2 * 100 + 2
 
 
@@ -312,3 +318,80 @@ def test_diagnostic_is_off_by_default(caplog):
     with caplog.at_level(logging.INFO):
         check('81.2.69.142')
     assert 'diagnostic' not in caplog.text
+
+
+# ENG-11: the counters live in the database
+
+from sqlalchemy.exc import OperationalError
+from app.db import RateCount
+
+
+def rows():
+    with Session(engine) as db:
+        return db.scalars(select(RateCount)).all()
+
+
+def test_counters_are_in_the_database_and_hold_only_hashes(setup):
+    signin('student', 'counted@example.com')
+    client.post('/api/check', json={'lesson_id': 'hello', 'code': CODE}, headers=HEADERS)
+    found = rows()
+    assert len(found) == 2  # a minute window and an hour window
+    for row in found:
+        assert len(row.key) == 32 and all(c in '0123456789abcdef' for c in row.key)
+        assert row.count == 1 and row.window_start == 1_000_000
+    with engine.connect() as conn:
+        dumped = ' '.join(str(v) for row in conn.execute(text('SELECT * FROM rate_limits')) for v in row)
+    assert 'counted' not in dumped and 'u:' not in dumped and 'hello' not in dumped
+
+
+def test_two_instances_share_one_limit(setup):
+    # A second API instance: its own process memory, the same database and SESSION_SECRET.
+    other = limits.Limiter(clock=setup)
+    windows = ((3, MINUTE_SECONDS),)
+    assert [LIMITER.hit('check', 'ip:198.51.100.7', windows), other.hit('check', 'ip:198.51.100.7', windows), LIMITER.hit('check', 'ip:198.51.100.7', windows)] == [0, 0, 0]
+    assert other.hit('check', 'ip:198.51.100.7', windows) == 60
+
+
+def test_a_restart_does_not_reset_the_counters(setup):
+    windows = ((1, MINUTE_SECONDS),)
+    assert LIMITER.hit('goal', 'u:1', windows) == 0
+    assert limits.Limiter(clock=setup).hit('goal', 'u:1', windows) == 60
+
+
+def test_a_window_starts_again_once_it_is_over(setup):
+    windows = ((1, MINUTE_SECONDS),)
+    assert LIMITER.hit('goal', 'u:1', windows) == 0
+    setup.now += 30
+    assert LIMITER.hit('goal', 'u:1', windows) == 30
+    setup.now += 30
+    assert LIMITER.hit('goal', 'u:1', windows) == 0
+    assert [r.count for r in rows()] == [1]
+
+
+def test_feedbacks_per_tester_counters_never_reach_the_database(setup):
+    LIMITER.hit('feedback', 'u:1', RULES['feedback'].user, private=True)
+    assert rows() == []
+    # Its total for everyone together holds no one's identity, so it is shared.
+    LIMITER.hit('feedback', 'everyone', RULES['feedback'].everyone)
+    assert len(rows()) == 1
+
+
+def test_when_the_database_fails_the_limit_still_applies_in_memory(setup, monkeypatch, caplog):
+    def broken(*args, **kwargs):
+        raise OperationalError('SELECT 1', {}, Exception('database down'))
+    monkeypatch.setattr(LIMITER, '_database', broken)
+    windows = ((2, MINUTE_SECONDS),)
+    with caplog.at_level(logging.WARNING, logger='uvicorn.error'):
+        assert [LIMITER.hit('check', 'ip:198.51.100.9', windows) for _ in range(3)] == [0, 0, 60]
+    assert 'counting in memory: rule=check' in caplog.text and '198.51.100.9' not in caplog.text
+
+
+def test_old_windows_are_deleted(setup, monkeypatch):
+    monkeypatch.setattr(limits, 'PRUNE_EVERY', 1)
+    LIMITER.hit('goal', 'u:1', ((10, MINUTE_SECONDS),))
+    setup.now += limits.LONGEST
+    LIMITER.hit('goal', 'u:2', ((10, MINUTE_SECONDS),))
+    assert len(rows()) == 1
+
+
+MINUTE_SECONDS = 60

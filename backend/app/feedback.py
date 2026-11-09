@@ -2,7 +2,8 @@
 
 Sign-in is required only to stop bots. A stored item holds no user ID, name, email, IP address or
 session ID, and only the date it was sent, not the time, so it cannot be matched to a person by
-the rate-limit counters (which live in app/limits.py, in memory, holding only keyed hashes) or by
+the rate-limit counters (app/limits.py keeps feedback's per-tester counters in memory, holding only
+keyed hashes, even though other counters are in the database since ENG-11) or by
 the account history (sending feedback adds no event). Log lines say "accepted" or why an item was
 rejected, never who sent it, the message or the code.
 
