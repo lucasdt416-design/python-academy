@@ -1,0 +1,130 @@
+{
+  "id": "fixture.files",
+  "version": 1,
+  "course": "fixture",
+  "unit": "fixture.u08",
+  "title": "TEST FIXTURE add up a file",
+  "concept": "Files",
+  "description": "Test data.",
+  "badge": {
+    "id": "fixture.badge.files",
+    "version": 1,
+    "title": "TEST FIXTURE badge",
+    "category": "practice"
+  },
+  "tasks": [
+    {
+      "id": "fixture.files.discover",
+      "type": "discover",
+      "title": "Read a file",
+      "body": "Test data.",
+      "detail": "Test data."
+    },
+    {
+      "id": "fixture.files.example",
+      "type": "example",
+      "code": "with open(\"note.txt\") as f:\n    print(f.read())",
+      "output": "hello from the file",
+      "note": "Test data.",
+      "inputs": [],
+      "files": {
+        "note.txt": "hello from the file"
+      }
+    },
+    {
+      "id": "fixture.files.predict",
+      "type": "predict",
+      "question": "Test data?",
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "answer": 0,
+      "why": "Test data."
+    },
+    {
+      "id": "fixture.files.guided",
+      "type": "guided",
+      "prompt": "Test data."
+    },
+    {
+      "id": "fixture.files.challenge",
+      "type": "challenge",
+      "prompt": "Add up the numbers in scores.txt, one per line. Print just the total.",
+      "starter": "# Open scores.txt\n",
+      "hints": [
+        "Open it.",
+        "Loop over its lines.",
+        "Add them up."
+      ],
+      "error_hints": [
+        {
+          "tags": [
+            "FileNotFoundError"
+          ],
+          "text": "Open the file by the name in the challenge: scores.txt."
+        },
+        {
+          "tags": [
+            "fixture.files.case.small",
+            "fixture.files.case.nested"
+          ],
+          "text": "Add every line of the file, not numbers typed into the code."
+        },
+        {
+          "tags": [
+            "fixture.files.case.other"
+          ],
+          "text": "Read the numbers from the file each time, as a different file may be given."
+        }
+      ],
+      "similar_example": {
+        "code": "print(1 + 2)",
+        "note": "Test data."
+      },
+      "other_ways": [
+        {
+          "code": "print(sum(int(n) for n in open(\"scores.txt\")))",
+          "note": "Test data."
+        }
+      ],
+      "input_labels": [],
+      "check": {
+        "cases": [
+          {
+            "id": "small",
+            "description": "a file of two scores",
+            "files": {
+              "scores.txt": "3\n4\n"
+            },
+            "expected": "7"
+          },
+          {
+            "id": "nested",
+            "description": "a file with a note in a folder beside it",
+            "files": {
+              "scores.txt": "10\n",
+              "notes/old.txt": "ignore me"
+            },
+            "expected": "10"
+          },
+          {
+            "id": "other",
+            "description": "a longer file you cannot see",
+            "visibility": "hidden",
+            "files": {
+              "scores.txt": "20\n21\n22\n"
+            },
+            "expected": "63"
+          }
+        ],
+        "time_limit_ms": 3000
+      },
+      "validator": {
+        "id": "browser-tests",
+        "version": 1
+      },
+      "version": 1
+    }
+  ]
+}

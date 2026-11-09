@@ -48,6 +48,26 @@ def __academy_input(prompt=''):
         raise EOFError('Add a player reply for each input() call, in order.')
 __academy_builtins.input = __academy_input
 `;
+// Files (ENG-08, docs/plan/browser-checks.md section 9). A program finds only the files it was given, in
+// Pyodide's in-memory filesystem, and anything it wrote before is gone. Nothing here is ever saved.
+const HOME = '/home/pyodide';
+function emptyFolder(FS, folder) {
+ for (const name of FS.readdir(folder)) {
+  if (name === '.' || name === '..') continue;
+  const path = `${folder}/${name}`;
+  if (FS.isDir(FS.lstat(path).mode)) { emptyFolder(FS, path); FS.rmdir(path); } else FS.unlink(path);
+ }
+}
+function freshFiles({FS}, files) {
+ FS.mkdirTree(HOME);
+ FS.chdir(HOME);
+ for (const folder of [HOME, '/tmp']) emptyFolder(FS, folder);
+ for (const [path, text] of Object.entries(files || {})) {
+  const parts = path.split('/');
+  if (parts.length > 1) FS.mkdirTree(`${HOME}/${parts.slice(0, -1).join('/')}`);
+  FS.writeFile(`${HOME}/${path}`, text);
+ }
+}
 // No network for learner code. Called once Pyodide has loaded, so nothing else needs these. The
 // worker's Content-Security-Policy also only allows connections to the Pyodide CDN.
 function noNetwork() {
@@ -63,6 +83,7 @@ self.onmessage = async ({data}) => {
   const py = await loadPyodide({stdout:s=>{output+=s+'\n';if(output.length>20000){capped=true;throw Error('Output exceeded 20,000 characters.');}}});
   noNetwork();
   await guardImports(py);
+  freshFiles(py, data.files);
   py.globals.set('__academy_input_json', JSON.stringify(data.inputs || []));
   // Its own file name, so an error inside it is not reported as a line of the learner's code.
   await py.runPythonAsync(REPLIES, {filename: '<academy>'});
@@ -133,6 +154,7 @@ def __academy_call(namespace, call_json, limit):
 `;
 async function runCases({code, cases, outputLimit}) {
  const calls = new Map(cases.map(c => [c.id, c.call]));
+ const given = new Map(cases.map(c => [c.id, c.files]));
  let py;
  try { py = await loadPyodide(); } catch { self.postMessage({type:'unavailable'}); return; }
  noNetwork();
@@ -156,6 +178,7 @@ async function runCases({code, cases, outputLimit}) {
   const namespace = py.toPy({__name__: '__main__'});
   let report;
   try {
+   freshFiles(py, given.get(id));
    py.globals.set('__academy_input_json', JSON.stringify(inputs || []));
    // Its own file name, so errors inside it are not reported as lines of the learner's code.
    await py.runPythonAsync(REPLIES, {filename: '<academy>'});

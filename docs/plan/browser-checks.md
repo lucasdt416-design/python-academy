@@ -41,6 +41,7 @@ A challenge opts in with `"validator": {"id": "browser-tests", "version": 1}` an
 | `cases[].expected` | The output the program should print, up to 10,000 characters |
 | `cases[].description` | Shown to the learner when the case fails, **hidden cases included**. For a hidden case it must not contain any of its inputs or expected lines; content loading fails if it does |
 | `cases[].visibility` | `visible` (default) or `hidden`. At least one case must be visible |
+| `cases[].files` | Optional: files the program finds in its folder, by path (section 10) |
 | `seed` | Optional, per case: the number `random` is seeded with (section 9) |
 | `require`, `forbid` | Names from the construct list below; a name cannot be in both |
 | `time_limit_ms` | Per case, after Python has loaded: 500 to 10,000 (default 3,000) |
@@ -118,7 +119,7 @@ Each run status reported by the browser is one of: `ok`, `error`, `timeout`, `ou
 | Cases per check | 10 | Content validation; API rejects more (422) |
 | Imports | Only the modules in section 9 | The worker's import guard. A guide for learners, not a sandbox (section 9) |
 | Network | None for learner code | Worker removes the network APIs after Pyodide loads; the worker's existing Content-Security-Policy only allows the Pyodide CDN in any case |
-| State between cases | None | Fresh namespace per case. Output a case left unflushed (for example one stopped at the output limit) is flushed and dropped before the next case starts (fixed in EDU-03 part 1, handoff 27). Imported modules stay loaded within one run, which is harmless |
+| State between cases | None | Fresh namespace and fresh files per case. Output a case left unflushed (for example one stopped at the output limit) is flushed and dropped before the next case starts (fixed in EDU-03 part 1, handoff 27). Imported modules stay loaded within one run, which is harmless |
 | Request rate | Unchanged | The existing `check` and `attempts` rate limits |
 
 ## 7. Not done here
@@ -191,3 +192,20 @@ Status: **in review** (handoff 34).
 **Seeded random.** Before each case the worker seeds `random` with the case's `seed`, or 0. An optional `seed` on a case, from 0 to 2,147,483,647, is sent to the browser in the plan only when set, like a hidden case's inputs. Pyodide's `random` gives the same numbers as CPython 3.12 (tested). Try it is not seeded, so a learner sees different numbers. A learner's own `random.seed()` still works.
 
 **Adding a module.** Say why in a handoff, and check what it exposes. No lesson uses imports yet, so none of this changes what a learner meets in units 1 to 3, unless they import something.
+
+## 10. File fixtures (ENG-08)
+
+Status: **in review** (handoff 35).
+
+A case can give its program files, and a worked example can give its "Try it" card files. They live only in Pyodide's in-memory filesystem, in the learner's browser.
+
+| Rule | Value |
+| --- | --- |
+| Per case or example | Up to 10 files, each up to 10,000 characters |
+| Paths | Relative, letters, digits, `-` and `_`, with `.` extensions and `/` folders. Each part starts with a letter or digit, so no `..`, and no absolute paths. Checked when content loads |
+| Between cases | Before each case, the worker empties `/home/pyodide` and `/tmp`, goes back to `/home/pyodide`, and writes that case's files. Anything the program wrote before is gone |
+| Saved? | **Never.** The page says "Files here are temporary" |
+| Hidden cases | **A hidden case's files reach the browser,** in the plan, like its inputs: the program has to read them. The page never shows them, and a hidden description may not quote their lines. Hidden expected output still never leaves the server |
+| What the page shows | The example's files, and one visible case's files as a sample |
+
+**Not built: a learner's own second file.** `py.own-modules` needs a second editor tab, a change to what the page sends and, with ENG-07, a way to allow the learner's own module. That is a separate stage (handoff 35, question 1).
