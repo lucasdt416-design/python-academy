@@ -3,7 +3,7 @@
 Date: 2026-11-09 (America/Toronto)  
 Written by: Claude Code (implementer), in a separate git worktree  
 For: the human maintainer, and ChatGPT or Claude chat (reviewer) without repository access  
-Status: **in_review**: one pull request, documentation only, not merged. Nothing decided.
+Status: **in_review**: one pull request (#58), documentation only, not merged. Nothing decided.
 
 > **How to use this file:** upload it with `docs/plan/engineering-book-outline.md` and `docs/plan/decision-log.md`. The pull request diff is the source of truth (`build.md` section 14).
 
@@ -58,7 +58,7 @@ Section 5 of the outline has the four open decisions (audience, repository acces
 
 | Where | What |
 | --- | --- |
-| Backlog | DOC-03 `in_review` (#PR, handoff 50) |
+| Backlog | DOC-03 `in_review` (#58, handoff 50) |
 
 ## 6. Next concrete action
 
