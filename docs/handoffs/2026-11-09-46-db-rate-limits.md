@@ -3,7 +3,7 @@
 Date: 2026-11-09 (America/Toronto)  
 Written by: Claude Code (implementer), in a separate git worktree  
 For: the human maintainer, and ChatGPT or Claude chat (reviewer) without repository access  
-Status: **in_review**: one pull request, not merged, not deployed. **One additive migration, 0010.** No new dependency, no new setting.
+Status: **in_review**: one pull request (#54), not merged, not deployed. **One additive migration, 0010.** No new dependency, no new setting.
 
 > **How to use this file:** upload it with handoff 06 (rate limits) and `docs/plan/feedback-security.md`. The pull request diff is the source of truth (`build.md` section 14).
 
@@ -113,8 +113,8 @@ After deploying: Render's log should show "Database schema is at migration 0010"
 
 | Where | What |
 | --- | --- |
-| Backlog | ENG-11 `in_review` (#PR, handoff 46) |
-| Stage table | "46. Rate limits in the database \| ENG-11 \| in_review (#PR, handoff 46)" |
+| Backlog | ENG-11 `in_review` (#54, handoff 46) |
+| Stage table | "46. Rate limits in the database \| ENG-11 \| in_review (#54, handoff 46)" |
 | Decision log | Feedback's per-tester counters stay in memory, for anonymity |
 
 ## 11. Next concrete action
