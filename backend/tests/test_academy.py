@@ -1,3 +1,4 @@
+from urllib.parse import urlsplit
 import os
 import tempfile
 from datetime import date
@@ -65,6 +66,12 @@ def test_age_boundary():
     today=date.today()
     assert post('enroll', {'birthday':today.replace(year=today.year-25).isoformat()}).status_code == 422
     assert post('enroll', {'birthday':today.replace(year=today.year-26).isoformat()}).json() == {'role':'parent'}
+
+def test_an_invitation_link_keeps_its_token_after_the_hash():
+    # SEC-06: a browser never sends what follows '#', so the token stays out of server and proxy logs.
+    signin('parent','parent@example.com')
+    url = urlsplit(post('invitations', {'email':'learner@example.com'}).json()['url'])
+    assert url.path == '/' and url.query == '' and url.fragment.startswith('invite=') and len(url.fragment) > 30
 
 def test_invitation_ownership_age_and_single_use():
     parent = signin('parent','parent@example.com')
