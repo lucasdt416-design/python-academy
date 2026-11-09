@@ -29,11 +29,11 @@ The plan is [`docs/plan/master-run.md`](plan/master-run.md). A new session reads
 | S26 | `docs/construct-rules` | `main` | #38 | 33 | done | 2026-11-02 | Docs checks 0 problems |
 | WWD1 | none | none | none | none | blocked: dependency S09 | 2026-11-02 | |
 | WD2 | `eng/allowlisted-imports` | `main` | #39 | 34 | done | 2026-11-02 | On `ac167e3`: backend 802 and 813; types and build OK; Playwright 275; 9 deliberate breaks, one gap closed. One earlier run failed many Pyodide tests, cause not established |
-| WD3 | none | none | none | none | blocked: dependency WD2 and WD4 | 2026-11-02 | Both unmerged; chaining needs B-R1 |
+| WD3 | none | none | none | none | blocked: waiting for B-R2 | 2026-11-09 | WD2 and WD4 are merged now. Unit 7 also needs units 4 to 6 first |
 | WD4 | `eng/file-fixtures` | `main` | #40 | 35 | done | 2026-11-02 | Backend 813 and 824; types and build OK; Playwright 272; axe 0; 8 deliberate breaks caught. Text conflicts with #39; the combination was tested |
 | WD5 | `eng/reference-tests` | `main` | #46 | 41 | done | 2026-11-02 | Backend 828 and 839; types and build OK; Playwright 287 three times; 7 deliberate breaks, one gap closed. One earlier run failed one test, cause not established |
-| WD6 | none | none | none | none | blocked: dependency WD5 | 2026-11-02 | Unmerged; also needs B-R2 |
-| WD7 | none | none | none | none | blocked: dependency WD4 | 2026-11-02 | Unmerged; also needs B-R2 to release in parts |
+| WD6 | none | none | none | none | blocked: waiting for B-R2 | 2026-11-09 | WD5 is merged now |
+| WD7 | none | none | none | none | blocked: waiting for B-R2 | 2026-11-09 | WD4 is merged now |
 | WD8 | none | none | none | none | blocked: waiting for B-R2 | 2026-11-02 | Five lessons, and needs WD2 |
 | WD9 | none | none | none | none | blocked: dependency WD10 | 2026-11-02 | Its third lesson needs ENG-09 |
 | WD10 to WD12 | none | none | none | none | blocked: dependency S23 | 2026-11-02 | S23 needs B-A1 |
@@ -44,9 +44,23 @@ The plan is [`docs/plan/master-run.md`](plan/master-run.md). A new session reads
 | Docs sync 4 | `docs/backlog-sync-4` | `main` | #43 | 38 | done | 2026-11-02 | Docs checks 0 problems. Records decisions 28 to 31 |
 | SEC-08, Dependabot | `sec/dependabot-actions` | `main` | #44 | 39 | done | 2026-11-02 | Test passes; 3 deliberate breaks caught; only GitHub can show it runs |
 | ENG-06 follow-up | `eng/hidden-calls` | `main` | #45 | 40 | done | 2026-11-02 | Backend 813 and 824; types and build OK; Playwright 282; 3 deliberate breaks caught |
-| ENG-08b | none | none | none | none | blocked: dependency WD4 | 2026-11-02 | #40 unmerged; chaining needs B-R1. Must keep the guard on inside learner modules (decision 30) |
+| ENG-08b | `eng/learner-modules` | `main` | #51 | 43 | done | 2026-11-09 | Backend 871, then 894 after merging #46 and #50; 18 new browser tests; 6 deliberate breaks, one gap closed. Closed a way round the guard |
+| WE6 | `qa/accessibility-browsers` | `main` | #50 | 42 | done | 2026-11-08 | New specs 25 passed; unit 1 snapshot passed; 4 deliberate breaks caught. First Firefox and WebKit report: 1 and 3 failures |
+| WE7, SEC-05 | `sec/pyodide-integrity` | `main` | #52 | 44 | done | 2026-11-09 | New spec 11 passed; 150 related; 3 deliberate breaks, 2 caught, 1 can't be shown |
+| WE7, SEC-06 | `sec/invite-tokens` | `main` | #53 | 45 | done | 2026-11-09 | Backend 895; `academy.spec.ts` 35; 3 deliberate breaks caught |
+| WE7, ENG-11 | `eng/db-rate-limits` | `main` | #54 | 46 | done | 2026-11-09 | Backend 916 with PostgreSQL; 4 deliberate breaks caught. Migration 0010 |
+| QA-03 follow-up | `qa/cross-browser-fixes` | `main` | #55 | 47 | done | 2026-11-09 | Frame test in 2 browsers, snapshot in 3; 2 deliberate breaks caught |
+| WE8, EDU-01 | `docs/placement-examples` | `main` | #56 | 48 | done | 2026-11-09 | Every sample run in Python 3.12 |
+| WE8, EDU-02 | none | none | none | none | blocked: waiting for EDU-01's review and the placement storage decision | 2026-11-09 | |
+| WE9 | none | none | none | none | blocked: waiting for Lucas's review of S10 | 2026-11-09 | |
+| WE10 | `docs/video-scripts` | `main` | #57 | 49 | done | 2026-11-09 | 13 code samples run in Python 3.12 |
+| WE11 | `docs/book-outline` | `main` | #58 | 50 | done | 2026-11-09 | Handoff numbers checked against `docs/handoffs/` |
+| WE12 | none | none | none | none | blocked: course designs reviewed by Lucas, and B-D1 for SQL | 2026-11-09 | |
+| Docs sync 5 | `docs/backlog-sync-5` | `main` | see handoff 51 | 51 | done | 2026-11-09 | Docs checks |
 
 Owner merged #32 to #39, #41 and #42 on 2026-11-02. The run stopped at the cap of 5 open PRs. Not reached: WE6, the rest of WE7, WE8 and later.
+
+Owner raised the cap to 7 on 2026-11-02, then lifted it on 2026-11-09. Merged since: #43 to #51. Open after this run: #52 to #58 and the docs sync.
 
 **Keeping this file mergeable:** every open run branch carries an identical copy of this file, so they merge in any order. If one conflicts after a merge, keep the copy with the most rows.
 
@@ -79,9 +93,36 @@ Built in `qa/accessibility-browsers`, handoff 42. The audit needs `axe-core`, a 
 
 ## ENG-08b: the learner's own files, 2026-11-09
 
-Built in `eng/learner-modules`, handoff 43, after #40 merged (its dependency). Decision 30 is met: names Python already has are refused, the guard applies inside learner files, and no file can stand in for a Python module. Found on the way: on `main`, a program could write `datetime.py`, import it, and import `os` from inside it. Closed here. **Merge after #46 and #50:** it has text conflicts with both, which I will resolve.
+Built in `eng/learner-modules`, handoff 43, after #40 merged (its dependency). Decision 30 is met: names Python already has are refused, the guard applies inside learner files, and no file can stand in for a Python module. Found on the way: on `main`, a program could write `datetime.py`, import it, and import `os` from inside it. Closed here. It was merged after #46 and #50, once its conflicts with both were resolved (PR #51, merged 2026-11-09).
+
+## SEC-05: Pyodide pinned and checked, 2026-11-09
+
+Built in `sec/pyodide-integrity`, handoff 44, after #51 merged. Lucas lifted the open-PR cap on 2026-11-09 ("u can make as many as you want"). B-R1 is still empty, so each stage starts from `main`. No new dependency: checked hashes instead of self-hosting.
 
 ## SEC-06: invitation tokens out of addresses and logs, 2026-11-09
 
 Built in `sec/invite-tokens`, handoff 45, from `main` after #51. Lucas lifted the open-PR cap on 2026-11-09. B-R1 is still empty, so each stage starts from `main`.
 
+## ENG-11: rate-limit counters in the database, 2026-11-09
+
+Built in `eng/db-rate-limits`, handoff 46, from `main` after #51. Migration **0010**, not 0009, which decision 29 keeps for S04. Lucas lifted the open-PR cap on 2026-11-09. B-R1 is still empty.
+
+## Cross-browser fixes, 2026-11-09
+
+Built in `qa/cross-browser-fixes`, handoff 47, from `main` after #51: the tests that failed in the first Firefox and WebKit report (#50). Test changes only. Lucas lifted the open-PR cap on 2026-11-09. B-R1 is still empty.
+
+## WE8: placement examples (EDU-01), 2026-11-09
+
+Built in `docs/placement-examples`, handoff 48, docs only. **EDU-02, the pilot, is skipped:** it needs this design reviewed by Lucas and the placement storage decision that `retention.md` leaves open. Lucas lifted the open-PR cap on 2026-11-09. B-R1 is still empty.
+
+## WE10: video scripts for unit 1 (EDU-10), 2026-11-09
+
+Built in `docs/video-scripts`, handoff 49, docs only. The backlog row lists PLAN-03 (the teaching design review, not done) as a dependency, though the master run gives WE10 no gate: the scripts are text, to be reviewed with it. Lucas lifted the open-PR cap on 2026-11-09. B-R1 is still empty.
+
+## WE11: book and course outline expanded (DOC-03), 2026-11-09
+
+Built in `docs/book-outline`, handoff 50, docs only: chapters and course weeks from decision-log chapters 14 to 22 and the master run's handoffs. Lucas lifted the open-PR cap on 2026-11-09. B-R1 is still empty.
+
+## Docs sync 5, 2026-11-09
+
+Built in `docs/backlog-sync-5`, handoff 51: `backlog.md`, the stage table and `decision-log.md` brought up to date with handoffs 38 to 50, and this file made the same on every open run branch. **The run stops here:** every stage left in the queue needs an empty Part 2 box, a decision, or a review (the table above).
