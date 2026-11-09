@@ -44,7 +44,7 @@ sa.Table('attempts', LEGACY,
 HELLO = ('print("A forest.")\nprint("A dragon!")', 'A forest.\nA dragon!\n')
 VARIABLES = ('hero="Kai"\ntool="rope"\nprint(f"{hero} carries {tool}")', 'Kai carries rope\n')
 ARITHMETIC = ('stars=7\nprint(stars*3)', '21\n')  # legacy exercise under the variables ID
-HEAD = '0008'
+HEAD = '0010'
 
 
 @pytest.fixture(params=['sqlite', 'postgresql'])
@@ -253,3 +253,38 @@ def test_0008_adds_an_anonymous_feedback_table_and_removes_it_on_downgrade(engin
         assert conn.execute(sa.text('SELECT count(*) FROM sessions')).scalar() == 1
     migrate.upgrade(engine)
     assert migrate.current(engine) == HEAD
+
+
+def test_0010_adds_rate_limit_counters_holding_only_hashes_and_removes_them_on_downgrade(engine):
+    migrate.upgrade(engine, '0008')
+    with engine.begin() as conn:
+        conn.execute(sa.text("INSERT INTO users (id, subject, email, role, tester) VALUES (1, 's', 's@example.com', 'student', true)"))
+    migrate.upgrade(engine, '0010')
+    columns = {c['name'] for c in sa.inspect(engine).get_columns('rate_limits')}
+    assert columns == {'key', 'window_start', 'count'}
+    assert not sa.inspect(engine).get_foreign_keys('rate_limits')
+    with engine.begin() as conn:
+        conn.execute(sa.text("INSERT INTO rate_limits (key, window_start, count) VALUES ('0123456789abcdef0123456789abcdef', 1762660000000, 3)"))
+    migrate.downgrade(engine, '0008')
+    assert 'rate_limits' not in sa.inspect(engine).get_table_names()
+    with engine.connect() as conn:
+        assert conn.execute(sa.text('SELECT count(*) FROM users')).scalar() == 1
+    migrate.upgrade(engine)
+    assert migrate.current(engine) == HEAD
+
+
+def test_rate_limit_counting_works_on_this_database_and_is_shared_between_instances(engine):
+    # ENG-11 counts with INSERT ... ON CONFLICT DO UPDATE ... RETURNING, which each database runs itself.
+    from app.limits import Limiter
+    migrate.upgrade(engine)
+    clock = lambda: 1000.0
+    first, second = Limiter(clock=clock, engine=engine), Limiter(clock=clock, engine=engine)
+    windows = ((2, 60), (5, 3600))
+    assert [first.hit('check', 'ip:x', windows), second.hit('check', 'ip:x', windows), first.hit('check', 'ip:x', windows)] == [0, 0, 60]
+    with engine.connect() as conn:
+        assert sorted(conn.execute(sa.text('SELECT count FROM rate_limits')).scalars()) == [3, 3]
+    later = Limiter(clock=lambda: 1061.0, engine=engine)
+    assert later.hit('check', 'ip:x', windows) == 0
+    assert later.hit('check', 'ip:x', windows) == 0
+    # The minute window started again, but the hour one is now full (5 of 5), so the wait is the hour's.
+    assert later.hit('check', 'ip:x', windows) == 3539
