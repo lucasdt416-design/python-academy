@@ -54,7 +54,7 @@ Owner merged #32 to #39, #41 and #42 on 2026-11-02. The run stopped at the cap o
 
 **Part 2 boxes:** none is ticked in `MASTER-RUN.md`, and the copy in `~/Downloads` is byte-identical. Nothing that needs a box was done. An unticked B-R1 means no chained PRs in this run, so each stage either starts from `origin/main` or is blocked. The plan's estimate that a first run does "S01, S02, S05, S06 and S07" assumes chaining is allowed.
 
-**Open-PR cap:** the default of 5 applies. #32 is open, which leaves room for 4 more.
+**Open-PR cap:** the default of 5 applies. #32 is open, which leaves room for 4 more. Lucas raised the cap to 7 later on 2026-11-02. B-R1 stays empty, so there is still no chaining.
 
 **Confirmed against the repository:** PR #32 is open and unmerged, targeting `main`. All PRs named as merged in Part 3 are merged, including #17 and #18. The newest migration on `main` is 0008. No handoff 21 exists. The highest handoff number on any branch is 27, on #32's branch, so the next free number is 28. `course-catalog.md` section 6.2 and the README are stale as described.
 
@@ -72,3 +72,7 @@ Owner merged #32 to #39, #41 and #42 on 2026-11-02. The run stopped at the cap o
 | Part 6 stage WD1 | Written "WWD1", a typing slip |
 | Worktree `../python-academy-sync3` may exist | It did not; this run created it for S01 |
 | About 30 remote branches | 33 lines in `git branch -r`, including `origin/HEAD` |
+
+## WE6: keyboard tests, screen reader sheet, cross-browser report, 2026-11-02
+
+Built in `qa/accessibility-browsers`, handoff 42. **The QA-01a audit script is not built:** it needs `axe-core`, a new dependency, so that part stopped and asks (plan section 1.6). UI-02 to UI-04 stay skipped by decision 29.
