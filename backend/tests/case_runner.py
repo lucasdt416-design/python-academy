@@ -74,7 +74,10 @@ for job in jobs:
         try:
             signal.setitimer(signal.ITIMER_REAL, job['seconds'])
             with contextlib.redirect_stdout(out):
-                exec(compile(job['code'], '<exec>', 'exec'), {'__name__': '__main__'})
+                namespace = {'__name__': '__main__'}
+                if case.get('reference') is not None:
+                    exec(compile(case['reference'], '<reference>', 'exec'), namespace)
+                exec(compile(job['code'], '<exec>', 'exec'), namespace)
         except TimeLimit:
             report['status'] = 'timeout'
             stopped = True
@@ -112,7 +115,7 @@ def reports(lesson, programs, timeout=120, modules=None):
     modules: the learner's own files (ENG-08b), the challenge's starting code unless given."""
     check = lesson.task('challenge').check
     own = getattr(lesson.task('challenge'), 'modules', {}) if modules is None else modules
-    jobs = [{'code': code, 'modules': own, 'limit': 10_000, 'seconds': SECONDS, 'cases': [{'id': c.id, 'inputs': c.inputs, 'files': getattr(c, 'files', {}), 'seed': getattr(c, 'seed', None)} for c in check.cases]} for code in programs]
+    jobs = [{'code': code, 'modules': own, 'limit': 10_000, 'seconds': SECONDS, 'cases': [{'id': c.id, 'inputs': c.inputs, 'files': getattr(c, 'files', {}), 'seed': getattr(c, 'seed', None), 'reference': getattr(c, 'reference', None)} for c in check.cases]} for code in programs]
     done = subprocess.run([sys.executable, '-I', '-c', RUNNER], input=json.dumps(jobs), capture_output=True, text=True, timeout=timeout, check=True)
     return [[CaseRun(**report) for report in program] for program in json.loads(done.stdout)]
 

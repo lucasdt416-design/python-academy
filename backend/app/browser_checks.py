@@ -54,6 +54,8 @@ def plan(lesson):
                    **({'expected': case.expected} if case.visibility == 'visible' and case.expected is not None else {}),
                    **({'files': case.files} if case.files else {}),
                    **({'seed': case.seed} if case.seed is not None else {}),
+                   **({'reference': case.reference} if case.reference is not None else {}),
+                   **({'test_should': case.test_should} if case.test_should and case.visibility == 'visible' else {}),
                    **({'call': case.call.model_dump()} if case.call else {}),
                    **({'returns': case.returns.model_dump()} if case.returns and case.visibility == 'visible' else {})}
                   for case in challenge.check.cases],
@@ -182,7 +184,13 @@ def judge(lesson, code, runs):
         problem = None
         if run.status in FUNCTION_ONLY and not case.call:
             return outcome('service_error', SERVICE_ERROR)
-        if run.status == 'ok':
+        if case.test_should and run.status == 'ok':
+            problem = ('bug_missed', None) if case.test_should == 'fail' else None
+        elif case.test_should and run.status == 'error' and run.error_type not in UNSUPPORTED and (case.test_should == 'fail' or run.error_type == 'AssertionError'):
+            # On a broken program any stop counts as caught: the first case has shown the tests run on
+            # correct code, so a typo is reported there.
+            problem = None if case.test_should == 'fail' else ('test_failed_correct', None)
+        elif run.status == 'ok':
             if case.returns:
                 valid, value = returned_value(run.returned)
                 if not valid:
@@ -214,6 +222,11 @@ def judge(lesson, code, runs):
               'error_type': run.error_type, 'line': run.line}
     about = case.description
     case_rule = f'{lesson.id}.case.{case.id}'
+    if reason == 'test_failed_correct':
+        return outcome('needs_work', f'A test failed on {about}, which is correct. A good test passes when the code is right, so check what that assert expects.', statuses, failed, rule=case_rule)
+    if reason == 'bug_missed':
+        where = ' (a hidden test case)' if case.visibility == 'hidden' else ''
+        return outcome('needs_work', f'Your tests all passed on {about}{where}, which has a bug. Add a test that this code would fail.', statuses, failed, rule=case_rule)
     if reason == 'no_function':
         return outcome('needs_work', f'Your program should define a function called {case.call.function} that {takes(case.call)}.', statuses, failed, rule=case_rule)
     if reason == 'bad_signature':

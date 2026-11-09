@@ -195,7 +195,7 @@ Status: **in review** (handoff 34).
 
 ## 10. File fixtures (ENG-08)
 
-Status: **in review** (handoff 35).
+Status: **built** (#40, handoff 35).
 
 A case can give its program files, and a worked example can give its "Try it" card files. They live only in Pyodide's in-memory filesystem, in the learner's browser.
 
@@ -210,9 +210,26 @@ A case can give its program files, and a worked example can give its "Try it" ca
 
 **A given file can't stand in for one of Python's modules** (decision 30): content refuses a top-level file such as `random.py`, and the worker looks in the program's folder only after Python's own library. A learner's own second file is section 12.
 
+## 11. Learner tests against reference programs (ENG-10)
+
+Status: **built** (#46, handoff 41).
+
+The learner's program is a set of tests, usually `assert` lines. Each case loads a **reference program** first, in the same fresh namespace, then runs the learner's tests. The result is judged by whether they ran to the end.
+
+| A case's `test_should` | The tests ran to the end | A test stopped them |
+| --- | --- | --- |
+| `pass` (correct reference) | Good | `AssertionError`: "A test failed on …, which is correct". Any other error is a Python error, explained as usual |
+| `fail` (broken reference) | "Your tests all passed on …, which has a bug" | Good, whatever the error, because the first case has shown that the tests run on correct code. A refused import is the exception: it is `unsupported` |
+
+**Rules, checked when content loads:** every case has a `reference`, the first case is visible with `test_should: pass`, and at least one has `test_should: fail`. A reference case has no `call`, `returns` or `expected`. A reference must parse.
+
+**What reaches the browser (decision 28).** Every reference, in the plan, because the tests run there. **So a correct reference must not be the lesson's answer.** Content validation can't check that; authors must. In unit 8 the learner writes tests, not the code under test, so this holds. A hidden case's `test_should` is its expected result and is not sent, and a hidden failure is named only by its description.
+
+**Limits.** A learner who reads a broken reference could write a test aimed only at that bug, and these are practice evidence (section 5). Output is ignored. Imports in a reference follow the same list as the learner's.
+
 ## 12. The learner's own files (ENG-08b)
 
-Status: **in review** (handoff 43). Section 11 is ENG-10, in #46.
+Status: **in review** (handoff 43).
 
 A "Try it" card or a challenge can give the learner up to 3 files of their own, such as `helpers.py`, beside the program. Each has a tab above the editor, and the program imports it by name.
 
