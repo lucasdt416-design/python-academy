@@ -56,11 +56,14 @@ The plan is [`docs/plan/master-run.md`](plan/master-run.md). A new session reads
 | WE10 | `docs/video-scripts` | `main` | #57 | 49 | done | 2026-11-09 | 13 code samples run in Python 3.12 |
 | WE11 | `docs/book-outline` | `main` | #58 | 50 | done | 2026-11-09 | Handoff numbers checked against `docs/handoffs/` |
 | WE12 | none | none | none | none | blocked: course designs reviewed by Lucas, and B-D1 for SQL | 2026-11-09 | |
-| Docs sync 5 | `docs/backlog-sync-5` | `main` | see handoff 51 | 51 | done | 2026-11-09 | Docs checks |
+| Docs sync 5 | `docs/backlog-sync-5` | `main` | #59 | 51 | done | 2026-11-09 | Docs checks |
+| Visual redesign (owner request) | `ui/visual-redesign` | `main` | #60 | 52 | done | 2026-11-09 | 12 new browser tests; full suite 374 locally; CI green; 3 deliberate breaks caught |
+| Run 2, A1: history scan | `sec/history-scan` | `main` | #61 | 53 | done | 2026-11-09 | gitleaks 8.21.2 on all refs: 1 finding, not a secret; pattern search; nothing to rotate |
+| Run 2, A2: docs sync 6 | `docs/backlog-sync-6` | `main` | #62 | 54 | done | 2026-11-09 | Docs checks |
 
 Owner merged #32 to #39, #41 and #42 on 2026-11-02. The run stopped at the cap of 5 open PRs. Not reached: WE6, the rest of WE7, WE8 and later.
 
-Owner raised the cap to 7 on 2026-11-02, then lifted it on 2026-11-09. Merged since: #43 to #51. Open after this run: #52 to #58 and the docs sync.
+Owner raised the cap to 7 on 2026-11-02, then lifted it on 2026-11-09. Merged since: #43 to #60, all by 2026-11-09. The repository was made public before run 2. Open after run 2: #61 and #62, documentation only, in any order. Every Part 2 box is still empty.
 
 **Keeping this file mergeable:** every open run branch carries an identical copy of this file, so they merge in any order. If one conflicts after a merge, keep the copy with the most rows.
 
@@ -126,3 +129,10 @@ Built in `docs/book-outline`, handoff 50, docs only: chapters and course weeks f
 ## Docs sync 5, 2026-11-09
 
 Built in `docs/backlog-sync-5`, handoff 51: `backlog.md`, the stage table and `decision-log.md` brought up to date with handoffs 38 to 50, and this file made the same on every open run branch. **The run stops here:** every stage left in the queue needs an empty Part 2 box, a decision, or a review (the table above).
+
+## Run 2, 2026-11-09
+
+Started from `main` at `ba4ccdf`, after #60. No Part 2 box is ticked, B-R1 included, so each stage starts from `main`.
+
+- **A1, history scan** (`sec/history-scan`, handoff 53): every commit on every branch scanned with a checked gitleaks release and pattern searches. No secret; nothing to rotate; history not rewritten. Commit authors' Gmail addresses and four Render resource IDs are public; neither is a credential.
+- **A2, docs sync 6** (`docs/backlog-sync-6`, handoff 54): #52 to #60 recorded as merged; #60 and handoff 52 added; SITE-03 rescoped; SITE-02 and handoff 52's questions 1 to 3 listed as open, not decided. This file is identical on both run 2 branches.
