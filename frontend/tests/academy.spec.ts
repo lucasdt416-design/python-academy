@@ -23,7 +23,7 @@ async function mockApi(page:Page,initialRole:string|null,done:string[]=[],initia
   else if(path==='/api/history'||path==='/api/family')body=[];
   else if(path==='/api/progress')body=completed;
   else if(path==='/api/enroll'){role=route.request().postDataJSON().invitation?'student':'parent';body={role};}
-  else if(path==='/api/invitations')body={url:'https://academy.example/?invite=test'};
+  else if(path==='/api/invitations')body={url:'https://academy.example/#invite=test'};
   else if(path==='/api/logout')role=null;
   else if(path==='/api/check'||path==='/api/attempts'){
    const data=route.request().postDataJSON();if(path==='/api/attempts'&&!completed.includes(data.lesson_id))completed.push(data.lesson_id);
@@ -58,10 +58,21 @@ test('invitation survives redirect and enrolls a student',async({page})=>{
  await expect(page.getByText('Learn to code from scratch (default)')).toBeVisible();
  expect(await page.evaluate(()=>sessionStorage.getItem('academy-invite'))).toBeNull();
 });
+test('SEC-06: an invitation after # enrolls a student, and its token never reaches a server or stays in the address',async({page})=>{
+ const sent:string[]=[];page.on('request',r=>{if(!r.url().startsWith('data:'))sent.push(r.url());});
+ await mockApi(page,'pending',[],{goal:null,chosen:false,asked:false});await page.goto('/#invite=private-token');
+ await expect(page).toHaveURL('/');
+ await page.getByLabel('Date of birth').fill('2010-01-01');
+ const request=page.waitForRequest(r=>r.url().endsWith('/api/enroll'));
+ await page.getByRole('button',{name:'Complete registration'}).click();
+ expect((await request).postDataJSON().invitation).toBe('private-token');
+ // Only the enrol request carries it, in its body: no address any request went to has it.
+ expect(sent.filter(u=>u.includes('private-token'))).toEqual([]);
+});
 test('parent creates an invitation, previews lessons, and returns to family',async({page})=>{
  await mockApi(page,'parent');await page.goto('/');
  await page.getByLabel('Student’s Google email').fill('learner@example.com');await page.getByRole('button',{name:'Create invitation'}).click();
- await expect(page.getByLabel('Invitation link')).toHaveValue('https://academy.example/?invite=test');
+ await expect(page.getByLabel('Invitation link')).toHaveValue('https://academy.example/#invite=test');
  await page.getByRole('link',{name:/Try the lessons/}).click();
  await expect(page.getByRole('article',{name:'Current learning card'})).toHaveCount(1);
  await page.getByRole('link',{name:'Return to your account'}).click();

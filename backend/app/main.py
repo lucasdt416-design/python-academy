@@ -169,7 +169,8 @@ def invite(data: InviteInput, request: Request):
         db.add(Invitation(digest=hashlib.sha256(token.encode()).hexdigest(), parent_id=u.id, email=data.email.lower(), expires=(datetime.now(timezone.utc)+timedelta(days=7)).isoformat()))
         audit(db, u, 'invitation_created')
         db.commit()
-        return {'url': ORIGIN + '/?invite=' + token, 'expires_in_days': 7}
+        # SEC-06: after '#', so the token never reaches a server, a proxy or a request log.
+        return {'url': ORIGIN + '/#invite=' + token, 'expires_in_days': 7}
 
 @app.get('/api/family')
 def family(request: Request):
