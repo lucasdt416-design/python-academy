@@ -21,7 +21,7 @@ expected result of a hidden case reaching the browser.
 | Field | Value |
 | --- | --- |
 | Stage | WD5, ENG-10. Stopped earlier because its spec contradicted itself, then unblocked by the owner's decision 28 |
-| Base | `main`, at `1947f7a`. **Text conflicts with #40** (section 8) |
+| Base | `main`, at `1947f7a`, then merged again at `34527cb` after #40, #45 and #47 to #49 merged |
 | Part 2 boxes relied on | **None** |
 
 ## 1. Step 0
@@ -76,7 +76,7 @@ expected result of a hidden case reaching the browser.
 
 | Command | Result |
 | --- | --- |
-| Backend on SQLite | **828 passed, 11 skipped** |
+| Backend on SQLite | **828 passed, 11 skipped**; after merging `main`, **865 passed, 11 skipped** |
 | Backend on PostgreSQL | **839 passed** |
 | `npx tsc --noEmit && npm run build` | OK |
 | `CI=1 npx playwright test` | **287 passed,** three times in a row (see section 5) |
@@ -105,6 +105,8 @@ Covered: good tests pass; `assert True`, no tests, and print-only tests fail; a 
 
 A trial merge of all five open PRs shows text conflicts between #40 and this PR in 5 files, and between #40 and #45 in `content.py`, all where each adds a line. GitHub will show them. **Merge #40 first, tell me, and I'll update #45 and this PR.** I have not yet tested those combinations.
 
+**Update, 2026-11-09:** #40 and #45 merged first, so I merged `main` into this branch. The 5 conflicted files were all places where both add a line, and I kept both: a case can now have files and a reference, and the worker writes the files before it loads the reference. In `browser-checks.md`, this section became section 11, after file fixtures. Tested after the merge: backend 865 passed and 11 skipped on SQLite; types and build OK; the 85 tests in the reference, file, browser, hidden-call and function-call specs passed locally. **The full browser suite is left to CI,** as it has not been reliable on this Mac (handoff 35 section 8). Not tested: a lesson using files and a reference together, as no lesson does yet.
+
 ## 9. Live checks for you
 
 None: no real lesson uses it.
@@ -124,7 +126,7 @@ None: no real lesson uses it.
 
 ## 12. Next concrete action
 
-Merge #40, then tell me, and I'll update #45 and this PR.
+Review and merge this PR once CI is green.
 
 ## 13. Removing the worktree safely
 
