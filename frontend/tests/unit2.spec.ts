@@ -72,9 +72,10 @@ async function runScenario(page: Page, s: Scenario, goto = true) {
 test('unit 2 loads on its own: its heading, its three lessons, and no unit 1 pictures', async ({page}) => {
  const {requests} = await mockApi(page);
  await page.goto('/preview?lesson=py.arithmetic');
- await expect(page.getByRole('heading', {level: 1, name: 'Numbers and decisions'})).toBeVisible();
- await expect(page.getByText('UNIT 02 · PYTHON FOUNDATIONS')).toBeVisible();
- await expect(page.getByText('Arithmetic, whole numbers and decimals, numbers from input(), comparisons, Boolean logic and elif.')).toBeVisible();
+ // Visual redesign: the page heading is the lesson's title; the unit's title heads the lesson list.
+ await expect(page.getByRole('heading', {level: 1, name: 'Count the treasure'})).toBeVisible();
+ await expect(page.getByText('unit 2 · lesson 1 of 6')).toBeVisible();
+ await expect(page.getByRole('region', {name: 'Numbers and decisions'})).toBeVisible();
  const nav = page.getByRole('navigation', {name: 'Lessons in this unit'});
  await expect(nav.getByRole('listitem')).toHaveText([/Count the treasure/, /Average the scores/, /Score the riddle/, /Too high or too low\?/, /Close enough\?/, /The riddle keeper's verdict/]);
  await expect(page.getByText('Quest 1 of 6 · Treasure counter')).toBeVisible();

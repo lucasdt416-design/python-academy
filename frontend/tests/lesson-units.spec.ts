@@ -55,9 +55,11 @@ async function runScenario(page: Page, s: Scenario) {
 test('a lesson in another unit loads that unit only, with its own title and count', async ({page}) => {
  const {requests} = await mockApi(page);
  await page.goto('/preview?lesson=fixture.double');
- await expect(page.getByRole('heading', {level: 1, name: 'TEST FIXTURE unit two'})).toBeVisible();
- await expect(page.getByText('UNIT 02 · TEST FIXTURE (NEVER SHOWN TO LEARNERS)')).toBeVisible();
+ // Visual redesign: the page heading is the lesson's title; the unit's title heads the lesson list.
+ await expect(page.getByRole('heading', {level: 1, name: 'Double a number'})).toBeVisible();
+ await expect(page.getByText('unit 2 · lesson 1 of 1')).toBeVisible();
  const nav = page.getByRole('navigation', {name: 'Lessons in this unit'});
+ await expect(nav.getByText('TEST FIXTURE unit two', {exact: true})).toBeAttached();
  await expect(nav.getByRole('listitem')).toHaveText([/Double a number/]);
  await expect(page.getByText('Quest 1 of 1 · Fixture doubler')).toBeVisible();
  await expect(page.locator('.story-world')).toHaveCount(0);  // unit 1's pictures stay in unit 1
@@ -69,7 +71,7 @@ test('a lesson in another unit loads that unit only, with its own title and coun
 test('with no lesson named, unit 1 loads per unit, exactly as before', async ({page}) => {
  const {requests} = await mockApi(page);
  await page.goto('/preview');
- await expect(page.getByRole('heading', {level: 1, name: 'Build Your Own Adventure.'})).toBeVisible();
+ await expect(page.getByRole('heading', {level: 1, name: 'Open the story'})).toBeVisible();
  await expect(page.getByRole('navigation', {name: 'Lessons in this unit'}).getByRole('listitem')).toHaveCount(5);
  expect(requests).toContain('/api/units/py.u01/lessons');
  expect(requests).not.toContain('/api/lessons');

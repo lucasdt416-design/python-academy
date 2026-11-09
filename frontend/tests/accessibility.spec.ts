@@ -48,7 +48,7 @@ async function audit(page: Page) {
 }
 
 const PAGES: {name: string; role: string | null; url: string; ready: (page: Page) => Promise<void>}[] = [
- {name: 'welcome, signed out', role: null, url: '/', ready: p => expect(p.getByRole('link', {name: /Continue with Google/})).toBeVisible()},
+ {name: 'welcome, signed out', role: null, url: '/', ready: p => expect(p.getByRole('link', {name: /Sign in with Google/})).toBeVisible()},
  {name: 'student home', role: 'student', url: '/', ready: p => expect(p.getByRole('heading', {name: /Welcome back/})).toBeVisible()},
  {name: 'course page', role: 'student', url: '/courses/py', ready: p => expect(p.getByRole('heading').first()).toBeVisible()},
  ...[1, 2, 3, 4, 5].map(card => ({name: `lesson card ${card}`, role: 'student', url: `/preview?lesson=hello&card=${card}`, ready: (p: Page) => expect(p.getByText(`Card ${card} of 5`)).toBeVisible()})),

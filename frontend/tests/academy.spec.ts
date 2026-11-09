@@ -43,7 +43,7 @@ test.beforeEach(async({page})=>{
 test.afterEach(async({page})=>{expect(violations.get(page)).toEqual([]);});
 test('welcome provides Google sign-in and keyboard skip navigation',async({page})=>{
  await mockApi(page,null);await page.goto('/');
- await expect(page.getByRole('link',{name:/Continue with Google/})).toHaveAttribute('href','/auth/google');
+ await expect(page.getByRole('link',{name:/Sign in with Google/})).toHaveAttribute('href','/auth/google');
  await page.keyboard.press('Tab');await expect(page.getByRole('link',{name:/Skip/})).toBeFocused();
 });
 test('invitation survives redirect and enrolls a student',async({page})=>{
@@ -77,7 +77,7 @@ test('parent creates an invitation, previews lessons, and returns to family',asy
  await expect(page.getByRole('article',{name:'Current learning card'})).toHaveCount(1);
  await page.getByRole('link',{name:'Return to your account'}).click();
  await expect(page.getByRole('heading',{name:'Help their curiosity grow.'})).toBeVisible();
- await page.getByRole('button',{name:'Sign out'}).click();await expect(page.getByRole('link',{name:/Continue with Google/})).toBeVisible();
+ await page.getByRole('button',{name:'Sign out'}).click();await expect(page.getByRole('link',{name:/Sign in with Google/})).toBeVisible();
 });
 test('student sees one card at a time and predicts before coding',async({page})=>{
  await mockApi(page,'student');await page.goto('/learn/hello');
@@ -158,7 +158,7 @@ test('course page shows unit progress and continues where the student left off',
  await mockApi(page,'student',['hello']);await page.goto('/courses/py');
  await expect(page.getByRole('heading',{level:1,name:'Python Foundations'})).toBeVisible();await expect(page.getByText('1 of 16 available lessons complete')).toBeVisible();
  const unit=page.getByRole('article',{name:'Build Your Own Adventure'});
- await expect(unit.getByRole('link',{name:/Open the story.*Completed/})).toHaveAttribute('href','/learn/hello');
+ await expect(unit.getByRole('link',{name:/Open the story.*Done/})).toHaveAttribute('href','/learn/hello');
  await expect(unit.getByRole('link',{name:/Create your hero.*Up next/})).toBeVisible();await expect(unit.getByRole('link',{name:/Choose a path.*Not started/})).toBeVisible();
  await expect(page.getByRole('article',{name:'Keep track of a world'}).getByText('Coming soon')).toBeVisible();
  await page.getByRole('link',{name:/Continue: Create your hero/}).click();await expect(page).toHaveURL('/learn/variables');
@@ -179,7 +179,7 @@ test('student home offers the next lesson and shows XP',async({page})=>{
  await expect(page.getByRole('heading',{name:'Welcome back. Keep building.'})).toBeVisible();
  const next=page.getByRole('region',{name:'Meet the player'});await expect(next.getByText('200 XP')).toBeVisible();
  await expect(next.getByRole('link',{name:/Continue/})).toHaveAttribute('href','/learn/input');
- await expect(page.getByRole('article',{name:'Python Foundations'}).getByText('2 of 16 lessons complete')).toBeVisible();
+ await expect(page.getByRole('region',{name:'Your path in Python Foundations'}).getByText('2 of 16 lessons complete')).toBeVisible();
 });
 test('a new student chooses a goal from the keyboard and sees why the next lesson is suggested',async({page})=>{
  await mockApi(page,'student',[],{goal:null,chosen:false,asked:false});await page.goto('/');
@@ -191,7 +191,7 @@ test('a new student chooses a goal from the keyboard and sees why the next lesso
  expect((await saved).postDataJSON()).toEqual({goal:'hackathon'});
  const next=page.getByRole('region',{name:'Open the story'});await expect(next.getByText('Start of your hackathon path.')).toBeVisible();
  await expect(next.getByText('Get ready for hackathons')).toBeVisible();await expect(next.getByRole('link',{name:/^Start/})).toHaveAttribute('href','/learn/hello');
- await expect(page.getByRole('article',{name:'Python Foundations'}).getByText('Recommended')).toBeVisible();
+ await expect(page.getByRole('region',{name:/Your path in Python Foundations/}).getByText('Recommended')).toBeVisible();
  await expect(page.getByText('Recommended',{exact:true})).toHaveCount(1);
 });
 test('students can change their goal, or cancel without changing it',async({page})=>{
