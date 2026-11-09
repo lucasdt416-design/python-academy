@@ -78,9 +78,10 @@ async function tryIt(page: Page, code: string) {
 test('unit 3 loads on its own: its heading, its five lessons, and no unit 1 pictures', async ({page}) => {
  await mockApi(page);
  await page.goto('/preview?lesson=py.while-loops');
- await expect(page.getByRole('heading', {level: 1, name: 'Repeat and explore'})).toBeVisible();
- await expect(page.getByText('UNIT 03 · PYTHON FOUNDATIONS')).toBeVisible();
- await expect(page.getByText('while and for loops that always finish, running totals, and loops inside loops.')).toBeVisible();
+ // Visual redesign: the page heading is the lesson's title; the unit's title heads the lesson list.
+ await expect(page.getByRole('heading', {level: 1, name: 'Keep guessing'})).toBeVisible();
+ await expect(page.getByText('unit 3 · lesson 1 of 5')).toBeVisible();
+ await expect(page.getByRole('region', {name: 'Repeat and explore'})).toBeVisible();
  await expect(page.getByRole('navigation', {name: 'Lessons in this unit'}).getByRole('listitem')).toHaveText([/Keep guessing/, /Three tries/, /Step by step/, /Keep the score/, /Rooms on the map/]);
  await expect(page.getByText('Quest 1 of 5 · Patient guesser')).toBeVisible();
  await expect(page.locator('.story-world')).toHaveCount(0);

@@ -1,0 +1,973 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Python Academy: design prototype</title>
+<style>
+:root{
+  --ink:#202e2b; --forest:#263f38; --moss:#285a43; --moss2:#396c58; --mint:#eaf2e9; --mint2:#dcebe2; --paper:#f8faf7;
+  --cream:#f5ead2; --sand:#f1e6c8; --amber:#e0a940; --amber-d:#65501f; --slate:#3b6f8a; --plum:#82668e; --clay:#b5432f;
+  --line:#d6e1d7; --muted:#4c5f57; --focus:#2867c8;
+  --serif:ui-serif,"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
+  --sans:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:var(--sans);color:var(--ink);background:var(--paper);line-height:1.6;font-size:17px}
+a{color:inherit}
+button,input,textarea{font:inherit}
+a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible,summary:focus-visible{outline:3px solid var(--focus);outline-offset:3px}
+.sprite{position:absolute;width:0;height:0;overflow:hidden}
+.art{display:block;width:100%;height:auto;border-radius:16px}
+.ico{width:1.25em;height:1.25em;vertical-align:-.25em;flex:none}
+
+/* sprite palette */
+.bg1{fill:#dcebe2}.bg2{fill:#f1e6c8}.bg3{fill:#d3e3e6}
+.s-ink,.s-moss,.s-ink-s,.s-moss-s,.s-ink-w,.s-moss-w,.s-cream-w,.s-clay-w,.s-slate-d{fill:none;stroke-linecap:round;stroke-linejoin:round}
+.s-ink{stroke:#263f38;stroke-width:2.5}.s-moss{stroke:#396c58;stroke-width:2.5}.s-ink-s{stroke:#263f38;stroke-width:1.6}.s-moss-s{stroke:#396c58;stroke-width:1.6}
+.s-ink-w{stroke:#263f38;stroke-width:6}.s-moss-w{stroke:#396c58;stroke-width:6}.s-cream-w{stroke:#f5ead2;stroke-width:16}.s-clay-w{stroke:#b5432f;stroke-width:4}.s-slate-d{stroke:#3b6f8a;stroke-width:2;stroke-dasharray:3 4}
+.f-moss-l{fill:#9fc0b3}.f-moss{fill:#5f8f7e}.f-white{fill:#fff}.f-cream{fill:#f5ead2}.f-ink{fill:#263f38}.f-clay{fill:#b5432f}.f-amber{fill:#e0a940}.f-amber-l{fill:#f6dc9c}.f-plum{fill:#82668e}.f-slate{fill:#4b686d}
+.mono{font-family:var(--mono)}.sans{font-family:var(--sans)}
+code{font-family:var(--mono);font-size:.9em;background:#eaf2e9;padding:1px 6px;border-radius:6px;color:var(--forest)}
+.explain{margin-top:12px}
+
+/* prototype bar (not part of the site) */
+.proto{position:sticky;top:0;z-index:20;display:flex;gap:6px;align-items:center;flex-wrap:wrap;background:#17231f;color:#dbe8e0;padding:8px 16px;font-size:13px}
+.proto b{margin-right:6px;color:#f6dc9c}
+.proto a{color:#aebfb6;text-decoration:none;padding:6px 10px;min-height:32px;display:inline-flex;align-items:center;border-bottom:2px solid transparent}
+.proto a[aria-current=page]{color:#fff;border-bottom-color:#f6dc9c}
+.view{display:none}.view.on{display:block}
+
+/* header */
+.site-header{display:flex;align-items:center;gap:20px;padding:14px 5%;border-bottom:1px solid var(--line);background:var(--paper)}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;font-family:var(--serif);font-size:21px;font-weight:700}
+.logo{font-family:var(--mono);font-size:15px;background:var(--moss);color:#fff;padding:3px 9px;border-radius:9px}
+.nav{display:flex;gap:2px;margin-left:8px}
+.nav a{display:flex;align-items:center;min-height:44px;padding:0 12px;border-radius:8px;text-decoration:none;font-weight:600;color:var(--forest);font-size:15px}
+.nav a:hover{background:var(--mint)}
+.header-end{margin-left:auto;display:flex;gap:10px;align-items:center}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:10px 20px;border-radius:10px;border:1px solid #b8c5bf;background:#fff;color:var(--forest);font-weight:700;text-decoration:none;cursor:pointer;font-size:16px}
+.btn:hover{background:var(--mint)}
+.btn.primary{background:var(--moss);border-color:var(--moss);color:#fff}
+.btn.primary:hover{background:#1d4532}
+.btn.warm{background:var(--cream);border-color:var(--cream);color:var(--forest)}
+.btn.warm:hover{background:#fff}
+.btn.small{min-height:44px;padding:8px 14px;font-size:14px}
+.btn[disabled]{opacity:.55;cursor:not-allowed}
+.wrap{max-width:1180px;margin:0 auto;padding:0 28px}
+
+/* topographic texture, used on the hero and path sections */
+.topo{background-color:var(--paper);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='520' height='340' viewBox='0 0 520 340' fill='none' stroke='%23396c58' stroke-opacity='.12' stroke-width='1.5'%3E%3Cpath d='M-20 80C60 20 140 120 230 70S400 10 540 90'/%3E%3Cpath d='M-20 110C60 55 140 150 230 100S400 45 540 120'/%3E%3Cpath d='M-20 140C60 90 140 180 230 130S400 80 540 150'/%3E%3Cpath d='M-20 250C80 200 170 290 270 240S430 190 540 260'/%3E%3Cpath d='M-20 280C80 232 170 320 270 272S430 224 540 292'/%3E%3C/svg%3E")}
+
+/* HOME (signed out) */
+.hero{padding:64px 0 56px}
+.hero-grid{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:48px;align-items:center}
+.kicker{font-family:var(--mono);font-size:13px;letter-spacing:.04em;color:var(--moss2);margin:0 0 14px}
+h1{font-family:var(--serif);font-size:clamp(38px,5.2vw,66px);line-height:1.06;letter-spacing:-.02em;margin:0 0 20px;color:var(--forest)}
+h1 em{font-style:normal;color:var(--moss2);background:linear-gradient(transparent 62%,#f6dc9c 62%)}
+h2{font-family:var(--serif);font-size:clamp(28px,3.4vw,40px);line-height:1.15;letter-spacing:-.015em;margin:0 0 12px;color:var(--forest)}
+h3{font-family:var(--serif);font-size:20px;margin:0 0 6px;color:var(--forest)}
+.lead{font-size:19px;color:#34473f;max-width:34em;margin:0 0 26px}
+.cta{display:flex;gap:12px;flex-wrap:wrap}
+.fine{font-size:14px;color:var(--muted);margin-top:14px}
+
+.playground{background:var(--forest);color:#eaf3ec;border-radius:20px;padding:22px 22px 18px;box-shadow:0 18px 40px #263f3826}
+.pg-top{display:flex;justify-content:space-between;align-items:center;font-family:var(--mono);font-size:12px;color:#a9c4b6;margin-bottom:12px}
+.pg-code{font-family:var(--mono);font-size:15px;line-height:2;margin:0;white-space:pre-wrap}
+.pg-code input{width:4.6em;font-family:var(--mono);font-size:15px;background:#17231f;color:#f6dc9c;border:1px solid #4b6a5d;border-radius:6px;padding:2px 8px;min-height:32px;text-align:center}
+.k{color:#f6dc9c}.n{color:#bfe0cf}.s{color:#f0b8a6}.c{color:#a8c6b8}.f{color:#a9d3ff}
+.pg-out{margin-top:10px;background:#17231f;border-radius:12px;padding:12px 16px;font-family:var(--mono);font-size:15px;min-height:96px}
+.pg-out .lbl{font-size:11px;color:#8fb0a1;letter-spacing:.08em;text-transform:uppercase;display:block;margin-bottom:4px}
+.pg-out .err{color:#f0b8a6}
+.pg-note{font-size:13px;color:#b8d0c4;margin:12px 0 0}
+
+.band{padding:72px 0}
+.band.alt{background:var(--mint)}
+.sec-head{max-width:46em;margin-bottom:34px}
+.sec-head p{color:#34473f;font-size:18px;margin:0}
+
+.flow{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:14px;counter-reset:s}
+.flow li{background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px 16px 18px;position:relative}
+.flow .tag{display:flex;align-items:center;gap:8px;font-weight:700;font-size:15px;margin-bottom:8px}
+.flow .tag .ib{display:grid;place-items:center;width:34px;height:34px;border-radius:10px;color:#fff}
+.flow p{margin:0;font-size:15px;color:#34473f;line-height:1.5}
+.t-discover .ib{background:var(--amber);color:#3b2d08!important}.t-example .ib{background:var(--moss)}.t-predict .ib{background:var(--slate)}.t-try .ib{background:var(--plum)}.t-challenge .ib{background:var(--clay)}
+
+.errdemo{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:28px;align-items:start}
+.editor{background:#fff;border:1px solid #a6b6aa;border-radius:12px;overflow:hidden;font-family:var(--mono);font-size:15px}
+.editor .bar{display:flex;justify-content:space-between;padding:8px 14px;background:#eef3eb;color:var(--muted);font-size:12px;border-bottom:1px solid #d9e0d5}
+.editor .ln{display:grid;grid-template-columns:3.2em 1fr;line-height:1.9}
+.editor .ln span:first-child{background:#eef3eb;color:#53665a;text-align:right;padding-right:10px}
+.editor .ln span:last-child{padding-left:14px;white-space:pre}
+.editor .ln.bad span{background:#fbe3dc}.editor .ln.bad span:first-child{color:#8a2d1f;font-weight:700}
+.editor .ln.bad span:last-child{box-shadow:inset 4px 0 var(--clay)}
+.explain{background:#fff;border:1px solid #e0a99b;border-left:6px solid var(--clay);border-radius:12px;padding:16px 18px}
+.explain .st{font-size:12px;font-weight:700;letter-spacing:.1em;color:var(--clay)}
+.explain h3{margin:4px 0 6px}
+.hints{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.hints .btn{font-size:14px}
+.hints .btn.on{background:var(--mint);border-color:var(--moss2)}
+.hint-box{margin-top:10px;background:#f8f4eb;border-radius:10px;padding:12px 14px;font-size:15px;min-height:24px}
+
+.trail{position:relative;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.stop{background:#fff;border:1px solid var(--line);border-radius:18px;padding:12px 12px 16px}
+.stop .meta{display:flex;justify-content:space-between;align-items:center;margin:12px 4px 4px;font-family:var(--mono);font-size:12px;color:var(--moss2)}
+.stop h3{margin:0 4px 4px}
+.stop p{margin:0 4px;font-size:15px;color:#34473f}
+.planned{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:18px}
+.planned div{border:1.5px dashed #9fb9a6;border-radius:14px;padding:12px 14px;font-size:14px;color:var(--muted);background:#ffffff80}
+.planned b{display:block;color:var(--forest);font-family:var(--serif);font-size:16px}
+.later{margin-top:18px;font-size:15px;color:var(--muted)}
+
+.parents{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:40px;align-items:center}
+.facts{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.facts li{display:grid;grid-template-columns:28px 1fr;gap:12px;align-items:start;background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px 14px;font-size:16px}
+.facts .ck{color:var(--moss);}
+.footer{padding:34px 0 44px;border-top:1px solid var(--line);font-size:14px;color:var(--muted)}
+
+/* STUDENT HOME */
+.pagepad{padding:36px 0 56px}
+.continue{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:0;background:var(--forest);color:#eaf3ec;border-radius:22px;overflow:hidden}
+.continue .txt{padding:30px 34px}
+.continue .kicker{color:#f6dc9c}
+.continue h2{color:#fff;font-size:34px;margin-bottom:6px}
+.continue .why{color:#cfe2d6;margin:0 0 20px;font-size:16px}
+.continue .meta2{display:flex;gap:22px;flex-wrap:wrap;margin-top:22px;padding-top:16px;border-top:1px solid #48635a;font-size:14px;color:#cfe2d6}
+.continue .meta2 strong{display:block;font-size:22px;color:#fff;font-family:var(--serif)}
+.continue .artcol{padding:16px;background:#1d312b;display:grid;align-items:center}
+.sec{margin-top:44px}
+.sec h2{font-size:28px}
+.unit-strip{display:grid;gap:12px}
+.ustrip{display:grid;grid-template-columns:150px minmax(0,1fr) auto;gap:18px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:16px;padding:12px 18px 12px 12px}
+.ustrip.cur{border:2px solid var(--moss2);padding:11px 17px 11px 11px;background:var(--mint)}
+.ustrip h3{margin:0}.ustrip small{color:var(--muted);font-size:14px}
+.dots{display:flex;gap:6px;margin-top:8px}
+.dot{width:14px;height:14px;border-radius:50%;border:2px solid #9fb9a6;background:#fff}
+.dot.done{background:var(--moss2);border-color:var(--moss2)}
+.dot.now{border-color:var(--amber);box-shadow:0 0 0 3px #f6dc9c}
+.cgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px}
+.cc{background:#fbfcf9;border:1px solid var(--line);border-radius:14px;padding:16px 18px}
+.cc b{font-family:var(--serif);font-size:18px;color:var(--forest)}
+.cc p{margin:4px 0 0;font-size:14px;color:var(--muted)}
+.chip{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:4px 9px;border-radius:999px;background:var(--mint);color:var(--forest);margin-bottom:8px}
+.chip.soon{background:#fbf4e5;color:var(--amber-d)}
+
+/* COURSE PAGE */
+.crumbs{font-size:13px;color:var(--muted);margin:0 0 12px}
+.course-top{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:32px;align-items:end;margin-bottom:30px}
+.side{background:#fff;border:1px solid var(--line);border-radius:16px;padding:20px}
+.unit-card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:20px 22px;margin-bottom:16px}
+.unit-card header{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;padding:0;border:0;background:none}
+.unit-card .num{font-family:var(--mono);font-size:12px;color:var(--moss2)}
+.rows{list-style:none;margin:16px 0 0;padding:0;display:grid;gap:8px}
+.row{display:grid;grid-template-columns:96px minmax(0,1fr) auto;gap:14px;align-items:center;border:1px solid #e1e8e0;border-radius:12px;padding:8px 14px 8px 8px;text-decoration:none}
+.row:hover{background:#f3f7f2;border-color:#b8cbb5}
+.row.next{border:2px solid var(--moss2);background:var(--mint);padding:7px 13px 7px 7px}
+.row .art{border-radius:10px}
+.row b{display:block;font-size:16px}
+.row code{font-family:var(--mono);font-size:12.5px;color:var(--moss2)}
+.row .st{font-size:13px;font-weight:700;color:var(--muted);display:flex;align-items:center;gap:6px}
+.row.done .st{color:var(--moss2)}
+
+/* LESSON PAGE */
+.lesson-grid{display:grid;grid-template-columns:230px minmax(0,1fr);gap:24px;align-items:start}
+.unitnav{position:sticky;top:60px;background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px 10px}
+.unitnav h3{font-size:15px;margin:2px 8px 8px}
+.unitnav ol{list-style:none;margin:0;padding:0;display:grid;gap:4px}
+.unitnav a{display:grid;grid-template-columns:44px 1fr;gap:10px;align-items:center;padding:6px 8px;border-radius:10px;text-decoration:none;font-size:13.5px;line-height:1.25;border:1px solid transparent;min-height:52px}
+.unitnav a:hover{background:#f3f7f2}
+.unitnav a.cur{background:var(--mint);border-color:var(--moss2);font-weight:700}
+.unitnav .art{border-radius:6px}
+.lhead{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:24px;align-items:center;margin-bottom:18px}
+.lhead h1{font-size:clamp(30px,3.6vw,46px);margin:6px 0 8px}
+.concept{display:inline-flex;gap:8px;align-items:center;font-family:var(--mono);font-size:13px;background:var(--cream);color:var(--amber-d);padding:5px 12px;border-radius:999px}
+.xpbox{display:inline-flex;gap:14px;align-items:baseline;margin-left:10px;font-size:14px;color:var(--muted)}
+.path{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:0;margin:0 0 16px;padding:0;list-style:none;position:relative}
+.path li{position:relative;text-align:center}
+.path li::before{content:"";position:absolute;top:21px;left:-50%;width:100%;border-top:3px dashed #c3d3c6;z-index:0}
+.path li:first-child::before{display:none}
+.path li.done::before,.path li.cur::before{border-top-style:solid;border-color:var(--moss2)}
+.path button{position:relative;z-index:1;background:none;border:0;cursor:pointer;display:grid;justify-items:center;gap:4px;width:100%;min-height:68px;padding:0;color:var(--muted);font-size:13px;font-weight:600}
+.path .pi{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:#fff;border:2.5px solid #c3d3c6;color:var(--muted)}
+.path li.done .pi{background:var(--moss2);border-color:var(--moss2);color:#fff}
+.path li.cur .pi{background:#fff;border-color:var(--amber);box-shadow:0 0 0 4px #f6dc9c;color:var(--forest)}
+.path li.cur button{color:var(--forest);font-weight:800}
+
+.card{background:#fff;border:1px solid var(--line);border-radius:22px;box-shadow:0 10px 30px #274c3712;overflow:hidden}
+.card-tab{display:flex;align-items:center;gap:12px;padding:12px 26px;font-weight:700;font-size:15px;border-bottom:1px solid var(--line)}
+.card-tab .ib{display:grid;place-items:center;width:34px;height:34px;border-radius:10px;color:#fff}
+.card-tab .of{margin-left:auto;font-weight:600;font-size:13px;color:var(--muted)}
+.ct-discover{background:#fbf3df}.ct-discover .ib{background:var(--amber);color:#3b2d08}
+.ct-example{background:#e9f1ec}.ct-example .ib{background:var(--moss)}
+.ct-predict{background:#e8f0f4}.ct-predict .ib{background:var(--slate)}
+.ct-try{background:#f1ecf4}.ct-try .ib{background:var(--plum)}
+.ct-challenge{background:#faece8}.ct-challenge .ib{background:var(--clay)}
+.card-body{padding:28px 30px}
+.card-body h2{font-size:30px;margin:0 0 14px}
+.two{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:30px;align-items:start}
+.card p{margin:0 0 14px}
+.optable{width:100%;border-collapse:collapse;font-size:15px;background:#fff;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.optable th,.optable td{padding:9px 12px;text-align:left;border-bottom:1px solid #e6ede5}
+.optable th{background:#fbf3df;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--amber-d)}
+.optable td:first-child{font-family:var(--mono);font-weight:700;color:var(--moss);width:3.4em}
+.optable td:last-child{font-family:var(--mono);font-size:14px}
+.optable tr.hl td{background:#fdf6e3}
+.code{background:var(--forest);color:#f1f8ed;border-radius:14px;padding:14px 0;font-family:var(--mono);font-size:15px;line-height:1.95;overflow:auto}
+.code .l{display:grid;grid-template-columns:2.6em 1fr 2.4em;padding-right:8px}
+.code .l i{font-style:normal;color:#a0bbae;text-align:right;padding-right:12px;user-select:none}
+.code .l span{white-space:pre}
+.code .l b{display:grid;place-items:center;width:22px;height:22px;border-radius:50%;font-size:12px;color:#17231f;align-self:center}
+.m1{background:#f6dc9c}.m2{background:#a9d3ff}.m3{background:#f0b8a6}
+.outp{margin-top:12px;background:#17231f;border-radius:14px;padding:12px 16px;font-family:var(--mono);font-size:15px;color:#eaf3ec}
+.outp .lbl{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#8fb0a1;display:block;margin-bottom:6px}
+.outp .o{display:flex;gap:12px;align-items:center;line-height:1.9}
+.outp .o b{display:grid;place-items:center;width:22px;height:22px;border-radius:50%;font-size:12px;color:#17231f}
+.callout{background:#fbf3df;border-left:5px solid var(--amber);border-radius:10px;padding:12px 16px;margin-top:14px;font-size:16px}
+.tiles{display:grid;gap:10px;margin:18px 0}
+.tile{display:grid;grid-template-columns:44px 1fr;gap:14px;align-items:center;text-align:left;background:#fff;border:2px solid var(--line);border-radius:14px;padding:10px 14px;min-height:64px;cursor:pointer;font-size:18px;font-family:var(--mono);color:var(--ink)}
+.tile:hover{border-color:var(--slate)}
+.tile .ltr{display:grid;place-items:center;width:40px;height:40px;border-radius:10px;background:#e8f0f4;font-weight:800;color:var(--slate);font-family:var(--sans)}
+.tile.right{border-color:var(--moss2);background:var(--mint)}.tile.right .ltr{background:var(--moss2);color:#fff}
+.tile.wrong{border-color:#e0a99b;background:#fdf1ed}.tile.wrong .ltr{background:var(--clay);color:#fff}
+.reveal{background:#f0f6f8;border-left:5px solid var(--slate);border-radius:10px;padding:14px 16px;font-size:16px}
+.tryrow{display:flex;gap:20px;flex-wrap:wrap;margin:6px 0 16px}
+.tryrow label{display:flex;gap:8px;align-items:center;font-family:var(--mono);font-size:15px}
+.tryrow input,.replies input{font-family:var(--mono);font-size:16px;width:5.2em;padding:6px 10px;border:1px solid #a6b6aa;border-radius:8px;min-height:44px;background:#fff}
+.ticket{position:relative;background:#fdf1ed;border:2px dashed #e0a99b;border-radius:16px;padding:18px 22px 16px;margin:6px 0 18px}
+.ticket::before,.ticket::after{content:"";position:absolute;top:50%;width:18px;height:18px;border-radius:50%;background:#fff;border:2px dashed #e0a99b;transform:translateY(-50%)}
+.ticket::before{left:-11px;border-left-color:transparent;border-top-color:transparent}
+.ticket::after{right:-11px;border-right-color:transparent;border-bottom-color:transparent}
+.ticket h3{font-family:var(--sans);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--clay);margin:0 0 8px}
+.cases{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+.cases li{display:grid;grid-template-columns:26px 1fr auto;gap:10px;align-items:center;font-size:16px}
+.cases .box{width:22px;height:22px;border-radius:6px;border:2px solid #cf9e90;background:#fff;display:grid;place-items:center;color:#fff}
+.cases li.ok .box{background:var(--moss2);border-color:var(--moss2)}
+.cases li.bad .box{background:var(--clay);border-color:var(--clay)}
+.cases code{font-family:var(--mono);font-size:14px;color:var(--moss)}
+.cases .hid{color:var(--muted);font-size:15px}
+.workgrid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:22px;align-items:start}
+.ed{background:#fff;border:1px solid #a6b6aa;border-radius:12px;overflow:hidden}
+.ed .bar{display:flex;justify-content:space-between;padding:8px 14px;background:#eef3eb;color:var(--muted);font:12px var(--mono);border-bottom:1px solid #d9e0d5}
+.ed textarea{display:block;width:100%;min-height:200px;white-space:pre;overflow:auto;border:0;padding:14px 16px;font:14.5px/1.8 var(--mono);color:#253e35;resize:vertical;background:#fff}
+.replies{display:flex;gap:16px;flex-wrap:wrap;margin:14px 0 4px;align-items:end}
+.replies label{display:grid;gap:4px;font-size:13px;font-weight:700}
+.result{margin-top:14px;padding:14px 16px;border:1px solid #c9d3cc;border-radius:12px;background:#f3f5f2}
+.result .st{font-size:12px;font-weight:800;letter-spacing:.1em;text-transform:uppercase}
+.result.passed{background:#edf5e9;border-color:#9cc3a0}.result.passed .st{color:var(--moss)}
+.result.needs{background:#fbf6e7;border-color:#d9c48f}.result.needs .st{color:var(--amber-d)}
+.result.error{background:#fdf1ed;border-color:#e0a99b}.result.error .st{color:var(--clay)}
+.badge-row{display:flex;align-items:center;gap:16px;background:#f9f0d6;border-radius:14px;padding:14px 18px;margin-top:14px}
+.badge-row .medal{width:54px;height:54px;border-radius:50%;background:var(--amber);border:3px solid #fff;box-shadow:0 0 0 3px var(--amber-d);display:grid;place-items:center;color:#3b2d08;font-weight:900;font-size:22px;font-family:var(--serif)}
+.toggle{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0 0;font-size:12px;color:var(--muted);align-items:center}
+.toggle button{border:1px solid #b8c5bf;background:#fff;border-radius:999px;padding:4px 12px;min-height:32px;cursor:pointer;font-size:12px}
+.toggle button[aria-pressed=true]{background:var(--forest);color:#fff;border-color:var(--forest)}
+.controls{display:flex;justify-content:space-between;align-items:center;padding:16px 26px;border-top:1px solid var(--line);background:#fbfcf9}
+.controls .tip{font-size:13px;color:var(--muted)}
+
+/* ART GALLERY */
+.gal{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
+.gal figure{margin:0;background:#fff;border:1px solid var(--line);border-radius:16px;padding:10px}
+.gal figcaption{padding:8px 6px 2px;font-size:14px}
+.gal code{font-family:var(--mono);font-size:12px;color:var(--moss2)}
+
+@media(max-width:980px){
+  .hero-grid,.errdemo,.parents,.course-top,.lhead,.two,.workgrid{grid-template-columns:1fr}
+  .flow{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .trail,.planned{grid-template-columns:1fr}
+  .lesson-grid{grid-template-columns:1fr}
+  .lesson-grid>aside{order:2}
+  .unitnav{position:static}
+  .continue{grid-template-columns:1fr}
+  .ustrip{grid-template-columns:110px 1fr}
+  .ustrip .btn{grid-column:1/-1}
+}
+@media(max-width:560px){
+  body{font-size:16px}
+  .wrap{padding:0 18px}
+  .flow{grid-template-columns:1fr}
+  .nav{display:none}
+  .card-body{padding:22px 18px}
+  .card-tab{padding:12px 18px}
+  .controls{padding:14px 16px}.controls .tip{display:none}
+  .row{grid-template-columns:76px 1fr}.row .st{grid-column:2}
+  .path button{font-size:11px}
+  .continue .txt{padding:24px 20px}
+  .site-header{padding:12px 18px}
+  .header-end .btn.primary{display:none}
+}
+@media(prefers-reduced-motion:no-preference){
+  .art use{transition:none}
+  .tile,.btn,.row{transition:border-color .15s,background .15s}
+  .float{animation:fl 7s ease-in-out infinite}
+}
+@keyframes fl{50%{transform:translateY(-6px)}}
+</style>
+</head>
+<body>
+<svg class="sprite" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+<!-- Lesson art: one picture per lesson, each showing that lesson's idea. 320 x 180. Palette classes: see the stylesheet. -->
+
+<symbol id="art-hello" viewBox="0 0 320 180">
+  <rect class="bg1" width="320" height="180" rx="16"/>
+  <path class="f-moss-l" d="M0 140Q80 118 160 134T320 126V180H0Z"/>
+  <path class="f-moss" d="M0 160Q90 142 170 156T320 148V180H0Z"/>
+  <path class="f-white s-ink" d="M62 78Q110 62 158 80V138Q110 122 62 138Z"/>
+  <path class="f-cream s-ink" d="M162 80Q210 62 258 78V138Q210 122 162 138Z"/>
+  <path class="s-ink" d="M160 80V138"/>
+  <path class="s-moss" d="M78 96h60M78 108h48M78 120h56"/>
+  <text class="mono f-ink" x="178" y="100" font-size="13">print(</text>
+  <text class="mono f-clay" x="178" y="118" font-size="13">"Hi!")</text>
+  <path class="f-white s-ink" d="M112 20h96a12 12 0 0 1 12 12v22a12 12 0 0 1-12 12h-46l-14 14v-14h-36a12 12 0 0 1-12-12V32a12 12 0 0 1 12-12z"/>
+  <text class="mono f-moss" x="128" y="48" font-size="18" font-weight="700">Hi!</text>
+  <path class="f-amber" d="M270 30l4 10 10 4-10 4-4 10-4-10-10-4 10-4z"/>
+  <path class="f-amber" d="M44 52l3 7 7 3-7 3-3 7-3-7-7-3 7-3z"/>
+</symbol>
+
+<symbol id="art-variables" viewBox="0 0 320 180">
+  <rect class="bg1" width="320" height="180" rx="16"/>
+  <path class="f-moss-l" d="M0 146Q90 126 170 142T320 134V180H0Z"/>
+  <rect class="f-cream s-ink" x="168" y="96" width="62" height="50" rx="6"/>
+  <path class="s-ink" d="M168 112h62"/>
+  <rect class="f-white s-ink" x="180" y="78" width="38" height="18" rx="4"/>
+  <text class="mono f-ink" x="185" y="91" font-size="12">hero</text>
+  <rect class="f-cream s-ink" x="244" y="106" width="52" height="40" rx="6"/>
+  <path class="s-ink" d="M244 120h52"/>
+  <rect class="f-white s-ink" x="252" y="90" width="36" height="16" rx="4"/>
+  <text class="mono f-ink" x="257" y="102" font-size="11">tool</text>
+  <path class="f-amber-l s-ink" d="M262 128l6-14 6 14z"/>
+  <circle class="f-amber-l s-ink" cx="108" cy="62" r="18"/>
+  <path class="f-plum s-ink" d="M84 140q0-46 24-46t24 46z"/>
+  <path class="s-ink" d="M170 72q-26 4-42 24"/>
+  <path class="f-ink" d="M126 90l-4 10 12-4z"/>
+  <text class="mono f-moss" x="18" y="28" font-size="13" font-weight="700">hero = "Kai"</text>
+</symbol>
+
+<symbol id="art-input" viewBox="0 0 320 180">
+  <rect class="bg1" width="320" height="180" rx="16"/>
+  <path class="f-moss-l" d="M0 146Q90 126 170 142T320 134V180H0Z"/>
+  <path class="f-slate s-ink" d="M200 150V62q0-34 40-34t40 34v88z"/>
+  <path class="f-ink" d="M214 150V66q0-22 26-22t26 22v84z"/>
+  <circle class="f-amber" cx="258" cy="100" r="4"/>
+  <circle class="f-cream s-ink" cx="96" cy="84" r="17"/>
+  <path class="f-plum s-ink" d="M72 150q0-46 24-46t24 46z"/>
+  <path class="f-white s-ink" d="M118 38h76a10 10 0 0 1 10 10v22a10 10 0 0 1-10 10h-50l-14 12v-12h-12a10 10 0 0 1-10-10V48a10 10 0 0 1 10-10z"/>
+  <text class="mono f-ink" x="132" y="63" font-size="13">name?</text>
+  <rect class="f-white s-moss" x="116" y="112" width="68" height="22" rx="5"/>
+  <path class="s-moss" d="M126 123h2M132 123h2"/>
+  <rect class="f-amber" x="148" y="117" width="2.5" height="12"/>
+</symbol>
+
+<symbol id="art-choices" viewBox="0 0 320 180">
+  <rect class="bg1" width="320" height="180" rx="16"/>
+  <path class="f-moss-l" d="M0 120Q90 100 170 114T320 106V180H0Z"/>
+  <path class="f-cream" d="M140 180Q150 130 160 112Q100 100 56 112Q110 106 150 126Q150 150 170 180Z"/>
+  <path class="f-cream" d="M160 112Q215 96 276 108Q220 104 172 128Q170 150 190 180H168Q156 150 160 112Z"/>
+  <path class="s-ink" d="M158 112V44"/>
+  <rect class="f-amber-l s-ink" x="92" y="40" width="64" height="22" rx="4"/>
+  <text class="mono f-ink" x="101" y="55" font-size="12">if ...</text>
+  <rect class="f-white s-ink" x="162" y="62" width="70" height="22" rx="4"/>
+  <text class="mono f-ink" x="171" y="77" font-size="12">else</text>
+  <path class="f-ink" d="M156 40l-10 4 10 4z"/>
+  <path class="f-ink" d="M164 62l10 4-10 4z"/>
+  <path class="f-amber" d="M278 28l3 8 8 3-8 3-3 8-3-8-8-3 8-3z"/>
+</symbol>
+
+<symbol id="art-adventure" viewBox="0 0 320 180">
+  <rect class="bg1" width="320" height="180" rx="16"/>
+  <circle class="f-amber-l" cx="260" cy="42" r="18"/>
+  <path class="f-moss-l" d="M0 118Q80 78 160 112T320 98V180H0Z"/>
+  <path class="f-moss" d="M0 150Q100 118 190 144T320 132V180H0Z"/>
+  <path class="f-cream" d="M150 180Q190 150 166 118"/>
+  <path class="s-cream-w" d="M150 180Q190 152 168 120"/>
+  <g class="f-slate"><rect x="132" y="62" width="64" height="52"/><rect x="122" y="48" width="20" height="66"/><rect x="186" y="48" width="20" height="66"/></g>
+  <g class="f-plum"><path d="M118 49l14-22 14 22z"/><path d="M182 49l14-22 14 22z"/></g>
+  <path class="f-amber-l" d="M154 114V94q10-16 20 0v20z"/>
+  <path class="s-ink" d="M164 12v18"/>
+  <path class="f-clay" d="M164 12l18 6-18 6z"/>
+  <path class="f-amber" d="M60 40l3 8 8 3-8 3-3 8-3-8-8-3 8-3z"/>
+</symbol>
+
+<symbol id="art-arithmetic" viewBox="0 0 320 180">
+  <rect class="bg2" width="320" height="180" rx="16"/>
+  <path class="f-moss-l" d="M0 142Q90 126 170 138T320 130V180H0Z"/>
+  <g class="pouch"><path class="f-cream s-ink" d="M24 140q-6-26 8-34h20q14 8 8 34z"/><path class="s-ink" d="M30 106q10-8 22 0"/></g>
+  <g class="pouch"><path class="f-cream s-ink" d="M86 140q-6-26 8-34h20q14 8 8 34z"/><path class="s-ink" d="M92 106q10-8 22 0"/></g>
+  <g class="pouch"><path class="f-cream s-ink" d="M148 140q-6-26 8-34h20q14 8 8 34z"/><path class="s-ink" d="M154 106q10-8 22 0"/></g>
+  <g class="pouch"><path class="f-cream s-ink" d="M210 140q-6-26 8-34h20q14 8 8 34z"/><path class="s-ink" d="M216 106q10-8 22 0"/></g>
+  <g class="pouch"><path class="f-cream s-ink" d="M272 140q-6-26 8-34h20q14 8 8 34z"/><path class="s-ink" d="M278 106q10-8 22 0"/></g>
+  <g class="f-amber s-ink-s">
+    <circle cx="34" cy="124" r="5"/><circle cx="44" cy="124" r="5"/><circle cx="39" cy="115" r="5"/>
+    <circle cx="96" cy="124" r="5"/><circle cx="106" cy="124" r="5"/><circle cx="101" cy="115" r="5"/>
+    <circle cx="158" cy="124" r="5"/><circle cx="168" cy="124" r="5"/><circle cx="163" cy="115" r="5"/>
+    <circle cx="220" cy="124" r="5"/><circle cx="230" cy="124" r="5"/><circle cx="225" cy="115" r="5"/>
+    <circle cx="282" cy="124" r="5"/><circle cx="292" cy="124" r="5"/><circle cx="287" cy="115" r="5"/>
+  </g>
+  <rect class="f-plum s-ink" x="128" y="30" width="64" height="40" rx="6"/>
+  <path class="f-clay s-ink" d="M128 40q32-22 64 0v-4q-32-22-64 0z"/>
+  <rect class="f-amber-l s-ink" x="154" y="46" width="12" height="12" rx="2"/>
+  <g class="f-amber s-ink-s"><circle cx="146" cy="82" r="5"/><circle cx="174" cy="82" r="5"/></g>
+  <text class="mono f-ink" x="22" y="26" font-size="13" font-weight="700">17 // 5 = 3</text>
+  <text class="mono f-ink" x="22" y="44" font-size="13" font-weight="700">17 % 5 = 2</text>
+</symbol>
+
+<symbol id="art-int-float" viewBox="0 0 320 180">
+  <rect class="bg2" width="320" height="180" rx="16"/>
+  <path class="f-moss-l" d="M0 150Q90 134 170 146T320 138V180H0Z"/>
+  <rect class="f-cream s-ink" x="24" y="52" width="272" height="30" rx="4"/>
+  <g class="s-ink-s"><path d="M52 52v16M80 52v16M108 52v16M136 52v16M164 52v16M192 52v16M220 52v16M248 52v16M276 52v16"/></g>
+  <g class="s-moss-s"><path d="M66 52v9M94 52v9M122 52v9M150 52v9M178 52v9M206 52v9M234 52v9M262 52v9"/></g>
+  <text class="mono f-ink" x="46" y="102" font-size="14" font-weight="700">3</text>
+  <text class="mono f-ink" x="132" y="102" font-size="14" font-weight="700">4</text>
+  <text class="mono f-ink" x="214" y="102" font-size="14" font-weight="700">5</text>
+  <path class="f-clay s-ink" d="M150 118l-9-14h18z"/>
+  <rect class="f-white s-ink" x="112" y="124" width="76" height="26" rx="5"/>
+  <text class="mono f-clay" x="124" y="142" font-size="14" font-weight="700">4.5</text>
+  <rect class="f-amber-l s-ink" x="28" y="112" width="52" height="26" rx="5"/>
+  <text class="mono f-ink" x="42" y="130" font-size="14" font-weight="700">int</text>
+  <rect class="f-amber-l s-ink" x="240" y="112" width="56" height="26" rx="5"/>
+  <text class="mono f-ink" x="248" y="130" font-size="14" font-weight="700">float</text>
+</symbol>
+
+<symbol id="art-convert" viewBox="0 0 320 180">
+  <rect class="bg2" width="320" height="180" rx="16"/>
+  <path class="f-moss-l" d="M0 150Q90 134 170 146T320 138V180H0Z"/>
+  <rect class="f-white s-ink" x="28" y="62" width="76" height="50" rx="8"/>
+  <text class="mono f-clay" x="46" y="96" font-size="26" font-weight="700">"7"</text>
+  <text class="sans f-ink" x="28" y="130" font-size="11">text</text>
+  <path class="f-amber-l s-ink" d="M130 62h60l-14 26v22h-32V88z"/>
+  <text class="mono f-ink" x="134" y="52" font-size="12">int()</text>
+  <path class="s-ink" d="M110 86h14M196 86h14"/>
+  <path class="f-ink" d="M122 80l8 6-8 6zM208 80l8 6-8 6z"/>
+  <circle class="f-amber s-ink" cx="262" cy="84" r="30"/>
+  <text class="mono f-ink" x="251" y="94" font-size="28" font-weight="700">7</text>
+  <text class="sans f-ink" x="236" y="130" font-size="11">number</text>
+  <g class="f-amber s-ink-s"><circle cx="150" cy="130" r="4"/><circle cx="160" cy="134" r="4"/></g>
+</symbol>
+
+<symbol id="art-compare" viewBox="0 0 320 180">
+  <rect class="bg2" width="320" height="180" rx="16"/>
+  <path class="f-moss-l" d="M0 148Q90 132 170 144T320 136V180H0Z"/>
+  <path class="f-ink" d="M158 150h4V50h-4z"/>
+  <path class="f-ink" d="M130 150h60v6h-60z"/>
+  <path class="s-ink-w" d="M70 62L250 44"/>
+  <circle class="f-amber s-ink" cx="160" cy="53" r="7"/>
+  <path class="s-ink" d="M70 62L52 100M70 62L88 100M250 44L232 82M250 44L268 82"/>
+  <path class="f-cream s-ink" d="M44 100h52q-4 16-26 16T44 100z"/>
+  <path class="f-cream s-ink" d="M224 82h52q-4 16-26 16T224 82z"/>
+  <text class="mono f-ink" x="44" y="136" font-size="14" font-weight="700">secret</text>
+  <text class="mono f-clay" x="236" y="118" font-size="14" font-weight="700">guess</text>
+  <rect class="f-white s-ink" x="132" y="112" width="56" height="26" rx="6"/>
+  <text class="mono f-moss" x="143" y="130" font-size="16" font-weight="700">&gt;= ==</text>
+</symbol>
+
+<symbol id="art-logic" viewBox="0 0 320 180">
+  <rect class="bg2" width="320" height="180" rx="16"/>
+  <path class="f-moss-l" d="M0 150Q90 134 170 146T320 138V180H0Z"/>
+  <path class="f-slate s-ink" d="M120 150V70q0-40 40-40t40 40v80z"/>
+  <path class="f-ink" d="M134 150V74q0-24 26-24t26 24v76z"/>
+  <path class="f-amber-l" d="M146 150V80q0-14 14-14t14 14v70z"/>
+  <rect class="f-white s-ink" x="28" y="48" width="56" height="34" rx="6"/>
+  <circle class="f-amber s-ink" cx="46" cy="65" r="8"/>
+  <text class="mono f-ink" x="58" y="70" font-size="12">A</text>
+  <rect class="f-white s-ink" x="28" y="98" width="56" height="34" rx="6"/>
+  <circle class="f-amber s-ink" cx="46" cy="115" r="8"/>
+  <text class="mono f-ink" x="58" y="120" font-size="12">B</text>
+  <path class="s-ink" d="M84 65h22q10 0 10 14v14M84 115h22q10 0 10-14"/>
+  <rect class="f-cream s-ink" x="232" y="58" width="64" height="28" rx="6"/>
+  <text class="mono f-ink" x="244" y="77" font-size="14" font-weight="700">and</text>
+  <rect class="f-cream s-ink" x="232" y="94" width="64" height="28" rx="6"/>
+  <text class="mono f-ink" x="248" y="113" font-size="14" font-weight="700">or</text>
+  <rect class="f-cream s-ink" x="232" y="130" width="64" height="28" rx="6"/>
+  <text class="mono f-ink" x="240" y="149" font-size="14" font-weight="700">not</text>
+</symbol>
+
+<symbol id="art-elif" viewBox="0 0 320 180">
+  <rect class="bg2" width="320" height="180" rx="16"/>
+  <path class="f-moss-l" d="M0 150Q90 134 170 146T320 138V180H0Z"/>
+  <rect class="f-white s-ink" x="40" y="22" width="150" height="30" rx="6"/>
+  <text class="mono f-ink" x="52" y="42" font-size="13">if exact</text>
+  <rect class="f-white s-ink" x="40" y="62" width="150" height="30" rx="6"/>
+  <text class="mono f-ink" x="52" y="82" font-size="13">elif close</text>
+  <rect class="f-white s-ink" x="40" y="102" width="150" height="30" rx="6"/>
+  <text class="mono f-ink" x="52" y="122" font-size="13">elif near</text>
+  <rect class="f-white s-ink" x="40" y="142" width="150" height="26" rx="6"/>
+  <text class="mono f-ink" x="52" y="160" font-size="13">else</text>
+  <rect class="f-amber s-ink" x="206" y="62" width="82" height="30" rx="6"/>
+  <text class="mono f-ink" x="216" y="82" font-size="14" font-weight="700">score 5</text>
+  <path class="s-clay-w" d="M190 77h14"/>
+  <path class="f-clay" d="M202 71l8 6-8 6z"/>
+  <g class="f-slate"><circle cx="24" cy="37" r="5"/><circle cx="24" cy="77" r="5"/></g>
+  <path class="s-slate-d" d="M24 42v30"/>
+</symbol>
+
+<symbol id="art-while" viewBox="0 0 320 180">
+  <rect class="bg3" width="320" height="180" rx="16"/>
+  <path class="f-moss-l" d="M0 150Q90 134 170 146T320 138V180H0Z"/>
+  <ellipse class="s-moss-w" cx="130" cy="92" rx="88" ry="50"/>
+  <path class="f-moss" d="M216 92l-12-12 2 24z"/>
+  <circle class="f-cream s-ink" cx="130" cy="92" r="24"/>
+  <text class="mono f-ink" x="121" y="102" font-size="28" font-weight="700">?</text>
+  <circle class="f-amber s-ink" cx="62" cy="68" r="9"/>
+  <path class="f-plum s-ink" d="M48 112q0-18 14-18t14 18z"/>
+  <path class="f-slate s-ink" d="M246 150V82q0-26 28-26t28 26v68z"/>
+  <path class="f-ink" d="M256 150V86q0-16 18-16t18 16v64z"/>
+  <text class="mono f-ink" x="236" y="46" font-size="13" font-weight="700">== secret</text>
+  <path class="s-ink-s" d="M226 112h16"/>
+  <path class="f-ink" d="M240 106l8 6-8 6z"/>
+  <text class="mono f-moss" x="64" y="168" font-size="13" font-weight="700">while guess != secret:</text>
+</symbol>
+
+<symbol id="art-three-tries" viewBox="0 0 320 180">
+  <rect class="bg3" width="320" height="180" rx="16"/>
+  <path class="f-moss-l" d="M0 150Q90 134 170 146T320 138V180H0Z"/>
+  <g>
+    <rect class="f-cream s-ink" x="48" y="72" width="40" height="64" rx="6"/>
+    <path class="s-ink" d="M68 72V58"/>
+    <path class="f-ink" d="M68 40q-8 10 0 18 8-8 0-18z"/>
+    <rect class="f-cream s-ink" x="140" y="72" width="40" height="64" rx="6"/>
+    <path class="s-ink" d="M160 72V58"/>
+    <path class="f-ink" d="M160 40q-8 10 0 18 8-8 0-18z"/>
+    <rect class="f-white s-ink" x="232" y="72" width="40" height="64" rx="6"/>
+    <path class="s-ink" d="M252 72V58"/>
+    <path class="f-amber s-ink" d="M252 30q-14 16 0 30 14-14 0-30z"/>
+    <circle class="f-amber-l" cx="252" cy="46" r="3"/>
+  </g>
+  <text class="mono f-ink" x="62" y="108" font-size="16" font-weight="700">1</text>
+  <text class="mono f-ink" x="154" y="108" font-size="16" font-weight="700">2</text>
+  <text class="mono f-ink" x="246" y="108" font-size="16" font-weight="700">3</text>
+  <path class="s-clay-w" d="M52 150l32 14M84 150l-32 14"/>
+  <path class="s-clay-w" d="M144 150l32 14M176 150l-32 14"/>
+  <text class="mono f-moss" x="14" y="24" font-size="13" font-weight="700">tries = 3</text>
+</symbol>
+
+<symbol id="art-for-range" viewBox="0 0 320 180">
+  <rect class="bg3" width="320" height="180" rx="16"/>
+  <path class="f-moss-l" d="M0 150Q90 134 170 146T320 138V180H0Z"/>
+  <path class="f-cream s-ink" d="M30 152v-22h44v-20h44v-20h44v-20h44v-20h44v-20h20v122z"/>
+  <path class="s-ink-s" d="M74 130v22M118 110v42M162 90v62M206 70v82M250 50v102"/>
+  <text class="mono f-ink" x="46" y="148" font-size="14" font-weight="700">0</text>
+  <text class="mono f-ink" x="90" y="148" font-size="14" font-weight="700">2</text>
+  <text class="mono f-ink" x="134" y="148" font-size="14" font-weight="700">4</text>
+  <text class="mono f-ink" x="178" y="148" font-size="14" font-weight="700">6</text>
+  <text class="mono f-ink" x="222" y="148" font-size="14" font-weight="700">8</text>
+  <circle class="f-cream s-ink" cx="96" cy="86" r="8"/>
+  <path class="f-plum s-ink" d="M85 108q0-14 11-14t11 14z"/>
+  <path class="s-clay-w" d="M104 84Q124 58 142 66"/>
+  <path class="f-clay" d="M146 62l-12 0 6 11z"/>
+  <path class="s-clay-w" d="M150 62Q168 38 186 46"/>
+  <path class="f-clay" d="M190 42l-12 0 6 11z"/>
+  <text class="mono f-moss" x="18" y="28" font-size="13" font-weight="700">range(0, 10, 2)</text>
+</symbol>
+
+<symbol id="art-accumulate" viewBox="0 0 320 180">
+  <rect class="bg3" width="320" height="180" rx="16"/>
+  <path class="f-moss-l" d="M0 150Q90 134 170 146T320 138V180H0Z"/>
+  <rect class="f-amber-l s-ink" x="34" y="110" width="40" height="36" rx="4"/>
+  <rect class="f-amber-l s-ink" x="96" y="88" width="40" height="58" rx="4"/>
+  <rect class="f-amber-l s-ink" x="158" y="68" width="40" height="78" rx="4"/>
+  <rect class="f-amber s-ink" x="220" y="38" width="52" height="108" rx="4"/>
+  <text class="mono f-ink" x="42" y="132" font-size="14" font-weight="700">+4</text>
+  <text class="mono f-ink" x="104" y="122" font-size="14" font-weight="700">+6</text>
+  <text class="mono f-ink" x="166" y="112" font-size="14" font-weight="700">+5</text>
+  <text class="mono f-ink" x="226" y="96" font-size="18" font-weight="700">15</text>
+  <text class="mono f-ink" x="226" y="118" font-size="11">total</text>
+  <path class="s-ink-s" d="M76 126h18M138 116h18M200 106h18"/>
+  <text class="mono f-moss" x="20" y="28" font-size="13" font-weight="700">total = total + points</text>
+</symbol>
+
+<symbol id="art-nested" viewBox="0 0 320 180">
+  <rect class="bg3" width="320" height="180" rx="16"/>
+  <g class="f-cream s-ink">
+    <rect x="40" y="26" width="52" height="38" rx="5"/><rect x="100" y="26" width="52" height="38" rx="5"/><rect x="160" y="26" width="52" height="38" rx="5"/><rect x="220" y="26" width="52" height="38" rx="5"/>
+    <rect x="40" y="72" width="52" height="38" rx="5"/><rect x="100" y="72" width="52" height="38" rx="5"/><rect x="160" y="72" width="52" height="38" rx="5"/><rect x="220" y="72" width="52" height="38" rx="5"/>
+    <rect x="40" y="118" width="52" height="38" rx="5"/><rect x="100" y="118" width="52" height="38" rx="5"/><rect x="160" y="118" width="52" height="38" rx="5"/><rect x="220" y="118" width="52" height="38" rx="5"/>
+  </g>
+  <path class="s-clay-w" d="M66 45H246Q262 45 262 58Q262 91 246 91H66Q50 91 50 104Q50 137 66 137H246"/>
+  <g class="f-amber s-ink-s"><circle cx="74" cy="52" r="5"/><circle cx="130" cy="58" r="5"/><circle cx="190" cy="50" r="5"/><circle cx="246" cy="56" r="5"/><circle cx="74" cy="96" r="5"/><circle cx="190" cy="100" r="5"/><circle cx="130" cy="140" r="5"/><circle cx="246" cy="140" r="5"/></g>
+  <text class="mono f-moss" x="286" y="48" font-size="12" font-weight="700">row</text>
+  <text class="mono f-moss" x="284" y="92" font-size="12" font-weight="700">row</text>
+  <text class="mono f-moss" x="284" y="138" font-size="12" font-weight="700">row</text>
+</symbol>
+
+<!-- Small icons for the five card types -->
+<symbol id="i-discover" viewBox="0 0 24 24"><path d="M12 2v3M8 5h8l1 5H7zM7 10l-1 9h12l-1-9M9 14h6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+<symbol id="i-example" viewBox="0 0 24 24"><path d="M4 5h7a2 2 0 0 1 2 2v12a2 2 0 0 0-2-2H4zM20 5h-7a2 2 0 0 0-2 2v12a2 2 0 0 1 2-2h7z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+<symbol id="i-predict" viewBox="0 0 24 24"><path d="M9 9a3 3 0 1 1 4 2.8c-.9.5-1 1.2-1 2.2M12 18h.01" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="12" r="9.5" fill="none" stroke="currentColor" stroke-width="1.8"/></symbol>
+<symbol id="i-try" viewBox="0 0 24 24"><path d="M8 5l11 7-11 7z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+<symbol id="i-challenge" viewBox="0 0 24 24"><path d="M6 21V4M6 5h11l-2 4 2 4H6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+<symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M8 11V8a4 4 0 0 1 8 0v3" fill="none" stroke="currentColor" stroke-width="1.8"/></symbol>
+<symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+<symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+</svg>
+
+
+<nav class="proto" aria-label="Prototype views">
+  <b>Design prototype</b>
+  <a href="#home">Home, signed out</a>
+  <a href="#student">Home, student</a>
+  <a href="#course">Course page</a>
+  <a href="#lesson">Lesson page</a>
+  <a href="#art">All 16 lesson pictures</a>
+</nav>
+
+<!-- ============================ HOME, SIGNED OUT ============================ -->
+<section class="view" id="v-home" aria-label="Home page, signed out">
+<header class="site-header">
+  <a class="brand" href="#home"><span class="logo">py</span>Python Academy</a>
+  <nav class="nav" aria-label="Main"><a href="#course">Courses</a><a href="#lesson">Try a lesson</a></nav>
+  <div class="header-end"><a class="btn small" href="#student">Sign in</a></div>
+</header>
+
+<div class="topo hero">
+  <div class="wrap hero-grid">
+    <div>
+      <h1>Your first Python program is <em>a story.</em></h1>
+      <p class="lead">Write a few lines, run them, see what happens. Each lesson ends with a small challenge you solve yourself.</p>
+      <div class="cta">
+        <a class="btn primary" href="#lesson">Try a lesson, no account <svg class="ico"><use href="#i-arrow"/></svg></a>
+        <a class="btn" href="#student">Sign in with Google</a>
+      </div>
+      <p class="fine">Learners 13 and up sign in through a parent's invitation. Anyone over 25 can start a family account.</p>
+    </div>
+    <div class="playground" aria-labelledby="pg-h">
+      <div class="pg-top"><span id="pg-h">count_the_treasure.py</span><span>unit 2 · lesson 1</span></div>
+<pre class="pg-code"><span class="c"># share a chest of coins</span>
+coins = <input id="pg-coins" type="number" value="17" min="0" max="999" aria-label="coins">
+friends = <input id="pg-friends" type="number" value="5" min="0" max="99" aria-label="friends">
+<span class="f">print</span>(coins <span class="k">//</span> friends)
+<span class="f">print</span>(coins <span class="k">%</span> friends)</pre>
+      <div class="pg-out" aria-live="polite"><span class="lbl">Output</span><div id="pg-out"></div></div>
+      <p class="pg-note">Change the numbers. <code>//</code> is each friend's whole share, <code>%</code> is what's left over. In a lesson you type these lines yourself.</p>
+    </div>
+  </div>
+</div>
+
+<section class="band">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>Every lesson goes in the same order.</h2>
+      <p>So you always know what is being asked of you.</p>
+    </div>
+    <ol class="flow">
+      <li class="t-discover"><div class="tag"><span class="ib"><svg class="ico"><use href="#i-discover"/></svg></span>Discover</div><p>One idea, in a few sentences.</p></li>
+      <li class="t-example"><div class="tag"><span class="ib"><svg class="ico"><use href="#i-example"/></svg></span>Worked example</div><p>Code you read line by line, with the output beside it.</p></li>
+      <li class="t-predict"><div class="tag"><span class="ib"><svg class="ico"><use href="#i-predict"/></svg></span>Predict</div><p>Guess what it prints before it runs. Guess wrong and you get the reason.</p></li>
+      <li class="t-try"><div class="tag"><span class="ib"><svg class="ico"><use href="#i-try"/></svg></span>Try it</div><p>Change the example and see what moves.</p></li>
+      <li class="t-challenge"><div class="tag"><span class="ib"><svg class="ico"><use href="#i-challenge"/></svg></span>Challenge</div><p>Write the program yourself. Hidden test cases catch copied answers.</p></li>
+    </ol>
+  </div>
+</section>
+
+<section class="band alt">
+  <div class="wrap errdemo">
+    <div>
+      <h2>When it breaks, you are told why.</h2>
+      <p class="lead">The page marks the line, says what Python couldn't do, and often guesses the name you meant. Python's own message is a click away.</p>
+      <p class="lead">Stuck? Hints come in steps: a nudge, a bigger hint, then the approach. There is no button that hands you the answer.</p>
+    </div>
+    <div>
+      <div class="editor" role="img" aria-label="Code with line 3 marked as the error">
+        <div class="bar"><span>hero.py</span><span>3 lines</span></div>
+        <div class="ln"><span>1</span><span>hero = "Kai"</span></div>
+        <div class="ln"><span>2</span><span>tool = "map"</span></div>
+        <div class="ln bad"><span>▶ 3</span><span>print(heor)</span></div>
+      </div>
+      <div class="explain" role="status">
+        <div class="st">PYTHON STOPPED · LINE 3</div>
+        <h3>Python does not know <code>heor</code></h3>
+        <p>You used a name before giving it a value, or spelled it two ways. Did you mean <code>hero</code>?</p>
+      </div>
+      <div class="hints" role="group" aria-label="Hint ladder">
+        <button class="btn small" data-hint="A nudge: one of the names in your print() is not spelled the way it was set.">A nudge</button>
+        <button class="btn small" data-hint="A bigger hint: compare the name inside print() with the name on line 1, letter by letter.">A bigger hint</button>
+        <button class="btn small" data-hint="The approach: names must match exactly, including every letter. Fix the spelling in print().">The approach</button>
+      </div>
+      <div class="hint-box" id="hint-box" aria-live="polite">Hints appear here, one at a time.</div>
+    </div>
+  </div>
+</section>
+
+<section class="band topo">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>Python Foundations: three units open, nine on the way.</h2>
+      <p>Each unit takes the same adventure a little further.</p>
+    </div>
+    <div class="trail">
+      <article class="stop"><svg class="art" viewBox="0 0 320 180" role="img" aria-label="A castle on a hill"><use href="#art-adventure"/></svg><div class="meta"><span>UNIT 1</span><span>5 lessons</span></div><h3>Build Your Own Adventure</h3><p>Print, variables, input and choices, ending in a small game that is yours.</p></article>
+      <article class="stop"><svg class="art" viewBox="0 0 320 180" role="img" aria-label="Coins shared between pouches"><use href="#art-arithmetic"/></svg><div class="meta"><span>UNIT 2</span><span>6 lessons</span></div><h3>Numbers and decisions</h3><p>Arithmetic, comparisons, and, or, not and elif, through a riddle keeper's game.</p></article>
+      <article class="stop"><svg class="art" viewBox="0 0 320 180" role="img" aria-label="A grid of rooms with a path through them"><use href="#art-nested"/></svg><div class="meta"><span>UNIT 3</span><span>5 lessons</span></div><h3>Repeat and explore</h3><p>while and for loops that always finish, and a loop inside a loop.</p></article>
+    </div>
+    <div class="planned" aria-label="Planned units">
+      <div><b>Unit 4 · Keep track of a world</b>Lists, dictionaries, sets</div>
+      <div><b>Unit 5 · Organize your code</b>Functions and scope</div>
+      <div><b>Units 6 to 12</b>Errors, libraries, tests, files, patterns in text, classes, a final project</div>
+    </div>
+    <p class="later">After Python: Hackathon Ready, Git and GitHub, web, JavaScript and SQL, all marked <em>coming soon</em>.</p>
+  </div>
+</section>
+
+<section class="band alt">
+  <div class="wrap parents">
+    <div>
+      <h2>For parents</h2>
+      <p class="lead">A parent over 25 creates a family account and invites each learner by Google email. Try any lesson first; nothing from a preview is saved.</p>
+      <a class="btn" href="#lesson">Try a lesson as a parent</a>
+    </div>
+    <ul class="facts">
+      <li><svg class="ico ck"><use href="#i-check"/></svg><span>Learner code runs in the browser. It is never run on our servers.</span></li>
+      <li><svg class="ico ck"><use href="#i-check"/></svg><span>You see their chosen goal, which lessons are finished, and whether each attempt passed.</span></li>
+      <li><svg class="ico ck"><use href="#i-check"/></svg><span>Invitations expire after seven days and work only for the invited email.</span></li>
+      <li><svg class="ico ck"><use href="#i-check"/></svg><span>Sign-in is through Google. We never see a password.</span></li>
+    </ul>
+  </div>
+</section>
+
+<footer class="footer"><div class="wrap">Python Academy is a one-person project, still early. Three units are open and the rest are planned. Checks are practice, not a certificate.</div></footer>
+</section>
+
+<!-- ============================ HOME, STUDENT ============================ -->
+<section class="view" id="v-student" aria-label="Home page, signed in as a student">
+<header class="site-header">
+  <a class="brand" href="#student"><span class="logo">py</span>Python Academy</a>
+  <nav class="nav" aria-label="Main"><a href="#course">Courses</a></nav>
+  <div class="header-end"><span class="fine">Kai</span><a class="btn small" href="#home">Sign out</a></div>
+</header>
+<div class="wrap pagepad">
+  <section class="continue" aria-labelledby="c-h">
+    <div class="txt">
+      <p class="kicker">next up · unit 3, Repeat and explore</p>
+      <h2 id="c-h">Keep guessing</h2>
+      <p class="why">You finished Numbers and decisions, so loops come next on your Learn to code path. This lesson lets the player guess until they get it right.</p>
+      <div class="cta"><a class="btn warm" href="#lesson">Start lesson, card 1 of 5 <svg class="ico"><use href="#i-arrow"/></svg></a><a class="btn small" href="#course">See the whole unit</a></div>
+      <div class="meta2"><div><strong>1,100 XP</strong>11 lessons done</div><div><strong>11</strong>badges</div><div>Goal: Learn to code from scratch · <a href="#student">change</a></div></div>
+    </div>
+    <div class="artcol"><svg class="art" viewBox="0 0 320 180" role="img" aria-label="A looping path around a question mark, ending at a door"><use href="#art-while"/></svg></div>
+  </section>
+
+  <section class="sec" aria-labelledby="u-h">
+    <h2 id="u-h">Your path in Python Foundations</h2>
+    <div class="unit-strip">
+      <div class="ustrip"><svg class="art" viewBox="0 0 320 180" aria-hidden="true"><use href="#art-adventure"/></svg><div><h3>1 · Build Your Own Adventure</h3><small>5 of 5 lessons done</small><div class="dots" aria-hidden="true"><i class="dot done"></i><i class="dot done"></i><i class="dot done"></i><i class="dot done"></i><i class="dot done"></i></div></div><a class="btn small" href="#course">Review</a></div>
+      <div class="ustrip"><svg class="art" viewBox="0 0 320 180" aria-hidden="true"><use href="#art-arithmetic"/></svg><div><h3>2 · Numbers and decisions</h3><small>6 of 6 lessons done</small><div class="dots" aria-hidden="true"><i class="dot done"></i><i class="dot done"></i><i class="dot done"></i><i class="dot done"></i><i class="dot done"></i><i class="dot done"></i></div></div><a class="btn small" href="#course">Review</a></div>
+      <div class="ustrip cur"><svg class="art" viewBox="0 0 320 180" aria-hidden="true"><use href="#art-nested"/></svg><div><h3>3 · Repeat and explore</h3><small>0 of 5 lessons done</small><div class="dots" aria-hidden="true"><i class="dot now"></i><i class="dot"></i><i class="dot"></i><i class="dot"></i><i class="dot"></i></div></div><a class="btn small primary" href="#lesson">Continue</a></div>
+    </div>
+  </section>
+
+  <section class="sec" aria-labelledby="o-h">
+    <h2 id="o-h">Coming later</h2>
+    <div class="cgrid">
+      <div class="cc"><span class="chip soon">Coming soon</span><br><b>Hackathon Ready</b><p>Needs Python units 1 to 7.</p></div>
+      <div class="cc"><span class="chip soon">Coming soon</span><br><b>Git and GitHub Essentials</b><p>Needs Python unit 1.</p></div>
+      <div class="cc"><span class="chip soon">Coming soon</span><br><b>Web Foundations</b><p>Needs Python units 1 to 3.</p></div>
+    </div>
+  </section>
+</div>
+</section>
+
+<!-- ============================ COURSE PAGE ============================ -->
+<section class="view" id="v-course" aria-label="Course page">
+<header class="site-header">
+  <a class="brand" href="#student"><span class="logo">py</span>Python Academy</a>
+  <nav class="nav" aria-label="Main"><a href="#course">Courses</a></nav>
+  <div class="header-end"><span class="fine">Kai</span></div>
+</header>
+<div class="wrap pagepad">
+  <p class="crumbs">Courses › Python Foundations</p>
+  <div class="course-top">
+    <div><h1>Python Foundations</h1><p class="lead">From your first <code>print()</code> toward the breadth of a full first programming course, one growing adventure at a time.</p></div>
+    <div class="side"><span class="chip">Available</span><p><b>3 of 12 units open</b><br>16 lessons ready</p><p class="fine">Builds on nothing. Start here.</p></div>
+  </div>
+
+  <article class="unit-card">
+    <header><div><span class="num">UNIT 2</span><h2>Numbers and decisions</h2><p class="fine">Arithmetic, comparisons, and/or/not and elif.</p></div><span class="chip">Complete</span></header>
+    <ul class="rows">
+      <li><a class="row done" href="#lesson"><svg class="art" viewBox="0 0 320 180" aria-hidden="true"><use href="#art-arithmetic"/></svg><span><b>Count the treasure</b><code>+ - * / // %</code></span><span class="st"><svg class="ico"><use href="#i-check"/></svg>Done</span></a></li>
+      <li><a class="row done" href="#lesson"><svg class="art" viewBox="0 0 320 180" aria-hidden="true"><use href="#art-int-float"/></svg><span><b>Average the scores</b><code>int and float</code></span><span class="st"><svg class="ico"><use href="#i-check"/></svg>Done</span></a></li>
+      <li><a class="row done" href="#lesson"><svg class="art" viewBox="0 0 320 180" aria-hidden="true"><use href="#art-convert"/></svg><span><b>Score the riddle</b><code>int(input())</code></span><span class="st"><svg class="ico"><use href="#i-check"/></svg>Done</span></a></li>
+      <li><a class="row done" href="#lesson"><svg class="art" viewBox="0 0 320 180" aria-hidden="true"><use href="#art-compare"/></svg><span><b>Too high or too low?</b><code>&lt; &gt; &lt;= &gt;= == !=</code></span><span class="st"><svg class="ico"><use href="#i-check"/></svg>Done</span></a></li>
+      <li><a class="row done" href="#lesson"><svg class="art" viewBox="0 0 320 180" aria-hidden="true"><use href="#art-logic"/></svg><span><b>Close enough?</b><code>and  or  not</code></span><span class="st"><svg class="ico"><use href="#i-check"/></svg>Done</span></a></li>
+      <li><a class="row done" href="#lesson"><svg class="art" viewBox="0 0 320 180" aria-hidden="true"><use href="#art-elif"/></svg><span><b>The riddle keeper's verdict</b><code>elif</code></span><span class="st"><svg class="ico"><use href="#i-check"/></svg>Done</span></a></li>
+    </ul>
+  </article>
+
+  <article class="unit-card">
+    <header><div><span class="num">UNIT 3</span><h2>Repeat and explore</h2><p class="fine">while and for loops that always finish.</p></div><span class="chip">0 of 5</span></header>
+    <ul class="rows">
+      <li><a class="row next" href="#lesson"><svg class="art" viewBox="0 0 320 180" aria-hidden="true"><use href="#art-while"/></svg><span><b>Keep guessing</b><code>while</code></span><span class="st">Up next</span></a></li>
+      <li><a class="row" href="#lesson"><svg class="art" viewBox="0 0 320 180" aria-hidden="true"><use href="#art-three-tries"/></svg><span><b>Three tries</b><code>stopping on time</code></span><span class="st">Not started</span></a></li>
+      <li><a class="row" href="#lesson"><svg class="art" viewBox="0 0 320 180" aria-hidden="true"><use href="#art-for-range"/></svg><span><b>Step by step</b><code>for and range()</code></span><span class="st">Not started</span></a></li>
+      <li><a class="row" href="#lesson"><svg class="art" viewBox="0 0 320 180" aria-hidden="true"><use href="#art-accumulate"/></svg><span><b>Keep the score</b><code>running totals</code></span><span class="st">Not started</span></a></li>
+      <li><a class="row" href="#lesson"><svg class="art" viewBox="0 0 320 180" aria-hidden="true"><use href="#art-nested"/></svg><span><b>Rooms on the map</b><code>a loop inside a loop</code></span><span class="st">Not started</span></a></li>
+    </ul>
+  </article>
+</div>
+</section>
+
+<!-- ============================ LESSON PAGE ============================ -->
+<section class="view" id="v-lesson" aria-label="Lesson page: Count the treasure">
+<header class="site-header">
+  <a class="brand" href="#student"><span class="logo">py</span>Python Academy</a>
+  <nav class="nav" aria-label="Main"><a href="#course">Courses</a></nav>
+  <div class="header-end"><span class="fine">Kai</span></div>
+</header>
+<div class="wrap pagepad">
+  <div class="lesson-grid">
+    <aside class="unitnav" aria-label="Unit 2 lessons">
+      <h3>Unit 2 · Numbers and decisions</h3>
+      <ol>
+        <li><a class="cur" href="#lesson"><svg class="art" viewBox="0 0 320 180" aria-hidden="true"><use href="#art-arithmetic"/></svg><span>Count the treasure</span></a></li>
+        <li><a href="#lesson"><svg class="art" viewBox="0 0 320 180" aria-hidden="true"><use href="#art-int-float"/></svg><span>Average the scores</span></a></li>
+        <li><a href="#lesson"><svg class="art" viewBox="0 0 320 180" aria-hidden="true"><use href="#art-convert"/></svg><span>Score the riddle</span></a></li>
+        <li><a href="#lesson"><svg class="art" viewBox="0 0 320 180" aria-hidden="true"><use href="#art-compare"/></svg><span>Too high or too low?</span></a></li>
+        <li><a href="#lesson"><svg class="art" viewBox="0 0 320 180" aria-hidden="true"><use href="#art-logic"/></svg><span>Close enough?</span></a></li>
+        <li><a href="#lesson"><svg class="art" viewBox="0 0 320 180" aria-hidden="true"><use href="#art-elif"/></svg><span>The riddle keeper's verdict</span></a></li>
+      </ol>
+    </aside>
+
+    <div>
+      <div class="lhead">
+        <div>
+          <p class="kicker">unit 2 · lesson 1 of 6</p>
+          <h1>Count the treasure</h1>
+          <span class="concept">+ − * / // %</span><span class="xpbox">100 XP for the challenge</span>
+        </div>
+        <svg class="art" viewBox="0 0 320 180" role="img" aria-label="Five pouches with three coins each and two coins left over in a chest"><use href="#art-arithmetic"/></svg>
+      </div>
+
+      <ol class="path" id="path" aria-label="Lesson progress"></ol>
+
+      <div class="card" id="card"></div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ============================ ART GALLERY ============================ -->
+<section class="view" id="v-art" aria-label="All lesson pictures">
+<div class="wrap pagepad">
+  <h1>One picture per lesson</h1>
+  <p class="lead">Each picture shows the idea its lesson teaches, in the adventure's world. Tints change by unit: mint for unit 1, sand for unit 2, blue-grey for unit 3.</p>
+  <div class="gal" id="gal"></div>
+</div>
+</section>
+
+<script>
+(function(){
+  /* ---- view switching ---- */
+  var views=['home','student','course','lesson','art'];
+  function show(){
+    var h=(location.hash||'#home').slice(1); if(views.indexOf(h)<0)h='home';
+    views.forEach(function(v){document.getElementById('v-'+v).classList.toggle('on',v===h)});
+    document.querySelectorAll('.proto a').forEach(function(a){ if(a.getAttribute('href')==='#'+h)a.setAttribute('aria-current','page'); else a.removeAttribute('aria-current')});
+    window.scrollTo(0,0);
+  }
+  window.addEventListener('hashchange',show); show();
+
+  /* ---- home playground (mini preview; the real lesson runs Python) ---- */
+  var pc=document.getElementById('pg-coins'),pf=document.getElementById('pg-friends'),po=document.getElementById('pg-out');
+  function pg(){
+    var c=parseInt(pc.value,10),f=parseInt(pf.value,10);
+    if(isNaN(c)||isNaN(f)){po.innerHTML='<span class="err">Type a whole number in each box.</span>';return}
+    if(f===0){po.innerHTML='<span class="err">ZeroDivisionError: you cannot share a chest between 0 friends.</span>';return}
+    po.innerHTML=Math.floor(c/f)+'<br>'+(c%f);
+  }
+  pc.addEventListener('input',pg);pf.addEventListener('input',pg);pg();
+
+  /* ---- hint ladder demo ---- */
+  var hb=document.getElementById('hint-box');
+  document.querySelectorAll('[data-hint]').forEach(function(b){b.addEventListener('click',function(){hb.textContent=b.getAttribute('data-hint');document.querySelectorAll('[data-hint]').forEach(function(x){x.classList.remove('on')});b.classList.add('on')})});
+
+  /* ---- art gallery ---- */
+  var arts=[['art-hello','hello','Open the story','print()',1],['art-variables','variables','Create your hero','variables',1],['art-input','input','Meet the player','input()',1],['art-choices','choices','Choose a path','if / else',1],['art-adventure','adventure','Launch your adventure','everything together',1],
+   ['art-arithmetic','py.arithmetic','Count the treasure','+ - * / // %',2],['art-int-float','py.int-float','Average the scores','int and float',2],['art-convert','py.convert-input','Score the riddle','int(input())',2],['art-compare','py.compare','Too high or too low?','< > <= >= == !=',2],['art-logic','py.boolean-logic','Close enough?','and, or, not',2],['art-elif','py.elif','The riddle keeper\'s verdict','elif',2],
+   ['art-while','py.while-loops','Keep guessing','while',3],['art-three-tries','py.loop-termination','Three tries','stopping on time',3],['art-for-range','py.for-range','Step by step','for and range()',3],['art-accumulate','py.accumulate','Keep the score','running totals',3],['art-nested','py.nested-loops','Rooms on the map','loop inside a loop',3]];
+  var g=document.getElementById('gal');
+  arts.forEach(function(a){
+    var f=document.createElement('figure');
+    f.innerHTML='<svg class="art" viewBox="0 0 320 180" role="img" aria-label="'+a[2]+'"><use href="#'+a[0]+'"/></svg><figcaption><b>'+a[2]+'</b><br><code>'+a[1]+'</code> · '+a[3]+'</figcaption>';
+    g.appendChild(f);
+  });
+
+  /* ---- lesson card stepper ---- */
+  var types=[['discover','Discover','i-discover'],['example','Worked example','i-example'],['predict','Predict','i-predict'],['try','Try it','i-try'],['challenge','Challenge','i-challenge']];
+  var step=0, picked=null, gems=4, coins=13, preview='none', hintLevel=0;
+  var HINTS=['You need two results from the same two numbers: the whole coins each friend gets, and the coins left over.','Look at the comment line. One operator divides and keeps only the whole part; another gives what is left over. Each result goes in its own print().','A pattern with other names: print(cookies // children) shows each child\'s whole cookies. For the leftover line, use the operator that gives what is left over.'];
+  var HN=['A nudge','A bigger hint','The approach'];
+  function ic(id){return '<svg class="ico"><use href="#'+id+'"/></svg>'}
+  function pathHTML(){
+    return types.map(function(t,i){
+      var cls=i<step?'done':(i===step?'cur':'');
+      return '<li class="'+cls+'"><button type="button" data-step="'+i+'"'+(i===step?' aria-current="step"':'')+'><span class="pi">'+(i<step?ic('i-check'):ic(t[2]))+'</span>'+t[1]+'</button></li>';
+    }).join('');
+  }
+  function body(){
+    if(step===0) return '<div class="two"><div><h2>Python can do the maths</h2><p>Numbers in Python have no quotes around them. <code>+</code> adds, <code>-</code> takes away, <code>*</code> multiplies and <code>/</code> divides. <code>print(3 + 4)</code> shows 7, and a variable can hold a number, like <code>score = 10</code>.</p><p>Two more operators help when you share things out. <code>//</code> divides and keeps only the whole part: <code>17 // 5</code> is 3. <code>%</code> gives what is left over: <code>17 % 5</code> is 2.</p><div class="callout">As in maths class, Python works out <code>*</code> and <code>/</code> before <code>+</code> and <code>-</code>. Use parentheses to choose a different order.</div></div>'+
+      '<table class="optable"><thead><tr><th>Sign</th><th>Does</th><th>17 and 5</th></tr></thead><tbody><tr><td>+</td><td>add</td><td>22</td></tr><tr><td>-</td><td>take away</td><td>12</td></tr><tr><td>*</td><td>multiply</td><td>85</td></tr><tr><td>/</td><td>divide</td><td>3.4</td></tr><tr class="hl"><td>//</td><td>divide, keep the whole part</td><td>3</td></tr><tr class="hl"><td>%</td><td>what is left over</td><td>2</td></tr></tbody></table></div>';
+    if(step===1) return '<h2>Share a chest of coins</h2><div class="code" role="img" aria-label="Eight lines of code">'+
+      '<div class="l"><i>1</i><span><span class="c"># Work out the hero\'s score</span></span><b></b></div>'+
+      '<div class="l"><i>2</i><span>gems = <span class="n">4</span></span><b></b></div>'+
+      '<div class="l"><i>3</i><span>coins = <span class="n">13</span></span><b></b></div>'+
+      '<div class="l"><i>4</i><span>score = gems <span class="k">*</span> <span class="n">10</span> <span class="k">+</span> coins</span><b></b></div>'+
+      '<div class="l"><i>5</i><span><span class="f">print</span>(score)</span><b class="m1">1</b></div>'+
+      '<div class="l"><i>6</i><span><span class="c"># Share the coins between 5 friends</span></span><b></b></div>'+
+      '<div class="l"><i>7</i><span><span class="f">print</span>(coins <span class="k">//</span> <span class="n">5</span>)</span><b class="m2">2</b></div>'+
+      '<div class="l"><i>8</i><span><span class="f">print</span>(coins <span class="k">%</span> <span class="n">5</span>)</span><b class="m3">3</b></div></div>'+
+      '<div class="outp"><span class="lbl">Output</span><div class="o"><b class="m1">1</b>53</div><div class="o"><b class="m2">2</b>2</div><div class="o"><b class="m3">3</b>3</div></div>'+
+      '<div class="callout">Python works out <code>gems * 10</code> first, so the score is 40 + 13. Then <code>//</code> gives each friend\'s whole coins, and <code>%</code> gives the coins left over.</div>';
+    if(step===2){
+      var opts=['4','2','2.8'],ans=0,why='Five friends take 2 coins each, which uses 10 of the 14. % shows what is left over, so it prints 4. 14 // 5 would show 2, and 14 / 5 would show 2.8.';
+      var t=opts.map(function(o,i){var c='tile';if(picked!==null){if(i===ans)c+=' right';else if(i===picked)c+=' wrong'}return '<button type="button" class="'+c+'" data-pick="'+i+'"'+(picked!==null?' aria-disabled="true"':'')+'><span class="ltr">'+'ABC'[i]+'</span>'+o+'</button>'}).join('');
+      return '<h2>If coins were 14 instead of 13, what would <code>print(coins % 5)</code> show?</h2><div class="tiles">'+t+'</div>'+(picked!==null?'<div class="reveal" role="status"><b>'+(picked===ans?'Right.':'Not quite.')+'</b> '+why+'</div>':'<p class="fine">Pick one. Nothing runs until you do.</p>');
+    }
+    if(step===3){
+      var s=gems*10+coins;
+      return '<h2>Change the numbers</h2><p>Give <code>gems</code> and <code>coins</code> new values. Before you look, predict all three lines, then compare. Try a number of coins that shares out exactly between 5, like 15: what does <code>%</code> show then?</p>'+
+      '<div class="tryrow"><label>gems = <input type="number" id="t-gems" value="'+gems+'" min="0" max="99"></label><label>coins = <input type="number" id="t-coins" value="'+coins+'" min="0" max="999"></label></div>'+
+      '<div class="outp"><span class="lbl">Output</span><div class="o"><b class="m1">1</b>'+s+'</div><div class="o"><b class="m2">2</b>'+Math.floor(coins/5)+'</div><div class="o"><b class="m3">3</b>'+(coins%5)+'</div></div><p class="fine">Prototype preview only.</p>';
+    }
+    var res='',cases=[['17 coins and 5 friends','3, 2'],['20 coins and 4 friends','5, 0'],['3 coins and 5 friends','0, 3']];
+    var cls=['','',''];
+    if(preview==='passed')cls=['ok','ok','ok'];
+    if(preview==='needs')cls=['bad','ok','ok'];
+    var cl=cases.map(function(c,i){return '<li class="'+cls[i]+'"><span class="box">'+(cls[i]==='ok'?ic('i-check'):(cls[i]==='bad'?'×':''))+'</span><span>'+c[0]+'</span><code>'+c[1]+'</code></li>'}).join('');
+    if(preview==='passed')res='<div class="result passed" role="status"><div class="st">Check passed</div><p>Every case gave the right lines, including two you can\'t see.</p><div class="badge-row"><div class="medal" aria-hidden="true">T</div><div><b>Treasure counter</b><br><span class="fine">Practice badge · +100 XP</span></div></div></div>';
+    if(preview==='needs')res='<div class="result needs" role="status"><div class="st">Needs work</div><p>Not yet. For 17 coins and 5 friends, line 1 should be <code>3</code>, but your program printed <code>3.4</code>.</p><p class="fine">A decimal point means <code>/</code> was used. <code>//</code> keeps only the whole coins.</p></div>';
+    if(preview==='error')res='<div class="result error" role="status"><div class="st">Python stopped · line 4</div><p><b>Python does not know <code>freinds</code>.</b> Did you mean <code>friends</code>?</p></div>';
+    var hl='';for(var i=0;i<hintLevel;i++)hl+='<div class="hint-box"><b>'+HN[i]+':</b> '+HINTS[i]+'</div>';
+    return '<h2>Share out the chest</h2><p>The party opens a chest of coins to share. Print two lines: how many whole coins each friend gets, then how many coins are left over. Print just the two numbers.</p>'+
+      '<div class="ticket"><h3>Done when your program gives</h3><ul class="cases">'+cl+'<li><span class="box">'+ic('i-lock')+'</span><span class="hid">2 more chests you can\'t see</span><span></span></li></ul></div>'+
+      '<div class="workgrid"><div><div class="ed"><div class="bar"><span>treasure.py</span><span>4 lines</span></div><textarea aria-label="Your code" spellcheck="false" wrap="off"># These two lines ask for whole numbers (lesson 3 explains how)\ncoins = int(input("How many coins? "))\nfriends = int(input("How many friends? "))\n# Print each friend\'s whole share, then the coins left over\n</textarea></div>'+
+      '<div class="replies"><label>How many coins?<input value="17" aria-label="coins reply"></label><label>How many friends?<input value="5" aria-label="friends reply"></label><button type="button" class="btn primary" id="runbtn">Run and check</button></div>'+
+      '<div class="toggle" role="group" aria-label="Design preview only">Preview a result: <button data-prev="none" aria-pressed="'+(preview==='none')+'">none</button><button data-prev="needs" aria-pressed="'+(preview==='needs')+'">needs work</button><button data-prev="error" aria-pressed="'+(preview==='error')+'">error</button><button data-prev="passed" aria-pressed="'+(preview==='passed')+'">passed</button></div>'+res+'</div>'+
+      '<div><h3>Hints</h3><div class="hints" role="group" aria-label="Hint ladder">'+HN.map(function(h,i){return '<button type="button" class="btn small'+(i<hintLevel?' on':'')+'" data-hl="'+i+'"'+(i>hintLevel?' aria-disabled="true"':'')+'>'+h+'</button>'}).join('')+'</div>'+hl+(hintLevel===0?'<p class="fine">There is no button that shows the answer.</p>':'')+'</div></div>';
+  }
+  function render(){
+    var t=types[step];
+    document.getElementById('path').innerHTML=pathHTML();
+    document.getElementById('card').innerHTML=
+      '<div class="card-tab ct-'+t[0]+'"><span class="ib">'+ic(t[2])+'</span>'+t[1]+'<span class="of">Card '+(step+1)+' of 5</span></div>'+
+      '<div class="card-body">'+body()+'</div>'+
+      '<div class="controls"><button type="button" class="btn" id="back"'+(step===0?' disabled':'')+'>Back</button><span class="tip">'+(step===2&&picked===null?'Pick an answer to continue':'')+'</span><button type="button" class="btn primary" id="next"'+((step===4||(step===2&&picked===null))?' disabled':'')+'>'+(step===4?'Finish lesson':'Continue')+' '+ic('i-arrow')+'</button></div>';
+    bind();
+  }
+  function bind(){
+    document.querySelectorAll('[data-step]').forEach(function(b){b.addEventListener('click',function(){step=+b.getAttribute('data-step');render()})});
+    var n=document.getElementById('next'),bk=document.getElementById('back');
+    if(n)n.addEventListener('click',function(){if(step<4){step++;render()}});
+    if(bk)bk.addEventListener('click',function(){if(step>0){step--;render()}});
+    document.querySelectorAll('[data-pick]').forEach(function(b){b.addEventListener('click',function(){if(picked===null){picked=+b.getAttribute('data-pick');render()}})});
+    var tg=document.getElementById('t-gems'),tc=document.getElementById('t-coins');
+    function upd(){var g=parseInt(tg.value,10),c=parseInt(tc.value,10);if(!isNaN(g))gems=g;if(!isNaN(c))coins=c;var o=document.querySelectorAll('.outp .o');if(o.length){o[0].lastChild.textContent=gems*10+coins;o[1].lastChild.textContent=Math.floor(coins/5);o[2].lastChild.textContent=coins%5}}
+    if(tg){tg.addEventListener('input',upd);tc.addEventListener('input',upd)}
+    document.querySelectorAll('[data-prev]').forEach(function(b){b.addEventListener('click',function(){preview=b.getAttribute('data-prev');render()})});
+    document.querySelectorAll('[data-hl]').forEach(function(b){b.addEventListener('click',function(){var i=+b.getAttribute('data-hl');if(i===hintLevel&&hintLevel<3){hintLevel++;render()}})});
+    var r=document.getElementById('runbtn');if(r)r.addEventListener('click',function(){preview=preview==='none'?'needs':(preview==='needs'?'passed':'none');render()});
+  }
+  render();
+})();
+</script>
+</body>
+</html>
