@@ -3,7 +3,7 @@
 Date: 2026-11-09 (America/Toronto)  
 Written by: Claude Code (implementer), in a separate git worktree  
 For: the human maintainer, and ChatGPT or Claude chat (reviewer) without repository access  
-Status: **in_review**: one pull request, documentation only, not merged. Nothing recorded or decided.
+Status: **in_review**: one pull request (#57), documentation only, not merged. Nothing recorded or decided.
 
 > **How to use this file:** upload it with `docs/plan/video-scripts/unit-1.md` and `docs/plan/teaching-design.md` section 7. The pull request diff is the source of truth (`build.md` section 14).
 
@@ -70,7 +70,7 @@ example and words, never shows the challenge's answer, and that the narration wo
 
 | Where | What |
 | --- | --- |
-| Backlog | EDU-10 `in_review`: unit 1 scripts (#PR, handoff 49) |
+| Backlog | EDU-10 `in_review`: unit 1 scripts (#57, handoff 49) |
 
 ## 7. Next concrete action
 
