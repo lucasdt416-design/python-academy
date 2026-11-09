@@ -3,7 +3,7 @@
 Date: 2026-11-09 (America/Toronto)  
 Written by: Claude Code (implementer), in a separate git worktree  
 For: the human maintainer, and ChatGPT or Claude chat (reviewer) without repository access  
-Status: **in_review**: one pull request, documentation only, not merged. Nothing decided.
+Status: **in_review**: one pull request (#56), documentation only, not merged. Nothing decided.
 
 > **How to use this file:** upload it with `docs/plan/placement.md`, `docs/plan/course-catalog.md` and Issue #4's text. The pull request diff is the source of truth (`build.md` section 14).
 
@@ -65,7 +65,7 @@ Every code sample and task was run in Python 3.12.14, with `input()` given the r
 
 | Where | What |
 | --- | --- |
-| Backlog | EDU-01 `in_review` (#PR, handoff 48). EDU-02 stays `proposed`, waiting for this and the storage decision |
+| Backlog | EDU-01 `in_review` (#56, handoff 48). EDU-02 stays `proposed`, waiting for this and the storage decision |
 | Decision log | Under "Open, awaiting the owner": a link to `placement.md` section 8 |
 
 ## 7. Next concrete action
