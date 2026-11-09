@@ -975,6 +975,28 @@ Each handoff holds its own decisions, bugs and tests. What later readers will wa
 
 **Owner's answers of 2026-11-02:** decisions 28 to 31 in `backlog.md` section 6.
 
+## Master run, third batch (handoffs 38 to 50)
+
+Each handoff holds its own decisions, bugs and tests. Handoffs 44 to 50 are on pull requests still open when this was written (#52 to #58).
+
+| Stage | What was learned |
+| --- | --- |
+| Docs sync (38) | Pasted owner answers are recorded as the owner's, quoted, with a request to say if they are not |
+| Dependabot (39) | Its first three PRs were major-version jumps; CI and the pin test passed on each. Merging one made the next conflict, as neighbouring lines changed |
+| Hidden calls (40) | Decision 28 in code: a hidden call's arguments reach the browser, its result never does, and the page must not show them |
+| ENG-10 (41) | A learner's tests are judged on a correct and a broken reference; a refused import is `unsupported`, not a pass |
+| QA-01a, QA-03 (42) | **Keyboard users couldn't reach "Run".** Tab in the editor always typed spaces, and tests that called `focus()` had hidden it. Esc, then Tab, now moves on. axe couldn't run in Firefox and WebKit under the page's Report-Only policy |
+| ENG-08b (43) | **A program could write `datetime.py`, import it and import `os` from it,** on `main` since ENG-07. Closed by loading allowed modules first, putting the program's folder after Python's library, and not trusting files in it |
+| SEC-05 (44) | Checking each file when asked let a changed `.wasm` hang Pyodide; checking all five first fails at once. A saved copy of `fetch` would have reopened the network |
+| SEC-06 (45) | A token after `#` never reaches a server; links made before still work |
+| ENG-11 (46) | Counters in the database could show who sent feedback, to someone with `SESSION_SECRET`, so those stay in memory. A key read at import could come from an empty secret |
+| Cross-browser (47) | Two of the four failures were the tests: a Chromium-only console message, and WebKit's blank lines for `<progress>` |
+| Placement (48) | A variables task can be passed by hard-coding the sentence |
+| Video scripts (49) | Narration is about one minute per lesson; the rest is typing and running |
+| Book outline (50) | 27 chapters in 10 parts, each new one tied to a real bug |
+
+**Local test runs** on the owner's Mac were unreliable during this batch: 25, then 33, timing-type failures in full browser runs, each passing on rerun, with the same commit clean in CI (handoff 35 section 8). Since then, the full browser suite has been left to CI.
+
 ## Open, awaiting the owner
 
 Nothing in this table is decided. Each recommendation is the implementer's or the planning chat's, **recommended, not yet confirmed**. The master run's Part 2 boxes were all empty on 2026-11-02, so none of these was answered there.
@@ -1003,7 +1025,13 @@ Nothing in this table is decided. Each recommendation is the implementer's or th
 | Retention: never-enrolled accounts, invitations, inactive accounts, attempts, order | Handoff 31, `retention.md` section 3 | 30 days; 30 days; 24 months; after the cost review; with ID-01b |
 | The `ai` course: hands-on units for 18 or older, with a simulated path | Handoff 30 | Yes |
 | `js`: test a separate-origin preview before deciding on endless loops in page lessons | Handoff 30 | Yes |
-| Was importing `os`, `js` and others before ENG-07 a live security problem? | Handoff 34 | No: no network, no cross-user reach; closed by ENG-07 |
+| Was importing `os`, `js` and others before ENG-07 a live security problem? | Handoff 34 | No: no network, no cross-user reach; closed by ENG-07. Handoff 43 found one more way round the guard (writing `datetime.py`), closed by ENG-08b; the worker stayed the boundary throughout |
+| Migration numbering: ENG-11 is 0010, revising 0008, so S04's 0009 will revise 0010 | Handoff 46 | Accept, or renumber |
+| Placement: granularity, the variables task, the threshold, retakes, the pilot skill, storage | Handoff 48, `placement.md` section 8 | Whole lessons; leave the variables task out of the pilot; both right; any time; `print()`; latest result only |
+| Record the unit 1 videos, and when; hosting | Handoff 49 | After PLAN-03 and unit 1 testers; decide hosting only if recording |
+| Who runs the screen reader sheet; when Firefox and WebKit become blocking | Handoff 42 | VoiceOver on a Mac first; after four clean weekly reports |
+| The program tab's name, and errors inside a learner's file | Handoff 43 | `main.py`; point to the file's own line when `py.own-modules` is built |
+| Pinning Pyodide without self-hosting | Handoff 44 | Enough for now |
 | Later units show the catalog title; API failure shows unit 1's alert; "send learner code" read as "send Python's message" | Handoff 22 | No recommendation recorded |
 | `int(input())` handed over early; `ten` taught but not tested; fix-the-bug through the predict and Try it cards | Handoff 24 | No recommendation recorded |
 | README: is "one grade 9 student" right; licence; stack screenshots on a phone; old facts in a collapsible section | Handoff 23 | No recommendation recorded |
