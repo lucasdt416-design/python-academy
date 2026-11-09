@@ -1,7 +1,7 @@
 # Engineering book and course outline (proposed)
 
-Last updated: 2026-10-26 (America/Toronto)  
-Status: **proposed** (backlog DOC-02, handoff 14). An outline only; nothing is written beyond [`decision-log.md`](decision-log.md), which is the raw material.  
+Last updated: 2026-11-09 (America/Toronto)  
+Status: **proposed** (backlog DOC-02, handoff 14; expanded for DOC-03, handoff 50). An outline only; nothing is written beyond [`decision-log.md`](decision-log.md), which is the raw material.  
 Related: [`decision-log.md`](decision-log.md); [`teaching-design.md`](teaching-design.md), whose methods (worked examples, predict-then-run, fix-the-bug, gradually removing support) the course below uses; [`build.md`](../../build.md) section 15 ("Learn while building the platform").
 
 Two products from one source:
@@ -44,9 +44,38 @@ Each chapter has the same parts:
 | **VI. Teaching honestly** | 12. How people learn to program | 10 | Worked examples, PRIMM, Parsons problems, spaced practice; mixed evidence |
 | | 13. Checks that say only what they checked | 10, 11 | The `print("hi")` investigation, giveaway hints, hint audits, versioning content |
 | | 14. Running untrusted code safely in a browser | 12 | Workers, time limits by termination, output caps, no network, hidden cases and their limits |
-| **VII. Evidence** | 15. How we knew it worked | All | Unit, API, browser and live tests; mocks and their limits; deliberate-break controls; CI |
-| | 16. Patterns, and what we would do differently | 13 | The recurring patterns as reusable rules; open questions and future work |
+| | 15. Feedback a beginner can act on | 14, 16 | Real error messages turned into plain words, the right line, tagged hints, similar examples that must not pass |
+| | 16. Writing lessons that check honestly | 19, 21, 22 | Hidden cases, hint audits that run code, "unit complete" only when it is, loops that always finish |
+| **VII. Privacy and trust** | 17. Feedback nobody can trace | 15 | Anonymity by design, not by promise: what is not stored, limits that don't identify, retention |
+| | 18. A page that trusts the server | 17 | Showing nothing to a refused visitor, the server as the only judge, a switch that waits for the answer |
+| | 19. Who may sign up | 20 | Planning accounts for people you can't see: age, parents, independent learners, a switch and a cap |
+| **VIII. Growing the checker** | 20. One unit at a time | 18 | Changing an API without breaking the old page, fallbacks, recordings that must match exactly |
+| | 21. Imports, files and the learner's own modules | Master run (handoffs 34, 35, 43) | A guide is not a sandbox; state that leaks between cases; a file named `datetime.py` that got past the guard |
+| | 22. Tests that call functions, and tests the learner writes | Master run (handoffs 29, 40, 41) | Calling a learner's function safely; hidden arguments; correct and broken reference programs |
+| **IX. Supply chain and operations** | 23. Trusting what you download | Master run (handoffs 37, 39, 44) | Pinning CI actions to commits, Dependabot, checking a CDN's files against hashes from a second source |
+| | 24. Secrets in addresses, counters in databases | Master run (handoffs 45, 46) | Why `#` keeps a token out of logs; atomic counters shared between instances; keeping feedback anonymous anyway |
+| | 25. Accessibility you can test, and what you can't | Master run (handoffs 42, 47) | Keyboard-only tests that found a real trap, axe and its limits, other browsers, the screen reader sheet |
+| **X. Evidence** | 26. How we knew it worked | All | Unit, API, browser and live tests; mocks and their limits; deliberate-break controls; CI; trial merges |
+| | 27. Patterns, and what we would do differently | 13, and the master run | The recurring patterns as reusable rules; open questions and future work |
 | **Appendices** | A. Glossary · B. Timeline of commits and PRs · C. How to run the project at any commit · D. The handoff template and why each section exists | — | — |
+
+### 2.1 The new chapters in more detail (DOC-03)
+
+Each is built from the decision log and handoffs named, and each "what broke" is a real bug from them. Section and exercise ideas only; nothing is written. **Handoffs 44 to 49 are on pull requests still open on 2026-11-09** (#52 to #57); a chapter built on them waits until they are merged and the decision log has them.
+
+| Chapter | What the reader builds or reads | What broke (the worked example) | Exercise |
+| --- | --- | --- | --- |
+| 15. Feedback a beginner can act on | Turning a Python error into plain words and a line number | The output limit showed as `OSError: [Errno 29] I/O error`; a missing reply pointed inside the academy's own helper; a similar example that filled the starter into a passing program | Write the explanation for one error type, with a test that reads the last traceback frame, not the first |
+| 16. Writing lessons that check honestly | A lesson with visible and hidden cases, and a hint audit | "Unit complete" after three of six lessons; advice that suggested `str(...)` and made `10 + 3` print `103`; a sample meant to loop for ever that passed | Find a hint that, combined with the starter, passes the check |
+| 17. Feedback nobody can trace | A table that can't identify its sender | A first test assumed refused requests don't count toward a limit | List every place a sender could be linked to a message, and close each |
+| 18. A page that trusts the server | An admin page that shows nothing to a refused visitor | "Off" broke into "Of" and "f" on a phone; a test matched Next.js's own hidden alert | Make a switch wait for the server's answer, with a test that the server can refuse |
+| 19. Who may sign up | A plan, not code | None: a planning chapter | Write the questions you'd need answered before letting adults sign up |
+| 20. One unit at a time | A new route beside an old one that must not change | An empty answer made the page fail instead of falling back; a mock chose answers by code alone, so "Python could not start" returned "passed" | Add a field to an API response and prove an old page still works |
+| 21. Imports, files and the learner's own modules | An import guard, file fixtures, learner modules | The plan's "any import is unsupported" was wrong; files carried over between cases; a program could write `datetime.py` and import `os` from it | Find a way round a guard, then write the test, then close it, and say what is still open |
+| 22. Tests that call functions, and tests the learner writes | Function-call checks and reference programs | A hidden call's arguments had to reach the browser, so decision 28 said what "hidden" means | Decide what must stay on the server and what may not, for a new kind of check |
+| 23. Trusting what you download | Hashes for five Pyodide files, checked twice | A changed `.wasm` left Pyodide waiting for ever instead of failing; a copy of `fetch` kept for checking would have reopened the network | Pin one file of a dependency by hash, and change one byte to watch it refused |
+| 24. Secrets in addresses, counters in databases | `#invite=` and a shared rate-limit table | A hash key read before its secret was set; counters in a database could show who sent feedback | Move a counter to a database with one atomic statement, on two databases |
+| 25. Accessibility you can test, and what you can't | Keyboard-only tests, axe, Firefox and WebKit | Tab in the editor typed spaces for ever, so Run couldn't be reached; tests that called `focus()` had hidden it | Walk your own page with only the keyboard, and write down every stop |
 
 **Building the PDF:**
 - Write each chapter as Markdown in a future `docs/book/` folder.
@@ -83,6 +112,9 @@ Each chapter has the same parts:
 | 8 | Teaching and honest feedback | 10, 11 | Audit a set of hints with code: can any combination pass the check? Rewrite a success message so it claims only what is checked |
 | 9 | Running untrusted code | 12 | Add a time limit by worker termination and an output cap to a toy runner; test an endless loop and a flood |
 | 10 | Evidence, review and working with AI | 13; all handoffs | Use an AI assistant on a small change, then write a handoff with the three new sections: decisions, bugs and how it was tested. A classmate reviews it |
+| 11 | Feedback and lessons that tell the truth | 14, 16, 19, 21, 22 | Write a check with a hidden case and a hint ladder; run a hint audit that tries every hint with the starter |
+| 12 | Privacy by design | 15, 17, 20; handoffs 45, 46 | Design a feature that stores nothing that identifies its user, and list what a log or a counter could still reveal |
+| 13 | Supply chain and accessibility | Handoffs 37, 42, 44, 47 | Pin a dependency by hash and an action by commit; walk a page with the keyboard only and fix the first trap |
 | Final project | Build and ship a small feature end to end | — | Proposal, branch, tests (including one deliberate-break control), pull request, handoff and a five-minute demo |
 
 **Each lecture follows `teaching-design.md`:**
@@ -103,6 +135,9 @@ Each chapter has the same parts:
 - Before writing a book chapter, re-read the PR diff at the named commits. The log is a summary, and the diff is the source of truth (`build.md` section 14).
 
 ## 5. Open decisions for the owner
+
+The repository was made public on 2026-11-08, which bears on question 2 but does not decide questions 1 or 3.
+
 
 1. **Audience and publication:** private (maintainer and family), shared with testers, or public? This decides how screenshots, names and the repository are handled.
 2. **Repository access for students:** a public teaching copy of the repository, or exercises in separate small repositories?
