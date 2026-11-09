@@ -155,6 +155,7 @@ def __academy_call(namespace, call_json, limit):
 async function runCases({code, cases, outputLimit}) {
  const calls = new Map(cases.map(c => [c.id, c.call]));
  const given = new Map(cases.map(c => [c.id, c.files]));
+ const references = new Map(cases.map(c => [c.id, c.reference]));
  let py;
  try { py = await loadPyodide(); } catch { self.postMessage({type:'unavailable'}); return; }
  noNetwork();
@@ -184,6 +185,9 @@ async function runCases({code, cases, outputLimit}) {
    await py.runPythonAsync(REPLIES, {filename: '<academy>'});
    // The same random numbers every run, so a check can expect them (0 unless the case sets one).
    await py.runPythonAsync(`__academy_random.seed(${Number(seed) || 0})`, {filename: '<academy>'});
+   // ENG-10: the code under test, loaded first in the same namespace. Its own file name, so a line
+   // number reported to the learner is always one of theirs.
+   if (references.get(id) != null) await py.runPythonAsync(references.get(id), {globals: namespace, filename: '<reference>'});
    await py.runPythonAsync(code, {globals: namespace});
    let called = null;
    if (calls.get(id)) {

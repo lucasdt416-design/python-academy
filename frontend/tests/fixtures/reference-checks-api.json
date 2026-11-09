@@ -1,0 +1,1135 @@
+{
+ "catalog": {
+  "version": 1,
+  "courses": [
+   {
+    "id": "py",
+    "title": "Python Foundations",
+    "summary": "Write your first programs, then grow them into tested, organized projects.",
+    "status": "released",
+    "prerequisites": {
+     "required": [],
+     "suggested": []
+    },
+    "units": [
+     {
+      "id": "py.u01",
+      "title": "Build Your Own Adventure",
+      "summary": "Output, variables, input, and choices in one connected story.",
+      "status": "released",
+      "complete": true,
+      "lessons": [
+       {
+        "id": "hello",
+        "title": "Open the story",
+        "concept": "Output · print()",
+        "description": "Give your adventure a setting and a surprise.",
+        "badge": "Story spark"
+       },
+       {
+        "id": "variables",
+        "title": "Create your hero",
+        "concept": "Variables · strings",
+        "description": "Give the adventure a hero and a useful tool.",
+        "badge": "Character creator"
+       },
+       {
+        "id": "input",
+        "title": "Meet the player",
+        "concept": "Interaction · input()",
+        "description": "Let someone else name the hero.",
+        "badge": "Conversation starter"
+       },
+       {
+        "id": "choices",
+        "title": "Choose a path",
+        "concept": "Decisions · if / else",
+        "description": "Make the story respond to a choice.",
+        "badge": "Path finder"
+       },
+       {
+        "id": "adventure",
+        "title": "Launch your adventure",
+        "concept": "Combine your skills",
+        "description": "Bring a player, a setting, and a choice into one small game.",
+        "badge": "Adventure maker"
+       }
+      ]
+     },
+     {
+      "id": "py.u02",
+      "title": "Numbers and decisions",
+      "summary": "Arithmetic, whole numbers and decimals, numbers from input(), comparisons, Boolean logic and elif.",
+      "status": "released",
+      "complete": true,
+      "lessons": [
+       {
+        "id": "py.arithmetic",
+        "title": "Count the treasure",
+        "concept": "Arithmetic · + - * / // %",
+        "description": "Give your adventure a score, and share out a chest of coins.",
+        "badge": "Treasure counter"
+       },
+       {
+        "id": "py.int-float",
+        "title": "Average the scores",
+        "concept": "Numbers · int and float",
+        "description": "Find the average of two riddle scores, decimals and all.",
+        "badge": "Score keeper"
+       },
+       {
+        "id": "py.convert-input",
+        "title": "Score the riddle",
+        "concept": "Conversion · int(input())",
+        "description": "Turn the player's replies into numbers, and keep score when a riddle is solved or missed.",
+        "badge": "Riddle scorer"
+       },
+       {
+        "id": "py.compare",
+        "title": "Too high or too low?",
+        "concept": "Comparisons · < > <= >= == !=",
+        "description": "Compare the player's guess with the riddle keeper's secret number.",
+        "badge": "Riddle judge"
+       },
+       {
+        "id": "py.boolean-logic",
+        "title": "Close enough?",
+        "concept": "Logic · and, or, not",
+        "description": "Decide whether a guess is close or out of range by joining comparisons together.",
+        "badge": "Close call"
+       },
+       {
+        "id": "py.elif",
+        "title": "The riddle keeper's verdict",
+        "concept": "Decisions · elif",
+        "description": "Give points for a guess by how close it is, choosing exactly one branch.",
+        "badge": "Fair verdict"
+       }
+      ]
+     },
+     {
+      "id": "py.u03",
+      "title": "Repeat and explore",
+      "summary": "while and for loops that always finish, running totals, and loops inside loops.",
+      "status": "released",
+      "complete": true,
+      "lessons": [
+       {
+        "id": "py.while-loops",
+        "title": "Keep guessing",
+        "concept": "Loops · while",
+        "description": "Let the player keep guessing the secret number until they get it right.",
+        "badge": "Patient guesser"
+       },
+       {
+        "id": "py.loop-termination",
+        "title": "Three tries",
+        "concept": "Loops · stopping on time",
+        "description": "Give the player three tries, and make sure the loop always ends.",
+        "badge": "Loop closer"
+       },
+       {
+        "id": "py.for-range",
+        "title": "Step by step",
+        "concept": "Loops · for and range()",
+        "description": "Count the steps of a staircase with a for loop and range(), two at a time.",
+        "badge": "Step counter"
+       },
+       {
+        "id": "py.accumulate",
+        "title": "Keep the score",
+        "concept": "Loops · running totals and counters",
+        "description": "Add up the points from every round of the riddle keeper's game, count the empty rounds, and find the average.",
+        "badge": "Tally keeper"
+       },
+       {
+        "id": "py.nested-loops",
+        "title": "Rooms on the map",
+        "concept": "Loops · a loop inside a loop",
+        "description": "Walk the riddle keeper's map row by row, count the coins in each room, and add them all up.",
+        "badge": "Map reader"
+       }
+      ]
+     },
+     {
+      "id": "py.u04",
+      "title": "Keep track of a world",
+      "summary": "Lists, dictionaries, and sets.",
+      "status": "coming_soon",
+      "complete": false,
+      "lessons": []
+     },
+     {
+      "id": "py.u05",
+      "title": "Organize your code",
+      "summary": "Functions, parameters, return values, and scope.",
+      "status": "coming_soon",
+      "complete": false,
+      "lessons": []
+     },
+     {
+      "id": "py.u06",
+      "title": "Recover and investigate",
+      "summary": "Tracebacks, debugging, and exceptions.",
+      "status": "coming_soon",
+      "complete": false,
+      "lessons": []
+     },
+     {
+      "id": "py.u07",
+      "title": "Libraries and modules",
+      "summary": "Importing and using the standard library.",
+      "status": "coming_soon",
+      "complete": false,
+      "lessons": []
+     },
+     {
+      "id": "py.u08",
+      "title": "Trust your changes",
+      "summary": "Tests, boundaries, and refactoring.",
+      "status": "coming_soon",
+      "complete": false,
+      "lessons": []
+     },
+     {
+      "id": "py.u09",
+      "title": "Save and load",
+      "summary": "Text files, JSON, and CSV.",
+      "status": "coming_soon",
+      "complete": false,
+      "lessons": []
+     },
+     {
+      "id": "py.u10",
+      "title": "Patterns in text",
+      "summary": "String methods and regular expressions.",
+      "status": "coming_soon",
+      "complete": false,
+      "lessons": []
+     },
+     {
+      "id": "py.u11",
+      "title": "Model a larger program",
+      "summary": "Classes and composition.",
+      "status": "coming_soon",
+      "complete": false,
+      "lessons": []
+     },
+     {
+      "id": "py.u12",
+      "title": "Final project",
+      "summary": "Plan, build, test, and explain a project of your own.",
+      "status": "coming_soon",
+      "complete": false,
+      "lessons": []
+     }
+    ]
+   },
+   {
+    "id": "hack",
+    "title": "Hackathon Ready",
+    "summary": "Scope, build, and demo a small working project with a team, against the clock.",
+    "status": "coming_soon",
+    "prerequisites": {
+     "required": [
+      "py.u01",
+      "py.u02",
+      "py.u03",
+      "py.u04",
+      "py.u05",
+      "py.u06",
+      "py.u07"
+     ],
+     "suggested": [
+      "git",
+      "web"
+     ]
+    },
+    "units": [
+     {
+      "id": "hack.u01",
+      "title": "Idea to MVP",
+      "summary": "Cut an idea down to a minimum viable product.",
+      "status": "coming_soon",
+      "complete": false,
+      "lessons": []
+     },
+     {
+      "id": "hack.u02",
+      "title": "Time-boxing",
+      "summary": "Plan in fixed time blocks and know what to drop.",
+      "status": "coming_soon",
+      "complete": false,
+      "lessons": []
+     },
+     {
+      "id": "hack.u03",
+      "title": "Teamwork with Git branches",
+      "summary": "Feature branches, small pull requests, and reviews.",
+      "status": "coming_soon",
+      "complete": false,
+      "lessons": []
+     },
+     {
+      "id": "hack.u04",
+      "title": "Using public APIs safely",
+      "summary": "Rate limits, terms of use, and keeping keys out of frontend code.",
+      "status": "coming_soon",
+      "complete": false,
+      "lessons": []
+     },
+     {
+      "id": "hack.u05",
+      "title": "Quick UI prototyping",
+      "summary": "From a paper sketch to a minimal working interface.",
+      "status": "coming_soon",
+      "complete": false,
+      "lessons": []
+     },
+     {
+      "id": "hack.u06",
+      "title": "Demo and pitching",
+      "summary": "A two-minute demo that shows what works.",
+      "status": "coming_soon",
+      "complete": false,
+      "lessons": []
+     },
+     {
+      "id": "hack.u07",
+      "title": "Judging criteria",
+      "summary": "How projects are judged, and assessing your own honestly.",
+      "status": "coming_soon",
+      "complete": false,
+      "lessons": []
+     }
+    ]
+   },
+   {
+    "id": "git",
+    "title": "Git and GitHub Essentials",
+    "summary": "Track changes, work on branches, and open your first pull request.",
+    "status": "coming_soon",
+    "prerequisites": {
+     "required": [
+      "py.u01"
+     ],
+     "suggested": [
+      "py.u05"
+     ]
+    },
+    "units": []
+   },
+   {
+    "id": "web",
+    "title": "Web Foundations: HTML and CSS",
+    "summary": "Build an accessible, responsive personal website.",
+    "status": "coming_soon",
+    "prerequisites": {
+     "required": [
+      "py.u01",
+      "py.u02",
+      "py.u03"
+     ],
+     "suggested": [
+      "git"
+     ]
+    },
+    "units": []
+   },
+   {
+    "id": "js",
+    "title": "JavaScript and the DOM",
+    "summary": "Make web pages interactive with events and state.",
+    "status": "coming_soon",
+    "prerequisites": {
+     "required": [
+      "web",
+      "py.u01",
+      "py.u02",
+      "py.u03",
+      "py.u04",
+      "py.u05"
+     ],
+     "suggested": [
+      "git"
+     ]
+    },
+    "units": []
+   },
+   {
+    "id": "sql",
+    "title": "Data and SQL",
+    "summary": "Ask questions of real tables with queries, joins, and constraints.",
+    "status": "coming_soon",
+    "prerequisites": {
+     "required": [
+      "py.u01",
+      "py.u02",
+      "py.u03",
+      "py.u04"
+     ],
+     "suggested": [
+      "web"
+     ]
+    },
+    "units": []
+   },
+   {
+    "id": "data",
+    "title": "Data Investigation with Python",
+    "summary": "Answer an original question with a documented dataset.",
+    "status": "coming_soon",
+    "prerequisites": {
+     "required": [
+      "py.u01",
+      "py.u02",
+      "py.u03",
+      "py.u04",
+      "py.u05",
+      "py.u06",
+      "py.u07",
+      "py.u08",
+      "py.u09",
+      "sql"
+     ],
+     "suggested": [
+      "cs"
+     ]
+    },
+    "units": []
+   },
+   {
+    "id": "cs",
+    "title": "Computer Science Foundations",
+    "summary": "Representation, searching, sorting, complexity, and recursion.",
+    "status": "coming_soon",
+    "prerequisites": {
+     "required": [
+      "py.u01",
+      "py.u02",
+      "py.u03",
+      "py.u04",
+      "py.u05"
+     ],
+     "suggested": [
+      "py.u06",
+      "py.u07",
+      "py.u08"
+     ]
+    },
+    "units": []
+   },
+   {
+    "id": "node",
+    "title": "Node.js and APIs",
+    "summary": "Build an API with routes, validation, and a database.",
+    "status": "coming_soon",
+    "prerequisites": {
+     "required": [
+      "js",
+      "sql"
+     ],
+     "suggested": [
+      "git"
+     ]
+    },
+    "units": []
+   },
+   {
+    "id": "fullstack",
+    "title": "Full-Stack Builder",
+    "summary": "Ship a client, API, and database project with automated checks.",
+    "status": "coming_soon",
+    "prerequisites": {
+     "required": [
+      "node",
+      "git"
+     ],
+     "suggested": [
+      "cs"
+     ]
+    },
+    "units": []
+   },
+   {
+    "id": "ce",
+    "title": "Engineering Depth",
+    "summary": "Electives in C and memory, discrete foundations, numerical methods, and embedded simulation.",
+    "status": "coming_soon",
+    "prerequisites": {
+     "required": [
+      "cs",
+      "py"
+     ],
+     "suggested": []
+    },
+    "units": []
+   },
+   {
+    "id": "fixture",
+    "title": "TEST FIXTURE (never shown to learners)",
+    "summary": "Test data for learner tests (ENG-10).",
+    "status": "released",
+    "prerequisites": {
+     "required": [],
+     "suggested": []
+    },
+    "units": [
+     {
+      "id": "fixture.u11",
+      "title": "TEST FIXTURE tests",
+      "summary": "Test data.",
+      "status": "released",
+      "complete": true,
+      "lessons": [
+       {
+        "id": "fixture.tests",
+        "title": "TEST FIXTURE test the scorer",
+        "concept": "Tests",
+        "description": "Test data.",
+        "badge": "TEST FIXTURE badge"
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ "units": {
+  "fixture.u11": [
+   {
+    "id": "fixture.tests",
+    "title": "TEST FIXTURE test the scorer",
+    "concept": "Tests",
+    "badge": "TEST FIXTURE badge",
+    "description": "Test data.",
+    "learnTitle": "Write a test",
+    "learn": "Test data.",
+    "detail": "Test data.",
+    "example": "print(1)",
+    "exampleOutput": "1",
+    "exampleNote": "Test data.",
+    "question": "Test data?",
+    "options": [
+     "Yes",
+     "No"
+    ],
+    "answer": 0,
+    "why": "Test data.",
+    "guided": "Test data.",
+    "starter": "# Write assert lines\n",
+    "challenge": "Write assert lines for score(guess, secret): 10 if exact, 5 within 2, otherwise 0.",
+    "hints": [
+     "One.",
+     "Two.",
+     "Three."
+    ],
+    "inputs": [],
+    "exampleInputs": [],
+    "expected": null,
+    "errorHints": [
+     {
+      "tags": [
+       "fixture.tests.case.correct"
+      ],
+      "text": "Check what your assert expects from correct code."
+     },
+     {
+      "tags": [
+       "fixture.tests.case.always-ten"
+      ],
+      "text": "Try a guess that is not exact."
+     },
+     {
+      "tags": [
+       "fixture.tests.case.far"
+      ],
+      "text": "Try a guess that is far away."
+     }
+    ],
+    "similarExample": {
+     "code": "print(2)",
+     "note": "Test data."
+    },
+    "otherWays": [
+     {
+      "code": "results = [score(7, 7), score(9, 7), score(20, 7)]\nassert results == [10, 5, 0]",
+      "note": "Test data."
+     }
+    ],
+    "course": "fixture",
+    "unit": "fixture.u11",
+    "check": "browser-tests"
+   }
+  ]
+ },
+ "plans": {
+  "fixture.tests": {
+   "lesson_id": "fixture.tests",
+   "task_id": "fixture.tests.challenge",
+   "version": 1,
+   "time_limit_ms": 3000,
+   "output_limit": 10000,
+   "cases": [
+    {
+     "id": "correct",
+     "visibility": "visible",
+     "description": "the correct scorer",
+     "inputs": [],
+     "reference": "def score(guess, secret):\n    if guess == secret:\n        return 10\n    if abs(guess - secret) <= 2:\n        return 5\n    return 0\n",
+     "test_should": "pass"
+    },
+    {
+     "id": "always-ten",
+     "visibility": "visible",
+     "description": "a scorer with a bug",
+     "inputs": [],
+     "reference": "def score(guess, secret):\n    return 10\n",
+     "test_should": "fail"
+    },
+    {
+     "id": "edge",
+     "visibility": "visible",
+     "description": "another scorer with a bug",
+     "inputs": [],
+     "reference": "def score(guess, secret):\n    if guess == secret:\n        return 10\n    if abs(guess - secret) < 2:\n        return 5\n    return 0\n",
+     "test_should": "fail"
+    },
+    {
+     "id": "far",
+     "visibility": "hidden",
+     "description": "a scorer you cannot see",
+     "inputs": [],
+     "reference": "def score(guess, secret):\n    return 10 if guess == secret else 5\n"
+    }
+   ]
+  }
+ },
+ "scenarios": [
+  {
+   "name": "passed",
+   "request": {
+    "lesson_id": "fixture.tests",
+    "code": "assert score(7, 7) == 10\nassert score(9, 7) == 5\nassert score(20, 7) == 0\n",
+    "output": "",
+    "inputs": [],
+    "runs": [
+     {
+      "id": "correct",
+      "status": "ok",
+      "output": "",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "always-ten",
+      "status": "error",
+      "output": "",
+      "error_type": "AssertionError",
+      "line": 2
+     },
+     {
+      "id": "edge",
+      "status": "error",
+      "output": "",
+      "error_type": "AssertionError",
+      "line": 2
+     },
+     {
+      "id": "far",
+      "status": "error",
+      "output": "",
+      "error_type": "AssertionError",
+      "line": 3
+     }
+    ]
+   },
+   "response": {
+    "passed": true,
+    "result": "passed",
+    "feedback": "Your program printed the expected output for all 4 test cases, including 1 hidden case. Read your code once more: could you explain each line to someone else?",
+    "rule": null,
+    "assessment": "browser_tests",
+    "cases": [
+     {
+      "id": "correct",
+      "visibility": "visible",
+      "status": "passed"
+     },
+     {
+      "id": "always-ten",
+      "visibility": "visible",
+      "status": "passed"
+     },
+     {
+      "id": "edge",
+      "visibility": "visible",
+      "status": "passed"
+     },
+     {
+      "id": "far",
+      "visibility": "hidden",
+      "status": "passed"
+     }
+    ],
+    "failed": null
+   }
+  },
+  {
+   "name": "always true",
+   "request": {
+    "lesson_id": "fixture.tests",
+    "code": "assert True\n",
+    "output": "",
+    "inputs": [],
+    "runs": [
+     {
+      "id": "correct",
+      "status": "ok",
+      "output": "",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "always-ten",
+      "status": "ok",
+      "output": "",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "edge",
+      "status": "ok",
+      "output": "",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "far",
+      "status": "ok",
+      "output": "",
+      "error_type": null,
+      "line": null
+     }
+    ]
+   },
+   "response": {
+    "passed": false,
+    "result": "needs_work",
+    "feedback": "Your tests all passed on a scorer with a bug, which has a bug. Add a test that this code would fail.",
+    "rule": "fixture.tests.case.always-ten",
+    "assessment": "browser_tests",
+    "cases": [
+     {
+      "id": "correct",
+      "visibility": "visible",
+      "status": "passed"
+     },
+     {
+      "id": "always-ten",
+      "visibility": "visible",
+      "status": "failed"
+     },
+     {
+      "id": "edge",
+      "visibility": "visible",
+      "status": "failed"
+     },
+     {
+      "id": "far",
+      "visibility": "hidden",
+      "status": "failed"
+     }
+    ],
+    "failed": {
+     "id": "always-ten",
+     "visibility": "visible",
+     "description": "a scorer with a bug",
+     "reason": "bug_missed",
+     "error_type": null,
+     "line": null
+    }
+   }
+  },
+  {
+   "name": "no tests",
+   "request": {
+    "lesson_id": "fixture.tests",
+    "code": "x = 1\n",
+    "output": "",
+    "inputs": [],
+    "runs": [
+     {
+      "id": "correct",
+      "status": "ok",
+      "output": "",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "always-ten",
+      "status": "ok",
+      "output": "",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "edge",
+      "status": "ok",
+      "output": "",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "far",
+      "status": "ok",
+      "output": "",
+      "error_type": null,
+      "line": null
+     }
+    ]
+   },
+   "response": {
+    "passed": false,
+    "result": "needs_work",
+    "feedback": "Your tests all passed on a scorer with a bug, which has a bug. Add a test that this code would fail.",
+    "rule": "fixture.tests.case.always-ten",
+    "assessment": "browser_tests",
+    "cases": [
+     {
+      "id": "correct",
+      "visibility": "visible",
+      "status": "passed"
+     },
+     {
+      "id": "always-ten",
+      "visibility": "visible",
+      "status": "failed"
+     },
+     {
+      "id": "edge",
+      "visibility": "visible",
+      "status": "failed"
+     },
+     {
+      "id": "far",
+      "visibility": "hidden",
+      "status": "failed"
+     }
+    ],
+    "failed": {
+     "id": "always-ten",
+     "visibility": "visible",
+     "description": "a scorer with a bug",
+     "reason": "bug_missed",
+     "error_type": null,
+     "line": null
+    }
+   }
+  },
+  {
+   "name": "wrong test",
+   "request": {
+    "lesson_id": "fixture.tests",
+    "code": "assert score(7, 7) == 11\n",
+    "output": "",
+    "inputs": [],
+    "runs": [
+     {
+      "id": "correct",
+      "status": "error",
+      "output": "",
+      "error_type": "AssertionError",
+      "line": 1
+     },
+     {
+      "id": "always-ten",
+      "status": "error",
+      "output": "",
+      "error_type": "AssertionError",
+      "line": 1
+     },
+     {
+      "id": "edge",
+      "status": "error",
+      "output": "",
+      "error_type": "AssertionError",
+      "line": 1
+     },
+     {
+      "id": "far",
+      "status": "error",
+      "output": "",
+      "error_type": "AssertionError",
+      "line": 1
+     }
+    ]
+   },
+   "response": {
+    "passed": false,
+    "result": "needs_work",
+    "feedback": "A test failed on the correct scorer, which is correct. A good test passes when the code is right, so check what that assert expects.",
+    "rule": "fixture.tests.case.correct",
+    "assessment": "browser_tests",
+    "cases": [
+     {
+      "id": "correct",
+      "visibility": "visible",
+      "status": "failed"
+     },
+     {
+      "id": "always-ten",
+      "visibility": "visible",
+      "status": "passed"
+     },
+     {
+      "id": "edge",
+      "visibility": "visible",
+      "status": "passed"
+     },
+     {
+      "id": "far",
+      "visibility": "hidden",
+      "status": "passed"
+     }
+    ],
+    "failed": {
+     "id": "correct",
+     "visibility": "visible",
+     "description": "the correct scorer",
+     "reason": "test_failed_correct",
+     "error_type": "AssertionError",
+     "line": 1
+    }
+   }
+  },
+  {
+   "name": "misses the hidden bug",
+   "request": {
+    "lesson_id": "fixture.tests",
+    "code": "assert score(7, 7) == 10\nassert score(9, 7) == 5\n",
+    "output": "",
+    "inputs": [],
+    "runs": [
+     {
+      "id": "correct",
+      "status": "ok",
+      "output": "",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "always-ten",
+      "status": "error",
+      "output": "",
+      "error_type": "AssertionError",
+      "line": 2
+     },
+     {
+      "id": "edge",
+      "status": "error",
+      "output": "",
+      "error_type": "AssertionError",
+      "line": 2
+     },
+     {
+      "id": "far",
+      "status": "ok",
+      "output": "",
+      "error_type": null,
+      "line": null
+     }
+    ]
+   },
+   "response": {
+    "passed": false,
+    "result": "needs_work",
+    "feedback": "Your tests all passed on a scorer you cannot see (a hidden test case), which has a bug. Add a test that this code would fail.",
+    "rule": "fixture.tests.case.far",
+    "assessment": "browser_tests",
+    "cases": [
+     {
+      "id": "correct",
+      "visibility": "visible",
+      "status": "passed"
+     },
+     {
+      "id": "always-ten",
+      "visibility": "visible",
+      "status": "passed"
+     },
+     {
+      "id": "edge",
+      "visibility": "visible",
+      "status": "passed"
+     },
+     {
+      "id": "far",
+      "visibility": "hidden",
+      "status": "failed"
+     }
+    ],
+    "failed": {
+     "id": "far",
+     "visibility": "hidden",
+     "description": "a scorer you cannot see",
+     "reason": "bug_missed",
+     "error_type": null,
+     "line": null
+    }
+   }
+  },
+  {
+   "name": "name error",
+   "request": {
+    "lesson_id": "fixture.tests",
+    "code": "assert scor(7, 7) == 10\n",
+    "output": "",
+    "inputs": [],
+    "runs": [
+     {
+      "id": "correct",
+      "status": "error",
+      "output": "",
+      "error_type": "NameError",
+      "line": 1
+     },
+     {
+      "id": "always-ten",
+      "status": "error",
+      "output": "",
+      "error_type": "NameError",
+      "line": 1
+     },
+     {
+      "id": "edge",
+      "status": "error",
+      "output": "",
+      "error_type": "NameError",
+      "line": 1
+     },
+     {
+      "id": "far",
+      "status": "error",
+      "output": "",
+      "error_type": "NameError",
+      "line": 1
+     }
+    ]
+   },
+   "response": {
+    "passed": false,
+    "result": "execution_error",
+    "feedback": "Python stopped with NameError on line 1 while running the correct scorer. Read the error, change one thing, and run it again.",
+    "rule": null,
+    "assessment": "browser_tests",
+    "cases": [
+     {
+      "id": "correct",
+      "visibility": "visible",
+      "status": "failed"
+     },
+     {
+      "id": "always-ten",
+      "visibility": "visible",
+      "status": "passed"
+     },
+     {
+      "id": "edge",
+      "visibility": "visible",
+      "status": "passed"
+     },
+     {
+      "id": "far",
+      "visibility": "hidden",
+      "status": "passed"
+     }
+    ],
+    "failed": {
+     "id": "correct",
+     "visibility": "visible",
+     "description": "the correct scorer",
+     "reason": "error",
+     "error_type": "NameError",
+     "line": 1
+    }
+   }
+  },
+  {
+   "name": "prints only",
+   "request": {
+    "lesson_id": "fixture.tests",
+    "code": "print(score(7, 7))\n",
+    "output": "10\n",
+    "inputs": [],
+    "runs": [
+     {
+      "id": "correct",
+      "status": "ok",
+      "output": "10\n",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "always-ten",
+      "status": "ok",
+      "output": "10\n",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "edge",
+      "status": "ok",
+      "output": "10\n",
+      "error_type": null,
+      "line": null
+     },
+     {
+      "id": "far",
+      "status": "ok",
+      "output": "10\n",
+      "error_type": null,
+      "line": null
+     }
+    ]
+   },
+   "response": {
+    "passed": false,
+    "result": "needs_work",
+    "feedback": "Your tests all passed on a scorer with a bug, which has a bug. Add a test that this code would fail.",
+    "rule": "fixture.tests.case.always-ten",
+    "assessment": "browser_tests",
+    "cases": [
+     {
+      "id": "correct",
+      "visibility": "visible",
+      "status": "passed"
+     },
+     {
+      "id": "always-ten",
+      "visibility": "visible",
+      "status": "failed"
+     },
+     {
+      "id": "edge",
+      "visibility": "visible",
+      "status": "failed"
+     },
+     {
+      "id": "far",
+      "visibility": "hidden",
+      "status": "failed"
+     }
+    ],
+    "failed": {
+     "id": "always-ten",
+     "visibility": "visible",
+     "description": "a scorer with a bug",
+     "reason": "bug_missed",
+     "error_type": null,
+     "line": null
+    }
+   }
+  }
+ ]
+}

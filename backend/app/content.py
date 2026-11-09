@@ -135,6 +135,11 @@ class CheckCase(Strict):
     # ENG-08: files this case's program finds in its folder, by path. Like inputs, a hidden case's files
     # reach the browser, because the program runs there.
     files: dict[str, Annotated[str, Field(max_length=FILE_LIMIT)]] = {}
+    # ENG-10: the learner's program is a set of tests. This program is loaded first, and the tests should
+    # pass or fail on it. Like inputs, a reference reaches the browser (decision 28). test_should is the
+    # expected result, so a hidden case's is never sent.
+    reference: str | None = Field(default=None, max_length=10_000)
+    test_should: Literal['pass', 'fail'] | None = None
     # ENG-07: the number random is seeded with before this case runs. The worker uses 0 if it is not set.
     seed: int | None = Field(default=None, ge=0, le=2**31 - 1)
     call: CheckCall | None = None
@@ -416,6 +421,16 @@ def json_size(value):
 def call_errors(challenge, case):
     """Problems with one case's function call and return value (ENG-06, browser-checks.md section 8)."""
     name = f'{challenge.id} case {case.id}'
+    if (case.reference is None) != (case.test_should is None):
+        return [f'{name} needs reference and test_should together']
+    if case.reference is not None:
+        if case.call or case.returns or case.expected is not None:
+            return [f'{name}: a reference case compares nothing else, so it has no call, returns or expected']
+        try:
+            compile(case.reference, '<reference>', 'exec')
+        except SyntaxError as error:
+            return [f'{name}: its reference has a syntax error on line {error.lineno}']
+        return []
     if case.call is None:
         if case.returns is not None:
             return [f'{name} has returns but no call']
@@ -459,6 +474,15 @@ def check_errors(challenge):
             errors.append(f'{challenge.id} names unknown construct {name}; known: {", ".join(CONSTRUCTS)}')
     if set(check.require) & set(check.forbid):
         errors.append(f'{challenge.id} both requires and forbids {", ".join(sorted(set(check.require) & set(check.forbid)))}')
+    testing = [case for case in check.cases if case.reference is not None]
+    if testing:
+        # Tests must be seen to pass on correct code first, or a typo would look like a bug caught.
+        if len(testing) != len(check.cases):
+            errors.append(f'{challenge.id}: if one case has a reference, all must')
+        elif check.cases[0].test_should != 'pass' or check.cases[0].visibility != 'visible':
+            errors.append(f'{challenge.id}: its first case must be visible, with a reference the tests should pass on')
+        elif not any(case.test_should == 'fail' for case in check.cases):
+            errors.append(f'{challenge.id} needs a broken reference, one that the tests should fail on')
     for case in check.cases:
         errors += call_errors(challenge, case)
         errors += file_errors(f'{challenge.id} case {case.id}', case.files)
