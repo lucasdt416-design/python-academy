@@ -236,9 +236,19 @@ def edit_check(root, change):
     path.write_text(json.dumps(data))
 
 
-def test_a_hidden_call_is_refused_so_its_arguments_cannot_reach_the_browser(tree):
+def test_a_hidden_call_is_allowed_and_keeps_its_answer_on_the_server(tree):
+    # Decision 28: its arguments reach the browser, because the function runs there. Its answer never does.
     edit_check(tree, lambda c: c['cases'][1].update(visibility='hidden', description='another number'))
-    with pytest.raises(content.ContentError, match='cannot be hidden, because its arguments would reach the browser'):
+    _, lessons = content.load(tree)
+    case = browser_checks.plan(lessons[LESSON_ID])['cases'][1]
+    assert case['call'] == {'function': 'double', 'args': [21], 'kwargs': {}}
+    assert 'returns' not in case and 'expected' not in case
+
+
+@pytest.mark.parametrize('description', ['double of 21', 'a number giving 42'])
+def test_a_hidden_calls_description_may_not_show_its_arguments_or_its_answer(tree, description):
+    edit_check(tree, lambda c: c['cases'][1].update(visibility='hidden', description=description))
+    with pytest.raises(content.ContentError, match='call values or expected lines'):
         content.load(tree)
 
 
@@ -253,7 +263,6 @@ def test_a_hidden_ordinary_case_beside_calls_keeps_its_expected_output_on_the_se
 
 
 def test_a_returned_value_of_a_case_handled_as_hidden_is_never_named():
-    """Content validation refuses this today. If it ever allows it, the answer must stay on the server."""
     _, lessons = content.load(FIXTURE_DIR)
     target = lessons[LESSON_ID]
     challenge = target.task('challenge')

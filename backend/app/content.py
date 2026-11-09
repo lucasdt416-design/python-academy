@@ -47,12 +47,27 @@ class Discover(TaskBase):
     detail: str
 
 
+# ENG-08: at most this many files per case, each at most this many characters. Paths are relative, and
+# each part starts with a letter or digit, so a path cannot leave the program's own folder.
+FILES_PER_CASE = 10
+FILE_LIMIT = 10_000
+FILE_PATH = re.compile(r'^[A-Za-z0-9][A-Za-z0-9_-]*(\.[A-Za-z0-9]+)*(/[A-Za-z0-9][A-Za-z0-9_-]*(\.[A-Za-z0-9]+)*)*$')
+
+
+def file_errors(owner, files):
+    errors = [f'{owner} has more than {FILES_PER_CASE} files'] if len(files) > FILES_PER_CASE else []
+    errors += [f'{owner} has an unsafe file path {path!r}' for path in files if len(path) > 100 or not FILE_PATH.match(path)]
+    return errors
+
+
 class Example(TaskBase):
     type: Literal['example']
     code: str
     output: str
     note: str
     inputs: list[str] = []
+    # ENG-08: files the example's program finds in its folder, on the page and on the "Try it" card.
+    files: dict[str, Annotated[str, Field(max_length=FILE_LIMIT)]] = {}
 
 
 class Predict(TaskBase):
@@ -117,6 +132,9 @@ class CheckCase(Strict):
     inputs: list[Annotated[str, Field(max_length=500)]] = Field(default=[], max_length=10)
     expected: str | None = Field(default=None, max_length=OUTPUT_LIMIT)
     visibility: Literal['visible', 'hidden'] = 'visible'
+    # ENG-08: files this case's program finds in its folder, by path. Like inputs, a hidden case's files
+    # reach the browser, because the program runs there.
+    files: dict[str, Annotated[str, Field(max_length=FILE_LIMIT)]] = {}
     # ENG-10: the learner's program is a set of tests. This program is loaded first, and the tests should
     # pass or fail on it. Like inputs, a reference reaches the browser (decision 28). test_should is the
     # expected result, so a hidden case's is never sent.
@@ -138,7 +156,7 @@ class BrowserCheck(Strict):
 
 # Python errors a hint can be tagged with (docs/plan/lesson-feedback.md section 7). A hint can also
 # be tagged with one of its own challenge's check rules.
-ERROR_TAGS = {'SyntaxError', 'IndentationError', 'TabError', 'NameError', 'TypeError', 'ValueError', 'ZeroDivisionError', 'EOFError'}
+ERROR_TAGS = {'SyntaxError', 'IndentationError', 'TabError', 'NameError', 'TypeError', 'ValueError', 'ZeroDivisionError', 'EOFError', 'FileNotFoundError'}
 
 
 class CheckMessage(Strict):
@@ -324,6 +342,7 @@ def validate(catalog, lessons):
         if challenge.validator.version not in {**VALIDATORS, BROWSER_TESTS: {1}}.get(challenge.validator.id, set()):
             errors.append(f'{challenge.id} uses unknown validator {challenge.validator.id} v{challenge.validator.version}')
         errors += check_errors(challenge)
+        errors += file_errors(example.id, example.files)
         errors += feedback_errors(lesson.id, challenge, rule_ids)
         if lesson.badge:
             if lesson.badge.id in badge_ids:
@@ -417,9 +436,6 @@ def call_errors(challenge, case):
             return [f'{name} has returns but no call']
         return [f'{name} needs expected output'] if case.expected is None else []
     errors = []
-    # The worker has to call the function, so the arguments of a hidden call would reach the browser.
-    if case.visibility == 'hidden':
-        errors.append(f'{name}: a function-call case cannot be hidden, because its arguments would reach the browser')
     if case.expected is None and case.returns is None:
         errors.append(f'{name} needs expected output, returns, or both')
     if keyword.iskeyword(case.call.function):
@@ -469,10 +485,15 @@ def check_errors(challenge):
             errors.append(f'{challenge.id} needs a broken reference, one that the tests should fail on')
     for case in check.cases:
         errors += call_errors(challenge, case)
+        errors += file_errors(f'{challenge.id} case {case.id}', case.files)
         if case.visibility == 'hidden':
-            secrets = [value.strip() for value in case.inputs + (case.expected or '').splitlines() if value.strip()]
+            lines = [line for text in case.files.values() for line in text.splitlines()]
+            # Decision 28: a hidden call's arguments do reach the browser, but the page must not show them.
+            call_values = [json.dumps(value) if not isinstance(value, str) else value for value in (case.call.args + list(case.call.kwargs.values()) if case.call else [])]
+            answer = [json.dumps(case.returns.value)] if case.returns and case.returns.value is not None else []
+            secrets = [value.strip() for value in case.inputs + lines + call_values + answer + (case.expected or '').splitlines() if value.strip()]
             if any(value.casefold() in case.description.casefold() for value in secrets):
-                errors.append(f'{challenge.id} hidden case {case.id}: its description shows one of its inputs or expected lines')
+                errors.append(f'{challenge.id} hidden case {case.id}: its description shows one of its inputs, file lines, call values or expected lines')
     return errors
 
 
@@ -494,6 +515,11 @@ def _cycles(edges):
     return found
 
 
+def sample_files(challenge):
+    cases = challenge.check.cases if challenge.check else []
+    return next((case.files for case in cases if case.visibility == 'visible' and case.files), None)
+
+
 def lesson_view(lesson):
     """One lesson as the lesson page reads it (the original /api/lessons shape, plus later additions)."""
     discover, example, predict, guided, challenge = lesson.tasks
@@ -512,6 +538,9 @@ def lesson_view(lesson):
         'errorHints': [{'tags': h.tags, 'text': h.text} for h in challenge.error_hints],
         'similarExample': challenge.similar_example.model_dump() if challenge.similar_example else None,
         'otherWays': [way.model_dump() for way in challenge.other_ways],
+        # ENG-08, only for a lesson that has files. A challenge shows one visible case's files as a sample.
+        **({'exampleFiles': example.files} if example.files else {}),
+        **({'challengeFiles': sample} if (sample := sample_files(challenge)) else {}),
     }
 
 
