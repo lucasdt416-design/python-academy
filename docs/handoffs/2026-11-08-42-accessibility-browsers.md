@@ -3,7 +3,7 @@
 Date: 2026-11-08 (America/Toronto)  
 Written by: Claude Code (implementer), in a separate git worktree  
 For: the human maintainer, and ChatGPT or Claude chat (reviewer) without repository access  
-Status: **in_review**: one pull request, not merged, not deployed. **Fixes a keyboard bug learners have today** (section 5). One new dev-only dependency, `axe-core`, approved by Lucas. No migration.
+Status: **in_review**: one pull request (#50), not merged, not deployed. **Fixes a keyboard bug learners have today** (section 5). One new dev-only dependency, `axe-core`, approved by Lucas. No migration.
 
 > **How to use this file:** upload it with `docs/plan/screen-reader-test-sheet.md`. The pull request diff is the source of truth (`build.md` section 14).
 
@@ -118,8 +118,8 @@ After deploying: open a challenge, click into the editor, press Tab (four spaces
 
 | Where | What |
 | --- | --- |
-| Backlog | QA-01 gets a note: QA-01a built (#PR); the manual part waits for people. QA-03 `in_review` |
-| Stage table | "42. Accessibility and browsers \| QA-01a, QA-03 \| in_review (#PR, handoff 42)" |
+| Backlog | QA-01 gets a note: QA-01a built (#50); the manual part waits for people. QA-03 `in_review` |
+| Stage table | "42. Accessibility and browsers \| QA-01a, QA-03 \| in_review (#50, handoff 42)" |
 | Decision log | Esc to leave the editor; `axe-core` added as a dev dependency with Lucas's approval |
 
 ## 11. Next concrete action
