@@ -3,7 +3,7 @@
 Date: 2026-11-09 (America/Toronto)  
 Written by: Claude Code (implementer), in a separate git worktree  
 For: the human maintainer, and ChatGPT or Claude chat (reviewer) without repository access  
-Status: **in_review**: one pull request, not merged, not deployed. **No migration, no new dependency.** Changes the worker's Content-Security-Policy, by removing something.
+Status: **in_review**: one pull request (#52), not merged, not deployed. **No migration, no new dependency.** Changes the worker's Content-Security-Policy, by removing something.
 
 > **How to use this file:** upload it with `docs/plan/browser-checks.md` sections 9 and 13. The pull request diff is the source of truth (`build.md` section 14).
 
@@ -114,8 +114,8 @@ After deploying, open a lesson, run Try it, and check DevTools → Console shows
 
 | Where | What |
 | --- | --- |
-| Backlog | SEC-05 `in_review` (#PR, handoff 44) |
-| Stage table | "44. Pyodide integrity \| SEC-05 \| in_review (#PR, handoff 44)" |
+| Backlog | SEC-05 `in_review` (#52, handoff 44) |
+| Stage table | "44. Pyodide integrity \| SEC-05 \| in_review (#52, handoff 44)" |
 | Decision log | Pinned hashes chosen over self-hosting |
 
 ## 11. Next concrete action
