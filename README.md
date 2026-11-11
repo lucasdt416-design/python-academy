@@ -20,14 +20,14 @@
 
 Python Academy is a learning platform for beginners. It started as a way to help one grade 9 student learn Python and general computing, and to get ready for hackathons. The plan is a Khan Academy-style catalog of courses, units and lessons, with progress, XP and badges, that grows from Python into git, the web, data, SQL, Node.js and working with AI.
 
-> **Early days, said honestly.** This is a personal project built one reviewed step at a time. **Python Foundations units 1 ("Build Your Own Adventure") and 2 ("Numbers and decisions") are released, as lessons. The unit project mechanism and end-of-unit checks are not built yet. Everything else in the catalog is labelled "Coming soon".** This page says what works today and what does not.
+> **Early days, said honestly.** This is a personal project built one reviewed step at a time. **Python Foundations units 1 ("Build Your Own Adventure"), 2 ("Numbers and decisions") and 3 ("Repeat and explore") are released, as lessons. The unit project mechanism and end-of-unit checks are not built yet. Everything else in the catalog is labelled "Coming soon".** This page says what works today and what does not.
 
 ## What you can do today
 
 | What | What it does |
 | --- | --- |
 | **🧭 A real catalog** | Browse courses, course pages and a lesson sidebar. A rule-based recommendation on the student home suggests where to go next from a self-chosen goal. |
-| **🏕️ Eleven connected lessons** | Unit 1: output, variables, input, choices and a combined story. Unit 2: arithmetic, whole numbers and decimals, numbers from `input()`, comparisons, Boolean logic and `elif`. Each lesson is five cards: discover, a worked example, predict what happens, guided practice and an independent challenge. |
+| **🏕️ Sixteen connected lessons** | Unit 1: output, variables, input, choices and a combined story. Unit 2: arithmetic, whole numbers and decimals, numbers from `input()`, comparisons, Boolean logic and `elif`. Unit 3: `while` loops, loops that end, `for` and `range()`, running totals and loops inside loops. Each lesson has its own picture and is five cards: discover, a worked example, predict what happens, guided practice and an independent challenge. |
 | **🐍 Real Python in your browser** | Code runs in a Web Worker using Pyodide, with a time limit (a run is stopped after 15 seconds; 3 seconds per case in a browser check), an output limit (20,000 characters; 10,000 per case in a browser check) and no network access for learner code. |
 | **💬 Help that points at the problem** | When Python stops, the page explains the error in plain words, marks the line, and keeps Python's own message one click away. Hints are a three-step ladder (a nudge, a bigger hint, the approach) with no answer button, and the first hint offered matches the error the learner actually has. |
 | **✅ Honest results** | A check is labelled in words by what happened: "Check passed", "Not yet", "Python stopped", "Not checked" or "Check unavailable". Only a passed check counts as a pass, and runs on the "Try it" card say "Ran · not checked". |
@@ -54,7 +54,7 @@ The catalog already lists the courses below. Only Python Foundations has release
 | Python Foundations (12 units) | Units 1, 2 and 3 released; the rest planned. Unit projects and end-of-unit checks are not built yet |
 | Hackathon Ready (7 units planned), Git and GitHub Essentials, Web Foundations: HTML and CSS, JavaScript and the DOM, Data and SQL, Data Investigation with Python, Computer Science Foundations, Node.js and APIs, Full-Stack Builder, Engineering Depth | Coming soon |
 
-Near-term work: unit 4 (lists and dictionaries), skill checks at the end of units, and a tester feedback button and admin inbox. Further out are a public story site that introduces the project, product polish, predict-first tasks and a possible AI helper. The full plan, with priorities and dependencies, is [`docs/plan/backlog.md`](docs/plan/backlog.md), which is the source of truth for the order of work.
+Near-term work: unit 4 (lists and dictionaries), skill checks at the end of units, and a tester feedback button and admin inbox. Further out are a separate public story site (not decided), predict-first tasks and a possible AI helper. The full plan, with priorities and dependencies, is [`docs/plan/backlog.md`](docs/plan/backlog.md), which is the source of truth for the order of work.
 
 ## How it works
 

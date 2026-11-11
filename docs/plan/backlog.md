@@ -1,6 +1,6 @@
 # Python Academy backlog
 
-Last updated: 2026-11-02 (America/Toronto)  
+Last updated: 2026-11-09 (America/Toronto)  
 Status: **proposed**; decisions 11, 12, 13, 16, 18, 19, 21, 22 and 23 answered by the owner on 2026-10-25, decision 14 on 2026-10-26, decisions 24 to 27 on 2026-10-27, and the three ID-01 answers on 2026-10-27 (`independent-learners.md` section 0). Status words follow `build.md` section 18: proposed, ready, in_progress, in_review, verified, blocked, deferred. Priorities: **Now**, **Next**, **Later**, plus the timing words `build.md` section 13 already uses (for example "Before broader use").  
 Related: [`build.md`](../../build.md), [`docs/plan/course-catalog.md`](course-catalog.md), [`docs/plan/feedback-security.md`](feedback-security.md).
 
@@ -56,14 +56,17 @@ Decision numbers continue the sequence in `docs/plan/course-catalog.md` section 
 | 41. ENG-10 | Learner tests against correct and broken reference programs | in_review: merged (PR #46, handoff 41); no lesson uses it yet |
 | 42. QA-01a, QA-03 | Keyboard fix in the editor (Esc, then Tab), keyboard-only tests, axe audit, screen reader sheet, Firefox and WebKit report | in_review: merged (PR #50, handoff 42); live check owed (see below) |
 | 43. ENG-08b | The learner's own files; no file can stand in for a Python module (decision 30) | in_review: merged (PR #51, handoff 43); no lesson uses it yet |
-| 44. SEC-05 | Pyodide pinned, every file checked against a SHA-256 hash | in_review (PR #52, handoff 44) |
-| 45. SEC-06 | Invitation tokens after `#`, out of addresses and logs | in_review (PR #53, handoff 45) |
-| 46. ENG-11 | Rate-limit counters in the database (migration 0010) | in_review (PR #54, handoff 46) |
-| 47. QA-03 follow-up | Tests that failed only in Firefox or WebKit | in_review (PR #55, handoff 47) |
-| 48. EDU-01 | Placement questions and tasks for unit 1 | in_review (PR #56, handoff 48; documentation only) |
-| 49. EDU-10 | Video scripts for unit 1 | in_review (PR #57, handoff 49; documentation only) |
-| 50. DOC-03 | Book and course outline, expanded | in_review (PR #58, handoff 50; documentation only) |
-| 51. DOCS-SYNC | This sync | in_review (handoff 51) |
+| 44. SEC-05 | Pyodide pinned, every file checked against a SHA-256 hash | in_review: merged (PR #52, handoff 44) |
+| 45. SEC-06 | Invitation tokens after `#`, out of addresses and logs | in_review: merged (PR #53, handoff 45) |
+| 46. ENG-11 | Rate-limit counters in the database (migration 0010) | in_review: merged (PR #54, handoff 46) |
+| 47. QA-03 follow-up | Tests that failed only in Firefox or WebKit | in_review: merged (PR #55, handoff 47) |
+| 48. EDU-01 | Placement questions and tasks for unit 1 | in_review: merged (PR #56, handoff 48; documentation only) |
+| 49. EDU-10 | Video scripts for unit 1 | in_review: merged (PR #57, handoff 49; documentation only) |
+| 50. DOC-03 | Book and course outline, expanded | in_review: merged (PR #58, handoff 50; documentation only) |
+| 51. DOCS-SYNC | Docs sync after handoffs 38 to 50 | in_review: merged (PR #59, handoff 51; documentation only) |
+| 52. Visual redesign | The owner's prototype built into the app: design tokens and one stylesheet, 16 lesson pictures with a fallback, the lesson page (card-type tabs, five-stop path, worked-example markers, a challenge ticket with visible cases and locked hidden ones), signed-out and student home, course page; `docs/design/art-style.md`. No backend change, no CSP change. Three open questions (decision log) | in_review: merged (PR #60, handoff 52); live check owed (see below) |
+| 53. Public-history scan | Secrets and personal data in every commit on every branch, after the repository went public: nothing to rotate | in_review (PR #61, handoff 53; documentation only) |
+| 54. DOCS-SYNC | This sync | in_review (PR #62, handoff 54) |
 
 ### Live checks still owed
 
@@ -105,6 +108,10 @@ Merged work whose live check has not been recorded yet. Record the result here (
 - **(q) Stage 39, Dependabot, PR #44:** handoff 39 section 8. Seen: PRs #47 to #49 appeared and were merged on 2026-11-02.
 - **(r) Stage 42, keyboard and accessibility, PR #50:** handoff 42 section 8: in a challenge, Tab adds four spaces, then Esc and Tab moves to "Run & check challenge".
 - **(s) Stage 43, learner files, PR #51:** handoff 43 section 9: units 2 and 3 work as before, with no CSP reports.
+- **(t) Stage 44, Pyodide pinned and checked, PR #52:** handoff 44 section 8.
+- **(u) Stage 45, invitation tokens, PR #53:** handoff 45 section 8.
+- **(v) Stage 46, rate-limit counters in the database, PR #54:** handoff 46 section 8.
+- **(w) Stage 52, visual redesign, PR #60:** handoff 52 section 10: the home page playground loads no Python; a student sees the next lesson with its picture; a unit 2 challenge ticket marks a wrong answer "not yet"; no CSP reports. Also a real phone and Safari, which were not tried.
 
 ## 2. Suggested order
 
@@ -117,6 +124,8 @@ Merged work whose live check has not been recorded yet. Record the result here (
 7. **OPS-05**: cost review (the owner has set a reminder for 2026-11-08).
 
 **State on 2026-11-02:** items 3, 4 and 6 above were written before stages 16 to 27. Since then FB-02, FB-04, ENG-04 part 2a, UI-05 and unit 2's lessons have merged, and unit 3 is merged in full (PRs #32 and #37). Unit 2 shipped without its unit check. `docs/plan/master-run.md` holds a proposed queue for the remaining work; it decides nothing, and an item in it is decided only when the owner says so.
+
+**State on 2026-11-09:** PRs #43 to #60 are merged, including the visual redesign (#60), and the repository is public. Every Part 2 box of the master run is still empty, so the rest of its queue waits on them.
 
 ## 3. Feature spec: testers, feedback, admin inbox
 
@@ -173,12 +182,12 @@ Recorded in the plan as section 12 of `docs/plan/course-catalog.md`.
 | SEC-04 | Now | Security headers: Content-Security-Policy and HSTS on the main app. Stage 6 adds HSTS, `frame-ancestors 'none'` (enforced) and the page CSP in Report-Only mode; the item is verified once the CSP is switched to enforce mode after a clean live check | None | in_review: headers live and checked 2026-10-25 (handoff 06 section 13.7); enforce mode not yet switched |
 | SEC-10 | Now | Check whether any Google account can sign in today (`independent-learners.md` section 6.1); if so, record it and bring ID-01c forward | Owner check | proposed |
 | SEC-11 | Next | Keep Google's one-time sign-in code out of the API access log (`independent-learners.md` section 5.1): turn off uvicorn's access log or filter query strings, and confirm what Render's own request logs keep. Related to SEC-06 (invitation tokens) | None | proposed |
-| SEC-05 | Later | Pyodide and CDN integrity: self-host or pin with integrity checks where possible. Pinned with SHA-256 checks of every file, without self-hosting (PR #52, handoff 44) | None | in_review |
-| SEC-06 | Later | Keep invitation tokens out of URLs and request logs. Links carry the token after `#`; older links still work (PR #53, handoff 45) | None | in_review |
+| SEC-05 | Later | Pyodide and CDN integrity: self-host or pin with integrity checks where possible. Pinned with SHA-256 checks of every file, without self-hosting (PR #52, handoff 44) | None | in_review: merged; live check owed, section 1 (t) |
+| SEC-06 | Later | Keep invitation tokens out of URLs and request logs. Links carry the token after `#`; older links still work (PR #53, handoff 45) | None | in_review: merged; live check owed, section 1 (u) |
 | SEC-07 | Next | Branch protection on `main` requiring passing checks (owner action; may need a paid GitHub plan, otherwise merge only on all-green) | Owner | proposed |
 | SEC-08 | Later | Pin CI actions to commit SHAs (merged, PR #42, handoff 37); routine updates by Dependabot for GitHub Actions only, monthly (decision 31) | None | in_review |
 | SEC-09 | Next | Replace `'unsafe-inline'` in the page CSP's `script-src` with per-request nonces (a Next.js proxy file and dynamic rendering), so injected inline script is blocked. Stage 8: `frontend/proxy.ts` makes a nonce per page request; every page now renders per request; the nonce policy is sent in Report-Only mode next to handoff 06's policy; enforcing it is one line (handoff 08 section 5). Proposed as a dependency of the admin inbox (FB-06), owner to confirm | SEC-04 | in_review: merged (PR #14), Report-Only; live check owed (handoff 08 section 10); enforce after a week of clean consoles |
-| ENG-11 | — | Proposed by the master run: Move rate-limit counters from memory to the database, with behaviour identical to today; needed before more than one API instance. Built with migration 0010, as decision 29 keeps 0009 for S04; feedback's per-tester counters stay in memory (PR #54, handoff 46) | Migration | in_review |
+| ENG-11 | — | Proposed by the master run: Move rate-limit counters from memory to the database, with behaviour identical to today; needed before more than one API instance. Built with migration 0010, as decision 29 keeps 0009 for S04; feedback's per-tester counters stay in memory (PR #54, handoff 46) | Migration | in_review: merged; live check owed, section 1 (v) |
 | OPS-01 | Before broad rollout | Confirm staging, recovery, privacy, quotas and alerts (umbrella item; OPS-02 to OPS-04 are parts of it) | OPS-02, OPS-03, OPS-04 | proposed |
 | OPS-02 | Next | Part of OPS-01: confirm backups and a restore drill; add staging | None | proposed |
 | OPS-03 | Later | Part of OPS-01: operational alerts | OPS-02 | proposed |
@@ -198,9 +207,9 @@ Recorded in the plan as section 12 of `docs/plan/course-catalog.md`.
 
 | ID | Priority | Item | Depends on | Status |
 | --- | --- | --- | --- | --- |
-| SITE-01 | Next | Design direction for the public story site and the product's look (`docs/plan/site-design.md`): three story concepts, illustration approach, motion and performance budget, architecture, accessibility, staged plan | None | in_review: merged (PR #19, handoff 13) |
-| SITE-02 | Next | Public landing story site: the chosen concept as a separate static site (proposed), built in three PRs: skeleton with still scenes and strict headers; scroll motion with reduced motion and a pause button; interactive moments. Within the section 3 budget, 0 axe violations | SITE-01 decisions (concept, architecture) | proposed |
-| SITE-03 | Later | Product polish to match the story, not a redesign: colour and spacing tokens, catalog grouping with course emblems, course header art, a short lesson celebration; calm and fast | SITE-02 (shared style) | proposed |
+| SITE-01 | Next | Design direction for the public story site and the product's look (`docs/plan/site-design.md`): three story concepts, illustration approach, motion and performance budget, architecture, accessibility, staged plan. The visual redesign (PR #60) follows the owner's prototype where it differs from section 2 (code text in pictures; flat shapes, no gradients). Whether to update `site-design.md` is open question 2 of handoff 52 | None | in_review: merged (PR #19, handoff 13) |
+| SITE-02 | Next | Public landing story site: the chosen concept as a separate static site (proposed), built in three PRs: skeleton with still scenes and strict headers; scroll motion with reduced motion and a pause button; interactive moments. Within the section 3 budget, 0 axe violations. **Not decided:** since PR #60 the signed-out home works as a landing page, so whether SITE-02 is still wanted, and if so whether it shares the product's new stylesheet, are open questions (decision log). Master run box B-W1 is still empty | SITE-01 decisions (concept, architecture); the open questions | proposed |
+| SITE-03 | Later | Product polish, rescoped after the visual redesign (PR #60, handoff 52 section 7). **Done by PR #60:** colour and spacing tokens, one stylesheet, a picture for every lesson, the course page header and rows. **Left:** course emblems in the catalog, a short lesson celebration, and refreshed README screenshots; calm and fast. Was "to match the story"; it no longer waits on SITE-02 | Visual redesign (PR #60, merged) | proposed |
 | SITE-04 | Later | Custom domain and possible rename: choose a name, buy a domain (paid, owner decision), DNS, `APP_ORIGIN` and `API_ORIGIN`, Google OAuth settings, redirects, one-time sign-in again | Owner decision on name and cost; `build.md` section 16 (brand) | proposed |
 
 ### Testers, feedback and admin
@@ -319,6 +328,8 @@ The questions raised when this file was added (handoff 05) were answered by the 
 **Answered on 2026-10-27 (`independent-learners.md` section 0), not numbered:** an independent learner account is for people 16 or older, self-declared; anyone with a Google account may sign up once the Google app is published; level-based recommendations come later.
 
 Questions from handoffs 22 to 27 that are still open, with their recommendations, are listed in `decision-log.md`, in the section "Open, awaiting the owner". Handoff 22 also asks for a row for construct rule IDs in browser checks. It has no ID yet, so it is listed there and not here.
+
+**Open, not decided (handoff 52, questions 1 to 3):** the lesson stage names "Worked example" and "Challenge", code text inside lesson pictures, and the parents' attempt count. Each has a recommendation in `decision-log.md`, "Open, awaiting the owner"; none is a decision.
 
 ## 7. Maintenance
 
