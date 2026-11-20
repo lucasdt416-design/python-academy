@@ -2,7 +2,7 @@
 
 Date: 2026-11-20 (America/Toronto)  
 Written by: Claude Code (implementer), in a separate git worktree  
-Status: **in_review**: one pull request ({{PR}}), **based on #65: merge #63, #64, #65, then this**. No migration, no new dependency, no CSP change, no change to how checks judge.
+Status: **in_review**: one pull request (#66), **based on #65: merge #63, #64, #65, then this**. No migration, no new dependency, no CSP change, no change to how checks judge.
 
 ## Starter prompt for the chat assistant
 
