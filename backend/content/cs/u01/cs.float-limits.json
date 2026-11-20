@@ -1,0 +1,220 @@
+{
+  "id": "cs.float-limits",
+  "version": 1,
+  "course": "cs",
+  "unit": "cs.u01",
+  "title": "The ledger that would not balance",
+  "concept": "Floats · why 0.1 + 0.2 is not 0.3",
+  "description": "The tower ledger adds up prices. Find out why decimals drift, and keep money exact by counting cents.",
+  "badge": {
+    "id": "cs.badge.honest-ledger",
+    "version": 1,
+    "title": "Honest ledger",
+    "category": "practice"
+  },
+  "tasks": [
+    {
+      "id": "cs.float-limits.discover",
+      "type": "discover",
+      "title": "Some decimals cannot be stored exactly",
+      "body": "A float stores a number in binary, like a fraction with a power of two underneath. 0.5 is ½, so it is exact, but 0.1 needs a pattern of bits that goes on for ever, so Python keeps the closest float it can. Add two of these tiny errors and they show: 0.1 + 0.2 is 0.30000000000000004.",
+      "detail": "Whole numbers in Python are always exact. So money is usually counted in whole cents, and turned into dollars only for showing. Never compare floats with ==; round them, or use math.isclose(), which unit 7 met."
+    },
+    {
+      "id": "cs.float-limits.example",
+      "type": "example",
+      "code": "# Decimals are stored in binary, and most are not exact\nprint(0.1 + 0.2)\nprint(0.1 + 0.2 == 0.3)\nprint(round(0.1 + 0.2, 2))\ncents = 10 + 20\nprint(cents / 100)",
+      "output": "0.30000000000000004\nFalse\n0.3\n0.3",
+      "note": "The tiny error makes == say False. Rounding hides it for showing; counting in whole cents avoids it altogether.",
+      "inputs": []
+    },
+    {
+      "id": "cs.float-limits.predict",
+      "type": "predict",
+      "question": "Which of these is stored exactly as a float?",
+      "options": [
+        "0.5",
+        "0.1",
+        "0.3"
+      ],
+      "answer": 0,
+      "why": "0.5 is one half, a power of two. 0.1 and 0.3 need bits that never end."
+    },
+    {
+      "id": "cs.float-limits.guided",
+      "type": "guided",
+      "prompt": "Predict, then run: add 0.1 ten times in a loop and print the total. Then do the same with 10 cents, and divide by 100 at the end."
+    },
+    {
+      "id": "cs.float-limits.challenge",
+      "type": "challenge",
+      "prompt": "Prices arrive as text such as \"4.35\", \"12\" or \"0.5\" (which means 50 cents). Write to_cents(price), which returns the whole number of cents, 435, 1200 or 50, without using float(). Then write add_prices(prices), which takes a list of such prices and returns the total as text with exactly two decimal places, such as \"0.30\". Do not ask for input: the check calls your functions with its own values.",
+      "starter": "# Define to_cents(price) and add_prices(prices)\n",
+      "hints": [
+        "Split the text at the point: the part before it is dollars, the part after it is cents, but \"5\" after the point means 50 cents, not 5.",
+        "Pad the cents part to two digits on the right before turning it into a number. add_prices() adds up cents, then splits the total into dollars and cents with // and %.",
+        "With other names: minutes, _, seconds = \"3:07\".partition(\":\") splits a time, and f\"{n:02d}\" always writes two digits."
+      ],
+      "error_hints": [
+        {
+          "tags": [
+            "NameError"
+          ],
+          "text": "Use the parameter names from each def line, spelled the same way."
+        },
+        {
+          "tags": [
+            "ValueError"
+          ],
+          "text": "int() could not read part of a price. A price without a point, such as \"12\", has no cents part: treat it as 0 cents."
+        },
+        {
+          "tags": [
+            "TypeError"
+          ],
+          "text": "add_prices() returns text: build it with an f-string, or str(), from the dollars and the cents."
+        },
+        {
+          "tags": [
+            "cs.float-limits.case.cents"
+          ],
+          "text": "to_cents(\"4.35\") should return 435. If you got 434, float() crept in: 4.35 × 100 is stored as 434.99999999999994."
+        },
+        {
+          "tags": [
+            "cs.float-limits.case.half"
+          ],
+          "text": "to_cents(\"0.5\") should return 50: one digit after the point means tens of cents."
+        },
+        {
+          "tags": [
+            "cs.float-limits.case.total"
+          ],
+          "text": "add_prices([\"0.10\", \"0.20\"]) should return \"0.30\", exactly, with two digits after the point."
+        },
+        {
+          "tags": [
+            "cs.float-limits.case.whole"
+          ],
+          "text": "Check a price with no point at all."
+        },
+        {
+          "tags": [
+            "cs.float-limits.case.many"
+          ],
+          "text": "Check a longer list of prices."
+        }
+      ],
+      "similar_example": {
+        "code": "def to_seconds(time):\n    minutes, _, seconds = time.partition(\":\")\n    return int(minutes) * 60 + int(seconds)\n\nprint(to_seconds(\"3:07\"))\nprint(f\"{7:02d}\")",
+        "note": "A time split at its colon and counted in whole seconds. Your prices split at the point, and the cents can have one digit or two."
+      },
+      "other_ways": [
+        {
+          "code": "def to_cents(price):\n    if \".\" not in price:\n        return int(price) * 100\n    whole, part = price.split(\".\")\n    return int(whole) * 100 + int(part.ljust(2, \"0\"))\n\ndef add_prices(prices):\n    total = sum(to_cents(p) for p in prices)\n    return \"%d.%02d\" % divmod(total, 100)",
+          "note": "ljust() pads the cents on the right; divmod() gives dollars and cents together."
+        },
+        {
+          "code": "def to_cents(price):\n    whole, point, part = price.partition(\".\")\n    cents = int(part[:2].ljust(2, \"0\")) if point else 0\n    return int(whole) * 100 + cents\n\ndef add_prices(prices):\n    total = 0\n    for p in prices:\n        total += to_cents(p)\n    dollars, cents = divmod(total, 100)\n    return str(dollars) + \".\" + str(cents).rjust(2, \"0\")",
+          "note": "rjust() pads the cents on the left, so 5 cents shows as 05. Python also has a decimal module for exact decimals, used by real money code, but not available on this page."
+        }
+      ],
+      "input_labels": [],
+      "check": {
+        "cases": [
+          {
+            "id": "cents",
+            "description": "to_cents(\"4.35\")",
+            "inputs": [],
+            "call": {
+              "function": "to_cents",
+              "args": [
+                "4.35"
+              ],
+              "kwargs": {}
+            },
+            "returns": {
+              "value": 435
+            }
+          },
+          {
+            "id": "half",
+            "description": "to_cents(\"0.5\")",
+            "inputs": [],
+            "call": {
+              "function": "to_cents",
+              "args": [
+                "0.5"
+              ],
+              "kwargs": {}
+            },
+            "returns": {
+              "value": 50
+            }
+          },
+          {
+            "id": "total",
+            "description": "add_prices([\"0.10\", \"0.20\"])",
+            "inputs": [],
+            "call": {
+              "function": "add_prices",
+              "args": [
+                [
+                  "0.10",
+                  "0.20"
+                ]
+              ],
+              "kwargs": {}
+            },
+            "returns": {
+              "value": "0.30"
+            }
+          },
+          {
+            "id": "whole",
+            "description": "a price with no point",
+            "inputs": [],
+            "visibility": "hidden",
+            "call": {
+              "function": "to_cents",
+              "args": [
+                "12"
+              ],
+              "kwargs": {}
+            },
+            "returns": {
+              "value": 1200
+            }
+          },
+          {
+            "id": "many",
+            "description": "a longer list of prices",
+            "inputs": [],
+            "visibility": "hidden",
+            "call": {
+              "function": "add_prices",
+              "args": [
+                [
+                  "1.99",
+                  "0.01",
+                  "3.5",
+                  "10"
+                ]
+              ],
+              "kwargs": {}
+            },
+            "returns": {
+              "value": "15.50"
+            }
+          }
+        ],
+        "time_limit_ms": 3000
+      },
+      "validator": {
+        "id": "browser-tests",
+        "version": 1
+      },
+      "version": 1
+    }
+  ]
+}

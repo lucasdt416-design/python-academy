@@ -1,0 +1,210 @@
+{
+  "id": "cs.text-encoding",
+  "version": 1,
+  "course": "cs",
+  "unit": "cs.u01",
+  "title": "Coded messages",
+  "concept": "Text · characters as numbers, and bytes",
+  "description": "Messages leave the tower as numbers. Shift letters to make a simple code, and count the bytes a message really takes.",
+  "badge": {
+    "id": "cs.badge.codebreaker-cs",
+    "version": 1,
+    "title": "Cipher clerk",
+    "category": "practice"
+  },
+  "tasks": [
+    {
+      "id": "cs.text-encoding.discover",
+      "type": "discover",
+      "title": "Letters are numbers too",
+      "body": "A computer stores each character as a number called its code point: ord(\"a\") is 97 and chr(97) is \"a\". The letters a to z have codes one after another, so moving a letter along the alphabet is adding to its code.",
+      "detail": "To send text, its code points are written as bytes using an encoding. UTF-8, the most common one, uses one byte for each plain English letter and more for others: é takes two bytes and many emoji four. So len(text) counts characters, while len(text.encode(\"utf-8\")) counts bytes."
+    },
+    {
+      "id": "cs.text-encoding.example",
+      "type": "example",
+      "code": "# Every character is stored as a number\nprint(ord(\"A\"), ord(\"a\"))\nprint(chr(98))\nprint(len(\"café\"))\nprint(len(\"café\".encode(\"utf-8\")))",
+      "output": "65 97\nb\n4\n5",
+      "note": "Capital A and small a have different codes. \"café\" has four characters but five bytes, because é takes two in UTF-8.",
+      "inputs": []
+    },
+    {
+      "id": "cs.text-encoding.predict",
+      "type": "predict",
+      "question": "What does chr(ord(\"y\") + 2) give?",
+      "options": [
+        "{",
+        "a",
+        "z"
+      ],
+      "answer": 0,
+      "why": "y is 121, and 123 is the character {. To wrap around to a, the code has to come back to the start of the alphabet, which % 26 does."
+    },
+    {
+      "id": "cs.text-encoding.guided",
+      "type": "guided",
+      "prompt": "Predict, then run: print ord(\"z\") and chr(ord(\"z\") + 1). Then measure len(\"🙂\".encode(\"utf-8\"))."
+    },
+    {
+      "id": "cs.text-encoding.challenge",
+      "type": "challenge",
+      "prompt": "Write shift(message, steps), which moves every small letter a to z that many places along the alphabet, wrapping round from z to a, and leaves every other character as it is: shift(\"abc xyz\", 2) returns \"cde zab\". steps can be negative or bigger than 26. Then write byte_count(text), which returns how many bytes text takes in UTF-8. Do not ask for input: the check calls your functions with its own values.",
+      "starter": "# Define shift(message, steps) and byte_count(text)\n",
+      "hints": [
+        "For each character, check whether it is a small letter. If it is, work out its place in the alphabet, 0 for a to 25 for z, with ord(ch) - ord(\"a\").",
+        "Add steps to the place, and % 26 keeps it from 0 to 25, even for negative steps. chr() of the place plus ord(\"a\") gives the new letter. encode(\"utf-8\") turns text into bytes for byte_count().",
+        "With other names, for digits: chr((ord(d) - ord(\"0\") + 1) % 10 + ord(\"0\")) moves a digit one along, wrapping 9 round to 0."
+      ],
+      "error_hints": [
+        {
+          "tags": [
+            "NameError"
+          ],
+          "text": "Use the parameter names from each def line, spelled the same way."
+        },
+        {
+          "tags": [
+            "TypeError"
+          ],
+          "text": "ord() takes one character and chr() one number. Build the new message by joining characters."
+        },
+        {
+          "tags": [
+            "cs.text-encoding.case.wrap"
+          ],
+          "text": "shift(\"abc xyz\", 2) should return \"cde zab\": z wraps round to b, and the space stays a space."
+        },
+        {
+          "tags": [
+            "cs.text-encoding.case.back"
+          ],
+          "text": "shift(\"hello\", -1) should return \"gdkkn\": negative steps go back along the alphabet."
+        },
+        {
+          "tags": [
+            "cs.text-encoding.case.bytes"
+          ],
+          "text": "byte_count(\"café\") should return 5: é takes two bytes in UTF-8."
+        },
+        {
+          "tags": [
+            "cs.text-encoding.case.big-steps"
+          ],
+          "text": "Check a shift bigger than 26: it wraps round more than once."
+        },
+        {
+          "tags": [
+            "cs.text-encoding.case.marks"
+          ],
+          "text": "Check capital letters, digits and marks: they stay as they are."
+        }
+      ],
+      "similar_example": {
+        "code": "def next_digit(d):\n    return chr((ord(d) - ord(\"0\") + 1) % 10 + ord(\"0\"))\n\nprint(next_digit(\"3\"), next_digit(\"9\"))",
+        "note": "Digits moved along their own ten codes, wrapping round. Your shift moves letters along twenty-six."
+      },
+      "other_ways": [
+        {
+          "code": "def shift(message, steps):\n    abc = \"abcdefghijklmnopqrstuvwxyz\"\n    moved = abc[steps % 26:] + abc[:steps % 26]\n    return message.translate(str.maketrans(abc, moved))\n\ndef byte_count(text):\n    return len(bytes(text, \"utf-8\"))",
+          "note": "translate() swaps every letter at once, using a table from the alphabet to the shifted alphabet."
+        },
+        {
+          "code": "def shift(message, steps):\n    return \"\".join(chr((ord(c) - 97 + steps) % 26 + 97) if c.islower() and c.isascii() else c for c in message)\n\ndef byte_count(text):\n    return len(text.encode())",
+          "note": "The same steps in one line with join(); encode() uses UTF-8 when no encoding is named."
+        }
+      ],
+      "input_labels": [],
+      "check": {
+        "cases": [
+          {
+            "id": "wrap",
+            "description": "shift(\"abc xyz\", 2)",
+            "inputs": [],
+            "call": {
+              "function": "shift",
+              "args": [
+                "abc xyz",
+                2
+              ],
+              "kwargs": {}
+            },
+            "returns": {
+              "value": "cde zab"
+            }
+          },
+          {
+            "id": "back",
+            "description": "shift(\"hello\", -1)",
+            "inputs": [],
+            "call": {
+              "function": "shift",
+              "args": [
+                "hello",
+                -1
+              ],
+              "kwargs": {}
+            },
+            "returns": {
+              "value": "gdkkn"
+            }
+          },
+          {
+            "id": "bytes",
+            "description": "byte_count(\"café\")",
+            "inputs": [],
+            "call": {
+              "function": "byte_count",
+              "args": [
+                "café"
+              ],
+              "kwargs": {}
+            },
+            "returns": {
+              "value": 5
+            }
+          },
+          {
+            "id": "big-steps",
+            "description": "a shift of more than 26",
+            "inputs": [],
+            "visibility": "hidden",
+            "call": {
+              "function": "shift",
+              "args": [
+                "tower",
+                53
+              ],
+              "kwargs": {}
+            },
+            "returns": {
+              "value": "upxfs"
+            }
+          },
+          {
+            "id": "marks",
+            "description": "capitals, digits and marks",
+            "inputs": [],
+            "visibility": "hidden",
+            "call": {
+              "function": "shift",
+              "args": [
+                "Go 2 the Tower!",
+                1
+              ],
+              "kwargs": {}
+            },
+            "returns": {
+              "value": "Gp 2 uif Tpxfs!"
+            }
+          }
+        ],
+        "time_limit_ms": 3000
+      },
+      "validator": {
+        "id": "browser-tests",
+        "version": 1
+      },
+      "version": 1
+    }
+  ]
+}

@@ -117,7 +117,8 @@ def test_unit_1_per_unit_is_the_original_lessons_with_three_fields_added(client)
 
 
 def test_the_real_content_serves_only_released_units():
-    assert list(main.UNIT_LESSONS) == [f'py.u{n:02d}' for n in range(1, 12)]
+    assert list(main.UNIT_LESSONS) == [f'py.u{n:02d}' for n in range(1, 12)] + ['cs.u01', 'cs.u03']
+    assert TestClient(app).get('/api/units/cs.u02/lessons').status_code == 404  # coming soon
     assert TestClient(app).get('/api/units/py.u12/lessons').status_code == 404  # coming soon
     assert TestClient(app).get('/api/units/nope/lessons').status_code == 404
 

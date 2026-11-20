@@ -1,0 +1,243 @@
+{
+  "id": "cs.linear-search",
+  "version": 1,
+  "course": "cs",
+  "unit": "cs.u03",
+  "title": "Search the shelf",
+  "concept": "Searching · one item at a time",
+  "description": "The archive keeps records on long shelves. Search them one by one, and count how many you had to look at.",
+  "badge": {
+    "id": "cs.badge.archivist",
+    "version": 1,
+    "title": "Archivist",
+    "category": "practice"
+  },
+  "tasks": [
+    {
+      "id": "cs.linear-search.discover",
+      "type": "discover",
+      "title": "Look at each item until you find it",
+      "body": "A linear search checks the items in order, from the first, until it finds the one it wants or runs out. It works on any list, sorted or not.",
+      "detail": "Counting how many items it looks at, its steps, tells you how much work it did. Found at the start: 1 step. Found at the end, or not there at all: as many steps as there are items. Doubling the list doubles the worst case."
+    },
+    {
+      "id": "cs.linear-search.example",
+      "type": "example",
+      "code": "# Look along the shelf, one box at a time\nshelf = [\"rope\", \"map\", \"lamp\", \"key\"]\nlooks = 0\nfound_at = -1\nfor i in range(len(shelf)):\n    looks = looks + 1\n    if shelf[i] == \"lamp\":\n        found_at = i\n        break\nprint(found_at, looks)",
+      "output": "2 3",
+      "note": "lamp is at position 2, and finding it took 3 looks: rope, map, lamp. break stops the loop as soon as it is found.",
+      "inputs": []
+    },
+    {
+      "id": "cs.linear-search.predict",
+      "type": "predict",
+      "question": "If the shelf held 1,000 boxes and the one wanted was not there, how many looks would it take?",
+      "options": [
+        "1,000",
+        "1",
+        "500"
+      ],
+      "answer": 0,
+      "why": "To be sure something is missing, a linear search has to look at every item."
+    },
+    {
+      "id": "cs.linear-search.guided",
+      "type": "guided",
+      "prompt": "Predict, then run: search for \"key\", then for \"sword\", which is not there, and compare the counts."
+    },
+    {
+      "id": "cs.linear-search.challenge",
+      "type": "challenge",
+      "prompt": "Write find(items, target), which looks through the list items from the start and returns a list of two numbers: the position of the first item equal to target, and how many items it looked at to get there. If target is not there, return -1 and the number of items it looked at, which is all of them. Do not ask for input: the check calls your functions with its own values.",
+      "starter": "# Define find(items, target)\n",
+      "hints": [
+        "Keep a count of looks that starts at 0, and go through the positions in order, adding one each time you look at an item.",
+        "As soon as an item matches, return its position and the count, together. If the loop ends, nothing matched: return -1 and the count after the loop.",
+        "With other names: for spot in range(len(row)): with tries = tries + 1 inside, and return [spot, tries] when row[spot] == wanted."
+      ],
+      "error_hints": [
+        {
+          "tags": [
+            "NameError"
+          ],
+          "text": "Use the parameter names from the def line, spelled the same way."
+        },
+        {
+          "tags": [
+            "IndexError"
+          ],
+          "text": "A position is past the end: range(len(items)) gives exactly the positions there are."
+        },
+        {
+          "tags": [
+            "cs.linear-search.case.middle"
+          ],
+          "text": "find([\"rope\", \"map\", \"lamp\", \"key\"], \"lamp\") should return [2, 3]: position 2, after looking at 3 items."
+        },
+        {
+          "tags": [
+            "cs.linear-search.case.missing"
+          ],
+          "text": "When target is not there, return -1 and the number of items looked at: all of them."
+        },
+        {
+          "tags": [
+            "cs.linear-search.case.first"
+          ],
+          "text": "Check a list where the target is the first item: one look."
+        },
+        {
+          "tags": [
+            "cs.linear-search.case.repeats"
+          ],
+          "text": "Check a list with the target in it twice: the first one counts."
+        },
+        {
+          "tags": [
+            "cs.linear-search.case.empty"
+          ],
+          "text": "Check an empty list."
+        }
+      ],
+      "similar_example": {
+        "code": "def first_even(numbers):\n    looks = 0\n    for n in numbers:\n        looks = looks + 1\n        if n % 2 == 0:\n            return [n, looks]\n    return [None, looks]\n\nprint(first_even([3, 7, 8, 5]))",
+        "note": "A linear search for the first even number, counting looks. Yours returns a position, not the item."
+      },
+      "other_ways": [
+        {
+          "code": "def find(items, target):\n    for steps, item in enumerate(items, start=1):\n        if item == target:\n            return [steps - 1, steps]\n    return [-1, len(items)]",
+          "note": "enumerate() numbers the items as it goes, here from 1, so the count and the position come together."
+        },
+        {
+          "code": "def find(items, target):\n    i = 0\n    while i < len(items) and items[i] != target:\n        i += 1\n    if i == len(items):\n        return [-1, i]\n    return [i, i + 1]",
+          "note": "A while loop that stops at a match or at the end. The number of looks follows from where it stopped."
+        }
+      ],
+      "input_labels": [],
+      "check": {
+        "cases": [
+          {
+            "id": "middle",
+            "description": "find([\"rope\", \"map\", \"lamp\", \"key\"], \"lamp\")",
+            "inputs": [],
+            "call": {
+              "function": "find",
+              "args": [
+                [
+                  "rope",
+                  "map",
+                  "lamp",
+                  "key"
+                ],
+                "lamp"
+              ],
+              "kwargs": {}
+            },
+            "returns": {
+              "value": [
+                2,
+                3
+              ]
+            }
+          },
+          {
+            "id": "missing",
+            "description": "find([\"rope\", \"map\"], \"sword\")",
+            "inputs": [],
+            "call": {
+              "function": "find",
+              "args": [
+                [
+                  "rope",
+                  "map"
+                ],
+                "sword"
+              ],
+              "kwargs": {}
+            },
+            "returns": {
+              "value": [
+                -1,
+                2
+              ]
+            }
+          },
+          {
+            "id": "first",
+            "description": "find([5, 8, 1], 5)",
+            "inputs": [],
+            "call": {
+              "function": "find",
+              "args": [
+                [
+                  5,
+                  8,
+                  1
+                ],
+                5
+              ],
+              "kwargs": {}
+            },
+            "returns": {
+              "value": [
+                0,
+                1
+              ]
+            }
+          },
+          {
+            "id": "repeats",
+            "description": "a target that is there twice",
+            "inputs": [],
+            "visibility": "hidden",
+            "call": {
+              "function": "find",
+              "args": [
+                [
+                  "ash",
+                  "oak",
+                  "elm",
+                  "oak"
+                ],
+                "oak"
+              ],
+              "kwargs": {}
+            },
+            "returns": {
+              "value": [
+                1,
+                2
+              ]
+            }
+          },
+          {
+            "id": "empty",
+            "description": "an empty shelf",
+            "inputs": [],
+            "visibility": "hidden",
+            "call": {
+              "function": "find",
+              "args": [
+                [],
+                "map"
+              ],
+              "kwargs": {}
+            },
+            "returns": {
+              "value": [
+                -1,
+                0
+              ]
+            }
+          }
+        ],
+        "time_limit_ms": 3000
+      },
+      "validator": {
+        "id": "browser-tests",
+        "version": 1
+      },
+      "version": 1
+    }
+  ]
+}

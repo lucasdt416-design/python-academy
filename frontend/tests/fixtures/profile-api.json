@@ -89,7 +89,7 @@
    }
   ],
   "completed": 7,
-  "released": 52,
+  "released": 59,
   "units": [
    {
     "id": "py.u01",
@@ -167,6 +167,20 @@
     "done": 0,
     "total": 3,
     "more_coming": true
+   },
+   {
+    "id": "cs.u01",
+    "title": "How data is stored",
+    "done": 0,
+    "total": 4,
+    "more_coming": false
+   },
+   {
+    "id": "cs.u03",
+    "title": "Searching",
+    "done": 0,
+    "total": 3,
+    "more_coming": false
    }
   ],
   "active_days": [

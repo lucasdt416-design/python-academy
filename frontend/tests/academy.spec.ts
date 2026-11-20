@@ -148,7 +148,8 @@ test('catalog shows every course, with coming-soon courses labelled and not star
  await mockApi(page,null);await page.goto('/courses');
  const courses=page.getByRole('list',{name:'Courses'}).getByRole('listitem');await expect(courses).toHaveCount(catalog.courses.length);
  const python=page.getByRole('article',{name:'Python Foundations'});await expect(python.getByText('Available',{exact:true})).toBeVisible();await expect(python.getByText('52 lessons ready to try')).toBeVisible();
- await expect(page.getByText('Coming soon',{exact:true})).toHaveCount(catalog.courses.length-1);
+ await expect(page.getByText('Coming soon',{exact:true})).toHaveCount(catalog.courses.length-2);
+ const cs=page.getByRole('article',{name:'Computer Science Foundations'});await expect(cs.getByText('Available',{exact:true})).toBeVisible();await expect(cs.getByText('7 lessons ready to try')).toBeVisible();
  await expect(page.getByRole('article',{name:'Hackathon Ready'}).getByText('Builds on Python Foundations units 1–7.')).toBeVisible();
  await page.getByRole('link',{name:'Hackathon Ready'}).click();await expect(page).toHaveURL('/courses/hack');
  await expect(page.getByText('This course is coming soon and cannot be started yet.')).toBeVisible();await expect(page.getByRole('link',{name:/^(Start|Continue)/})).toHaveCount(0);

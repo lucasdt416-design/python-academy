@@ -126,25 +126,33 @@
     "unit": "py.u11",
     "name": "Classaur",
     "about": "a dinosaur built from smaller parts"
+   },
+   {
+    "unit": "cs.u01",
+    "name": "Bitmoth",
+    "about": "a moth whose wing spots flick on and off like bits"
+   },
+   {
+    "unit": "cs.u03",
+    "name": "Seekowl",
+    "about": "an owl that finds things by halving the dark"
    }
   ]
  },
  "order_card": {
-  "id": "choices.review.order",
-  "lesson": "choices",
+  "id": "cs.hexadecimal.review.order1",
+  "lesson": "cs.hexadecimal",
   "kind": "order",
   "prompt": "Put these lines in order so the program prints what is shown.",
   "lines": [
-   "    print(\"You find a hidden library.\")",
-   "path = input(\"Left or right? \")",
-   "else:",
-   "if path == \"left\":",
-   "    print(\"You discover a waterfall.\")"
+   "print(code)",
+   "n = 171",
+   "code = \"0123456789abcdef\"[high] + \"0123456789abcdef\"[low]",
+   "high = n // 16",
+   "low = n - high * 16"
   ],
-  "expected": "You discover a waterfall.",
-  "inputs": [
-   "left"
-  ]
+  "expected": "ab",
+  "inputs": []
  },
  "results": {
   "py.dicts.review.predict": {
@@ -227,38 +235,38 @@
    "answer": 1,
    "lines": null
   },
-  "choices.review.order": {
+  "cs.hexadecimal.review.order1": {
    "right": {
     "correct": true,
-    "why": "Each line can only use names that earlier lines have made, and Python runs them from the top down.",
+    "why": "Each line uses what the line before it made: the high digit first, then what is left for the low digit.",
     "back_in_days": 1,
     "lines": [
-     "path = input(\"Left or right? \")",
-     "if path == \"left\":",
-     "    print(\"You discover a waterfall.\")",
-     "else:",
-     "    print(\"You find a hidden library.\")"
+     "n = 171",
+     "high = n // 16",
+     "low = n - high * 16",
+     "code = \"0123456789abcdef\"[high] + \"0123456789abcdef\"[low]",
+     "print(code)"
     ]
    },
    "wrong": {
     "correct": false,
-    "why": "Each line can only use names that earlier lines have made, and Python runs them from the top down.",
+    "why": "Each line uses what the line before it made: the high digit first, then what is left for the low digit.",
     "back_in_days": 1,
     "lines": [
-     "path = input(\"Left or right? \")",
-     "if path == \"left\":",
-     "    print(\"You discover a waterfall.\")",
-     "else:",
-     "    print(\"You find a hidden library.\")"
+     "n = 171",
+     "high = n // 16",
+     "low = n - high * 16",
+     "code = \"0123456789abcdef\"[high] + \"0123456789abcdef\"[low]",
+     "print(code)"
     ]
    },
    "answer": null,
    "lines": [
-    "path = input(\"Left or right? \")",
-    "if path == \"left\":",
-    "    print(\"You discover a waterfall.\")",
-    "else:",
-    "    print(\"You find a hidden library.\")"
+    "n = 171",
+    "high = n // 16",
+    "low = n - high * 16",
+    "code = \"0123456789abcdef\"[high] + \"0123456789abcdef\"[low]",
+    "print(code)"
    ]
   }
  }

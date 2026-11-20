@@ -121,7 +121,7 @@ def test_unit_2_is_complete_with_six_lessons_in_order():
 def test_the_catalog_says_which_units_are_complete():
     catalog = TestClient(app).get('/api/catalog').json()
     units = {u['id']: u['complete'] for c in catalog['courses'] for u in c['units']}
-    finished = ('py.u01', 'py.u02', 'py.u03', 'py.u04', 'py.u05', 'py.u06', 'py.u08', 'py.u10')
+    finished = ('py.u01', 'py.u02', 'py.u03', 'py.u04', 'py.u05', 'py.u06', 'py.u08', 'py.u10', 'cs.u01', 'cs.u03')
     assert all(units[unit] is True for unit in finished)
     # Units 7, 9 and 11 are released with more lessons coming, and nothing else is complete.
     assert not any(complete for unit, complete in units.items() if unit not in finished)

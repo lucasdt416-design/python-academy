@@ -1,0 +1,3117 @@
+{
+ "catalog": {
+  "version": 1,
+  "courses": [
+   {
+    "id": "py",
+    "title": "Python Foundations",
+    "summary": "Write your first programs, then grow them into tested, organized projects.",
+    "status": "released",
+    "prerequisites": {
+     "required": [],
+     "suggested": []
+    },
+    "units": [
+     {
+      "id": "py.u01",
+      "title": "Build Your Own Adventure",
+      "summary": "Output, variables, input, and choices in one connected story.",
+      "status": "released",
+      "complete": true,
+      "lessons": [
+       {
+        "id": "hello",
+        "title": "Open the story",
+        "concept": "Output · print()",
+        "description": "Give your adventure a setting and a surprise.",
+        "badge": "Story spark"
+       },
+       {
+        "id": "variables",
+        "title": "Create your hero",
+        "concept": "Variables · strings",
+        "description": "Give the adventure a hero and a useful tool.",
+        "badge": "Character creator"
+       },
+       {
+        "id": "input",
+        "title": "Meet the player",
+        "concept": "Interaction · input()",
+        "description": "Let someone else name the hero.",
+        "badge": "Conversation starter"
+       },
+       {
+        "id": "choices",
+        "title": "Choose a path",
+        "concept": "Decisions · if / else",
+        "description": "Make the story respond to a choice.",
+        "badge": "Path finder"
+       },
+       {
+        "id": "adventure",
+        "title": "Launch your adventure",
+        "concept": "Combine your skills",
+        "description": "Bring a player, a setting, and a choice into one small game.",
+        "badge": "Adventure maker"
+       }
+      ]
+     },
+     {
+      "id": "py.u02",
+      "title": "Numbers and decisions",
+      "summary": "Arithmetic, whole numbers and decimals, numbers from input(), comparisons, Boolean logic and elif.",
+      "status": "released",
+      "complete": true,
+      "lessons": [
+       {
+        "id": "py.arithmetic",
+        "title": "Count the treasure",
+        "concept": "Arithmetic · + - * / // %",
+        "description": "Give your adventure a score, and share out a chest of coins.",
+        "badge": "Treasure counter"
+       },
+       {
+        "id": "py.int-float",
+        "title": "Average the scores",
+        "concept": "Numbers · int and float",
+        "description": "Find the average of two riddle scores, decimals and all.",
+        "badge": "Score keeper"
+       },
+       {
+        "id": "py.convert-input",
+        "title": "Score the riddle",
+        "concept": "Conversion · int(input())",
+        "description": "Turn the player's replies into numbers, and keep score when a riddle is solved or missed.",
+        "badge": "Riddle scorer"
+       },
+       {
+        "id": "py.compare",
+        "title": "Too high or too low?",
+        "concept": "Comparisons · < > <= >= == !=",
+        "description": "Compare the player's guess with the riddle keeper's secret number.",
+        "badge": "Riddle judge"
+       },
+       {
+        "id": "py.boolean-logic",
+        "title": "Close enough?",
+        "concept": "Logic · and, or, not",
+        "description": "Decide whether a guess is close or out of range by joining comparisons together.",
+        "badge": "Close call"
+       },
+       {
+        "id": "py.elif",
+        "title": "The riddle keeper's verdict",
+        "concept": "Decisions · elif",
+        "description": "Give points for a guess by how close it is, choosing exactly one branch.",
+        "badge": "Fair verdict"
+       }
+      ]
+     },
+     {
+      "id": "py.u03",
+      "title": "Repeat and explore",
+      "summary": "while and for loops that always finish, running totals, and loops inside loops.",
+      "status": "released",
+      "complete": true,
+      "lessons": [
+       {
+        "id": "py.while-loops",
+        "title": "Keep guessing",
+        "concept": "Loops · while",
+        "description": "Let the player keep guessing the secret number until they get it right.",
+        "badge": "Patient guesser"
+       },
+       {
+        "id": "py.loop-termination",
+        "title": "Three tries",
+        "concept": "Loops · stopping on time",
+        "description": "Give the player three tries, and make sure the loop always ends.",
+        "badge": "Loop closer"
+       },
+       {
+        "id": "py.for-range",
+        "title": "Step by step",
+        "concept": "Loops · for and range()",
+        "description": "Count the steps of a staircase with a for loop and range(), two at a time.",
+        "badge": "Step counter"
+       },
+       {
+        "id": "py.accumulate",
+        "title": "Keep the score",
+        "concept": "Loops · running totals and counters",
+        "description": "Add up the points from every round of the riddle keeper's game, count the empty rounds, and find the average.",
+        "badge": "Tally keeper"
+       },
+       {
+        "id": "py.nested-loops",
+        "title": "Rooms on the map",
+        "concept": "Loops · a loop inside a loop",
+        "description": "Walk the riddle keeper's map row by row, count the coins in each room, and add them all up.",
+        "badge": "Map reader"
+       }
+      ]
+     },
+     {
+      "id": "py.u04",
+      "title": "Keep track of a world",
+      "summary": "Lists, positions and slices, looping over a list, dictionaries, and sets.",
+      "status": "released",
+      "complete": true,
+      "lessons": [
+       {
+        "id": "py.lists",
+        "title": "Pack the bag",
+        "concept": "Lists · append, len and in",
+        "description": "Pack the hero's bag one item at a time, count what is in it, and check whether something was packed.",
+        "badge": "Pack keeper"
+       },
+       {
+        "id": "py.indexing",
+        "title": "First and last",
+        "concept": "Lists · positions, -1 and slices",
+        "description": "Pick supplies out of the quartermaster's list by their position, and slice off the middle.",
+        "badge": "Quartermaster"
+       },
+       {
+        "id": "py.iterate-lists",
+        "title": "Market day",
+        "concept": "Lists · looping over the items",
+        "description": "Go through every treasure in the list: add them up, keep the valuable ones, and find the biggest.",
+        "badge": "Bargain hunter"
+       },
+       {
+        "id": "py.dicts",
+        "title": "Rooms of the keep",
+        "concept": "Dictionaries · keys, values and get()",
+        "description": "Remember what is in every room of the keep, look a room up by its name, and cope with a room that is not there.",
+        "badge": "Keeper of keys"
+       },
+       {
+        "id": "py.sets",
+        "title": "Rooms already visited",
+        "concept": "Sets · unique values, | & and -",
+        "description": "Keep track of the rooms two explorers have seen, with no repeats, and compare where they have been.",
+        "badge": "Trailblazer"
+       }
+      ]
+     },
+     {
+      "id": "py.u05",
+      "title": "Organize your code",
+      "summary": "Functions: defining and calling, parameters, return values, local names, and splitting a program into parts.",
+      "status": "released",
+      "complete": true,
+      "lessons": [
+       {
+        "id": "py.functions",
+        "title": "A scene you can replay",
+        "concept": "Functions · def and calling",
+        "description": "Name a scene once with def, then play it as often as the story needs.",
+        "badge": "Scene maker"
+       },
+       {
+        "id": "py.parameters",
+        "title": "Any hero, any place",
+        "concept": "Functions · parameters, defaults and named arguments",
+        "description": "Write one scene that works for every hero and place, with a mood that has a sensible default.",
+        "badge": "Storyteller"
+       },
+       {
+        "id": "py.return-values",
+        "title": "Score the guess",
+        "concept": "Functions · return, not print",
+        "description": "Have the riddle keeper's scoring hand its answer back, so the rest of the game can use it.",
+        "badge": "Return trip"
+       },
+       {
+        "id": "py.scope",
+        "title": "The purse that must change",
+        "concept": "Functions · local and global names",
+        "description": "Keep the hero's coins right by handing values in and back, instead of reaching outside a function.",
+        "badge": "Name keeper"
+       },
+       {
+        "id": "py.decompose",
+        "title": "Break the battle into parts",
+        "concept": "Functions · one job per function",
+        "description": "Adventure v2: split a fight into small functions that each do one job, and build the whole from them.",
+        "badge": "Architect"
+       }
+      ]
+     },
+     {
+      "id": "py.u06",
+      "title": "Recover and investigate",
+      "summary": "Reading tracebacks, debugging step by step, try and except, raising your own errors, and asking until the reply is valid.",
+      "status": "released",
+      "complete": true,
+      "lessons": [
+       {
+        "id": "py.tracebacks",
+        "title": "Read the crash report",
+        "concept": "Errors · reading a traceback",
+        "description": "The shop's ledger crashes. Read each crash report from the bottom up, and fix the line it points to.",
+        "badge": "Crash reader"
+       },
+       {
+        "id": "py.debug-strategy",
+        "title": "Wrong by one",
+        "concept": "Debugging · find the line that is wrong",
+        "description": "A tally that never crashes but gives the wrong answers. Find its bugs by testing small cases and printing what is going on.",
+        "badge": "Bug hunter"
+       },
+       {
+        "id": "py.try-except",
+        "title": "A safe share",
+        "concept": "Exceptions · try and except",
+        "description": "Share the coins without crashing, whatever the player types.",
+        "badge": "Safety net"
+       },
+       {
+        "id": "py.raise",
+        "title": "Rules of the game",
+        "concept": "Exceptions · raise your own",
+        "description": "Make a function refuse a value that breaks the rules, with a message that says why.",
+        "badge": "Rule maker"
+       },
+       {
+        "id": "py.validate-input",
+        "title": "Ask until it is right",
+        "concept": "Input · asking again until the reply is valid",
+        "description": "The bridge keeper keeps asking until the reply makes sense, and says what was wrong each time.",
+        "badge": "Gatekeeper"
+       }
+      ]
+     },
+     {
+      "id": "py.u07",
+      "title": "Libraries and modules",
+      "summary": "Importing modules, random numbers with a seed, the math module, dates with datetime, and modules of your own. A local setup lesson comes later.",
+      "status": "released",
+      "complete": false,
+      "lessons": [
+       {
+        "id": "py.import",
+        "title": "The toolbox",
+        "concept": "Modules · import and from",
+        "description": "Borrow ready-made tools from Python's math module to measure the round tower.",
+        "badge": "Toolsmith"
+       },
+       {
+        "id": "py.random",
+        "title": "The riddle keeper's dice",
+        "concept": "random · seed, randint, choice and shuffle",
+        "description": "Roll the riddle keeper's dice, and learn why a seed makes chance repeatable.",
+        "badge": "Dice roller"
+       },
+       {
+        "id": "py.math-module",
+        "title": "As the crow flies",
+        "concept": "math · roots, rounding and nearly-equal numbers",
+        "description": "Measure how far the treasure is in a straight line, and round the answers honestly.",
+        "badge": "Navigator"
+       },
+       {
+        "id": "py.datetime",
+        "title": "A study schedule",
+        "concept": "datetime · dates and timedelta",
+        "description": "Plan study sessions on real calendar dates, across month ends and leap days, and spot the weekends.",
+        "badge": "Timekeeper"
+       },
+       {
+        "id": "py.own-modules",
+        "title": "A helper file",
+        "concept": "Modules · your own files",
+        "description": "Quiz tool v1: keep the grading rules in a file of their own, and use them from the main program.",
+        "badge": "Librarian"
+       }
+      ]
+     },
+     {
+      "id": "py.u08",
+      "title": "Trust your changes",
+      "summary": "Writing tests with assert, choosing test cases and boundary values, type hints, and refactoring safely.",
+      "status": "released",
+      "complete": true,
+      "lessons": [
+       {
+        "id": "py.assert-tests",
+        "title": "Test the scorer",
+        "concept": "Testing · assert",
+        "description": "Write tests that prove the streak bonus works, and that catch it when it doesn't.",
+        "badge": "Tester"
+       },
+       {
+        "id": "py.test-cases",
+        "title": "Choose good cases",
+        "concept": "Testing · typical, edge and unusual cases",
+        "description": "Pick the test cases a careless average() would trip on: empty lists, decimals, and the last score.",
+        "badge": "Case finder"
+       },
+       {
+        "id": "py.boundaries",
+        "title": "Edges of the rule",
+        "concept": "Testing · boundary values",
+        "description": "The ferry charges by age. Test right at the edges of each price, where off-by-one bugs hide.",
+        "badge": "Edge walker"
+       },
+       {
+        "id": "py.type-hints",
+        "title": "Labels for values",
+        "concept": "Type hints · saying what a function takes and gives",
+        "description": "Label what goes into the coin-sharing function and what comes out, so anyone reading it knows how to use it.",
+        "badge": "Label maker"
+       },
+       {
+        "id": "py.refactor",
+        "title": "Tidy without breaking",
+        "concept": "Refactoring · same behaviour, clearer code",
+        "description": "The shop's till works but repeats itself. Tidy it into a price list and one function, without changing a single line it prints.",
+        "badge": "Tidy coder"
+       }
+      ]
+     },
+     {
+      "id": "py.u09",
+      "title": "Save and load",
+      "summary": "Reading and writing text files, saving with JSON, tables in CSV files, and coping with missing or damaged data. A local setup lesson comes later.",
+      "status": "released",
+      "complete": false,
+      "lessons": [
+       {
+        "id": "py.text-files",
+        "title": "The save file",
+        "concept": "Files · open, read and write text",
+        "description": "Read the scores the game saved, line by line, and write a summary file of your own.",
+        "badge": "Scribe"
+       },
+       {
+        "id": "py.json",
+        "title": "Save the game",
+        "concept": "json · saving lists and dictionaries",
+        "description": "Load the hero's saved game, add what they found, and save it again, ready for next time.",
+        "badge": "Save keeper"
+       },
+       {
+        "id": "py.csv",
+        "title": "The score table",
+        "concept": "csv · tables in a text file",
+        "description": "Read the tournament's results table, add up each team's points, and find the top player.",
+        "badge": "Table keeper"
+       },
+       {
+        "id": "py.missing-data",
+        "title": "The damaged save",
+        "concept": "Files · coping with missing and bad data",
+        "description": "Load the game's settings even when the file is missing or damaged, and say what was skipped.",
+        "badge": "Data medic"
+       }
+      ]
+     },
+     {
+      "id": "py.u10",
+      "title": "Patterns in text",
+      "summary": "String methods and f-strings, searching with regular expressions, groups and replacing, and checking formats honestly.",
+      "status": "released",
+      "complete": true,
+      "lessons": [
+       {
+        "id": "py.string-methods",
+        "title": "Clean up the answers",
+        "concept": "Text · string methods and f-strings",
+        "description": "Check the riddle keeper's answers fairly, whatever capitals and spaces the player types, and tidy them for display.",
+        "badge": "Wordsmith"
+       },
+       {
+        "id": "py.regex-basics",
+        "title": "Spot the ticket code",
+        "concept": "re · searching for a pattern",
+        "description": "Recognise ticket codes in the messages that come in, whether a whole message is one or it hides inside other text.",
+        "badge": "Pattern spotter"
+       },
+       {
+        "id": "py.regex-groups",
+        "title": "Read the message log",
+        "concept": "re · groups, findall and sub",
+        "description": "Pull the time and the speaker out of each message, then print the log again with every time hidden.",
+        "badge": "Code breaker"
+       },
+       {
+        "id": "py.validate-formats",
+        "title": "Check the form",
+        "concept": "re · checking a shape, and its limits",
+        "description": "Check usernames and times on the sign-up form: the right shape first, then values that make sense.",
+        "badge": "Form checker"
+       }
+      ]
+     },
+     {
+      "id": "py.u11",
+      "title": "Model a larger program",
+      "summary": "Classes and attributes, methods that change an object, and objects built from other objects. A lesson on when not to use classes comes later.",
+      "status": "released",
+      "complete": false,
+      "lessons": [
+       {
+        "id": "py.classes",
+        "title": "Make a hero",
+        "concept": "Classes · class, __init__ and attributes",
+        "description": "Design a Hero blueprint once, then make a whole party of heroes from it.",
+        "badge": "Hero maker"
+       },
+       {
+        "id": "py.methods",
+        "title": "Potions and blows",
+        "concept": "Classes · methods and state",
+        "description": "Give the hero actions of their own, and keep the rules for health and potions inside the class.",
+        "badge": "Spellcaster"
+       },
+       {
+        "id": "py.composition",
+        "title": "A hero with a pack",
+        "concept": "Classes · objects that hold objects",
+        "description": "Build the hero from smaller parts: a pack with a weight limit, holding items, each class doing one job.",
+        "badge": "Outfitter"
+       }
+      ]
+     },
+     {
+      "id": "py.u12",
+      "title": "Final project",
+      "summary": "Plan, build, test, and explain a project of your own.",
+      "status": "coming_soon",
+      "complete": false,
+      "lessons": []
+     }
+    ]
+   },
+   {
+    "id": "hack",
+    "title": "Hackathon Ready",
+    "summary": "Scope, build, and demo a small working project with a team, against the clock.",
+    "status": "coming_soon",
+    "prerequisites": {
+     "required": [
+      "py.u01",
+      "py.u02",
+      "py.u03",
+      "py.u04",
+      "py.u05",
+      "py.u06",
+      "py.u07"
+     ],
+     "suggested": [
+      "git",
+      "web"
+     ]
+    },
+    "units": [
+     {
+      "id": "hack.u01",
+      "title": "Idea to MVP",
+      "summary": "Cut an idea down to a minimum viable product.",
+      "status": "coming_soon",
+      "complete": false,
+      "lessons": []
+     },
+     {
+      "id": "hack.u02",
+      "title": "Time-boxing",
+      "summary": "Plan in fixed time blocks and know what to drop.",
+      "status": "coming_soon",
+      "complete": false,
+      "lessons": []
+     },
+     {
+      "id": "hack.u03",
+      "title": "Teamwork with Git branches",
+      "summary": "Feature branches, small pull requests, and reviews.",
+      "status": "coming_soon",
+      "complete": false,
+      "lessons": []
+     },
+     {
+      "id": "hack.u04",
+      "title": "Using public APIs safely",
+      "summary": "Rate limits, terms of use, and keeping keys out of frontend code.",
+      "status": "coming_soon",
+      "complete": false,
+      "lessons": []
+     },
+     {
+      "id": "hack.u05",
+      "title": "Quick UI prototyping",
+      "summary": "From a paper sketch to a minimal working interface.",
+      "status": "coming_soon",
+      "complete": false,
+      "lessons": []
+     },
+     {
+      "id": "hack.u06",
+      "title": "Demo and pitching",
+      "summary": "A two-minute demo that shows what works.",
+      "status": "coming_soon",
+      "complete": false,
+      "lessons": []
+     },
+     {
+      "id": "hack.u07",
+      "title": "Judging criteria",
+      "summary": "How projects are judged, and assessing your own honestly.",
+      "status": "coming_soon",
+      "complete": false,
+      "lessons": []
+     }
+    ]
+   },
+   {
+    "id": "git",
+    "title": "Git and GitHub Essentials",
+    "summary": "Track changes, work on branches, and open your first pull request.",
+    "status": "coming_soon",
+    "prerequisites": {
+     "required": [
+      "py.u01"
+     ],
+     "suggested": [
+      "py.u05"
+     ]
+    },
+    "units": []
+   },
+   {
+    "id": "web",
+    "title": "Web Foundations: HTML and CSS",
+    "summary": "Build an accessible, responsive personal website.",
+    "status": "coming_soon",
+    "prerequisites": {
+     "required": [
+      "py.u01",
+      "py.u02",
+      "py.u03"
+     ],
+     "suggested": [
+      "git"
+     ]
+    },
+    "units": []
+   },
+   {
+    "id": "js",
+    "title": "JavaScript and the DOM",
+    "summary": "Make web pages interactive with events and state.",
+    "status": "coming_soon",
+    "prerequisites": {
+     "required": [
+      "web",
+      "py.u01",
+      "py.u02",
+      "py.u03",
+      "py.u04",
+      "py.u05"
+     ],
+     "suggested": [
+      "git"
+     ]
+    },
+    "units": []
+   },
+   {
+    "id": "sql",
+    "title": "Data and SQL",
+    "summary": "Ask questions of real tables with queries, joins, and constraints.",
+    "status": "coming_soon",
+    "prerequisites": {
+     "required": [
+      "py.u01",
+      "py.u02",
+      "py.u03",
+      "py.u04"
+     ],
+     "suggested": [
+      "web"
+     ]
+    },
+    "units": []
+   },
+   {
+    "id": "data",
+    "title": "Data Investigation with Python",
+    "summary": "Answer an original question with a documented dataset.",
+    "status": "coming_soon",
+    "prerequisites": {
+     "required": [
+      "py.u01",
+      "py.u02",
+      "py.u03",
+      "py.u04",
+      "py.u05",
+      "py.u06",
+      "py.u07",
+      "py.u08",
+      "py.u09",
+      "sql"
+     ],
+     "suggested": [
+      "cs"
+     ]
+    },
+    "units": []
+   },
+   {
+    "id": "cs",
+    "title": "Computer Science Foundations",
+    "summary": "Representation, searching, sorting, complexity, and recursion.",
+    "status": "released",
+    "prerequisites": {
+     "required": [
+      "py.u01",
+      "py.u02",
+      "py.u03",
+      "py.u04",
+      "py.u05"
+     ],
+     "suggested": [
+      "py.u06",
+      "py.u07",
+      "py.u08"
+     ]
+    },
+    "units": [
+     {
+      "id": "cs.u01",
+      "title": "How data is stored",
+      "summary": "Binary, hexadecimal colours, characters and bytes, and why decimals drift.",
+      "status": "released",
+      "complete": true,
+      "lessons": [
+       {
+        "id": "cs.binary",
+        "title": "Lamps on the tower",
+        "concept": "Binary · numbers as 0s and 1s",
+        "description": "The signal tower shows numbers with a row of lamps. Read them, and set them, in binary.",
+        "badge": "Lamplighter"
+       },
+       {
+        "id": "cs.hexadecimal",
+        "title": "Colours on the flags",
+        "concept": "Hexadecimal · base 16 and colours",
+        "description": "The tower signals with coloured flags, written as six hex digits. Turn them into amounts of red, green and blue, and back.",
+        "badge": "Flag painter"
+       },
+       {
+        "id": "cs.text-encoding",
+        "title": "Coded messages",
+        "concept": "Text · characters as numbers, and bytes",
+        "description": "Messages leave the tower as numbers. Shift letters to make a simple code, and count the bytes a message really takes.",
+        "badge": "Cipher clerk"
+       },
+       {
+        "id": "cs.float-limits",
+        "title": "The ledger that would not balance",
+        "concept": "Floats · why 0.1 + 0.2 is not 0.3",
+        "description": "The tower ledger adds up prices. Find out why decimals drift, and keep money exact by counting cents.",
+        "badge": "Honest ledger"
+       }
+      ]
+     },
+     {
+      "id": "cs.u02",
+      "title": "Thinking in steps",
+      "summary": "Pseudocode, tracing a program by hand, and what stays true in a loop.",
+      "status": "coming_soon",
+      "complete": false,
+      "lessons": []
+     },
+     {
+      "id": "cs.u03",
+      "title": "Searching",
+      "summary": "Linear search, binary search, and counting steps as lists grow.",
+      "status": "released",
+      "complete": true,
+      "lessons": [
+       {
+        "id": "cs.linear-search",
+        "title": "Search the shelf",
+        "concept": "Searching · one item at a time",
+        "description": "The archive keeps records on long shelves. Search them one by one, and count how many you had to look at.",
+        "badge": "Archivist"
+       },
+       {
+        "id": "cs.binary-search",
+        "title": "Halve the shelf",
+        "concept": "Searching · binary search on a sorted list",
+        "description": "When the archive is sorted, you can skip half of it with every look. Find records in a handful of steps.",
+        "badge": "Halver"
+       },
+       {
+        "id": "cs.counting-steps",
+        "title": "How the work grows",
+        "concept": "Searching · counting steps as lists grow",
+        "description": "Compare the two searches by counting, not timing: how many looks does each need as the archive grows?",
+        "badge": "Step counter"
+       }
+      ]
+     },
+     {
+      "id": "cs.u04",
+      "title": "Sorting",
+      "summary": "Selection sort, merge sort, and comparing them on real inputs.",
+      "status": "coming_soon",
+      "complete": false,
+      "lessons": []
+     },
+     {
+      "id": "cs.u05",
+      "title": "Recursion",
+      "summary": "Functions that call themselves, base cases, and when a loop is better.",
+      "status": "coming_soon",
+      "complete": false,
+      "lessons": []
+     },
+     {
+      "id": "cs.u06",
+      "title": "Data structures",
+      "summary": "Stacks and queues, hash tables, trees and graphs.",
+      "status": "coming_soon",
+      "complete": false,
+      "lessons": []
+     },
+     {
+      "id": "cs.u07",
+      "title": "Your comparison",
+      "summary": "Design an experiment comparing algorithms, and write it up.",
+      "status": "coming_soon",
+      "complete": false,
+      "lessons": []
+     }
+    ]
+   },
+   {
+    "id": "node",
+    "title": "Node.js and APIs",
+    "summary": "Build an API with routes, validation, and a database.",
+    "status": "coming_soon",
+    "prerequisites": {
+     "required": [
+      "js",
+      "sql"
+     ],
+     "suggested": [
+      "git"
+     ]
+    },
+    "units": []
+   },
+   {
+    "id": "fullstack",
+    "title": "Full-Stack Builder",
+    "summary": "Ship a client, API, and database project with automated checks.",
+    "status": "coming_soon",
+    "prerequisites": {
+     "required": [
+      "node",
+      "git"
+     ],
+     "suggested": [
+      "cs"
+     ]
+    },
+    "units": []
+   },
+   {
+    "id": "ce",
+    "title": "Engineering Depth",
+    "summary": "Electives in C and memory, discrete foundations, numerical methods, and embedded simulation.",
+    "status": "coming_soon",
+    "prerequisites": {
+     "required": [
+      "cs",
+      "py"
+     ],
+     "suggested": []
+    },
+    "units": []
+   }
+  ]
+ },
+ "units": {
+  "cs.u01": [
+   {
+    "id": "cs.binary",
+    "title": "Lamps on the tower",
+    "concept": "Binary · numbers as 0s and 1s",
+    "badge": "Lamplighter",
+    "description": "The signal tower shows numbers with a row of lamps. Read them, and set them, in binary.",
+    "learnTitle": "Every number can be written with just 0 and 1",
+    "learn": "In binary each place is worth twice the place to its right: 1, 2, 4, 8, 16 and so on. 1101 means one 8, one 4, no 2 and one 1, which is 13. A computer stores every number this way, as a row of bits, each one on or off.",
+    "detail": "To read binary from the left, start at 0 and, for each bit, double what you have and add the bit. To write a number in binary, take n % 2 for the last bit, then n // 2, and repeat until nothing is left. Python can do both with bin() and int(text, 2), but working it out by hand is what this lesson is about.",
+    "example": "# The tower shows numbers with lamps: on is 1, off is 0\nlamps = \"1101\"\nvalue = 0\nfor lamp in lamps:\n    value = value * 2 + int(lamp)\nprint(value)\nprint(bin(13))\nprint(int(\"1101\", 2))",
+    "exampleOutput": "13\n0b1101\n13",
+    "exampleNote": "Reading 1101 from the left: 0 doubled plus 1 is 1, then 3, then 6, then 13. bin() writes 13 with a 0b in front to say it is binary, and int(..., 2) reads binary text back.",
+    "question": "What is the binary 10010 as an ordinary number?",
+    "options": [
+     "18",
+     "10",
+     "20"
+    ],
+    "answer": 0,
+    "why": "One 16 and one 2: 16 + 2 is 18.",
+    "guided": "Predict, then run: change the lamps to \"11111111\" and work out the value first. Then print bin(255) and compare.",
+    "starter": "# Define to_binary(n) and from_binary(bits)\n",
+    "challenge": "Write to_binary(n), which returns the binary of a whole number n (0 or more) as text, like \"1101\" for 13 and \"0\" for 0, without a 0b in front. Then write from_binary(bits), which takes text such as \"1101\" and returns the number, 13. Try it with // and % before reaching for bin(). Do not ask for input: the check calls your functions with its own values.",
+    "hints": [
+     "For to_binary(), the last bit is n % 2. Then n // 2 shifts everything one place right. Repeat while n is more than 0, putting each new bit in front of the ones you have.",
+     "For from_binary(), go through the text from the left: double the value so far, then add the bit, int(bit). 0 needs its own answer in to_binary(), because the loop never runs for it.",
+     "With other names, for base 3: digits = str(k % 3) + digits, then k = k // 3, inside a while loop."
+    ],
+    "inputs": [],
+    "exampleInputs": [],
+    "expected": null,
+    "errorHints": [
+     {
+      "tags": [
+       "NameError"
+      ],
+      "text": "Use the parameter names from each def line, spelled the same way."
+     },
+     {
+      "tags": [
+       "TypeError"
+      ],
+      "text": "Text and numbers do not mix: str() turns a bit into text to join, and int() turns a \"1\" into the number 1."
+     },
+     {
+      "tags": [
+       "cs.binary.case.thirteen"
+      ],
+      "text": "to_binary(13) should return \"1101\": 13 % 2 is 1, then 6 % 2 is 0, then 3 % 2 is 1, then 1 % 2 is 1, read from last to first."
+     },
+     {
+      "tags": [
+       "cs.binary.case.zero"
+      ],
+      "text": "to_binary(0) should return \"0\": the loop never runs for 0, so give it its own answer."
+     },
+     {
+      "tags": [
+       "cs.binary.case.read"
+      ],
+      "text": "from_binary(\"1101\") should return 13: double, then add the bit, from the left."
+     },
+     {
+      "tags": [
+       "cs.binary.case.big"
+      ],
+      "text": "Check a bigger number."
+     },
+     {
+      "tags": [
+       "cs.binary.case.leading"
+      ],
+      "text": "Check text that starts with 0s: they add nothing."
+     }
+    ],
+    "similarExample": {
+     "code": "def to_base3(k):\n    digits = \"\"\n    while k > 0:\n        digits = str(k % 3) + digits\n        k = k // 3\n    return digits\n\nprint(to_base3(10))",
+     "note": "The same idea in base 3, where each place is worth three times the one to its right. Your lamps use base 2, and 0 needs care."
+    },
+    "otherWays": [
+     {
+      "code": "def to_binary(n):\n    return bin(n)[2:]\n\ndef from_binary(bits):\n    return int(bits, 2)",
+      "note": "Python's own tools: bin() gives \"0b1101\", and [2:] cuts off the 0b. Now you know what they do inside."
+     },
+     {
+      "code": "def to_binary(n):\n    if n < 2:\n        return str(n)\n    return to_binary(n // 2) + str(n % 2)\n\ndef from_binary(bits):\n    total = 0\n    for place, bit in enumerate(reversed(bits)):\n        total += int(bit) * 2 ** place\n    return total",
+      "note": "to_binary() calling itself on a smaller number, which the recursion unit explains, and from_binary() adding up the place values from the right."
+     }
+    ],
+    "course": "cs",
+    "unit": "cs.u01",
+    "check": "browser-tests"
+   },
+   {
+    "id": "cs.hexadecimal",
+    "title": "Colours on the flags",
+    "concept": "Hexadecimal · base 16 and colours",
+    "badge": "Flag painter",
+    "description": "The tower signals with coloured flags, written as six hex digits. Turn them into amounts of red, green and blue, and back.",
+    "learnTitle": "Sixteen digits, and why colours use them",
+    "learn": "Hexadecimal, or hex, has sixteen digits: 0 to 9, then a to f for ten to fifteen. Each place is worth sixteen times the one to its right, so ff is 15 × 16 + 15, which is 255.",
+    "detail": "One hex digit is exactly four bits, so two of them hold a byte, any number from 0 to 255. That is why screen colours are written #ff8800: two hex digits each for red, green and blue. int(text, 16) reads hex, and f\"{n:02x}\" writes a number as two hex digits.",
+    "example": "# A flag colour: red, green and blue, each from 0 to 255\nred = 255\ngreen = 136\nblue = 0\nprint(hex(green))\nprint(f\"#{red:02x}{green:02x}{blue:02x}\")\nprint(int(\"88\", 16))",
+    "exampleOutput": "0x88\n#ff8800\n136",
+    "exampleNote": "136 is eight 16s and eight 1s, so it is 88 in hex. :02x writes each amount as two hex digits, and int(\"88\", 16) reads them back.",
+    "question": "What colour is #00ff00?",
+    "options": [
+     "Pure green",
+     "Pure red",
+     "Black"
+    ],
+    "answer": 0,
+    "why": "No red, the most green (ff is 255), and no blue.",
+    "guided": "Predict, then run: make the flag purple, with lots of red and blue and no green, and print its code. Then try 300 for red and see what happens to the code.",
+    "starter": "# Define hex_to_rgb(colour) and rgb_to_hex(red, green, blue)\n",
+    "challenge": "Write hex_to_rgb(colour), which takes a colour such as \"#ff8800\" (capitals allowed) and returns a list of its red, green and blue amounts, [255, 136, 0]. Then write rgb_to_hex(red, green, blue), which returns the colour code, always with # and six lowercase hex digits, such as \"#0a0b0c\". Do not ask for input: the check calls your functions with its own values.",
+    "hints": [
+     "Each amount is two hex digits. Their value is the first digit times 16, plus the second. The text \"0123456789abcdef\".index(d) turns a digit into its value.",
+     "For rgb_to_hex(), the two digits of an amount are value // 16 and value % 16, looked up the other way. Small amounts still need two digits: 10 is 0a.",
+     "With other names: high, low = divmod(n, 16) splits a byte, and int(\"c8\", 16) reads one back."
+    ],
+    "inputs": [],
+    "exampleInputs": [],
+    "expected": null,
+    "errorHints": [
+     {
+      "tags": [
+       "NameError"
+      ],
+      "text": "Use the parameter names from each def line, spelled the same way."
+     },
+     {
+      "tags": [
+       "ValueError"
+      ],
+      "text": "A digit was not found. Make the text lowercase and take off the # before reading the digits."
+     },
+     {
+      "tags": [
+       "TypeError"
+      ],
+      "text": "Check what each function takes: hex_to_rgb() takes one piece of text, and rgb_to_hex() three numbers."
+     },
+     {
+      "tags": [
+       "cs.hexadecimal.case.orange"
+      ],
+      "text": "hex_to_rgb(\"#ff8800\") should return [255, 136, 0]."
+     },
+     {
+      "tags": [
+       "cs.hexadecimal.case.small"
+      ],
+      "text": "rgb_to_hex(10, 11, 12) should return \"#0a0b0c\": every amount gets two digits, even a small one."
+     },
+     {
+      "tags": [
+       "cs.hexadecimal.case.capitals"
+      ],
+      "text": "hex_to_rgb(\"#00FF7f\") has capitals: make the text lowercase first, or read both kinds."
+     },
+     {
+      "tags": [
+       "cs.hexadecimal.case.white"
+      ],
+      "text": "Check the largest amounts."
+     },
+     {
+      "tags": [
+       "cs.hexadecimal.case.black"
+      ],
+      "text": "Check the smallest amounts."
+     }
+    ],
+    "similarExample": {
+     "code": "def split_byte(n):\n    high, low = divmod(n, 16)\n    return high, low\n\nprint(split_byte(200))\nprint(int(\"c8\", 16))",
+     "note": "A byte split into its two hex digits, and read back. Your colours have three bytes each."
+    },
+    "otherWays": [
+     {
+      "code": "def hex_to_rgb(colour):\n    c = colour.lstrip(\"#\")\n    return [int(c[i:i + 2], 16) for i in (0, 2, 4)]\n\ndef rgb_to_hex(red, green, blue):\n    return f\"#{red:02x}{green:02x}{blue:02x}\"",
+      "note": "int(..., 16) and the :02x format do the conversions; slicing picks out each pair of digits."
+     },
+     {
+      "code": "def hex_to_rgb(colour):\n    n = int(colour[1:], 16)\n    return [n // 65536, n // 256 % 256, n % 256]\n\ndef rgb_to_hex(red, green, blue):\n    return \"#\" + format(red * 65536 + green * 256 + blue, \"06x\")",
+      "note": "The whole colour as one number: red is worth 256 × 256, green 256, and blue 1."
+     }
+    ],
+    "course": "cs",
+    "unit": "cs.u01",
+    "check": "browser-tests"
+   },
+   {
+    "id": "cs.text-encoding",
+    "title": "Coded messages",
+    "concept": "Text · characters as numbers, and bytes",
+    "badge": "Cipher clerk",
+    "description": "Messages leave the tower as numbers. Shift letters to make a simple code, and count the bytes a message really takes.",
+    "learnTitle": "Letters are numbers too",
+    "learn": "A computer stores each character as a number called its code point: ord(\"a\") is 97 and chr(97) is \"a\". The letters a to z have codes one after another, so moving a letter along the alphabet is adding to its code.",
+    "detail": "To send text, its code points are written as bytes using an encoding. UTF-8, the most common one, uses one byte for each plain English letter and more for others: é takes two bytes and many emoji four. So len(text) counts characters, while len(text.encode(\"utf-8\")) counts bytes.",
+    "example": "# Every character is stored as a number\nprint(ord(\"A\"), ord(\"a\"))\nprint(chr(98))\nprint(len(\"café\"))\nprint(len(\"café\".encode(\"utf-8\")))",
+    "exampleOutput": "65 97\nb\n4\n5",
+    "exampleNote": "Capital A and small a have different codes. \"café\" has four characters but five bytes, because é takes two in UTF-8.",
+    "question": "What does chr(ord(\"y\") + 2) give?",
+    "options": [
+     "{",
+     "a",
+     "z"
+    ],
+    "answer": 0,
+    "why": "y is 121, and 123 is the character {. To wrap around to a, the code has to come back to the start of the alphabet, which % 26 does.",
+    "guided": "Predict, then run: print ord(\"z\") and chr(ord(\"z\") + 1). Then measure len(\"🙂\".encode(\"utf-8\")).",
+    "starter": "# Define shift(message, steps) and byte_count(text)\n",
+    "challenge": "Write shift(message, steps), which moves every small letter a to z that many places along the alphabet, wrapping round from z to a, and leaves every other character as it is: shift(\"abc xyz\", 2) returns \"cde zab\". steps can be negative or bigger than 26. Then write byte_count(text), which returns how many bytes text takes in UTF-8. Do not ask for input: the check calls your functions with its own values.",
+    "hints": [
+     "For each character, check whether it is a small letter. If it is, work out its place in the alphabet, 0 for a to 25 for z, with ord(ch) - ord(\"a\").",
+     "Add steps to the place, and % 26 keeps it from 0 to 25, even for negative steps. chr() of the place plus ord(\"a\") gives the new letter. encode(\"utf-8\") turns text into bytes for byte_count().",
+     "With other names, for digits: chr((ord(d) - ord(\"0\") + 1) % 10 + ord(\"0\")) moves a digit one along, wrapping 9 round to 0."
+    ],
+    "inputs": [],
+    "exampleInputs": [],
+    "expected": null,
+    "errorHints": [
+     {
+      "tags": [
+       "NameError"
+      ],
+      "text": "Use the parameter names from each def line, spelled the same way."
+     },
+     {
+      "tags": [
+       "TypeError"
+      ],
+      "text": "ord() takes one character and chr() one number. Build the new message by joining characters."
+     },
+     {
+      "tags": [
+       "cs.text-encoding.case.wrap"
+      ],
+      "text": "shift(\"abc xyz\", 2) should return \"cde zab\": z wraps round to b, and the space stays a space."
+     },
+     {
+      "tags": [
+       "cs.text-encoding.case.back"
+      ],
+      "text": "shift(\"hello\", -1) should return \"gdkkn\": negative steps go back along the alphabet."
+     },
+     {
+      "tags": [
+       "cs.text-encoding.case.bytes"
+      ],
+      "text": "byte_count(\"café\") should return 5: é takes two bytes in UTF-8."
+     },
+     {
+      "tags": [
+       "cs.text-encoding.case.big-steps"
+      ],
+      "text": "Check a shift bigger than 26: it wraps round more than once."
+     },
+     {
+      "tags": [
+       "cs.text-encoding.case.marks"
+      ],
+      "text": "Check capital letters, digits and marks: they stay as they are."
+     }
+    ],
+    "similarExample": {
+     "code": "def next_digit(d):\n    return chr((ord(d) - ord(\"0\") + 1) % 10 + ord(\"0\"))\n\nprint(next_digit(\"3\"), next_digit(\"9\"))",
+     "note": "Digits moved along their own ten codes, wrapping round. Your shift moves letters along twenty-six."
+    },
+    "otherWays": [
+     {
+      "code": "def shift(message, steps):\n    abc = \"abcdefghijklmnopqrstuvwxyz\"\n    moved = abc[steps % 26:] + abc[:steps % 26]\n    return message.translate(str.maketrans(abc, moved))\n\ndef byte_count(text):\n    return len(bytes(text, \"utf-8\"))",
+      "note": "translate() swaps every letter at once, using a table from the alphabet to the shifted alphabet."
+     },
+     {
+      "code": "def shift(message, steps):\n    return \"\".join(chr((ord(c) - 97 + steps) % 26 + 97) if c.islower() and c.isascii() else c for c in message)\n\ndef byte_count(text):\n    return len(text.encode())",
+      "note": "The same steps in one line with join(); encode() uses UTF-8 when no encoding is named."
+     }
+    ],
+    "course": "cs",
+    "unit": "cs.u01",
+    "check": "browser-tests"
+   },
+   {
+    "id": "cs.float-limits",
+    "title": "The ledger that would not balance",
+    "concept": "Floats · why 0.1 + 0.2 is not 0.3",
+    "badge": "Honest ledger",
+    "description": "The tower ledger adds up prices. Find out why decimals drift, and keep money exact by counting cents.",
+    "learnTitle": "Some decimals cannot be stored exactly",
+    "learn": "A float stores a number in binary, like a fraction with a power of two underneath. 0.5 is ½, so it is exact, but 0.1 needs a pattern of bits that goes on for ever, so Python keeps the closest float it can. Add two of these tiny errors and they show: 0.1 + 0.2 is 0.30000000000000004.",
+    "detail": "Whole numbers in Python are always exact. So money is usually counted in whole cents, and turned into dollars only for showing. Never compare floats with ==; round them, or use math.isclose(), which unit 7 met.",
+    "example": "# Decimals are stored in binary, and most are not exact\nprint(0.1 + 0.2)\nprint(0.1 + 0.2 == 0.3)\nprint(round(0.1 + 0.2, 2))\ncents = 10 + 20\nprint(cents / 100)",
+    "exampleOutput": "0.30000000000000004\nFalse\n0.3\n0.3",
+    "exampleNote": "The tiny error makes == say False. Rounding hides it for showing; counting in whole cents avoids it altogether.",
+    "question": "Which of these is stored exactly as a float?",
+    "options": [
+     "0.5",
+     "0.1",
+     "0.3"
+    ],
+    "answer": 0,
+    "why": "0.5 is one half, a power of two. 0.1 and 0.3 need bits that never end.",
+    "guided": "Predict, then run: add 0.1 ten times in a loop and print the total. Then do the same with 10 cents, and divide by 100 at the end.",
+    "starter": "# Define to_cents(price) and add_prices(prices)\n",
+    "challenge": "Prices arrive as text such as \"4.35\", \"12\" or \"0.5\" (which means 50 cents). Write to_cents(price), which returns the whole number of cents, 435, 1200 or 50, without using float(). Then write add_prices(prices), which takes a list of such prices and returns the total as text with exactly two decimal places, such as \"0.30\". Do not ask for input: the check calls your functions with its own values.",
+    "hints": [
+     "Split the text at the point: the part before it is dollars, the part after it is cents, but \"5\" after the point means 50 cents, not 5.",
+     "Pad the cents part to two digits on the right before turning it into a number. add_prices() adds up cents, then splits the total into dollars and cents with // and %.",
+     "With other names: minutes, _, seconds = \"3:07\".partition(\":\") splits a time, and f\"{n:02d}\" always writes two digits."
+    ],
+    "inputs": [],
+    "exampleInputs": [],
+    "expected": null,
+    "errorHints": [
+     {
+      "tags": [
+       "NameError"
+      ],
+      "text": "Use the parameter names from each def line, spelled the same way."
+     },
+     {
+      "tags": [
+       "ValueError"
+      ],
+      "text": "int() could not read part of a price. A price without a point, such as \"12\", has no cents part: treat it as 0 cents."
+     },
+     {
+      "tags": [
+       "TypeError"
+      ],
+      "text": "add_prices() returns text: build it with an f-string, or str(), from the dollars and the cents."
+     },
+     {
+      "tags": [
+       "cs.float-limits.case.cents"
+      ],
+      "text": "to_cents(\"4.35\") should return 435. If you got 434, float() crept in: 4.35 × 100 is stored as 434.99999999999994."
+     },
+     {
+      "tags": [
+       "cs.float-limits.case.half"
+      ],
+      "text": "to_cents(\"0.5\") should return 50: one digit after the point means tens of cents."
+     },
+     {
+      "tags": [
+       "cs.float-limits.case.total"
+      ],
+      "text": "add_prices([\"0.10\", \"0.20\"]) should return \"0.30\", exactly, with two digits after the point."
+     },
+     {
+      "tags": [
+       "cs.float-limits.case.whole"
+      ],
+      "text": "Check a price with no point at all."
+     },
+     {
+      "tags": [
+       "cs.float-limits.case.many"
+      ],
+      "text": "Check a longer list of prices."
+     }
+    ],
+    "similarExample": {
+     "code": "def to_seconds(time):\n    minutes, _, seconds = time.partition(\":\")\n    return int(minutes) * 60 + int(seconds)\n\nprint(to_seconds(\"3:07\"))\nprint(f\"{7:02d}\")",
+     "note": "A time split at its colon and counted in whole seconds. Your prices split at the point, and the cents can have one digit or two."
+    },
+    "otherWays": [
+     {
+      "code": "def to_cents(price):\n    if \".\" not in price:\n        return int(price) * 100\n    whole, part = price.split(\".\")\n    return int(whole) * 100 + int(part.ljust(2, \"0\"))\n\ndef add_prices(prices):\n    total = sum(to_cents(p) for p in prices)\n    return \"%d.%02d\" % divmod(total, 100)",
+      "note": "ljust() pads the cents on the right; divmod() gives dollars and cents together."
+     },
+     {
+      "code": "def to_cents(price):\n    whole, point, part = price.partition(\".\")\n    cents = int(part[:2].ljust(2, \"0\")) if point else 0\n    return int(whole) * 100 + cents\n\ndef add_prices(prices):\n    total = 0\n    for p in prices:\n        total += to_cents(p)\n    dollars, cents = divmod(total, 100)\n    return str(dollars) + \".\" + str(cents).rjust(2, \"0\")",
+      "note": "rjust() pads the cents on the left, so 5 cents shows as 05. Python also has a decimal module for exact decimals, used by real money code, but not available on this page."
+     }
+    ],
+    "course": "cs",
+    "unit": "cs.u01",
+    "check": "browser-tests"
+   }
+  ],
+  "cs.u03": [
+   {
+    "id": "cs.linear-search",
+    "title": "Search the shelf",
+    "concept": "Searching · one item at a time",
+    "badge": "Archivist",
+    "description": "The archive keeps records on long shelves. Search them one by one, and count how many you had to look at.",
+    "learnTitle": "Look at each item until you find it",
+    "learn": "A linear search checks the items in order, from the first, until it finds the one it wants or runs out. It works on any list, sorted or not.",
+    "detail": "Counting how many items it looks at, its steps, tells you how much work it did. Found at the start: 1 step. Found at the end, or not there at all: as many steps as there are items. Doubling the list doubles the worst case.",
+    "example": "# Look along the shelf, one box at a time\nshelf = [\"rope\", \"map\", \"lamp\", \"key\"]\nlooks = 0\nfound_at = -1\nfor i in range(len(shelf)):\n    looks = looks + 1\n    if shelf[i] == \"lamp\":\n        found_at = i\n        break\nprint(found_at, looks)",
+    "exampleOutput": "2 3",
+    "exampleNote": "lamp is at position 2, and finding it took 3 looks: rope, map, lamp. break stops the loop as soon as it is found.",
+    "question": "If the shelf held 1,000 boxes and the one wanted was not there, how many looks would it take?",
+    "options": [
+     "1,000",
+     "1",
+     "500"
+    ],
+    "answer": 0,
+    "why": "To be sure something is missing, a linear search has to look at every item.",
+    "guided": "Predict, then run: search for \"key\", then for \"sword\", which is not there, and compare the counts.",
+    "starter": "# Define find(items, target)\n",
+    "challenge": "Write find(items, target), which looks through the list items from the start and returns a list of two numbers: the position of the first item equal to target, and how many items it looked at to get there. If target is not there, return -1 and the number of items it looked at, which is all of them. Do not ask for input: the check calls your functions with its own values.",
+    "hints": [
+     "Keep a count of looks that starts at 0, and go through the positions in order, adding one each time you look at an item.",
+     "As soon as an item matches, return its position and the count, together. If the loop ends, nothing matched: return -1 and the count after the loop.",
+     "With other names: for spot in range(len(row)): with tries = tries + 1 inside, and return [spot, tries] when row[spot] == wanted."
+    ],
+    "inputs": [],
+    "exampleInputs": [],
+    "expected": null,
+    "errorHints": [
+     {
+      "tags": [
+       "NameError"
+      ],
+      "text": "Use the parameter names from the def line, spelled the same way."
+     },
+     {
+      "tags": [
+       "IndexError"
+      ],
+      "text": "A position is past the end: range(len(items)) gives exactly the positions there are."
+     },
+     {
+      "tags": [
+       "cs.linear-search.case.middle"
+      ],
+      "text": "find([\"rope\", \"map\", \"lamp\", \"key\"], \"lamp\") should return [2, 3]: position 2, after looking at 3 items."
+     },
+     {
+      "tags": [
+       "cs.linear-search.case.missing"
+      ],
+      "text": "When target is not there, return -1 and the number of items looked at: all of them."
+     },
+     {
+      "tags": [
+       "cs.linear-search.case.first"
+      ],
+      "text": "Check a list where the target is the first item: one look."
+     },
+     {
+      "tags": [
+       "cs.linear-search.case.repeats"
+      ],
+      "text": "Check a list with the target in it twice: the first one counts."
+     },
+     {
+      "tags": [
+       "cs.linear-search.case.empty"
+      ],
+      "text": "Check an empty list."
+     }
+    ],
+    "similarExample": {
+     "code": "def first_even(numbers):\n    looks = 0\n    for n in numbers:\n        looks = looks + 1\n        if n % 2 == 0:\n            return [n, looks]\n    return [None, looks]\n\nprint(first_even([3, 7, 8, 5]))",
+     "note": "A linear search for the first even number, counting looks. Yours returns a position, not the item."
+    },
+    "otherWays": [
+     {
+      "code": "def find(items, target):\n    for steps, item in enumerate(items, start=1):\n        if item == target:\n            return [steps - 1, steps]\n    return [-1, len(items)]",
+      "note": "enumerate() numbers the items as it goes, here from 1, so the count and the position come together."
+     },
+     {
+      "code": "def find(items, target):\n    i = 0\n    while i < len(items) and items[i] != target:\n        i += 1\n    if i == len(items):\n        return [-1, i]\n    return [i, i + 1]",
+      "note": "A while loop that stops at a match or at the end. The number of looks follows from where it stopped."
+     }
+    ],
+    "course": "cs",
+    "unit": "cs.u03",
+    "check": "browser-tests"
+   },
+   {
+    "id": "cs.binary-search",
+    "title": "Halve the shelf",
+    "concept": "Searching · binary search on a sorted list",
+    "badge": "Halver",
+    "description": "When the archive is sorted, you can skip half of it with every look. Find records in a handful of steps.",
+    "learnTitle": "Throw away half with every look",
+    "learn": "In a sorted list, look at the middle item. If it is the one you want, you are done. If it is too small, what you want can only be to its right; too big, only to its left. Either way, half the list is gone after one look.",
+    "detail": "Keep two positions, low and high, for the part still worth searching, and look at middle = (low + high) // 2. Stop when they cross. A thousand items take at most ten looks, a million about twenty. It only works if the list is sorted.",
+    "example": "# Guess the middle of a sorted shelf, and throw away half each time\nshelf = [3, 8, 15, 21, 30, 42, 57]\nlow, high = 0, len(shelf) - 1\nwhile low <= high:\n    middle = (low + high) // 2\n    print(\"look at\", shelf[middle])\n    if shelf[middle] == 42:\n        break\n    if shelf[middle] < 42:\n        low = middle + 1\n    else:\n        high = middle - 1",
+    "exampleOutput": "look at 21\nlook at 42",
+    "exampleNote": "21 is too small, so the left half goes; then 42 is found on the second look. A linear search would have needed six.",
+    "question": "About how many looks does a binary search need for a sorted list of 1,000 items, at most?",
+    "options": [
+     "10",
+     "500",
+     "1,000"
+    ],
+    "answer": 0,
+    "why": "Halving 1,000 ten times gets below one: 500, 250, 125, 63, 32, 16, 8, 4, 2, 1.",
+    "guided": "Predict, then run: search for 3, the first item, and for 50, which is not there, and count the looks each time.",
+    "starter": "# Define binary_find(items, target)\n",
+    "challenge": "Write binary_find(items, target) for a list items sorted from smallest to largest. Search it as the lesson does: keep low and high, look at middle = (low + high) // 2 each time, and move low or high past it. Return a list: the position of target and how many middles you looked at, or -1 and the number of looks if it is not there. Do not ask for input: the check calls your functions with its own values.",
+    "hints": [
+     "Start with low at the first position and high at the last. Keep going while low is no more than high, and count one look each time round.",
+     "If the middle item is smaller than target, the target can only be to its right: low becomes middle + 1. If it is bigger, high becomes middle - 1. Without the + 1 and - 1 the loop can get stuck.",
+     "With other names, guessing a number from 1 to 100: mid = (lo + hi) // 2, then lo = mid + 1 when the secret is bigger."
+    ],
+    "inputs": [],
+    "exampleInputs": [],
+    "expected": null,
+    "errorHints": [
+     {
+      "tags": [
+       "NameError"
+      ],
+      "text": "Use the parameter names from the def line, spelled the same way."
+     },
+     {
+      "tags": [
+       "cs.binary-search.case.found"
+      ],
+      "text": "binary_find([3, 8, 15, 21, 30, 42, 57], 42) should return [5, 2]: 21 first, then 42."
+     },
+     {
+      "tags": [
+       "cs.binary-search.case.missing"
+      ],
+      "text": "When target is not there, low and high cross; return -1 and the number of looks."
+     },
+     {
+      "tags": [
+       "cs.binary-search.case.first"
+      ],
+      "text": "binary_find([3, 8, 15, 21, 30, 42, 57], 3) should return [0, 3]: 21, then 8, then 3."
+     },
+     {
+      "tags": [
+       "cs.binary-search.case.long"
+      ],
+      "text": "Check a long list: the looks should stay few."
+     },
+     {
+      "tags": [
+       "cs.binary-search.case.single"
+      ],
+      "text": "Check a list with one item."
+     }
+    ],
+    "similarExample": {
+     "code": "secret = 73\nlo, hi = 1, 100\nguesses = 0\nwhile lo <= hi:\n    mid = (lo + hi) // 2\n    guesses += 1\n    if mid == secret:\n        break\n    if mid < secret:\n        lo = mid + 1\n    else:\n        hi = mid - 1\nprint(mid, guesses)",
+     "note": "Guessing a number from 1 to 100 by halving, which is a binary search over the numbers themselves. Yours searches a list and returns a position."
+    },
+    "otherWays": [
+     {
+      "code": "def binary_find(items, target):\n    low, high, steps = 0, len(items) - 1, 0\n    while low <= high:\n        middle = (low + high) // 2\n        steps += 1\n        value = items[middle]\n        if value == target:\n            return [middle, steps]\n        low, high = (middle + 1, high) if value < target else (low, middle - 1)\n    return [-1, steps]",
+      "note": "Moving low or high in one line, with a conditional expression."
+     },
+     {
+      "code": "def binary_find(items, target, low=0, high=None, steps=0):\n    if high is None:\n        high = len(items) - 1\n    if low > high:\n        return [-1, steps]\n    middle = (low + high) // 2\n    if items[middle] == target:\n        return [middle, steps + 1]\n    if items[middle] < target:\n        return binary_find(items, target, middle + 1, high, steps + 1)\n    return binary_find(items, target, low, middle - 1, steps + 1)",
+      "note": "The search calling itself on the half that is left, a recursive binary search."
+     }
+    ],
+    "course": "cs",
+    "unit": "cs.u03",
+    "check": "browser-tests"
+   },
+   {
+    "id": "cs.counting-steps",
+    "title": "How the work grows",
+    "concept": "Searching · counting steps as lists grow",
+    "badge": "Step counter",
+    "description": "Compare the two searches by counting, not timing: how many looks does each need as the archive grows?",
+    "learnTitle": "Count the steps, not the seconds",
+    "learn": "How long a program takes depends on the computer, so computer scientists count steps instead. The question is how the steps grow as the input grows: a linear search of n items needs up to n looks, a binary search only as many as the times n can be halved.",
+    "detail": "Halving: 8 items halve to 4, 2, 1, 0, which is four halvings, so a binary search of 8 needs at most 4 looks. Doubling the list adds only one more look. That gap is why sorted data is worth the effort of sorting.",
+    "example": "# How many halvings until nothing is left?\nfor size in [1, 2, 7, 8, 1000]:\n    n = size\n    halvings = 0\n    while n > 0:\n        n = n // 2\n        halvings = halvings + 1\n    print(size, halvings)",
+    "exampleOutput": "1 1\n2 2\n7 3\n8 4\n1000 10",
+    "exampleNote": "1,000 items need only 10 halvings. Going from 7 items to 8 adds one, because 8 is a power of two.",
+    "question": "A list grows from 1,000 items to 2,000. How many more looks can a binary search need, at most?",
+    "options": [
+     "1",
+     "1,000",
+     "10"
+    ],
+    "answer": 0,
+    "why": "Doubling the list adds one halving.",
+    "guided": "Predict, then run: add 1,000,000 to the sizes and guess its halvings first. Then add a column with the linear worst case, the size itself.",
+    "starter": "# Define linear_worst(n), binary_worst(n) and compare(sizes)\n",
+    "challenge": "Write linear_worst(n), the most looks a linear search needs for a list of n items, and binary_worst(n), the most looks a binary search needs, which is how many times n can be halved with // 2 before it reaches 0 (0 for an empty list). Then write compare(sizes), which takes a list of sizes and returns a list of [size, linear, binary] lists, one per size, in the same order. Do not ask for input: the check calls your functions with its own values.",
+    "hints": [
+     "The linear worst case is simply every item. For the binary one, count halvings in a loop: n = n // 2, adding one each time, while n is more than 0.",
+     "compare() builds a list: for each size, a list of the size and the two counts, worked out by calling the other two functions.",
+     "With other names: doublings = 0, then while value < limit: value = value * 2 and doublings = doublings + 1."
+    ],
+    "inputs": [],
+    "exampleInputs": [],
+    "expected": null,
+    "errorHints": [
+     {
+      "tags": [
+       "NameError"
+      ],
+      "text": "Use the parameter names from each def line, and call the other functions by their names."
+     },
+     {
+      "tags": [
+       "TypeError"
+      ],
+      "text": "compare() returns a list of lists: append [size, linear, binary] for each size."
+     },
+     {
+      "tags": [
+       "cs.counting-steps.case.eight"
+      ],
+      "text": "binary_worst(8) should return 4: 8, 4, 2, 1, then 0."
+     },
+     {
+      "tags": [
+       "cs.counting-steps.case.zero"
+      ],
+      "text": "binary_worst(0) should return 0: an empty list needs no looks."
+     },
+     {
+      "tags": [
+       "cs.counting-steps.case.table"
+      ],
+      "text": "compare([1, 1000]) should return [[1, 1, 1], [1000, 1000, 10]]."
+     },
+     {
+      "tags": [
+       "cs.counting-steps.case.big"
+      ],
+      "text": "Check a very big size."
+     },
+     {
+      "tags": [
+       "cs.counting-steps.case.odd"
+      ],
+      "text": "Check an odd size just below a power of two."
+     }
+    ],
+    "similarExample": {
+     "code": "value = 1\ndoublings = 0\nwhile value < 1000:\n    value = value * 2\n    doublings = doublings + 1\nprint(doublings)",
+     "note": "Counting doublings up to 1,000 rather than halvings down from it. The two counts match, which is the heart of binary search."
+    },
+    "otherWays": [
+     {
+      "code": "def linear_worst(n):\n    return n\n\ndef binary_worst(n):\n    return n.bit_length()\n\ndef compare(sizes):\n    return [[s, linear_worst(s), binary_worst(s)] for s in sizes]",
+      "note": "bit_length() is how many bits n needs in binary, which is exactly how many times it can be halved. Unit 1 and unit 3 meet."
+     },
+     {
+      "code": "import math\n\ndef linear_worst(n):\n    return n\n\ndef binary_worst(n):\n    return 0 if n == 0 else math.floor(math.log2(n)) + 1\n\ndef compare(sizes):\n    table = []\n    for s in sizes:\n        table.append([s, linear_worst(s), binary_worst(s)])\n    return table",
+      "note": "log2() counts halvings with a formula. It is the \"log n\" you will meet in books about algorithms."
+     }
+    ],
+    "course": "cs",
+    "unit": "cs.u03",
+    "check": "browser-tests"
+   }
+  ]
+ },
+ "plans": {
+  "cs.binary": {
+   "lesson_id": "cs.binary",
+   "task_id": "cs.binary.challenge",
+   "version": 1,
+   "time_limit_ms": 3000,
+   "output_limit": 10000,
+   "cases": [
+    {
+     "id": "thirteen",
+     "visibility": "visible",
+     "description": "to_binary(13)",
+     "inputs": [],
+     "call": {
+      "function": "to_binary",
+      "args": [
+       13
+      ],
+      "kwargs": {}
+     },
+     "returns": {
+      "value": "1101",
+      "tolerance": null
+     }
+    },
+    {
+     "id": "zero",
+     "visibility": "visible",
+     "description": "to_binary(0)",
+     "inputs": [],
+     "call": {
+      "function": "to_binary",
+      "args": [
+       0
+      ],
+      "kwargs": {}
+     },
+     "returns": {
+      "value": "0",
+      "tolerance": null
+     }
+    },
+    {
+     "id": "read",
+     "visibility": "visible",
+     "description": "from_binary(\"1101\")",
+     "inputs": [],
+     "call": {
+      "function": "from_binary",
+      "args": [
+       "1101"
+      ],
+      "kwargs": {}
+     },
+     "returns": {
+      "value": 13,
+      "tolerance": null
+     }
+    },
+    {
+     "id": "big",
+     "visibility": "hidden",
+     "description": "a bigger number",
+     "inputs": [],
+     "call": {
+      "function": "to_binary",
+      "args": [
+       200
+      ],
+      "kwargs": {}
+     }
+    },
+    {
+     "id": "leading",
+     "visibility": "hidden",
+     "description": "binary text with leading zeros",
+     "inputs": [],
+     "call": {
+      "function": "from_binary",
+      "args": [
+       "000101"
+      ],
+      "kwargs": {}
+     }
+    }
+   ]
+  },
+  "cs.hexadecimal": {
+   "lesson_id": "cs.hexadecimal",
+   "task_id": "cs.hexadecimal.challenge",
+   "version": 1,
+   "time_limit_ms": 3000,
+   "output_limit": 10000,
+   "cases": [
+    {
+     "id": "orange",
+     "visibility": "visible",
+     "description": "hex_to_rgb(\"#ff8800\")",
+     "inputs": [],
+     "call": {
+      "function": "hex_to_rgb",
+      "args": [
+       "#ff8800"
+      ],
+      "kwargs": {}
+     },
+     "returns": {
+      "value": [
+       255,
+       136,
+       0
+      ],
+      "tolerance": null
+     }
+    },
+    {
+     "id": "small",
+     "visibility": "visible",
+     "description": "rgb_to_hex(10, 11, 12)",
+     "inputs": [],
+     "call": {
+      "function": "rgb_to_hex",
+      "args": [
+       10,
+       11,
+       12
+      ],
+      "kwargs": {}
+     },
+     "returns": {
+      "value": "#0a0b0c",
+      "tolerance": null
+     }
+    },
+    {
+     "id": "capitals",
+     "visibility": "visible",
+     "description": "hex_to_rgb(\"#00FF7f\")",
+     "inputs": [],
+     "call": {
+      "function": "hex_to_rgb",
+      "args": [
+       "#00FF7f"
+      ],
+      "kwargs": {}
+     },
+     "returns": {
+      "value": [
+       0,
+       255,
+       127
+      ],
+      "tolerance": null
+     }
+    },
+    {
+     "id": "white",
+     "visibility": "hidden",
+     "description": "the brightest colour",
+     "inputs": [],
+     "call": {
+      "function": "rgb_to_hex",
+      "args": [
+       255,
+       255,
+       255
+      ],
+      "kwargs": {}
+     }
+    },
+    {
+     "id": "black",
+     "visibility": "hidden",
+     "description": "the darkest colour, read back",
+     "inputs": [],
+     "call": {
+      "function": "hex_to_rgb",
+      "args": [
+       "#000000"
+      ],
+      "kwargs": {}
+     }
+    }
+   ]
+  },
+  "cs.text-encoding": {
+   "lesson_id": "cs.text-encoding",
+   "task_id": "cs.text-encoding.challenge",
+   "version": 1,
+   "time_limit_ms": 3000,
+   "output_limit": 10000,
+   "cases": [
+    {
+     "id": "wrap",
+     "visibility": "visible",
+     "description": "shift(\"abc xyz\", 2)",
+     "inputs": [],
+     "call": {
+      "function": "shift",
+      "args": [
+       "abc xyz",
+       2
+      ],
+      "kwargs": {}
+     },
+     "returns": {
+      "value": "cde zab",
+      "tolerance": null
+     }
+    },
+    {
+     "id": "back",
+     "visibility": "visible",
+     "description": "shift(\"hello\", -1)",
+     "inputs": [],
+     "call": {
+      "function": "shift",
+      "args": [
+       "hello",
+       -1
+      ],
+      "kwargs": {}
+     },
+     "returns": {
+      "value": "gdkkn",
+      "tolerance": null
+     }
+    },
+    {
+     "id": "bytes",
+     "visibility": "visible",
+     "description": "byte_count(\"café\")",
+     "inputs": [],
+     "call": {
+      "function": "byte_count",
+      "args": [
+       "café"
+      ],
+      "kwargs": {}
+     },
+     "returns": {
+      "value": 5,
+      "tolerance": null
+     }
+    },
+    {
+     "id": "big-steps",
+     "visibility": "hidden",
+     "description": "a shift of more than 26",
+     "inputs": [],
+     "call": {
+      "function": "shift",
+      "args": [
+       "tower",
+       53
+      ],
+      "kwargs": {}
+     }
+    },
+    {
+     "id": "marks",
+     "visibility": "hidden",
+     "description": "capitals, digits and marks",
+     "inputs": [],
+     "call": {
+      "function": "shift",
+      "args": [
+       "Go 2 the Tower!",
+       1
+      ],
+      "kwargs": {}
+     }
+    }
+   ]
+  },
+  "cs.float-limits": {
+   "lesson_id": "cs.float-limits",
+   "task_id": "cs.float-limits.challenge",
+   "version": 1,
+   "time_limit_ms": 3000,
+   "output_limit": 10000,
+   "cases": [
+    {
+     "id": "cents",
+     "visibility": "visible",
+     "description": "to_cents(\"4.35\")",
+     "inputs": [],
+     "call": {
+      "function": "to_cents",
+      "args": [
+       "4.35"
+      ],
+      "kwargs": {}
+     },
+     "returns": {
+      "value": 435,
+      "tolerance": null
+     }
+    },
+    {
+     "id": "half",
+     "visibility": "visible",
+     "description": "to_cents(\"0.5\")",
+     "inputs": [],
+     "call": {
+      "function": "to_cents",
+      "args": [
+       "0.5"
+      ],
+      "kwargs": {}
+     },
+     "returns": {
+      "value": 50,
+      "tolerance": null
+     }
+    },
+    {
+     "id": "total",
+     "visibility": "visible",
+     "description": "add_prices([\"0.10\", \"0.20\"])",
+     "inputs": [],
+     "call": {
+      "function": "add_prices",
+      "args": [
+       [
+        "0.10",
+        "0.20"
+       ]
+      ],
+      "kwargs": {}
+     },
+     "returns": {
+      "value": "0.30",
+      "tolerance": null
+     }
+    },
+    {
+     "id": "whole",
+     "visibility": "hidden",
+     "description": "a price with no point",
+     "inputs": [],
+     "call": {
+      "function": "to_cents",
+      "args": [
+       "12"
+      ],
+      "kwargs": {}
+     }
+    },
+    {
+     "id": "many",
+     "visibility": "hidden",
+     "description": "a longer list of prices",
+     "inputs": [],
+     "call": {
+      "function": "add_prices",
+      "args": [
+       [
+        "1.99",
+        "0.01",
+        "3.5",
+        "10"
+       ]
+      ],
+      "kwargs": {}
+     }
+    }
+   ]
+  },
+  "cs.linear-search": {
+   "lesson_id": "cs.linear-search",
+   "task_id": "cs.linear-search.challenge",
+   "version": 1,
+   "time_limit_ms": 3000,
+   "output_limit": 10000,
+   "cases": [
+    {
+     "id": "middle",
+     "visibility": "visible",
+     "description": "find([\"rope\", \"map\", \"lamp\", \"key\"], \"lamp\")",
+     "inputs": [],
+     "call": {
+      "function": "find",
+      "args": [
+       [
+        "rope",
+        "map",
+        "lamp",
+        "key"
+       ],
+       "lamp"
+      ],
+      "kwargs": {}
+     },
+     "returns": {
+      "value": [
+       2,
+       3
+      ],
+      "tolerance": null
+     }
+    },
+    {
+     "id": "missing",
+     "visibility": "visible",
+     "description": "find([\"rope\", \"map\"], \"sword\")",
+     "inputs": [],
+     "call": {
+      "function": "find",
+      "args": [
+       [
+        "rope",
+        "map"
+       ],
+       "sword"
+      ],
+      "kwargs": {}
+     },
+     "returns": {
+      "value": [
+       -1,
+       2
+      ],
+      "tolerance": null
+     }
+    },
+    {
+     "id": "first",
+     "visibility": "visible",
+     "description": "find([5, 8, 1], 5)",
+     "inputs": [],
+     "call": {
+      "function": "find",
+      "args": [
+       [
+        5,
+        8,
+        1
+       ],
+       5
+      ],
+      "kwargs": {}
+     },
+     "returns": {
+      "value": [
+       0,
+       1
+      ],
+      "tolerance": null
+     }
+    },
+    {
+     "id": "repeats",
+     "visibility": "hidden",
+     "description": "a target that is there twice",
+     "inputs": [],
+     "call": {
+      "function": "find",
+      "args": [
+       [
+        "ash",
+        "oak",
+        "elm",
+        "oak"
+       ],
+       "oak"
+      ],
+      "kwargs": {}
+     }
+    },
+    {
+     "id": "empty",
+     "visibility": "hidden",
+     "description": "an empty shelf",
+     "inputs": [],
+     "call": {
+      "function": "find",
+      "args": [
+       [],
+       "map"
+      ],
+      "kwargs": {}
+     }
+    }
+   ]
+  },
+  "cs.binary-search": {
+   "lesson_id": "cs.binary-search",
+   "task_id": "cs.binary-search.challenge",
+   "version": 1,
+   "time_limit_ms": 3000,
+   "output_limit": 10000,
+   "cases": [
+    {
+     "id": "found",
+     "visibility": "visible",
+     "description": "binary_find([3, 8, 15, 21, 30, 42, 57], 42)",
+     "inputs": [],
+     "call": {
+      "function": "binary_find",
+      "args": [
+       [
+        3,
+        8,
+        15,
+        21,
+        30,
+        42,
+        57
+       ],
+       42
+      ],
+      "kwargs": {}
+     },
+     "returns": {
+      "value": [
+       5,
+       2
+      ],
+      "tolerance": null
+     }
+    },
+    {
+     "id": "missing",
+     "visibility": "visible",
+     "description": "binary_find([3, 8, 15, 21, 30, 42, 57], 50)",
+     "inputs": [],
+     "call": {
+      "function": "binary_find",
+      "args": [
+       [
+        3,
+        8,
+        15,
+        21,
+        30,
+        42,
+        57
+       ],
+       50
+      ],
+      "kwargs": {}
+     },
+     "returns": {
+      "value": [
+       -1,
+       3
+      ],
+      "tolerance": null
+     }
+    },
+    {
+     "id": "first",
+     "visibility": "visible",
+     "description": "binary_find([3, 8, 15, 21, 30, 42, 57], 3)",
+     "inputs": [],
+     "call": {
+      "function": "binary_find",
+      "args": [
+       [
+        3,
+        8,
+        15,
+        21,
+        30,
+        42,
+        57
+       ],
+       3
+      ],
+      "kwargs": {}
+     },
+     "returns": {
+      "value": [
+       0,
+       3
+      ],
+      "tolerance": null
+     }
+    },
+    {
+     "id": "long",
+     "visibility": "hidden",
+     "description": "a long sorted list",
+     "inputs": [],
+     "call": {
+      "function": "binary_find",
+      "args": [
+       [
+        0,
+        3,
+        6,
+        9,
+        12,
+        15,
+        18,
+        21,
+        24,
+        27,
+        30,
+        33,
+        36,
+        39,
+        42,
+        45,
+        48,
+        51,
+        54,
+        57,
+        60,
+        63,
+        66,
+        69,
+        72,
+        75,
+        78,
+        81,
+        84,
+        87,
+        90,
+        93,
+        96,
+        99,
+        102,
+        105,
+        108,
+        111,
+        114,
+        117,
+        120,
+        123,
+        126,
+        129,
+        132,
+        135,
+        138,
+        141,
+        144,
+        147,
+        150,
+        153,
+        156,
+        159,
+        162,
+        165,
+        168,
+        171,
+        174,
+        177,
+        180,
+        183,
+        186,
+        189,
+        192,
+        195,
+        198,
+        201,
+        204,
+        207,
+        210,
+        213,
+        216,
+        219,
+        222,
+        225,
+        228,
+        231,
+        234,
+        237,
+        240,
+        243,
+        246,
+        249,
+        252,
+        255,
+        258,
+        261,
+        264,
+        267,
+        270,
+        273,
+        276,
+        279,
+        282,
+        285,
+        288,
+        291,
+        294,
+        297,
+        300,
+        303,
+        306,
+        309,
+        312,
+        315,
+        318,
+        321,
+        324,
+        327,
+        330,
+        333,
+        336,
+        339,
+        342,
+        345,
+        348,
+        351,
+        354,
+        357,
+        360,
+        363,
+        366,
+        369,
+        372,
+        375,
+        378,
+        381,
+        384,
+        387,
+        390,
+        393,
+        396,
+        399,
+        402,
+        405,
+        408,
+        411,
+        414,
+        417,
+        420,
+        423,
+        426,
+        429,
+        432,
+        435,
+        438,
+        441,
+        444,
+        447,
+        450,
+        453,
+        456,
+        459,
+        462,
+        465,
+        468,
+        471,
+        474,
+        477,
+        480,
+        483,
+        486,
+        489,
+        492,
+        495,
+        498,
+        501,
+        504,
+        507,
+        510,
+        513,
+        516,
+        519,
+        522,
+        525,
+        528,
+        531,
+        534,
+        537,
+        540,
+        543,
+        546,
+        549,
+        552,
+        555,
+        558,
+        561,
+        564,
+        567,
+        570,
+        573,
+        576,
+        579,
+        582,
+        585,
+        588,
+        591,
+        594,
+        597
+       ],
+       597
+      ],
+      "kwargs": {}
+     }
+    },
+    {
+     "id": "single",
+     "visibility": "hidden",
+     "description": "a list of one",
+     "inputs": [],
+     "call": {
+      "function": "binary_find",
+      "args": [
+       [
+        7
+       ],
+       7
+      ],
+      "kwargs": {}
+     }
+    }
+   ]
+  },
+  "cs.counting-steps": {
+   "lesson_id": "cs.counting-steps",
+   "task_id": "cs.counting-steps.challenge",
+   "version": 1,
+   "time_limit_ms": 3000,
+   "output_limit": 10000,
+   "cases": [
+    {
+     "id": "eight",
+     "visibility": "visible",
+     "description": "binary_worst(8)",
+     "inputs": [],
+     "call": {
+      "function": "binary_worst",
+      "args": [
+       8
+      ],
+      "kwargs": {}
+     },
+     "returns": {
+      "value": 4,
+      "tolerance": null
+     }
+    },
+    {
+     "id": "zero",
+     "visibility": "visible",
+     "description": "binary_worst(0)",
+     "inputs": [],
+     "call": {
+      "function": "binary_worst",
+      "args": [
+       0
+      ],
+      "kwargs": {}
+     },
+     "returns": {
+      "value": 0,
+      "tolerance": null
+     }
+    },
+    {
+     "id": "table",
+     "visibility": "visible",
+     "description": "compare([1, 1000])",
+     "inputs": [],
+     "call": {
+      "function": "compare",
+      "args": [
+       [
+        1,
+        1000
+       ]
+      ],
+      "kwargs": {}
+     },
+     "returns": {
+      "value": [
+       [
+        1,
+        1,
+        1
+       ],
+       [
+        1000,
+        1000,
+        10
+       ]
+      ],
+      "tolerance": null
+     }
+    },
+    {
+     "id": "big",
+     "visibility": "hidden",
+     "description": "a very big size",
+     "inputs": [],
+     "call": {
+      "function": "binary_worst",
+      "args": [
+       1000000
+      ],
+      "kwargs": {}
+     }
+    },
+    {
+     "id": "odd",
+     "visibility": "hidden",
+     "description": "a size just below a power of two",
+     "inputs": [],
+     "call": {
+      "function": "compare",
+      "args": [
+       [
+        63
+       ]
+      ],
+      "kwargs": {}
+     }
+    }
+   ]
+  }
+ },
+ "lessons": {
+  "cs.binary": {
+   "reference": "def to_binary(n):\n    if n == 0:\n        return \"0\"\n    bits = \"\"\n    while n > 0:\n        bits = str(n % 2) + bits\n        n = n // 2\n    return bits\n\ndef from_binary(bits):\n    value = 0\n    for bit in bits:\n        value = value * 2 + int(bit)\n    return value\n",
+   "request": {
+    "lesson_id": "cs.binary",
+    "code": "def to_binary(n):\n    if n == 0:\n        return \"0\"\n    bits = \"\"\n    while n > 0:\n        bits = str(n % 2) + bits\n        n = n // 2\n    return bits\n\ndef from_binary(bits):\n    value = 0\n    for bit in bits:\n        value = value * 2 + int(bit)\n    return value\n",
+    "output": "",
+    "inputs": [],
+    "runs": [
+     {
+      "id": "thirteen",
+      "status": "ok",
+      "output": "",
+      "error_type": null,
+      "line": null,
+      "returned": "\"1101\""
+     },
+     {
+      "id": "zero",
+      "status": "ok",
+      "output": "",
+      "error_type": null,
+      "line": null,
+      "returned": "\"0\""
+     },
+     {
+      "id": "read",
+      "status": "ok",
+      "output": "",
+      "error_type": null,
+      "line": null,
+      "returned": "13"
+     },
+     {
+      "id": "big",
+      "status": "ok",
+      "output": "",
+      "error_type": null,
+      "line": null,
+      "returned": "\"11001000\""
+     },
+     {
+      "id": "leading",
+      "status": "ok",
+      "output": "",
+      "error_type": null,
+      "line": null,
+      "returned": "5"
+     }
+    ]
+   },
+   "response": {
+    "passed": true,
+    "result": "passed",
+    "feedback": "Your program printed the expected output for all 5 test cases, including 2 hidden cases. Read your code once more: could you explain each line to someone else?",
+    "rule": null,
+    "assessment": "browser_tests",
+    "cases": [
+     {
+      "id": "thirteen",
+      "visibility": "visible",
+      "status": "passed"
+     },
+     {
+      "id": "zero",
+      "visibility": "visible",
+      "status": "passed"
+     },
+     {
+      "id": "read",
+      "visibility": "visible",
+      "status": "passed"
+     },
+     {
+      "id": "big",
+      "visibility": "hidden",
+      "status": "passed"
+     },
+     {
+      "id": "leading",
+      "visibility": "hidden",
+      "status": "passed"
+     }
+    ],
+    "failed": null
+   }
+  },
+  "cs.hexadecimal": {
+   "reference": "DIGITS = \"0123456789abcdef\"\n\ndef hex_to_rgb(colour):\n    text = colour.lstrip(\"#\").lower()\n    parts = []\n    for i in range(0, 6, 2):\n        parts.append(DIGITS.index(text[i]) * 16 + DIGITS.index(text[i + 1]))\n    return parts\n\ndef rgb_to_hex(red, green, blue):\n    out = \"#\"\n    for value in (red, green, blue):\n        out = out + DIGITS[value // 16] + DIGITS[value % 16]\n    return out\n",
+   "request": {
+    "lesson_id": "cs.hexadecimal",
+    "code": "DIGITS = \"0123456789abcdef\"\n\ndef hex_to_rgb(colour):\n    text = colour.lstrip(\"#\").lower()\n    parts = []\n    for i in range(0, 6, 2):\n        parts.append(DIGITS.index(text[i]) * 16 + DIGITS.index(text[i + 1]))\n    return parts\n\ndef rgb_to_hex(red, green, blue):\n    out = \"#\"\n    for value in (red, green, blue):\n        out = out + DIGITS[value // 16] + DIGITS[value % 16]\n    return out\n",
+    "output": "",
+    "inputs": [],
+    "runs": [
+     {
+      "id": "orange",
+      "status": "ok",
+      "output": "",
+      "error_type": null,
+      "line": null,
+      "returned": "[255, 136, 0]"
+     },
+     {
+      "id": "small",
+      "status": "ok",
+      "output": "",
+      "error_type": null,
+      "line": null,
+      "returned": "\"#0a0b0c\""
+     },
+     {
+      "id": "capitals",
+      "status": "ok",
+      "output": "",
+      "error_type": null,
+      "line": null,
+      "returned": "[0, 255, 127]"
+     },
+     {
+      "id": "white",
+      "status": "ok",
+      "output": "",
+      "error_type": null,
+      "line": null,
+      "returned": "\"#ffffff\""
+     },
+     {
+      "id": "black",
+      "status": "ok",
+      "output": "",
+      "error_type": null,
+      "line": null,
+      "returned": "[0, 0, 0]"
+     }
+    ]
+   },
+   "response": {
+    "passed": true,
+    "result": "passed",
+    "feedback": "Your program printed the expected output for all 5 test cases, including 2 hidden cases. Read your code once more: could you explain each line to someone else?",
+    "rule": null,
+    "assessment": "browser_tests",
+    "cases": [
+     {
+      "id": "orange",
+      "visibility": "visible",
+      "status": "passed"
+     },
+     {
+      "id": "small",
+      "visibility": "visible",
+      "status": "passed"
+     },
+     {
+      "id": "capitals",
+      "visibility": "visible",
+      "status": "passed"
+     },
+     {
+      "id": "white",
+      "visibility": "hidden",
+      "status": "passed"
+     },
+     {
+      "id": "black",
+      "visibility": "hidden",
+      "status": "passed"
+     }
+    ],
+    "failed": null
+   }
+  },
+  "cs.text-encoding": {
+   "reference": "def shift(message, steps):\n    out = \"\"\n    for ch in message:\n        if \"a\" <= ch <= \"z\":\n            out = out + chr((ord(ch) - ord(\"a\") + steps) % 26 + ord(\"a\"))\n        else:\n            out = out + ch\n    return out\n\ndef byte_count(text):\n    return len(text.encode(\"utf-8\"))\n",
+   "request": {
+    "lesson_id": "cs.text-encoding",
+    "code": "def shift(message, steps):\n    out = \"\"\n    for ch in message:\n        if \"a\" <= ch <= \"z\":\n            out = out + chr((ord(ch) - ord(\"a\") + steps) % 26 + ord(\"a\"))\n        else:\n            out = out + ch\n    return out\n\ndef byte_count(text):\n    return len(text.encode(\"utf-8\"))\n",
+    "output": "",
+    "inputs": [],
+    "runs": [
+     {
+      "id": "wrap",
+      "status": "ok",
+      "output": "",
+      "error_type": null,
+      "line": null,
+      "returned": "\"cde zab\""
+     },
+     {
+      "id": "back",
+      "status": "ok",
+      "output": "",
+      "error_type": null,
+      "line": null,
+      "returned": "\"gdkkn\""
+     },
+     {
+      "id": "bytes",
+      "status": "ok",
+      "output": "",
+      "error_type": null,
+      "line": null,
+      "returned": "5"
+     },
+     {
+      "id": "big-steps",
+      "status": "ok",
+      "output": "",
+      "error_type": null,
+      "line": null,
+      "returned": "\"upxfs\""
+     },
+     {
+      "id": "marks",
+      "status": "ok",
+      "output": "",
+      "error_type": null,
+      "line": null,
+      "returned": "\"Gp 2 uif Tpxfs!\""
+     }
+    ]
+   },
+   "response": {
+    "passed": true,
+    "result": "passed",
+    "feedback": "Your program printed the expected output for all 5 test cases, including 2 hidden cases. Read your code once more: could you explain each line to someone else?",
+    "rule": null,
+    "assessment": "browser_tests",
+    "cases": [
+     {
+      "id": "wrap",
+      "visibility": "visible",
+      "status": "passed"
+     },
+     {
+      "id": "back",
+      "visibility": "visible",
+      "status": "passed"
+     },
+     {
+      "id": "bytes",
+      "visibility": "visible",
+      "status": "passed"
+     },
+     {
+      "id": "big-steps",
+      "visibility": "hidden",
+      "status": "passed"
+     },
+     {
+      "id": "marks",
+      "visibility": "hidden",
+      "status": "passed"
+     }
+    ],
+    "failed": null
+   }
+  },
+  "cs.float-limits": {
+   "reference": "def to_cents(price):\n    whole, _, part = price.partition(\".\")\n    part = (part + \"00\")[:2]\n    return int(whole) * 100 + int(part)\n\ndef add_prices(prices):\n    total = 0\n    for price in prices:\n        total = total + to_cents(price)\n    return f\"{total // 100}.{total % 100:02d}\"\n",
+   "request": {
+    "lesson_id": "cs.float-limits",
+    "code": "def to_cents(price):\n    whole, _, part = price.partition(\".\")\n    part = (part + \"00\")[:2]\n    return int(whole) * 100 + int(part)\n\ndef add_prices(prices):\n    total = 0\n    for price in prices:\n        total = total + to_cents(price)\n    return f\"{total // 100}.{total % 100:02d}\"\n",
+    "output": "",
+    "inputs": [],
+    "runs": [
+     {
+      "id": "cents",
+      "status": "ok",
+      "output": "",
+      "error_type": null,
+      "line": null,
+      "returned": "435"
+     },
+     {
+      "id": "half",
+      "status": "ok",
+      "output": "",
+      "error_type": null,
+      "line": null,
+      "returned": "50"
+     },
+     {
+      "id": "total",
+      "status": "ok",
+      "output": "",
+      "error_type": null,
+      "line": null,
+      "returned": "\"0.30\""
+     },
+     {
+      "id": "whole",
+      "status": "ok",
+      "output": "",
+      "error_type": null,
+      "line": null,
+      "returned": "1200"
+     },
+     {
+      "id": "many",
+      "status": "ok",
+      "output": "",
+      "error_type": null,
+      "line": null,
+      "returned": "\"15.50\""
+     }
+    ]
+   },
+   "response": {
+    "passed": true,
+    "result": "passed",
+    "feedback": "Your program printed the expected output for all 5 test cases, including 2 hidden cases. Read your code once more: could you explain each line to someone else?",
+    "rule": null,
+    "assessment": "browser_tests",
+    "cases": [
+     {
+      "id": "cents",
+      "visibility": "visible",
+      "status": "passed"
+     },
+     {
+      "id": "half",
+      "visibility": "visible",
+      "status": "passed"
+     },
+     {
+      "id": "total",
+      "visibility": "visible",
+      "status": "passed"
+     },
+     {
+      "id": "whole",
+      "visibility": "hidden",
+      "status": "passed"
+     },
+     {
+      "id": "many",
+      "visibility": "hidden",
+      "status": "passed"
+     }
+    ],
+    "failed": null
+   }
+  },
+  "cs.linear-search": {
+   "reference": "def find(items, target):\n    steps = 0\n    for i in range(len(items)):\n        steps = steps + 1\n        if items[i] == target:\n            return [i, steps]\n    return [-1, steps]\n",
+   "request": {
+    "lesson_id": "cs.linear-search",
+    "code": "def find(items, target):\n    steps = 0\n    for i in range(len(items)):\n        steps = steps + 1\n        if items[i] == target:\n            return [i, steps]\n    return [-1, steps]\n",
+    "output": "",
+    "inputs": [],
+    "runs": [
+     {
+      "id": "middle",
+      "status": "ok",
+      "output": "",
+      "error_type": null,
+      "line": null,
+      "returned": "[2, 3]"
+     },
+     {
+      "id": "missing",
+      "status": "ok",
+      "output": "",
+      "error_type": null,
+      "line": null,
+      "returned": "[-1, 2]"
+     },
+     {
+      "id": "first",
+      "status": "ok",
+      "output": "",
+      "error_type": null,
+      "line": null,
+      "returned": "[0, 1]"
+     },
+     {
+      "id": "repeats",
+      "status": "ok",
+      "output": "",
+      "error_type": null,
+      "line": null,
+      "returned": "[1, 2]"
+     },
+     {
+      "id": "empty",
+      "status": "ok",
+      "output": "",
+      "error_type": null,
+      "line": null,
+      "returned": "[-1, 0]"
+     }
+    ]
+   },
+   "response": {
+    "passed": true,
+    "result": "passed",
+    "feedback": "Your program printed the expected output for all 5 test cases, including 2 hidden cases. Read your code once more: could you explain each line to someone else?",
+    "rule": null,
+    "assessment": "browser_tests",
+    "cases": [
+     {
+      "id": "middle",
+      "visibility": "visible",
+      "status": "passed"
+     },
+     {
+      "id": "missing",
+      "visibility": "visible",
+      "status": "passed"
+     },
+     {
+      "id": "first",
+      "visibility": "visible",
+      "status": "passed"
+     },
+     {
+      "id": "repeats",
+      "visibility": "hidden",
+      "status": "passed"
+     },
+     {
+      "id": "empty",
+      "visibility": "hidden",
+      "status": "passed"
+     }
+    ],
+    "failed": null
+   }
+  },
+  "cs.binary-search": {
+   "reference": "def binary_find(items, target):\n    low = 0\n    high = len(items) - 1\n    steps = 0\n    while low <= high:\n        middle = (low + high) // 2\n        steps = steps + 1\n        if items[middle] == target:\n            return [middle, steps]\n        if items[middle] < target:\n            low = middle + 1\n        else:\n            high = middle - 1\n    return [-1, steps]\n",
+   "request": {
+    "lesson_id": "cs.binary-search",
+    "code": "def binary_find(items, target):\n    low = 0\n    high = len(items) - 1\n    steps = 0\n    while low <= high:\n        middle = (low + high) // 2\n        steps = steps + 1\n        if items[middle] == target:\n            return [middle, steps]\n        if items[middle] < target:\n            low = middle + 1\n        else:\n            high = middle - 1\n    return [-1, steps]\n",
+    "output": "",
+    "inputs": [],
+    "runs": [
+     {
+      "id": "found",
+      "status": "ok",
+      "output": "",
+      "error_type": null,
+      "line": null,
+      "returned": "[5, 2]"
+     },
+     {
+      "id": "missing",
+      "status": "ok",
+      "output": "",
+      "error_type": null,
+      "line": null,
+      "returned": "[-1, 3]"
+     },
+     {
+      "id": "first",
+      "status": "ok",
+      "output": "",
+      "error_type": null,
+      "line": null,
+      "returned": "[0, 3]"
+     },
+     {
+      "id": "long",
+      "status": "ok",
+      "output": "",
+      "error_type": null,
+      "line": null,
+      "returned": "[199, 8]"
+     },
+     {
+      "id": "single",
+      "status": "ok",
+      "output": "",
+      "error_type": null,
+      "line": null,
+      "returned": "[0, 1]"
+     }
+    ]
+   },
+   "response": {
+    "passed": true,
+    "result": "passed",
+    "feedback": "Your program printed the expected output for all 5 test cases, including 2 hidden cases. Read your code once more: could you explain each line to someone else?",
+    "rule": null,
+    "assessment": "browser_tests",
+    "cases": [
+     {
+      "id": "found",
+      "visibility": "visible",
+      "status": "passed"
+     },
+     {
+      "id": "missing",
+      "visibility": "visible",
+      "status": "passed"
+     },
+     {
+      "id": "first",
+      "visibility": "visible",
+      "status": "passed"
+     },
+     {
+      "id": "long",
+      "visibility": "hidden",
+      "status": "passed"
+     },
+     {
+      "id": "single",
+      "visibility": "hidden",
+      "status": "passed"
+     }
+    ],
+    "failed": null
+   }
+  },
+  "cs.counting-steps": {
+   "reference": "def linear_worst(n):\n    return n\n\ndef binary_worst(n):\n    steps = 0\n    while n > 0:\n        n = n // 2\n        steps = steps + 1\n    return steps\n\ndef compare(sizes):\n    table = []\n    for s in sizes:\n        table.append([s, linear_worst(s), binary_worst(s)])\n    return table\n",
+   "request": {
+    "lesson_id": "cs.counting-steps",
+    "code": "def linear_worst(n):\n    return n\n\ndef binary_worst(n):\n    steps = 0\n    while n > 0:\n        n = n // 2\n        steps = steps + 1\n    return steps\n\ndef compare(sizes):\n    table = []\n    for s in sizes:\n        table.append([s, linear_worst(s), binary_worst(s)])\n    return table\n",
+    "output": "",
+    "inputs": [],
+    "runs": [
+     {
+      "id": "eight",
+      "status": "ok",
+      "output": "",
+      "error_type": null,
+      "line": null,
+      "returned": "4"
+     },
+     {
+      "id": "zero",
+      "status": "ok",
+      "output": "",
+      "error_type": null,
+      "line": null,
+      "returned": "0"
+     },
+     {
+      "id": "table",
+      "status": "ok",
+      "output": "",
+      "error_type": null,
+      "line": null,
+      "returned": "[[1, 1, 1], [1000, 1000, 10]]"
+     },
+     {
+      "id": "big",
+      "status": "ok",
+      "output": "",
+      "error_type": null,
+      "line": null,
+      "returned": "20"
+     },
+     {
+      "id": "odd",
+      "status": "ok",
+      "output": "",
+      "error_type": null,
+      "line": null,
+      "returned": "[[63, 63, 6]]"
+     }
+    ]
+   },
+   "response": {
+    "passed": true,
+    "result": "passed",
+    "feedback": "Your program printed the expected output for all 5 test cases, including 2 hidden cases. Read your code once more: could you explain each line to someone else?",
+    "rule": null,
+    "assessment": "browser_tests",
+    "cases": [
+     {
+      "id": "eight",
+      "visibility": "visible",
+      "status": "passed"
+     },
+     {
+      "id": "zero",
+      "visibility": "visible",
+      "status": "passed"
+     },
+     {
+      "id": "table",
+      "visibility": "visible",
+      "status": "passed"
+     },
+     {
+      "id": "big",
+      "visibility": "hidden",
+      "status": "passed"
+     },
+     {
+      "id": "odd",
+      "visibility": "hidden",
+      "status": "passed"
+     }
+    ],
+    "failed": null
+   }
+  }
+ },
+ "wrong": {
+  "lesson": "cs.binary-search",
+  "code": "def binary_find(items, target):\n    for i in range(len(items)):\n        if items[i] == target:\n            return [i, i + 1]\n    return [-1, len(items)]\n",
+  "request": {
+   "lesson_id": "cs.binary-search",
+   "code": "def binary_find(items, target):\n    for i in range(len(items)):\n        if items[i] == target:\n            return [i, i + 1]\n    return [-1, len(items)]\n",
+   "output": "",
+   "inputs": [],
+   "runs": [
+    {
+     "id": "found",
+     "status": "ok",
+     "output": "",
+     "error_type": null,
+     "line": null,
+     "returned": "[5, 6]"
+    },
+    {
+     "id": "missing",
+     "status": "ok",
+     "output": "",
+     "error_type": null,
+     "line": null,
+     "returned": "[-1, 7]"
+    },
+    {
+     "id": "first",
+     "status": "ok",
+     "output": "",
+     "error_type": null,
+     "line": null,
+     "returned": "[0, 1]"
+    },
+    {
+     "id": "long",
+     "status": "ok",
+     "output": "",
+     "error_type": null,
+     "line": null,
+     "returned": "[199, 200]"
+    },
+    {
+     "id": "single",
+     "status": "ok",
+     "output": "",
+     "error_type": null,
+     "line": null,
+     "returned": "[0, 1]"
+    }
+   ]
+  },
+  "response": {
+   "passed": false,
+   "result": "needs_work",
+   "feedback": "For binary_find([3, 8, 15, 21, 30, 42, 57], 42), your function should return [5, 2], but it returned [5, 6].",
+   "rule": "cs.binary-search.case.found",
+   "assessment": "browser_tests",
+   "cases": [
+    {
+     "id": "found",
+     "visibility": "visible",
+     "status": "failed"
+    },
+    {
+     "id": "missing",
+     "visibility": "visible",
+     "status": "failed"
+    },
+    {
+     "id": "first",
+     "visibility": "visible",
+     "status": "failed"
+    },
+    {
+     "id": "long",
+     "visibility": "hidden",
+     "status": "failed"
+    },
+    {
+     "id": "single",
+     "visibility": "hidden",
+     "status": "passed"
+    }
+   ],
+   "failed": {
+    "id": "found",
+    "visibility": "visible",
+    "description": "binary_find([3, 8, 15, 21, 30, 42, 57], 42)",
+    "reason": "wrong_return",
+    "error_type": null,
+    "line": null,
+    "expected_value": "[5, 2]",
+    "actual_value": "[5, 6]"
+   }
+  }
+ }
+}

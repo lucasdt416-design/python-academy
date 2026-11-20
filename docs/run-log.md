@@ -63,6 +63,7 @@ The plan is [`docs/plan/master-run.md`](plan/master-run.md). A new session reads
 | Run 3: S06 to S09, WWD1, WD3, WD6 to WD9 (units 4 to 11, 36 lessons) and lesson scenes (owner request) | `content/py-lessons-interactive` | `main` | #63 | 55 | done | 2026-11-20 | Backend 1,794 passed; scenes spec 104 and unit 1 snapshot pass; full browser suite 478, all pass after updates (5 timing failures under load pass alone); 6 deliberate breaks caught |
 | Run 3, owner request: Watch it run and profiles | `feat/profile-and-stepper` | `content/py-lessons-interactive` (#63) | #64 | 56 | done | 2026-11-20 | Backend 1,815; new spec 13; full browser suite 492 of 497 with 2 workers, the rest pass alone; 4 deliberate breaks caught. Migration 0011 |
 | Run 3, owner request: Practice Arena, mistake detectors, text policy | `feat/arena-and-insights` | `feat/profile-and-stepper` (#64) | #65 | 57 | done | 2026-11-20 | Backend 1,924; new spec 8; full browser suite 505 with 2 workers, all pass; 3 deliberate breaks caught. Migration 0012 |
+| Run 3, owner request: Computer Science Foundations units 1 and 3 | `content/cs-foundations` | `feat/arena-and-insights` (#65) | #66 | 58 | done | 2026-11-20 | Backend 2,100; new spec 21; full browser suite 521 of 526 under load, 2 updated for CS, 3 start-up timeouts, all pass alone; 3 deliberate breaks caught |
 
 Owner merged #32 to #39, #41 and #42 on 2026-11-02. The run stopped at the cap of 5 open PRs. Not reached: WE6, the rest of WE7, WE8 and later.
 

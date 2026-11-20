@@ -7,6 +7,7 @@ import type {ReactNode} from 'react';
 import {type SceneRun,wrap,Bubble,Coin,Ground,Hero,Item,Lamp,Lines,Note,Tag,VarBox,bools,clamp,d,fit,isNum,numOf,numbers,ofKind,outLines,pick,plural,show,strOf,toNum} from './scene-kit';
 import {UNIT_4_TO_6} from './scenes-u04-u06';
 import {UNIT_7_TO_11} from './scenes-u07-u11';
+import {CS_SCENES} from './scenes-cs';
 
 export type Drawn = {svg:ReactNode;say:string};
 export type SceneDef = {title:string;draw:(r:SceneRun|null)=>Drawn};
@@ -271,7 +272,7 @@ export const SCENES:Record<string,SceneDef>={
  hello,variables,input,choices,adventure,
  'py.arithmetic':arithmetic,'py.int-float':intFloat,'py.convert-input':convertInput,'py.compare':compare,'py.boolean-logic':booleanLogic,'py.elif':elif,
  'py.while-loops':whileLoops,'py.loop-termination':loopTermination,'py.for-range':forRange,'py.accumulate':accumulate,'py.nested-loops':nestedLoops,
- ...UNIT_4_TO_6,...UNIT_7_TO_11,
+ ...UNIT_4_TO_6,...UNIT_7_TO_11,...CS_SCENES,
 };
 
 /** The scene for a lesson, drawn from a run (or empty, before one). Lessons without a scene show nothing. */

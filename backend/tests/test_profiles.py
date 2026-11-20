@@ -43,7 +43,7 @@ def test_a_new_student_sees_the_default_avatar_and_their_progress(client):
     p = client.get('/api/profile').json()
     assert (p['saved'], p['nickname'], p['avatar']) == (False, '', profiles.DEFAULT_AVATAR)
     assert p['xp'] == 0 and p['level'] == {'number': 1, 'title': 'Explorer', 'xp_into_level': 0, 'xp_for_next': 500}
-    assert p['completed'] == 0 and p['released'] == 52 and len(p['units']) == 11
+    assert p['completed'] == 0 and p['released'] == 59 and len(p['units']) == 13
     assert p['units'][0] == {'id': 'py.u01', 'title': 'Build Your Own Adventure', 'done': 0, 'total': 5, 'more_coming': False}
     assert p['choices'] == profiles.AVATAR_CHOICES and p['streak'] == 0 and p['active_days'] == []
 

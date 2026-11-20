@@ -1,0 +1,447 @@
+{
+  "id": "cs.binary-search",
+  "version": 1,
+  "course": "cs",
+  "unit": "cs.u03",
+  "title": "Halve the shelf",
+  "concept": "Searching · binary search on a sorted list",
+  "description": "When the archive is sorted, you can skip half of it with every look. Find records in a handful of steps.",
+  "badge": {
+    "id": "cs.badge.halver",
+    "version": 1,
+    "title": "Halver",
+    "category": "practice"
+  },
+  "tasks": [
+    {
+      "id": "cs.binary-search.discover",
+      "type": "discover",
+      "title": "Throw away half with every look",
+      "body": "In a sorted list, look at the middle item. If it is the one you want, you are done. If it is too small, what you want can only be to its right; too big, only to its left. Either way, half the list is gone after one look.",
+      "detail": "Keep two positions, low and high, for the part still worth searching, and look at middle = (low + high) // 2. Stop when they cross. A thousand items take at most ten looks, a million about twenty. It only works if the list is sorted."
+    },
+    {
+      "id": "cs.binary-search.example",
+      "type": "example",
+      "code": "# Guess the middle of a sorted shelf, and throw away half each time\nshelf = [3, 8, 15, 21, 30, 42, 57]\nlow, high = 0, len(shelf) - 1\nwhile low <= high:\n    middle = (low + high) // 2\n    print(\"look at\", shelf[middle])\n    if shelf[middle] == 42:\n        break\n    if shelf[middle] < 42:\n        low = middle + 1\n    else:\n        high = middle - 1",
+      "output": "look at 21\nlook at 42",
+      "note": "21 is too small, so the left half goes; then 42 is found on the second look. A linear search would have needed six.",
+      "inputs": []
+    },
+    {
+      "id": "cs.binary-search.predict",
+      "type": "predict",
+      "question": "About how many looks does a binary search need for a sorted list of 1,000 items, at most?",
+      "options": [
+        "10",
+        "500",
+        "1,000"
+      ],
+      "answer": 0,
+      "why": "Halving 1,000 ten times gets below one: 500, 250, 125, 63, 32, 16, 8, 4, 2, 1."
+    },
+    {
+      "id": "cs.binary-search.guided",
+      "type": "guided",
+      "prompt": "Predict, then run: search for 3, the first item, and for 50, which is not there, and count the looks each time."
+    },
+    {
+      "id": "cs.binary-search.challenge",
+      "type": "challenge",
+      "prompt": "Write binary_find(items, target) for a list items sorted from smallest to largest. Search it as the lesson does: keep low and high, look at middle = (low + high) // 2 each time, and move low or high past it. Return a list: the position of target and how many middles you looked at, or -1 and the number of looks if it is not there. Do not ask for input: the check calls your functions with its own values.",
+      "starter": "# Define binary_find(items, target)\n",
+      "hints": [
+        "Start with low at the first position and high at the last. Keep going while low is no more than high, and count one look each time round.",
+        "If the middle item is smaller than target, the target can only be to its right: low becomes middle + 1. If it is bigger, high becomes middle - 1. Without the + 1 and - 1 the loop can get stuck.",
+        "With other names, guessing a number from 1 to 100: mid = (lo + hi) // 2, then lo = mid + 1 when the secret is bigger."
+      ],
+      "error_hints": [
+        {
+          "tags": [
+            "NameError"
+          ],
+          "text": "Use the parameter names from the def line, spelled the same way."
+        },
+        {
+          "tags": [
+            "cs.binary-search.case.found"
+          ],
+          "text": "binary_find([3, 8, 15, 21, 30, 42, 57], 42) should return [5, 2]: 21 first, then 42."
+        },
+        {
+          "tags": [
+            "cs.binary-search.case.missing"
+          ],
+          "text": "When target is not there, low and high cross; return -1 and the number of looks."
+        },
+        {
+          "tags": [
+            "cs.binary-search.case.first"
+          ],
+          "text": "binary_find([3, 8, 15, 21, 30, 42, 57], 3) should return [0, 3]: 21, then 8, then 3."
+        },
+        {
+          "tags": [
+            "cs.binary-search.case.long"
+          ],
+          "text": "Check a long list: the looks should stay few."
+        },
+        {
+          "tags": [
+            "cs.binary-search.case.single"
+          ],
+          "text": "Check a list with one item."
+        }
+      ],
+      "similar_example": {
+        "code": "secret = 73\nlo, hi = 1, 100\nguesses = 0\nwhile lo <= hi:\n    mid = (lo + hi) // 2\n    guesses += 1\n    if mid == secret:\n        break\n    if mid < secret:\n        lo = mid + 1\n    else:\n        hi = mid - 1\nprint(mid, guesses)",
+        "note": "Guessing a number from 1 to 100 by halving, which is a binary search over the numbers themselves. Yours searches a list and returns a position."
+      },
+      "other_ways": [
+        {
+          "code": "def binary_find(items, target):\n    low, high, steps = 0, len(items) - 1, 0\n    while low <= high:\n        middle = (low + high) // 2\n        steps += 1\n        value = items[middle]\n        if value == target:\n            return [middle, steps]\n        low, high = (middle + 1, high) if value < target else (low, middle - 1)\n    return [-1, steps]",
+          "note": "Moving low or high in one line, with a conditional expression."
+        },
+        {
+          "code": "def binary_find(items, target, low=0, high=None, steps=0):\n    if high is None:\n        high = len(items) - 1\n    if low > high:\n        return [-1, steps]\n    middle = (low + high) // 2\n    if items[middle] == target:\n        return [middle, steps + 1]\n    if items[middle] < target:\n        return binary_find(items, target, middle + 1, high, steps + 1)\n    return binary_find(items, target, low, middle - 1, steps + 1)",
+          "note": "The search calling itself on the half that is left, a recursive binary search."
+        }
+      ],
+      "input_labels": [],
+      "check": {
+        "cases": [
+          {
+            "id": "found",
+            "description": "binary_find([3, 8, 15, 21, 30, 42, 57], 42)",
+            "inputs": [],
+            "call": {
+              "function": "binary_find",
+              "args": [
+                [
+                  3,
+                  8,
+                  15,
+                  21,
+                  30,
+                  42,
+                  57
+                ],
+                42
+              ],
+              "kwargs": {}
+            },
+            "returns": {
+              "value": [
+                5,
+                2
+              ]
+            }
+          },
+          {
+            "id": "missing",
+            "description": "binary_find([3, 8, 15, 21, 30, 42, 57], 50)",
+            "inputs": [],
+            "call": {
+              "function": "binary_find",
+              "args": [
+                [
+                  3,
+                  8,
+                  15,
+                  21,
+                  30,
+                  42,
+                  57
+                ],
+                50
+              ],
+              "kwargs": {}
+            },
+            "returns": {
+              "value": [
+                -1,
+                3
+              ]
+            }
+          },
+          {
+            "id": "first",
+            "description": "binary_find([3, 8, 15, 21, 30, 42, 57], 3)",
+            "inputs": [],
+            "call": {
+              "function": "binary_find",
+              "args": [
+                [
+                  3,
+                  8,
+                  15,
+                  21,
+                  30,
+                  42,
+                  57
+                ],
+                3
+              ],
+              "kwargs": {}
+            },
+            "returns": {
+              "value": [
+                0,
+                3
+              ]
+            }
+          },
+          {
+            "id": "long",
+            "description": "a long sorted list",
+            "inputs": [],
+            "visibility": "hidden",
+            "call": {
+              "function": "binary_find",
+              "args": [
+                [
+                  0,
+                  3,
+                  6,
+                  9,
+                  12,
+                  15,
+                  18,
+                  21,
+                  24,
+                  27,
+                  30,
+                  33,
+                  36,
+                  39,
+                  42,
+                  45,
+                  48,
+                  51,
+                  54,
+                  57,
+                  60,
+                  63,
+                  66,
+                  69,
+                  72,
+                  75,
+                  78,
+                  81,
+                  84,
+                  87,
+                  90,
+                  93,
+                  96,
+                  99,
+                  102,
+                  105,
+                  108,
+                  111,
+                  114,
+                  117,
+                  120,
+                  123,
+                  126,
+                  129,
+                  132,
+                  135,
+                  138,
+                  141,
+                  144,
+                  147,
+                  150,
+                  153,
+                  156,
+                  159,
+                  162,
+                  165,
+                  168,
+                  171,
+                  174,
+                  177,
+                  180,
+                  183,
+                  186,
+                  189,
+                  192,
+                  195,
+                  198,
+                  201,
+                  204,
+                  207,
+                  210,
+                  213,
+                  216,
+                  219,
+                  222,
+                  225,
+                  228,
+                  231,
+                  234,
+                  237,
+                  240,
+                  243,
+                  246,
+                  249,
+                  252,
+                  255,
+                  258,
+                  261,
+                  264,
+                  267,
+                  270,
+                  273,
+                  276,
+                  279,
+                  282,
+                  285,
+                  288,
+                  291,
+                  294,
+                  297,
+                  300,
+                  303,
+                  306,
+                  309,
+                  312,
+                  315,
+                  318,
+                  321,
+                  324,
+                  327,
+                  330,
+                  333,
+                  336,
+                  339,
+                  342,
+                  345,
+                  348,
+                  351,
+                  354,
+                  357,
+                  360,
+                  363,
+                  366,
+                  369,
+                  372,
+                  375,
+                  378,
+                  381,
+                  384,
+                  387,
+                  390,
+                  393,
+                  396,
+                  399,
+                  402,
+                  405,
+                  408,
+                  411,
+                  414,
+                  417,
+                  420,
+                  423,
+                  426,
+                  429,
+                  432,
+                  435,
+                  438,
+                  441,
+                  444,
+                  447,
+                  450,
+                  453,
+                  456,
+                  459,
+                  462,
+                  465,
+                  468,
+                  471,
+                  474,
+                  477,
+                  480,
+                  483,
+                  486,
+                  489,
+                  492,
+                  495,
+                  498,
+                  501,
+                  504,
+                  507,
+                  510,
+                  513,
+                  516,
+                  519,
+                  522,
+                  525,
+                  528,
+                  531,
+                  534,
+                  537,
+                  540,
+                  543,
+                  546,
+                  549,
+                  552,
+                  555,
+                  558,
+                  561,
+                  564,
+                  567,
+                  570,
+                  573,
+                  576,
+                  579,
+                  582,
+                  585,
+                  588,
+                  591,
+                  594,
+                  597
+                ],
+                597
+              ],
+              "kwargs": {}
+            },
+            "returns": {
+              "value": [
+                199,
+                8
+              ]
+            }
+          },
+          {
+            "id": "single",
+            "description": "a list of one",
+            "inputs": [],
+            "visibility": "hidden",
+            "call": {
+              "function": "binary_find",
+              "args": [
+                [
+                  7
+                ],
+                7
+              ],
+              "kwargs": {}
+            },
+            "returns": {
+              "value": [
+                0,
+                1
+              ]
+            }
+          }
+        ],
+        "time_limit_ms": 3000
+      },
+      "validator": {
+        "id": "browser-tests",
+        "version": 1
+      },
+      "version": 1
+    }
+  ]
+}
