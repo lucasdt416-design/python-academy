@@ -169,3 +169,39 @@ def test_a_creature_is_tamed_after_five_right_answers_in_its_unit(client):
     assert client.get('/api/review').json()['tamed'] == []
     client.post('/api/review/answer', json={'card_id': unit4[4].id, 'choice': unit4[4].answer}, headers=helpers.HEADERS)
     assert client.get('/api/review').json()['tamed'] == ['py.u04']
+
+
+# The answers frontend/tests/arena.spec.ts mocks: a real session for a seeded learner, and real results.
+RECORDED_FILE = __import__('pathlib').Path(__file__).resolve().parents[2] / 'frontend/tests/fixtures/arena-api.json'
+
+
+def build_recordings():
+    import os
+    from app.db import Base
+    Base.metadata.drop_all(engine)
+    Base.metadata.create_all(engine)
+    today = date(2026, 11, 20)
+    with Session(engine) as db:
+        db.add(User(id=1, subject='s', email='s@example.com', role='student'))
+        db.commit()
+        s = review.session(db, 1, REVIEW_CARDS, CATALOG, {'py.lists', 'py.indexing', 'py.dicts'}, today)
+        results = {}
+        for card in s['cards']:
+            c = REVIEW_CARDS[card['id']]
+            right = review.answer(db, 1, c, c.answer, c.lines if c.kind == 'order' else None, today)
+            wrong = review.answer(db, 1, c, None if c.kind == 'order' else (c.answer + 1) % len(c.options), list(reversed(c.lines)) if c.kind == 'order' else None, today)
+            results[c.id] = {'right': right, 'wrong': wrong, 'answer': c.answer if c.kind != 'order' else None, 'lines': c.lines if c.kind == 'order' else None}
+        order = next(c for c in REVIEW_CARDS.values() if c.kind == 'order')
+        import random
+        order_card = review.public(order, random.Random(7))
+        results[order.id] = {'right': review.answer(db, 1, order, None, order.lines, today), 'wrong': review.answer(db, 1, order, None, list(reversed(order.lines)), today), 'answer': None, 'lines': order.lines}
+        db.rollback()
+    recorded = {'session': s, 'order_card': order_card, 'results': results}
+    if os.environ.get('WRITE_ARENA_RECORDINGS') == '1':
+        RECORDED_FILE.write_text(json.dumps(recorded, indent=1, ensure_ascii=False) + '\n')
+    return recorded
+
+
+def test_the_recorded_arena_is_the_real_one():
+    recorded = build_recordings()
+    assert json.loads(RECORDED_FILE.read_text()) == recorded

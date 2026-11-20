@@ -573,12 +573,48 @@ button:disabled{opacity:.6;cursor:not-allowed}
 .stepper-output{min-height:40px;font-size:13px}
 @media(max-width:760px){.stepper-body{grid-template-columns:1fr}}
 
+/* ---------- A likely cause (insights) ---------- */
+.likely-cause{margin:12px 0;padding:12px 14px;border-left:4px solid var(--slate);background:var(--predict-bg);border-radius:8px}
+.likely-cause h3{margin:0 0 2px}
+.likely-cause ul{list-style:none;padding:0;margin:8px 0 0;display:grid;gap:10px}
+.likely-cause li p{margin:0 0 6px}
+
+/* ---------- Practice arena (arena.tsx) ---------- */
+.arena{max-width:860px}
+.arena-head{display:grid;grid-template-columns:1fr 200px;gap:24px;align-items:center}
+.arena-creature .meter{width:100%}
+.creature{display:block;width:100%;height:auto}
+.creature-shadow{fill:var(--line)}
+.creature-unknown{display:flex;align-items:center;justify-content:center;width:64px;height:54px;font-family:var(--serif);font-size:28px;color:var(--muted)}
+.arena-card{margin:20px 0;padding:20px 0;border-top:1px solid var(--line)}
+.arena-card h2{font-size:22px}
+.arena-feedback{margin-top:14px}
+.arena .tile:disabled{opacity:1;cursor:default}
+.arena-feedback.right{border-left:4px solid var(--moss);padding-left:12px}
+.arena-feedback.wrong{border-left:4px solid var(--amber);padding-left:12px}
+.arena-expected{min-height:0}
+.order-lines{list-style:none;padding:0;margin:12px 0;display:grid;gap:6px}
+.order-lines li{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:6px 10px;border:1px solid var(--line);border-radius:8px;background:var(--white)}
+.order-lines li code{white-space:pre;background:none;padding:0}
+.order-lines li.ok{border-color:var(--pass-line);background:var(--pass-bg)}
+.order-lines li.off{border-color:var(--needs-line);background:var(--needs-bg)}
+.order-buttons{display:flex;gap:4px}
+.order-buttons .btn{min-width:44px;padding:4px 8px}
+.collection ul{list-style:none;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:16px}
+.collection li{display:flex;flex-direction:column;align-items:center;text-align:center;gap:4px}
+.collection li .creature{width:84px}
+.collection li.missing{color:var(--muted)}
+.arena-end{padding:16px 0}
+@media(max-width:620px){.arena-head{grid-template-columns:1fr}.arena-creature{max-width:200px}}
+
 /* ---------- Motion: only for people who have not asked for less ---------- */
 @media(prefers-reduced-motion:no-preference){
  html{scroll-behavior:smooth}
  .quest-card{animation:card-arrive .25s ease-out}
  .badge-earned{animation:card-arrive .4s ease-out}
  .tile,.btn,.row,.course-card{transition:border-color .15s,background-color .15s,box-shadow .15s}
+ .creature-hit{animation:creature-hit .5s ease-out;transform-box:fill-box;transform-origin:center}
+ .creature.tamed{animation:creature-tame .8s ease-out}
  .scene-art.live .pop,.scene-art.live .drop,.scene-art.live .slide,.scene-art.live .type,.scene-art.live .grow,.scene-art.live .dart{animation:.45s ease-out both;transform-box:fill-box}
  .scene-art.live .pop{animation-name:scene-pop;transform-origin:center bottom}
  .scene-art.live .drop{animation-name:scene-drop}
@@ -614,4 +650,6 @@ button:disabled{opacity:.6;cursor:not-allowed}
 @keyframes scene-out{0%{opacity:1}60%{opacity:1;transform:scale(1.15)}100%{opacity:.08;transform:scale(.3)}}
 @keyframes scene-open{from{transform:scaleX(1)}to{transform:scaleX(.18)}}
 @keyframes scene-flash{50%{fill:#fff3c4}}
+@keyframes creature-hit{0%{transform:translateX(0)}25%{transform:translateX(-6px) rotate(-4deg)}50%{transform:translateX(6px) rotate(4deg)}100%{transform:translateX(0)}}
+@keyframes creature-tame{from{transform:scale(.9)}60%{transform:scale(1.06)}to{transform:scale(1)}}
 @keyframes card-arrive{from{opacity:.5;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
