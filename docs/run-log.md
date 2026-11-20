@@ -61,6 +61,7 @@ The plan is [`docs/plan/master-run.md`](plan/master-run.md). A new session reads
 | Run 2, A1: history scan | `sec/history-scan` | `main` | #61 | 53 | done | 2026-11-09 | gitleaks 8.21.2 on all refs: 1 finding, not a secret; pattern search; nothing to rotate |
 | Run 2, A2: docs sync 6 | `docs/backlog-sync-6` | `main` | #62 | 54 | done | 2026-11-09 | Docs checks |
 | Run 3: S06 to S09, WWD1, WD3, WD6 to WD9 (units 4 to 11, 36 lessons) and lesson scenes (owner request) | `content/py-lessons-interactive` | `main` | #63 | 55 | done | 2026-11-20 | Backend 1,794 passed; scenes spec 104 and unit 1 snapshot pass; full browser suite 478, all pass after updates (5 timing failures under load pass alone); 6 deliberate breaks caught |
+| Run 3, owner request: Watch it run and profiles | `feat/profile-and-stepper` | `content/py-lessons-interactive` (#63) | {{PR}} | 56 | done | 2026-11-20 | Backend 1,815; new spec 13; full browser suite 492 of 497 with 2 workers, the rest pass alone; 4 deliberate breaks caught. Migration 0011 |
 
 Owner merged #32 to #39, #41 and #42 on 2026-11-02. The run stopped at the cap of 5 open PRs. Not reached: WE6, the rest of WE7, WE8 and later.
 
