@@ -276,3 +276,104 @@ const missingData:SceneDef={title:'The repair kit',draw:r=>{
  </>};
 }};
 Object.assign(UNIT_7_TO_11,{'py.text-files':textFiles,'py.json':jsonScene,'py.csv':csvScene,'py.missing-data':missingData});
+
+// ---------- Unit 10 ----------
+const stringMethods:SceneDef={title:'The word workshop',draw:r=>{
+ const raw=r?.inputs.length?r.inputs.slice(0,2):ofKind(r?.vars,['str']).slice(0,2).map(([,v])=>show(v)),out=outLines(r).slice(0,4);
+ return {say:r?`${raw.length?`Went in: ${raw.map(x=>JSON.stringify(x)).join(' and ')}. `:''}Came out: ${out.map(x=>JSON.stringify(x)).join(', ')||'nothing'}.`:'Raw text goes in on the left; tidied text comes out on the right.',svg:<>
+  <Ground tone="sand"/>
+  {raw.map((t,i)=><g key={i} className={'slide '+d(i)}><rect className="f-white s-ink-s" x="12" y={24+i*40} width="120" height="26" rx="5"/><text className="mono f-clay scene-pre" x="18" y={41+i*40} fontSize="10">{fit(JSON.stringify(t),17)}</text></g>)}
+  <path className="f-slate s-ink" d="M140 30h40v100h-40z"/>{['strip','lower','split','join'].map((m,i)=><text key={m} className="mono f-white" x="160" y={50+i*22} fontSize="8" textAnchor="middle">{m}()</text>)}
+  <path className="s-ink" d="M132 80h8M180 80h8"/>
+  {out.map((t,i)=><g key={i} className={'pop '+d(2+i)}><rect className="f-cream s-ink-s" x="190" y={18+i*34} width="120" height="26" rx="5"/><text className="mono f-ink scene-pre" x="196" y={35+i*34} fontSize="10">{fit(t,17)}</text></g>)}
+  {!r&&<Note text={IDLE}/>}
+ </>};
+}};
+
+const PAT=/re\.(?:search|fullmatch|match|findall|sub)\(\s*r?["']([^"']+)["']/;
+const regexBasics:SceneDef={title:'The highlighter',draw:r=>{
+ const pattern=PAT.exec(r?.code??'')?.[1],texts=ofKind(r?.vars,['str']).map(([,v])=>show(v)),lines=(r?.inputs.length?r.inputs.slice(r.inputs[0]&&isNum(r.inputs[0])?1:0):texts.length?texts:outLines(r)).slice(0,6);
+ let re:RegExp|null=null;try{re=pattern?new RegExp(pattern.replace(/\\d/g,'[0-9]'),'g'):null;}catch{re=null;}
+ const marks=(t:string)=>{if(!re)return [{t,hit:false}];const parts:{t:string;hit:boolean}[]=[];let last=0;for(const m of t.matchAll(re)){if(!m[0])break;parts.push({t:t.slice(last,m.index),hit:false},{t:m[0],hit:true});last=(m.index??0)+m[0].length;}parts.push({t:t.slice(last),hit:false});return parts;};
+ return {say:r?`${pattern?`The pattern ${pattern} is highlighted wherever it matches. `:''}${lines.map(l=>JSON.stringify(l)).join(', ')||'No text.'}`:'Lines of text, with every match of the pattern highlighted.',svg:<>
+  <Ground/>
+  {pattern&&<Tag x={160} y={20} text={fit(pattern,34)} tone="moss" className="drop"/>}
+  {lines.map((l,i)=><text key={i} className={'mono f-ink type '+d(i+1)} x="18" y={52+i*20} fontSize="11" xmlSpace="preserve">{marks(fit(l,38)).map((p,j)=>p.hit?<tspan key={j} className="f-clay scene-hit" fontWeight="700">{p.t}</tspan>:<tspan key={j}>{p.t}</tspan>)}</text>)}
+  {!r&&<Note text={IDLE}/>}
+ </>};
+}};
+
+const regexGroups:SceneDef={title:'Sorting into bins',draw:r=>{
+ const out=outLines(r),pairs=out.map(l=>/^(\w+) at (\d\d:\d\d)$/.exec(l)??/^(\w+)\s+(-?\d+)$/.exec(l)).filter(Boolean).slice(0,6),rest=out.filter(l=>!pairs.some(p=>p![0]===l)).slice(0,4);
+ return {say:r?`${pairs.length?`Caught: ${pairs.map(p=>`${p![1]} with ${p![2]}`).join(', ')}. `:''}${rest.length?`Also printed: ${rest.join(' / ')}.`:''}`:'Two bins, one for each group the pattern catches.',svg:<>
+  <Ground tone="slate"/>
+  <path className="f-cream s-ink" d="M14 30h130v86H14z"/><path className="f-amber-l s-ink" d="M176 30h130v86H176z"/>
+  <text className="mono f-ink" x="79" y="24" fontSize="9" textAnchor="middle">group: name</text><text className="mono f-ink" x="241" y="24" fontSize="9" textAnchor="middle">group: number or time</text>
+  {pairs.map((p,i)=><g key={i} className={'drop '+d(i)}><text className="mono f-ink" x="24" y={48+i*13} fontSize="10">{fit(p![1],16)}</text><text className="mono f-ink" x="186" y={48+i*13} fontSize="10">{fit(p![2],16)}</text></g>)}
+  {rest.map((l,i)=><text key={i} className={'mono f-ink type '+d(pairs.length+i)} x="16" y={132+i*12} fontSize="9">{fit(l,46)}</text>)}
+  {!r&&<Note text={IDLE}/>}
+ </>};
+}};
+
+const validateFormats:SceneDef={title:'The form checker',draw:r=>{
+ const out=outLines(r),rows=out.map(l=>/^(.*)\s(True|False)$/.exec(l)).filter(Boolean).slice(0,6) as RegExpExecArray[],fns=functionsIn(r?.code).map(f=>f.name);
+ return {say:r?rows.length?rows.map(m=>`${m[1]}: ${m[2]==='True'?'accepted':'refused'}`).join('; ')+'.':r.returned!==undefined?`The checked call returned ${r.returned}.`:`Functions: ${fns.join(', ')||'none yet'}.`:'A form whose fields are stamped accepted or refused.',svg:<>
+  <Ground tone="sand"/>
+  <rect className="f-white s-ink" x="30" y="10" width="260" height="150" rx="8"/>
+  {rows.map((m,i)=><g key={i} className={'slide '+d(i)}><rect className="f-cream s-ink-s" x="44" y={22+i*22} width="150" height="18" rx="3"/><text className="mono f-ink" x="50" y={35+i*22} fontSize="10">{fit(m[1],22)}</text>
+   <g className={'pop '+d(i+2)}><rect className={(m[2]==='True'?'f-moss':'f-clay')+' s-ink-s'} x="204" y={22+i*22} width="72" height="18" rx="9"/><text className="mono f-white" x="240" y={35+i*22} fontSize="9" textAnchor="middle">{m[2]==='True'?'accepted':'refused'}</text></g></g>)}
+  {!rows.length&&r&&<>{fns.map((f,i)=><text key={f} className="mono f-plum" x="46" y={36+i*20} fontSize="11">def {f}()</text>)}{r.returned!==undefined&&<Tag x={160} y={130} text={`returned ${fit(r.returned,10)}`} tone={r.returned==='True'?'moss':'clay'} className="pop"/>}</>}
+  {!r&&<Note text={IDLE}/>}
+ </>};
+}};
+
+// ---------- Unit 11 ----------
+function objectsOf(r:SceneRun|null){
+ const out:{name:string;cls:string;fields:[string,string][]}[]=[];
+ for(const [k,v] of ofKind(r?.vars,['object','list'])){
+  if(v.t==='object')out.push({name:k,cls:v.cls,fields:Object.entries(v.fields).map(([f,x])=>[f,show(x,true)])});
+  else if(v.t==='list')v.items.forEach((x,i)=>{if(x.t==='object')out.push({name:`${k}[${i}]`,cls:x.cls,fields:Object.entries(x.fields).map(([f,y])=>[f,show(y,true)])});});
+ }
+ return out;
+}
+function ObjectCard({x,y,o,className}:{x:number;y:number;o:{name:string;cls:string;fields:[string,string][]};className?:string}){
+ return <g className={className}><rect className="f-white s-ink" x={x} y={y} width="96" height={26+Math.min(4,o.fields.length)*14} rx="6"/><rect className="f-plum" x={x} y={y} width="96" height="18" rx="6"/>
+  <text className="mono f-white" x={x+6} y={y+13} fontSize="9">{fit(`${o.name}: ${o.cls}`,15)}</text>
+  {o.fields.slice(0,4).map(([f,v],i)=><text key={f} className="mono f-ink" x={x+6} y={y+32+i*14} fontSize="8">{fit(f,7)} <tspan className="f-clay">{fit(v,8)}</tspan></text>)}</g>;
+}
+const classesScene:SceneDef={title:'The hero cards',draw:r=>{
+ const objs=objectsOf(r).slice(0,6),classes=ofKind(r?.vars,['class']).map(([k])=>k),out=outLines(r).slice(0,4);
+ return {say:objs.length?`${plural(objs.length,'object')} made: ${objs.map(o=>`${o.name} (${o.fields.map(([f,v])=>`${f} ${v}`).join(', ')})`).join('; ')}.`:r?`${classes.length?`Class ${classes.join(', ')} defined. `:''}Printed: ${out.join(' / ')||'nothing'}.`:'A card for each object your program makes, with its attributes.',svg:<>
+  <Ground/>
+  {objs.map((o,i)=><ObjectCard key={o.name} x={10+(i%3)*102} y={10+Math.floor(i/3)*84} o={o} className={'pop '+d(i*2)}/>)}
+  {!objs.length&&r&&out.map((l,i)=><text key={i} className={'mono f-ink type '+d(i)} x="18" y={34+i*20} fontSize="10">{fit(l,44)}</text>)}
+  {!r&&<Note text={IDLE}/>}
+ </>};
+}};
+
+const methodsScene:SceneDef={title:'Health and potions',draw:r=>{
+ const out=outLines(r),states=out.map(l=>/(\d+)\/(\d+)(?:.*?(\d+))?/.exec(l)).filter(Boolean).slice(0,8) as RegExpExecArray[],objs=objectsOf(r).slice(0,3);
+ return {say:states.length?`Health after each command: ${states.map(m=>m[1]).join(', ')}.`:objs.length?`${objs.map(o=>`${o.name}: ${o.fields.map(([f,v])=>`${f} ${v}`).join(', ')}`).join('; ')}.`:r?`Printed: ${out.slice(0,3).join(' / ')||'nothing'}.`:'A health bar that changes with every method call.',svg:<>
+  <Ground tone="slate"/>
+  {states.map((m,i)=>{const h=Number(m[1]),max=Number(m[2])||10,p=m[3];return <g key={i} className={'grow '+d(i)}>
+   <rect className="f-white s-ink-s" x={18+i*36} y="40" width="24" height="100" rx="4"/><rect className={h>3?'f-moss':'f-clay'} x={20+i*36} y={138-h/max*96} width="20" height={h/max*96} rx="3"/>
+   <text className="mono f-ink" x={30+i*36} y="156" fontSize="9" textAnchor="middle">{h}</text>{p!==undefined&&<text className="mono f-plum" x={30+i*36} y="32" fontSize="9" textAnchor="middle">{'●'.repeat(Number(p))||'○'}</text>}
+  </g>;})}
+  {!states.length&&objs.map((o,i)=><ObjectCard key={o.name} x={14+i*102} y={20} o={o} className={'pop '+d(i)}/>)}
+  {!r&&<Note text={IDLE}/>}
+ </>};
+}};
+
+const compositionScene:SceneDef={title:'The hero and the pack',draw:r=>{
+ const out=outLines(r),tried=out.map(l=>/^(.*) (added|too heavy|True|False)$/.exec(l)).filter(Boolean).slice(0,6) as RegExpExecArray[],carries=out.find(l=>/ carries /.test(l)),objs=objectsOf(r);
+ const ok=(m:RegExpExecArray)=>m[2]==='added'||m[2]==='True',packItems=tried.filter(ok).map(m=>m[1]),fromVars=objs.find(o=>o.fields.some(([f])=>f==='pack'));
+ return {say:tried.length?`${tried.map(m=>`${m[1]} ${ok(m)?'fits':'does not fit'}`).join(', ')}.${carries?` ${carries}.`:''}`:fromVars?`${fromVars.name} has a pack.`:r?`Printed: ${out.slice(0,3).join(' / ')||'nothing'}.`:'A hero, a pack inside the hero, and items inside the pack.',svg:<>
+  <Ground tone="sand"/>
+  <Hero x={50} y={150}/>{carries&&<Tag x={50} y={70} text={fit(carries.split(' carries')[0],10)} tone="clay"/>}
+  <path className="f-clay s-ink" d="M100 70q0-20 24-20h80q24 0 24 20v84H100z"/><text className="mono f-white" x="164" y="66" fontSize="9" textAnchor="middle">pack{carries?` · ${carries.split(' carries ')[1]}`:''}</text>
+  {packItems.map((n,i)=><g key={i} className={'drop '+d(i)}><Item x={124+(i%3)*36} y={104+Math.floor(i/3)*34} name={n} size={.9}/><text className="mono f-white" x={124+(i%3)*36} y={116+Math.floor(i/3)*34} fontSize="7" textAnchor="middle">{fit(n,6)}</text></g>)}
+  {tried.filter(m=>!ok(m)).map((m,i)=><g key={i} className={'slide '+d(tried.length+i)}><Item x={268} y={60+i*36} name={m[1]}/><text className="mono f-clay" x="268" y={72+i*36} fontSize="8" textAnchor="middle">{fit(m[1],8)}: too heavy</text></g>)}
+  {!r&&<Note text={IDLE}/>}
+ </>};
+}};
+Object.assign(UNIT_7_TO_11,{'py.string-methods':stringMethods,'py.regex-basics':regexBasics,'py.regex-groups':regexGroups,'py.validate-formats':validateFormats,'py.classes':classesScene,'py.methods':methodsScene,'py.composition':compositionScene});
