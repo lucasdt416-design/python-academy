@@ -1,0 +1,166 @@
+{
+  "id": "py.assert-tests",
+  "version": 1,
+  "course": "py",
+  "unit": "py.u08",
+  "title": "Test the scorer",
+  "concept": "Testing · assert",
+  "description": "Write tests that prove the streak bonus works, and that catch it when it doesn't.",
+  "badge": {
+    "id": "py.badge.tester",
+    "version": 1,
+    "title": "Tester",
+    "category": "practice"
+  },
+  "tasks": [
+    {
+      "id": "py.assert-tests.discover",
+      "type": "discover",
+      "title": "Write down what should be true",
+      "body": "assert total == 15 does nothing when it is true. When it is false, it stops the program with an AssertionError. A list of asserts is a test: it checks that code gives the answers you expect.",
+      "detail": "Test a function by calling it with values you have worked out by hand: assert add_points(2, 3) == 5. A test that can never fail, such as assert True, checks nothing. A message after a comma explains a failure: assert lives > 0, \"out of lives\"."
+    },
+    {
+      "id": "py.assert-tests.example",
+      "type": "example",
+      "code": "# Tests for a tiny scorer\ndef points(guess, secret):\n    if guess == secret:\n        return 10\n    return 0\n\nassert points(4, 4) == 10\nassert points(3, 4) == 0\nprint(\"all tests passed\")",
+      "output": "all tests passed",
+      "note": "Both asserts are true, so the program reaches the print. If points() had a bug, an assert would stop the program, and the print would never run.",
+      "inputs": []
+    },
+    {
+      "id": "py.assert-tests.predict",
+      "type": "predict",
+      "question": "What would happen if the first assert said assert points(4, 4) == 5?",
+      "options": [
+        "It prints all tests passed",
+        "It stops with an AssertionError",
+        "It prints False"
+      ],
+      "answer": 1,
+      "why": "points(4, 4) is 10, so the assert is false and stops the program. The test itself was wrong here, not points(): a failing test can mean either."
+    },
+    {
+      "id": "py.assert-tests.guided",
+      "type": "guided",
+      "prompt": "Predict, then run: change the 10 to 5 in the first assert and read the error. Then break points() itself, by making it return 1, and see which assert notices."
+    },
+    {
+      "id": "py.assert-tests.challenge",
+      "type": "challenge",
+      "prompt": "The check has a function bonus(points, streak) that doubles the points when the streak is 3 or more, and otherwise returns the points unchanged. Write asserts that test bonus(). The check runs your tests on a correct bonus(), where they must all pass, and on broken versions, where at least one must fail. Do not write bonus() yourself: the check provides it.",
+      "starter": "# Write asserts that test bonus(points, streak)\n",
+      "hints": [
+        "Each test calls bonus() with values you choose, and compares the answer with one you worked out by hand: assert, the call, ==, and the answer.",
+        "Test both sides of the rule: a streak below 3, a streak of exactly 3, and one above it. Use more than one number of points too.",
+        "With other names: for a function half(n), assert half(10) == 5 checks a typical value, and assert half(0) == 0 checks an edge."
+      ],
+      "error_hints": [
+        {
+          "tags": [
+            "py.assert-tests.case.correct"
+          ],
+          "text": "A test failed on the correct bonus(). Work the answer out again by hand: is the value after == right?"
+        },
+        {
+          "tags": [
+            "TypeError"
+          ],
+          "text": "bonus() takes two values: the points, then the streak."
+        },
+        {
+          "tags": [
+            "NameError"
+          ],
+          "text": "The check provides bonus(): spell it exactly that way, and do not define or import it."
+        },
+        {
+          "tags": [
+            "py.assert-tests.case.never"
+          ],
+          "text": "Your tests passed on a bonus() that never doubles. Add a test with a streak of 3 or more."
+        },
+        {
+          "tags": [
+            "py.assert-tests.case.needs-four"
+          ],
+          "text": "Your tests passed on a bonus() that only doubles from a streak of 4. Test a streak of exactly 3."
+        },
+        {
+          "tags": [
+            "py.assert-tests.case.always"
+          ],
+          "text": "Your tests passed on a bonus() that always doubles. Test a short streak too, where the points stay the same."
+        },
+        {
+          "tags": [
+            "py.assert-tests.case.adds"
+          ],
+          "text": "Your tests passed on a broken bonus(). Try your tests with more than one number of points."
+        }
+      ],
+      "similar_example": {
+        "code": "def half(n):\n    return n // 2\n\nassert half(10) == 5\nassert half(0) == 0\nassert half(7) == 3\nprint(\"half() passed\")",
+        "note": "Tests for another function: a typical value, an edge and an odd number. Your tests are for bonus(), which the check provides."
+      },
+      "other_ways": [
+        {
+          "code": "cases = [(5, 0, 5), (5, 2, 5), (5, 3, 10), (7, 4, 14), (0, 9, 0)]\nfor points, streak, expected in cases:\n    assert bonus(points, streak) == expected, (points, streak)",
+          "note": "A table of cases checked in a loop. The message after the comma says which case failed."
+        },
+        {
+          "code": "def test_bonus():\n    assert bonus(4, 1) == 4\n    assert bonus(4, 3) == 8\n    assert bonus(9, 10) == 18\n\ntest_bonus()",
+          "note": "Tests often live in functions whose names start with test_. Tools such as pytest find and run them for you; here you call it yourself."
+        }
+      ],
+      "input_labels": [],
+      "check": {
+        "cases": [
+          {
+            "id": "correct",
+            "description": "the correct bonus()",
+            "inputs": [],
+            "reference": "def bonus(points, streak):\n    if streak >= 3:\n        return points * 2\n    return points\n",
+            "test_should": "pass"
+          },
+          {
+            "id": "never",
+            "description": "a bonus() that never doubles",
+            "inputs": [],
+            "reference": "def bonus(points, streak):\n    return points\n",
+            "test_should": "fail"
+          },
+          {
+            "id": "needs-four",
+            "description": "a bonus() that needs a streak of 4",
+            "inputs": [],
+            "reference": "def bonus(points, streak):\n    if streak > 3:\n        return points * 2\n    return points\n",
+            "test_should": "fail"
+          },
+          {
+            "id": "always",
+            "description": "a bonus() that always doubles",
+            "inputs": [],
+            "visibility": "hidden",
+            "reference": "def bonus(points, streak):\n    return points * 2\n",
+            "test_should": "fail"
+          },
+          {
+            "id": "adds",
+            "description": "a bonus() with another bug",
+            "inputs": [],
+            "visibility": "hidden",
+            "reference": "def bonus(points, streak):\n    if streak >= 3:\n        return points + 10\n    return points\n",
+            "test_should": "fail"
+          }
+        ],
+        "time_limit_ms": 3000
+      },
+      "validator": {
+        "id": "browser-tests",
+        "version": 1
+      },
+      "version": 1
+    }
+  ]
+}
