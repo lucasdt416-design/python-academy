@@ -1,0 +1,195 @@
+{
+  "id": "py.raise",
+  "version": 1,
+  "course": "py",
+  "unit": "py.u06",
+  "title": "Rules of the game",
+  "concept": "Exceptions · raise your own",
+  "description": "Make a function refuse a value that breaks the rules, with a message that says why.",
+  "badge": {
+    "id": "py.badge.rule-maker",
+    "version": 1,
+    "title": "Rule maker",
+    "category": "practice"
+  },
+  "tasks": [
+    {
+      "id": "py.raise.discover",
+      "type": "discover",
+      "title": "Refuse a value that breaks the rules",
+      "body": "raise ValueError(\"guess must be from 1 to 100\") stops a function with that error and message, just as int(\"x\") stops with one of its own. The code that called it can catch it with try and except, and read the message.",
+      "detail": "Raise an error that fits: ValueError for a value of the right kind but a bad amount, TypeError for the wrong kind of value. except ValueError as error: gives the caught error a name, and printing it shows its message. Raising early, at the top of a function, keeps the rest of it simple."
+    },
+    {
+      "id": "py.raise.example",
+      "type": "example",
+      "code": "# A guess must be from 1 to 100\ndef check_guess(guess):\n    if guess < 1 or guess > 100:\n        raise ValueError(\"guess must be from 1 to 100\")\n    return guess\n\nfor g in [50, 200]:\n    try:\n        print(check_guess(g))\n    except ValueError as error:\n        print(\"Refused:\", error)",
+      "output": "50\nRefused: guess must be from 1 to 100",
+      "note": "50 passes the check and comes back. 200 makes check_guess() raise, so the print never happens, and the except prints the message instead.",
+      "inputs": []
+    },
+    {
+      "id": "py.raise.predict",
+      "type": "predict",
+      "question": "What would check_guess(0) do if nothing caught the error?",
+      "options": [
+        "Return 0",
+        "Stop the program with a ValueError",
+        "Print Refused"
+      ],
+      "answer": 1,
+      "why": "Nothing catches it, so the error stops the program, just like any other ValueError."
+    },
+    {
+      "id": "py.raise.guided",
+      "type": "guided",
+      "prompt": "Predict, then run: add 0 and 100 to the list. Then make check_guess() also refuse odd numbers, with a message of your own."
+    },
+    {
+      "id": "py.raise.challenge",
+      "type": "challenge",
+      "prompt": "Write a function set_lives(lives) that returns lives if it is from 1 to 9, and otherwise raises a ValueError with the message lives must be from 1 to 9. Then ask the player for a number of lives, as a whole number, and pass it to set_lives() inside a try: print the lives it returns, or, if a ValueError is raised, print Refused: followed by a space and the message.",
+      "starter": "# Define set_lives(lives), then use it with the reply\n",
+      "hints": [
+        "In set_lives(), check the rule first, and raise the error when it is broken. If the function gets past that check, the lives are fine to return.",
+        "Call set_lives() inside try:. except ValueError as error: catches the error you raised, and error holds its message.",
+        "With other names: def set_speed(speed): can raise ValueError(\"speed must be positive\") when speed < 0 is True, and print(\"Slow down:\", error) shows the message."
+      ],
+      "error_hints": [
+        {
+          "tags": [
+            "ValueError"
+          ],
+          "text": "An error stopped the program without being caught. Call set_lives() inside try:, with an except ValueError as error: block."
+        },
+        {
+          "tags": [
+            "NameError"
+          ],
+          "text": "Check the function is called set_lives everywhere, and that error is the name given in the except line."
+        },
+        {
+          "tags": [
+            "py.raise.case.keep"
+          ],
+          "text": "With 5 lives, the program prints just 5."
+        },
+        {
+          "tags": [
+            "py.raise.case.too-many"
+          ],
+          "text": "With 12 lives, it prints Refused: lives must be from 1 to 9, the message coming from the error you raised."
+        },
+        {
+          "tags": [
+            "py.raise.case.function"
+          ],
+          "text": "set_lives(3) should return 3. If it returned None, it printed instead of returning."
+        },
+        {
+          "tags": [
+            "py.raise.case.zero"
+          ],
+          "text": "Check 0 lives: fewer than 1 breaks the rule too."
+        },
+        {
+          "tags": [
+            "py.raise.case.edges"
+          ],
+          "text": "Check the edges of the rule: 1 and 9 are both allowed."
+        },
+        {
+          "tags": [
+            "py.raise.case.negative"
+          ],
+          "text": "Check a negative number of lives."
+        }
+      ],
+      "similar_example": {
+        "code": "def set_speed(speed):\n    if speed < 0:\n        raise ValueError(\"speed must be positive\")\n    return speed\n\ntry:\n    set_speed(-3)\nexcept ValueError as error:\n    print(\"Slow down:\", error)",
+        "note": "Another rule, refused with a message and caught by the caller. Your lives rule has two edges, not one."
+      },
+      "other_ways": [
+        {
+          "code": "def set_lives(lives):\n    if not 1 <= lives <= 9:\n        raise ValueError(\"lives must be from 1 to 9\")\n    return lives\n\ntry:\n    print(set_lives(int(input(\"Lives? \"))))\nexcept ValueError as error:\n    print(f\"Refused: {error}\")",
+          "note": "A chained comparison checks both edges at once. Here int() is inside the try too, so a word would be refused with int()'s own message."
+        },
+        {
+          "code": "def set_lives(lives):\n    if lives in range(1, 10):\n        return lives\n    raise ValueError(\"lives must be from 1 to 9\")\n\nlives = int(input(\"Lives? \"))\ntry:\n    lives = set_lives(lives)\nexcept ValueError as error:\n    print(\"Refused: \" + str(error))\nelse:\n    print(lives)",
+          "note": "range(1, 10) holds exactly the numbers 1 to 9. else: prints only when nothing was raised."
+        }
+      ],
+      "input_labels": [],
+      "check": {
+        "cases": [
+          {
+            "id": "keep",
+            "description": "5 lives",
+            "inputs": [
+              "5"
+            ],
+            "expected": "5"
+          },
+          {
+            "id": "too-many",
+            "description": "12 lives",
+            "inputs": [
+              "12"
+            ],
+            "expected": "Refused: lives must be from 1 to 9"
+          },
+          {
+            "id": "function",
+            "description": "set_lives(3) on its own",
+            "inputs": [
+              "5"
+            ],
+            "call": {
+              "function": "set_lives",
+              "args": [
+                3
+              ],
+              "kwargs": {}
+            },
+            "returns": {
+              "value": 3
+            }
+          },
+          {
+            "id": "zero",
+            "description": "no lives at all",
+            "inputs": [
+              "0"
+            ],
+            "expected": "Refused: lives must be from 1 to 9",
+            "visibility": "hidden"
+          },
+          {
+            "id": "edges",
+            "description": "the most lives allowed",
+            "inputs": [
+              "9"
+            ],
+            "expected": "9",
+            "visibility": "hidden"
+          },
+          {
+            "id": "negative",
+            "description": "a negative number of lives",
+            "inputs": [
+              "-4"
+            ],
+            "expected": "Refused: lives must be from 1 to 9",
+            "visibility": "hidden"
+          }
+        ],
+        "time_limit_ms": 3000
+      },
+      "validator": {
+        "id": "browser-tests",
+        "version": 1
+      },
+      "version": 1
+    }
+  ]
+}

@@ -1,0 +1,182 @@
+{
+  "id": "py.try-except",
+  "version": 1,
+  "course": "py",
+  "unit": "py.u06",
+  "title": "A safe share",
+  "concept": "Exceptions · try and except",
+  "description": "Share the coins without crashing, whatever the player types.",
+  "badge": {
+    "id": "py.badge.safety-net",
+    "version": 1,
+    "title": "Safety net",
+    "category": "practice"
+  },
+  "tasks": [
+    {
+      "id": "py.try-except.discover",
+      "type": "discover",
+      "title": "Catch an error before it stops the program",
+      "body": "Code inside try: runs as usual. If one of its lines raises an error that an except names, Python jumps to that except block instead of stopping. int(\"seven\") raises a ValueError, so except ValueError: catches it.",
+      "detail": "Name the error you expect. A bare except: catches every error, even a typing mistake of your own, and hides it. else: runs when nothing went wrong, and finally: runs either way. Keep the try block short, so you know which lines it protects."
+    },
+    {
+      "id": "py.try-except.example",
+      "type": "example",
+      "code": "# Share the gold, safely\nreplies = [\"12\", \"zero\", \"0\"]\nfor reply in replies:\n    try:\n        friends = int(reply)\n        print(60 // friends)\n    except ValueError:\n        print(\"not a number\")\n    except ZeroDivisionError:\n        print(\"nobody to share with\")",
+      "output": "5\nnot a number\nnobody to share with",
+      "note": "Each reply gets its own try. \"zero\" fails inside int() and jumps to the ValueError block. 0 gets through int() but fails at the division, so the other block catches it.",
+      "inputs": []
+    },
+    {
+      "id": "py.try-except.predict",
+      "type": "predict",
+      "question": "What would happen with the reply \"4.5\"?",
+      "options": [
+        "It prints 13",
+        "It prints not a number",
+        "It stops with an error"
+      ],
+      "answer": 1,
+      "why": "int() only reads whole numbers, so \"4.5\" raises a ValueError, which the first except catches."
+    },
+    {
+      "id": "py.try-except.guided",
+      "type": "guided",
+      "prompt": "Predict, then run: add \"4.5\" and \"-3\" to the replies. Then take out the ZeroDivisionError block and see what happens to the 0."
+    },
+    {
+      "id": "py.try-except.challenge",
+      "type": "challenge",
+      "prompt": "Ask how many coins there are, then how many friends share them. Print each friend's share, using //, and then the coins left over, using %. If either reply is not a whole number, print just not a number instead. If there are 0 friends, print just nobody to share with instead.",
+      "starter": "# Read both replies, and share the coins safely\n",
+      "hints": [
+        "Put the lines that can fail, the two int() calls and the sharing, inside one try: block.",
+        "Add one except block for each kind of error you expect: a reply that is not a whole number, and a share among 0 friends. Each one prints its own message.",
+        "With other names: try: with n = int(reply) inside it, then except ValueError: with print(\"try again\") inside that."
+      ],
+      "error_hints": [
+        {
+          "tags": [
+            "ValueError"
+          ],
+          "text": "int() could not read a reply. Put the int() lines inside try:, and add an except ValueError: block."
+        },
+        {
+          "tags": [
+            "ZeroDivisionError"
+          ],
+          "text": "Sharing among 0 friends raises a ZeroDivisionError. Catch it with an except block of its own."
+        },
+        {
+          "tags": [
+            "IndentationError"
+          ],
+          "text": "The lines inside try: and inside each except: start with four spaces."
+        },
+        {
+          "tags": [
+            "py.try-except.case.share"
+          ],
+          "text": "With 60 coins and 7 friends, each gets 8 and 4 are left over."
+        },
+        {
+          "tags": [
+            "py.try-except.case.word"
+          ],
+          "text": "When the coins are typed as a word, the program prints only not a number."
+        },
+        {
+          "tags": [
+            "py.try-except.case.nobody"
+          ],
+          "text": "With 0 friends the program prints only nobody to share with, and no share."
+        },
+        {
+          "tags": [
+            "py.try-except.case.bad-friends"
+          ],
+          "text": "Check a number of friends that is not a whole number."
+        },
+        {
+          "tags": [
+            "py.try-except.case.decimal"
+          ],
+          "text": "Check a number of coins with a decimal point: int() refuses it."
+        }
+      ],
+      "similar_example": {
+        "code": "for reply in [\"3\", \"three\"]:\n    try:\n        print(int(reply) * 2)\n    except ValueError:\n        print(\"try again\")",
+        "note": "One kind of error caught for two replies. Your share needs two except blocks, because two different things can go wrong."
+      },
+      "other_ways": [
+        {
+          "code": "try:\n    coins = int(input(\"Coins? \"))\n    friends = int(input(\"Friends? \"))\n    share = coins // friends\nexcept ValueError:\n    print(\"not a number\")\nexcept ZeroDivisionError:\n    print(\"nobody to share with\")\nelse:\n    print(share)\n    print(coins % friends)",
+          "note": "else: runs only when the try block raised nothing, so the printing is kept apart from the lines that can fail."
+        },
+        {
+          "code": "try:\n    coins = int(input(\"Coins? \"))\n    friends = int(input(\"Friends? \"))\nexcept ValueError:\n    print(\"not a number\")\nelse:\n    if friends == 0:\n        print(\"nobody to share with\")\n    else:\n        print(coins // friends)\n        print(coins % friends)",
+          "note": "An if can check for 0 before dividing. try suits errors you cannot easily check first, like text that may not be a number."
+        }
+      ],
+      "input_labels": [],
+      "check": {
+        "cases": [
+          {
+            "id": "share",
+            "description": "60 coins and 7 friends",
+            "inputs": [
+              "60",
+              "7"
+            ],
+            "expected": "8\n4"
+          },
+          {
+            "id": "word",
+            "description": "coins typed as a word",
+            "inputs": [
+              "sixty",
+              "7"
+            ],
+            "expected": "not a number"
+          },
+          {
+            "id": "nobody",
+            "description": "no friends to share with",
+            "inputs": [
+              "10",
+              "0"
+            ],
+            "expected": "nobody to share with"
+          },
+          {
+            "id": "bad-friends",
+            "description": "friends typed as a word",
+            "inputs": [
+              "10",
+              "two"
+            ],
+            "expected": "not a number",
+            "visibility": "hidden"
+          },
+          {
+            "id": "decimal",
+            "description": "coins with a decimal point",
+            "inputs": [
+              "7.5",
+              "2"
+            ],
+            "expected": "not a number",
+            "visibility": "hidden"
+          }
+        ],
+        "time_limit_ms": 3000
+      },
+      "validator": {
+        "id": "browser-tests",
+        "version": 1
+      },
+      "version": 1
+    }
+  ]
+}
