@@ -72,8 +72,6 @@ Migration **0011** adds `profiles (user_id PK → users, nickname, avatar, updat
 ![Watch it run, inside a function](images/56-stepper.png)
 ![The profile page (from the recorded answers)](images/56-profile.png)
 
-The stepper screenshot was taken before the fix for its double line spacing, and the profile one before the stat boxes became a plain line.
-
 ## 3. Decisions and why (assumptions marked)
 
 | Decision | Why |
