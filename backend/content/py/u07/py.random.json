@@ -1,0 +1,181 @@
+{
+  "id": "py.random",
+  "version": 1,
+  "course": "py",
+  "unit": "py.u07",
+  "title": "The riddle keeper's dice",
+  "concept": "random · seed, randint, choice and shuffle",
+  "description": "Roll the riddle keeper's dice, and learn why a seed makes chance repeatable.",
+  "badge": {
+    "id": "py.badge.dice-roller",
+    "version": 1,
+    "title": "Dice roller",
+    "category": "practice"
+  },
+  "tasks": [
+    {
+      "id": "py.random.discover",
+      "type": "discover",
+      "title": "Numbers you cannot guess",
+      "body": "import random gives a program chance. random.randint(1, 6) picks a whole number from 1 to 6, both included. random.choice(paths) picks one item from a list, and random.shuffle(cards) mixes a list in place.",
+      "detail": "The numbers only look random: they are worked out from a starting number called a seed. random.seed(7) at the start makes every run give the same numbers, which is how games are tested and how this page checks your program. Without a seed, each run differs."
+    },
+    {
+      "id": "py.random.example",
+      "type": "example",
+      "code": "# The same seed gives the same \"random\" story every time\nimport random\nrandom.seed(7)\nprint(random.randint(1, 6))\nprint(random.choice([\"left\", \"right\", \"up\"]))\ncards = [\"sun\", \"moon\", \"star\"]\nrandom.shuffle(cards)\nprint(cards)",
+      "output": "3\nleft\n['star', 'sun', 'moon']",
+      "note": "With the seed set to 7, these three lines come out the same on every run, on any computer with the same Python.",
+      "inputs": []
+    },
+    {
+      "id": "py.random.predict",
+      "type": "predict",
+      "question": "If the program ran again with the same seed, what would it print?",
+      "options": [
+        "The same three lines",
+        "Three different lines",
+        "An error"
+      ],
+      "answer": 0,
+      "why": "A seed fixes where the numbers start, so the same seed gives the same numbers in the same order."
+    },
+    {
+      "id": "py.random.guided",
+      "type": "guided",
+      "prompt": "Predict, then run it twice: the same lines both times. Then take out random.seed(7) and run it a few times."
+    },
+    {
+      "id": "py.random.challenge",
+      "type": "challenge",
+      "prompt": "The riddle keeper rolls dice. Ask for the number of dice and the number of sides each one has. Roll every die with random.randint(), from 1 to the number of sides, and print each roll on its own line, then the total of all the rolls on the last line. Do not call random.seed() yourself: the check sets the seed, so its numbers match yours.",
+      "starter": "# Import random, then roll each die\n",
+      "hints": [
+        "Import random at the top. A for loop over range() rolls once per die.",
+        "Each roll is random.randint(1, sides): store it, print it, and add it to a total that starts at 0 before the loop.",
+        "With other names: coin = random.randint(0, 1) flips a coin, and heads = heads + coin counts the heads."
+      ],
+      "error_hints": [
+        {
+          "tags": [
+            "NameError"
+          ],
+          "text": "random is a name only after import random, at the top of the program."
+        },
+        {
+          "tags": [
+            "TypeError"
+          ],
+          "text": "randint() and range() need whole numbers: turn each reply into one with int(...)."
+        },
+        {
+          "tags": [
+            "py.random.case.two"
+          ],
+          "text": "If your rolls differ from the ones shown, check that you did not call random.seed() yourself, and that each die is rolled once, with randint(1, sides), in order."
+        },
+        {
+          "tags": [
+            "py.random.case.twenty"
+          ],
+          "text": "A die with 20 sides rolls from 1 to 20: the second number in randint() is the number of sides."
+        },
+        {
+          "tags": [
+            "py.random.case.coins"
+          ],
+          "text": "With three two-sided dice, each roll is 1 or 2, and the last line adds them up."
+        },
+        {
+          "tags": [
+            "py.random.case.many"
+          ],
+          "text": "Check many dice: one roll per die, and the total of them all at the end."
+        },
+        {
+          "tags": [
+            "py.random.case.one-side"
+          ],
+          "text": "Check a die with only one side: it always rolls 1."
+        }
+      ],
+      "similar_example": {
+        "code": "import random\nrandom.seed(1)\nheads = 0\nfor flip in range(4):\n    coin = random.randint(0, 1)\n    heads = heads + coin\nprint(heads)",
+        "note": "Four coin flips with a fixed seed, counting heads. Your dice print every roll as well as the total."
+      },
+      "other_ways": [
+        {
+          "code": "from random import randint\ndice = int(input(\"Dice? \"))\nsides = int(input(\"Sides? \"))\nrolls = []\nfor n in range(dice):\n    rolls.append(randint(1, sides))\nfor roll in rolls:\n    print(roll)\nprint(sum(rolls))",
+          "note": "Keep the rolls in a list first, then print them and add them up with sum()."
+        },
+        {
+          "code": "import random\ndice = int(input(\"Dice? \"))\nsides = int(input(\"Sides? \"))\ntotal = 0\nwhile dice > 0:\n    roll = random.randrange(1, sides + 1)\n    print(roll)\n    total += roll\n    dice -= 1\nprint(total)",
+          "note": "randrange() stops just before its second number, so randrange(1, sides + 1) picks from the same numbers as randint(1, sides), and gives the same rolls."
+        }
+      ],
+      "input_labels": [],
+      "check": {
+        "cases": [
+          {
+            "id": "two",
+            "description": "two six-sided dice",
+            "inputs": [
+              "2",
+              "6"
+            ],
+            "expected": "2\n5\n7",
+            "seed": 1
+          },
+          {
+            "id": "twenty",
+            "description": "one die with 20 sides",
+            "inputs": [
+              "1",
+              "20"
+            ],
+            "expected": "2\n2",
+            "seed": 2
+          },
+          {
+            "id": "coins",
+            "description": "three dice with two sides",
+            "inputs": [
+              "3",
+              "2"
+            ],
+            "expected": "1\n1\n2\n4",
+            "seed": 3
+          },
+          {
+            "id": "many",
+            "description": "many dice",
+            "inputs": [
+              "5",
+              "8"
+            ],
+            "expected": "4\n5\n2\n7\n8\n26",
+            "visibility": "hidden",
+            "seed": 4
+          },
+          {
+            "id": "one-side",
+            "description": "dice with only one side",
+            "inputs": [
+              "2",
+              "1"
+            ],
+            "expected": "1\n1\n2",
+            "visibility": "hidden",
+            "seed": 5
+          }
+        ],
+        "time_limit_ms": 3000
+      },
+      "validator": {
+        "id": "browser-tests",
+        "version": 1
+      },
+      "version": 1
+    }
+  ]
+}

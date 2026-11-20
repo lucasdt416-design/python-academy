@@ -1,0 +1,195 @@
+{
+  "id": "py.own-modules",
+  "version": 1,
+  "course": "py",
+  "unit": "py.u07",
+  "title": "A helper file",
+  "concept": "Modules · your own files",
+  "description": "Quiz tool v1: keep the grading rules in a file of their own, and use them from the main program.",
+  "badge": {
+    "id": "py.badge.librarian",
+    "version": 1,
+    "title": "Librarian",
+    "category": "practice"
+  },
+  "tasks": [
+    {
+      "id": "py.own-modules.discover",
+      "type": "discover",
+      "title": "Split a program into files",
+      "body": "A file of your own, such as helpers.py, is a module too. import helpers runs it once and lets the program use what it defines, as helpers.greet(\"Nova\"). from helpers import greet brings in one name.",
+      "detail": "Keep the tools in the helper file and the story in main.py. A module's top-level lines run when it is imported, so a helper file should mostly hold definitions. On this page a file can't take the name of one of Python's own modules, such as random.py, and files are not saved between runs."
+    },
+    {
+      "id": "py.own-modules.example",
+      "type": "example",
+      "code": "# main.py uses the tools in shop.py\nimport shop\nfrom shop import price_with_tax\n\nprint(shop.receipt(\"rope\", 20))\nprint(price_with_tax(50))",
+      "output": "rope: 22 coins\n55",
+      "note": "main.py reaches receipt() through the module name, and price_with_tax() by itself, because from brought it in by name. The tools are written once, in shop.py.",
+      "inputs": [],
+      "modules": {
+        "shop.py": "# Tools for the shop: definitions only\ndef price_with_tax(price):\n    return price + price // 10\n\ndef receipt(item, price):\n    return f\"{item}: {price_with_tax(price)} coins\"\n"
+      }
+    },
+    {
+      "id": "py.own-modules.predict",
+      "type": "predict",
+      "question": "If shop.py also had print(\"shop ready\") at its top level, when would that line print?",
+      "options": [
+        "Once, when main.py imports shop",
+        "Every time a shop function is called",
+        "Never"
+      ],
+      "answer": 0,
+      "why": "A module's top-level lines run once, the first time it is imported. Calling its functions later runs only the functions."
+    },
+    {
+      "id": "py.own-modules.guided",
+      "type": "guided",
+      "prompt": "Predict, then run: add print(\"shop ready\") to shop.py, then import shop twice in main.py and count the lines it prints."
+    },
+    {
+      "id": "py.own-modules.challenge",
+      "type": "challenge",
+      "prompt": "Quiz tool v1. In grader.py, write grade(score, total), which returns the letter A for 90 percent or more, B for 70 or more, C for 50 or more, and F otherwise. In main.py, use it: ask how many quizzes there were, then each quiz's score and total, as whole numbers. Print each quiz's letter, and on the last line how many quizzes got an A. The check runs main.py with your grader.py.",
+      "starter": "# Use grade() from grader.py\n",
+      "hints": [
+        "In grader.py, write grade() so it returns a letter. In main.py, from grader import grade at the top brings it in.",
+        "The percentage is score * 100 / total. Compare it with 90, 70 and 50, highest first. main.py loops once per quiz and counts the A grades.",
+        "With other names: in tools.py, def size(n): returns \"big\" or \"small\", and in main.py, label = size(9) uses it."
+      ],
+      "error_hints": [
+        {
+          "tags": [
+            "NameError"
+          ],
+          "text": "grade is a name in main.py only after from grader import grade, or written grader.grade() after import grader."
+        },
+        {
+          "tags": [
+            "TypeError"
+          ],
+          "text": "Turn each score and total into a number with int(...), and make sure grade() returns a letter in every case."
+        },
+        {
+          "tags": [
+            "py.own-modules.case.three"
+          ],
+          "text": "With 9 of 10, 7 of 10 and 2 of 10, the letters are A, B and F, and one quiz got an A."
+        },
+        {
+          "tags": [
+            "py.own-modules.case.perfect"
+          ],
+          "text": "A perfect score, 20 of 20, is an A, and the count is 1."
+        },
+        {
+          "tags": [
+            "py.own-modules.case.none"
+          ],
+          "text": "With no quizzes, the program prints only the count: 0."
+        },
+        {
+          "tags": [
+            "py.own-modules.case.boundaries"
+          ],
+          "text": "Check scores exactly on the boundaries: 90, 70 and 50 percent each reach the higher letter."
+        },
+        {
+          "tags": [
+            "py.own-modules.case.just-below"
+          ],
+          "text": "Check a score just below 50 percent."
+        }
+      ],
+      "similar_example": {
+        "code": "def size(n):\n    if n >= 10:\n        return \"big\"\n    return \"small\"\n\nprint(size(9))\nprint(size(12))",
+        "note": "A function that returns a word, ready to move into a file of its own. Your grade() returns a letter, and lives in grader.py."
+      },
+      "other_ways": [
+        {
+          "code": "def grade(score, total):\n    percent = score * 100 / total\n    if percent >= 90:\n        return \"A\"\n    if percent >= 70:\n        return \"B\"\n    if percent >= 50:\n        return \"C\"\n    return \"F\"\n\nquizzes = int(input())\ntop = 0\nfor n in range(quizzes):\n    letter = grade(int(input()), int(input()))\n    print(letter)\n    if letter == \"A\":\n        top = top + 1\nprint(top)\n",
+          "note": "The same program in one file, with grade() at the top. A program this small fits in one file; a module pays off when several programs use the same grade()."
+        },
+        {
+          "code": "def grade(score, total):\n    for letter, need in [(\"A\", 90), (\"B\", 70), (\"C\", 50)]:\n        if score * 100 >= need * total:\n            return letter\n    return \"F\"\n\nletters = []\nfor n in range(int(input())):\n    letters.append(grade(int(input()), int(input())))\nfor letter in letters:\n    print(letter)\nprint(letters.count(\"A\"))",
+          "note": "Comparing score * 100 with need * total avoids decimals entirely. In one file here, so it can be shown in one block."
+        }
+      ],
+      "input_labels": [],
+      "check": {
+        "cases": [
+          {
+            "id": "three",
+            "description": "three quizzes",
+            "inputs": [
+              "3",
+              "9",
+              "10",
+              "7",
+              "10",
+              "2",
+              "10"
+            ],
+            "expected": "A\nB\nF\n1"
+          },
+          {
+            "id": "perfect",
+            "description": "one perfect quiz",
+            "inputs": [
+              "1",
+              "20",
+              "20"
+            ],
+            "expected": "A\n1"
+          },
+          {
+            "id": "none",
+            "description": "no quizzes at all",
+            "inputs": [
+              "0"
+            ],
+            "expected": "0"
+          },
+          {
+            "id": "boundaries",
+            "description": "right on the lines",
+            "inputs": [
+              "4",
+              "45",
+              "50",
+              "5",
+              "10",
+              "35",
+              "50",
+              "18",
+              "20"
+            ],
+            "expected": "A\nC\nB\nA\n2",
+            "visibility": "hidden"
+          },
+          {
+            "id": "just-below",
+            "description": "a score just below a pass",
+            "inputs": [
+              "1",
+              "49",
+              "100"
+            ],
+            "expected": "F\n0",
+            "visibility": "hidden"
+          }
+        ],
+        "time_limit_ms": 3000
+      },
+      "validator": {
+        "id": "browser-tests",
+        "version": 1
+      },
+      "version": 1,
+      "modules": {
+        "grader.py": "# Write grade(score, total) here\n"
+      }
+    }
+  ]
+}

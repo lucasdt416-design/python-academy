@@ -22,7 +22,7 @@ from fastapi.testclient import TestClient
 
 import test_unit2_lessons as helpers
 from app.main import app
-from case_runner import run, run_program
+from case_runner import reports, run, run_program
 
 LESSONS, CATALOG = helpers.LESSONS, helpers.CATALOG
 HEADERS = helpers.HEADERS
@@ -37,6 +37,7 @@ class Spec:
     wrong: list[tuple]              # (label, program, result, rule id or (reason, error type, line))
     renamed: dict[str, str]         # names in the hints and similar example -> the challenge's own names
     claims: list[tuple] = field(default_factory=list)  # (where, program, replies, what the card says it prints)
+    modules: dict | None = None     # the learner's own files (ENG-08b) for the reference, creative and wrong programs
 
 
 def fragments(text):
@@ -90,13 +91,30 @@ def programs_from(pieces, example, start):
     return sorted(programs)
 
 
+def judge_with(lesson_id, programs, modules=None):
+    """judge_all, with the learner's own files given (None: the challenge's starting files)."""
+    lesson = LESSONS[lesson_id]
+    programs = list(programs)
+    from app import browser_checks
+    return [browser_checks.judge(lesson, code, found) for code, found in zip(programs, reports(lesson, programs, timeout=120, modules=modules))]
+
+
+def run_example(example):
+    """The worked example, run as the Try it card runs it: its replies, files and the learner's own files."""
+    from types import SimpleNamespace
+    case = SimpleNamespace(id='once', inputs=list(example.inputs), seed=None, files=dict(example.files), reference=None, call=None)
+    lesson = SimpleNamespace(task=lambda kind: SimpleNamespace(check=SimpleNamespace(cases=[case]), modules={}))
+    report = reports(lesson, [example.code], modules=dict(example.modules))[0][0]
+    return report.output, report.error_type
+
+
 def sent(found):
     """Reports as the page sends them: returned is left out of a dump, so it is added back for call cases."""
     return [{**r.model_dump(), **({'returned': r.returned} if r.returned is not None else {})} for r in found]
 
 
-def attempt(client, lesson_id, code):
-    runs = sent(run(LESSONS[lesson_id], code))
+def attempt(client, lesson_id, code, modules=None):
+    runs = sent(reports(LESSONS[lesson_id], [code], modules=modules)[0])
     return client.post('/api/attempts', json={'lesson_id': lesson_id, 'code': code, 'output': runs[0]['output'], 'runs': runs}, headers=HEADERS).json()
 
 
@@ -141,7 +159,7 @@ def make_tests(unit_id, specs, badges):
     @pytest.mark.parametrize('lesson_id', ids)
     def test_the_worked_example_prints_what_its_card_shows(lesson_id):
         example = LESSONS[lesson_id].task('example')
-        assert run_program(example.code, example.inputs) == (example.output + '\n', None)
+        assert run_example(example) == (example.output + '\n', None)
 
     claims = [(i, *c) for i in ids for c in specs[i].claims]
 
@@ -166,15 +184,17 @@ def make_tests(unit_id, specs, badges):
 
     @pytest.mark.parametrize('lesson_id', ids)
     def test_reference_creative_and_other_ways_all_pass(lesson_id):
-        programs = [specs[lesson_id].reference, *specs[lesson_id].creative, *(w.code for w in challenge(lesson_id).other_ways)]
-        results = judge_all(lesson_id, programs)
+        mine = [specs[lesson_id].reference, *specs[lesson_id].creative]
+        ways = [w.code for w in challenge(lesson_id).other_ways]
+        programs = mine + ways
+        results = judge_with(lesson_id, mine, specs[lesson_id].modules) + judge_all(lesson_id, ways)
         assert [r['result'] for r in results] == ['passed'] * len(programs), [(p, r['feedback']) for p, r in zip(programs, results) if r['result'] != 'passed']
 
     wrong = [(i, *w) for i in ids for w in specs[i].wrong]
 
     @pytest.mark.parametrize('lesson_id,label,code,result,expect', wrong, ids=[f'{w[0]}: {w[1]}' for w in wrong])
     def test_wrong_programs_fail_with_the_right_rule(lesson_id, label, code, result, expect):
-        answer = judge(lesson_id, code)
+        answer = judge_with(lesson_id, [code], specs[lesson_id].modules)[0]
         assert answer['result'] == result, answer['feedback']
         if isinstance(expect, str):
             assert answer['rule'] == expect, answer['feedback']
@@ -249,7 +269,7 @@ def make_tests(unit_id, specs, badges):
         assert client.get('/api/awards').json()['xp'] == 0
         for _ in range(2):
             for lesson_id in ids:
-                assert attempt(client, lesson_id, specs[lesson_id].reference)['result'] == 'passed', lesson_id
+                assert attempt(client, lesson_id, specs[lesson_id].reference, specs[lesson_id].modules)['result'] == 'passed', lesson_id
         awards = client.get('/api/awards').json()
         assert awards['xp'] == 100 * len(ids) and awards['completed'] == ids
         assert [b['title'] for b in awards['badges']] == badges

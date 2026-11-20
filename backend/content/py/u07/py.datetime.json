@@ -1,0 +1,197 @@
+{
+  "id": "py.datetime",
+  "version": 1,
+  "course": "py",
+  "unit": "py.u07",
+  "title": "A study schedule",
+  "concept": "datetime · dates and timedelta",
+  "description": "Plan study sessions on real calendar dates, across month ends and leap days, and spot the weekends.",
+  "badge": {
+    "id": "py.badge.timekeeper",
+    "version": 1,
+    "title": "Timekeeper",
+    "category": "practice"
+  },
+  "tasks": [
+    {
+      "id": "py.datetime.discover",
+      "type": "discover",
+      "title": "Work with dates, not just numbers",
+      "body": "from datetime import date gives a tool for calendar dates: date(2026, 3, 1) is the first of March 2026. Taking one date from another gives a timedelta, and its .days says how many days apart they are.",
+      "detail": "Adding timedelta(days=10) to a date moves it 10 days on, across month and year ends, and through 29 February in a leap year. .weekday() gives 0 for Monday up to 6 for Sunday, and .isoformat() writes a date as 2026-03-01, which is also how print() shows it. Checks here never read today's date, because it changes: they use fixed dates."
+    },
+    {
+      "id": "py.datetime.example",
+      "type": "example",
+      "code": "from datetime import date, timedelta\nstart = date(2026, 2, 20)\nexam = date(2026, 3, 6)\nprint((exam - start).days)\nprint(start + timedelta(days=10))\nprint(exam.weekday())",
+      "output": "14\n2026-03-02\n4",
+      "note": "2026 is not a leap year, so February has 28 days. Adding 10 days to 20 February lands in March, and weekday() 4 means Friday.",
+      "inputs": []
+    },
+    {
+      "id": "py.datetime.predict",
+      "type": "predict",
+      "question": "How many days are there from date(2028, 2, 20) to date(2028, 3, 6)?",
+      "options": [
+        "14",
+        "15",
+        "16"
+      ],
+      "answer": 1,
+      "why": "2028 is a leap year, so February has a 29th day, one more than in 2026."
+    },
+    {
+      "id": "py.datetime.guided",
+      "type": "guided",
+      "prompt": "Predict, then run: change both years to 2028. Then print the weekday of your own birthday this year."
+    },
+    {
+      "id": "py.datetime.challenge",
+      "type": "challenge",
+      "prompt": "Plan study sessions. Ask for a start date as three whole numbers, the year, the month and the day, then how many sessions there are and how many days apart they are. Print the date of every session, starting with the start date, one per line, in the form 2026-03-02. On the last line, print how many of the sessions fall on a Saturday or a Sunday.",
+      "starter": "# Read the start date, then list the sessions\n",
+      "hints": [
+        "Make the start date with date(year, month, day), after turning the replies into whole numbers.",
+        "Each session is the start plus a timedelta of days: the session number times the gap. weekday() gives 5 for Saturday and 6 for Sunday.",
+        "With other names: lesson = first + timedelta(days=7 * week) gives a weekly lesson, and lesson.weekday() >= 5 says whether it falls on a weekend."
+      ],
+      "error_hints": [
+        {
+          "tags": [
+            "NameError"
+          ],
+          "text": "date and timedelta are names only after from datetime import date, timedelta at the top."
+        },
+        {
+          "tags": [
+            "TypeError"
+          ],
+          "text": "date() and timedelta() need whole numbers: turn each reply into one with int(...)."
+        },
+        {
+          "tags": [
+            "ValueError"
+          ],
+          "text": "date() refused a date that does not exist, such as month 13 or 30 February. Check the order: year, then month, then day."
+        },
+        {
+          "tags": [
+            "py.datetime.case.weekly"
+          ],
+          "text": "Three sessions a week apart from Monday 2 March 2026 are 2, 9 and 16 March, and none is at a weekend."
+        },
+        {
+          "tags": [
+            "py.datetime.case.month-end"
+          ],
+          "text": "Adding days carries across the end of a month for you: 30 January plus 2 days is 1 February."
+        },
+        {
+          "tags": [
+            "py.datetime.case.single"
+          ],
+          "text": "One session is just the start date, and the last line counts whether it is at a weekend."
+        },
+        {
+          "tags": [
+            "py.datetime.case.leap"
+          ],
+          "text": "Check a leap year: 2028 has a 29 February."
+        },
+        {
+          "tags": [
+            "py.datetime.case.daily"
+          ],
+          "text": "Check sessions on every day of a week."
+        }
+      ],
+      "similar_example": {
+        "code": "from datetime import date, timedelta\nfirst = date(2026, 9, 7)\nfor week in range(3):\n    lesson = first + timedelta(days=7 * week)\n    print(lesson, lesson.weekday() >= 5)",
+        "note": "Weekly lessons from a fixed first date, each with whether it falls at a weekend. Your schedule counts the weekends at the end."
+      },
+      "other_ways": [
+        {
+          "code": "from datetime import date, timedelta\nstart = date(int(input()), int(input()), int(input()))\nsessions = int(input())\nstep = timedelta(days=int(input()))\nday = start\nweekend = 0\nfor n in range(sessions):\n    print(day)\n    if day.isoweekday() in (6, 7):\n        weekend += 1\n    day = day + step\nprint(weekend)",
+          "note": "Keep one date and step it on each time. isoweekday() counts 1 for Monday to 7 for Sunday, so the weekend is 6 and 7."
+        },
+        {
+          "code": "import datetime\ny, m, d = int(input()), int(input()), int(input())\nsessions, gap = int(input()), int(input())\ndays = [datetime.date(y, m, d) + datetime.timedelta(days=gap * n) for n in range(sessions)]\nfor day in days:\n    print(day.isoformat())\nprint(sum(1 for day in days if day.weekday() > 4))",
+          "note": "A list of every session date first, then one pass to print them and one to count the weekends."
+        }
+      ],
+      "input_labels": [],
+      "check": {
+        "cases": [
+          {
+            "id": "weekly",
+            "description": "three sessions a week apart",
+            "inputs": [
+              "2026",
+              "3",
+              "2",
+              "3",
+              "7"
+            ],
+            "expected": "2026-03-02\n2026-03-09\n2026-03-16\n0"
+          },
+          {
+            "id": "month-end",
+            "description": "sessions across the end of a month",
+            "inputs": [
+              "2026",
+              "1",
+              "30",
+              "3",
+              "2"
+            ],
+            "expected": "2026-01-30\n2026-02-01\n2026-02-03\n1"
+          },
+          {
+            "id": "single",
+            "description": "a single session",
+            "inputs": [
+              "2026",
+              "12",
+              "31",
+              "1",
+              "5"
+            ],
+            "expected": "2026-12-31\n0"
+          },
+          {
+            "id": "leap",
+            "description": "sessions around a leap day",
+            "inputs": [
+              "2028",
+              "2",
+              "27",
+              "3",
+              "1"
+            ],
+            "expected": "2028-02-27\n2028-02-28\n2028-02-29\n1",
+            "visibility": "hidden"
+          },
+          {
+            "id": "daily",
+            "description": "a session every day for a week",
+            "inputs": [
+              "2026",
+              "5",
+              "1",
+              "7",
+              "1"
+            ],
+            "expected": "2026-05-01\n2026-05-02\n2026-05-03\n2026-05-04\n2026-05-05\n2026-05-06\n2026-05-07\n2",
+            "visibility": "hidden"
+          }
+        ],
+        "time_limit_ms": 3000
+      },
+      "validator": {
+        "id": "browser-tests",
+        "version": 1
+      },
+      "version": 1
+    }
+  ]
+}
