@@ -12,7 +12,11 @@ export type PyNode =
  | {t:'object';cls:string;fields:Record<string,PyNode>} | {t:'other';type:string} | {t:'more'};
 export type Vars = Record<string,PyNode>;
 /** One run, as a scene sees it. vars is null when the run could not report them (a check, an old worker). */
-export type SceneRun = {output:string;inputs:string[];vars:Vars|null;error:string|null;label?:string;key:number};
+export type SceneRun = {output:string;inputs:string[];vars:Vars|null;error:string|null;label?:string;key:number;
+ /** The program that ran, so a scene can show its shape (which function calls which). Never sent anywhere. */
+ code?:string;
+ /** What a checked function call returned, as Python shows it. */
+ returned?:string};
 
 // ---------- Reading a run ----------
 export const outLines = (r:SceneRun|null):string[] => r ? r.output.replace(/\n$/,'').split('\n').filter((l,i,a)=>l!==''||i<a.length-1).filter(l=>l!=='') : [];

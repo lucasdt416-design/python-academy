@@ -157,7 +157,7 @@ export default function Adventure({preview,onSaved,lessonId}:{preview:boolean;on
   const done=()=>{w.terminate();worker.current=null;if(timer.current)clearTimeout(timer.current);timer.current=null;setRunning(false);};
   timer.current=setTimeout(()=>{if(version.current===runVersion)done();},15000);
   w.onerror=()=>{if(version.current===runVersion){done();setError('Python could not start. Check your connection and try again.');}};
-  w.onmessage=({data})=>{if(version.current!==runVersion)return;done();setScene({output:data.output??'',inputs:lesson.exampleInputs,vars:data.vars??null,error:data.error?(data.errorType??'an error'):null,key:Date.now()});};
+  w.onmessage=({data})=>{if(version.current!==runVersion)return;done();setScene({output:data.output??'',inputs:lesson.exampleInputs,vars:data.vars??null,error:data.error?(data.errorType??'an error'):null,code:lesson.example,key:Date.now()});};
   w.postMessage({code:lesson.example,inputs:lesson.exampleInputs,files:lesson.exampleFiles,modules:lesson.exampleModules});
  }
  async function run(){
@@ -172,7 +172,7 @@ export default function Adventure({preview,onSaved,lessonId}:{preview:boolean;on
    w.terminate();worker.current=null;if(timer.current)clearTimeout(timer.current);timer.current=null;
    // What printed before an error stays visible; the error itself is explained below the output.
    setOutput(data.output||(data.error?'(Nothing printed before Python stopped.)':'(No output yet.)'));
-   setScene({output:data.output??'',inputs:runInputs,vars:data.vars??null,error:data.error?(data.errorType??'an error'):null,key:Date.now()});
+   setScene({output:data.output??'',inputs:runInputs,vars:data.vars??null,error:data.error?(data.errorType??'an error'):null,code:runCode,key:Date.now()});
    if(data.error){setRunning(false);const error=data.outputLimit?null:parseError(data.error,data.errorType);stopped(explain(error??{stop:'output_limit'},context),pythonMessage(data.error),error?.type);failed(challenge);return;}
    // A run is not a check: printing something must never look like a pass.
    if(!challenge){setRunning(false);setReport({state:'ran',text:'Your code ran. This card has no check: compare the output with the task, then try another change.'});return;}
@@ -212,7 +212,7 @@ export default function Adventure({preview,onSaved,lessonId}:{preview:boolean;on
    if(version.current!==runVersion)return;
    setOutput(caseOutput(plan,reports));
    const shown=plan.cases.find(c=>c.visibility==='visible'&&!c.test_should),shownReport=reports.find(x=>x.id===shown?.id);
-   if(shown&&shownReport)setScene({output:shownReport.output??'',inputs:shown.inputs,vars:null,error:shownReport.status==='error'?shownReport.errorType??'an error':null,label:`With ${shown.description}`,key:Date.now()});
+   if(shown&&shownReport)setScene({output:shownReport.output??'',inputs:shown.inputs,vars:null,error:shownReport.status==='error'?shownReport.errorType??'an error':null,label:`With ${shown.description}`,code:runCode,returned:shownReport.shown,key:Date.now()});
    const result=await api(preview?'check':'attempts',{lesson_id:runLesson,code:runCode,output:reports[0]?.output??'',inputs:[],runs:runner.forSubmission(reports)});
    if(version.current!==runVersion)return;
    const failedCase=result.failed,report=reports.find(r=>r.id===failedCase?.id)??reports.find(r=>r.status==='error'),limits={seconds:plan.time_limit_ms/1000,limit:plan.output_limit.toLocaleString('en-US')};
