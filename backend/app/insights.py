@@ -80,8 +80,18 @@ def text_used_as_number(tree):
     return []
 
 
+def _used_later_in_turn(loop, name, grow):
+    """Whether a statement of the loop's body, after the one that builds name up, reads name."""
+    at = next((i for i, stmt in enumerate(loop.body) if any(x is grow for x in ast.walk(stmt))), None)
+    if at is None:
+        return False
+    return any(isinstance(x, ast.Name) and x.id == name and isinstance(x.ctx, ast.Load) for stmt in loop.body[at + 1:] for x in ast.walk(stmt))
+
+
 def reset_inside_loop(tree):
-    """A loop that sets total = 0 (or [] or "") and also builds total up, in its own body."""
+    """A loop that sets total = 0 (or [] or "") and also builds total up, in its own body. Quiet when the
+    same turn goes on to use the value it built, like a count printed for each row: that is a fresh
+    count per turn, on purpose."""
     for loop in (n for n in ast.walk(tree) if isinstance(n, (ast.For, ast.While))):
         starts = {}
         for stmt in loop.body:
@@ -95,6 +105,8 @@ def reset_inside_loop(tree):
                         (isinstance(n, ast.Assign) and any(isinstance(t, ast.Name) and t.id == name for t in n.targets) and name in _names_in(n.value)) or \
                         (isinstance(n, ast.Call) and isinstance(n.func, ast.Attribute) and isinstance(n.func.value, ast.Name) and n.func.value.id == name and n.func.attr in MUTATORS)
                 if grows and getattr(n, 'lineno', 0) > line:
+                    if _used_later_in_turn(loop, name, n):
+                        break
                     return [Insight('reset-in-loop', line, f'`{name}` starts again on line {line}, inside the loop, so it forgets every earlier turn. Give it its starting value once, above the loop.')]
     return []
 

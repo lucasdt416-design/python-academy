@@ -1,0 +1,228 @@
+{
+  "id": "cs.counting-steps",
+  "version": 1,
+  "course": "cs",
+  "unit": "cs.u03",
+  "title": "How the work grows",
+  "concept": "Searching · counting steps as lists grow",
+  "description": "Compare the two searches by counting, not timing: how many looks does each need as the archive grows?",
+  "badge": {
+    "id": "cs.badge.step-counter-cs",
+    "version": 1,
+    "title": "Step counter",
+    "category": "practice"
+  },
+  "tasks": [
+    {
+      "id": "cs.counting-steps.discover",
+      "type": "discover",
+      "title": "Count the steps, not the seconds",
+      "body": "How long a program takes depends on the computer, so computer scientists count steps instead. The question is how the steps grow as the input grows: a linear search of n items needs up to n looks, a binary search only as many as the times n can be halved.",
+      "detail": "Halving: 8 items halve to 4, 2, 1, 0, which is four halvings, so a binary search of 8 needs at most 4 looks. Doubling the list adds only one more look. That gap is why sorted data is worth the effort of sorting."
+    },
+    {
+      "id": "cs.counting-steps.example",
+      "type": "example",
+      "code": "# How many halvings until nothing is left?\nfor size in [1, 2, 7, 8, 1000]:\n    n = size\n    halvings = 0\n    while n > 0:\n        n = n // 2\n        halvings = halvings + 1\n    print(size, halvings)",
+      "output": "1 1\n2 2\n7 3\n8 4\n1000 10",
+      "note": "1,000 items need only 10 halvings. Going from 7 items to 8 adds one, because 8 is a power of two.",
+      "inputs": []
+    },
+    {
+      "id": "cs.counting-steps.predict",
+      "type": "predict",
+      "question": "A list grows from 1,000 items to 2,000. How many more looks can a binary search need, at most?",
+      "options": [
+        "1",
+        "1,000",
+        "10"
+      ],
+      "answer": 0,
+      "why": "Doubling the list adds one halving."
+    },
+    {
+      "id": "cs.counting-steps.guided",
+      "type": "guided",
+      "prompt": "Predict, then run: add 1,000,000 to the sizes and guess its halvings first. Then add a column with the linear worst case, the size itself."
+    },
+    {
+      "id": "cs.counting-steps.challenge",
+      "type": "challenge",
+      "prompt": "Write linear_worst(n), the most looks a linear search needs for a list of n items, and binary_worst(n), the most looks a binary search needs, which is how many times n can be halved with // 2 before it reaches 0 (0 for an empty list). Then write compare(sizes), which takes a list of sizes and returns a list of [size, linear, binary] lists, one per size, in the same order. Do not ask for input: the check calls your functions with its own values.",
+      "starter": "# Define linear_worst(n), binary_worst(n) and compare(sizes)\n",
+      "hints": [
+        "The linear worst case is simply every item. For the binary one, count halvings in a loop: n = n // 2, adding one each time, while n is more than 0.",
+        "compare() builds a list: for each size, a list of the size and the two counts, worked out by calling the other two functions.",
+        "With other names: doublings = 0, then while value < limit: value = value * 2 and doublings = doublings + 1."
+      ],
+      "error_hints": [
+        {
+          "tags": [
+            "NameError"
+          ],
+          "text": "Use the parameter names from each def line, and call the other functions by their names."
+        },
+        {
+          "tags": [
+            "TypeError"
+          ],
+          "text": "compare() returns a list of lists: append [size, linear, binary] for each size."
+        },
+        {
+          "tags": [
+            "cs.counting-steps.case.eight"
+          ],
+          "text": "binary_worst(8) should return 4: 8, 4, 2, 1, then 0."
+        },
+        {
+          "tags": [
+            "cs.counting-steps.case.zero"
+          ],
+          "text": "binary_worst(0) should return 0: an empty list needs no looks."
+        },
+        {
+          "tags": [
+            "cs.counting-steps.case.table"
+          ],
+          "text": "compare([1, 1000]) should return [[1, 1, 1], [1000, 1000, 10]]."
+        },
+        {
+          "tags": [
+            "cs.counting-steps.case.big"
+          ],
+          "text": "Check a very big size."
+        },
+        {
+          "tags": [
+            "cs.counting-steps.case.odd"
+          ],
+          "text": "Check an odd size just below a power of two."
+        }
+      ],
+      "similar_example": {
+        "code": "value = 1\ndoublings = 0\nwhile value < 1000:\n    value = value * 2\n    doublings = doublings + 1\nprint(doublings)",
+        "note": "Counting doublings up to 1,000 rather than halvings down from it. The two counts match, which is the heart of binary search."
+      },
+      "other_ways": [
+        {
+          "code": "def linear_worst(n):\n    return n\n\ndef binary_worst(n):\n    return n.bit_length()\n\ndef compare(sizes):\n    return [[s, linear_worst(s), binary_worst(s)] for s in sizes]",
+          "note": "bit_length() is how many bits n needs in binary, which is exactly how many times it can be halved. Unit 1 and unit 3 meet."
+        },
+        {
+          "code": "import math\n\ndef linear_worst(n):\n    return n\n\ndef binary_worst(n):\n    return 0 if n == 0 else math.floor(math.log2(n)) + 1\n\ndef compare(sizes):\n    table = []\n    for s in sizes:\n        table.append([s, linear_worst(s), binary_worst(s)])\n    return table",
+          "note": "log2() counts halvings with a formula. It is the \"log n\" you will meet in books about algorithms."
+        }
+      ],
+      "input_labels": [],
+      "check": {
+        "cases": [
+          {
+            "id": "eight",
+            "description": "binary_worst(8)",
+            "inputs": [],
+            "call": {
+              "function": "binary_worst",
+              "args": [
+                8
+              ],
+              "kwargs": {}
+            },
+            "returns": {
+              "value": 4
+            }
+          },
+          {
+            "id": "zero",
+            "description": "binary_worst(0)",
+            "inputs": [],
+            "call": {
+              "function": "binary_worst",
+              "args": [
+                0
+              ],
+              "kwargs": {}
+            },
+            "returns": {
+              "value": 0
+            }
+          },
+          {
+            "id": "table",
+            "description": "compare([1, 1000])",
+            "inputs": [],
+            "call": {
+              "function": "compare",
+              "args": [
+                [
+                  1,
+                  1000
+                ]
+              ],
+              "kwargs": {}
+            },
+            "returns": {
+              "value": [
+                [
+                  1,
+                  1,
+                  1
+                ],
+                [
+                  1000,
+                  1000,
+                  10
+                ]
+              ]
+            }
+          },
+          {
+            "id": "big",
+            "description": "a very big size",
+            "inputs": [],
+            "visibility": "hidden",
+            "call": {
+              "function": "binary_worst",
+              "args": [
+                1000000
+              ],
+              "kwargs": {}
+            },
+            "returns": {
+              "value": 20
+            }
+          },
+          {
+            "id": "odd",
+            "description": "a size just below a power of two",
+            "inputs": [],
+            "visibility": "hidden",
+            "call": {
+              "function": "compare",
+              "args": [
+                [
+                  63
+                ]
+              ],
+              "kwargs": {}
+            },
+            "returns": {
+              "value": [
+                [
+                  63,
+                  63,
+                  6
+                ]
+              ]
+            }
+          }
+        ],
+        "time_limit_ms": 3000
+      },
+      "validator": {
+        "id": "browser-tests",
+        "version": 1
+      },
+      "version": 1
+    }
+  ]
+}

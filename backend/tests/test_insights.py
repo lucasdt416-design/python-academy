@@ -9,6 +9,7 @@ from fastapi.testclient import TestClient
 import test_unit2_lessons as helpers
 from app import insights
 from app.main import app, CONTENT
+from test_cs_recordings import SPECS as CS_SPECS
 from test_units_4_to_11_recordings import SPECS
 
 MISTAKES = [
@@ -34,7 +35,7 @@ def test_each_detector_names_its_mistake_at_the_right_line(kind, code, line, wor
 
 
 def correct_programs():
-    for lesson_id, spec in SPECS.items():
+    for lesson_id, spec in {**SPECS, **CS_SPECS}.items():
         for code in [spec.reference, *spec.creative]:
             yield lesson_id, code
     for lesson_id, lesson in CONTENT.items():
@@ -62,3 +63,11 @@ def test_the_route_is_public_bounded_and_stores_nothing():
     assert r.status_code == 200 and r.json()['insights'][0]['id'] == 'mutator-assigned'
     assert client.post('/api/insights', json={'lesson_id': 'nope', 'code': 'x'}, headers=helpers.HEADERS).status_code == 404
     assert client.post('/api/insights', json={'lesson_id': 'py.lists', 'code': 'x' * 20001}, headers=helpers.HEADERS).status_code == 422
+
+
+def test_a_count_started_again_for_each_row_and_used_in_that_row_is_not_a_mistake():
+    # cs.counting-steps counts halvings afresh for each size and prints them in the same turn.
+    per_row = 'for size in [1, 8]:\n    n = size\n    halvings = 0\n    while n > 0:\n        n = n // 2\n        halvings = halvings + 1\n    print(size, halvings)'
+    assert insights.find(per_row) == []
+    # Used only after the loop, the same reset is still named.
+    assert [i['id'] for i in insights.find(per_row.replace('    print(size, halvings)', 'print(halvings)'))] == ['reset-in-loop']

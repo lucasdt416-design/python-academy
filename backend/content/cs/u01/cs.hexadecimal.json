@@ -1,0 +1,228 @@
+{
+  "id": "cs.hexadecimal",
+  "version": 1,
+  "course": "cs",
+  "unit": "cs.u01",
+  "title": "Colours on the flags",
+  "concept": "Hexadecimal · base 16 and colours",
+  "description": "The tower signals with coloured flags, written as six hex digits. Turn them into amounts of red, green and blue, and back.",
+  "badge": {
+    "id": "cs.badge.flag-painter",
+    "version": 1,
+    "title": "Flag painter",
+    "category": "practice"
+  },
+  "tasks": [
+    {
+      "id": "cs.hexadecimal.discover",
+      "type": "discover",
+      "title": "Sixteen digits, and why colours use them",
+      "body": "Hexadecimal, or hex, has sixteen digits: 0 to 9, then a to f for ten to fifteen. Each place is worth sixteen times the one to its right, so ff is 15 × 16 + 15, which is 255.",
+      "detail": "One hex digit is exactly four bits, so two of them hold a byte, any number from 0 to 255. That is why screen colours are written #ff8800: two hex digits each for red, green and blue. int(text, 16) reads hex, and f\"{n:02x}\" writes a number as two hex digits."
+    },
+    {
+      "id": "cs.hexadecimal.example",
+      "type": "example",
+      "code": "# A flag colour: red, green and blue, each from 0 to 255\nred = 255\ngreen = 136\nblue = 0\nprint(hex(green))\nprint(f\"#{red:02x}{green:02x}{blue:02x}\")\nprint(int(\"88\", 16))",
+      "output": "0x88\n#ff8800\n136",
+      "note": "136 is eight 16s and eight 1s, so it is 88 in hex. :02x writes each amount as two hex digits, and int(\"88\", 16) reads them back.",
+      "inputs": []
+    },
+    {
+      "id": "cs.hexadecimal.predict",
+      "type": "predict",
+      "question": "What colour is #00ff00?",
+      "options": [
+        "Pure green",
+        "Pure red",
+        "Black"
+      ],
+      "answer": 0,
+      "why": "No red, the most green (ff is 255), and no blue."
+    },
+    {
+      "id": "cs.hexadecimal.guided",
+      "type": "guided",
+      "prompt": "Predict, then run: make the flag purple, with lots of red and blue and no green, and print its code. Then try 300 for red and see what happens to the code."
+    },
+    {
+      "id": "cs.hexadecimal.challenge",
+      "type": "challenge",
+      "prompt": "Write hex_to_rgb(colour), which takes a colour such as \"#ff8800\" (capitals allowed) and returns a list of its red, green and blue amounts, [255, 136, 0]. Then write rgb_to_hex(red, green, blue), which returns the colour code, always with # and six lowercase hex digits, such as \"#0a0b0c\". Do not ask for input: the check calls your functions with its own values.",
+      "starter": "# Define hex_to_rgb(colour) and rgb_to_hex(red, green, blue)\n",
+      "hints": [
+        "Each amount is two hex digits. Their value is the first digit times 16, plus the second. The text \"0123456789abcdef\".index(d) turns a digit into its value.",
+        "For rgb_to_hex(), the two digits of an amount are value // 16 and value % 16, looked up the other way. Small amounts still need two digits: 10 is 0a.",
+        "With other names: high, low = divmod(n, 16) splits a byte, and int(\"c8\", 16) reads one back."
+      ],
+      "error_hints": [
+        {
+          "tags": [
+            "NameError"
+          ],
+          "text": "Use the parameter names from each def line, spelled the same way."
+        },
+        {
+          "tags": [
+            "ValueError"
+          ],
+          "text": "A digit was not found. Make the text lowercase and take off the # before reading the digits."
+        },
+        {
+          "tags": [
+            "TypeError"
+          ],
+          "text": "Check what each function takes: hex_to_rgb() takes one piece of text, and rgb_to_hex() three numbers."
+        },
+        {
+          "tags": [
+            "cs.hexadecimal.case.orange"
+          ],
+          "text": "hex_to_rgb(\"#ff8800\") should return [255, 136, 0]."
+        },
+        {
+          "tags": [
+            "cs.hexadecimal.case.small"
+          ],
+          "text": "rgb_to_hex(10, 11, 12) should return \"#0a0b0c\": every amount gets two digits, even a small one."
+        },
+        {
+          "tags": [
+            "cs.hexadecimal.case.capitals"
+          ],
+          "text": "hex_to_rgb(\"#00FF7f\") has capitals: make the text lowercase first, or read both kinds."
+        },
+        {
+          "tags": [
+            "cs.hexadecimal.case.white"
+          ],
+          "text": "Check the largest amounts."
+        },
+        {
+          "tags": [
+            "cs.hexadecimal.case.black"
+          ],
+          "text": "Check the smallest amounts."
+        }
+      ],
+      "similar_example": {
+        "code": "def split_byte(n):\n    high, low = divmod(n, 16)\n    return high, low\n\nprint(split_byte(200))\nprint(int(\"c8\", 16))",
+        "note": "A byte split into its two hex digits, and read back. Your colours have three bytes each."
+      },
+      "other_ways": [
+        {
+          "code": "def hex_to_rgb(colour):\n    c = colour.lstrip(\"#\")\n    return [int(c[i:i + 2], 16) for i in (0, 2, 4)]\n\ndef rgb_to_hex(red, green, blue):\n    return f\"#{red:02x}{green:02x}{blue:02x}\"",
+          "note": "int(..., 16) and the :02x format do the conversions; slicing picks out each pair of digits."
+        },
+        {
+          "code": "def hex_to_rgb(colour):\n    n = int(colour[1:], 16)\n    return [n // 65536, n // 256 % 256, n % 256]\n\ndef rgb_to_hex(red, green, blue):\n    return \"#\" + format(red * 65536 + green * 256 + blue, \"06x\")",
+          "note": "The whole colour as one number: red is worth 256 × 256, green 256, and blue 1."
+        }
+      ],
+      "input_labels": [],
+      "check": {
+        "cases": [
+          {
+            "id": "orange",
+            "description": "hex_to_rgb(\"#ff8800\")",
+            "inputs": [],
+            "call": {
+              "function": "hex_to_rgb",
+              "args": [
+                "#ff8800"
+              ],
+              "kwargs": {}
+            },
+            "returns": {
+              "value": [
+                255,
+                136,
+                0
+              ]
+            }
+          },
+          {
+            "id": "small",
+            "description": "rgb_to_hex(10, 11, 12)",
+            "inputs": [],
+            "call": {
+              "function": "rgb_to_hex",
+              "args": [
+                10,
+                11,
+                12
+              ],
+              "kwargs": {}
+            },
+            "returns": {
+              "value": "#0a0b0c"
+            }
+          },
+          {
+            "id": "capitals",
+            "description": "hex_to_rgb(\"#00FF7f\")",
+            "inputs": [],
+            "call": {
+              "function": "hex_to_rgb",
+              "args": [
+                "#00FF7f"
+              ],
+              "kwargs": {}
+            },
+            "returns": {
+              "value": [
+                0,
+                255,
+                127
+              ]
+            }
+          },
+          {
+            "id": "white",
+            "description": "the brightest colour",
+            "inputs": [],
+            "visibility": "hidden",
+            "call": {
+              "function": "rgb_to_hex",
+              "args": [
+                255,
+                255,
+                255
+              ],
+              "kwargs": {}
+            },
+            "returns": {
+              "value": "#ffffff"
+            }
+          },
+          {
+            "id": "black",
+            "description": "the darkest colour, read back",
+            "inputs": [],
+            "visibility": "hidden",
+            "call": {
+              "function": "hex_to_rgb",
+              "args": [
+                "#000000"
+              ],
+              "kwargs": {}
+            },
+            "returns": {
+              "value": [
+                0,
+                0,
+                0
+              ]
+            }
+          }
+        ],
+        "time_limit_ms": 3000
+      },
+      "validator": {
+        "id": "browser-tests",
+        "version": 1
+      },
+      "version": 1
+    }
+  ]
+}
