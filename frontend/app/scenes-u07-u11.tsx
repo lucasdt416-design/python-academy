@@ -212,3 +212,67 @@ const refactor:SceneDef={title:'Tidiness meter',draw:r=>{
  </>};
 }};
 Object.assign(UNIT_7_TO_11,{'py.assert-tests':assertTests,'py.test-cases':testCases,'py.boundaries':boundaries,'py.type-hints':typeHints,'py.refactor':refactor});
+
+// ---------- Unit 9 ----------
+const firstFile=(r:SceneRun|null):[string,string]|null=>{const e=Object.entries(r?.files??{});return e[0]??null;};
+const writes=(code:string|undefined)=>[...(code??'').matchAll(/open\(\s*["']([^"']+)["']\s*,\s*["'](w|a)["']/g)].map(m=>m[1]);
+const textFiles:SceneDef={title:'The notebook',draw:r=>{
+ const file=firstFile(r),rows=file?file[1].split('\n'):[],shown=(rows.at(-1)===''?rows.slice(0,-1):rows).slice(0,8),out=outLines(r).slice(0,5),made=[...new Set(writes(r?.code))];
+ return {say:file?`${file[0]} holds ${plural(shown.length,'line')}${shown.some(l=>!l.trim())?', some of them blank':''}. ${made.length?`The program writes ${made.join(', ')}. `:''}Printed: ${out.join(', ')||'nothing'}.`:r?`Printed: ${out.join(', ')||'nothing'}.`:'A notebook page for the file, and a new page for anything the program writes.',svg:<>
+  <Ground tone="sand"/>
+  <rect className="f-white s-ink" x="12" y="10" width="150" height="152" rx="6"/><text className="mono f-ink" x="22" y="26" fontSize="10">{fit(file?.[0]??'no file',20)}</text><path className="s-clay-w scene-faint" d="M32 32v126"/>
+  {shown.map((l,i)=><g key={i} className={'type '+d(i)}><path className="s-moss-s scene-faint" d={`M14 ${46+i*15}h146`}/><text className={'mono '+(l.trim()?'f-ink':'f-clay')} x="38" y={43+i*15} fontSize="10">{l.trim()?fit(l,16):'(blank)'}</text></g>)}
+  {made.slice(0,1).map(name=><g key={name} className={'pop '+d(shown.length+1)}><rect className="f-cream s-ink" x="176" y="14" width="132" height="44" rx="6"/><text className="mono f-ink" x="186" y="32" fontSize="10">new: {fit(name,12)}</text><text className="mono f-moss" x="186" y="48" fontSize="9">written by the program</text></g>)}
+  <rect className="f-ink" x="176" y="66" width="132" height="96" rx="6"/>
+  {out.map((l,i)=><text key={i} className={'mono f-amber-l type '+d(shown.length+2+i)} x="184" y={84+i*16} fontSize="10">{fit(l,17)}</text>)}
+  {!r&&<Note text={IDLE}/>}
+ </>};
+}};
+
+function jsonOf(text:string|undefined):unknown{try{return text===undefined?undefined:JSON.parse(text);}catch{return undefined;}}
+const jsonScene:SceneDef={title:'The save crystal',draw:r=>{
+ const file=firstFile(r),before=jsonOf(file?.[1]) as Record<string,unknown>|undefined,afterLine=outLines(r).find(l=>l.trim().startsWith('{')),after=jsonOf(afterLine) as Record<string,unknown>|undefined;
+ const keys=[...new Set([...Object.keys(before??{}),...Object.keys(after??{})])].slice(0,5),txt=(v:unknown)=>v===undefined?'—':JSON.stringify(v);
+ return {say:before||after?`${before?'':'The saved text holds '}${keys.map(k=>{const a=txt(before?.[k]),b=txt(after?.[k]);return !before||a===b||!after?`${k}: ${after?b:a}`:`${k}: ${a} became ${b}`;}).join('; ')}.`:r?`Printed: ${outLines(r).slice(0,3).join(' / ')||'nothing'}.`:'A saved game, before and after the program changes it.',svg:<>
+  <Ground tone="slate"/>
+  <text className="mono f-ink" x="20" y="22" fontSize="10">{before?`${fit(file![0],14)} before`:after?'nothing saved before':'before'}</text><text className="mono f-ink" x="168" y="22" fontSize="10">{before?'after':'saved text'}</text>
+  {keys.map((k,i)=>{const a=txt(before?.[k]),b=txt(after?.[k]),changed=!!after&&!!before&&a!==b;return <g key={k} className={'slide '+d(i)}>
+   {before&&<><rect className="f-white s-ink-s" x="14" y={30+i*26} width="140" height="22" rx="4"/><text className="mono f-ink" x="20" y={45+i*26} fontSize="9">{fit(k,7)}: {fit(a,13)}</text></>}
+   {after&&<><path className="s-ink-s" d={`M156 ${41+i*26}h8`}/><rect className={(changed?'f-amber-l':'f-white')+' s-ink-s'} x="166" y={30+i*26} width="140" height="22" rx="4"/><text className="mono f-ink" x="172" y={45+i*26} fontSize="9">{fit(k,7)}: {fit(b,13)}</text></>}
+  </g>;})}
+  {!before&&!after&&r&&outLines(r).slice(0,4).map((l,i)=><text key={i} className={'mono f-ink type '+d(i)} x="20" y={44+i*18} fontSize="10">{fit(l,44)}</text>)}
+  {!r&&<Note text={IDLE}/>}
+ </>};
+}};
+
+/** Rows of a CSV text, with quoted values kept whole, as the csv module reads them. */
+function csvRows(text:string):string[][]{
+ const rows:string[][]=[];
+ for(const line of text.split('\n').filter(l=>l.trim())){const row:string[]=[];let cur='',q=false;for(let i=0;i<line.length;i++){const c=line[i];if(c==='"'){q=!q;continue;}if(c===','&&!q){row.push(cur);cur='';continue;}cur+=c;}row.push(cur);rows.push(row);}
+ return rows;
+}
+const csvScene:SceneDef={title:'The score table',draw:r=>{
+ const file=firstFile(r),rows=file?csvRows(file[1]).slice(0,7):[],out=outLines(r),totals=out.map(l=>/^([^,]+),(-?\d+)$/.exec(l)).filter(Boolean).map(m=>[m![1],Number(m![2])] as [string,number]),top=out.at(-1);
+ const cols=rows[0]?.length??0,w=cols?Math.min(70,190/cols):60,max=Math.max(1,...totals.map(t=>t[1]));
+ return {say:rows.length?`A table of ${plural(rows.length-1,'row')}${totals.length?`; totals ${totals.map(([t,n])=>`${t} ${n}`).join(', ')}`:''}${top&&!/,/.test(top)?`; top player ${top}`:''}.`:r?`Printed: ${out.slice(0,3).join(' / ')||'nothing'}.`:'A table read from a CSV file, and the totals worked out from it.',svg:<>
+  <Ground/>
+  {rows.map((row,i)=><g key={i} className={'type '+d(i)}>{row.slice(0,4).map((v,j)=><g key={j}><rect className={(i===0?'f-cream':row.includes(top??'\u0000')?'f-amber-l':'f-white')+' s-ink-s'} x={10+j*w} y={10+i*20} width={w} height="20"/><text className="mono f-ink" x={14+j*w} y={24+i*20} fontSize="9" fontWeight={i===0?700:400}>{fit(v,Math.floor(w/6))}</text></g>)}</g>)}
+  {totals.slice(0,5).map(([t,n],i)=><g key={t}><text className="mono f-ink" x="214" y={24+i*24} fontSize="9">{fit(t,8)}</text><rect className={'f-moss grow '+d(rows.length+i)} x="214" y={28+i*24} width={Math.max(3,n/max*90)} height="8" rx="2"/><text className="mono f-ink" x={218+Math.max(3,n/max*90)} y={36+i*24} fontSize="8">{n}</text></g>)}
+  {!r&&<Note text={IDLE}/>}
+ </>};
+}};
+
+const missingData:SceneDef={title:'The repair kit',draw:r=>{
+ const file=firstFile(r),out=outLines(r),rows=file?file[1].split('\n'):[],lines=(rows.at(-1)===''?rows.slice(0,-1):rows).slice(0,7),newGame=out.includes('new game')||/\bno\b.*\byet\b/.test(out.join(' '));
+ const kind=(l:string)=>!l.trim()?'blank':/^\s*-?\d+\s*$/.test(l)?'good':/=/.test(l)&&/^\s*-?\d+\s*$/.test(l.split('=').slice(1).join('='))?'good':'bad';
+ return {say:file?`${lines.map(l=>`${JSON.stringify(l)} is ${kind(l)==='good'?'usable':kind(l)==='blank'?'blank':'damaged'}`).join('; ')}.${newGame?' A file was missing, so the program started fresh.':''}`:r?newGame?'The file was missing, so the program started fresh with its defaults.':`Printed: ${out.slice(0,3).join(' / ')}.`:'Each line of a file checked: usable, blank or damaged.',svg:<>
+  <Ground tone="sand"/>
+  {file?<><rect className="f-white s-ink" x="12" y="10" width="170" height={Math.max(40,lines.length*19+26)} rx="6"/><text className="mono f-ink" x="22" y="26" fontSize="10">{fit(file[0],22)}</text>
+   {lines.map((l,i)=>{const k=kind(l);return <g key={i} className={'slide '+d(i)}><text className={'mono '+(k==='good'?'f-moss':k==='bad'?'f-clay':'f-ink scene-faint')} x="22" y={46+i*19} fontSize="12" fontWeight="700">{k==='good'?'✓':k==='bad'?'✗':'·'}</text><text className="mono f-ink" x="38" y={46+i*19} fontSize="10">{l.trim()?fit(l,18):'(blank)'}</text></g>;})}</>
+   :r&&<g className="pop"><path className="f-white s-ink scene-dashed" d="M30 20h100l20 20v100H30z"/><text className="mono f-clay" x="90" y="90" fontSize="11" textAnchor="middle">missing</text></g>}
+  <rect className="f-ink" x="194" y="10" width="114" height="150" rx="6"/>
+  {out.slice(0,7).map((l,i)=><text key={i} className={'mono f-amber-l type '+d(lines.length+i)} x="202" y={28+i*18} fontSize="10">{fit(l,15)}</text>)}
+  {!r&&<Note text={IDLE}/>}
+ </>};
+}};
+Object.assign(UNIT_7_TO_11,{'py.text-files':textFiles,'py.json':jsonScene,'py.csv':csvScene,'py.missing-data':missingData});

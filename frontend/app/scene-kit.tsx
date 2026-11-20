@@ -18,7 +18,9 @@ export type SceneRun = {output:string;inputs:string[];vars:Vars|null;error:strin
  /** What a checked function call returned, as Python shows it. */
  returned?:string;
  /** Where Python stopped, and the last line of its message, when it did. */
- errorLine?:number|null;message?:string};
+ errorLine?:number|null;message?:string;
+ /** The files the program was given (the example's, or the shown case's), so a scene can draw them. */
+ files?:Record<string,string>};
 
 // ---------- Reading a run ----------
 export const outLines = (r:SceneRun|null):string[] => r ? r.output.replace(/\n$/,'').split('\n').filter((l,i,a)=>l!==''||i<a.length-1).filter(l=>l!=='') : [];
