@@ -27,7 +27,8 @@ Python Academy is a learning platform for beginners. It started as a way to help
 | What | What it does |
 | --- | --- |
 | **🧭 A real catalog** | Browse courses, course pages and a lesson sidebar. A rule-based recommendation on the student home suggests where to go next from a self-chosen goal. |
-| **🏕️ Sixteen connected lessons** | Unit 1: output, variables, input, choices and a combined story. Unit 2: arithmetic, whole numbers and decimals, numbers from `input()`, comparisons, Boolean logic and `elif`. Unit 3: `while` loops, loops that end, `for` and `range()`, running totals and loops inside loops. Each lesson has its own picture and is five cards: discover, a worked example, predict what happens, guided practice and an independent challenge. |
+| **🏕️ Fifty-two connected lessons** | Eleven units of Python Foundations, one continuing adventure: output, variables and input; numbers and decisions; loops; lists, dictionaries and sets; functions; errors and debugging; libraries and your own modules; writing tests; files, JSON and CSV; text and regular expressions; and classes. Each lesson is five cards: discover, a worked example, predict what happens, guided practice and an independent challenge. |
+| **🎬 A scene for every lesson** | Each lesson has its own picture that comes alive from the learner's own run: the hero appears with the name stored in `hero`, a backpack fills with the items in your list, dice show your rolls, a calendar marks your dates, a crash report points at the line that failed. Scenes draw what happened; only the check says whether it is right. They stay still for anyone who asks for less motion, and say in words what they show. |
 | **🐍 Real Python in your browser** | Code runs in a Web Worker using Pyodide, with a time limit (a run is stopped after 15 seconds; 3 seconds per case in a browser check), an output limit (20,000 characters; 10,000 per case in a browser check) and no network access for learner code. |
 | **💬 Help that points at the problem** | When Python stops, the page explains the error in plain words, marks the line, and keeps Python's own message one click away. Hints are a three-step ladder (a nudge, a bigger hint, the approach) with no answer button, and the first hint offered matches the error the learner actually has. |
 | **✅ Honest results** | A check is labelled in words by what happened: "Check passed", "Not yet", "Python stopped", "Not checked" or "Check unavailable". Only a passed check counts as a pass, and runs on the "Try it" card say "Ran · not checked". |
@@ -51,10 +52,10 @@ The catalog already lists the courses below. Only Python Foundations has release
 
 | Course | Status |
 | --- | --- |
-| Python Foundations (12 units) | Units 1, 2 and 3 released; the rest planned. Unit projects and end-of-unit checks are not built yet |
+| Python Foundations (12 units) | Units 1 to 11 released. Units 7, 9 and 11 each have one more lesson to come (a local-setup or reflection lesson that needs a new task type); unit 12, the final project, is planned. Unit projects and end-of-unit checks are not built yet |
 | Hackathon Ready (7 units planned), Git and GitHub Essentials, Web Foundations: HTML and CSS, JavaScript and the DOM, Data and SQL, Data Investigation with Python, Computer Science Foundations, Node.js and APIs, Full-Stack Builder, Engineering Depth | Coming soon |
 
-Near-term work: unit 4 (lists and dictionaries), skill checks at the end of units, and a tester feedback button and admin inbox. Further out are a separate public story site (not decided), predict-first tasks and a possible AI helper. The full plan, with priorities and dependencies, is [`docs/plan/backlog.md`](docs/plan/backlog.md), which is the source of truth for the order of work.
+Near-term work: the last lessons of units 7, 9 and 11 and the final project (they need self-review and local-tutorial task types), skill checks at the end of units, and a tester feedback button and admin inbox. Further out are a separate public story site (not decided), predict-first tasks and a possible AI helper. The full plan, with priorities and dependencies, is [`docs/plan/backlog.md`](docs/plan/backlog.md), which is the source of truth for the order of work.
 
 ## How it works
 

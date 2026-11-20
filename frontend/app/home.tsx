@@ -8,7 +8,7 @@ import LessonArt,{CARD_TYPES,Icon} from './lesson-art';
 const UNIT_ART:Record<string,string>={'py.u01':'adventure','py.u02':'py.arithmetic','py.u03':'py.nested-loops'};
 /** The home page's own words for each unit (prototype copy); a unit without them shows its catalog summary. */
 const UNIT_BLURB:Record<string,string>={'py.u01':'Print, variables, input and choices, ending in a small game that is yours.','py.u02':'Arithmetic, comparisons, and, or, not and elif, through a riddle keeper\'s game.','py.u03':'while and for loops that always finish, and a loop inside a loop.'};
-const PLANNED:{units:string[];title:string;text:string}[]=[{units:['py.u04'],title:'Unit 4 · Keep track of a world',text:'Lists, dictionaries, sets'},{units:['py.u05'],title:'Unit 5 · Organize your code',text:'Functions and scope'},{units:['py.u06','py.u07','py.u08','py.u09','py.u10','py.u11','py.u12'],title:'Units 6 to 12',text:'Errors, libraries, tests, files, patterns in text, classes, a final project'}];
+const PLANNED:{units:string[];title:string;text:string}[]=[{units:['py.u04'],title:'Unit 4 · Keep track of a world',text:'Lists, dictionaries, sets'},{units:['py.u05'],title:'Unit 5 · Organize your code',text:'Functions and scope'},{units:['py.u06'],title:'Unit 6 · Recover and investigate',text:'Tracebacks, debugging, exceptions'},{units:['py.u07','py.u08','py.u09','py.u10','py.u11'],title:'Units 7 to 11',text:'Libraries, tests, files, patterns in text, classes'},{units:['py.u12'],title:'Unit 12 · Final project',text:'Plan, build, test and explain a project of your own'}];
 const WORDS=['no','one','two','three','four','five','six','seven','eight','nine','ten','eleven','twelve'];
 const word=(n:number)=>WORDS[n]??String(n);
 
