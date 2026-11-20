@@ -153,66 +153,326 @@
         {
           "id": "py.u04",
           "title": "Keep track of a world",
-          "summary": "Lists, dictionaries, and sets.",
-          "status": "coming_soon",
-          "complete": false,
-          "lessons": []
+          "summary": "Lists, positions and slices, looping over a list, dictionaries, and sets.",
+          "status": "released",
+          "complete": true,
+          "lessons": [
+            {
+              "id": "py.lists",
+              "title": "Pack the bag",
+              "concept": "Lists · append, len and in",
+              "description": "Pack the hero's bag one item at a time, count what is in it, and check whether something was packed.",
+              "badge": "Pack keeper"
+            },
+            {
+              "id": "py.indexing",
+              "title": "First and last",
+              "concept": "Lists · positions, -1 and slices",
+              "description": "Pick supplies out of the quartermaster's list by their position, and slice off the middle.",
+              "badge": "Quartermaster"
+            },
+            {
+              "id": "py.iterate-lists",
+              "title": "Market day",
+              "concept": "Lists · looping over the items",
+              "description": "Go through every treasure in the list: add them up, keep the valuable ones, and find the biggest.",
+              "badge": "Bargain hunter"
+            },
+            {
+              "id": "py.dicts",
+              "title": "Rooms of the keep",
+              "concept": "Dictionaries · keys, values and get()",
+              "description": "Remember what is in every room of the keep, look a room up by its name, and cope with a room that is not there.",
+              "badge": "Keeper of keys"
+            },
+            {
+              "id": "py.sets",
+              "title": "Rooms already visited",
+              "concept": "Sets · unique values, | & and -",
+              "description": "Keep track of the rooms two explorers have seen, with no repeats, and compare where they have been.",
+              "badge": "Trailblazer"
+            }
+          ]
         },
         {
           "id": "py.u05",
           "title": "Organize your code",
-          "summary": "Functions, parameters, return values, and scope.",
-          "status": "coming_soon",
-          "complete": false,
-          "lessons": []
+          "summary": "Functions: defining and calling, parameters, return values, local names, and splitting a program into parts.",
+          "status": "released",
+          "complete": true,
+          "lessons": [
+            {
+              "id": "py.functions",
+              "title": "A scene you can replay",
+              "concept": "Functions · def and calling",
+              "description": "Name a scene once with def, then play it as often as the story needs.",
+              "badge": "Scene maker"
+            },
+            {
+              "id": "py.parameters",
+              "title": "Any hero, any place",
+              "concept": "Functions · parameters, defaults and named arguments",
+              "description": "Write one scene that works for every hero and place, with a mood that has a sensible default.",
+              "badge": "Storyteller"
+            },
+            {
+              "id": "py.return-values",
+              "title": "Score the guess",
+              "concept": "Functions · return, not print",
+              "description": "Have the riddle keeper's scoring hand its answer back, so the rest of the game can use it.",
+              "badge": "Return trip"
+            },
+            {
+              "id": "py.scope",
+              "title": "The purse that must change",
+              "concept": "Functions · local and global names",
+              "description": "Keep the hero's coins right by handing values in and back, instead of reaching outside a function.",
+              "badge": "Name keeper"
+            },
+            {
+              "id": "py.decompose",
+              "title": "Break the battle into parts",
+              "concept": "Functions · one job per function",
+              "description": "Adventure v2: split a fight into small functions that each do one job, and build the whole from them.",
+              "badge": "Architect"
+            }
+          ]
         },
         {
           "id": "py.u06",
           "title": "Recover and investigate",
-          "summary": "Tracebacks, debugging, and exceptions.",
-          "status": "coming_soon",
-          "complete": false,
-          "lessons": []
+          "summary": "Reading tracebacks, debugging step by step, try and except, raising your own errors, and asking until the reply is valid.",
+          "status": "released",
+          "complete": true,
+          "lessons": [
+            {
+              "id": "py.tracebacks",
+              "title": "Read the crash report",
+              "concept": "Errors · reading a traceback",
+              "description": "The shop's ledger crashes. Read each crash report from the bottom up, and fix the line it points to.",
+              "badge": "Crash reader"
+            },
+            {
+              "id": "py.debug-strategy",
+              "title": "Wrong by one",
+              "concept": "Debugging · find the line that is wrong",
+              "description": "A tally that never crashes but gives the wrong answers. Find its bugs by testing small cases and printing what is going on.",
+              "badge": "Bug hunter"
+            },
+            {
+              "id": "py.try-except",
+              "title": "A safe share",
+              "concept": "Exceptions · try and except",
+              "description": "Share the coins without crashing, whatever the player types.",
+              "badge": "Safety net"
+            },
+            {
+              "id": "py.raise",
+              "title": "Rules of the game",
+              "concept": "Exceptions · raise your own",
+              "description": "Make a function refuse a value that breaks the rules, with a message that says why.",
+              "badge": "Rule maker"
+            },
+            {
+              "id": "py.validate-input",
+              "title": "Ask until it is right",
+              "concept": "Input · asking again until the reply is valid",
+              "description": "The bridge keeper keeps asking until the reply makes sense, and says what was wrong each time.",
+              "badge": "Gatekeeper"
+            }
+          ]
         },
         {
           "id": "py.u07",
           "title": "Libraries and modules",
-          "summary": "Importing and using the standard library.",
-          "status": "coming_soon",
+          "summary": "Importing modules, random numbers with a seed, the math module, dates with datetime, and modules of your own. A local setup lesson comes later.",
+          "status": "released",
           "complete": false,
-          "lessons": []
+          "lessons": [
+            {
+              "id": "py.import",
+              "title": "The toolbox",
+              "concept": "Modules · import and from",
+              "description": "Borrow ready-made tools from Python's math module to measure the round tower.",
+              "badge": "Toolsmith"
+            },
+            {
+              "id": "py.random",
+              "title": "The riddle keeper's dice",
+              "concept": "random · seed, randint, choice and shuffle",
+              "description": "Roll the riddle keeper's dice, and learn why a seed makes chance repeatable.",
+              "badge": "Dice roller"
+            },
+            {
+              "id": "py.math-module",
+              "title": "As the crow flies",
+              "concept": "math · roots, rounding and nearly-equal numbers",
+              "description": "Measure how far the treasure is in a straight line, and round the answers honestly.",
+              "badge": "Navigator"
+            },
+            {
+              "id": "py.datetime",
+              "title": "A study schedule",
+              "concept": "datetime · dates and timedelta",
+              "description": "Plan study sessions on real calendar dates, across month ends and leap days, and spot the weekends.",
+              "badge": "Timekeeper"
+            },
+            {
+              "id": "py.own-modules",
+              "title": "A helper file",
+              "concept": "Modules · your own files",
+              "description": "Quiz tool v1: keep the grading rules in a file of their own, and use them from the main program.",
+              "badge": "Librarian"
+            }
+          ]
         },
         {
           "id": "py.u08",
           "title": "Trust your changes",
-          "summary": "Tests, boundaries, and refactoring.",
-          "status": "coming_soon",
-          "complete": false,
-          "lessons": []
+          "summary": "Writing tests with assert, choosing test cases and boundary values, type hints, and refactoring safely.",
+          "status": "released",
+          "complete": true,
+          "lessons": [
+            {
+              "id": "py.assert-tests",
+              "title": "Test the scorer",
+              "concept": "Testing · assert",
+              "description": "Write tests that prove the streak bonus works, and that catch it when it doesn't.",
+              "badge": "Tester"
+            },
+            {
+              "id": "py.test-cases",
+              "title": "Choose good cases",
+              "concept": "Testing · typical, edge and unusual cases",
+              "description": "Pick the test cases a careless average() would trip on: empty lists, decimals, and the last score.",
+              "badge": "Case finder"
+            },
+            {
+              "id": "py.boundaries",
+              "title": "Edges of the rule",
+              "concept": "Testing · boundary values",
+              "description": "The ferry charges by age. Test right at the edges of each price, where off-by-one bugs hide.",
+              "badge": "Edge walker"
+            },
+            {
+              "id": "py.type-hints",
+              "title": "Labels for values",
+              "concept": "Type hints · saying what a function takes and gives",
+              "description": "Label what goes into the coin-sharing function and what comes out, so anyone reading it knows how to use it.",
+              "badge": "Label maker"
+            },
+            {
+              "id": "py.refactor",
+              "title": "Tidy without breaking",
+              "concept": "Refactoring · same behaviour, clearer code",
+              "description": "The shop's till works but repeats itself. Tidy it into a price list and one function, without changing a single line it prints.",
+              "badge": "Tidy coder"
+            }
+          ]
         },
         {
           "id": "py.u09",
           "title": "Save and load",
-          "summary": "Text files, JSON, and CSV.",
-          "status": "coming_soon",
+          "summary": "Reading and writing text files, saving with JSON, tables in CSV files, and coping with missing or damaged data. A local setup lesson comes later.",
+          "status": "released",
           "complete": false,
-          "lessons": []
+          "lessons": [
+            {
+              "id": "py.text-files",
+              "title": "The save file",
+              "concept": "Files · open, read and write text",
+              "description": "Read the scores the game saved, line by line, and write a summary file of your own.",
+              "badge": "Scribe"
+            },
+            {
+              "id": "py.json",
+              "title": "Save the game",
+              "concept": "json · saving lists and dictionaries",
+              "description": "Load the hero's saved game, add what they found, and save it again, ready for next time.",
+              "badge": "Save keeper"
+            },
+            {
+              "id": "py.csv",
+              "title": "The score table",
+              "concept": "csv · tables in a text file",
+              "description": "Read the tournament's results table, add up each team's points, and find the top player.",
+              "badge": "Table keeper"
+            },
+            {
+              "id": "py.missing-data",
+              "title": "The damaged save",
+              "concept": "Files · coping with missing and bad data",
+              "description": "Load the game's settings even when the file is missing or damaged, and say what was skipped.",
+              "badge": "Data medic"
+            }
+          ]
         },
         {
           "id": "py.u10",
           "title": "Patterns in text",
-          "summary": "String methods and regular expressions.",
-          "status": "coming_soon",
-          "complete": false,
-          "lessons": []
+          "summary": "String methods and f-strings, searching with regular expressions, groups and replacing, and checking formats honestly.",
+          "status": "released",
+          "complete": true,
+          "lessons": [
+            {
+              "id": "py.string-methods",
+              "title": "Clean up the answers",
+              "concept": "Text · string methods and f-strings",
+              "description": "Check the riddle keeper's answers fairly, whatever capitals and spaces the player types, and tidy them for display.",
+              "badge": "Wordsmith"
+            },
+            {
+              "id": "py.regex-basics",
+              "title": "Spot the ticket code",
+              "concept": "re · searching for a pattern",
+              "description": "Recognise ticket codes in the messages that come in, whether a whole message is one or it hides inside other text.",
+              "badge": "Pattern spotter"
+            },
+            {
+              "id": "py.regex-groups",
+              "title": "Read the message log",
+              "concept": "re · groups, findall and sub",
+              "description": "Pull the time and the speaker out of each message, then print the log again with every time hidden.",
+              "badge": "Code breaker"
+            },
+            {
+              "id": "py.validate-formats",
+              "title": "Check the form",
+              "concept": "re · checking a shape, and its limits",
+              "description": "Check usernames and times on the sign-up form: the right shape first, then values that make sense.",
+              "badge": "Form checker"
+            }
+          ]
         },
         {
           "id": "py.u11",
           "title": "Model a larger program",
-          "summary": "Classes and composition.",
-          "status": "coming_soon",
+          "summary": "Classes and attributes, methods that change an object, and objects built from other objects. A lesson on when not to use classes comes later.",
+          "status": "released",
           "complete": false,
-          "lessons": []
+          "lessons": [
+            {
+              "id": "py.classes",
+              "title": "Make a hero",
+              "concept": "Classes · class, __init__ and attributes",
+              "description": "Design a Hero blueprint once, then make a whole party of heroes from it.",
+              "badge": "Hero maker"
+            },
+            {
+              "id": "py.methods",
+              "title": "Potions and blows",
+              "concept": "Classes · methods and state",
+              "description": "Give the hero actions of their own, and keep the rules for health and potions inside the class.",
+              "badge": "Spellcaster"
+            },
+            {
+              "id": "py.composition",
+              "title": "A hero with a pack",
+              "concept": "Classes · objects that hold objects",
+              "description": "Build the hero from smaller parts: a pack with a weight limit, holding items, each class doing one job.",
+              "badge": "Outfitter"
+            }
+          ]
         },
         {
           "id": "py.u12",

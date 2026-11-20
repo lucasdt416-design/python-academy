@@ -75,12 +75,18 @@ def test_after_unit_2_python_continues_with_unit_3():
     assert (r.kind, r.unit, r.lesson) == ('continue', 'py.u03', 'py.while-loops')
 
 
+EVERYTHING = {lesson for u in CATALOG.courses[0].units if u.status == 'released' for lesson in u.lessons}
+
+
 def test_when_everything_released_is_done_the_coming_soon_courses_are_named():
-    r = recommend('hackathon', CATALOG, UNIT1 | UNIT2 | UNIT3)
+    r = recommend('hackathon', CATALOG, EVERYTHING)
     assert r.kind == 'caught_up' and r.lesson is None
     assert r.reason == "You've finished everything available on your path so far."
-    assert r.notes[0] == 'Python Foundations unit 4, Keep track of a world, is next on your path. Its lessons are not written yet.'
+    assert r.notes[0] == 'Python Foundations unit 7, Libraries and modules, has more lessons on the way. You have finished every lesson in it so far.'
     assert 'Hackathon Ready' in r.notes[1]
+    # Partway through the units released in this run: continue them.
+    r = recommend('hackathon', CATALOG, UNIT1 | UNIT2 | UNIT3)
+    assert (r.kind, r.unit, r.lesson) == ('continue', 'py.u04', 'py.lists')
 
 
 def test_partway_through_unit_3_continues_it():
@@ -90,8 +96,10 @@ def test_partway_through_unit_3_continues_it():
 
 def test_a_unit_with_no_lessons_written_is_named_as_such():
     # The note for a planned unit with no lessons (rules version 2).
-    r = recommend('hackathon', CATALOG, UNIT1 | UNIT2 | UNIT3)
-    assert r.notes[0] == 'Python Foundations unit 4, Keep track of a world, is next on your path. Its lessons are not written yet.'
+    finished = [u.model_copy(update={'more_lessons_coming': False}) for u in CATALOG.courses[0].units]
+    catalog = CATALOG.model_copy(update={'courses': [CATALOG.courses[0].model_copy(update={'units': finished}), *CATALOG.courses[1:]]})
+    r = recommend('scratch', catalog, EVERYTHING)
+    assert r.notes[0] == 'Python Foundations unit 12, Final project, is next on your path. Its lessons are not written yet.'
 
 
 def test_part_of_unit_2_done_continues_unit_2():
@@ -120,6 +128,10 @@ def test_worked_example_hackathon_moves_on_after_python_unit_seven():
 
 def test_worked_example_unreleased_hackathon_is_noted_and_the_next_released_course_follows():
     catalog = release(CATALOG, PY[:7] + ['git.u01'], planned={'git': 3})
+    # Only units 1 to 7 of Python are out in this example, so the path moves on to the next course.
+    py = catalog.courses[0]
+    later = [u.model_copy(update={'status': 'coming_soon', 'lessons': [], 'more_lessons_coming': False}) if u.id not in PY[:7] else u for u in py.units]
+    catalog = catalog.model_copy(update={'courses': [py.model_copy(update={'units': later}), *catalog.courses[1:]]})
     r = recommend('hackathon', catalog, lessons_of(catalog, *PY[:7]))
     assert r.notes == ('Hackathon Ready is next on your path and is coming soon.',)
     assert (r.kind, r.course, r.lesson) == ('start', 'git', 'git.u01.l1')

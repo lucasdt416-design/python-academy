@@ -67,6 +67,12 @@
         },
         {
           "tags": [
+            "NameError"
+          ],
+          "text": "Give the settings and the skipped count their values before the file is read, and spell them the same way every time."
+        },
+        {
+          "tags": [
             "ValueError"
           ],
           "text": "int() could not read a value. Catch ValueError around it, and count the line as skipped."

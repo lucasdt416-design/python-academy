@@ -68,6 +68,12 @@
         },
         {
           "tags": [
+            "NameError"
+          ],
+          "text": "Give each name a value before it is used, and spell it the same way every time, such as the count of replies."
+        },
+        {
+          "tags": [
             "EOFError"
           ],
           "text": "Your loop asked again after a good reply. When the reply is valid, break out of the loop."

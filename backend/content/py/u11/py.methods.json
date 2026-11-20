@@ -64,6 +64,12 @@
         },
         {
           "tags": [
+            "NameError"
+          ],
+          "text": "Inside a method, reach the hero's attributes through self, such as self.health, never health on its own."
+        },
+        {
+          "tags": [
             "TypeError"
           ],
           "text": "Every method needs self as its first parameter, and hit() needs the damage as well."

@@ -132,9 +132,9 @@ def test_a_lesson_without_learner_files_keeps_the_view_it_always_had():
         assert 'exampleModules' not in view and 'challengeModules' not in view
 
 
-def test_no_real_lesson_has_learner_files_yet():
+def test_only_py_own_modules_has_learner_files():
     catalog, lessons = content.load()
-    assert not any(lesson.task('example').modules or lesson.task('challenge').modules for lesson in lessons.values())
+    assert {i for i, lesson in lessons.items() if lesson.task('example').modules or lesson.task('challenge').modules} == {'py.own-modules'}
 
 
 # The test runner plays the worker's part

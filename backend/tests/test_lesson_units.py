@@ -78,6 +78,10 @@ RECORDED = json.loads(RECORDED_FILE.read_text())
 
 def test_the_recorded_answers_are_the_real_apis(client):
     gets = recorded_gets(client)
+    if os.environ.get('WRITE_LESSON_UNITS_RECORDINGS') == '1':
+        # After a deliberate content change (a unit released): rewrite the GET answers, keep the scenarios.
+        RECORDED.update(gets)
+        RECORDED_FILE.write_text(json.dumps(RECORDED, indent=1, ensure_ascii=False) + '\n')
     assert {key: RECORDED[key] for key in gets} == gets
     assert len(RECORDED['scenarios']) >= 9
     for scenario in RECORDED['scenarios']:
@@ -113,8 +117,8 @@ def test_unit_1_per_unit_is_the_original_lessons_with_three_fields_added(client)
 
 
 def test_the_real_content_serves_only_released_units():
-    assert list(main.UNIT_LESSONS) == ['py.u01', 'py.u02', 'py.u03']
-    assert TestClient(app).get('/api/units/py.u04/lessons').status_code == 404  # coming soon
+    assert list(main.UNIT_LESSONS) == [f'py.u{n:02d}' for n in range(1, 12)]
+    assert TestClient(app).get('/api/units/py.u12/lessons').status_code == 404  # coming soon
     assert TestClient(app).get('/api/units/nope/lessons').status_code == 404
 
 

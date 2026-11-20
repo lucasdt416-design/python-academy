@@ -58,6 +58,12 @@
       "error_hints": [
         {
           "tags": [
+            "NameError"
+          ],
+          "text": "A name was used that has no value yet: check its spelling against the line where it was made."
+        },
+        {
+          "tags": [
             "TypeError"
           ],
           "text": "If best starts as None, check for None before comparing: None > 5 is an error."

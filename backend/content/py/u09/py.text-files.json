@@ -67,6 +67,12 @@
         },
         {
           "tags": [
+            "NameError"
+          ],
+          "text": "Make the list of scores before the loop that fills it, and spell it the same way every time."
+        },
+        {
+          "tags": [
             "ValueError"
           ],
           "text": "int() could not read a line. A blank line, or one holding only spaces, has to be skipped before int()."

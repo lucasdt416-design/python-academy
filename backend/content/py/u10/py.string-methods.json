@@ -64,6 +64,12 @@
         },
         {
           "tags": [
+            "NameError"
+          ],
+          "text": "A name was used that has no value yet: check its spelling against the line where it was made."
+        },
+        {
+          "tags": [
             "TypeError"
           ],
           "text": "join() needs a list of text. Make sure every item you join is text."

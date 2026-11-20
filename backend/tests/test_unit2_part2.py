@@ -121,8 +121,10 @@ def test_unit_2_is_complete_with_six_lessons_in_order():
 def test_the_catalog_says_which_units_are_complete():
     catalog = TestClient(app).get('/api/catalog').json()
     units = {u['id']: u['complete'] for c in catalog['courses'] for u in c['units']}
-    assert units['py.u01'] is True and units['py.u02'] is True and units['py.u03'] is True
-    assert not any(complete for unit, complete in units.items() if unit not in ('py.u01', 'py.u02', 'py.u03'))
+    finished = ('py.u01', 'py.u02', 'py.u03', 'py.u04', 'py.u05', 'py.u06', 'py.u08', 'py.u10')
+    assert all(units[unit] is True for unit in finished)
+    # Units 7, 9 and 11 are released with more lessons coming, and nothing else is complete.
+    assert not any(complete for unit, complete in units.items() if unit not in finished)
 
 
 def test_more_lessons_coming_is_only_for_a_released_unit(tmp_path):
@@ -130,12 +132,12 @@ def test_more_lessons_coming_is_only_for_a_released_unit(tmp_path):
     import shutil
     shutil.copytree(content.CONTENT_DIR, root)
     data = json.loads((root / 'catalog.json').read_text())
-    data['courses'][0]['units'][3]['more_lessons_coming'] = True  # py.u04, coming soon
+    data['courses'][0]['units'][11]['more_lessons_coming'] = True  # py.u12, coming soon
     (root / 'catalog.json').write_text(json.dumps(data))
-    with pytest.raises(content.ContentError, match='unit py.u04 is coming soon, so it cannot also have more lessons coming'):
+    with pytest.raises(content.ContentError, match='unit py.u12 is coming soon, so it cannot also have more lessons coming'):
         content.load(root)
     # On a released unit it is allowed, and the catalog then calls the unit not complete.
-    data['courses'][0]['units'][3]['more_lessons_coming'] = False
+    data['courses'][0]['units'][11]['more_lessons_coming'] = False
     data['courses'][0]['units'][1]['more_lessons_coming'] = True
     (root / 'catalog.json').write_text(json.dumps(data))
     catalog, lessons = content.load(root)

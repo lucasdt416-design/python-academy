@@ -84,6 +84,8 @@ def test_ordinary_cases_keep_exactly_the_plan_shape_they_had():
     for lesson in content.load()[1].values():
         if browser_checks.applies(lesson):
             for case in browser_checks.plan(lesson)['cases']:
+                if {'call', 'files', 'seed', 'reference', 'test_should'} & set(case):
+                    continue  # function, file, seeded and test cases add their own fields
                 assert set(case) == ({'id', 'visibility', 'description', 'inputs', 'expected'} if case['visibility'] == 'visible' else {'id', 'visibility', 'description', 'inputs'})
 
 
