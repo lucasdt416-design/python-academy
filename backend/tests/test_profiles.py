@@ -137,3 +137,39 @@ def test_profile_changes_are_rate_limited(client):
     sign_in(client)
     codes = [client.put('/api/profile', json={'nickname': '', 'avatar': AVATAR}, headers=helpers.HEADERS).status_code for _ in range(21)]
     assert codes[:20] == [200] * 20 and codes[20] == 429
+
+
+# The answers frontend/tests/profile-stepper.spec.ts mocks are the real view's, for a seeded account.
+RECORDED_FILE = __import__('pathlib').Path(__file__).resolve().parents[2] / 'frontend/tests/fixtures/profile-api.json'
+
+
+def build_recordings():
+    import os
+    from app.db import Base, BadgeAward
+    from app.main import CATALOG, CONTENT, LESSON_ORDER
+    Base.metadata.drop_all(engine)
+    Base.metadata.create_all(engine)
+    with Session(engine) as db:
+        db.add(User(id=1, subject='s', email='learner@example.com', role='student'))
+        db.add(User(id=2, subject='p', email='parent@example.com', role='parent'))
+        db.add(Event(user_id=1, action='enrolled', detail='', created='2026-10-01T09:00:00+00:00'))
+        lessons = ['hello', 'variables', 'input', 'choices', 'adventure', 'py.lists', 'py.indexing']
+        for i, lesson_id in enumerate(lessons):
+            day = '2026-11-18' if i < 5 else '2026-11-20'
+            db.add(XpAward(user_id=1, task_id=f'{lesson_id}.challenge', task_version=1, xp=100, source='practice', created=f'{day}T15:00:00+00:00'))
+            badge = CONTENT[lesson_id].badge
+            db.add(BadgeAward(user_id=1, badge_id=badge.id, badge_version=badge.version, source='practice', created=f'{day}T15:00:00+00:00'))
+        db.commit()
+        today = date(2026, 11, 20)
+        student = profiles.view(db, db.get(User, 1), CATALOG, CONTENT, LESSON_ORDER, today)
+        parent = profiles.view(db, db.get(User, 2), CATALOG, CONTENT, LESSON_ORDER, today)
+    recorded = {'student': student, 'parent': parent}
+    if os.environ.get('WRITE_PROFILE_RECORDINGS') == '1':
+        RECORDED_FILE.write_text(json.dumps(recorded, indent=1, ensure_ascii=False) + '\n')
+    return recorded
+
+
+def test_the_recorded_profiles_are_the_real_view():
+    recorded = build_recordings()
+    assert json.loads(RECORDED_FILE.read_text()) == recorded
+    assert recorded['student']['level']['title'] == 'Pathfinder' and recorded['student']['streak'] == 1

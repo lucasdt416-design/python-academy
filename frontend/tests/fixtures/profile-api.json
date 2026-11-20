@@ -1,0 +1,233 @@
+{
+ "student": {
+  "saved": false,
+  "nickname": "",
+  "avatar": {
+   "skin": "peach",
+   "hair": "short",
+   "hair_colour": "brown",
+   "outfit": "plum",
+   "item": "lantern"
+  },
+  "choices": {
+   "skin": [
+    "sand",
+    "peach",
+    "honey",
+    "bronze",
+    "umber"
+   ],
+   "hair": [
+    "short",
+    "long",
+    "curly",
+    "bun",
+    "none"
+   ],
+   "hair_colour": [
+    "black",
+    "brown",
+    "auburn",
+    "blond",
+    "grey",
+    "teal"
+   ],
+   "outfit": [
+    "plum",
+    "moss",
+    "slate",
+    "clay",
+    "amber"
+   ],
+   "item": [
+    "lantern",
+    "map",
+    "key",
+    "wand",
+    "shield",
+    "none"
+   ]
+  },
+  "email": "learner@example.com",
+  "role": "student",
+  "member_since": "2026-10-01",
+  "xp": 700,
+  "level": {
+   "number": 2,
+   "title": "Pathfinder",
+   "xp_into_level": 200,
+   "xp_for_next": 500
+  },
+  "badges": [
+   {
+    "id": "py.badge.story-spark",
+    "title": "Story spark"
+   },
+   {
+    "id": "py.badge.character-creator",
+    "title": "Character creator"
+   },
+   {
+    "id": "py.badge.conversation-starter",
+    "title": "Conversation starter"
+   },
+   {
+    "id": "py.badge.path-finder",
+    "title": "Path finder"
+   },
+   {
+    "id": "py.badge.adventure-maker",
+    "title": "Adventure maker"
+   },
+   {
+    "id": "py.badge.pack-keeper",
+    "title": "Pack keeper"
+   },
+   {
+    "id": "py.badge.quartermaster",
+    "title": "Quartermaster"
+   }
+  ],
+  "completed": 7,
+  "released": 52,
+  "units": [
+   {
+    "id": "py.u01",
+    "title": "Build Your Own Adventure",
+    "done": 5,
+    "total": 5,
+    "more_coming": false
+   },
+   {
+    "id": "py.u02",
+    "title": "Numbers and decisions",
+    "done": 0,
+    "total": 6,
+    "more_coming": false
+   },
+   {
+    "id": "py.u03",
+    "title": "Repeat and explore",
+    "done": 0,
+    "total": 5,
+    "more_coming": false
+   },
+   {
+    "id": "py.u04",
+    "title": "Keep track of a world",
+    "done": 2,
+    "total": 5,
+    "more_coming": false
+   },
+   {
+    "id": "py.u05",
+    "title": "Organize your code",
+    "done": 0,
+    "total": 5,
+    "more_coming": false
+   },
+   {
+    "id": "py.u06",
+    "title": "Recover and investigate",
+    "done": 0,
+    "total": 5,
+    "more_coming": false
+   },
+   {
+    "id": "py.u07",
+    "title": "Libraries and modules",
+    "done": 0,
+    "total": 5,
+    "more_coming": true
+   },
+   {
+    "id": "py.u08",
+    "title": "Trust your changes",
+    "done": 0,
+    "total": 5,
+    "more_coming": false
+   },
+   {
+    "id": "py.u09",
+    "title": "Save and load",
+    "done": 0,
+    "total": 4,
+    "more_coming": true
+   },
+   {
+    "id": "py.u10",
+    "title": "Patterns in text",
+    "done": 0,
+    "total": 4,
+    "more_coming": false
+   },
+   {
+    "id": "py.u11",
+    "title": "Model a larger program",
+    "done": 0,
+    "total": 3,
+    "more_coming": true
+   }
+  ],
+  "active_days": [
+   "2026-11-18",
+   "2026-11-20"
+  ],
+  "streak": 1,
+  "calendar_start": "2026-08-29",
+  "today": "2026-11-20"
+ },
+ "parent": {
+  "saved": false,
+  "nickname": "",
+  "avatar": {
+   "skin": "peach",
+   "hair": "short",
+   "hair_colour": "brown",
+   "outfit": "plum",
+   "item": "lantern"
+  },
+  "choices": {
+   "skin": [
+    "sand",
+    "peach",
+    "honey",
+    "bronze",
+    "umber"
+   ],
+   "hair": [
+    "short",
+    "long",
+    "curly",
+    "bun",
+    "none"
+   ],
+   "hair_colour": [
+    "black",
+    "brown",
+    "auburn",
+    "blond",
+    "grey",
+    "teal"
+   ],
+   "outfit": [
+    "plum",
+    "moss",
+    "slate",
+    "clay",
+    "amber"
+   ],
+   "item": [
+    "lantern",
+    "map",
+    "key",
+    "wand",
+    "shield",
+    "none"
+   ]
+  },
+  "email": "parent@example.com",
+  "role": "parent",
+  "member_since": null
+ }
+}
