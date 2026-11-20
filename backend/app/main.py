@@ -1,6 +1,7 @@
 from . import browser_checks, content, migrate, sessions
 from . import awards
 from . import admin
+from . import profiles
 from . import feedback as tester_feedback
 from .awards import award_challenge
 from .db import Attempt, Base, Event, Invitation, LearnerGoal, User, engine
@@ -240,6 +241,40 @@ def set_goal(data: GoalChoice, request: Request):
         audit(db, u, 'goal_chosen' if chosen else 'goal_skipped', goal)
         db.commit()
         return goal_state(db, u.id)
+
+class ProfileChoice(BaseModel):
+    nickname: str = Field(default='', max_length=60)
+    avatar: dict[str, str] = Field(default_factory=dict, max_length=10)
+
+
+def profile_user(request, db):
+    """Profiles are for enrolled students and parents; an account still being set up has none."""
+    u = current(request, db)
+    if u.role not in ('student', 'parent'):
+        raise HTTPException(403, 'This action is unavailable for this account')
+    return u
+
+
+@app.get('/api/profile')
+def my_profile(request: Request):
+    with Session(engine) as db:
+        return profiles.view(db, profile_user(request, db), CATALOG, CONTENT, LESSON_ORDER)
+
+
+@app.put('/api/profile', dependencies=[Depends(limit('profile'))])
+def save_profile(data: ProfileChoice, request: Request):
+    with Session(engine) as db:
+        u = profile_user(request, db)
+        try:
+            nickname, avatar = profiles.clean_nickname(data.nickname), profiles.clean_avatar(data.avatar)
+        except ValueError as error:
+            raise HTTPException(422, str(error))
+        profiles.save(db, u, nickname, avatar)
+        # No detail: the nickname is never copied into the account history.
+        audit(db, u, 'profile_saved')
+        db.commit()
+        return profiles.view(db, u, CATALOG, CONTENT, LESSON_ORDER)
+
 
 @app.get('/api/recommendation')
 def next_recommendation(request: Request):

@@ -52,6 +52,7 @@ RULES = {
     'invitations': Rule('invitations', user=((10, HOUR), (30, DAY)), ip=((10, HOUR),)),
     'enroll': Rule('registration attempts', user=((10, 15 * MINUTE),), ip=((30, 15 * MINUTE),)),
     'goal': Rule('goal changes', user=((10, MINUTE), (50, DAY)), ip=((30, MINUTE),)),
+    'profile': Rule('profile changes', user=((20, MINUTE), (100, DAY)), ip=((30, MINUTE),)),
     'signin': Rule('sign-in attempts', ip=((60, 10 * MINUTE),), per_ip=True),
     'signin_callback': Rule('sign-in attempts', ip=((60, 10 * MINUTE),), per_ip=True),
     # Admin routes refuse signed-out callers before this counts; the limit is a backstop.
