@@ -40,6 +40,24 @@ export function show(n:PyNode|undefined, quoted=false):string{
   default:return '…';
  }
 }
+/** A value read back from what print() showed: a list, tuple, set, dict, text, number, True, False or None,
+ * as Python writes them. Scenes use it when a check run reports only the output. Anything else is null. */
+export function parseRepr(text:string):PyNode|null{
+ let i=0;const s=text.trim();
+ const ws=()=>{while(s[i]===' ')i++;};
+ const value=():PyNode=>{
+  ws();const c=s[i];
+  if(c==='['||c==='('){const close=c==='['?']':')';i++;const items:PyNode[]=[];ws();while(s[i]!==close){items.push(value());ws();if(s[i]===',')i++;ws();if(i>=s.length)throw Error();}i++;return {t:c==='['?'list':'tuple',n:items.length,items};}
+  if(c==='{'){i++;ws();const items:PyNode[]=[],entries:[PyNode,PyNode][]=[];while(s[i]!=='}'){const k=value();ws();if(s[i]===':'){i++;entries.push([k,value()]);}else items.push(k);ws();if(s[i]===',')i++;ws();if(i>=s.length)throw Error();}i++;
+   return items.length&&!entries.length?{t:'set',n:items.length,items}:{t:'dict',n:entries.length,entries};}
+  if(c==="'"||c==='"'){i++;let out='';while(s[i]!==c){if(i>=s.length)throw Error();if(s[i]==='\\'){i++;out+=({n:'\n',t:'\t'} as Record<string,string>)[s[i]]??s[i];}else out+=s[i];i++;}i++;return {t:'str',v:out};}
+  if(s.startsWith('set()',i)){i+=5;return {t:'set',n:0,items:[]};}
+  for(const [word,node] of [['True',{t:'bool',v:true}],['False',{t:'bool',v:false}],['None',{t:'none'}]] as [string,PyNode][])if(s.startsWith(word,i)){i+=word.length;return node;}
+  const m=/^-?\d+(\.\d+)?(e-?\d+)?/i.exec(s.slice(i));if(m){i+=m[0].length;return m[0].includes('.')||/e/i.test(m[0])?{t:'float',v:m[0]}:{t:'int',v:m[0]};}
+  throw Error();
+ };
+ try{const v=value();ws();return i===s.length?v:null;}catch{return null;}
+}
 export const numOf = (n:PyNode|undefined):number|null => n&&(n.t==='int'||n.t==='float')&&isNum(n.v)?Number(n.v):null;
 export const strOf = (n:PyNode|undefined):string|null => n&&n.t==='str'?n.v:null;
 /** The first variable, by any of these names, of one of these kinds. */
