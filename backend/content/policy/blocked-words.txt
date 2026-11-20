@@ -1,0 +1,16 @@
+# Words a learner may not use in text other people could one day see (app/text_policy.py).
+# One per line, lowercase. Matched as whole words after undoing common disguises (f*ck, sh1t, a$$),
+# never inside other words, so "Scunthorpe" and "classic" stay fine. The owner keeps this list;
+# add words here, and the tests in tests/test_text_policy.py check that each one is caught.
+fuck
+fucking
+shit
+bitch
+cunt
+asshole
+bastard
+dick
+slut
+whore
+wanker
+twat

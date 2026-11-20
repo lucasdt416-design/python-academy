@@ -3,6 +3,7 @@ from . import awards
 from . import admin
 from . import profiles
 from . import review
+from . import insights
 from . import feedback as tester_feedback
 from .awards import award_challenge
 from .db import Attempt, Base, Event, Invitation, LearnerGoal, User, engine
@@ -388,6 +389,18 @@ def check_preview(data: Submission):
     result, feedback, rule = judge(data.lesson_id, data.code, data.output, data.inputs)
     # rule: the named check rule that decided the result, so the page can offer the hint tagged for it.
     return {'passed': result == 'passed', 'result': result, 'feedback': feedback, 'rule': rule, 'assessment': 'browser_practice'}
+
+class InsightRequest(BaseModel):
+    lesson_id: str = Field(max_length=80)
+    code: str = Field(max_length=20000)
+
+
+@app.post('/api/insights', dependencies=[Depends(limit('insights'))])
+def likely_causes(data: InsightRequest):
+    """Likely causes for a program that did not pass: read from its syntax tree, never run, never stored."""
+    if data.lesson_id not in CONTENT:
+        raise HTTPException(404, 'Unknown lesson')
+    return {'insights': insights.find(data.code)}
 
 @app.get('/api/progress')
 def progress(request: Request):

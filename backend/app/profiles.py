@@ -11,7 +11,7 @@ from datetime import datetime, timedelta, timezone
 
 from sqlalchemy import select
 
-from . import awards
+from . import awards, text_policy
 from .db import Event, Profile, XpAward
 
 AVATAR_CHOICES = {
@@ -36,6 +36,8 @@ def clean_nickname(value):
         raise ValueError('Keep your nickname to 24 characters or fewer.')
     if not NICKNAME.fullmatch(value):
         raise ValueError('Use letters, digits, spaces, dots, dashes and apostrophes only.')
+    if (reason := text_policy.problem(value)):
+        raise ValueError(reason)
     return value
 
 
