@@ -276,6 +276,8 @@ AUTHENTICATED = {
     ('GET', '/api/goal'): ('student', None),
     ('POST', '/api/goal'): ('student', {'goal': None}),
     ('GET', '/api/profile'): ('student', None),
+    ('GET', '/api/review'): ('student', None),
+    ('POST', '/api/review/answer'): ('student', {'card_id': 'hello.review.predict', 'choice': 0}),
     ('PUT', '/api/profile'): ('student', {'nickname': '', 'avatar': {'skin': 'sand', 'hair': 'none', 'hair_colour': 'grey', 'outfit': 'moss', 'item': 'none'}}),
     ('GET', '/api/recommendation'): ('student', None),
     ('GET', '/api/awards'): ('student', None),
@@ -331,7 +333,9 @@ def test_authenticated_routes_still_work_with_a_live_session(route):
     role, body = AUTHENTICATED[route]
     use_cookie(sign_cookie({'sid': real_sid(make_user(role))}))
     response = send(method, path, body)
-    assert response.status_code == 200, response.text
+    # A new account has finished no lesson, so a review answer is refused as not open yet: still not a 401.
+    expected = 404 if route == ('POST', '/api/review/answer') else 200
+    assert response.status_code == expected, response.text
 
 
 # Logs
