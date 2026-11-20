@@ -242,12 +242,12 @@ test('after the fifth lesson the unit is complete, and the page says so', async 
  await expect(page.getByRole('button', {name: 'Next quest →'})).toHaveCount(0);
 });
 
-test('the student home after unit 3 says unit 4 is next and not written yet, with nothing to start', async ({page}) => {
+test('the student home after everything released says unit 7 has more lessons on the way, with nothing to start', async ({page}) => {
  await mockApi(page, {student: true});
  await page.goto('/');
  const card = page.getByRole('region', {name: 'More lessons are on the way'});
  await expect(card.getByText("You've finished everything available on your path so far.")).toBeVisible();
- await expect(card.getByText('Python Foundations unit 4, Keep track of a world, is next on your path. Its lessons are not written yet.')).toBeVisible();
+ await expect(card.getByText('Python Foundations unit 7, Libraries and modules, has more lessons on the way. You have finished every lesson in it so far.')).toBeVisible();
  await expect(card).not.toContainText('Repeat and explore');
  await expect(card.getByRole('link', {name: /^(Start|Continue)/})).toHaveCount(0);
 });
@@ -255,12 +255,12 @@ test('the student home after unit 3 says unit 4 is next and not written yet, wit
 test('the catalog and course page show unit 3 as whole, with its true summary and five lessons', async ({page}) => {
  await mockApi(page);
  await page.goto('/courses');
- await expect(page.getByText('3 of 12 units open')).toBeVisible();
+ await expect(page.getByText('11 of 12 units open')).toBeVisible();
  await page.goto('/courses/py');
  const unit = page.getByRole('article', {name: 'Repeat and explore'});
  await expect(unit.getByText('while and for loops that always finish, running totals, and loops inside loops.')).toBeVisible();
  await expect(unit.getByRole('link')).toHaveCount(5);
- await expect(page.getByRole('article', {name: 'Keep track of a world'}).getByText('Coming soon')).toBeVisible();
+ await expect(page.getByRole('article', {name: 'Final project'}).getByText('Coming soon')).toBeVisible();
 });
 
 test('the nested loops challenge fits a phone, with no sideways scrolling, and nothing moves with reduced motion', async ({page}) => {

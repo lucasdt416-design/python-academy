@@ -196,6 +196,48 @@
    "errorType": "IndexError",
    "outputLimit": false,
    "raw": "PythonError: Traceback (most recent call last):\n  File \"/lib/python312.zip/_pyodide/_base.py\", line 597, in eval_code_async\n    await CodeRunner(\n  File \"/lib/python312.zip/_pyodide/_base.py\", line 411, in run_async\n    coroutine = eval(self.code, globals, locals)\n                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<exec>\", line 2, in <module>\nIndexError: list index out of range\n"
+  },
+  {
+   "id": "index",
+   "code": "pack = [\"rope\"]\nprint(pack[1])",
+   "raw": "PythonError: Traceback (most recent call last):\n  File \"/lib/python312.zip/_pyodide/_base.py\", line 597, in eval_code_async\n    await CodeRunner(\n  File \"/lib/python312.zip/_pyodide/_base.py\", line 411, in run_async\n    coroutine = eval(self.code, globals, locals)\n                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<exec>\", line 2, in <module>\nIndexError: list index out of range\n",
+   "errorType": "IndexError",
+   "outputLimit": false
+  },
+  {
+   "id": "key",
+   "code": "rooms = {\"hall\": \"lamp\"}\nprint(rooms[\"attic\"])",
+   "raw": "PythonError: Traceback (most recent call last):\n  File \"/lib/python312.zip/_pyodide/_base.py\", line 597, in eval_code_async\n    await CodeRunner(\n  File \"/lib/python312.zip/_pyodide/_base.py\", line 411, in run_async\n    coroutine = eval(self.code, globals, locals)\n                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<exec>\", line 2, in <module>\nKeyError: 'attic'\n",
+   "errorType": "KeyError",
+   "outputLimit": false
+  },
+  {
+   "id": "none-method",
+   "code": "pack = []\npack = pack.append(\"rope\")\npack.append(\"map\")",
+   "raw": "PythonError: Traceback (most recent call last):\n  File \"/lib/python312.zip/_pyodide/_base.py\", line 597, in eval_code_async\n    await CodeRunner(\n  File \"/lib/python312.zip/_pyodide/_base.py\", line 411, in run_async\n    coroutine = eval(self.code, globals, locals)\n                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<exec>\", line 3, in <module>\nAttributeError: 'NoneType' object has no attribute 'append'\n",
+   "errorType": "AttributeError",
+   "outputLimit": false
+  },
+  {
+   "id": "attribute",
+   "code": "visited = {}\nvisited.add(\"hall\")",
+   "raw": "PythonError: Traceback (most recent call last):\n  File \"/lib/python312.zip/_pyodide/_base.py\", line 597, in eval_code_async\n    await CodeRunner(\n  File \"/lib/python312.zip/_pyodide/_base.py\", line 411, in run_async\n    coroutine = eval(self.code, globals, locals)\n                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<exec>\", line 2, in <module>\nAttributeError: 'dict' object has no attribute 'add'\n",
+   "errorType": "AttributeError",
+   "outputLimit": false
+  },
+  {
+   "id": "unbound",
+   "code": "score = 0\n\ndef bonus():\n    score = score + 1\n\nbonus()",
+   "raw": "PythonError: Traceback (most recent call last):\n  File \"/lib/python312.zip/_pyodide/_base.py\", line 597, in eval_code_async\n    await CodeRunner(\n  File \"/lib/python312.zip/_pyodide/_base.py\", line 411, in run_async\n    coroutine = eval(self.code, globals, locals)\n                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<exec>\", line 6, in <module>\n  File \"<exec>\", line 4, in bonus\nUnboundLocalError: cannot access local variable 'score' where it is not associated with a value\n",
+   "errorType": "UnboundLocalError",
+   "outputLimit": false
+  },
+  {
+   "id": "assert",
+   "code": "assert 2 + 2 == 5",
+   "raw": "PythonError: Traceback (most recent call last):\n  File \"/lib/python312.zip/_pyodide/_base.py\", line 597, in eval_code_async\n    await CodeRunner(\n  File \"/lib/python312.zip/_pyodide/_base.py\", line 411, in run_async\n    coroutine = eval(self.code, globals, locals)\n                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<exec>\", line 1, in <module>\nAssertionError\n",
+   "errorType": "AssertionError",
+   "outputLimit": false
   }
  ]
 }

@@ -117,7 +117,7 @@ test('Create your hero, Try it: the hero takes the name stored in hero', async (
 test('Pack the bag, Try it: a variable called list does not break the scene', async ({page}) => {
  await mockApi(page);
  await page.goto('/preview?lesson=py.lists&card=4');
- await page.getByLabel('Your Python code').fill('list = 3\nlen = 2\npack = ["rope", "map", "lamp"]\nprint(pack)');
+ await page.getByLabel('Your Python code').fill('list = 3\ntype = 2\npack = ["rope", "map", "lamp"]\nprint("packed")');
  await page.getByRole('button', {name: 'Run Python →'}).click();
  await expect(scene(page).locator('figcaption')).toContainText('The pack holds 3 items: rope, map, lamp', {timeout: 45000});
 });
