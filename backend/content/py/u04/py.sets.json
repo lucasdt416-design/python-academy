@@ -1,0 +1,209 @@
+{
+  "id": "py.sets",
+  "version": 1,
+  "course": "py",
+  "unit": "py.u04",
+  "title": "Rooms already visited",
+  "concept": "Sets · unique values, | & and -",
+  "description": "Keep track of the rooms two explorers have seen, with no repeats, and compare where they have been.",
+  "badge": {
+    "id": "py.badge.trailblazer",
+    "version": 1,
+    "title": "Trailblazer",
+    "category": "practice"
+  },
+  "tasks": [
+    {
+      "id": "py.sets.discover",
+      "type": "discover",
+      "title": "Keep each thing once",
+      "body": "A set holds values with no repeats: visited = {\"hall\", \"cellar\"}. visited.add(\"hall\") changes nothing, because hall is already in it, and len(visited) counts each value once.",
+      "detail": "An empty set is written set(), because {} is an empty dictionary. A set has no positions and no fixed order, so to print one dependably use sorted(visited), which gives a sorted list. a | b holds everything in either set, a & b only what is in both, and a - b what is in a but not in b."
+    },
+    {
+      "id": "py.sets.example",
+      "type": "example",
+      "code": "# Where have the two explorers been?\nkai = {\"hall\", \"cellar\", \"tower\"}\nnova = {\"tower\", \"garden\"}\nkai.add(\"hall\")\nprint(len(kai))\nprint(sorted(kai | nova))\nprint(sorted(kai & nova))\nprint(\"garden\" in kai)",
+      "output": "3\n['cellar', 'garden', 'hall', 'tower']\n['tower']\nFalse",
+      "note": "Adding hall again leaves three rooms. | joins the two sets with no repeats, & keeps the one room both have visited, and sorted() lists them in alphabetical order.",
+      "inputs": []
+    },
+    {
+      "id": "py.sets.predict",
+      "type": "predict",
+      "question": "What would print(len(kai | nova)) show?",
+      "options": [
+        "4",
+        "5",
+        "3"
+      ],
+      "answer": 0,
+      "why": "There are five names in the two sets, but tower is in both and is counted once."
+    },
+    {
+      "id": "py.sets.guided",
+      "type": "guided",
+      "prompt": "Predict, then run: add \"garden\" to kai and print sorted(kai & nova) again. Then try visited = {} followed by visited.add(\"hall\"), and read the error."
+    },
+    {
+      "id": "py.sets.challenge",
+      "type": "challenge",
+      "prompt": "Two explorers walk the keep. Ask how many rooms the first explorer visited, then each room's name, then do the same for the second explorer. A room can be named more than once. Print four lines: how many different rooms the first explorer saw; a sorted list of every room either of them saw; a sorted list of the rooms both of them saw; and a sorted list of the rooms only the first explorer saw. Print just those four lines.",
+      "starter": "# Read each explorer's rooms\n",
+      "hints": [
+        "Collect each explorer's rooms in a set, so a room named twice counts once. An empty set is made with set().",
+        "| gives every room in either set, & the rooms in both, and - the rooms in the first but not the second. sorted() turns each answer into a list in alphabetical order.",
+        "With other names: birds = set() goes before a loop, and birds.add(name) inside it. sorted(birds) lists them."
+      ],
+      "error_hints": [
+        {
+          "tags": [
+            "AttributeError"
+          ],
+          "text": "{} is an empty dictionary, and a dictionary has no add(). Start an empty set with set()."
+        },
+        {
+          "tags": [
+            "TypeError"
+          ],
+          "text": "range() needs a whole number: use int(...) on each count."
+        },
+        {
+          "tags": [
+            "EOFError"
+          ],
+          "text": "Your program asked for more replies than it gets. Each explorer's count comes just before their rooms."
+        },
+        {
+          "tags": [
+            "NameError"
+          ],
+          "text": "Make each set before the loop that fills it, and spell its name the same way every time."
+        },
+        {
+          "tags": [
+            "py.sets.case.both"
+          ],
+          "text": "With hall, cellar and tower, and then tower and garden, the lines are 3, all four rooms, ['tower'] and ['cellar', 'hall']. & gives only the rooms in both sets."
+        },
+        {
+          "tags": [
+            "py.sets.case.repeats"
+          ],
+          "text": "A room named twice is still one room. A set keeps one copy, so count the set, not the replies."
+        },
+        {
+          "tags": [
+            "py.sets.case.stayed-home"
+          ],
+          "text": "When the second explorer saw no rooms, nothing is in both, and every room is one only the first explorer saw."
+        },
+        {
+          "tags": [
+            "py.sets.case.never-met"
+          ],
+          "text": "Check two explorers who saw different rooms: no room is in both."
+        },
+        {
+          "tags": [
+            "py.sets.case.same-walk"
+          ],
+          "text": "Check two explorers who saw the same rooms: no room is only the first explorer's."
+        }
+      ],
+      "similar_example": {
+        "code": "red = {\"apple\", \"cherry\", \"plum\"}\nsweet = {\"plum\", \"fig\", \"apple\"}\nprint(sorted(red & sweet))\nprint(sorted(sweet - red))",
+        "note": "Fruit instead of rooms: & finds what both sets share, and - what is only in the first. Your challenge builds its sets from the replies, one room at a time."
+      },
+      "other_ways": [
+        {
+          "code": "first = set()\nfor n in range(int(input(\"Rooms? \"))):\n    first.add(input(\"Room? \"))\nsecond = set()\nfor n in range(int(input(\"Rooms? \"))):\n    second.add(input(\"Room? \"))\nprint(len(first))\nprint(sorted(first | second))\nprint(sorted(first & second))\nprint(sorted(first - second))",
+          "note": "int(input()) can go straight into range(), because each count is only needed once."
+        },
+        {
+          "code": "count = int(input(\"Rooms? \"))\nfirst = []\nfor n in range(count):\n    first.append(input(\"Room? \"))\ncount = int(input(\"Rooms? \"))\nsecond = []\nfor n in range(count):\n    second.append(input(\"Room? \"))\na = set(first)\nb = set(second)\nprint(len(a))\nprint(sorted(a.union(b)))\nprint(sorted(a.intersection(b)))\nprint(sorted(a.difference(b)))",
+          "note": "set() turns a list into a set, dropping repeats. union(), intersection() and difference() are the method names for |, & and -."
+        }
+      ],
+      "input_labels": [],
+      "check": {
+        "cases": [
+          {
+            "id": "both",
+            "description": "rooms both explorers saw",
+            "inputs": [
+              "3",
+              "hall",
+              "cellar",
+              "tower",
+              "2",
+              "tower",
+              "garden"
+            ],
+            "expected": "3\n['cellar', 'garden', 'hall', 'tower']\n['tower']\n['cellar', 'hall']"
+          },
+          {
+            "id": "repeats",
+            "description": "a room named more than once",
+            "inputs": [
+              "4",
+              "hall",
+              "hall",
+              "well",
+              "hall",
+              "1",
+              "well"
+            ],
+            "expected": "2\n['hall', 'well']\n['well']\n['hall']"
+          },
+          {
+            "id": "stayed-home",
+            "description": "the second explorer stayed home",
+            "inputs": [
+              "2",
+              "gate",
+              "moat",
+              "0"
+            ],
+            "expected": "2\n['gate', 'moat']\n[]\n['gate', 'moat']"
+          },
+          {
+            "id": "never-met",
+            "description": "explorers who saw different rooms",
+            "inputs": [
+              "2",
+              "attic",
+              "bell",
+              "2",
+              "crypt",
+              "dock"
+            ],
+            "expected": "2\n['attic', 'bell', 'crypt', 'dock']\n[]\n['attic', 'bell']",
+            "visibility": "hidden"
+          },
+          {
+            "id": "same-walk",
+            "description": "explorers who took the same walk",
+            "inputs": [
+              "2",
+              "yard",
+              "forge",
+              "3",
+              "forge",
+              "yard",
+              "forge"
+            ],
+            "expected": "2\n['forge', 'yard']\n['forge', 'yard']\n[]",
+            "visibility": "hidden"
+          }
+        ],
+        "time_limit_ms": 3000
+      },
+      "validator": {
+        "id": "browser-tests",
+        "version": 1
+      },
+      "version": 1
+    }
+  ]
+}

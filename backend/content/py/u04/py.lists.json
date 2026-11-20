@@ -1,0 +1,203 @@
+{
+  "id": "py.lists",
+  "version": 1,
+  "course": "py",
+  "unit": "py.u04",
+  "title": "Pack the bag",
+  "concept": "Lists · append, len and in",
+  "description": "Pack the hero's bag one item at a time, count what is in it, and check whether something was packed.",
+  "badge": {
+    "id": "py.badge.pack-keeper",
+    "version": 1,
+    "title": "Pack keeper",
+    "category": "practice"
+  },
+  "tasks": [
+    {
+      "id": "py.lists.discover",
+      "type": "discover",
+      "title": "Keep many things under one name",
+      "body": "A list holds several values in order, inside square brackets: pack = [\"rope\", \"map\"]. pack.append(\"lamp\") adds one more to the end, and len(pack) says how many there are.",
+      "detail": "item in pack is True when the item is somewhere in the list, and False when it is not. append() changes the list itself and gives back nothing, so it goes on a line of its own: pack.append(\"lamp\"). An empty list, [], has a length of 0."
+    },
+    {
+      "id": "py.lists.example",
+      "type": "example",
+      "code": "# Pack for the journey\npack = [\"rope\", \"map\"]\npack.append(\"lantern\")\nprint(len(pack))\nprint(\"map\" in pack)\nprint(\"sword\" in pack)\nprint(pack)",
+      "output": "3\nTrue\nFalse\n['rope', 'map', 'lantern']",
+      "note": "append() put lantern at the end, so the pack holds three things. in looks through the whole list for an exact match. print(pack) shows the list the way Python writes one, with brackets and quotes.",
+      "inputs": []
+    },
+    {
+      "id": "py.lists.predict",
+      "type": "predict",
+      "question": "Suppose the third line were pack = pack.append(\"lantern\"), and the only print were print(pack). What would it show?",
+      "options": [
+        "['rope', 'map', 'lantern']",
+        "None",
+        "['lantern']"
+      ],
+      "answer": 1,
+      "why": "append() changes the list and gives back None. Storing that None in pack replaces the whole list with it."
+    },
+    {
+      "id": "py.lists.guided",
+      "type": "guided",
+      "prompt": "Predict, then run: add one more item with append() and check that len() goes up by one. Then make the first line pack = [] and see what len(pack) and print(pack) show for a pack that starts empty."
+    },
+    {
+      "id": "py.lists.challenge",
+      "type": "challenge",
+      "prompt": "Pack the hero's bag. Ask how many items to pack (it can be 0), then ask for each item and add it to a list. Then ask for one more item to look for. Print three lines: how many items are in the pack, True or False for whether the item you looked for is in it, and the pack itself, with print(). Print just those three lines.",
+      "starter": "# Ask how many items, then pack them one at a time\n",
+      "hints": [
+        "You need a list that starts empty, above the loop, and grows by one item each time round the loop.",
+        "A for loop over range() asks once per item. After the loop, one more input() gives the item to look for, and in tells you whether it is there.",
+        "The same pattern with other names: shelf = [] goes before the loop, and shelf.append(book) goes inside it. len(shelf) counts the books."
+      ],
+      "error_hints": [
+        {
+          "tags": [
+            "TypeError"
+          ],
+          "text": "range() needs a number. Turn the first reply into one with int(...) before the loop."
+        },
+        {
+          "tags": [
+            "AttributeError"
+          ],
+          "text": "append() changes the list and gives back None. Write the append on its own line, without storing what it gives back."
+        },
+        {
+          "tags": [
+            "EOFError"
+          ],
+          "text": "Your program asked for one more reply than it gets. range() with the number of items runs exactly once per item, and the item to look for comes after the loop."
+        },
+        {
+          "tags": [
+            "NameError"
+          ],
+          "text": "Make the list before the loop uses it, and spell its name the same way every time."
+        },
+        {
+          "tags": [
+            "py.lists.case.three"
+          ],
+          "text": "With three items packed and map looked for, the lines are 3, True and the whole list. If your count says 1, the list starts again inside the loop: make it once, above the loop."
+        },
+        {
+          "tags": [
+            "py.lists.case.missing"
+          ],
+          "text": "When the item looked for was never packed, the answer is False. Check that you look through the whole pack, not just one item of it."
+        },
+        {
+          "tags": [
+            "py.lists.case.empty"
+          ],
+          "text": "With 0 items the loop runs no times, the length is 0, and print() shows an empty list as []."
+        },
+        {
+          "tags": [
+            "py.lists.case.twice"
+          ],
+          "text": "Pack every reply, even one that is already in the pack. A list can hold the same thing twice."
+        },
+        {
+          "tags": [
+            "py.lists.case.longer"
+          ],
+          "text": "Check a longer pack: the loop should run once for every item, however many there are."
+        }
+      ],
+      "similar_example": {
+        "code": "songs = []\nsongs.append(\"river tune\")\nsongs.append(\"night song\")\nprint(len(songs))\nprint(\"river tune\" in songs)",
+        "note": "Another list that grows: two songs added one at a time, then counted and searched. Your challenge reads its items from the player, in a loop."
+      },
+      "other_ways": [
+        {
+          "code": "count = int(input(\"How many items? \"))\npack = []\nwhile len(pack) < count:\n    pack.append(input(\"Item? \"))\nwanted = input(\"Look for? \")\nprint(len(pack))\nprint(pack.count(wanted) > 0)\nprint(pack)",
+          "note": "The loop can stop when the pack is full, using len(). count() says how many times a value is in the list, so more than 0 means it is there."
+        },
+        {
+          "code": "count = int(input(\"How many items? \"))\npack = []\nfor n in range(count):\n    pack = pack + [input(\"Item? \")]\nwanted = input(\"Look for? \")\nprint(len(pack))\nprint(wanted in pack)\nprint(pack)",
+          "note": "+ joins two lists into a new one, so pack = pack + [item] also grows the pack. append() changes the list you already have, which is quicker for long lists."
+        }
+      ],
+      "input_labels": [],
+      "check": {
+        "cases": [
+          {
+            "id": "three",
+            "description": "three items, looking for one of them",
+            "inputs": [
+              "3",
+              "rope",
+              "map",
+              "lantern",
+              "map"
+            ],
+            "expected": "3\nTrue\n['rope', 'map', 'lantern']"
+          },
+          {
+            "id": "missing",
+            "description": "looking for an item that was not packed",
+            "inputs": [
+              "2",
+              "apple",
+              "key",
+              "sword"
+            ],
+            "expected": "2\nFalse\n['apple', 'key']"
+          },
+          {
+            "id": "empty",
+            "description": "an empty pack",
+            "inputs": [
+              "0",
+              "map"
+            ],
+            "expected": "0\nFalse\n[]"
+          },
+          {
+            "id": "twice",
+            "description": "the same item packed twice",
+            "inputs": [
+              "4",
+              "coin",
+              "coin",
+              "gem",
+              "rope",
+              "coin"
+            ],
+            "expected": "4\nTrue\n['coin', 'coin', 'gem', 'rope']",
+            "visibility": "hidden"
+          },
+          {
+            "id": "longer",
+            "description": "a longer pack",
+            "inputs": [
+              "6",
+              "bread",
+              "water",
+              "rope",
+              "torch",
+              "map",
+              "cloak",
+              "cloak"
+            ],
+            "expected": "6\nTrue\n['bread', 'water', 'rope', 'torch', 'map', 'cloak']",
+            "visibility": "hidden"
+          }
+        ],
+        "time_limit_ms": 3000
+      },
+      "validator": {
+        "id": "browser-tests",
+        "version": 1
+      },
+      "version": 1
+    }
+  ]
+}

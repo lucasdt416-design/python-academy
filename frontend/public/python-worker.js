@@ -168,9 +168,11 @@ self.onmessage = async ({data}) => {
  try {
   // Python reports the stop as "OSError: [Errno 29] I/O error", so the flag says why it happened.
   const py = await startPyodide({stdout:s=>{output+=s+'\n';if(output.length>20000){capped=true;throw Error('Output exceeded 20,000 characters.');}}});
-  noNetwork();
   pyodide = py;
-  await guardImports(py, SNAPSHOT);
+  noNetwork();
+  await guardImports(py);
+  // Defines the scene snapshot only: it imports nothing, so the guard is already on.
+  await py.runPythonAsync(SNAPSHOT, {filename: '<academy>'});
   freshFiles(py, {...data.files, ...data.modules});
   await ownFiles(py, data.modules);
   py.globals.set('__academy_input_json', JSON.stringify(data.inputs || []));
