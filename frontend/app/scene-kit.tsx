@@ -16,7 +16,9 @@ export type SceneRun = {output:string;inputs:string[];vars:Vars|null;error:strin
  /** The program that ran, so a scene can show its shape (which function calls which). Never sent anywhere. */
  code?:string;
  /** What a checked function call returned, as Python shows it. */
- returned?:string};
+ returned?:string;
+ /** Where Python stopped, and the last line of its message, when it did. */
+ errorLine?:number|null;message?:string};
 
 // ---------- Reading a run ----------
 export const outLines = (r:SceneRun|null):string[] => r ? r.output.replace(/\n$/,'').split('\n').filter((l,i,a)=>l!==''||i<a.length-1).filter(l=>l!=='') : [];

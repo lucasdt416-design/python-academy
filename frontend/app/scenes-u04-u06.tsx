@@ -208,8 +208,79 @@ const decompose:SceneDef={title:'The blueprint',draw:r=>{
  </>};
 }};
 
+// ---------- Unit 6 ----------
+const tracebacks:SceneDef={title:'The crash report',draw:r=>{
+ const lines=outLines(r).slice(0,4),code=(r?.code??'').split('\n'),at=r?.errorLine??null,shownLine=at?code[at-1]?.trim()??'':'';
+ const callers=at&&r?.code?functionsIn(r.code).filter(f=>{const start=code.findIndex(l=>l.startsWith(`def ${f.name}(`))+1;let end=start;while(end<code.length&&(code[end].trim()===''||/^\s/.test(code[end])))end++;return at>start&&at<=end;}).map(f=>f.name):[];
+ return {say:r?r.error?`Python stopped with ${r.error}${at?` on line ${at}`:''}${callers.length?`, inside ${callers[0]}()`:''}. ${r.message??''}`:`The program ran to the end and printed ${lines.join(' / ')||'nothing'}.`:'A stack of cards that explains where a program stopped.',svg:<>
+  <Ground tone="slate"/>
+  {r?.error?<>
+   {callers.length>0&&<g className="drop"><rect className="f-white s-ink-s" x="30" y="16" width="260" height="30" rx="6"/><text className="mono f-ink" x="40" y="35" fontSize="10">called from the program, into {fit(callers[0],14)}()</text></g>}
+   <g className={'drop '+d(2)}><rect className="f-cream s-ink" x="22" y="54" width="276" height="40" rx="6"/><text className="mono f-moss" x="32" y="70" fontSize="10">line {at??'?'}</text><text className="mono f-ink" x="32" y="86" fontSize="11">{fit(shownLine,36)}</text></g>
+   <g className={'drop '+d(4)}><rect className="f-clay s-ink" x="14" y="102" width="292" height="40" rx="6"/><text className="mono f-white" x="26" y="120" fontSize="11" fontWeight="700">{fit(r.error,30)}</text><text className="mono f-white" x="26" y="135" fontSize="9">{fit((r.message??'').replace(/^\w+Error:\s*/,''),46)}</text></g>
+   <text className={'mono f-ink type '+d(6)} x="160" y="160" fontSize="10" textAnchor="middle">read from the bottom up</text>
+  </>:r?<g className="pop"><rect className="f-white s-ink" x="70" y="18" width="180" height="130" rx="6"/><path className="s-ink-s" d="M70 40h180"/><text className="mono f-moss" x="160" y="33" fontSize="10" textAnchor="middle">ran to the end</text>
+   {lines.map((l,i)=><text key={i} className={'mono f-ink type '+d(i+1)} x="82" y={60+i*20} fontSize="11">{fit(l,22)}</text>)}</g>:null}
+  {!r&&<Note text={IDLE}/>}
+ </>};
+}};
+
+const debugStrategy:SceneDef={title:'Under the magnifier',draw:r=>{
+ const names=ofKind(r?.vars,['int','float','str','bool','none','list']).slice(0,5),lines=outLines(r),labelled=lines.filter(l=>/^[A-Za-z][\w ]*\s-?\w/.test(l)&&/\s/.test(l)).slice(0,5);
+ return {say:r?`${names.length?`At the end: ${names.map(([k,v])=>`${k} = ${show(v,true)}`).join(', ')}. `:''}${labelled.length?`Checking lines: ${labelled.join(' / ')}.`:`Printed: ${lines.slice(0,4).join(', ')||'nothing'}.`}`:'A magnifier over the names a program keeps.',svg:<>
+  <Ground tone="sand"/>
+  <rect className="f-white s-ink" x="14" y="14" width="150" height={Math.max(40,names.length*22+16)} rx="6"/>
+  {names.map(([k,v],i)=><g key={k} className={'slide '+d(i)}><text className="mono f-ink" x="24" y={34+i*22} fontSize="11">{fit(k,8)}</text><text className="mono f-clay" x="154" y={34+i*22} fontSize="11" textAnchor="end">{fit(show(v,true),9)}</text></g>)}
+  <g className={'pop '+d(names.length+1)}><circle className="f-white s-ink-w scene-lens" cx="104" cy="70" r="34"/><path className="s-ink-w" d="M128 94l26 26"/></g>
+  <rect className="f-ink" x="178" y="14" width="130" height="140" rx="6"/>
+  {(labelled.length?labelled:lines.slice(0,6)).map((l,i)=><text key={i} className={'mono f-amber-l type '+d(i+2)} x="186" y={34+i*20} fontSize="10">{fit(l,18)}</text>)}
+  {!r&&<Note text={IDLE}/>}
+ </>};
+}};
+
+const NUMBERISH=/^-?\d+(\.\d+)?$/;
+const tryExcept:SceneDef={title:'The safety net',draw:r=>{
+ const lines=outLines(r).slice(0,6),caught=lines.filter(l=>!NUMBERISH.test(l)),through=lines.filter(l=>NUMBERISH.test(l));
+ return {say:r?r.error?`An error got past every except: ${r.error}.`:`${through.length?`Answers that got through: ${through.join(', ')}. `:''}${caught.length?`Caught by the net: ${caught.join(', ')}.`:'Nothing needed catching.'}`:'Answers fall into the basket; errors land in the net.',svg:<>
+  <Ground/>
+  <path className="s-ink" d="M20 112q140 40 280 0"/>{Array.from({length:9},(_,i)=><path key={i} className="s-ink-s" d={`M${36+i*30} ${116+Math.sin(i/8*Math.PI)*16}l14 -10`}/>)}
+  {caught.slice(0,3).map((l,i)=><g key={i} className={'drop '+d(i*2)}><circle className="f-clay s-ink-s" cx={60+i*80} cy={118} r="9"/>{wrap(l,12,2).map((t,j)=><text key={j} className="mono f-ink" x={60+i*80} y={146+j*11} fontSize="9" textAnchor="middle">{t}</text>)}</g>)}
+  <path className="f-cream s-ink" d="M240 30h60l-6 40h-48z"/><text className="mono f-ink" x="270" y="84" fontSize="9" textAnchor="middle">answers</text>
+  {through.map((l,i)=><Tag key={i} x={270} y={24+i*0+44-i*16} text={fit(l,6)} tone="moss" className={'drop '+d(i*2+1)}/>)}
+  {r?.error&&<g className="pop"><circle className="f-clay s-ink" cx="160" cy="166" r="10"/><text className="mono f-ink" x="160" y="44" fontSize="11" textAnchor="middle">{fit(r.error,24)} fell through</text></g>}
+  {!r&&<Note text={IDLE}/>}
+ </>};
+}};
+
+const raise:SceneDef={title:'The rule gate',draw:r=>{
+ const lines=outLines(r).slice(0,4),refused=lines.filter(l=>/refused|must|not allowed|slow down/i.test(l)),ok=lines.filter(l=>!refused.includes(l));
+ return {say:r?`${ok.length?`Let through: ${ok.join(', ')}. `:''}${refused.length?`Turned back: ${refused.join(' / ')}.`:''}${r.error?` An error nobody caught: ${r.error}.`:''}`:'A gate that lets good values through and turns others back with a reason.',svg:<>
+  <Ground tone="slate"/>
+  <path className="f-slate s-ink" d="M140 150V40h40v110z"/><rect className="f-cream s-ink" x="112" y="16" width="96" height="22" rx="4"/><text className="mono f-ink" x="160" y="31" fontSize="10" textAnchor="middle">the rule</text>
+  {ok.map((l,i)=><Tag key={i} x={250} y={70+i*28} text={fit(l,10)} tone="moss" className={'slide '+d(i*2+1)}/>)}
+  {refused.map((l,i)=><g key={i} className={'drop '+d(i*2+2)}>{wrap(l,17,3).map((t,j)=><text key={j} className="mono f-clay" x="14" y={64+i*48+j*12} fontSize="10">{t}</text>)}<path className="s-clay-w" d={`M128 ${60+i*48}h-10`}/></g>)}
+  {r?.error&&<Tag x={160} y={164} text={`${fit(r.error,18)} not caught`} tone="clay" className="pop"/>}
+  {!r&&<Note text={IDLE}/>}
+ </>};
+}};
+
+const validateInput:SceneDef={title:'The bridge keeper',draw:r=>{
+ const replies=(r?.inputs??[]).slice(0,5),lines=outLines(r),problems=lines.filter(l=>!NUMBERISH.test(l)&&!/^You /.test(l)),done=!r?.error;
+ return {say:r?`${replies.map((x,i)=>`${JSON.stringify(x)}: ${problems[i]??(done&&i===replies.length-1?'accepted':'…')}`).join('; ')}.`:'A bridge keeper who checks each reply in turn.',svg:<>
+  <Ground/>
+  <path className="f-cream s-ink" d="M200 120q60-50 120 0v40H200z"/><Hero x={182} y={150} tone="slate"/>
+  {replies.map((x,i)=>{const bad=i<problems.length,last=i===replies.length-1&&done&&!bad;return <g key={i} className={'slide '+d(i*2)}>
+   <rect className={(last?'f-amber-l':'f-white')+' s-ink-s'} x="12" y={14+i*30} width="70" height="22" rx="5"/><text className="mono f-clay" x="20" y={29+i*30} fontSize="10">{fit(JSON.stringify(x),9)}</text>
+   <text className={'mono '+(bad?'f-clay':'f-moss')+' type '+d(i*2+1)} x="90" y={29+i*30} fontSize="10">{bad?fit(problems[i],14):last?'let through':''}</text>
+  </g>;})}
+  {done&&r&&<path className={'s-moss-w drop '+d(replies.length*2)} d="M210 140q50-30 100 0"/>}
+  {!r&&<Note text={IDLE}/>}
+ </>};
+}};
+
 export const UNIT_4_TO_6:Record<string,SceneDef>={
  'py.lists':lists,'py.indexing':indexing,'py.iterate-lists':iterateLists,'py.dicts':dicts,'py.sets':sets,
+ 'py.tracebacks':tracebacks,'py.debug-strategy':debugStrategy,'py.try-except':tryExcept,'py.raise':raise,'py.validate-input':validateInput,
  'py.functions':functions,'py.parameters':parameters,'py.return-values':returnValues,'py.scope':scope,'py.decompose':decompose,
 };
 // Kept for scenes in units 5 and 6 below.

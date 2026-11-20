@@ -283,6 +283,6 @@ export default function LessonScene({lesson,run,action}:{lesson:string;run:Scene
  return <figure className="scene" aria-labelledby={`scene-${lesson}-title`}>
   <div className="scene-head"><span id={`scene-${lesson}-title`} className="scene-title">{def.title}</span>{run?.label&&<span className="scene-label">{run.label}</span>}{action}</div>
   <svg key={run?.key??'idle'} className={'scene-art'+(run?' live':'')} viewBox="0 0 320 180" role="img" aria-label={drawn.say}>{drawn.svg}</svg>
-  <figcaption className="scene-say">{drawn.say}{run?.error?` Python stopped with ${run.error}, so this shows what happened before that.`:''}</figcaption>
+  <figcaption className="scene-say">{drawn.say}{run?.error&&!drawn.say.includes(run.error)?` Python stopped with ${run.error}, so this shows what happened before that.`:''}</figcaption>
  </figure>;
 }

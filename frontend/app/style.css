@@ -502,7 +502,7 @@ button:disabled{opacity:.6;cursor:not-allowed}
 .serif{font-family:var(--serif)}
 .path-lit{stroke:#f6dc9c}.path-dim{stroke:#f5ead2;opacity:.55}
 .lamp-on{fill:#f6c453}
-.f-amber-d{fill:#65501f}.scene-dashed{stroke-dasharray:3 3}.hidden-tag{display:none}.venn{fill-opacity:.75}
+.f-amber-d{fill:#65501f}.scene-dashed{stroke-dasharray:3 3}.scene-lens{fill-opacity:.25}.hidden-tag{display:none}.venn{fill-opacity:.75}
 .s-ink-w.dart{stroke-width:4}
 /* End states, so a scene without motion shows the same result. */
 .scene-art .flame.out{opacity:.1}
