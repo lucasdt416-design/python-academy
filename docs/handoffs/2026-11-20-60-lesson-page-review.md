@@ -2,7 +2,7 @@
 
 Date: 2026-11-20 (America/Toronto)  
 Written by: Claude Code (implementer), in a separate git worktree  
-Status: **in_review**: one pull request ({{PR}}), **based on #67**. Frontend layout, 20 scenes, 5 lesson texts, new rules and their tests. No migration, no dependency, no CSP change, no change to how checks judge.
+Status: **in_review**: one pull request (#68), **based on #67**. Frontend layout, 20 scenes, 5 lesson texts, new rules and their tests. No migration, no dependency, no CSP change, no change to how checks judge.
 
 ## Starter prompt for the chat assistant
 
