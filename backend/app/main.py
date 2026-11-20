@@ -2,6 +2,8 @@ from . import browser_checks, content, migrate, sessions
 from . import awards
 from . import admin
 from . import profiles
+from . import review
+from . import insights
 from . import feedback as tester_feedback
 from .awards import award_challenge
 from .db import Attempt, Base, Event, Invitation, LearnerGoal, User, engine
@@ -13,6 +15,7 @@ import logging
 import os
 import secrets
 from datetime import date, datetime, timedelta, timezone
+from pathlib import Path
 
 from authlib.integrations.starlette_client import OAuth, OAuthError
 from fastapi import Depends, FastAPI, HTTPException, Request
@@ -276,6 +279,42 @@ def save_profile(data: ProfileChoice, request: Request):
         return profiles.view(db, u, CATALOG, CONTENT, LESSON_ORDER)
 
 
+REVIEW_CARDS = review.load(Path(__file__).resolve().parent.parent / 'content' / 'review', CONTENT)
+
+
+class ReviewAnswer(BaseModel):
+    card_id: str = Field(max_length=160)
+    choice: int | None = Field(default=None, ge=0, le=20)
+    lines: list[str] | None = Field(default=None, max_length=30)
+
+
+def today_utc():
+    return datetime.now(timezone.utc).date()
+
+
+@app.get('/api/review')
+def review_session(request: Request):
+    with Session(engine) as db:
+        u = current(request, db, 'student')
+        done = set(awards.completed_lessons(db, u.id, CONTENT, LESSON_ORDER))
+        return review.session(db, u.id, REVIEW_CARDS, CATALOG, done, today_utc())
+
+
+@app.post('/api/review/answer', dependencies=[Depends(limit('review'))])
+def review_answer(data: ReviewAnswer, request: Request):
+    with Session(engine) as db:
+        u = current(request, db, 'student')
+        card = REVIEW_CARDS.get(data.card_id)
+        done = set(awards.completed_lessons(db, u.id, CONTENT, LESSON_ORDER))
+        if card is None or card.lesson not in done:
+            raise HTTPException(404, 'That review card is not open to you yet')
+        if (card.kind == 'order') != (data.lines is not None) or (card.kind != 'order' and data.choice is None):
+            raise HTTPException(422, 'Answer with a choice, or with the lines in order')
+        result = review.answer(db, u.id, card, data.choice, data.lines, today_utc())
+        db.commit()
+        return result
+
+
 @app.get('/api/recommendation')
 def next_recommendation(request: Request):
     with Session(engine) as db:
@@ -350,6 +389,18 @@ def check_preview(data: Submission):
     result, feedback, rule = judge(data.lesson_id, data.code, data.output, data.inputs)
     # rule: the named check rule that decided the result, so the page can offer the hint tagged for it.
     return {'passed': result == 'passed', 'result': result, 'feedback': feedback, 'rule': rule, 'assessment': 'browser_practice'}
+
+class InsightRequest(BaseModel):
+    lesson_id: str = Field(max_length=80)
+    code: str = Field(max_length=20000)
+
+
+@app.post('/api/insights', dependencies=[Depends(limit('insights'))])
+def likely_causes(data: InsightRequest):
+    """Likely causes for a program that did not pass: read from its syntax tree, never run, never stored."""
+    if data.lesson_id not in CONTENT:
+        raise HTTPException(404, 'Unknown lesson')
+    return {'insights': insights.find(data.code)}
 
 @app.get('/api/progress')
 def progress(request: Request):

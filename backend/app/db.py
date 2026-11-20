@@ -133,6 +133,19 @@ class Profile(Base):
     updated: Mapped[str] = mapped_column(String(40), default=now, onupdate=now)
 
 
+class ReviewState(Base):
+    """Spaced review (teaching-design.md section 5): where each review card is in its schedule, per learner.
+    Practice evidence only: it never changes XP, badges or progress."""
+    __tablename__ = 'review_state'
+    user_id: Mapped[int] = mapped_column(ForeignKey('users.id'), primary_key=True)
+    card_id: Mapped[str] = mapped_column(String(160), primary_key=True)
+    box: Mapped[int] = mapped_column(Integer, default=0)
+    due: Mapped[str] = mapped_column(String(10))
+    seen: Mapped[int] = mapped_column(Integer, default=0)
+    correct: Mapped[int] = mapped_column(Integer, default=0)
+    updated: Mapped[str] = mapped_column(String(40), default=now, onupdate=now)
+
+
 class UserSession(Base):
     """One signed-in browser (backlog SEC-03). The cookie holds only a random session ID.
 

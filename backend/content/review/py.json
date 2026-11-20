@@ -1,0 +1,1468 @@
+{
+ "version": 1,
+ "course": "py",
+ "cards": [
+  {
+   "id": "hello.review.predict",
+   "lesson": "hello",
+   "kind": "predict",
+   "prompt": "Which message appears first?",
+   "code": "print(\"You arrive at a moonlit castle.\")\nprint(\"A tiny dragon opens the gate.\")",
+   "options": [
+    "The castle message",
+    "The dragon message"
+   ],
+   "answer": 0,
+   "why": "Python runs the first print statement before the second. Swapping the code lines swaps the messages."
+  },
+  {
+   "id": "variables.review.predict",
+   "lesson": "variables",
+   "kind": "predict",
+   "prompt": "What does print(hero) display after hero = \"Nova\"?",
+   "code": "hero = \"Nova\"\ntool = \"lantern\"\nprint(hero)\nprint(tool)",
+   "options": [
+    "hero",
+    "Nova"
+   ],
+   "answer": 1,
+   "why": "Without quotes, hero means “use the value stored in this variable.” That value is the string Nova."
+  },
+  {
+   "id": "input.review.predict",
+   "lesson": "input",
+   "kind": "predict",
+   "prompt": "If the player replies Kai, what will the example display?",
+   "code": "player = input(\"What is your name? \")\nprint(\"Welcome, \" + player + \"!\")",
+   "options": [
+    "Welcome, player!",
+    "Welcome, Kai!"
+   ],
+   "answer": 1,
+   "why": "input() returns Kai. The variable player remembers that text, and print() joins it to the greeting."
+  },
+  {
+   "id": "choices.review.predict",
+   "lesson": "choices",
+   "kind": "predict",
+   "prompt": "Which block runs when path is \"right\"?",
+   "code": "path = input(\"Left or right? \")\nif path == \"left\":\n    print(\"You discover a waterfall.\")\nelse:\n    print(\"You find a hidden library.\")",
+   "options": [
+    "The if block",
+    "The else block"
+   ],
+   "answer": 1,
+   "why": "\"right\" == \"left\" is false, so Python skips the if block and runs the else block."
+  },
+  {
+   "id": "choices.review.order",
+   "lesson": "choices",
+   "kind": "order",
+   "prompt": "Put these lines in order so the program prints what is shown.",
+   "lines": [
+    "path = input(\"Left or right? \")",
+    "if path == \"left\":",
+    "    print(\"You discover a waterfall.\")",
+    "else:",
+    "    print(\"You find a hidden library.\")"
+   ],
+   "inputs": [
+    "left"
+   ],
+   "expected": "You discover a waterfall.",
+   "why": "Each line can only use names that earlier lines have made, and Python runs them from the top down."
+  },
+  {
+   "id": "adventure.review.predict",
+   "lesson": "adventure",
+   "kind": "predict",
+   "prompt": "What should you test before sharing the adventure?",
+   "code": "print(\"A floating island appears.\")\nhero = input(\"Your name? \")\nprint(\"Welcome aboard, \" + hero)\npath = input(\"Left or right? \")\nif path == \"left\":\n    print(\"You befriend a cloud dragon.\")\nelse:\n    print(\"You discover a sky garden.\")",
+   "options": [
+    "Only the left path",
+    "Different names and both paths"
+   ],
+   "answer": 1,
+   "why": "Different replies exercise different behavior. Testing names and both paths catches mistakes a single run might miss."
+  },
+  {
+   "id": "py.arithmetic.review.predict",
+   "lesson": "py.arithmetic",
+   "kind": "predict",
+   "prompt": "If coins were 14 instead of 13, what would print(coins % 5) show?",
+   "code": "# Work out the hero's score\ngems = 4\ncoins = 13\nscore = gems * 10 + coins\nprint(score)\n# Share the coins between 5 friends\nprint(coins // 5)\nprint(coins % 5)",
+   "options": [
+    "4",
+    "2",
+    "2.8"
+   ],
+   "answer": 0,
+   "why": "Five friends take 2 coins each, which uses 10 of the 14. % shows what is left over, so it prints 4. 14 // 5 would show 2, and 14 / 5 would show 2.8."
+  },
+  {
+   "id": "py.int-float.review.predict",
+   "lesson": "py.int-float",
+   "kind": "predict",
+   "prompt": "What would print(int(7.9)) display?",
+   "code": "# How long the walk to the market takes\ndistance = 9\nspeed = 2\nhours = distance / speed\nprint(hours)\n# The whole hours, with the decimal part cut off\nprint(int(hours))\n# / gives a float even when the answer is whole\nprint(8 / 2)",
+   "options": [
+    "8",
+    "7",
+    "7.9"
+   ],
+   "answer": 1,
+   "why": "int() cuts off everything after the decimal point; it does not round up. So int(7.9) is 7, even though 7.9 is close to 8."
+  },
+  {
+   "id": "py.convert-input.review.predict",
+   "lesson": "py.convert-input",
+   "kind": "predict",
+   "prompt": "If the player types ten in letters for the gold, what happens?",
+   "code": "# Ask for the gold in your pocket, as a whole number\ngold = int(input(\"Gold in your pocket? \"))\n# Ask for the bridge toll; an empty reply means no toll\ntoll = input(\"Toll? \")\nif toll == \"\":\n    toll = \"0\"\n# Turn the toll into a number, then pay it\nprint(gold - int(toll))",
+   "options": [
+    "It prints 5",
+    "Python stops with a ValueError",
+    "It prints ten"
+   ],
+   "answer": 1,
+   "why": "int() only understands digits, like \"10\". The letters ten are not a whole number, so Python stops with a ValueError on line 2. You can try it on the next card."
+  },
+  {
+   "id": "py.convert-input.review.order",
+   "lesson": "py.convert-input",
+   "kind": "order",
+   "prompt": "Put these lines in order so the program prints what is shown.",
+   "lines": [
+    "gold = int(input(\"Gold in your pocket? \"))",
+    "toll = input(\"Toll? \")",
+    "if toll == \"\":",
+    "    toll = \"0\"",
+    "print(gold - int(toll))"
+   ],
+   "inputs": [
+    "20",
+    "5"
+   ],
+   "expected": "15",
+   "why": "Each line can only use names that earlier lines have made, and Python runs them from the top down."
+  },
+  {
+   "id": "py.compare.review.predict",
+   "lesson": "py.compare",
+   "kind": "predict",
+   "prompt": "If oil were 3, what would print(oil >= 3) show?",
+   "code": "# The lantern needs at least 3 drops of oil\noil = 5\nprint(oil >= 3)\n# Is the tank completely full at 10?\nprint(oil == 10)\n# Is it empty?\nprint(oil < 1)",
+   "options": [
+    "True",
+    "False"
+   ],
+   "answer": 0,
+   "why": ">= means greater than or equal to. 3 is equal to 3, so the answer is True. print(oil > 3) would show False."
+  },
+  {
+   "id": "py.boolean-logic.review.predict",
+   "lesson": "py.boolean-logic",
+   "kind": "predict",
+   "prompt": "If travellers were 2, what would the first print() show?",
+   "code": "# The bridge is safe for 2 to 6 travellers\ntravellers = 7\nprint(travellers >= 2 and travellers <= 6)\n# Too few or too many?\nprint(travellers < 2 or travellers > 6)\n# Flip the first answer with not\nprint(not (travellers >= 2 and travellers <= 6))",
+   "options": [
+    "True",
+    "False"
+   ],
+   "answer": 0,
+   "why": "2 >= 2 is True and 2 <= 6 is True. With and, both sides are True, so the whole line is True."
+  },
+  {
+   "id": "py.elif.review.predict",
+   "lesson": "py.elif",
+   "kind": "predict",
+   "prompt": "If temperature were 30, what would the program print?",
+   "code": "# Choose a cloak for the weather\ntemperature = 12\nif temperature >= 25:\n    print(\"light cloak\")\nelif temperature >= 10:\n    print(\"wool cloak\")\nelse:\n    print(\"fur cloak\")",
+   "options": [
+    "light cloak",
+    "light cloak, then wool cloak",
+    "wool cloak"
+   ],
+   "answer": 0,
+   "why": "Python runs only the first block whose condition is True. 30 >= 25 is True, so light cloak prints, and the elif and else are skipped."
+  },
+  {
+   "id": "py.while-loops.review.predict",
+   "lesson": "py.while-loops",
+   "kind": "predict",
+   "prompt": "If the first reply were moon, what would the program print?",
+   "code": "# Keep asking until the password is moon\nword = input(\"Password? \")\nwhile word != \"moon\":\n    print(\"The door stays shut.\")\n    word = input(\"Password? \")\nprint(\"The door opens.\")",
+   "options": [
+    "Only The door opens.",
+    "The door stays shut. once, then The door opens.",
+    "Nothing at all"
+   ],
+   "answer": 0,
+   "why": "word != \"moon\" is False straight away, so the block never runs. Python goes on to the last line and prints The door opens."
+  },
+  {
+   "id": "py.loop-termination.review.predict",
+   "lesson": "py.loop-termination",
+   "kind": "predict",
+   "prompt": "If the line count = count - 1 were deleted, what would happen?",
+   "code": "# Count down to the gate opening\ncount = 3\nwhile count > 0:\n    print(count)\n    count = count - 1\nprint(\"open\")",
+   "options": [
+    "It would still print 3, 2, 1 and open",
+    "It would print 3 again and again and never finish",
+    "Python would stop with an error at once"
+   ],
+   "answer": 1,
+   "why": "count would stay 3, so count > 0 would always be True and the loop would never end. Because it prints each time, the academy stops it as soon as the output gets too long. You can try it on the next card."
+  },
+  {
+   "id": "py.loop-termination.review.order",
+   "lesson": "py.loop-termination",
+   "kind": "order",
+   "prompt": "Put these lines in order so the program prints what is shown.",
+   "lines": [
+    "count = 3",
+    "while count > 0:",
+    "    print(count)",
+    "    count = count - 1",
+    "print(\"open\")"
+   ],
+   "inputs": [],
+   "expected": "3\n2\n1\nopen",
+   "why": "Each line can only use names that earlier lines have made, and Python runs them from the top down."
+  },
+  {
+   "id": "py.for-range.review.predict",
+   "lesson": "py.for-range",
+   "kind": "predict",
+   "prompt": "What would for n in range(2, 7, 2): with print(n) inside print?",
+   "code": "# The bridge has 5 planks: number each one\nfor plank in range(1, 6):\n    print(plank)\n# Then count down from 3 to 1\nfor n in range(3, 0, -1):\n    print(n)",
+   "options": [
+    "2, 4 and 6",
+    "2, 4, 6 and 8",
+    "2 and 4"
+   ],
+   "answer": 0,
+   "why": "It starts at 2 and adds 2 each time: 2, 4, 6. The next number would be 8, but range stops before 7, so 8 is never reached."
+  },
+  {
+   "id": "py.for-range.review.order",
+   "lesson": "py.for-range",
+   "kind": "order",
+   "prompt": "Put these lines in order so the program prints what is shown.",
+   "lines": [
+    "for plank in range(1, 6):",
+    "    print(plank)",
+    "for n in range(3, 0, -1):",
+    "    print(n)"
+   ],
+   "inputs": [],
+   "expected": "1\n2\n3\n4\n5\n3\n2\n1",
+   "why": "Each line can only use names that earlier lines have made, and Python runs them from the top down."
+  },
+  {
+   "id": "py.accumulate.review.predict",
+   "lesson": "py.accumulate",
+   "kind": "predict",
+   "prompt": "Suppose total = 0 moves inside the loop, as the first line of its block. With the same replies, what would print(total) show?",
+   "code": "# Three chests: add up the coins, then find the average\nchests = 3\ntotal = 0\nfor chest in range(chests):\n    coins = int(input(\"Coins in this chest? \"))\n    total = total + coins\nprint(total)\nprint(total / chests)",
+   "options": [
+    "8",
+    "12",
+    "0"
+   ],
+   "answer": 0,
+   "why": "total goes back to 0 at the start of every turn, so each chest forgets the ones before it. Only the last chest's 8 is left when the loop ends."
+  },
+  {
+   "id": "py.nested-loops.review.predict",
+   "lesson": "py.nested-loops",
+   "kind": "predict",
+   "prompt": "If the two for lines swapped places, so that seat is the outer loop and row the inner one, what would the first three lines print?",
+   "code": "# Number the seats: two rows of three\nfor row in range(1, 3):\n    for seat in range(1, 4):\n        print(row * 10 + seat)",
+   "options": [
+    "11, 21 and 12",
+    "11, 12 and 13",
+    "11, 21 and 31"
+   ],
+   "answer": 0,
+   "why": "The inner loop finishes first. seat stays at 1 while row runs through 1 and 2, giving 11 and 21. Then seat becomes 2 and row starts again, giving 12."
+  },
+  {
+   "id": "py.nested-loops.review.order",
+   "lesson": "py.nested-loops",
+   "kind": "order",
+   "prompt": "Put these lines in order so the program prints what is shown.",
+   "lines": [
+    "for row in range(1, 3):",
+    "    for seat in range(1, 4):",
+    "        print(row * 10 + seat)"
+   ],
+   "inputs": [],
+   "expected": "11\n12\n13\n21\n22\n23",
+   "why": "Each line can only use names that earlier lines have made, and Python runs them from the top down."
+  },
+  {
+   "id": "py.lists.review.predict",
+   "lesson": "py.lists",
+   "kind": "predict",
+   "prompt": "Suppose the third line were pack = pack.append(\"lantern\"), and the only print were print(pack). What would it show?",
+   "code": "# Pack for the journey\npack = [\"rope\", \"map\"]\npack.append(\"lantern\")\nprint(len(pack))\nprint(\"map\" in pack)\nprint(\"sword\" in pack)\nprint(pack)",
+   "options": [
+    "['rope', 'map', 'lantern']",
+    "None",
+    "['lantern']"
+   ],
+   "answer": 1,
+   "why": "append() changes the list and gives back None. Storing that None in pack replaces the whole list with it."
+  },
+  {
+   "id": "py.lists.review.order",
+   "lesson": "py.lists",
+   "kind": "order",
+   "prompt": "Put these lines in order so the program prints what is shown.",
+   "lines": [
+    "pack = [\"rope\", \"map\"]",
+    "pack.append(\"lantern\")",
+    "print(len(pack))",
+    "print(\"map\" in pack)",
+    "print(\"sword\" in pack)",
+    "print(pack)"
+   ],
+   "inputs": [],
+   "expected": "3\nTrue\nFalse\n['rope', 'map', 'lantern']",
+   "why": "Each line can only use names that earlier lines have made, and Python runs them from the top down."
+  },
+  {
+   "id": "py.indexing.review.predict",
+   "lesson": "py.indexing",
+   "kind": "predict",
+   "prompt": "With the same four items, what does print(pack[len(pack) - 1]) show?",
+   "code": "# Pick tools from the pack by position\npack = [\"rope\", \"map\", \"lamp\", \"key\"]\nprint(pack[0])\nprint(pack[-1])\nprint(pack[1:3])\npack[0] = \"ladder\"\nprint(pack)",
+   "options": [
+    "key",
+    "lamp",
+    "It stops with an IndexError"
+   ],
+   "answer": 0,
+   "why": "len(pack) is 4, so len(pack) - 1 is 3, the last position. pack[len(pack)] would be the IndexError: a list of 4 has no position 4."
+  },
+  {
+   "id": "py.iterate-lists.review.predict",
+   "lesson": "py.iterate-lists",
+   "kind": "predict",
+   "prompt": "What would print(cheap) show if the if line said price > 5 instead?",
+   "code": "# Prices at the market stall\nprices = [4, 12, 7, 3]\ntotal = 0\ncheap = []\nfor price in prices:\n    total = total + price\n    if price < 5:\n        cheap.append(price)\nprint(total)\nprint(cheap)\nprint(max(prices))",
+   "options": [
+    "[12, 7]",
+    "[4, 3]",
+    "[12]"
+   ],
+   "answer": 0,
+   "why": "Only 12 and 7 are more than 5, and they go in in the order the loop meets them."
+  },
+  {
+   "id": "py.dicts.review.predict",
+   "lesson": "py.dicts",
+   "kind": "predict",
+   "prompt": "What would print(rooms[\"attic\"]) do here?",
+   "code": "# What is in each room?\nrooms = {\"hall\": \"lamp\", \"cellar\": \"rope\"}\nrooms[\"tower\"] = \"key\"\nrooms[\"hall\"] = \"map\"\nprint(rooms[\"cellar\"])\nprint(rooms.get(\"attic\", \"nothing\"))\nfor room, item in rooms.items():\n    print(room, item)",
+   "options": [
+    "Print nothing",
+    "Stop with a KeyError",
+    "Print None"
+   ],
+   "answer": 1,
+   "why": "Square brackets need the key to be there. get() is the gentle way to ask about a key that may be missing."
+  },
+  {
+   "id": "py.sets.review.predict",
+   "lesson": "py.sets",
+   "kind": "predict",
+   "prompt": "What would print(len(kai | nova)) show?",
+   "code": "# Where have the two explorers been?\nkai = {\"hall\", \"cellar\", \"tower\"}\nnova = {\"tower\", \"garden\"}\nkai.add(\"hall\")\nprint(len(kai))\nprint(sorted(kai | nova))\nprint(sorted(kai & nova))\nprint(\"garden\" in kai)",
+   "options": [
+    "4",
+    "5",
+    "3"
+   ],
+   "answer": 0,
+   "why": "There are five names in the two sets, but tower is in both and is counted once."
+  },
+  {
+   "id": "py.functions.review.predict",
+   "lesson": "py.functions",
+   "kind": "predict",
+   "prompt": "If the last two lines were taken away, what would the program print?",
+   "code": "# A scene the adventure can replay\ndef campfire():\n    print(\"The fire crackles.\")\n    print(\"Someone tells a story.\")\n\nprint(\"Night falls.\")\ncampfire()\ncampfire()",
+   "options": [
+    "Night falls.",
+    "Night falls. and the campfire lines once",
+    "Nothing at all"
+   ],
+   "answer": 0,
+   "why": "Without a call, the function's steps never run. Defining a function prints nothing."
+  },
+  {
+   "id": "py.parameters.review.predict",
+   "lesson": "py.parameters",
+   "kind": "predict",
+   "prompt": "What would arrive(\"the tower\", \"Kai\") print?",
+   "code": "# One scene, many heroes\ndef arrive(hero, place=\"the harbour\"):\n    print(hero + \" arrives at \" + place + \".\")\n\narrive(\"Nova\")\narrive(\"Kai\", \"the tower\")\narrive(place=\"the mill\", hero=\"Ada\")",
+   "options": [
+    "Kai arrives at the tower.",
+    "the tower arrives at Kai.",
+    "It stops with an error"
+   ],
+   "answer": 1,
+   "why": "Arguments without names are matched in order: the first one becomes hero, whatever it says."
+  },
+  {
+   "id": "py.parameters.review.order",
+   "lesson": "py.parameters",
+   "kind": "order",
+   "prompt": "Put these lines in order so the program prints what is shown.",
+   "lines": [
+    "def arrive(hero, place=\"the harbour\"):",
+    "    print(hero + \" arrives at \" + place + \".\")",
+    "arrive(\"Nova\")",
+    "arrive(\"Kai\", \"the tower\")",
+    "arrive(place=\"the mill\", hero=\"Ada\")"
+   ],
+   "inputs": [],
+   "expected": "Nova arrives at the harbour.\nKai arrives at the tower.\nAda arrives at the mill.",
+   "why": "Each line can only use names that earlier lines have made, and Python runs them from the top down."
+  },
+  {
+   "id": "py.return-values.review.predict",
+   "lesson": "py.return-values",
+   "kind": "predict",
+   "prompt": "Suppose both return lines in points() were print() lines instead. What would total = points(1) + points(3) do?",
+   "code": "# Points for a riddle, worked out in one place\ndef points(tries):\n    if tries == 1:\n        return 10\n    return 10 - tries * 2\n\ntotal = points(1) + points(3)\nprint(total)\nprint(points(2))",
+   "options": [
+    "Store 14",
+    "Stop with a TypeError",
+    "Store None"
+   ],
+   "answer": 1,
+   "why": "A function that only prints gives back None, and None + None is a TypeError. print() shows a number; return hands it back to be used."
+  },
+  {
+   "id": "py.return-values.review.order",
+   "lesson": "py.return-values",
+   "kind": "order",
+   "prompt": "Put these lines in order so the program prints what is shown.",
+   "lines": [
+    "def points(tries):",
+    "    if tries == 1:",
+    "        return 10",
+    "    return 10 - tries * 2",
+    "total = points(1) + points(3)",
+    "print(total)",
+    "print(points(2))"
+   ],
+   "inputs": [],
+   "expected": "14\n6",
+   "why": "Each line can only use names that earlier lines have made, and Python runs them from the top down."
+  },
+  {
+   "id": "py.scope.review.predict",
+   "lesson": "py.scope",
+   "kind": "predict",
+   "prompt": "What would happen if bonus() said score = score + 50 instead?",
+   "code": "# Who changes the score?\nscore = 0\n\ndef bonus():\n    score = 50\n    print(score)\n\ndef add_point(points):\n    return points + 1\n\nbonus()\nprint(score)\nscore = add_point(score)\nprint(score)",
+   "options": [
+    "The outer score becomes 50",
+    "It stops with an UnboundLocalError",
+    "It prints 50, and the outer score stays 0"
+   ],
+   "answer": 1,
+   "why": "Because bonus() assigns to score, every score inside it is local, and the local one has no value yet when score + 50 is worked out."
+  },
+  {
+   "id": "py.decompose.review.predict",
+   "lesson": "py.decompose",
+   "kind": "predict",
+   "prompt": "If the tax changed to price // 5, how many functions would need editing?",
+   "code": "# A shop, split into small jobs\ndef price_with_tax(price):\n    return price + price // 10\n\ndef can_afford(coins, price):\n    return coins >= price_with_tax(price)\n\ndef receipt(item, price):\n    return item + \": \" + str(price_with_tax(price)) + \" coins\"\n\nprint(receipt(\"rope\", 20))\nprint(can_afford(21, 20))\nprint(can_afford(25, 20))",
+   "options": [
+    "One",
+    "Two",
+    "Three"
+   ],
+   "answer": 0,
+   "why": "Only price_with_tax() works out the tax. The others call it, so they change with it."
+  },
+  {
+   "id": "py.decompose.review.order",
+   "lesson": "py.decompose",
+   "kind": "order",
+   "prompt": "Put these lines in order so the program prints what is shown.",
+   "lines": [
+    "def price_with_tax(price):",
+    "    return price + price // 10",
+    "def can_afford(coins, price):",
+    "    return coins >= price_with_tax(price)",
+    "def receipt(item, price):",
+    "    return item + \": \" + str(price_with_tax(price)) + \" coins\"",
+    "print(receipt(\"rope\", 20))",
+    "print(can_afford(21, 20))",
+    "print(can_afford(25, 20))"
+   ],
+   "inputs": [],
+   "expected": "rope: 22 coins\nFalse\nTrue",
+   "why": "Each line can only use names that earlier lines have made, and Python runs them from the top down."
+  },
+  {
+   "id": "py.tracebacks.review.predict",
+   "lesson": "py.tracebacks",
+   "kind": "predict",
+   "prompt": "A traceback ends with File \"<exec>\", line 7, in <module> and then NameError: name 'totl' is not defined. Where do you look first?",
+   "code": "# Fixed: each price was text, so total + price failed\nprices = [\"5\", \"12\"]\ntotal = 0\nfor price in prices:\n    total = total + int(price)\nprint(total)",
+   "options": [
+    "Line 7",
+    "Line 1",
+    "The last line of the program"
+   ],
+   "answer": 0,
+   "why": "The line above the error names the place. Line 7 uses a name that was never given a value, probably a typo for total."
+  },
+  {
+   "id": "py.debug-strategy.review.predict",
+   "lesson": "py.debug-strategy",
+   "kind": "predict",
+   "prompt": "With rounds = 3, how many times does the body of for r in range(1, rounds): run?",
+   "code": "# Why does the countdown miss numbers?\nfor n in range(5, 0, -2):\n    print(\"n is\", n)\nprint(\"done\")",
+   "options": [
+    "2",
+    "3",
+    "4"
+   ],
+   "answer": 0,
+   "why": "range(1, 3) gives 1 and 2, then stops before 3: one turn fewer than there are rounds."
+  },
+  {
+   "id": "py.debug-strategy.review.order",
+   "lesson": "py.debug-strategy",
+   "kind": "order",
+   "prompt": "Put these lines in order so the program prints what is shown.",
+   "lines": [
+    "for n in range(5, 0, -2):",
+    "    print(\"n is\", n)",
+    "print(\"done\")"
+   ],
+   "inputs": [],
+   "expected": "n is 5\nn is 3\nn is 1\ndone",
+   "why": "Each line can only use names that earlier lines have made, and Python runs them from the top down."
+  },
+  {
+   "id": "py.try-except.review.predict",
+   "lesson": "py.try-except",
+   "kind": "predict",
+   "prompt": "What would happen with the reply \"4.5\"?",
+   "code": "# Share the gold, safely\nreplies = [\"12\", \"zero\", \"0\"]\nfor reply in replies:\n    try:\n        friends = int(reply)\n        print(60 // friends)\n    except ValueError:\n        print(\"not a number\")\n    except ZeroDivisionError:\n        print(\"nobody to share with\")",
+   "options": [
+    "It prints 13",
+    "It prints not a number",
+    "It stops with an error"
+   ],
+   "answer": 1,
+   "why": "int() only reads whole numbers, so \"4.5\" raises a ValueError, which the first except catches."
+  },
+  {
+   "id": "py.try-except.review.order",
+   "lesson": "py.try-except",
+   "kind": "order",
+   "prompt": "Put these lines in order so the program prints what is shown.",
+   "lines": [
+    "replies = [\"12\", \"zero\", \"0\"]",
+    "for reply in replies:",
+    "    try:",
+    "        friends = int(reply)",
+    "        print(60 // friends)",
+    "    except ValueError:",
+    "        print(\"not a number\")",
+    "    except ZeroDivisionError:",
+    "        print(\"nobody to share with\")"
+   ],
+   "inputs": [],
+   "expected": "5\nnot a number\nnobody to share with",
+   "why": "Each line can only use names that earlier lines have made, and Python runs them from the top down."
+  },
+  {
+   "id": "py.raise.review.predict",
+   "lesson": "py.raise",
+   "kind": "predict",
+   "prompt": "What would check_guess(0) do if nothing caught the error?",
+   "code": "# A guess must be from 1 to 100\ndef check_guess(guess):\n    if guess < 1 or guess > 100:\n        raise ValueError(\"guess must be from 1 to 100\")\n    return guess\n\nfor g in [50, 200]:\n    try:\n        print(check_guess(g))\n    except ValueError as error:\n        print(\"Refused:\", error)",
+   "options": [
+    "Return 0",
+    "Stop the program with a ValueError",
+    "Print Refused"
+   ],
+   "answer": 1,
+   "why": "Nothing catches it, so the error stops the program, just like any other ValueError."
+  },
+  {
+   "id": "py.raise.review.order",
+   "lesson": "py.raise",
+   "kind": "order",
+   "prompt": "Put these lines in order so the program prints what is shown.",
+   "lines": [
+    "def check_guess(guess):",
+    "    if guess < 1 or guess > 100:",
+    "        raise ValueError(\"guess must be from 1 to 100\")",
+    "    return guess",
+    "for g in [50, 200]:",
+    "    try:",
+    "        print(check_guess(g))",
+    "    except ValueError as error:",
+    "        print(\"Refused:\", error)"
+   ],
+   "inputs": [],
+   "expected": "50\nRefused: guess must be from 1 to 100",
+   "why": "Each line can only use names that earlier lines have made, and Python runs them from the top down."
+  },
+  {
+   "id": "py.validate-input.review.predict",
+   "lesson": "py.validate-input",
+   "kind": "predict",
+   "prompt": "If the replies were an empty one and then 3, what would print first?",
+   "code": "# Ask for a door from 1 to 3\nwhile True:\n    reply = input(\"Door? \")\n    try:\n        door = int(reply)\n    except ValueError:\n        print(\"Type a number.\")\n        continue\n    if 1 <= door <= 3:\n        break\n    print(\"There are only 3 doors.\")\nprint(\"You open door\", door)",
+   "options": [
+    "Type a number.",
+    "You open door 3",
+    "There are only 3 doors."
+   ],
+   "answer": 0,
+   "why": "An empty reply is still text, and int(\"\") raises a ValueError."
+  },
+  {
+   "id": "py.import.review.predict",
+   "lesson": "py.import",
+   "kind": "predict",
+   "prompt": "What does print(sqrt(49)) do in a program that only has import math?",
+   "code": "# Three ways to reach a tool\nimport math\nfrom math import floor\nimport math as m\n\nprint(math.sqrt(49))\nprint(floor(7.9))\nprint(m.pi > 3)",
+   "options": [
+    "Prints 7.0",
+    "Stops with a NameError",
+    "Prints 7"
+   ],
+   "answer": 1,
+   "why": "import math brings in the module, not each of its tools by itself: the tool is math.sqrt. from math import sqrt would make sqrt work on its own."
+  },
+  {
+   "id": "py.random.review.predict",
+   "lesson": "py.random",
+   "kind": "predict",
+   "prompt": "If the program ran again with the same seed, what would it print?",
+   "code": "# The same seed gives the same \"random\" story every time\nimport random\nrandom.seed(7)\nprint(random.randint(1, 6))\nprint(random.choice([\"left\", \"right\", \"up\"]))\ncards = [\"sun\", \"moon\", \"star\"]\nrandom.shuffle(cards)\nprint(cards)",
+   "options": [
+    "The same three lines",
+    "Three different lines",
+    "An error"
+   ],
+   "answer": 0,
+   "why": "A seed fixes where the numbers start, so the same seed gives the same numbers in the same order."
+  },
+  {
+   "id": "py.math-module.review.predict",
+   "lesson": "py.math-module",
+   "kind": "predict",
+   "prompt": "What does print(0.1 + 0.2 == 0.3) show?",
+   "code": "import math\nprint(0.1 + 0.2)\nprint(math.isclose(0.1 + 0.2, 0.3))\nprint(math.floor(-2.5), math.ceil(-2.5))\nprint(round(2.5), round(3.5))\nprint(math.hypot(3, 4))",
+   "options": [
+    "True",
+    "False",
+    "0.3"
+   ],
+   "answer": 1,
+   "why": "== compares exactly, and 0.1 + 0.2 is stored as 0.30000000000000004. isclose() is the honest test for decimals."
+  },
+  {
+   "id": "py.datetime.review.predict",
+   "lesson": "py.datetime",
+   "kind": "predict",
+   "prompt": "How many days are there from date(2028, 2, 20) to date(2028, 3, 6)?",
+   "code": "from datetime import date, timedelta\nstart = date(2026, 2, 20)\nexam = date(2026, 3, 6)\nprint((exam - start).days)\nprint(start + timedelta(days=10))\nprint(exam.weekday())",
+   "options": [
+    "14",
+    "15",
+    "16"
+   ],
+   "answer": 1,
+   "why": "2028 is a leap year, so February has a 29th day, one more than in 2026."
+  },
+  {
+   "id": "py.own-modules.review.predict",
+   "lesson": "py.own-modules",
+   "kind": "predict",
+   "prompt": "If shop.py also had print(\"shop ready\") at its top level, when would that line print?",
+   "code": "# main.py uses the tools in shop.py\nimport shop\nfrom shop import price_with_tax\n\nprint(shop.receipt(\"rope\", 20))\nprint(price_with_tax(50))",
+   "options": [
+    "Once, when main.py imports shop",
+    "Every time a shop function is called",
+    "Never"
+   ],
+   "answer": 0,
+   "why": "A module's top-level lines run once, the first time it is imported. Calling its functions later runs only the functions."
+  },
+  {
+   "id": "py.assert-tests.review.predict",
+   "lesson": "py.assert-tests",
+   "kind": "predict",
+   "prompt": "What would happen if the first assert said assert points(4, 4) == 5?",
+   "code": "# Tests for a tiny scorer\ndef points(guess, secret):\n    if guess == secret:\n        return 10\n    return 0\n\nassert points(4, 4) == 10\nassert points(3, 4) == 0\nprint(\"all tests passed\")",
+   "options": [
+    "It prints all tests passed",
+    "It stops with an AssertionError",
+    "It prints False"
+   ],
+   "answer": 1,
+   "why": "points(4, 4) is 10, so the assert is false and stops the program. The test itself was wrong here, not points(): a failing test can mean either."
+  },
+  {
+   "id": "py.test-cases.review.predict",
+   "lesson": "py.test-cases",
+   "kind": "predict",
+   "prompt": "Which case would show the bug if best started at 0 instead of numbers[0]?",
+   "code": "def biggest(numbers):\n    best = numbers[0]\n    for n in numbers:\n        if n > best:\n            best = n\n    return best\n\nassert biggest([3, 9, 4]) == 9\nassert biggest([-5, -2]) == -2\nassert biggest([7]) == 7\nprint(\"typical, negative and single cases pass\")",
+   "options": [
+    "[3, 9, 4]",
+    "[-5, -2]",
+    "[7]"
+   ],
+   "answer": 1,
+   "why": "With all negative numbers, none is bigger than 0, so a best that starts at 0 would wrongly return 0."
+  },
+  {
+   "id": "py.boundaries.review.predict",
+   "lesson": "py.boundaries",
+   "kind": "predict",
+   "prompt": "If can_ride() said height > 120, which assert would fail?",
+   "code": "def can_ride(height):\n    return height >= 120\n\nassert can_ride(119) == False\nassert can_ride(120) == True\nassert can_ride(121) == True\nprint(\"both sides of 120 tested\")",
+   "options": [
+    "can_ride(119) == False",
+    "can_ride(120) == True",
+    "can_ride(121) == True"
+   ],
+   "answer": 1,
+   "why": "Only exactly 120 is treated differently by > and >=, so only the test right on the edge notices."
+  },
+  {
+   "id": "py.type-hints.review.predict",
+   "lesson": "py.type-hints",
+   "kind": "predict",
+   "prompt": "What does twice(\"ha\") do?",
+   "code": "def tip(bill: float, percent: int) -> float:\n    return bill * percent / 100\n\ndef twice(word: int) -> int:\n    return word * 2\n\nprint(tip(40.0, 15))\nprint(twice(\"ha\"))",
+   "options": [
+    "Stops with a TypeError",
+    "Returns haha",
+    "Returns None"
+   ],
+   "answer": 1,
+   "why": "The hint says int, but nothing checks it: \"ha\" * 2 is \"haha\", so that is what comes back."
+  },
+  {
+   "id": "py.type-hints.review.order",
+   "lesson": "py.type-hints",
+   "kind": "order",
+   "prompt": "Put these lines in order so the program prints what is shown.",
+   "lines": [
+    "def tip(bill: float, percent: int) -> float:",
+    "    return bill * percent / 100",
+    "def twice(word: int) -> int:",
+    "    return word * 2",
+    "print(tip(40.0, 15))",
+    "print(twice(\"ha\"))"
+   ],
+   "inputs": [],
+   "expected": "6.0\nhaha",
+   "why": "Each line can only use names that earlier lines have made, and Python runs them from the top down."
+  },
+  {
+   "id": "py.refactor.review.predict",
+   "lesson": "py.refactor",
+   "kind": "predict",
+   "prompt": "If the rule changed to 4 stamps a page, how many places would change in the After version?",
+   "code": "# Before: the same rule written three times\n# print(4 * 3 + 2)\n# print(7 * 3 + 2)\n# print(9 * 3 + 2)\n\n# After: one function, used three times\ndef stamps(pages):\n    return pages * 3 + 2\n\nfor pages in [4, 7, 9]:\n    print(stamps(pages))",
+   "options": [
+    "One",
+    "Three",
+    "None"
+   ],
+   "answer": 0,
+   "why": "The rule is written once, inside stamps(). That is the point of the refactor."
+  },
+  {
+   "id": "py.refactor.review.order",
+   "lesson": "py.refactor",
+   "kind": "order",
+   "prompt": "Put these lines in order so the program prints what is shown.",
+   "lines": [
+    "def stamps(pages):",
+    "    return pages * 3 + 2",
+    "for pages in [4, 7, 9]:",
+    "    print(stamps(pages))"
+   ],
+   "inputs": [],
+   "expected": "14\n23\n29",
+   "why": "Each line can only use names that earlier lines have made, and Python runs them from the top down."
+  },
+  {
+   "id": "py.text-files.review.predict",
+   "lesson": "py.text-files",
+   "kind": "predict",
+   "prompt": "What would the last line say if the second open() used \"w\" instead of \"a\"?",
+   "code": "# Read the quest log, then add to it\nwith open(\"quests.txt\") as f:\n    for line in f:\n        print(\"-\", line.strip())\n\nwith open(\"quests.txt\", \"a\") as f:\n    f.write(\"Rest at the inn\\n\")\n\nwith open(\"quests.txt\") as f:\n    print(len(f.readlines()), \"quests now\")",
+   "options": [
+    "4 quests now",
+    "1 quests now",
+    "3 quests now"
+   ],
+   "answer": 1,
+   "why": "\"w\" wipes the file before writing, so only the new quest is left in it."
+  },
+  {
+   "id": "py.json.review.predict",
+   "lesson": "py.json",
+   "kind": "predict",
+   "prompt": "What would json.dumps({\"lit\": True}) give?",
+   "code": "import json\nstate = {\"hero\": \"Nova\", \"level\": 3, \"pack\": [\"rope\", \"map\"], \"boss_beaten\": False}\ntext = json.dumps(state)\nprint(text)\nloaded = json.loads(text)\nprint(loaded[\"pack\"][1])\nprint(json.dumps({1: \"one\"}))",
+   "options": [
+    "{\"lit\": True}",
+    "{\"lit\": true}",
+    "{\"lit\": \"True\"}"
+   ],
+   "answer": 1,
+   "why": "JSON spells it true, in lowercase, without quotes. json.loads() turns it back into Python's True."
+  },
+  {
+   "id": "py.csv.review.predict",
+   "lesson": "py.csv",
+   "kind": "predict",
+   "prompt": "What does int(row[\"score\"]) do that row[\"score\"] does not?",
+   "code": "import csv\nwith open(\"scores.csv\", newline=\"\") as f:\n    for row in csv.DictReader(f):\n        print(row[\"name\"], int(row[\"score\"]) * 2)\nwith open(\"scores.csv\") as f:\n    print(f.readlines()[2].split(\",\"))",
+   "options": [
+    "Turns the text \"40\" into the number 40",
+    "Rounds the score",
+    "Nothing"
+   ],
+   "answer": 0,
+   "why": "Every value from a CSV file is text. int() makes it a number, so it can be doubled or added."
+  },
+  {
+   "id": "py.missing-data.review.predict",
+   "lesson": "py.missing-data",
+   "kind": "predict",
+   "prompt": "What would load_numbers(\"stats.txt\") give if the file held 5, then an empty line, then 6?",
+   "code": "def load_numbers(name):\n    numbers = []\n    skipped = 0\n    try:\n        with open(name) as f:\n            for line in f:\n                try:\n                    numbers.append(int(line))\n                except ValueError:\n                    skipped = skipped + 1\n    except FileNotFoundError:\n        print(\"no\", name, \"yet\")\n    return numbers, skipped\n\nprint(load_numbers(\"stats.txt\"))\nprint(load_numbers(\"other.txt\"))",
+   "options": [
+    "([5, 6], 1)",
+    "([5, 6], 0)",
+    "It stops with a ValueError"
+   ],
+   "answer": 0,
+   "why": "An empty line is just \"\\n\", which int() cannot read, so it is caught and counted as skipped."
+  },
+  {
+   "id": "py.string-methods.review.predict",
+   "lesson": "py.string-methods",
+   "kind": "predict",
+   "prompt": "After name = \"nova\", with name.upper() on a line of its own, what does print(name) show?",
+   "code": "answer = \"  The Moon \"\nclean = answer.strip().lower()\nprint(clean)\nprint(clean == \"the moon\")\nprint(\"map,rope,lamp\".split(\",\"))\nprint(\" + \".join([\"rope\", \"map\"]))\nprint(f\"{clean.title()} costs {2.5:.2f} coins\")",
+   "options": [
+    "nova",
+    "NOVA",
+    "None"
+   ],
+   "answer": 0,
+   "why": "upper() gives back a new piece of text, which nothing stored. name still holds \"nova\"."
+  },
+  {
+   "id": "py.string-methods.review.order",
+   "lesson": "py.string-methods",
+   "kind": "order",
+   "prompt": "Put these lines in order so the program prints what is shown.",
+   "lines": [
+    "answer = \"  The Moon \"",
+    "clean = answer.strip().lower()",
+    "print(clean)",
+    "print(clean == \"the moon\")",
+    "print(\"map,rope,lamp\".split(\",\"))",
+    "print(\" + \".join([\"rope\", \"map\"]))",
+    "print(f\"{clean.title()} costs {2.5:.2f} coins\")"
+   ],
+   "inputs": [],
+   "expected": "the moon\nTrue\n['map', 'rope', 'lamp']\nrope + map\nThe Moon costs 2.50 coins",
+   "why": "Each line can only use names that earlier lines have made, and Python runs them from the top down."
+  },
+  {
+   "id": "py.regex-basics.review.predict",
+   "lesson": "py.regex-basics",
+   "kind": "predict",
+   "prompt": "What does re.search(r\"\\d+\", \"room 305\").group() give?",
+   "code": "import re\nnote = \"Gate 12 opens at 7 for room B42\"\nprint(re.search(r\"\\d+\", note).group())\nprint(re.findall(r\"\\d+\", note))\nprint(re.fullmatch(r\"[A-Z]\\d+\", \"B42\") is not None)\nprint(re.search(r\"x\", note))",
+   "options": [
+    "3",
+    "305",
+    "room"
+   ],
+   "answer": 1,
+   "why": "+ means one or more, and it takes as many as it can: all three digits."
+  },
+  {
+   "id": "py.regex-groups.review.predict",
+   "lesson": "py.regex-groups",
+   "kind": "predict",
+   "prompt": "What does re.search(r\"(\\w+)@(\\w+)\", \"ada@mail\").group(2) give?",
+   "code": "import re\nlog = \"Nova scored 7-3, Kai scored 2-5\"\nfor name, ours, theirs in re.findall(r\"(\\w+) scored (\\d+)-(\\d+)\", log):\n    print(name, int(ours) - int(theirs))\nprint(re.sub(r\"\\d\", \"#\", \"pin 4071\"))\nm = re.search(r\"(\\d+)-(\\d+)\", log)\nprint(m.group(0), m.group(2))",
+   "options": [
+    "ada",
+    "mail",
+    "ada@mail"
+   ],
+   "answer": 1,
+   "why": "The second pair of brackets caught mail. group(1) would be ada, and group(0) the whole match."
+  },
+  {
+   "id": "py.validate-formats.review.predict",
+   "lesson": "py.validate-formats",
+   "kind": "predict",
+   "prompt": "Does re.fullmatch(r\"\\d{4}-\\d{2}-\\d{2}\", \"2026-02-30\") match?",
+   "code": "import re\nfrom datetime import date\n\ndef is_date(text):\n    m = re.fullmatch(r\"(\\d{4})-(\\d{2})-(\\d{2})\", text)\n    if not m:\n        return False\n    try:\n        date(int(m.group(1)), int(m.group(2)), int(m.group(3)))\n    except ValueError:\n        return False\n    return True\n\nfor text in [\"2026-03-01\", \"2026-13-45\", \"26-3-1\"]:\n    print(text, is_date(text))",
+   "options": [
+    "Yes: the shape is right",
+    "No: there is no 30 February",
+    "It stops with an error"
+   ],
+   "answer": 0,
+   "why": "A pattern only sees digits and dashes. Knowing February has no 30th takes code that understands dates."
+  },
+  {
+   "id": "py.classes.review.predict",
+   "lesson": "py.classes",
+   "kind": "predict",
+   "prompt": "If __init__ said health = health instead of self.health = health, what would nova.health do?",
+   "code": "class Hero:\n    def __init__(self, name, health=10):\n        self.name = name\n        self.health = health\n\nnova = Hero(\"Nova\")\nkai = Hero(\"Kai\", 12)\nkai.health = kai.health - 3\nprint(nova.name, nova.health)\nprint(kai.name, kai.health)",
+   "options": [
+    "Give 10",
+    "Stop with an AttributeError",
+    "Give None"
+   ],
+   "answer": 1,
+   "why": "Without self., health is only a local name inside __init__. The object never gets a health attribute, so asking for one is an AttributeError."
+  },
+  {
+   "id": "py.methods.review.predict",
+   "lesson": "py.methods",
+   "kind": "predict",
+   "prompt": "Just after nova.take_hit(4), before Kai is hit, what is kai.health?",
+   "code": "class Hero:\n    def __init__(self, name):\n        self.name = name\n        self.health = 10\n\n    def take_hit(self, damage):\n        self.health = max(0, self.health - damage)\n\n    def is_alive(self):\n        return self.health > 0\n\nnova = Hero(\"Nova\")\nkai = Hero(\"Kai\")\nnova.take_hit(4)\nkai.take_hit(15)\nprint(nova.health, nova.is_alive())\nprint(kai.health, kai.is_alive())",
+   "options": [
+    "10",
+    "6",
+    "0"
+   ],
+   "answer": 0,
+   "why": "Nova and Kai are separate objects with their own health. Hitting Nova changes nothing about Kai."
+  },
+  {
+   "id": "py.composition.review.predict",
+   "lesson": "py.composition",
+   "kind": "predict",
+   "prompt": "If pack = Pack(2) were written in the class body instead of in __init__, what would two heroes share?",
+   "code": "class Pack:\n    def __init__(self, limit):\n        self.limit = limit\n        self.items = []\n\n    def add(self, item):\n        if len(self.items) >= self.limit:\n            return False\n        self.items.append(item)\n        return True\n\nclass Hero:\n    def __init__(self, name):\n        self.name = name\n        self.pack = Pack(2)\n\nnova = Hero(\"Nova\")\nfor thing in [\"rope\", \"map\", \"lamp\"]:\n    print(thing, nova.pack.add(thing))\nprint(nova.name, nova.pack.items)",
+   "options": [
+    "Nothing",
+    "The same pack",
+    "Their names"
+   ],
+   "answer": 1,
+   "why": "A value in the class body is made once, for the whole class, so every hero would point at that one pack."
+  },
+  {
+   "id": "py.while-loops.review.trace",
+   "lesson": "py.while-loops",
+   "kind": "trace",
+   "prompt": "What does count hold when the loop ends?",
+   "code": "count = 10\nwhile count > 3:\n    count = count - 4\nprint(count)",
+   "options": [
+    "2",
+    "3",
+    "-2"
+   ],
+   "answer": 0,
+   "why": "The loop runs while count is more than 3: 10, then 6, then 2. 2 is not more than 3, so it stops.",
+   "probe": "count"
+  },
+  {
+   "id": "py.for-range.review.trace",
+   "lesson": "py.for-range",
+   "kind": "trace",
+   "prompt": "What does total hold at the end?",
+   "code": "total = 0\nfor n in range(2, 9, 3):\n    total = total + n\nprint(total)",
+   "options": [
+    "15",
+    "27",
+    "9"
+   ],
+   "answer": 0,
+   "why": "range(2, 9, 3) gives 2, 5 and 8. 2 + 5 + 8 is 15.",
+   "probe": "total"
+  },
+  {
+   "id": "py.loop-termination.review.trace",
+   "lesson": "py.loop-termination",
+   "kind": "trace",
+   "prompt": "How many times does the loop body run?",
+   "code": "tries = 0\nwhile tries < 3:\n    tries = tries + 1\nprint(tries)",
+   "options": [
+    "3",
+    "2",
+    "4"
+   ],
+   "answer": 0,
+   "why": "tries goes 1, 2, 3. When it is 3, the test tries < 3 is False and the loop ends.",
+   "probe": "tries"
+  },
+  {
+   "id": "py.accumulate.review.trace",
+   "lesson": "py.accumulate",
+   "kind": "trace",
+   "prompt": "What does best hold at the end?",
+   "code": "best = 0\nfor score in [4, 9, 2]:\n    if score > best:\n        best = score\nprint(best)",
+   "options": [
+    "9",
+    "2",
+    "4"
+   ],
+   "answer": 0,
+   "why": "best becomes 4, then 9; 2 is not more than 9, so best stays 9.",
+   "probe": "best"
+  },
+  {
+   "id": "py.nested-loops.review.trace",
+   "lesson": "py.nested-loops",
+   "kind": "trace",
+   "prompt": "How many times does count go up?",
+   "code": "count = 0\nfor row in range(3):\n    for seat in range(4):\n        count = count + 1\nprint(count)",
+   "options": [
+    "12",
+    "7",
+    "4"
+   ],
+   "answer": 0,
+   "why": "The inner loop runs 4 times for each of 3 rows: 3 times 4 is 12.",
+   "probe": "count"
+  },
+  {
+   "id": "py.lists.review.trace",
+   "lesson": "py.lists",
+   "kind": "trace",
+   "prompt": "What is len(pack) at the end?",
+   "code": "pack = [\"rope\"]\npack.append(\"map\")\npack.append(\"rope\")\nprint(len(pack))",
+   "options": [
+    "3",
+    "2",
+    "1"
+   ],
+   "answer": 0,
+   "why": "A list keeps repeats: rope, map, rope.",
+   "probe": "len(pack)"
+  },
+  {
+   "id": "py.indexing.review.trace",
+   "lesson": "py.indexing",
+   "kind": "trace",
+   "prompt": "What does middle hold?",
+   "code": "days = [\"mon\", \"tue\", \"wed\", \"thu\"]\nmiddle = days[1:-1]\nprint(middle)",
+   "options": [
+    "['tue', 'wed']",
+    "['mon', 'tue', 'wed']",
+    "['tue', 'wed', 'thu']"
+   ],
+   "answer": 0,
+   "why": "The slice starts at position 1 and stops before the last item.",
+   "probe": "middle"
+  },
+  {
+   "id": "py.dicts.review.trace",
+   "lesson": "py.dicts",
+   "kind": "trace",
+   "prompt": "What is stock[\"rope\"] at the end?",
+   "code": "stock = {\"rope\": 2}\nstock[\"map\"] = 1\nstock[\"rope\"] = stock[\"rope\"] + 3\nprint(stock[\"rope\"])",
+   "options": [
+    "5",
+    "3",
+    "2"
+   ],
+   "answer": 0,
+   "why": "rope starts at 2, and 2 + 3 is 5. Adding map does not change it.",
+   "probe": "stock[\"rope\"]"
+  },
+  {
+   "id": "py.sets.review.trace",
+   "lesson": "py.sets",
+   "kind": "trace",
+   "prompt": "How many rooms are in seen?",
+   "code": "seen = {\"hall\"}\nseen.add(\"tower\")\nseen.add(\"hall\")\nprint(len(seen))",
+   "options": [
+    "2",
+    "3",
+    "1"
+   ],
+   "answer": 0,
+   "why": "A set keeps each value once: hall and tower.",
+   "probe": "len(seen)"
+  },
+  {
+   "id": "py.return-values.review.trace",
+   "lesson": "py.return-values",
+   "kind": "trace",
+   "prompt": "What does result hold?",
+   "code": "def half(n):\n    return n // 2\n    print(\"never\")\n\nresult = half(9) + half(4)\nprint(result)",
+   "options": [
+    "6",
+    "6.5",
+    "4"
+   ],
+   "answer": 0,
+   "why": "half(9) is 4 and half(4) is 2. The print after return never runs.",
+   "probe": "result"
+  },
+  {
+   "id": "py.scope.review.trace",
+   "lesson": "py.scope",
+   "kind": "trace",
+   "prompt": "What does the outer gold hold after spend() runs?",
+   "code": "gold = 5\n\ndef spend():\n    gold = 1\n    return gold\n\nleft = spend()\nprint(gold, left)",
+   "options": [
+    "5",
+    "1",
+    "4"
+   ],
+   "answer": 0,
+   "why": "gold inside spend() is a local name. The outer gold is never changed.",
+   "probe": "gold"
+  },
+  {
+   "id": "py.decompose.review.trace",
+   "lesson": "py.decompose",
+   "kind": "trace",
+   "prompt": "What does bill hold?",
+   "code": "def tax(p):\n    return p // 10\n\ndef total(p):\n    return p + tax(p)\n\nbill = total(50)\nprint(bill)",
+   "options": [
+    "55",
+    "5",
+    "50"
+   ],
+   "answer": 0,
+   "why": "tax(50) is 5, so total(50) is 50 + 5.",
+   "probe": "bill"
+  },
+  {
+   "id": "py.try-except.review.trace",
+   "lesson": "py.try-except",
+   "kind": "trace",
+   "prompt": "What does result hold at the end?",
+   "code": "result = \"start\"\ntry:\n    n = int(\"x\")\n    result = \"number\"\nexcept ValueError:\n    result = \"caught\"\nprint(result)",
+   "options": [
+    "caught",
+    "number",
+    "start"
+   ],
+   "answer": 0,
+   "why": "int(\"x\") raises a ValueError, so the next line of the try never runs and the except block sets caught.",
+   "probe": "result"
+  },
+  {
+   "id": "py.string-methods.review.trace",
+   "lesson": "py.string-methods",
+   "kind": "trace",
+   "prompt": "What does clean hold?",
+   "code": "word = \"  Hello There \"\nclean = word.strip().lower().replace(\" \", \"-\")\nprint(clean)",
+   "options": [
+    "hello-there",
+    "--hello-there-",
+    "Hello-There"
+   ],
+   "answer": 0,
+   "why": "strip() takes off the spaces at the ends first, then lower() and replace() run on what is left.",
+   "probe": "clean"
+  },
+  {
+   "id": "py.methods.review.trace",
+   "lesson": "py.methods",
+   "kind": "trace",
+   "prompt": "What is lamp.fuel after five burns?",
+   "code": "class Lamp:\n    def __init__(self):\n        self.fuel = 3\n\n    def burn(self):\n        if self.fuel > 0:\n            self.fuel = self.fuel - 1\n\nlamp = Lamp()\nfor n in range(5):\n    lamp.burn()\nprint(lamp.fuel)",
+   "options": [
+    "0",
+    "-2",
+    "3"
+   ],
+   "answer": 0,
+   "why": "burn() only takes fuel away while there is some, so it stops at 0.",
+   "probe": "lamp.fuel"
+  },
+  {
+   "id": "variables.review.bug",
+   "lesson": "variables",
+   "kind": "bug",
+   "prompt": "The program should print Nova. Which line has the bug?",
+   "code": "hero = \"Nova\"\nprint(\"hero\")",
+   "fixed": "hero = \"Nova\"\nprint(hero)",
+   "options": [
+    "Line 1: hero = \"Nova\"",
+    "Line 2: print(\"hero\")"
+   ],
+   "answer": 1,
+   "why": "Quotes make \"hero\" a piece of text, so the word hero is printed instead of the value."
+  },
+  {
+   "id": "input.review.bug",
+   "lesson": "input",
+   "kind": "bug",
+   "prompt": "The greeting should use the reply. Which line has the bug?",
+   "code": "name = input(\"Name? \")\nprint(\"Welcome, \" + \"name\")",
+   "fixed": "name = input(\"Name? \")\nprint(\"Welcome, \" + name)",
+   "options": [
+    "Line 1: name = input(\"Name? \")",
+    "Line 2: print(\"Welcome, \" + \"name\")"
+   ],
+   "answer": 1,
+   "why": "The quotes around name turn it into text. Without quotes it reads the variable."
+  },
+  {
+   "id": "py.convert-input.review.bug",
+   "lesson": "py.convert-input",
+   "kind": "bug",
+   "prompt": "This stops with a TypeError. Which line causes it?",
+   "code": "coins = input(\"Coins? \")\nprint(coins + 5)",
+   "fixed": "coins = int(input(\"Coins? \"))\nprint(coins + 5)",
+   "options": [
+    "Line 1: coins = input(\"Coins? \")",
+    "Line 2: print(coins + 5)"
+   ],
+   "answer": 0,
+   "why": "input() gives text. The fix is int() on line 1, where the reply is read, even though Python stops on line 2."
+  },
+  {
+   "id": "py.compare.review.bug",
+   "lesson": "py.compare",
+   "kind": "bug",
+   "prompt": "This should print True. Which line has the bug?",
+   "code": "secret = 7\nguess = 7\nprint(guess = secret)",
+   "fixed": "secret = 7\nguess = 7\nprint(guess == secret)",
+   "options": [
+    "Line 1: secret = 7",
+    "Line 2: guess = 7",
+    "Line 3: print(guess = secret)"
+   ],
+   "answer": 2,
+   "why": "One = stores a value; two compare them."
+  },
+  {
+   "id": "py.elif.review.bug",
+   "lesson": "py.elif",
+   "kind": "bug",
+   "prompt": "A score of 8 should print great. Which line is the first one to change?",
+   "code": "score = 8\nif score >= 5:\n    print(\"good\")\nelif score >= 8:\n    print(\"great\")",
+   "fixed": "score = 8\nif score >= 8:\n    print(\"great\")\nelif score >= 5:\n    print(\"good\")",
+   "options": [
+    "Line 1: score = 8",
+    "Line 2: if score >= 5:",
+    "Line 3: print(\"good\")",
+    "Line 4: elif score >= 8:",
+    "Line 5: print(\"great\")"
+   ],
+   "answer": 1,
+   "why": "The first test that is True wins. 8 >= 5 is True, so the bigger band must be checked first."
+  },
+  {
+   "id": "py.accumulate.review.bug",
+   "lesson": "py.accumulate",
+   "kind": "bug",
+   "prompt": "This should print 12, but prints 5. Which line has the bug?",
+   "code": "for n in [3, 4, 5]:\n    total = 0\n    total = total + n\nprint(total)",
+   "fixed": "total = 0\nfor n in [3, 4, 5]:\n    total = total + n\nprint(total)",
+   "options": [
+    "Line 1: for n in [3, 4, 5]:",
+    "Line 2: total = 0",
+    "Line 3: total = total + n",
+    "Line 4: print(total)"
+   ],
+   "answer": 0,
+   "why": "total = 0 inside the loop wipes the total every turn. It belongs above the loop."
+  },
+  {
+   "id": "py.for-range.review.bug",
+   "lesson": "py.for-range",
+   "kind": "bug",
+   "prompt": "It should print every step from 1 to 5. Which line has the bug?",
+   "code": "for step in range(1, 5):\n    print(step)\nprint(\"top is 5\")",
+   "fixed": "for step in range(1, 6):\n    print(step)\nprint(\"top is 5\")",
+   "options": [
+    "Line 1: for step in range(1, 5):",
+    "Line 2: print(step)",
+    "Line 3: print(\"top is 5\")"
+   ],
+   "answer": 0,
+   "why": "range stops before its second number, so range(1, 5) ends at 4."
+  },
+  {
+   "id": "py.lists.review.bug",
+   "lesson": "py.lists",
+   "kind": "bug",
+   "prompt": "This prints None. Which line has the bug?",
+   "code": "pack = [\"rope\"]\npack = pack.append(\"map\")\nprint(pack)",
+   "fixed": "pack = [\"rope\"]\npack.append(\"map\")\nprint(pack)",
+   "options": [
+    "Line 1: pack = [\"rope\"]",
+    "Line 2: pack = pack.append(\"map\")",
+    "Line 3: print(pack)"
+   ],
+   "answer": 1,
+   "why": "append() changes the list and gives back None, which was stored in pack."
+  },
+  {
+   "id": "py.indexing.review.bug",
+   "lesson": "py.indexing",
+   "kind": "bug",
+   "prompt": "This should print the last item. Which line has the bug?",
+   "code": "pack = [\"rope\", \"map\", \"lamp\"]\nprint(pack[3])",
+   "fixed": "pack = [\"rope\", \"map\", \"lamp\"]\nprint(pack[2])",
+   "options": [
+    "Line 1: pack = [\"rope\", \"map\", \"lamp\"]",
+    "Line 2: print(pack[3])"
+   ],
+   "answer": 1,
+   "why": "Positions start at 0, so the last of three is at 2 (or -1)."
+  },
+  {
+   "id": "py.dicts.review.bug",
+   "lesson": "py.dicts",
+   "kind": "bug",
+   "prompt": "This stops with a KeyError. Which line has the bug?",
+   "code": "rooms = {\"hall\": \"lamp\"}\nprint(rooms[\"Hall\"])",
+   "fixed": "rooms = {\"hall\": \"lamp\"}\nprint(rooms[\"hall\"])",
+   "options": [
+    "Line 1: rooms = {\"hall\": \"lamp\"}",
+    "Line 2: print(rooms[\"Hall\"])"
+   ],
+   "answer": 1,
+   "why": "Keys must match exactly, capitals included."
+  },
+  {
+   "id": "py.return-values.review.bug",
+   "lesson": "py.return-values",
+   "kind": "bug",
+   "prompt": "This stops with a TypeError. Which line is the real cause?",
+   "code": "def double(n):\n    print(n * 2)\n\ntotal = double(3) + 1",
+   "fixed": "def double(n):\n    return n * 2\n\ntotal = double(3) + 1",
+   "options": [
+    "Line 1: def double(n):",
+    "Line 2: print(n * 2)",
+    "Line 4: total = double(3) + 1"
+   ],
+   "answer": 1,
+   "why": "double() prints instead of returning, so it gives back None, and None + 1 fails on line 4."
+  },
+  {
+   "id": "py.scope.review.bug",
+   "lesson": "py.scope",
+   "kind": "bug",
+   "prompt": "This stops with an UnboundLocalError. Which line is the cause?",
+   "code": "score = 0\n\ndef win():\n    score = score + 1\n\nwin()",
+   "fixed": "score = 0\n\ndef win(score):\n    return score + 1\n\nscore = win(score)",
+   "options": [
+    "Line 1: score = 0",
+    "Line 3: def win():",
+    "Line 4: score = score + 1",
+    "Line 6: win()"
+   ],
+   "answer": 1,
+   "why": "Assigning to score inside win() makes it local, and the local one has no value yet when score + 1 runs."
+  },
+  {
+   "id": "py.raise.review.bug",
+   "lesson": "py.raise",
+   "kind": "bug",
+   "prompt": "This should print refused, but stops with a TypeError. Which line has the bug?",
+   "code": "def check(age):\n    if age < 0:\n        raise \"too young\"\n    return age\n\ntry:\n    check(-1)\nexcept ValueError:\n    print(\"refused\")",
+   "fixed": "def check(age):\n    if age < 0:\n        raise ValueError(\"too young\")\n    return age\n\ntry:\n    check(-1)\nexcept ValueError:\n    print(\"refused\")",
+   "options": [
+    "Line 1: def check(age):",
+    "Line 2: if age < 0:",
+    "Line 3: raise \"too young\"",
+    "Line 4: return age",
+    "Line 6: try:",
+    "Line 7: check(-1)",
+    "Line 8: except ValueError:",
+    "Line 9: print(\"refused\")"
+   ],
+   "answer": 2,
+   "why": "raise needs an error, such as ValueError(\"too young\"), not plain text."
+  },
+  {
+   "id": "py.text-files.review.bug",
+   "lesson": "py.text-files",
+   "kind": "bug",
+   "prompt": "This stops with a TypeError. Which line has the bug?",
+   "code": "with open(\"log.txt\", \"w\") as f:\n    f.write(3)",
+   "fixed": "with open(\"log.txt\", \"w\") as f:\n    f.write(str(3))",
+   "options": [
+    "Line 1: with open(\"log.txt\", \"w\") as f:",
+    "Line 2: f.write(3)"
+   ],
+   "answer": 1,
+   "why": "write() takes text. str() turns the number into text first."
+  },
+  {
+   "id": "py.json.review.bug",
+   "lesson": "py.json",
+   "kind": "bug",
+   "prompt": "This stops with a TypeError. Which line is the cause?",
+   "code": "import json\nsave = {\"seen\": {\"hall\"}}\nprint(json.dumps(save))",
+   "fixed": "import json\nsave = {\"seen\": [\"hall\"]}\nprint(json.dumps(save))",
+   "options": [
+    "Line 1: import json",
+    "Line 2: save = {\"seen\": {\"hall\"}}",
+    "Line 3: print(json.dumps(save))"
+   ],
+   "answer": 1,
+   "why": "JSON cannot hold a set. A list can be saved instead."
+  },
+  {
+   "id": "py.regex-basics.review.bug",
+   "lesson": "py.regex-basics",
+   "kind": "bug",
+   "prompt": "This should find 42 but prints None. Which line has the bug?",
+   "code": "import re\nprint(re.match(r\"\\d+\", \"room 42\"))",
+   "fixed": "import re\nprint(re.search(r\"\\d+\", \"room 42\"))",
+   "options": [
+    "Line 1: import re",
+    "Line 2: print(re.match(r\"\\d+\", \"room 42\"))"
+   ],
+   "answer": 1,
+   "why": "match() only looks at the start of the text; search() looks anywhere."
+  },
+  {
+   "id": "py.classes.review.bug",
+   "lesson": "py.classes",
+   "kind": "bug",
+   "prompt": "This stops with an AttributeError. Which line is the real cause?",
+   "code": "class Hero:\n    def __init__(self, name):\n        name = name\n\nnova = Hero(\"Nova\")\nprint(nova.name)",
+   "fixed": "class Hero:\n    def __init__(self, name):\n        self.name = name\n\nnova = Hero(\"Nova\")\nprint(nova.name)",
+   "options": [
+    "Line 1: class Hero:",
+    "Line 2: def __init__(self, name):",
+    "Line 3: name = name",
+    "Line 5: nova = Hero(\"Nova\")",
+    "Line 6: print(nova.name)"
+   ],
+   "answer": 2,
+   "why": "Without self., the name is only a local name inside __init__, so the hero never gets one."
+  }
+ ]
+}
