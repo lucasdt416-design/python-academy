@@ -1,0 +1,220 @@
+{
+  "id": "py.scope",
+  "version": 1,
+  "course": "py",
+  "unit": "py.u05",
+  "title": "The purse that must change",
+  "concept": "Functions · local and global names",
+  "description": "Keep the hero's coins right by handing values in and back, instead of reaching outside a function.",
+  "badge": {
+    "id": "py.badge.name-keeper",
+    "version": 1,
+    "title": "Name keeper",
+    "category": "practice"
+  },
+  "tasks": [
+    {
+      "id": "py.scope.discover",
+      "type": "discover",
+      "title": "Names inside a function stay inside",
+      "body": "A name given a value inside a function is local: it exists only while that call runs, and a name outside with the same spelling is a different name. A function can read a name from outside, but assigning to it inside makes a new local name.",
+      "detail": "So score = score + 1 inside a function stops with an UnboundLocalError: the function's own score has no value yet. The clean fix is to hand the value in and return the new one: score = add_point(score). A global line would work too, but it makes a function harder to test and reuse."
+    },
+    {
+      "id": "py.scope.example",
+      "type": "example",
+      "code": "# Who changes the score?\nscore = 0\n\ndef bonus():\n    score = 50\n    print(score)\n\ndef add_point(points):\n    return points + 1\n\nbonus()\nprint(score)\nscore = add_point(score)\nprint(score)",
+      "output": "50\n0\n1",
+      "note": "bonus() makes its own local score, which disappears when the call ends, so the outer score is still 0. add_point() is handed the score and gives back a new value, which the caller stores.",
+      "inputs": []
+    },
+    {
+      "id": "py.scope.predict",
+      "type": "predict",
+      "question": "What would happen if bonus() said score = score + 50 instead?",
+      "options": [
+        "The outer score becomes 50",
+        "It stops with an UnboundLocalError",
+        "It prints 50, and the outer score stays 0"
+      ],
+      "answer": 1,
+      "why": "Because bonus() assigns to score, every score inside it is local, and the local one has no value yet when score + 50 is worked out."
+    },
+    {
+      "id": "py.scope.guided",
+      "type": "guided",
+      "prompt": "Predict, then run: inside bonus(), add print(score) above the assignment, and read the error. Then call add_point() three times in a row, storing the result each time."
+    },
+    {
+      "id": "py.scope.challenge",
+      "type": "challenge",
+      "prompt": "Write collect(coins, found), which returns the hero's new number of coins after finding some more. Then write spend(coins, price), which returns two values: the coins left and True if there were enough to pay, or the coins unchanged and False if there were not. Neither function may change or depend on a name outside itself: hand the values in and return the answers. Your program should not ask for input: the check calls your functions with its own values.",
+      "starter": "# Define collect(coins, found) and spend(coins, price)\n",
+      "hints": [
+        "Everything each function needs arrives as a parameter, and everything it works out leaves by return. No name outside the functions is needed at all.",
+        "spend() has two outcomes: an if decides whether the coins cover the price, and each branch returns two values separated by a comma.",
+        "The same shape with other names: def eat(food, bite): return food - bite hands the new amount back, and the caller stores it with food = eat(food, 2)."
+      ],
+      "error_hints": [
+        {
+          "tags": [
+            "UnboundLocalError"
+          ],
+          "text": "A function that assigns to coins makes its own local coins. Use the parameter instead, and return the new value."
+        },
+        {
+          "tags": [
+            "NameError"
+          ],
+          "text": "Inside each function, use the parameters from its def line, spelled the same way."
+        },
+        {
+          "tags": [
+            "py.scope.case.collect"
+          ],
+          "text": "collect(10, 5) should return 15: the coins handed in, plus the coins found."
+        },
+        {
+          "tags": [
+            "py.scope.case.spend"
+          ],
+          "text": "spend(20, 8) should return 12 and True together."
+        },
+        {
+          "tags": [
+            "py.scope.case.too-dear"
+          ],
+          "text": "When the price is more than the coins, nothing is paid: return the coins unchanged, and False."
+        },
+        {
+          "tags": [
+            "py.scope.case.exact"
+          ],
+          "text": "Check spending every coin: having exactly the price is enough to pay."
+        },
+        {
+          "tags": [
+            "py.scope.case.collect-zero"
+          ],
+          "text": "Check an empty purse: the answer must come from the coins handed in, not from a name outside the function."
+        }
+      ],
+      "similar_example": {
+        "code": "def eat(food, bite):\n    return food - bite\n\nfood = 10\nfood = eat(food, 2)\nfood = eat(food, 3)\nprint(food)",
+        "note": "The amount goes in, a new amount comes back, and the caller stores it. Your spend() also says whether it could pay."
+      },
+      "other_ways": [
+        {
+          "code": "def collect(coins, found):\n    return coins + found\n\ndef spend(coins, price):\n    if price > coins:\n        return coins, False\n    return coins - price, True",
+          "note": "Checking the refusal first means the normal case needs no else."
+        },
+        {
+          "code": "def collect(coins, found):\n    total = coins\n    total += found\n    return total\n\ndef spend(coins, price):\n    enough = coins >= price\n    left = coins - price if enough else coins\n    return left, enough",
+          "note": "Names made inside a function, like total and enough, are local: they cannot clash with anything outside."
+        }
+      ],
+      "input_labels": [],
+      "check": {
+        "cases": [
+          {
+            "id": "collect",
+            "description": "collect(10, 5)",
+            "inputs": [],
+            "call": {
+              "function": "collect",
+              "args": [
+                10,
+                5
+              ],
+              "kwargs": {}
+            },
+            "returns": {
+              "value": 15
+            }
+          },
+          {
+            "id": "spend",
+            "description": "spend(20, 8)",
+            "inputs": [],
+            "call": {
+              "function": "spend",
+              "args": [
+                20,
+                8
+              ],
+              "kwargs": {}
+            },
+            "returns": {
+              "value": [
+                12,
+                true
+              ]
+            }
+          },
+          {
+            "id": "too-dear",
+            "description": "spend(3, 8)",
+            "inputs": [],
+            "call": {
+              "function": "spend",
+              "args": [
+                3,
+                8
+              ],
+              "kwargs": {}
+            },
+            "returns": {
+              "value": [
+                3,
+                false
+              ]
+            }
+          },
+          {
+            "id": "exact",
+            "description": "spending every coin",
+            "inputs": [],
+            "visibility": "hidden",
+            "call": {
+              "function": "spend",
+              "args": [
+                8,
+                8
+              ],
+              "kwargs": {}
+            },
+            "returns": {
+              "value": [
+                0,
+                true
+              ]
+            }
+          },
+          {
+            "id": "collect-zero",
+            "description": "collecting into an empty purse",
+            "inputs": [],
+            "visibility": "hidden",
+            "call": {
+              "function": "collect",
+              "args": [
+                0,
+                7
+              ],
+              "kwargs": {}
+            },
+            "returns": {
+              "value": 7
+            }
+          }
+        ],
+        "time_limit_ms": 3000
+      },
+      "validator": {
+        "id": "browser-tests",
+        "version": 1
+      },
+      "version": 1
+    }
+  ]
+}

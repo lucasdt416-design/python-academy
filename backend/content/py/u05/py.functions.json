@@ -1,0 +1,146 @@
+{
+  "id": "py.functions",
+  "version": 1,
+  "course": "py",
+  "unit": "py.u05",
+  "title": "A scene you can replay",
+  "concept": "Functions · def and calling",
+  "description": "Name a scene once with def, then play it as often as the story needs.",
+  "badge": {
+    "id": "py.badge.scene-maker",
+    "version": 1,
+    "title": "Scene maker",
+    "category": "practice"
+  },
+  "tasks": [
+    {
+      "id": "py.functions.discover",
+      "type": "discover",
+      "title": "Give a set of steps a name",
+      "body": "def campfire(): followed by an indented block makes a function: a named set of steps. Nothing runs yet. campfire() on its own line calls it, and its steps run then, each time it is called.",
+      "detail": "Define a function above the line that first calls it. Calling it three times runs its steps three times, so one function replaces copied lines. The brackets matter: campfire on its own names the function but does not run it."
+    },
+    {
+      "id": "py.functions.example",
+      "type": "example",
+      "code": "# A scene the adventure can replay\ndef campfire():\n    print(\"The fire crackles.\")\n    print(\"Someone tells a story.\")\n\nprint(\"Night falls.\")\ncampfire()\ncampfire()",
+      "output": "Night falls.\nThe fire crackles.\nSomeone tells a story.\nThe fire crackles.\nSomeone tells a story.",
+      "note": "def only stores the steps. The first line printed is Night falls., because the function's lines run only when campfire() is called, here twice.",
+      "inputs": []
+    },
+    {
+      "id": "py.functions.predict",
+      "type": "predict",
+      "question": "If the last two lines were taken away, what would the program print?",
+      "options": [
+        "Night falls.",
+        "Night falls. and the campfire lines once",
+        "Nothing at all"
+      ],
+      "answer": 0,
+      "why": "Without a call, the function's steps never run. Defining a function prints nothing."
+    },
+    {
+      "id": "py.functions.guided",
+      "type": "guided",
+      "prompt": "Predict, then run: take the brackets off one campfire() call and see what changes. Then write a second function, sunrise(), and call it once at the end."
+    },
+    {
+      "id": "py.functions.challenge",
+      "type": "challenge",
+      "prompt": "Write a function called crossing() that prints three lines: Step on the stones. then The water rushes past. then You reach the far bank. Then write a function called journey() that prints Day begins., uses crossing() twice, and prints Night falls. At the end of your program, call journey() once. The check runs your program, and also calls your functions on their own.",
+      "starter": "# Define crossing() and journey(), then call journey()\n",
+      "hints": [
+        "Each function starts with def, its name, empty brackets and a colon. The lines that belong to it are indented by four spaces.",
+        "journey() can call crossing() inside its own block, so the three river lines are written only once. The last line of the program, not indented, calls journey().",
+        "The same shape with other names: def chorus(): holds the lines, and def song(): calls chorus() between its own print() lines."
+      ],
+      "error_hints": [
+        {
+          "tags": [
+            "NameError"
+          ],
+          "text": "A function has to be defined above the line that first calls it, and spelled the same way in both places."
+        },
+        {
+          "tags": [
+            "IndentationError"
+          ],
+          "text": "The lines inside a function start with four spaces. The final call to journey() has none."
+        },
+        {
+          "tags": [
+            "py.functions.case.program"
+          ],
+          "text": "Run on its own, your program should print the whole journey once: eight lines. If it prints nothing, add a call to journey() at the end, with no indent."
+        },
+        {
+          "tags": [
+            "py.functions.case.crossing"
+          ],
+          "text": "crossing() should print exactly the three river lines, in order, and nothing else."
+        },
+        {
+          "tags": [
+            "py.functions.case.journey"
+          ],
+          "text": "Check journey() on its own: it should print Day begins., the river lines twice, and Night falls."
+        }
+      ],
+      "similar_example": {
+        "code": "def chorus():\n    print(\"La la la\")\n\ndef song():\n    print(\"Verse one\")\n    chorus()\n    print(\"Verse two\")\n    chorus()\n\nsong()",
+        "note": "A song whose chorus is written once and sung twice. Your journey does the same with the river crossing."
+      },
+      "other_ways": [
+        {
+          "code": "def crossing():\n    for line in [\"Step on the stones.\", \"The water rushes past.\", \"You reach the far bank.\"]:\n        print(line)\n\ndef journey():\n    print(\"Day begins.\")\n    for n in range(2):\n        crossing()\n    print(\"Night falls.\")\n\njourney()",
+          "note": "A loop can call crossing() twice, and another can print its lines from a list."
+        },
+        {
+          "code": "def crossing():\n    print(\"Step on the stones.\")\n    print(\"The water rushes past.\")\n    print(\"You reach the far bank.\")\n\ndef journey():\n    print(\"Day begins.\")\n    crossing()\n    crossing()\n    print(\"Night falls.\")\n\nif __name__ == \"__main__\":\n    journey()",
+          "note": "if __name__ == \"__main__\": runs journey() only when this file is the program being run, not when another file imports it. You will meet this again with modules."
+        }
+      ],
+      "input_labels": [],
+      "check": {
+        "cases": [
+          {
+            "id": "program",
+            "description": "the program on its own",
+            "inputs": [],
+            "expected": "Day begins.\nStep on the stones.\nThe water rushes past.\nYou reach the far bank.\nStep on the stones.\nThe water rushes past.\nYou reach the far bank.\nNight falls."
+          },
+          {
+            "id": "crossing",
+            "description": "crossing() on its own",
+            "inputs": [],
+            "expected": "Step on the stones.\nThe water rushes past.\nYou reach the far bank.",
+            "call": {
+              "function": "crossing",
+              "args": [],
+              "kwargs": {}
+            }
+          },
+          {
+            "id": "journey",
+            "description": "the journey, called by the check",
+            "inputs": [],
+            "expected": "Day begins.\nStep on the stones.\nThe water rushes past.\nYou reach the far bank.\nStep on the stones.\nThe water rushes past.\nYou reach the far bank.\nNight falls.",
+            "visibility": "hidden",
+            "call": {
+              "function": "journey",
+              "args": [],
+              "kwargs": {}
+            }
+          }
+        ],
+        "time_limit_ms": 3000
+      },
+      "validator": {
+        "id": "browser-tests",
+        "version": 1
+      },
+      "version": 1
+    }
+  ]
+}

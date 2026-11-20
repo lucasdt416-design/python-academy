@@ -90,6 +90,16 @@ def programs_from(pieces, example, start):
     return sorted(programs)
 
 
+def sent(found):
+    """Reports as the page sends them: returned is left out of a dump, so it is added back for call cases."""
+    return [{**r.model_dump(), **({'returned': r.returned} if r.returned is not None else {})} for r in found]
+
+
+def attempt(client, lesson_id, code):
+    runs = sent(run(LESSONS[lesson_id], code))
+    return client.post('/api/attempts', json={'lesson_id': lesson_id, 'code': code, 'output': runs[0]['output'], 'runs': runs}, headers=HEADERS).json()
+
+
 def renamed(text, names):
     return helpers.renamed(text, names)
 
@@ -169,7 +179,8 @@ def make_tests(unit_id, specs, badges):
         if isinstance(expect, str):
             assert answer['rule'] == expect, answer['feedback']
             case = next(c for c in challenge(lesson_id).check.cases if expect.endswith('.case.' + c.id))
-            assert case.description in answer['feedback']
+            if not case.call:
+                assert case.description in answer['feedback']
         else:
             reason, error_type, line = expect
             assert (answer['failed']['reason'], answer['failed'].get('error_type'), answer['failed'].get('line')) == (reason, error_type, line), answer
@@ -223,7 +234,7 @@ def make_tests(unit_id, specs, badges):
                 assert 'expected' not in case and 'returns' not in case and 'test_should' not in case
         answers = [client.get(p).text for p in ('/api/catalog', '/api/lessons', f'/api/units/{unit_id}/lessons', f'/api/checks/{lesson_id}')]
         for _, code, _, _ in specs[lesson_id].wrong[:8]:
-            runs = [r.model_dump() for r in run(LESSONS[lesson_id], code)]
+            runs = sent(run(LESSONS[lesson_id], code))
             answers.append(client.post('/api/check', json={'lesson_id': lesson_id, 'code': code, 'output': runs[0]['output'], 'runs': runs}, headers=HEADERS).text)
         shown = {json.dumps(c.expected) for c in challenge(lesson_id).check.cases if c.visibility == 'visible'}
         for case in challenge(lesson_id).check.cases:
@@ -234,11 +245,11 @@ def make_tests(unit_id, specs, badges):
     def test_each_lesson_awards_100_xp_and_its_badge_once(client):
         client.cookies.set('session', helpers.sign_in_student(), domain='testserver.local', path='/')
         for lesson_id in ids:
-            assert helpers.attempt(client, lesson_id, specs[lesson_id].wrong[0][1])['result'] != 'passed'
+            assert attempt(client, lesson_id, specs[lesson_id].wrong[0][1])['result'] != 'passed'
         assert client.get('/api/awards').json()['xp'] == 0
         for _ in range(2):
             for lesson_id in ids:
-                assert helpers.attempt(client, lesson_id, specs[lesson_id].reference)['result'] == 'passed', lesson_id
+                assert attempt(client, lesson_id, specs[lesson_id].reference)['result'] == 'passed', lesson_id
         awards = client.get('/api/awards').json()
         assert awards['xp'] == 100 * len(ids) and awards['completed'] == ids
         assert [b['title'] for b in awards['badges']] == badges

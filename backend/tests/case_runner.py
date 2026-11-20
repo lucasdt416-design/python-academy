@@ -20,8 +20,48 @@ import sys
 from app.browser_checks import CaseRun
 
 RUNNER = r'''
-import builtins, contextlib, io, json, os, pathlib, random, shutil, signal, sys, tempfile, traceback
+import builtins, contextlib, inspect, io, json, os, pathlib, random, re, shutil, signal, sys, tempfile, traceback
 jobs = json.load(sys.stdin)
+
+# Function-call cases (ENG-06), as the worker's __academy_call does them.
+def plain(value, depth=0):
+    if depth > 20:
+        raise ValueError('too deep')
+    kind = type(value)
+    if value is None or kind in (bool, int, str):
+        return value
+    if kind is float:
+        if value != value or value in (float('inf'), float('-inf')):
+            raise ValueError('not finite')
+        return value
+    if kind in (list, tuple):
+        return [plain(item, depth + 1) for item in value]
+    if kind is dict and all(type(key) is str for key in value):
+        return {key: plain(item, depth + 1) for key, item in value.items()}
+    raise ValueError('not plain')
+
+def call_function(namespace, call, limit):
+    function = namespace.get(call['function'])
+    if not callable(function):
+        return {'status': 'no_function'}
+    args, kwargs = call.get('args', []), call.get('kwargs', {})
+    try:
+        signature = inspect.signature(function)
+    except (TypeError, ValueError):
+        signature = None
+    if signature is not None:
+        try:
+            signature.bind(*args, **kwargs)
+        except TypeError:
+            return {'status': 'bad_signature'}
+    value = function(*args, **kwargs)
+    try:
+        text = json.dumps(plain(value), allow_nan=False)
+        if len(text) > limit:
+            raise ValueError('too long')
+    except (TypeError, ValueError, RecursionError):
+        return {'status': 'not_comparable', 'error_type': type(value).__name__}
+    return {'status': 'ok', 'returned': text}
 
 class TimeLimit(BaseException):
     pass
@@ -78,6 +118,11 @@ for job in jobs:
                 if case.get('reference') is not None:
                     exec(compile(case['reference'], '<reference>', 'exec'), namespace)
                 exec(compile(job['code'], '<exec>', 'exec'), namespace)
+                if case.get('call'):
+                    # Only what the call prints is compared, as in the worker.
+                    out.seek(0)
+                    out.truncate(0)
+                    report.update(call_function(namespace, case['call'], job['limit']))
         except TimeLimit:
             report['status'] = 'timeout'
             stopped = True
@@ -115,7 +160,7 @@ def reports(lesson, programs, timeout=120, modules=None):
     modules: the learner's own files (ENG-08b), the challenge's starting code unless given."""
     check = lesson.task('challenge').check
     own = getattr(lesson.task('challenge'), 'modules', {}) if modules is None else modules
-    jobs = [{'code': code, 'modules': own, 'limit': 10_000, 'seconds': SECONDS, 'cases': [{'id': c.id, 'inputs': c.inputs, 'files': getattr(c, 'files', {}), 'seed': getattr(c, 'seed', None), 'reference': getattr(c, 'reference', None)} for c in check.cases]} for code in programs]
+    jobs = [{'code': code, 'modules': own, 'limit': 10_000, 'seconds': SECONDS, 'cases': [{'id': c.id, 'inputs': c.inputs, 'files': getattr(c, 'files', {}), 'seed': getattr(c, 'seed', None), 'reference': getattr(c, 'reference', None), 'call': c.call.model_dump() if getattr(c, 'call', None) else None} for c in check.cases]} for code in programs]
     done = subprocess.run([sys.executable, '-I', '-c', RUNNER], input=json.dumps(jobs), capture_output=True, text=True, timeout=timeout, check=True)
     return [[CaseRun(**report) for report in program] for program in json.loads(done.stdout)]
 

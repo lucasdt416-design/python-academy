@@ -1,0 +1,217 @@
+{
+  "id": "py.return-values",
+  "version": 1,
+  "course": "py",
+  "unit": "py.u05",
+  "title": "Score the guess",
+  "concept": "Functions · return, not print",
+  "description": "Have the riddle keeper's scoring hand its answer back, so the rest of the game can use it.",
+  "badge": {
+    "id": "py.badge.return-trip",
+    "version": 1,
+    "title": "Return trip",
+    "category": "practice"
+  },
+  "tasks": [
+    {
+      "id": "py.return-values.discover",
+      "type": "discover",
+      "title": "Hand an answer back",
+      "body": "return sends a value back to the line that called the function. With def double(n): return n * 2, the line x = double(4) stores 8. print() inside a function only shows text: the caller gets nothing it can use.",
+      "detail": "return also ends the function at once, so lines after it in the same block never run. A function with no return gives back None. return a, b gives back two values together, and low, high = pair() unpacks them into two names."
+    },
+    {
+      "id": "py.return-values.example",
+      "type": "example",
+      "code": "# Points for a riddle, worked out in one place\ndef points(tries):\n    if tries == 1:\n        return 10\n    return 10 - tries * 2\n\ntotal = points(1) + points(3)\nprint(total)\nprint(points(2))",
+      "output": "14\n6",
+      "note": "points() hands back a number, so two calls can be added together. When tries is 1 the first return ends the function, so the second return never runs.",
+      "inputs": []
+    },
+    {
+      "id": "py.return-values.predict",
+      "type": "predict",
+      "question": "Suppose both return lines in points() were print() lines instead. What would total = points(1) + points(3) do?",
+      "options": [
+        "Store 14",
+        "Stop with a TypeError",
+        "Store None"
+      ],
+      "answer": 1,
+      "why": "A function that only prints gives back None, and None + None is a TypeError. print() shows a number; return hands it back to be used."
+    },
+    {
+      "id": "py.return-values.guided",
+      "type": "guided",
+      "prompt": "Predict, then run: add print(points(5)) and work out the answer before you run it. Then change points() so that 5 or more tries scores 0, with one more if and return."
+    },
+    {
+      "id": "py.return-values.challenge",
+      "type": "challenge",
+      "prompt": "Write score(secret, guess), which returns 10 if the guess is right, 5 if it is no more than 2 away, 1 if it is no more than 10 away, and 0 otherwise. Then write verdict(secret, guess), which returns two values: the score, and True if the guess is too high or False if it is not. Return the answers; do not print them. Your program should not ask for input: the check calls your functions with its own values.",
+      "starter": "# Define score(secret, guess) and verdict(secret, guess)\n",
+      "hints": [
+        "Work out how far apart the two numbers are first, ignoring which is bigger: abs() does that. Then check the closest band first, and return as soon as one matches.",
+        "verdict() can call score() instead of repeating its rules, then return the score and a comparison together, separated by a comma.",
+        "The same shape with other names: def grade(mark): with if mark >= 90: return \"A\" first, then the lower bands, and a last return for everything else."
+      ],
+      "error_hints": [
+        {
+          "tags": [
+            "NameError"
+          ],
+          "text": "Use the parameters from the def line inside the function, spelled the same way."
+        },
+        {
+          "tags": [
+            "TypeError"
+          ],
+          "text": "Check that each function takes two values, the secret and then the guess, and that score() returns a number in every case."
+        },
+        {
+          "tags": [
+            "py.return-values.case.right"
+          ],
+          "text": "score(50, 50) should return 10. If the check says your function returned None, it printed the answer instead of returning it."
+        },
+        {
+          "tags": [
+            "py.return-values.case.close"
+          ],
+          "text": "48 is exactly 2 away from 50, and no more than 2 away includes 2 itself."
+        },
+        {
+          "tags": [
+            "py.return-values.case.verdict"
+          ],
+          "text": "verdict(20, 25) should return 1 and True together: return the score, a comma, and whether the guess is bigger."
+        },
+        {
+          "tags": [
+            "py.return-values.case.far"
+          ],
+          "text": "Check a guess more than 10 away: every guess needs a score, so the function needs a return for the last band too."
+        },
+        {
+          "tags": [
+            "py.return-values.case.verdict-low"
+          ],
+          "text": "Check a guess just below the secret: too high means bigger than the secret, not just different from it."
+        }
+      ],
+      "similar_example": {
+        "code": "def grade(mark):\n    if mark >= 90:\n        return \"A\"\n    if mark >= 70:\n        return \"B\"\n    return \"C\"\n\nprint(grade(95))\nprint(grade(72))\nprint(grade(10))",
+        "note": "Bands checked from the top, each ending the function with return. Your score() measures distance instead of marks."
+      },
+      "other_ways": [
+        {
+          "code": "def score(secret, guess):\n    gap = abs(secret - guess)\n    if gap == 0:\n        return 10\n    elif gap <= 2:\n        return 5\n    elif gap <= 10:\n        return 1\n    else:\n        return 0\n\ndef verdict(secret, guess):\n    return score(secret, guess), guess > secret",
+          "note": "elif and else make it clear that exactly one band applies. verdict() reuses score()."
+        },
+        {
+          "code": "def score(secret, guess):\n    gap = abs(secret - guess)\n    for limit, points in [(0, 10), (2, 5), (10, 1)]:\n        if gap <= limit:\n            return points\n    return 0\n\ndef verdict(secret, guess):\n    points = score(secret, guess)\n    too_high = guess > secret\n    return points, too_high",
+          "note": "The bands as a list of pairs: the loop returns from the first band the gap fits. Adding a band means adding a pair."
+        }
+      ],
+      "input_labels": [],
+      "check": {
+        "cases": [
+          {
+            "id": "right",
+            "description": "score(50, 50)",
+            "inputs": [],
+            "call": {
+              "function": "score",
+              "args": [
+                50,
+                50
+              ],
+              "kwargs": {}
+            },
+            "returns": {
+              "value": 10
+            }
+          },
+          {
+            "id": "close",
+            "description": "score(50, 48)",
+            "inputs": [],
+            "call": {
+              "function": "score",
+              "args": [
+                50,
+                48
+              ],
+              "kwargs": {}
+            },
+            "returns": {
+              "value": 5
+            }
+          },
+          {
+            "id": "verdict",
+            "description": "verdict(20, 25)",
+            "inputs": [],
+            "call": {
+              "function": "verdict",
+              "args": [
+                20,
+                25
+              ],
+              "kwargs": {}
+            },
+            "returns": {
+              "value": [
+                1,
+                true
+              ]
+            }
+          },
+          {
+            "id": "far",
+            "description": "a guess far from the secret",
+            "inputs": [],
+            "visibility": "hidden",
+            "call": {
+              "function": "score",
+              "args": [
+                10,
+                90
+              ],
+              "kwargs": {}
+            },
+            "returns": {
+              "value": 0
+            }
+          },
+          {
+            "id": "verdict-low",
+            "description": "the verdict on a low guess",
+            "inputs": [],
+            "visibility": "hidden",
+            "call": {
+              "function": "verdict",
+              "args": [
+                70,
+                69
+              ],
+              "kwargs": {}
+            },
+            "returns": {
+              "value": [
+                5,
+                false
+              ]
+            }
+          }
+        ],
+        "time_limit_ms": 3000
+      },
+      "validator": {
+        "id": "browser-tests",
+        "version": 1
+      },
+      "version": 1
+    }
+  ]
+}
