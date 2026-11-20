@@ -18,8 +18,8 @@
         {"id": "py.u07", "title": "Libraries and modules", "summary": "Importing modules, random numbers with a seed, the math module, dates with datetime, and modules of your own. A local setup lesson comes later.", "status": "released", "lessons": ["py.import", "py.random", "py.math-module", "py.datetime", "py.own-modules"], "more_lessons_coming": true},
         {"id": "py.u08", "title": "Trust your changes", "summary": "Writing tests with assert, choosing test cases and boundary values, type hints, and refactoring safely.", "status": "released", "lessons": ["py.assert-tests", "py.test-cases", "py.boundaries", "py.type-hints", "py.refactor"]},
         {"id": "py.u09", "title": "Save and load", "summary": "Reading and writing text files, saving with JSON, tables in CSV files, and coping with missing or damaged data. A local setup lesson comes later.", "status": "released", "lessons": ["py.text-files", "py.json", "py.csv", "py.missing-data"], "more_lessons_coming": true},
-        {"id": "py.u10", "title": "Patterns in text", "summary": "String methods and regular expressions.", "status": "coming_soon", "lessons": []},
-        {"id": "py.u11", "title": "Model a larger program", "summary": "Classes and composition.", "status": "coming_soon", "lessons": []},
+        {"id": "py.u10", "title": "Patterns in text", "summary": "String methods and f-strings, searching with regular expressions, groups and replacing, and checking formats honestly.", "status": "released", "lessons": ["py.string-methods", "py.regex-basics", "py.regex-groups", "py.validate-formats"]},
+        {"id": "py.u11", "title": "Model a larger program", "summary": "Classes and attributes, methods that change an object, and objects built from other objects. A lesson on when not to use classes comes later.", "status": "released", "lessons": ["py.classes", "py.methods", "py.composition"], "more_lessons_coming": true},
         {"id": "py.u12", "title": "Final project", "summary": "Plan, build, test, and explain a project of your own.", "status": "coming_soon", "lessons": []}
       ]
     },

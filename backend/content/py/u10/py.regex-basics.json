@@ -1,0 +1,188 @@
+{
+  "id": "py.regex-basics",
+  "version": 1,
+  "course": "py",
+  "unit": "py.u10",
+  "title": "Spot the ticket code",
+  "concept": "re · searching for a pattern",
+  "description": "Recognise ticket codes in the messages that come in, whether a whole message is one or it hides inside other text.",
+  "badge": {
+    "id": "py.badge.pattern-spotter",
+    "version": 1,
+    "title": "Pattern spotter",
+    "category": "practice"
+  },
+  "tasks": [
+    {
+      "id": "py.regex-basics.discover",
+      "type": "discover",
+      "title": "Describe the shape of text",
+      "body": "import re, then re.search(r\"\\d+\", text) finds the first run of digits in text, or gives None if there is none. A pattern describes a shape: \\d is a digit, \\w a letter, digit or _, \\s a space, [A-Z] a capital letter, and . any character.",
+      "detail": "+ means one or more, * zero or more, ? zero or one, and {3} exactly three. re.fullmatch() checks that the whole text has the shape, re.search() looks for it anywhere, and re.match() only at the start. Write patterns as r\"...\" so Python leaves the backslashes for re. .group() gives the text that matched."
+    },
+    {
+      "id": "py.regex-basics.example",
+      "type": "example",
+      "code": "import re\nnote = \"Gate 12 opens at 7 for room B42\"\nprint(re.search(r\"\\d+\", note).group())\nprint(re.findall(r\"\\d+\", note))\nprint(re.fullmatch(r\"[A-Z]\\d+\", \"B42\") is not None)\nprint(re.search(r\"x\", note))",
+      "output": "12\n['12', '7', '42']\nTrue\nNone",
+      "note": "\\d+ takes as many digits as it can, so it finds 12, not 1. findall() gives every match. fullmatch() says B42 is a capital letter and digits, and a search that finds nothing gives None.",
+      "inputs": []
+    },
+    {
+      "id": "py.regex-basics.predict",
+      "type": "predict",
+      "question": "What does re.search(r\"\\d+\", \"room 305\").group() give?",
+      "options": [
+        "3",
+        "305",
+        "room"
+      ],
+      "answer": 1,
+      "why": "+ means one or more, and it takes as many as it can: all three digits."
+    },
+    {
+      "id": "py.regex-basics.guided",
+      "type": "guided",
+      "prompt": "Predict, then run: try re.fullmatch on \"B42!\" and on \"b42\". Then change the pattern to [A-Za-z] and try \"b42\" again."
+    },
+    {
+      "id": "py.regex-basics.challenge",
+      "type": "challenge",
+      "prompt": "A ticket code is two capital letters, a dash, and three digits, like AB-123. Ask how many lines of text there are, then read each line. For each line, print yes if the whole line is a ticket code, or no if not. On the last line, print how many of the lines had a ticket code somewhere in them, even with other text around it.",
+      "starter": "# Import re, then check each line\n",
+      "hints": [
+        "The shape of a code is [A-Z]{2}, a dash, then \\d{3}. fullmatch() asks whether the whole line is that shape.",
+        "search() looks for the shape anywhere in the line, which is what the count needs. match() is not enough for either job: it only looks at the start.",
+        "With other names: re.fullmatch(r\"\\d{4}\", pin) checks a whole PIN, and re.search(r\"\\d{4}\", note) finds one inside a note."
+      ],
+      "error_hints": [
+        {
+          "tags": [
+            "NameError"
+          ],
+          "text": "re is a name only after import re at the top."
+        },
+        {
+          "tags": [
+            "TypeError"
+          ],
+          "text": "range() needs a whole number: use int() on the number of lines."
+        },
+        {
+          "tags": [
+            "AttributeError"
+          ],
+          "text": "search() and fullmatch() give None when nothing matches, and None has no .group(). Check the result with if before using it."
+        },
+        {
+          "tags": [
+            "py.regex-basics.case.mixed"
+          ],
+          "text": "AB-123 is a code; ab-123 is not, because the letters must be capitals; and Gate CD-404 now holds a code inside it, so the count is 2."
+        },
+        {
+          "tags": [
+            "py.regex-basics.case.too-long"
+          ],
+          "text": "XYZ-123 is not a code as a whole line, but YZ-123 is inside it, so it counts as holding one."
+        },
+        {
+          "tags": [
+            "py.regex-basics.case.single"
+          ],
+          "text": "A single line that is exactly a code: yes, and a count of 1."
+        },
+        {
+          "tags": [
+            "py.regex-basics.case.near-misses"
+          ],
+          "text": "Check lines that nearly match: an extra digit, spaces at the start, an underscore instead of a dash."
+        },
+        {
+          "tags": [
+            "py.regex-basics.case.empty"
+          ],
+          "text": "Check empty lines: no code, and a count of 0."
+        }
+      ],
+      "similar_example": {
+        "code": "import re\npin = \"4071\"\nnote = \"door code 4071, then left\"\nprint(re.fullmatch(r\"\\d{4}\", pin) is not None)\nprint(re.fullmatch(r\"\\d{4}\", note) is not None)\nprint(re.search(r\"\\d{4}\", note).group())",
+        "note": "A whole PIN, and a PIN inside a note. Your ticket codes need letters, a dash and digits."
+      },
+      "other_ways": [
+        {
+          "code": "import re\nCODE = re.compile(r\"[A-Z]{2}-\\d{3}\")\nlines = [input() for n in range(int(input()))]\nfor line in lines:\n    print(\"yes\" if CODE.fullmatch(line) else \"no\")\nprint(sum(1 for line in lines if CODE.search(line)))",
+          "note": "re.compile() turns a pattern into an object you can reuse, with the same methods."
+        },
+        {
+          "code": "import re\ncount = int(input())\nfound = 0\nfor n in range(count):\n    line = input()\n    print(\"yes\" if re.search(r\"^[A-Z][A-Z]-[0-9][0-9][0-9]$\", line) else \"no\")\n    found += bool(re.findall(r\"[A-Z]{2}-\\d{3}\", line))\nprint(found)",
+          "note": "^ and $ pin a search to the start and end, which is what fullmatch() does. [0-9] is another way to write \\d."
+        }
+      ],
+      "input_labels": [],
+      "check": {
+        "cases": [
+          {
+            "id": "mixed",
+            "description": "a code, a code in lowercase, and a code inside a sentence",
+            "inputs": [
+              "3",
+              "AB-123",
+              "ab-123",
+              "Gate CD-404 now"
+            ],
+            "expected": "yes\nno\nno\n2"
+          },
+          {
+            "id": "too-long",
+            "description": "codes that are too short or too long",
+            "inputs": [
+              "2",
+              "XY-12",
+              "XYZ-123"
+            ],
+            "expected": "no\nno\n1"
+          },
+          {
+            "id": "single",
+            "description": "one line that is a code",
+            "inputs": [
+              "1",
+              "QQ-000"
+            ],
+            "expected": "yes\n1"
+          },
+          {
+            "id": "near-misses",
+            "description": "lines that nearly match",
+            "inputs": [
+              "3",
+              "AB-1234",
+              "  AB-123",
+              "AB_123"
+            ],
+            "expected": "no\nno\nno\n2",
+            "visibility": "hidden"
+          },
+          {
+            "id": "empty",
+            "description": "empty lines",
+            "inputs": [
+              "2",
+              "",
+              ""
+            ],
+            "expected": "no\nno\n0",
+            "visibility": "hidden"
+          }
+        ],
+        "time_limit_ms": 3000
+      },
+      "validator": {
+        "id": "browser-tests",
+        "version": 1
+      },
+      "version": 1
+    }
+  ]
+}

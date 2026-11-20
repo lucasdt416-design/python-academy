@@ -1,0 +1,185 @@
+{
+  "id": "py.regex-groups",
+  "version": 1,
+  "course": "py",
+  "unit": "py.u10",
+  "title": "Read the message log",
+  "concept": "re · groups, findall and sub",
+  "description": "Pull the time and the speaker out of each message, then print the log again with every time hidden.",
+  "badge": {
+    "id": "py.badge.code-breaker",
+    "version": 1,
+    "title": "Code breaker",
+    "category": "practice"
+  },
+  "tasks": [
+    {
+      "id": "py.regex-groups.discover",
+      "type": "discover",
+      "title": "Catch the parts you need",
+      "body": "Brackets in a pattern make a group: re.search(r\"(\\d+)-(\\d+)\", \"score 7-3\") matches, and .group(1) is \"7\" and .group(2) is \"3\". re.findall() with groups gives a list of tuples, one tuple per match.",
+      "detail": "re.sub(pattern, new, text) replaces every match: re.sub(r\"\\d\", \"#\", \"pin 4071\") gives \"pin ####\". Groups are numbered from 1 by their opening bracket, left to right, and group(0) is the whole match. re.match() looks only at the start of the text."
+    },
+    {
+      "id": "py.regex-groups.example",
+      "type": "example",
+      "code": "import re\nlog = \"Nova scored 7-3, Kai scored 2-5\"\nfor name, ours, theirs in re.findall(r\"(\\w+) scored (\\d+)-(\\d+)\", log):\n    print(name, int(ours) - int(theirs))\nprint(re.sub(r\"\\d\", \"#\", \"pin 4071\"))\nm = re.search(r\"(\\d+)-(\\d+)\", log)\nprint(m.group(0), m.group(2))",
+      "output": "Nova 4\nKai -3\npin ####\n7-3 3",
+      "note": "findall() gives one tuple per match, which the for loop unpacks into three names. sub() replaces every digit. group(0) is the whole match, and group(2) the second bracket.",
+      "inputs": []
+    },
+    {
+      "id": "py.regex-groups.predict",
+      "type": "predict",
+      "question": "What does re.search(r\"(\\w+)@(\\w+)\", \"ada@mail\").group(2) give?",
+      "options": [
+        "ada",
+        "mail",
+        "ada@mail"
+      ],
+      "answer": 1,
+      "why": "The second pair of brackets caught mail. group(1) would be ada, and group(0) the whole match."
+    },
+    {
+      "id": "py.regex-groups.guided",
+      "type": "guided",
+      "prompt": "Predict, then run: print m.group(1). Then change the sub() so that only the last digit is hidden, using $ at the end of the pattern."
+    },
+    {
+      "id": "py.regex-groups.challenge",
+      "type": "challenge",
+      "prompt": "A message log has lines like 12:05 Nova: hello there. Ask how many lines there are, then read them all. A message line starts with a time, written as two digits, a colon and two digits, then a space, a one-word name, a colon and a space. For each message line, in order, print the name, at, and the time, like Nova at 12:05. Then print every line of the log again, in order, with every time in it, written as two digits, a colon and two digits, replaced by ??:??.",
+      "starter": "# Import re, read the log, then pull out the speakers\n",
+      "hints": [
+        "Read all the lines into a list first, because the log is printed twice. The time pattern is \\d\\d:\\d\\d.",
+        "Put brackets round the time and round the name, and use re.match() so the shape must be at the start. group(1) and group(2) are then the time and the name. re.sub() hides the times for the second part.",
+        "With other names: m = re.match(r\"(\\w+)=(\\d+)\", setting) and then print(m.group(1)) gives the setting's name."
+      ],
+      "error_hints": [
+        {
+          "tags": [
+            "NameError"
+          ],
+          "text": "re is a name only after import re at the top."
+        },
+        {
+          "tags": [
+            "AttributeError"
+          ],
+          "text": "re.match() gives None for a line that is not a message, and None has no group(). Check it with if first."
+        },
+        {
+          "tags": [
+            "IndexError"
+          ],
+          "text": "Groups are numbered from 1 by their opening bracket: a pattern with two pairs of brackets has groups 1 and 2."
+        },
+        {
+          "tags": [
+            "py.regex-groups.case.two"
+          ],
+          "text": "With two messages: Nova at 12:05 and Kai at 12:07, then both lines with their times hidden."
+        },
+        {
+          "tags": [
+            "py.regex-groups.case.note"
+          ],
+          "text": "A line that is not a message is not listed as a speaker, but it is still printed in the second part."
+        },
+        {
+          "tags": [
+            "py.regex-groups.case.short-time"
+          ],
+          "text": "12:5 is not two digits and two digits, so the line is not a message, and its time is not hidden either."
+        },
+        {
+          "tags": [
+            "py.regex-groups.case.time-inside"
+          ],
+          "text": "Check a message that mentions another time: sub() hides every time in the line."
+        },
+        {
+          "tags": [
+            "py.regex-groups.case.early"
+          ],
+          "text": "Check a time with a one-digit hour: it does not have the shape, so that line is not a message."
+        }
+      ],
+      "similar_example": {
+        "code": "import re\nfor setting in [\"volume=7\", \"mode:dark\", \"speed=12\"]:\n    m = re.match(r\"(\\w+)=(\\d+)\", setting)\n    if m:\n        print(m.group(1), int(m.group(2)) * 2)\nprint(re.sub(r\"\\d+\", \"N\", \"volume=7 speed=12\"))",
+        "note": "Groups catching a name and a number, a line that does not match, and sub() replacing every number. Your log needs a time and a name instead."
+      },
+      "other_ways": [
+        {
+          "code": "import re\nMESSAGE = re.compile(r\"(?P<time>\\d\\d:\\d\\d) (?P<name>\\w+): \")\nlines = [input() for n in range(int(input()))]\nfor line in lines:\n    m = MESSAGE.match(line)\n    if m:\n        print(f\"{m['name']} at {m['time']}\")\nfor line in lines:\n    print(re.sub(r\"\\d\\d:\\d\\d\", \"??:??\", line))",
+          "note": "(?P<name>...) gives a group a name, so m[\"name\"] reads more clearly than a number."
+        },
+        {
+          "code": "import re\nlines = []\nfor n in range(int(input())):\n    lines.append(input())\nfor time, name in re.findall(r\"^(\\d\\d:\\d\\d) (\\w+): \", \"\\n\".join(lines), re.MULTILINE):\n    print(name, \"at\", time)\nprint(\"\\n\".join(re.sub(r\"\\d\\d:\\d\\d\", \"??:??\", line) for line in lines))",
+          "note": "findall() over the whole log at once, where re.MULTILINE makes ^ match at the start of every line."
+        }
+      ],
+      "input_labels": [],
+      "check": {
+        "cases": [
+          {
+            "id": "two",
+            "description": "two messages",
+            "inputs": [
+              "2",
+              "12:05 Nova: hello",
+              "12:07 Kai: hi Nova"
+            ],
+            "expected": "Nova at 12:05\nKai at 12:07\n??:?? Nova: hello\n??:?? Kai: hi Nova"
+          },
+          {
+            "id": "note",
+            "description": "a line that is not a message",
+            "inputs": [
+              "2",
+              "note to self",
+              "09:30 Ada: ready?"
+            ],
+            "expected": "Ada at 09:30\nnote to self\n??:?? Ada: ready?"
+          },
+          {
+            "id": "short-time",
+            "description": "a time with a digit missing",
+            "inputs": [
+              "1",
+              "12:5 Bo: hi"
+            ],
+            "expected": "12:5 Bo: hi"
+          },
+          {
+            "id": "time-inside",
+            "description": "a message that mentions another time",
+            "inputs": [
+              "1",
+              "23:59 Lin: meet at 10:30"
+            ],
+            "expected": "Lin at 23:59\n??:?? Lin: meet at ??:??",
+            "visibility": "hidden"
+          },
+          {
+            "id": "early",
+            "description": "an early time written short",
+            "inputs": [
+              "2",
+              "7:00 Al: early",
+              "08:15 Bea: late"
+            ],
+            "expected": "Bea at 08:15\n7:00 Al: early\n??:?? Bea: late",
+            "visibility": "hidden"
+          }
+        ],
+        "time_limit_ms": 3000
+      },
+      "validator": {
+        "id": "browser-tests",
+        "version": 1
+      },
+      "version": 1
+    }
+  ]
+}

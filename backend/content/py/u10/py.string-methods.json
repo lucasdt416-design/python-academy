@@ -1,0 +1,176 @@
+{
+  "id": "py.string-methods",
+  "version": 1,
+  "course": "py",
+  "unit": "py.u10",
+  "title": "Clean up the answers",
+  "concept": "Text · string methods and f-strings",
+  "description": "Check the riddle keeper's answers fairly, whatever capitals and spaces the player types, and tidy them for display.",
+  "badge": {
+    "id": "py.badge.wordsmith",
+    "version": 1,
+    "title": "Wordsmith",
+    "category": "practice"
+  },
+  "tasks": [
+    {
+      "id": "py.string-methods.discover",
+      "type": "discover",
+      "title": "Tools that come with every piece of text",
+      "body": "Text has methods of its own: \" Nova \".strip() is \"Nova\", \"nova\".upper() is \"NOVA\", and \"a,b\".split(\",\") is [\"a\", \"b\"]. A method never changes the text itself, because text cannot be changed: store what it gives back.",
+      "detail": "More of them: lower(), title(), capitalize(), replace(\"old\", \"new\"), startswith(\"x\"), find(\"x\"), which gives a position or -1, and \" \".join(words), which joins a list of words with spaces. split() with nothing in the brackets splits on any run of spaces. An f-string puts values into text: f\"{name} has {coins} coins\", and f\"{price:.2f}\" shows two decimal places."
+    },
+    {
+      "id": "py.string-methods.example",
+      "type": "example",
+      "code": "answer = \"  The Moon \"\nclean = answer.strip().lower()\nprint(clean)\nprint(clean == \"the moon\")\nprint(\"map,rope,lamp\".split(\",\"))\nprint(\" + \".join([\"rope\", \"map\"]))\nprint(f\"{clean.title()} costs {2.5:.2f} coins\")",
+      "output": "the moon\nTrue\n['map', 'rope', 'lamp']\nrope + map\nThe Moon costs 2.50 coins",
+      "note": "strip() and lower() tidy the reply before comparing it. split() makes a list, join() makes text again, and :.2f in the f-string writes 2.5 as 2.50.",
+      "inputs": []
+    },
+    {
+      "id": "py.string-methods.predict",
+      "type": "predict",
+      "question": "After name = \"nova\", with name.upper() on a line of its own, what does print(name) show?",
+      "options": [
+        "nova",
+        "NOVA",
+        "None"
+      ],
+      "answer": 0,
+      "why": "upper() gives back a new piece of text, which nothing stored. name still holds \"nova\"."
+    },
+    {
+      "id": "py.string-methods.guided",
+      "type": "guided",
+      "prompt": "Predict, then run: try \" \".join(clean.split()) on \"  lots   of   space \". Then change :.2f to :.1f."
+    },
+    {
+      "id": "py.string-methods.challenge",
+      "type": "challenge",
+      "prompt": "Ask for the right answer to a riddle, then the player's answer. They match if they are the same once capital letters and every space are ignored. Print correct or wrong. Then print the player's answer tidied: no spaces at either end, single spaces between words, and each word starting with a capital letter with the rest in lowercase.",
+      "starter": "# Read the right answer and the reply, then compare and tidy\n",
+      "hints": [
+        "To compare fairly, make both answers lowercase and take every space out with replace(), then use ==.",
+        "For the tidy version, split() the reply into words, which also drops extra spaces, capitalise each word, and join them back with single spaces.",
+        "With other names: label = title.replace(\" \", \"\").lower() squashes a title, and \" \".join(parts) puts a list back together with spaces."
+      ],
+      "error_hints": [
+        {
+          "tags": [
+            "AttributeError"
+          ],
+          "text": "That method does not exist on text, or was called on a list. split() gives a list; join() is called on the text that goes between the words."
+        },
+        {
+          "tags": [
+            "TypeError"
+          ],
+          "text": "join() needs a list of text. Make sure every item you join is text."
+        },
+        {
+          "tags": [
+            "py.string-methods.case.the-moon"
+          ],
+          "text": "With The Moon and \"  the moon \", the answers match once capitals and spaces are ignored: correct, then The Moon."
+        },
+        {
+          "tags": [
+            "py.string-methods.case.plural"
+          ],
+          "text": "shadow and Shadows are different words, even ignoring capitals: wrong. The tidy version is Shadows."
+        },
+        {
+          "tags": [
+            "py.string-methods.case.inside"
+          ],
+          "text": "ice cream and icecream match once every space is ignored, including the one inside."
+        },
+        {
+          "tags": [
+            "py.string-methods.case.shouting"
+          ],
+          "text": "Check an answer typed in capitals with extra spaces between words: tidy it to single spaces."
+        },
+        {
+          "tags": [
+            "py.string-methods.case.many-words"
+          ],
+          "text": "Check a reply of several words with odd spacing: each word gets its own capital."
+        }
+      ],
+      "similar_example": {
+        "code": "title = \"  The  Lost   Key \"\nlabel = title.replace(\" \", \"\").lower()\nparts = title.split()\nprint(label)\nprint(\" \".join(parts))",
+        "note": "Squashing a title for comparing, and rebuilding it with single spaces. Your answers also need capitals fixed, word by word."
+      },
+      "other_ways": [
+        {
+          "code": "right = input(\"Answer? \")\nreply = input(\"Reply? \")\nsquash = lambda text: \"\".join(text.split()).casefold()\nprint(\"correct\" if squash(right) == squash(reply) else \"wrong\")\nprint(\" \".join(word.capitalize() for word in reply.split()))",
+          "note": "\"\".join(text.split()) removes every space, and casefold() is a stronger lower() for comparing text in any language."
+        },
+        {
+          "code": "def tidy(text):\n    return \" \".join(w[:1].upper() + w[1:].lower() for w in text.split())\n\nright = input(\"Answer? \")\nreply = input(\"Reply? \")\nsame = tidy(right).replace(\" \", \"\").lower() == tidy(reply).replace(\" \", \"\").lower()\nprint(\"correct\" if same else \"wrong\")\nprint(tidy(reply))",
+          "note": "Slices build each word: its first letter in capitals, and the rest in lowercase."
+        }
+      ],
+      "input_labels": [],
+      "check": {
+        "cases": [
+          {
+            "id": "the-moon",
+            "description": "the same answer with other capitals and spaces",
+            "inputs": [
+              "The Moon",
+              "  the moon "
+            ],
+            "expected": "correct\nThe Moon"
+          },
+          {
+            "id": "plural",
+            "description": "a different word",
+            "inputs": [
+              "shadow",
+              "Shadows"
+            ],
+            "expected": "wrong\nShadows"
+          },
+          {
+            "id": "inside",
+            "description": "a space missing inside the answer",
+            "inputs": [
+              "ice cream",
+              "icecream"
+            ],
+            "expected": "correct\nIcecream"
+          },
+          {
+            "id": "shouting",
+            "description": "an answer in capitals with extra spaces",
+            "inputs": [
+              "Full  Stop",
+              "FULL   STOP"
+            ],
+            "expected": "correct\nFull Stop",
+            "visibility": "hidden"
+          },
+          {
+            "id": "many-words",
+            "description": "a long reply with odd spacing",
+            "inputs": [
+              "sun",
+              "moon  and   sun"
+            ],
+            "expected": "wrong\nMoon And Sun",
+            "visibility": "hidden"
+          }
+        ],
+        "time_limit_ms": 3000
+      },
+      "validator": {
+        "id": "browser-tests",
+        "version": 1
+      },
+      "version": 1
+    }
+  ]
+}

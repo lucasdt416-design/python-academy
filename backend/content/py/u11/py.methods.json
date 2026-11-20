@@ -1,0 +1,198 @@
+{
+  "id": "py.methods",
+  "version": 1,
+  "course": "py",
+  "unit": "py.u11",
+  "title": "Potions and blows",
+  "concept": "Classes · methods and state",
+  "description": "Give the hero actions of their own, and keep the rules for health and potions inside the class.",
+  "badge": {
+    "id": "py.badge.spellcaster",
+    "version": 1,
+    "title": "Spellcaster",
+    "category": "practice"
+  },
+  "tasks": [
+    {
+      "id": "py.methods.discover",
+      "type": "discover",
+      "title": "Give objects things they can do",
+      "body": "A method is a function inside a class. def heal(self, amount): with self.health = self.health + amount inside changes that hero's own health. nova.heal(3) calls it, and Python passes nova in as self.",
+      "detail": "Methods keep the rules in one place: take_hit() can make sure health never goes below 0, wherever a hit comes from. Each object keeps its own state, so healing Nova leaves Kai alone. A method can also answer a question by returning a value, like is_alive()."
+    },
+    {
+      "id": "py.methods.example",
+      "type": "example",
+      "code": "class Hero:\n    def __init__(self, name):\n        self.name = name\n        self.health = 10\n\n    def take_hit(self, damage):\n        self.health = max(0, self.health - damage)\n\n    def is_alive(self):\n        return self.health > 0\n\nnova = Hero(\"Nova\")\nkai = Hero(\"Kai\")\nnova.take_hit(4)\nkai.take_hit(15)\nprint(nova.health, nova.is_alive())\nprint(kai.health, kai.is_alive())",
+      "output": "6 True\n0 False",
+      "note": "Both heroes run the same take_hit(), but each changes only its own health. Kai's 15 damage stops at 0, because the rule lives in the method.",
+      "inputs": []
+    },
+    {
+      "id": "py.methods.predict",
+      "type": "predict",
+      "question": "Just after nova.take_hit(4), before Kai is hit, what is kai.health?",
+      "options": [
+        "10",
+        "6",
+        "0"
+      ],
+      "answer": 0,
+      "why": "Nova and Kai are separate objects with their own health. Hitting Nova changes nothing about Kai."
+    },
+    {
+      "id": "py.methods.guided",
+      "type": "guided",
+      "prompt": "Predict, then run: add a heal(amount) method that never goes above 10, and heal Nova by 7. Then check kai.is_alive() after healing Nova."
+    },
+    {
+      "id": "py.methods.challenge",
+      "type": "challenge",
+      "prompt": "Write a class Hero with a name, health that starts at 10, and potions that start at 2, and three methods. hit(damage) takes the damage off the health, never below 0. drink() uses a potion, if there is one left, to add 5 health, never above 10; with no potions it does nothing. status() returns text like Nova 10/10 potions: 2. Then ask for the hero's name and read commands until the command end: hit, followed by the damage on the next line, or drink. After each command, print the hero's status.",
+      "starter": "# Define class Hero with hit(), drink() and status()\n",
+      "hints": [
+        "Each method changes or reads only self's attributes. max() and min() keep the health between 0 and 10.",
+        "status() returns the text instead of printing it, and the loop prints it. The loop reads a command, acts on it, prints, and reads the next one, until end.",
+        "With other names: def recharge(self): with if self.cells > 0: inside, and self.cells = self.cells - 1 uses up one cell."
+      ],
+      "error_hints": [
+        {
+          "tags": [
+            "AttributeError"
+          ],
+          "text": "Each attribute must be set in __init__ with self., and each method called through the hero: hero.drink()."
+        },
+        {
+          "tags": [
+            "TypeError"
+          ],
+          "text": "Every method needs self as its first parameter, and hit() needs the damage as well."
+        },
+        {
+          "tags": [
+            "EOFError"
+          ],
+          "text": "The loop asked for another command after end. Check the command before acting on it, and stop at end."
+        },
+        {
+          "tags": [
+            "py.methods.case.hit-drink"
+          ],
+          "text": "After a hit of 4, Nova has 6/10 and 2 potions. A potion adds 5, but never above 10: 10/10 and 1 potion."
+        },
+        {
+          "tags": [
+            "py.methods.case.knocked-out"
+          ],
+          "text": "A hit of 12 leaves 0, never less. A potion then brings back 5."
+        },
+        {
+          "tags": [
+            "py.methods.case.no-potions"
+          ],
+          "text": "With no potions left, drink() changes nothing, and the status is printed all the same."
+        },
+        {
+          "tags": [
+            "py.methods.case.long"
+          ],
+          "text": "Check a longer fight with several hits and drinks."
+        },
+        {
+          "tags": [
+            "py.methods.case.quiet"
+          ],
+          "text": "Check a hero who does nothing at all: no commands, so nothing is printed."
+        }
+      ],
+      "similar_example": {
+        "code": "class Torch:\n    def __init__(self):\n        self.cells = 1\n        self.lit = False\n\n    def recharge(self):\n        if self.cells > 0:\n            self.cells = self.cells - 1\n            self.lit = True\n\ntorch = Torch()\ntorch.recharge()\ntorch.recharge()\nprint(torch.cells, torch.lit)",
+        "note": "A method that uses something up only when there is some left. Your hero has three methods, and limits on its health."
+      },
+      "other_ways": [
+        {
+          "code": "class Hero:\n    MAX = 10\n\n    def __init__(self, name):\n        self.name, self.health, self.potions = name, self.MAX, 2\n\n    def hit(self, damage):\n        self.health = max(0, self.health - damage)\n\n    def drink(self):\n        if not self.potions:\n            return\n        self.potions -= 1\n        self.health = min(self.MAX, self.health + 5)\n\n    def status(self):\n        return f\"{self.name} {self.health}/{self.MAX} potions: {self.potions}\"\n\nhero = Hero(input())\nwhile (command := input()) != \"end\":\n    if command == \"hit\":\n        hero.hit(int(input()))\n    else:\n        hero.drink()\n    print(hero.status())",
+          "note": "MAX is a class attribute: one value shared by every hero. := reads the next command inside the while line itself."
+        },
+        {
+          "code": "class Hero:\n    def __init__(self, name, health=10, potions=2):\n        self.name = name\n        self.health = health\n        self.potions = potions\n\n    def hit(self, damage):\n        self.health -= damage\n        if self.health < 0:\n            self.health = 0\n\n    def drink(self):\n        if self.potions == 0:\n            return\n        self.potions -= 1\n        self.health += 5\n        if self.health > 10:\n            self.health = 10\n\n    def status(self):\n        return self.name + \" \" + str(self.health) + \"/10 potions: \" + str(self.potions)\n\nhero = Hero(input())\nactions = {\"hit\": lambda: hero.hit(int(input())), \"drink\": hero.drink}\ncommand = input()\nwhile command != \"end\":\n    actions[command]()\n    print(hero.status())\n    command = input()",
+          "note": "A dictionary from each command to what it does. Adding a command means adding one entry."
+        }
+      ],
+      "input_labels": [],
+      "check": {
+        "cases": [
+          {
+            "id": "hit-drink",
+            "description": "a hit, then a potion",
+            "inputs": [
+              "Nova",
+              "hit",
+              "4",
+              "drink",
+              "end"
+            ],
+            "expected": "Nova 6/10 potions: 2\nNova 10/10 potions: 1"
+          },
+          {
+            "id": "knocked-out",
+            "description": "a heavy hit, then a potion",
+            "inputs": [
+              "Kai",
+              "hit",
+              "12",
+              "drink",
+              "end"
+            ],
+            "expected": "Kai 0/10 potions: 2\nKai 5/10 potions: 1"
+          },
+          {
+            "id": "no-potions",
+            "description": "more drinks than potions",
+            "inputs": [
+              "Ada",
+              "drink",
+              "drink",
+              "drink",
+              "end"
+            ],
+            "expected": "Ada 10/10 potions: 1\nAda 10/10 potions: 0\nAda 10/10 potions: 0"
+          },
+          {
+            "id": "long",
+            "description": "a longer fight",
+            "inputs": [
+              "Bo",
+              "hit",
+              "3",
+              "hit",
+              "3",
+              "drink",
+              "drink",
+              "drink",
+              "end"
+            ],
+            "expected": "Bo 7/10 potions: 2\nBo 4/10 potions: 2\nBo 9/10 potions: 1\nBo 10/10 potions: 0\nBo 10/10 potions: 0",
+            "visibility": "hidden"
+          },
+          {
+            "id": "quiet",
+            "description": "a hero who does nothing",
+            "inputs": [
+              "Lin",
+              "end"
+            ],
+            "expected": "",
+            "visibility": "hidden"
+          }
+        ],
+        "time_limit_ms": 3000
+      },
+      "validator": {
+        "id": "browser-tests",
+        "version": 1
+      },
+      "version": 1
+    }
+  ]
+}
