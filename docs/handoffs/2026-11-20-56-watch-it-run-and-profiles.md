@@ -3,7 +3,7 @@
 Date: 2026-11-20 (America/Toronto)  
 Written by: Claude Code (implementer), in a separate git worktree  
 For: the human maintainer, and ChatGPT or Claude chat (reviewer) without repository access  
-Status: **in_review**: one pull request ({{PR}}), **based on #63: merge #63 first**. Not merged, not deployed. **One additive migration (0011). No new dependency. No change to the CSP, the import guard or how checks work. Two new API routes.**
+Status: **in_review**: one pull request (#64), **based on #63: merge #63 first**. Not merged, not deployed. **One additive migration (0011). No new dependency. No change to the CSP, the import guard or how checks work. Two new API routes.**
 
 ## Starter prompt for the chat assistant
 
@@ -66,6 +66,13 @@ The scenes from #63 show *what* a program did. "Watch it run" shows *how*: the o
 | `PUT /api/profile` | the same; rate-limited (20 a minute, 100 a day) | Saves `{nickname, avatar}` after validation; 422 with a plain message otherwise |
 
 Migration **0011** adds `profiles (user_id PK → users, nickname, avatar, updated)`. Additive; the previous app version keeps working during a deploy; downgrade drops only that table. Saving records a `profile_saved` history event **with no detail**, so the nickname is never copied into the history. Nothing about a profile appears in any other answer (tested on `/api/me`, `/api/awards`, `/api/progress`, `/api/catalog`, `/api/recommendation`, `/api/history`). `docs/plan/retention.md` has a new row for profiles.
+
+## Screenshots
+
+![Watch it run, inside a function](images/56-stepper.png)
+![The profile page (from the recorded answers)](images/56-profile.png)
+
+The stepper screenshot was taken before the fix for its double line spacing, and the profile one before the stat boxes became a plain line.
 
 ## 3. Decisions and why (assumptions marked)
 
