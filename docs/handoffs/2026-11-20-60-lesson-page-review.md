@@ -38,6 +38,7 @@ explain tools they asked for without explaining. Check the rules are right and t
 - **Code in text** is found and shown as code (`app/prose-runs.ts`), so authors keep writing sentences and unit 1's frozen text needs no change. It is checked against every lesson's text: joining the pieces gives back the text exactly.
 - **No placeholder pictures** (header, sidebar, course page, home).
 - **Scenes redrawn (20):** the pack, print or return, as the crow flies (now reads `hypot(3, 4)` from the code and draws the walk), the dice, the calendar (code dates ringed, with a legend), the storyboard, rooms on the map, the score table, hero cards, health and potions, the test report, the form checker, the highlighter, sorting into bins, the toolbox, labelled parcels, the tidiness meter, the repair kit (usable, damaged, started fresh), the crash report, the hero and the pack.
+- **Scenes kept as they are**, though they echo some output, because each adds what the output cannot: the scene machine (marks the lines a function call replayed), the magnifier (the names behind each check line), the notebook (the file beside what was printed), the ledger (marks the lines that drift).
 - **Content (5 lessons):** string methods' Discover card rewritten so each method it needs has an example (`find`, `startswith` dropped); the toolbox challenge explains `ceil()` and `round(x, 1)`; `abs()` and `min()`/`max()` explained in their hints.
 
 ![Your challenge, after](images/60-challenge.png)
@@ -50,7 +51,14 @@ explain tools they asked for without explaining. Check the rules are right and t
 
 | Command | Result |
 | --- | --- |
-{{RESULTS}}
+| Backend, SQLite | **2,113 passed** |
+| `tests/test_lesson_clarity.py` (new) | **4 passed** (C1 to C3 over all 59 lessons, and the check itself) |
+| `tests/lesson-layout.spec.ts` (new) | **61 passed**: every one of the 59 lessons' worked example and scene (L1 to L4), the challenge layout (L5, L6), and the phone layout |
+| Full browser suite (2 workers) | **585 passed, 2 failed**, both from intended changes: the hints test expected hints in the editor column, and the unit 1 snapshot. Both updated and passing |
+
+The unit 1 snapshot was re-recorded. The only lines removed are the footer note, "Hints are beside your code", and the empty scene's text before a run; every one of the 20 hint captures is identical.
+
+Deliberate breaks, each undone: `ceil()` asked for without its explanation (**1 failed**, C1); a 7 px scene label (**1 failed**, L2: "rope is 8.7px"); the scene put back under the output (**2 failed**, L1).
 
 ## 5. Questions (each recommended, not yet confirmed)
 
