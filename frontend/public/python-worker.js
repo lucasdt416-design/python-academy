@@ -64,6 +64,7 @@ import random as __academy_random
 import re as __academy_re
 import sys as __academy_sys
 import types as __academy_types
+import io as __academy_io
 # Decision 30. Every allowed module is loaded now, from Python's own library, and the program's folder
 # goes after that library on the import path, so a file named random.py or datetime.py, given or
 # written by the program, can never stand in for the real one.
@@ -164,6 +165,7 @@ function noNetwork() {
 }
 self.onmessage = async ({data}) => {
  if (data.mode === 'cases') return runCases(data);
+ if (data.mode === 'trace') return runTrace(data);
  let output = '', capped = false;
  try {
   // Python reports the stop as "OSError: [Errno 29] I/O error", so the flag says why it happened.
@@ -185,6 +187,91 @@ self.onmessage = async ({data}) => {
   self.postMessage({error:String(e), errorType:e.type || null, output, outputLimit:capped, vars: capped ? null : snapshot(pyodide)});
  }
 };
+// "Watch it run" (app/stepper.tsx). Runs the program once, as a Try it run does, and records each line
+// of the learner's own code as it is about to run: the line, the function it is in, a plain copy of the
+// names in scope (the scene snapshot), and how much had been printed. Only frames from the learner's
+// program ("<exec>") are recorded; Python's own library and the learner's other files are not. At most
+// STEP_LIMIT steps, and the usual output cap. Like the snapshot, a trace stays in this browser.
+const STEP_LIMIT = 400;
+const TRACER = `
+class __academy_StepLimit(BaseException):
+    pass
+
+def __academy_make_tracer(b, sys, io, json, snapshot):
+    BaseException_, type_, len_ = b.BaseException, b.type, b.len
+    def trace(code, limit, out_limit):
+        buf = io.StringIO()
+        steps = []
+        scope = {'__name__': '__main__'}
+        class Capped:
+            def write(self, text):
+                if buf.tell() + len_(text) > out_limit:
+                    buf.write(text[:out_limit - buf.tell()])
+                    raise __academy_StepLimit('output')
+                return buf.write(text)
+            def flush(self):
+                pass
+        def depth(frame):
+            n = 0
+            while frame is not None:
+                n += frame.f_code.co_filename == '<exec>'
+                frame = frame.f_back
+            return n
+        def tracer(frame, event, arg):
+            if frame.f_code.co_filename != '<exec>':
+                return None
+            if event in ('line', 'return', 'exception'):
+                if len_(steps) >= limit:
+                    raise __academy_StepLimit('steps')
+                names = scope if frame.f_code.co_name == '<module>' else frame.f_locals
+                step = {'line': frame.f_lineno, 'event': event, 'fn': frame.f_code.co_name, 'depth': depth(frame), 'vars': json.loads(snapshot(names)), 'out': buf.tell()}
+                if event == 'return':
+                    step['ret'] = json.loads(snapshot({'value': arg})).get('value')
+                if event == 'exception':
+                    step['exc'] = arg[0].__name__
+                steps.append(step)
+            return tracer
+        stopped, error, error_line = None, None, None
+        old = sys.stdout
+        sys.stdout = Capped()
+        try:
+            compiled = compile(code, '<exec>', 'exec')
+            sys.settrace(tracer)
+            exec(compiled, scope)
+        except __academy_StepLimit as reason:
+            stopped = str(reason)
+        except BaseException_ as problem:
+            error = type_(problem).__name__
+            error_line = getattr(problem, 'lineno', None) if isinstance(problem, SyntaxError) else None
+            tb = problem.__traceback__
+            while tb is not None:
+                if tb.tb_frame.f_code.co_filename == '<exec>':
+                    error_line = tb.tb_lineno
+                tb = tb.tb_next
+        finally:
+            sys.settrace(None)
+            sys.stdout = old
+        return json.dumps({'steps': steps, 'output': buf.getvalue(), 'stopped': stopped, 'error': error, 'line': error_line})
+    return trace
+
+__academy_trace = __academy_make_tracer(__academy_builtins, __academy_sys, __academy_io, __academy_json, __academy_snapshot)
+`;
+async function runTrace(data) {
+ try {
+  const py = await startPyodide();
+  noNetwork();
+  await guardImports(py);
+  await py.runPythonAsync(SNAPSHOT + TRACER, {filename: '<academy>'});
+  freshFiles(py, {...data.files, ...data.modules});
+  await ownFiles(py, data.modules);
+  py.globals.set('__academy_input_json', JSON.stringify(data.inputs || []));
+  await py.runPythonAsync(REPLIES, {filename: '<academy>'});
+  py.globals.set('__academy_code', String(data.code));
+  self.postMessage({trace: JSON.parse(py.runPython(`__academy_trace(__academy_code, ${STEP_LIMIT}, 20000)`, {filename: '<academy>'}))});
+ } catch (e) {
+  self.postMessage({trace: null, error: String(e)});
+ }
+}
 let pyodide = null;
 // Lesson scenes (app/lesson-scenes.tsx). After a "Try it" run, the names the program made and a plain
 // copy of their values, so the page can draw them: a hero with the name in hero, a pack holding the

@@ -508,6 +508,71 @@ button:disabled{opacity:.6;cursor:not-allowed}
 .scene-art .flame.out{opacity:.1}
 .scene-art .door-open{transform:scaleX(.18);transform-box:fill-box;transform-origin:left center}
 
+/* ---------- Profile (profile.tsx, avatar.tsx) ---------- */
+.profile{max-width:880px}
+.profile h2{margin-top:36px}
+.profile-head{display:grid;grid-template-columns:150px 1fr;gap:28px;align-items:center}
+.profile-head h1{margin-bottom:8px}
+.profile-level{display:flex;gap:12px;align-items:baseline;margin:0 0 8px;font-size:18px}
+.profile-level span{color:var(--muted)}
+.avatar{display:block}.avatar-large{width:150px;height:150px}
+.avatar-bg{fill:var(--mint2)}
+.skin-sand{fill:#f3d9b5}.skin-peach{fill:#f6c9a8}.skin-honey{fill:#d9a46f}.skin-bronze{fill:#a96f45}.skin-umber{fill:#6f4a2f}
+.hair-black{fill:#24211f}.hair-brown{fill:#6b4428}.hair-auburn{fill:#9a3f22}.hair-blond{fill:#e3c27a}.hair-grey{fill:#a7aaa5}.hair-teal{fill:#2f7f7a}
+.outfit-plum{fill:#82668e}.outfit-moss{fill:#5f8f7e}.outfit-slate{fill:#4b686d}.outfit-clay{fill:#b5432f}.outfit-amber{fill:#e0a940}
+.profile-stats{display:flex;flex-wrap:wrap;gap:8px 32px;margin:28px 0 0;padding:16px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.profile-stats p{margin:0;color:var(--muted)}
+.profile-stats strong{font-family:var(--serif);font-size:26px;color:var(--forest);margin-right:6px}
+.avatar-builder{max-width:none;margin-top:12px}
+.choice-row{border:0;padding:0;margin:14px 0;display:flex;flex-wrap:wrap;gap:8px}
+.choice-row legend{font-weight:700;font-size:15px;margin-bottom:6px;padding:0}
+.choice{display:inline-flex;align-items:center;gap:8px;text-transform:capitalize}
+.choice[aria-pressed="true"]{border-color:var(--moss);background:var(--mint);box-shadow:inset 0 0 0 1px var(--moss)}
+.swatch{width:16px;height:16px;border-radius:50%;border:1px solid var(--border);display:none}
+.swatch-skin,.swatch-hair_colour,.swatch-outfit{display:inline-block}
+.swatch.skin-sand{background:#f3d9b5}.swatch.skin-peach{background:#f6c9a8}.swatch.skin-honey{background:#d9a46f}.swatch.skin-bronze{background:#a96f45}.swatch.skin-umber{background:#6f4a2f}
+.swatch.hair_colour-black{background:#24211f}.swatch.hair_colour-brown{background:#6b4428}.swatch.hair_colour-auburn{background:#9a3f22}.swatch.hair_colour-blond{background:#e3c27a}.swatch.hair_colour-grey{background:#a7aaa5}.swatch.hair_colour-teal{background:#2f7f7a}
+.swatch.outfit-plum{background:#82668e}.swatch.outfit-moss{background:#5f8f7e}.swatch.outfit-slate{background:#4b686d}.swatch.outfit-clay{background:#b5432f}.swatch.outfit-amber{background:#e0a940}
+.unit-progress{list-style:none;padding:0;margin:0;display:grid;gap:10px}
+.unit-progress li{display:grid;grid-template-columns:minmax(0,220px) 1fr 70px;gap:14px;align-items:center}
+.unit-progress .meter{width:100%}
+.activity{margin:0}.activity-grid{width:100%;max-width:420px;height:auto;display:block}
+.day-on{fill:var(--moss)}.day-off{fill:var(--line-soft)}
+.activity figcaption{font-size:14px;color:var(--muted);margin-top:8px}
+.badge-list{list-style:none;padding:0;display:flex;flex-wrap:wrap;gap:8px}
+.badge-list{gap:10px 24px}.badge-list li{display:inline-flex;gap:8px;align-items:center}
+.badge-mark{color:var(--amber-d)}
+@media(max-width:560px){.profile-head{grid-template-columns:1fr}.unit-progress li{grid-template-columns:1fr 70px}.unit-progress .unit-progress-name{grid-column:1/-1}}
+
+/* ---------- Watch it run (stepper.tsx) ---------- */
+.watch{margin-top:10px}
+.stepper{margin:14px 0;border:1px solid var(--line);border-radius:14px;background:var(--white);padding:14px}
+.stepper-head{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.stepper-head h3{margin:0;flex:1 1 auto}
+.stepper-head h3:focus{outline:none}
+.stepper-controls{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:12px 0}
+.stepper-slider{flex:1 1 160px;margin:0}
+.stepper-slider input{width:100%;margin:0;min-height:44px;padding:0;border:0;max-width:none}
+.stepper-say{margin:0 0 12px;padding:10px 12px;border-left:4px solid var(--slate);background:var(--predict-bg);border-radius:6px;font-size:15px}
+.stepper-body{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:14px}
+.stepper-code{margin:0;background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:8px 0;font-size:14px;line-height:1.7;overflow-x:auto}
+.stepper-line{display:block;padding:0 10px 0 0;white-space:pre}
+.stepper-line.next{background:#fff3c4}
+.stepper-line.ran{background:var(--mint)}
+.stepper-gutter{display:inline-block;width:22px;text-align:center;color:var(--clay)}
+.stepper-line.ran .stepper-gutter{color:var(--moss)}
+.stepper-no{display:inline-block;width:28px;color:var(--muted);text-align:right;margin-right:10px}
+.stepper-side h4{font-family:var(--sans);font-size:14px;margin:0 0 6px}
+.stepper-side h4+*{margin-top:0}
+.stepper-vars{border-collapse:collapse;width:100%;font-size:14px;margin-bottom:12px}
+.stepper-vars th,.stepper-vars td{border-bottom:1px solid var(--line-soft);padding:4px 6px;text-align:left;vertical-align:top;overflow-wrap:anywhere}
+.stepper-vars th{font-family:var(--mono);font-weight:600;color:var(--forest);width:35%}
+.stepper-vars tr.changed{background:#fff3c4}
+.stepper-vars .was{color:var(--muted);font-size:13px}
+.stepper-return{margin:0 0 12px}
+.stepper-output{min-height:40px;font-size:13px}
+@media(max-width:760px){.stepper-body{grid-template-columns:1fr}}
+
 /* ---------- Motion: only for people who have not asked for less ---------- */
 @media(prefers-reduced-motion:no-preference){
  html{scroll-behavior:smooth}

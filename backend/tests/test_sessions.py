@@ -275,6 +275,8 @@ AUTHENTICATED = {
     ('GET', '/api/family'): ('parent', None),
     ('GET', '/api/goal'): ('student', None),
     ('POST', '/api/goal'): ('student', {'goal': None}),
+    ('GET', '/api/profile'): ('student', None),
+    ('PUT', '/api/profile'): ('student', {'nickname': '', 'avatar': {'skin': 'sand', 'hair': 'none', 'hair_colour': 'grey', 'outfit': 'moss', 'item': 'none'}}),
     ('GET', '/api/recommendation'): ('student', None),
     ('GET', '/api/awards'): ('student', None),
     ('POST', '/api/attempts'): ('student', ATTEMPT),

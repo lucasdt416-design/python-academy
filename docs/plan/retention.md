@@ -25,6 +25,7 @@ Related: [`independent-learners.md`](independent-learners.md) section 5, [`feedb
 | Account history (`events`) | **Yes:** tied to the user | Kept for ever | Keep while the account exists, and delete with it | Open |
 | XP and badges | Linked to the user | Kept for ever. Ledgers are append-only by design | Keep while the account exists, and delete with it | Open |
 | Goals (`learner_goals`) | Linked to the user | One current row, kept for ever. Changes are also history events | Keep while the account exists, and delete with it | Open |
+| Profiles (`profiles`) | **Yes:** an optional nickname the person typed, and avatar choices from fixed lists | One current row, kept while the account exists. Changes are history events with no detail, so the nickname is never copied into the history | Keep while the account exists, and delete with it | Open |
 | Placement answers | Would be | **Not built,** so nothing is stored | Decide with EDU-02. Proposed: latest result only, and delete with the account | Open |
 | Learner level (ASSESS-06) | Would be | **Not built** | Keep while the account exists, and delete with it | Open |
 | Support data for unit checks (ASSESS-03) | Would be | **Not built** | Decide with ASSESS-03 | Open |

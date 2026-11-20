@@ -122,6 +122,17 @@ class LearnerGoal(Base):
     updated: Mapped[str] = mapped_column(String(40), default=now, onupdate=now)
 
 
+class Profile(Base):
+    """What a learner or parent chose for their profile page: an avatar built from fixed options, and an
+    optional nickname. Kept only on their own account; nothing here is shown to anyone else."""
+    __tablename__ = 'profiles'
+    user_id: Mapped[int] = mapped_column(ForeignKey('users.id'), primary_key=True)
+    nickname: Mapped[str] = mapped_column(String(24), default='')
+    # JSON of the avatar choices, each from a fixed list in app/profiles.py.
+    avatar: Mapped[str] = mapped_column(String(300), default='{}')
+    updated: Mapped[str] = mapped_column(String(40), default=now, onupdate=now)
+
+
 class UserSession(Base):
     """One signed-in browser (backlog SEC-03). The cookie holds only a random session ID.
 
