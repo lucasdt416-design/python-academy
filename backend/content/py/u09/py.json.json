@@ -1,0 +1,203 @@
+{
+  "id": "py.json",
+  "version": 1,
+  "course": "py",
+  "unit": "py.u09",
+  "title": "Save the game",
+  "concept": "json · saving lists and dictionaries",
+  "description": "Load the hero's saved game, add what they found, and save it again, ready for next time.",
+  "badge": {
+    "id": "py.badge.save-keeper",
+    "version": 1,
+    "title": "Save keeper",
+    "category": "practice"
+  },
+  "tasks": [
+    {
+      "id": "py.json.discover",
+      "type": "discover",
+      "title": "Save lists and dictionaries as text",
+      "body": "json.dumps(state) turns a dictionary or a list into text, and json.loads(text) turns that text back. json.dump(state, f) and json.load(f) do the same, straight into and out of a file.",
+      "detail": "JSON holds dictionaries with text keys, lists, text, numbers, True, False and None. A set or a date cannot be saved as it is: turn it into a list or text first. JSON writes True as true and None as null, and every key comes back as text, even one that was a number."
+    },
+    {
+      "id": "py.json.example",
+      "type": "example",
+      "code": "import json\nstate = {\"hero\": \"Nova\", \"level\": 3, \"pack\": [\"rope\", \"map\"], \"boss_beaten\": False}\ntext = json.dumps(state)\nprint(text)\nloaded = json.loads(text)\nprint(loaded[\"pack\"][1])\nprint(json.dumps({1: \"one\"}))",
+      "output": "{\"hero\": \"Nova\", \"level\": 3, \"pack\": [\"rope\", \"map\"], \"boss_beaten\": false}\nmap\n{\"1\": \"one\"}",
+      "note": "The text looks almost like Python, but False is written false. Loading it gives a dictionary again, so loaded[\"pack\"][1] is map. The key 1 became the text \"1\".",
+      "inputs": []
+    },
+    {
+      "id": "py.json.predict",
+      "type": "predict",
+      "question": "What would json.dumps({\"lit\": True}) give?",
+      "options": [
+        "{\"lit\": True}",
+        "{\"lit\": true}",
+        "{\"lit\": \"True\"}"
+      ],
+      "answer": 1,
+      "why": "JSON spells it true, in lowercase, without quotes. json.loads() turns it back into Python's True."
+    },
+    {
+      "id": "py.json.guided",
+      "type": "guided",
+      "prompt": "Predict, then run: add \"seen\": {\"hall\"} to the state and read the error. Then save it as a sorted list instead."
+    },
+    {
+      "id": "py.json.challenge",
+      "type": "challenge",
+      "prompt": "A saved game is in save.json: a dictionary with the hero's name, their gold (a whole number) and a list of items. Load it. Then ask for an item the hero found, and how much gold they found with it. Add the item to the end of the list, unless it is already there, and add the gold. Save the new state back to save.json with json.dump(), then print the file's text, read back from save.json.",
+      "starter": "# Load save.json, update it, and save it again\n",
+      "hints": [
+        "Load the save with json.load() inside a with block. It gives back a dictionary, so state[\"items\"] is the list and state[\"gold\"] the gold.",
+        "Change the dictionary, then open save.json with \"w\" and json.dump() it back. A second with block reads the file's text so you can print it.",
+        "With other names: data = json.load(f) and data[\"visits\"] = data[\"visits\"] + 1, then json.dump(data, f) into a file opened for writing."
+      ],
+      "error_hints": [
+        {
+          "tags": [
+            "FileNotFoundError"
+          ],
+          "text": "The file is save.json, all in lowercase. Open it to read before you open it to write."
+        },
+        {
+          "tags": [
+            "KeyError"
+          ],
+          "text": "The save's keys are hero, gold and items, all in lowercase."
+        },
+        {
+          "tags": [
+            "TypeError"
+          ],
+          "text": "The gold from input() is text: turn it into a number with int() before adding it."
+        },
+        {
+          "tags": [
+            "NameError"
+          ],
+          "text": "json is a name only after import json at the top."
+        },
+        {
+          "tags": [
+            "py.json.case.new-item"
+          ],
+          "text": "With map worth 5, the gold goes from 10 to 15 and map joins the end of the list."
+        },
+        {
+          "tags": [
+            "py.json.case.already"
+          ],
+          "text": "An item the hero already has is not added again, but its gold still counts."
+        },
+        {
+          "tags": [
+            "py.json.case.empty"
+          ],
+          "text": "An empty list of items gets its first item."
+        },
+        {
+          "tags": [
+            "py.json.case.longer"
+          ],
+          "text": "Check a longer save: the new item goes at the end of the list."
+        },
+        {
+          "tags": [
+            "py.json.case.similar"
+          ],
+          "text": "Check an item whose name differs only in capitals: it is a different item."
+        }
+      ],
+      "similar_example": {
+        "code": "import json\ndata = {\"visits\": 1}\ndata[\"visits\"] = data[\"visits\"] + 1\ntext = json.dumps(data)\nprint(text)\nprint(json.loads(text)[\"visits\"])",
+        "note": "A counter saved as JSON text and read back. Your save lives in a file, and holds a list as well."
+      },
+      "other_ways": [
+        {
+          "code": "import json\nwith open(\"save.json\") as f:\n    state = json.loads(f.read())\nitem, gold = input(), int(input())\nif item not in state[\"items\"]:\n    state[\"items\"] += [item]\nstate[\"gold\"] += gold\ntext = json.dumps(state)\nwith open(\"save.json\", \"w\") as f:\n    f.write(text)\nwith open(\"save.json\") as f:\n    print(f.read())",
+          "note": "loads() and dumps() work on text, so you can read and write the file yourself. dump() and load() do both steps at once."
+        },
+        {
+          "code": "import json\n\ndef load(name):\n    with open(name) as f:\n        return json.load(f)\n\ndef save(name, state):\n    with open(name, \"w\") as f:\n        json.dump(state, f)\n\nstate = load(\"save.json\")\nfound = input()\nstate[\"gold\"] = state[\"gold\"] + int(input())\nif found not in state[\"items\"]:\n    state[\"items\"].append(found)\nsave(\"save.json\", state)\nprint(open(\"save.json\").read())",
+          "note": "load() and save() as small functions, ready for every other part of the game that needs them."
+        }
+      ],
+      "input_labels": [],
+      "check": {
+        "cases": [
+          {
+            "id": "new-item",
+            "description": "a new item",
+            "inputs": [
+              "map",
+              "5"
+            ],
+            "expected": "{\"hero\": \"Nova\", \"gold\": 15, \"items\": [\"rope\", \"map\"]}",
+            "files": {
+              "save.json": "{\"hero\": \"Nova\", \"gold\": 10, \"items\": [\"rope\"]}"
+            }
+          },
+          {
+            "id": "already",
+            "description": "an item the hero already has",
+            "inputs": [
+              "rope",
+              "3"
+            ],
+            "expected": "{\"hero\": \"Nova\", \"gold\": 13, \"items\": [\"rope\"]}",
+            "files": {
+              "save.json": "{\"hero\": \"Nova\", \"gold\": 10, \"items\": [\"rope\"]}"
+            }
+          },
+          {
+            "id": "empty",
+            "description": "a save with no items yet",
+            "inputs": [
+              "gem",
+              "50"
+            ],
+            "expected": "{\"hero\": \"Kai\", \"gold\": 50, \"items\": [\"gem\"]}",
+            "files": {
+              "save.json": "{\"hero\": \"Kai\", \"gold\": 0, \"items\": []}"
+            }
+          },
+          {
+            "id": "longer",
+            "description": "a longer save",
+            "inputs": [
+              "shield",
+              "0"
+            ],
+            "expected": "{\"hero\": \"Ada\", \"gold\": 120, \"items\": [\"lamp\", \"key\", \"bread\", \"shield\"]}",
+            "visibility": "hidden",
+            "files": {
+              "save.json": "{\"hero\": \"Ada\", \"gold\": 120, \"items\": [\"lamp\", \"key\", \"bread\"]}"
+            }
+          },
+          {
+            "id": "similar",
+            "description": "names that differ only in capitals",
+            "inputs": [
+              "Map",
+              "2"
+            ],
+            "expected": "{\"hero\": \"Lin\", \"gold\": 9, \"items\": [\"map\", \"maps\", \"Map\"]}",
+            "visibility": "hidden",
+            "files": {
+              "save.json": "{\"hero\": \"Lin\", \"gold\": 7, \"items\": [\"map\", \"maps\"]}"
+            }
+          }
+        ],
+        "time_limit_ms": 3000
+      },
+      "validator": {
+        "id": "browser-tests",
+        "version": 1
+      },
+      "version": 1
+    }
+  ]
+}
