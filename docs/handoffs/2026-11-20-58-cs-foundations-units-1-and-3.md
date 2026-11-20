@@ -62,7 +62,7 @@ A checked call's arguments are read from the case's own description (`binary_fin
 
 - **27 review cards** in `backend/content/review/cs.json` (7 predict, 13 trace, 5 spot-the-bug, 2 arrange-the-lines), each proved by running it, the same way as Python's. They join the arena once the lesson is finished.
 - **Two creatures:** the **Bitmoth** (unit 1) and the **Seekowl** (unit 3).
-- The **mistake detectors** from #65 already run on these lessons. The no-false-positive sweep now includes every CS reference, creative program and other way, and none fires.
+- The **mistake detectors** from #65 already run on these lessons. The no-false-positive sweep now includes every CS reference, creative program and other way. **It found one false alarm**: the counting-steps example starts `halvings = 0` for each size on purpose and prints it in the same turn. The reset-in-loop detector now stays quiet when the turn goes on to use the value it built (a new test pins both sides).
 
 ## 4. How it was tested
 
@@ -70,13 +70,13 @@ A checked call's arguments are read from the case's own description (`binary_fin
 | --- | --- |
 | `tests/test_cs_lessons.py` (new, the shared lesson suite) | **154 passed** |
 | `tests/test_cs_recordings.py` (new) | the recorded CS API is the real one |
-| Backend, SQLite | {{BACKEND}} |
+| Backend, SQLite | **2,100 passed**, 34 skipped |
 | `tests/cs.spec.ts` (new) | **21 passed**: catalog; unique scene titles; each example's scene sentence; each reference passes in Pyodide exactly as recorded; a linear search handed in shows the right halving; two Try it scenes; axe at desktop and phone |
-| Full browser suite (2 workers) | {{BROWSER}} |
+| Full browser suite (2 workers) | **521 of 526** in one run (two workers, under load); 2 needed updating for CS (the catalog now has 9 coming-soon courses; the profile counts 59 lessons) and 3 were Pyodide start-up timeouts. All 5 pass alone after the updates |
 
-Re-recorded, each because the catalog now has CS: `units-4-11-api.json` (catalog only) and `arena-api.json` (two more creatures; its sample arrange-the-lines card is now a CS one).
+Re-recorded, each only because the catalog now has CS: `catalog_v1.json` and eleven frontend fixtures (only catalog lines and the profile's lesson count changed), and `arena-api.json` (two more creatures; its sample arrange-the-lines card is now a CS one). Tests that counted 52 lessons or 11 units now count each course separately.
 
-Deliberate breaks, each undone: {{BREAKS}}
+Deliberate breaks, each undone: the binary search lesson expecting a linear search's count of looks (**7 failed**); a CS trace card given the wrong answer (**1 failed**); the per-turn guard taken out of the reset-in-loop detector (**2 failed**: the sweep, and the new test for it).
 
 ## 5. Questions (each recommended, not yet confirmed)
 
