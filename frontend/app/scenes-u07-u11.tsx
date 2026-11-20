@@ -105,3 +105,110 @@ export const UNIT_7_TO_11:Record<string,SceneDef>={
  'py.import':importScene,'py.random':randomScene,'py.math-module':mathScene,'py.datetime':datetimeScene,'py.own-modules':ownModules,
 };
 void bools;void clamp;void Lamp;void listItems;void parseRepr;void show;void strOf;void wrap;void ofKind;
+
+// ---------- Unit 8 ----------
+type AssertLine={line:number;text:string;call:string;expected:string};
+/** Every assert in the program, with its line number, split at == into the call and what it expects. */
+function assertsIn(code:string|undefined):AssertLine[]{
+ if(!code)return [];
+ return code.split('\n').map((l,i)=>({l:l.trim(),line:i+1})).filter(x=>x.l.startsWith('assert ')).map(({l,line})=>{const body=l.slice(7).split(/,\s*(?=["'(\w]+[^=]*$)/)[0];const [call,expected]=body.split(/\s*==\s*/);return {line,text:body,call:call??body,expected:expected??''};});
+}
+type Verdict='passed'|'failed'|'not run';
+function verdicts(r:SceneRun|null,asserts:AssertLine[]):Verdict[]{
+ if(!r)return asserts.map(()=>'not run');
+ const at=r.error==='AssertionError'?r.errorLine??null:null,stoppedOther=!!r.error&&r.error!=='AssertionError';
+ return asserts.map(a=>at!==null?(a.line<at?'passed':a.line===at?'failed':'not run'):stoppedOther?(r.errorLine&&a.line<r.errorLine?'passed':'not run'):'passed');
+}
+const MARK:Record<Verdict,string>={passed:'✓',failed:'✗','not run':'·'};
+const assertTests:SceneDef={title:'The test report',draw:r=>{
+ const asserts=assertsIn(r?.code).slice(0,7),v=verdicts(r,asserts),lines=outLines(r).slice(0,2);
+ const failed=v.indexOf('failed');
+ return {say:r?asserts.length?`${v.filter(x=>x==='passed').length} of ${asserts.length} tests passed${failed>=0?`; the test on line ${asserts[failed].line} failed, so the ones after it did not run`:''}.${lines.length?` Printed: ${lines.join(', ')}.`:''}`:'No assert lines yet.':'A report card that ticks off each assert.',svg:<>
+  <Ground tone="sand"/>
+  <rect className="f-white s-ink" x="14" y="10" width="292" height="150" rx="8"/>
+  {asserts.map((a,i)=><g key={i} className={'slide '+d(i)}>
+   <text className={'mono '+(v[i]==='failed'?'f-clay':v[i]==='passed'?'f-moss':'f-ink scene-faint')} x="26" y={32+i*19} fontSize="13" fontWeight="700">{MARK[v[i]]}</text>
+   <text className={'mono '+(v[i]==='not run'?'f-ink scene-faint':'f-ink')} x="44" y={32+i*19} fontSize="10">{fit(a.text,38)}</text>
+  </g>)}
+  {r&&!asserts.length&&<text className="mono f-ink" x="160" y="86" fontSize="11" textAnchor="middle">no assert lines yet</text>}
+  {r?.label&&<text className="mono f-ink" x="300" y="154" fontSize="9" textAnchor="end">{fit(r.label,40)}</text>}
+  {!r&&<Note text={IDLE}/>}
+ </>};
+}};
+
+function kindOf(a:AssertLine):string{
+ const arg=/\((.*)\)/.exec(a.call)?.[1]??'';
+ if(/\[\s*\]|\(\s*\)|""|''/.test(arg))return 'empty';
+ if(/-\d/.test(arg))return 'negative';
+ if(/^\[[^,]*\]$/.test(arg.trim()))return 'single';
+ if(/\./.test(a.expected))return 'decimal';
+ if(/^0$|\b0\b/.test(arg))return 'zero';
+ return 'typical';
+}
+const testCases:SceneDef={title:'The case table',draw:r=>{
+ const asserts=assertsIn(r?.code).slice(0,6),v=verdicts(r,asserts),kinds=asserts.map(kindOf),covered=new Set(kinds);
+ return {say:r?asserts.length?`Cases: ${asserts.map((a,i)=>`${a.call} (${kinds[i]})`).join(', ')}. Kinds covered: ${[...covered].join(', ')}.`:'No assert lines yet.':'A table of test cases, each sorted by the kind of case it is.',svg:<>
+  <Ground/>
+  <rect className="f-white s-ink" x="10" y="10" width="300" height="150" rx="8"/><path className="s-ink-s" d="M10 30h300M180 10v150M250 10v150"/>
+  <text className="mono f-ink" x="18" y="24" fontSize="9">call</text><text className="mono f-ink" x="188" y="24" fontSize="9">expects</text><text className="mono f-ink" x="258" y="24" fontSize="9">kind</text>
+  {asserts.map((a,i)=><g key={i} className={'slide '+d(i)}>
+   <text className={'mono '+(v[i]==='failed'?'f-clay':'f-ink')} x="18" y={48+i*19} fontSize="10">{MARK[v[i]]} {fit(a.call,24)}</text>
+   <text className="mono f-ink" x="188" y={48+i*19} fontSize="10">{fit(a.expected,9)}</text>
+   <rect className={(kinds[i]==='typical'?'f-cream':'f-amber-l')+' s-ink-s'} x="256" y={38+i*19} width="48" height="14" rx="4"/><text className="mono f-ink" x="280" y={48+i*19} fontSize="8" textAnchor="middle">{kinds[i]}</text>
+  </g>)}
+  {!r&&<Note text={IDLE}/>}
+ </>};
+}};
+
+const boundaries:SceneDef={title:'Edges on the line',draw:r=>{
+ const asserts=assertsIn(r?.code),v=verdicts(r,asserts),points=asserts.map((a,i)=>({n:Number(/\((-?\d+)/.exec(a.call)?.[1]),v:v[i],exp:a.expected})).filter(p=>Number.isFinite(p.n)).slice(0,14);
+ const ns=points.map(p=>p.n),lo=ns.length?Math.min(...ns)-2:0,hi=ns.length?Math.max(...ns)+2:10,X=(n:number)=>20+(n-lo)/(hi-lo||1)*280;
+ return {say:points.length?`Tested at ${points.map(p=>p.n).join(', ')}. Pairs of neighbouring numbers test both sides of an edge.`:r?'No numbers tested yet.':'A number line where each test is a pin.',svg:<>
+  <Ground tone="slate"/>
+  <path className="s-ink" d="M14 110H306"/>
+  {points.map((p,i)=>{const pair=points.some(q=>Math.abs(q.n-p.n)===1);return <g key={i} className={'drop '+d(i)}>
+   <path className={(p.v==='failed'?'f-clay':pair?'f-amber':'f-white')+' s-ink-s'} d={`M${X(p.n)} 108l-6-14h12z`}/><circle className={(p.v==='failed'?'f-clay':pair?'f-amber':'f-white')+' s-ink-s'} cx={X(p.n)} cy="88" r="6"/>
+   <text className="mono f-ink" x={X(p.n)} y={i%2?134:148} fontSize="9" textAnchor="middle">{p.n}</text>
+  </g>;})}
+  <text className="mono f-ink" x="20" y="30" fontSize="9">gold pins: an edge tested from both sides</text>
+  {!r&&<Note text={IDLE}/>}
+ </>};
+}};
+
+type Sig={name:string;params:{name:string;hint:string}[];returns:string};
+function signatures(code:string|undefined):Sig[]{
+ if(!code)return [];
+ return [...code.matchAll(/^def\s+(\w+)\s*\(([^)]*)\)\s*(?:->\s*([^:]+))?:/gm)].map(m=>({name:m[1],params:m[2].split(',').map(p=>p.trim()).filter(Boolean).map(p=>{const [n,h]=p.split(':');return {name:n.split('=')[0].trim(),hint:(h??'').split('=')[0].trim()};}),returns:(m[3]??'').trim()}));
+}
+const typeHints:SceneDef={title:'Labelled parcels',draw:r=>{
+ const sig=signatures(r?.code)[0],lines=outLines(r).slice(0,2);
+ return {say:sig?`${sig.name}() takes ${sig.params.map(p=>`${p.name}${p.hint?` labelled ${p.hint}`:' with no label'}`).join(', ')||'nothing'}${sig.returns?`, and is labelled to return ${sig.returns}`:', with no label on what it returns'}.`:r?'No function with a def line yet.':'Parcels going into a function, each with a label for its type.',svg:<>
+  <Ground tone="sand"/>
+  {sig&&<>
+   {sig.params.slice(0,3).map((p,i)=><g key={p.name} className={'slide '+d(i)}><rect className="f-cream s-ink" x="14" y={22+i*40} width="80" height="30" rx="4"/><path className="s-ink-s" d={`M14 ${32+i*40}h80`}/><text className="mono f-ink" x="54" y={46+i*40} fontSize="10" textAnchor="middle">{fit(p.name,10)}</text>
+    {p.hint?<Tag x={128} y={37+i*40} text={fit(p.hint,9)} tone="moss"/>:<text className="mono f-clay" x="110" y={41+i*40} fontSize="9">no label</text>}</g>)}
+   <rect className="f-plum s-ink" x="166" y="40" width="70" height="80" rx="8"/><text className="mono f-white" x="201" y="84" fontSize="10" textAnchor="middle">{fit(sig.name,9)}</text>
+   <path className="s-ink" d="M236 80h20"/>{sig.returns?<Tag x={282} y={80} text={fit(sig.returns,8)} tone="clay" className={'pop '+d(4)}/>:<text className="mono f-clay" x="262" y="84" fontSize="9">no label</text>}
+  </>}
+  {lines.map((l,i)=><text key={i} className={'mono f-ink type '+d(5+i)} x="14" y={150+i*12} fontSize="9">{fit(l,52)}</text>)}
+  {!r&&<Note text={IDLE}/>}
+ </>};
+}};
+
+const refactor:SceneDef={title:'Tidiness meter',draw:r=>{
+ const code=(r?.code??'').split('\n').map(l=>l.trim()).filter(l=>l&&!l.startsWith('#')),counts=new Map<string,number>();
+ code.forEach(l=>counts.set(l,(counts.get(l)??0)+1));
+ const repeated=[...counts].filter(([l,n])=>n>1&&l.length>6).reduce((a,[,n])=>a+n,0),fns=signatures(r?.code).length,lines=outLines(r).slice(0,5);
+ const bar=(v:number,max:number)=>clamp(v/max*120,2,120);
+ return {say:r?`${code.length} lines of code, ${repeated} of them repeats, ${plural(fns,'function')}. Printed: ${lines.join(' / ')||'nothing'}.`:'Meters for the length of the code and how much of it repeats.',svg:<>
+  <Ground/>
+  {[['lines',code.length,60,'f-slate'],['repeats',repeated,20,'f-clay'],['functions',fns,5,'f-moss']].map(([label,v,max,tone],i)=><g key={label as string}>
+   <text className="mono f-ink" x="16" y={34+i*36} fontSize="10">{label as string}</text>
+   <rect className="f-white s-ink-s" x="86" y={22+i*36} width="122" height="16" rx="4"/><rect className={(tone as string)+' grow '+d(i)} x="87" y={23+i*36} width={bar(v as number,max as number)} height="14" rx="3"/>
+   <text className="mono f-ink" x="216" y={34+i*36} fontSize="10">{v as number}</text></g>)}
+  <rect className="f-ink" x="236" y="14" width="74" height="110" rx="6"/>
+  {lines.map((l,i)=><text key={i} className={'mono f-amber-l type '+d(3+i)} x="242" y={32+i*18} fontSize="9">{fit(l,11)}</text>)}
+  {!r&&<Note text={IDLE}/>}
+ </>};
+}};
+Object.assign(UNIT_7_TO_11,{'py.assert-tests':assertTests,'py.test-cases':testCases,'py.boundaries':boundaries,'py.type-hints':typeHints,'py.refactor':refactor});

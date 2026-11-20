@@ -212,7 +212,7 @@ export default function Adventure({preview,onSaved,lessonId}:{preview:boolean;on
    const reports:CaseReport[]=await runner.runCases(runCode,plan,{modules:runModules});
    if(version.current!==runVersion)return;
    setOutput(caseOutput(plan,reports));
-   const shown=plan.cases.find(c=>c.visibility==='visible'&&!c.test_should),shownReport=reports.find(x=>x.id===shown?.id);
+   const shown=plan.cases.find(c=>c.visibility==='visible'&&!c.test_should)??plan.cases.find(c=>c.visibility==='visible'),shownReport=reports.find(x=>x.id===shown?.id);
    if(shown&&shownReport)setScene({output:shownReport.output??'',inputs:shown.inputs,vars:null,error:shownReport.status==='error'?shownReport.errorType??'an error':null,errorLine:shownReport.line,message:shownReport.message??undefined,label:`With ${shown.description}`,code:runCode,returned:shownReport.shown,key:Date.now()});
    const result=await api(preview?'check':'attempts',{lesson_id:runLesson,code:runCode,output:reports[0]?.output??'',inputs:[],runs:runner.forSubmission(reports)});
    if(version.current!==runVersion)return;
