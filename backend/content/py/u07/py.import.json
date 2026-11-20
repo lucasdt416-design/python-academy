@@ -1,0 +1,171 @@
+{
+  "id": "py.import",
+  "version": 1,
+  "course": "py",
+  "unit": "py.u07",
+  "title": "The toolbox",
+  "concept": "Modules · import and from",
+  "description": "Borrow ready-made tools from Python's math module to measure the round tower.",
+  "badge": {
+    "id": "py.badge.toolsmith",
+    "version": 1,
+    "title": "Toolsmith",
+    "category": "practice"
+  },
+  "tasks": [
+    {
+      "id": "py.import.discover",
+      "type": "discover",
+      "title": "Borrow tools that are already made",
+      "body": "import math loads Python's math module, and math.sqrt(16) uses one of its tools: the module's name, a dot, then the tool. from math import sqrt brings in just that tool, so you can write sqrt(16).",
+      "detail": "import math as m gives the module a shorter name. Once imported, a module stays loaded for the rest of the program. On this page only some modules can be imported: math, random, datetime, json, csv and re. Asking for any other, such as os, stops with a ModuleNotFoundError that says it is not available here."
+    },
+    {
+      "id": "py.import.example",
+      "type": "example",
+      "code": "# Three ways to reach a tool\nimport math\nfrom math import floor\nimport math as m\n\nprint(math.sqrt(49))\nprint(floor(7.9))\nprint(m.pi > 3)",
+      "output": "7.0\n7\nTrue",
+      "note": "math.sqrt() names the module each time. floor came in on its own, so it needs no math. in front. m is just another name for the same module.",
+      "inputs": []
+    },
+    {
+      "id": "py.import.predict",
+      "type": "predict",
+      "question": "What does print(sqrt(49)) do in a program that only has import math?",
+      "options": [
+        "Prints 7.0",
+        "Stops with a NameError",
+        "Prints 7"
+      ],
+      "answer": 1,
+      "why": "import math brings in the module, not each of its tools by itself: the tool is math.sqrt. from math import sqrt would make sqrt work on its own."
+    },
+    {
+      "id": "py.import.guided",
+      "type": "guided",
+      "prompt": "Predict, then run: try print(sqrt(49)) with only import math. Then add import os and read the message."
+    },
+    {
+      "id": "py.import.challenge",
+      "type": "challenge",
+      "prompt": "Ask for the radius of a round tower, as a whole number. Print three lines: the distance around it, which is 2 times pi times the radius, rounded to 1 decimal place; the area inside it, pi times the radius times the radius, rounded to 1 decimal place; and how many steps of length 1 it takes to walk all the way round, rounded up to a whole step. Use pi and ceil() from the math module.",
+      "starter": "# Import what you need, then measure the tower\n",
+      "hints": [
+        "The math module has pi, to many more decimal places than 3.14, and a tool that rounds a number up.",
+        "round(x, 1) keeps one decimal place. The steps are the distance around rounded up, so even a little extra is one more step.",
+        "With other names, for a square pen: import math, then edge = 4 * side, and math.ceil(edge / 3) is how many fence panels of length 3 it needs."
+      ],
+      "error_hints": [
+        {
+          "tags": [
+            "NameError"
+          ],
+          "text": "math is a name only after import math at the top of the program. A tool brought in with from math import ... is used without math. in front."
+        },
+        {
+          "tags": [
+            "TypeError"
+          ],
+          "text": "Turn the radius reply into a number with int(...) before working with it."
+        },
+        {
+          "tags": [
+            "py.import.case.one"
+          ],
+          "text": "With a radius of 1: 6.3 around, 3.1 inside, and 7 steps, because 6.28... rounds up to 7."
+        },
+        {
+          "tags": [
+            "py.import.case.ten"
+          ],
+          "text": "With a radius of 10 the area is 314.2. If you got 314.0, pi was 3.14: use math.pi."
+        },
+        {
+          "tags": [
+            "py.import.case.zero"
+          ],
+          "text": "A radius of 0 gives 0.0, 0.0 and 0 steps."
+        },
+        {
+          "tags": [
+            "py.import.case.three"
+          ],
+          "text": "Check another radius: every answer comes from the reply."
+        },
+        {
+          "tags": [
+            "py.import.case.seven"
+          ],
+          "text": "Check a radius whose distance around rounds to a whole number of tenths."
+        }
+      ],
+      "similar_example": {
+        "code": "import math\nside = 2.5\nedge = 4 * side\nprint(edge)\nprint(math.ceil(edge / 3))\nprint(round(math.pi, 3))",
+        "note": "A square pen instead of a round tower: the math module's ceil() rounds the panels up. Your tower needs pi as well."
+      },
+      "other_ways": [
+        {
+          "code": "from math import pi, ceil\nradius = int(input(\"Radius? \"))\naround = 2 * pi * radius\nprint(round(around, 1))\nprint(round(pi * radius ** 2, 1))\nprint(ceil(around))",
+          "note": "from math import brings in pi and ceil by name, so they need no math. in front. ** 2 squares the radius."
+        },
+        {
+          "code": "import math as m\nradius = int(input(\"Radius? \"))\nprint(round(m.tau * radius, 1))\nprint(round(m.pi * m.pow(radius, 2), 1))\nprint(m.ceil(m.tau * radius))",
+          "note": "tau is 2 times pi, and the math module has it too. as m is a shorter name for the module."
+        }
+      ],
+      "input_labels": [],
+      "check": {
+        "cases": [
+          {
+            "id": "one",
+            "description": "a radius of 1",
+            "inputs": [
+              "1"
+            ],
+            "expected": "6.3\n3.1\n7"
+          },
+          {
+            "id": "ten",
+            "description": "a radius of 10",
+            "inputs": [
+              "10"
+            ],
+            "expected": "62.8\n314.2\n63"
+          },
+          {
+            "id": "zero",
+            "description": "a radius of 0",
+            "inputs": [
+              "0"
+            ],
+            "expected": "0.0\n0.0\n0"
+          },
+          {
+            "id": "three",
+            "description": "a small tower",
+            "inputs": [
+              "3"
+            ],
+            "expected": "18.8\n28.3\n19",
+            "visibility": "hidden"
+          },
+          {
+            "id": "seven",
+            "description": "a middle-sized tower",
+            "inputs": [
+              "7"
+            ],
+            "expected": "44.0\n153.9\n44",
+            "visibility": "hidden"
+          }
+        ],
+        "time_limit_ms": 3000
+      },
+      "validator": {
+        "id": "browser-tests",
+        "version": 1
+      },
+      "version": 1
+    }
+  ]
+}

@@ -96,6 +96,42 @@
   "text": "A number on line {line} was divided by 0. Check the value before dividing."
  },
  {
+  "id": "index",
+  "unit": 4,
+  "title": "There is no item at that position",
+  "text": "On line {line}, an index points past the end of the list. Positions start at 0, so the last item of a list of 3 is at 2, or at -1. An empty list has no items at all."
+ },
+ {
+  "id": "key",
+  "unit": 4,
+  "title": "That key is not in the dictionary",
+  "text": "On line {line}, the program asked for a key the dictionary does not have. Check its spelling and case, or use `.get(key, default)` when it may be missing."
+ },
+ {
+  "id": "none-method",
+  "unit": 4,
+  "title": "This value is None",
+  "text": "On line {line}, the value is `None`, which has no methods. Methods such as `append()` change a list and give back `None`, so write `pack.append(item)` on its own line, without `pack =`."
+ },
+ {
+  "id": "attribute",
+  "unit": 4,
+  "title": "This kind of value cannot do that",
+  "text": "On line {line}, a method or attribute was used on a value that does not have it. Check the kind of value: a list, a dictionary and a piece of text each have their own methods."
+ },
+ {
+  "id": "unbound",
+  "unit": 5,
+  "title": "A name inside a function was used before it was set",
+  "text": "On line {line}, the function changes a name, so Python treats it as the function's own. Give it a value inside the function first, or pass it in as a parameter and return the new value."
+ },
+ {
+  "id": "assert",
+  "unit": 8,
+  "title": "A test failed",
+  "text": "The `assert` on line {line} found something false. Either the code under test has a bug, or the test expects the wrong thing. Work out which by hand."
+ },
+ {
   "id": "replies",
   "unit": 1,
   "title": "Not enough player replies",

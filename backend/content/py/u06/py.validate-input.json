@@ -1,0 +1,191 @@
+{
+  "id": "py.validate-input",
+  "version": 1,
+  "course": "py",
+  "unit": "py.u06",
+  "title": "Ask until it is right",
+  "concept": "Input · asking again until the reply is valid",
+  "description": "The bridge keeper keeps asking until the reply makes sense, and says what was wrong each time.",
+  "badge": {
+    "id": "py.badge.gatekeeper",
+    "version": 1,
+    "title": "Gatekeeper",
+    "category": "practice"
+  },
+  "tasks": [
+    {
+      "id": "py.validate-input.discover",
+      "type": "discover",
+      "title": "Keep asking until the reply makes sense",
+      "body": "A while True: loop can ask again and again. Inside it, try to turn the reply into a number; when that works and the number is in range, break leaves the loop. Otherwise, say what was wrong, and the loop asks again.",
+      "detail": "Every path through the loop must either break or ask again, or the loop never ends. An empty reply is text too: int(\"\") raises a ValueError. continue jumps straight back to the top of the loop. On this page, if the replies run out, input() raises an EOFError, which means the program asked more times than it was answered."
+    },
+    {
+      "id": "py.validate-input.example",
+      "type": "example",
+      "code": "# Ask for a door from 1 to 3\nwhile True:\n    reply = input(\"Door? \")\n    try:\n        door = int(reply)\n    except ValueError:\n        print(\"Type a number.\")\n        continue\n    if 1 <= door <= 3:\n        break\n    print(\"There are only 3 doors.\")\nprint(\"You open door\", door)",
+      "output": "Type a number.\nThere are only 3 doors.\nYou open door 2",
+      "note": "continue goes straight back to the top to ask again, and break leaves the loop for good. The loop ends only on a reply that passes both checks.",
+      "inputs": [
+        "four",
+        "7",
+        "2"
+      ]
+    },
+    {
+      "id": "py.validate-input.predict",
+      "type": "predict",
+      "question": "If the replies were an empty one and then 3, what would print first?",
+      "options": [
+        "Type a number.",
+        "You open door 3",
+        "There are only 3 doors."
+      ],
+      "answer": 0,
+      "why": "An empty reply is still text, and int(\"\") raises a ValueError."
+    },
+    {
+      "id": "py.validate-input.guided",
+      "type": "guided",
+      "prompt": "Predict, then run: make the replies an empty one and then 3. Then change the range to 1 to 5, and try 5."
+    },
+    {
+      "id": "py.validate-input.challenge",
+      "type": "challenge",
+      "prompt": "The bridge keeper asks how many travellers are crossing, from 1 to 8. Keep asking until the reply is a whole number from 1 to 8. For a reply that is not a whole number, print not a number. For a whole number outside 1 to 8, print from 1 to 8 only. Once a reply is valid, print how many replies it took, counting the good one, and then the number of travellers.",
+      "starter": "# Keep asking until the reply is a whole number from 1 to 8\n",
+      "hints": [
+        "A while True: loop asks once per turn. Count the turns with a number that starts at 0 above the loop.",
+        "Inside the loop, try int() on the reply. A ValueError means not a number; a number outside the range gets the other message; anything else is good, and break leaves the loop.",
+        "With other names: while True: then age = int(input()) inside a try:, and if 1 <= age <= 120: then break."
+      ],
+      "error_hints": [
+        {
+          "tags": [
+            "ValueError"
+          ],
+          "text": "int() could not read a reply. Put it inside try:, and print not a number in the except ValueError: block."
+        },
+        {
+          "tags": [
+            "NameError"
+          ],
+          "text": "Give each name a value before it is used, and spell it the same way every time, such as the count of replies."
+        },
+        {
+          "tags": [
+            "EOFError"
+          ],
+          "text": "Your loop asked again after a good reply. When the reply is valid, break out of the loop."
+        },
+        {
+          "tags": [
+            "py.validate-input.case.first-time"
+          ],
+          "text": "A good first reply of 3 gives 1 and 3: one reply, three travellers."
+        },
+        {
+          "tags": [
+            "py.validate-input.case.mixed"
+          ],
+          "text": "With many, 12 and 8: not a number, from 1 to 8 only, then 3 replies and 8 travellers. 8 is allowed."
+        },
+        {
+          "tags": [
+            "py.validate-input.case.empty"
+          ],
+          "text": "An empty reply is not a number either. Count it as a reply."
+        },
+        {
+          "tags": [
+            "py.validate-input.case.zero"
+          ],
+          "text": "Check 0, which is a whole number but not from 1 to 8."
+        },
+        {
+          "tags": [
+            "py.validate-input.case.decimal"
+          ],
+          "text": "Check a number with a decimal point, and a negative one."
+        }
+      ],
+      "similar_example": {
+        "code": "replies = [\"\", \"200\", \"15\"]\nfor reply in replies:\n    try:\n        age = int(reply)\n    except ValueError:\n        print(\"not a number\")\n        continue\n    if 1 <= age <= 120:\n        print(\"ok\", age)\n        break\n    print(\"out of range\")",
+        "note": "The same checks over a fixed list of replies. Your bridge keeper asks with input() instead, for as long as it takes, and counts the replies."
+      },
+      "other_ways": [
+        {
+          "code": "tries = 0\nwhile True:\n    tries += 1\n    reply = input(\"Travellers? \")\n    if not reply.lstrip(\"-\").isdigit():\n        print(\"not a number\")\n    elif not 1 <= int(reply) <= 8:\n        print(\"from 1 to 8 only\")\n    else:\n        break\nprint(tries)\nprint(int(reply))",
+          "note": "isdigit() checks the text before int() is used, so no try is needed. lstrip(\"-\") lets a negative number through to the range check."
+        },
+        {
+          "code": "tries = 0\ntravellers = None\nwhile travellers is None:\n    tries = tries + 1\n    try:\n        number = int(input(\"Travellers? \"))\n    except ValueError:\n        print(\"not a number\")\n    else:\n        if 1 <= number <= 8:\n            travellers = number\n        else:\n            print(\"from 1 to 8 only\")\nprint(tries)\nprint(travellers)",
+          "note": "The loop can run while there is no answer yet, instead of while True with break."
+        }
+      ],
+      "input_labels": [
+        "Reply 1",
+        "Reply 2",
+        "Reply 3"
+      ],
+      "check": {
+        "cases": [
+          {
+            "id": "first-time",
+            "description": "a good first reply",
+            "inputs": [
+              "3"
+            ],
+            "expected": "1\n3"
+          },
+          {
+            "id": "mixed",
+            "description": "a word, too many, then a good reply",
+            "inputs": [
+              "many",
+              "12",
+              "8"
+            ],
+            "expected": "not a number\nfrom 1 to 8 only\n3\n8"
+          },
+          {
+            "id": "empty",
+            "description": "an empty reply first",
+            "inputs": [
+              "",
+              "1"
+            ],
+            "expected": "not a number\n2\n1"
+          },
+          {
+            "id": "zero",
+            "description": "zero, then a good reply",
+            "inputs": [
+              "0",
+              "5"
+            ],
+            "expected": "from 1 to 8 only\n2\n5",
+            "visibility": "hidden"
+          },
+          {
+            "id": "decimal",
+            "description": "a decimal, a negative, then a good reply",
+            "inputs": [
+              "2.5",
+              "-1",
+              "4"
+            ],
+            "expected": "not a number\nfrom 1 to 8 only\n3\n4",
+            "visibility": "hidden"
+          }
+        ],
+        "time_limit_ms": 3000
+      },
+      "validator": {
+        "id": "browser-tests",
+        "version": 1
+      },
+      "version": 1
+    }
+  ]
+}

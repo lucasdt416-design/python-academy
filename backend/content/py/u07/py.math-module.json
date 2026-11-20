@@ -1,0 +1,176 @@
+{
+  "id": "py.math-module",
+  "version": 1,
+  "course": "py",
+  "unit": "py.u07",
+  "title": "As the crow flies",
+  "concept": "math · roots, rounding and nearly-equal numbers",
+  "description": "Measure how far the treasure is in a straight line, and round the answers honestly.",
+  "badge": {
+    "id": "py.badge.navigator",
+    "version": 1,
+    "title": "Navigator",
+    "category": "practice"
+  },
+  "tasks": [
+    {
+      "id": "py.math-module.discover",
+      "type": "discover",
+      "title": "Rounding, roots, and numbers that are nearly equal",
+      "body": "math.sqrt() finds a square root, and math.hypot(a, b) the long side of a right-angled triangle. math.floor() rounds down, math.ceil() rounds up, and round(x, 2) rounds to 2 decimal places.",
+      "detail": "Decimal numbers are stored in binary, so 0.1 + 0.2 is 0.30000000000000004, not 0.3. Compare such numbers with math.isclose(a, b), or round them before printing. round() rounds a number that is exactly half way to the nearest even number, so round(2.5) is 2."
+    },
+    {
+      "id": "py.math-module.example",
+      "type": "example",
+      "code": "import math\nprint(0.1 + 0.2)\nprint(math.isclose(0.1 + 0.2, 0.3))\nprint(math.floor(-2.5), math.ceil(-2.5))\nprint(round(2.5), round(3.5))\nprint(math.hypot(3, 4))",
+      "output": "0.30000000000000004\nTrue\n-3 -2\n2 4\n5.0",
+      "note": "0.1 + 0.2 is very slightly more than 0.3, and isclose() allows for that. floor() and ceil() go down and up even for negative numbers, and round() picks the even neighbour for a half.",
+      "inputs": []
+    },
+    {
+      "id": "py.math-module.predict",
+      "type": "predict",
+      "question": "What does print(0.1 + 0.2 == 0.3) show?",
+      "options": [
+        "True",
+        "False",
+        "0.3"
+      ],
+      "answer": 1,
+      "why": "== compares exactly, and 0.1 + 0.2 is stored as 0.30000000000000004. isclose() is the honest test for decimals."
+    },
+    {
+      "id": "py.math-module.guided",
+      "type": "guided",
+      "prompt": "Predict, then run: try round(0.5) and round(1.5). Then print math.sqrt(2), and round it to 3 places."
+    },
+    {
+      "id": "py.math-module.challenge",
+      "type": "challenge",
+      "prompt": "The treasure lies on the map grid. Ask how many squares east it is, then how many north, as whole numbers (either can be 0). Print three lines: the straight-line distance to it, rounded to 2 decimal places; how many squares the hero walks if they can only move along the grid, east plus north; and the straight-line distance rounded up to a whole number.",
+      "starter": "# Import math, then measure the way to the treasure\n",
+      "hints": [
+        "The straight-line distance is the square root of east squared plus north squared, or math.hypot(east, north) in one step.",
+        "round(x, 2) keeps two decimal places, and math.ceil() rounds up. The grid walk needs no square roots at all.",
+        "With other names: import math, then side = math.sqrt(area) and boxes = math.ceil(items / 6)."
+      ],
+      "error_hints": [
+        {
+          "tags": [
+            "NameError"
+          ],
+          "text": "math is a name only after import math at the top of the program."
+        },
+        {
+          "tags": [
+            "TypeError"
+          ],
+          "text": "Turn the replies into numbers with int(...) before working with them."
+        },
+        {
+          "tags": [
+            "py.math-module.case.three-four"
+          ],
+          "text": "With 3 east and 4 north: 5.0 in a straight line, 7 along the grid, and 5 rounded up."
+        },
+        {
+          "tags": [
+            "py.math-module.case.one-one"
+          ],
+          "text": "With 1 east and 1 north the distance is the square root of 2, so the first line is 1.41 and the last is 2."
+        },
+        {
+          "tags": [
+            "py.math-module.case.north"
+          ],
+          "text": "Straight north, the distance is just the number north, as a decimal: 6.0."
+        },
+        {
+          "tags": [
+            "py.math-module.case.longer"
+          ],
+          "text": "Check a longer walk: round to 2 places, and round up for the last line, even when the decimal part is small."
+        },
+        {
+          "tags": [
+            "py.math-module.case.start"
+          ],
+          "text": "Check a treasure at the start: everything is 0."
+        }
+      ],
+      "similar_example": {
+        "code": "import math\narea = 50\nside = math.sqrt(area)\nprint(round(side, 1))\nprint(math.ceil(side))",
+        "note": "A square plot of 50: its side is a square root, rounded two ways. Your treasure needs the root of two squares added together."
+      },
+      "other_ways": [
+        {
+          "code": "import math\neast = int(input(\"East? \"))\nnorth = int(input(\"North? \"))\ndistance = math.hypot(east, north)\nprint(round(distance, 2))\nprint(east + north)\nprint(math.ceil(distance))",
+          "note": "hypot() works out the straight-line distance in one step."
+        },
+        {
+          "code": "from math import ceil\neast = int(input(\"East? \"))\nnorth = int(input(\"North? \"))\ndistance = (east ** 2 + north ** 2) ** 0.5\nprint(round(distance, 2))\nprint(east + north)\nprint(ceil(distance))",
+          "note": "** 0.5 is a square root too. Only ceil() is needed from math."
+        }
+      ],
+      "input_labels": [],
+      "check": {
+        "cases": [
+          {
+            "id": "three-four",
+            "description": "3 east and 4 north",
+            "inputs": [
+              "3",
+              "4"
+            ],
+            "expected": "5.0\n7\n5"
+          },
+          {
+            "id": "one-one",
+            "description": "1 east and 1 north",
+            "inputs": [
+              "1",
+              "1"
+            ],
+            "expected": "1.41\n2\n2"
+          },
+          {
+            "id": "north",
+            "description": "straight north",
+            "inputs": [
+              "0",
+              "6"
+            ],
+            "expected": "6.0\n6\n6"
+          },
+          {
+            "id": "longer",
+            "description": "a longer walk",
+            "inputs": [
+              "10",
+              "7"
+            ],
+            "expected": "12.21\n17\n13",
+            "visibility": "hidden"
+          },
+          {
+            "id": "start",
+            "description": "treasure at the start",
+            "inputs": [
+              "0",
+              "0"
+            ],
+            "expected": "0.0\n0\n0",
+            "visibility": "hidden"
+          }
+        ],
+        "time_limit_ms": 3000
+      },
+      "validator": {
+        "id": "browser-tests",
+        "version": 1
+      },
+      "version": 1
+    }
+  ]
+}

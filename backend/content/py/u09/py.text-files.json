@@ -1,0 +1,191 @@
+{
+  "id": "py.text-files",
+  "version": 1,
+  "course": "py",
+  "unit": "py.u09",
+  "title": "The save file",
+  "concept": "Files · open, read and write text",
+  "description": "Read the scores the game saved, line by line, and write a summary file of your own.",
+  "badge": {
+    "id": "py.badge.scribe",
+    "version": 1,
+    "title": "Scribe",
+    "category": "practice"
+  },
+  "tasks": [
+    {
+      "id": "py.text-files.discover",
+      "type": "discover",
+      "title": "Read and write a file",
+      "body": "with open(\"notes.txt\") as f: opens a file and closes it again when the block ends. f.read() gives all its text, and for line in f: goes through it a line at a time, each line still ending in its newline.",
+      "detail": "open(\"log.txt\", \"w\") opens a file for writing and wipes what was there; \"a\" adds to the end instead. f.write(\"text\\n\") writes text, and the newline is yours to add. line.strip() removes the newline and any spaces at each end. Files here are temporary: they exist only while your program runs."
+    },
+    {
+      "id": "py.text-files.example",
+      "type": "example",
+      "code": "# Read the quest log, then add to it\nwith open(\"quests.txt\") as f:\n    for line in f:\n        print(\"-\", line.strip())\n\nwith open(\"quests.txt\", \"a\") as f:\n    f.write(\"Rest at the inn\\n\")\n\nwith open(\"quests.txt\") as f:\n    print(len(f.readlines()), \"quests now\")",
+      "output": "- Find the key\n- Cross the river\n- Open the gate\n4 quests now",
+      "note": "strip() takes the newline off each line before printing. \"a\" added a fourth quest at the end, and reading the file again counts it.",
+      "inputs": [],
+      "files": {
+        "quests.txt": "Find the key\nCross the river\nOpen the gate\n"
+      }
+    },
+    {
+      "id": "py.text-files.predict",
+      "type": "predict",
+      "question": "What would the last line say if the second open() used \"w\" instead of \"a\"?",
+      "options": [
+        "4 quests now",
+        "1 quests now",
+        "3 quests now"
+      ],
+      "answer": 1,
+      "why": "\"w\" wipes the file before writing, so only the new quest is left in it."
+    },
+    {
+      "id": "py.text-files.guided",
+      "type": "guided",
+      "prompt": "Predict, then run: change \"a\" to \"w\". Then print each line without strip(), and look at the gaps that appear."
+    },
+    {
+      "id": "py.text-files.challenge",
+      "type": "challenge",
+      "prompt": "The game saves its scores in scores.txt, one whole number per line, and some lines may be blank or hold only spaces. Read the file and print three lines: how many scores there are, the highest score, and the total. Then write the total, on a line of its own, into a new file called summary.txt, and print what summary.txt holds, read back from the file.",
+      "starter": "# Read scores.txt, then write summary.txt\n",
+      "hints": [
+        "Open scores.txt inside a with block, and go through it a line at a time. strip() each line, and skip it if nothing is left.",
+        "Keep the scores in a list as whole numbers, then len(), max() and sum() do the rest. Open summary.txt with \"w\", write the total and a newline, then read it back in a second with block.",
+        "With other names: with open(\"names.txt\") as f: then for row in f: and name = row.strip() inside the loop."
+      ],
+      "error_hints": [
+        {
+          "tags": [
+            "FileNotFoundError"
+          ],
+          "text": "The file name must match exactly: scores.txt, all in lowercase, with no folder before it."
+        },
+        {
+          "tags": [
+            "NameError"
+          ],
+          "text": "Make the list of scores before the loop that fills it, and spell it the same way every time."
+        },
+        {
+          "tags": [
+            "ValueError"
+          ],
+          "text": "int() could not read a line. A blank line, or one holding only spaces, has to be skipped before int()."
+        },
+        {
+          "tags": [
+            "TypeError"
+          ],
+          "text": "f.write() takes text: turn the total into text with str() first."
+        },
+        {
+          "tags": [
+            "py.text-files.case.three"
+          ],
+          "text": "With 10, 40 and 25 in the file, the lines are 3, 40, 75, and 75 again, read back from summary.txt."
+        },
+        {
+          "tags": [
+            "py.text-files.case.blanks"
+          ],
+          "text": "Blank lines are not scores: skip them, and count only the lines with a number."
+        },
+        {
+          "tags": [
+            "py.text-files.case.single"
+          ],
+          "text": "A file with one score and no newline at the end still has one score."
+        },
+        {
+          "tags": [
+            "py.text-files.case.many"
+          ],
+          "text": "Check a longer file: every line with a number counts."
+        },
+        {
+          "tags": [
+            "py.text-files.case.spaces"
+          ],
+          "text": "Check a line holding only spaces: after strip() it is empty, so it is skipped too."
+        }
+      ],
+      "similar_example": {
+        "code": "with open(\"names.txt\", \"w\") as f:\n    f.write(\"Ada\\n\\nBen\\n\")\nwith open(\"names.txt\") as f:\n    for row in f:\n        name = row.strip()\n        if name:\n            print(name)",
+        "note": "Writing a file, then reading it back and skipping the blank line. Your program reads numbers, and writes a summary of them."
+      },
+      "other_ways": [
+        {
+          "code": "with open(\"scores.txt\") as f:\n    scores = [int(word) for word in f.read().split()]\nprint(len(scores))\nprint(max(scores))\nprint(sum(scores))\nwith open(\"summary.txt\", \"w\") as f:\n    print(sum(scores), file=f)\nwith open(\"summary.txt\") as f:\n    print(f.read().strip())",
+          "note": "split() with no argument splits on any run of spaces and newlines, so blank lines vanish on their own. print(..., file=f) writes a line to a file."
+        },
+        {
+          "code": "total = 0\ncount = 0\nbest = None\nfor line in open(\"scores.txt\"):\n    if line.strip() == \"\":\n        continue\n    score = int(line)\n    count += 1\n    total += score\n    if best is None or score > best:\n        best = score\nprint(count)\nprint(best)\nprint(total)\nopen(\"summary.txt\", \"w\").write(f\"{total}\\n\")\nprint(open(\"summary.txt\").read().strip())",
+          "note": "Without with, the files close when Python is done with them. with is safer, because it closes the file even when something goes wrong."
+        }
+      ],
+      "input_labels": [],
+      "check": {
+        "cases": [
+          {
+            "id": "three",
+            "description": "three scores",
+            "inputs": [],
+            "expected": "3\n40\n75\n75",
+            "files": {
+              "scores.txt": "10\n40\n25\n"
+            }
+          },
+          {
+            "id": "blanks",
+            "description": "blank lines between the scores",
+            "inputs": [],
+            "expected": "2\n7\n12\n12",
+            "files": {
+              "scores.txt": "5\n\n7\n\n"
+            }
+          },
+          {
+            "id": "single",
+            "description": "a single score",
+            "inputs": [],
+            "expected": "1\n99\n99\n99",
+            "files": {
+              "scores.txt": "99"
+            }
+          },
+          {
+            "id": "many",
+            "description": "a longer file",
+            "inputs": [],
+            "expected": "8\n9\n31\n31",
+            "visibility": "hidden",
+            "files": {
+              "scores.txt": "3\n1\n4\n1\n5\n9\n2\n6\n"
+            }
+          },
+          {
+            "id": "spaces",
+            "description": "a line of nothing but spaces",
+            "inputs": [],
+            "expected": "2\n12\n20\n20",
+            "visibility": "hidden",
+            "files": {
+              "scores.txt": "12\n   \n8\n"
+            }
+          }
+        ],
+        "time_limit_ms": 3000
+      },
+      "validator": {
+        "id": "browser-tests",
+        "version": 1
+      },
+      "version": 1
+    }
+  ]
+}

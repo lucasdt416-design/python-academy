@@ -67,13 +67,19 @@ def test_the_worker_imports_nothing_after_the_guard_is_on():
     assert 'runPython(\'import' not in WORKER and 'runPythonAsync(\'import' not in WORKER
 
 
-def test_no_lesson_imports_anything():
-    # So the guard changes nothing for a lesson's own samples.
+def test_lessons_import_only_allowed_modules_and_only_from_unit_7():
+    # Unit 7 teaches imports. Every module a lesson's own samples import is on the list, or is the
+    # learner's own file in py.own-modules, so the guard never refuses a lesson's own code.
+    allowed = {'math', 'random', 'datetime', 'json', 'csv', 're'}
+    early = {'py.u01', 'py.u02', 'py.u03', 'py.u04', 'py.u05', 'py.u06'}
     for lesson in helpers.LESSONS.values():
         for task in lesson.tasks:
             code = getattr(task, 'code', None) or ''
             others = [way.code for way in getattr(task, 'other_ways', [])]
-            assert not any(re.search(r'^\s*(import|from) \w', text, re.M) for text in [code, *others]), lesson.id
+            for text in [code, *others]:
+                found = set(re.findall(r'^\s*(?:import|from) (\w+)', text, re.M))
+                assert not (found and lesson.unit in early), lesson.id
+                assert found <= allowed | ({'shop', 'grader'} if lesson.id == 'py.own-modules' else set()), (lesson.id, found)
 
 
 # The result

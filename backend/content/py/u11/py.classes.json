@@ -1,0 +1,201 @@
+{
+  "id": "py.classes",
+  "version": 1,
+  "course": "py",
+  "unit": "py.u11",
+  "title": "Make a hero",
+  "concept": "Classes · class, __init__ and attributes",
+  "description": "Design a Hero blueprint once, then make a whole party of heroes from it.",
+  "badge": {
+    "id": "py.badge.hero-maker",
+    "version": 1,
+    "title": "Hero maker",
+    "category": "practice"
+  },
+  "tasks": [
+    {
+      "id": "py.classes.discover",
+      "type": "discover",
+      "title": "A blueprint for things that belong together",
+      "body": "class Hero: starts a blueprint. Its __init__(self, name) method runs whenever a hero is made with Hero(\"Nova\"), and self.name = name stores the name on that hero. Every object made from the class has its own attributes.",
+      "detail": "self is the object being made or used. Python passes it in for you, so Hero(\"Nova\") has one argument while __init__ has two parameters. Read an attribute with a dot: nova.name. Forgetting self. makes a plain local name that vanishes when __init__ ends."
+    },
+    {
+      "id": "py.classes.example",
+      "type": "example",
+      "code": "class Hero:\n    def __init__(self, name, health=10):\n        self.name = name\n        self.health = health\n\nnova = Hero(\"Nova\")\nkai = Hero(\"Kai\", 12)\nkai.health = kai.health - 3\nprint(nova.name, nova.health)\nprint(kai.name, kai.health)",
+      "output": "Nova 10\nKai 9",
+      "note": "Each Hero() call makes a separate object. Nova uses the default health, Kai gets 12, and changing kai.health leaves Nova alone.",
+      "inputs": []
+    },
+    {
+      "id": "py.classes.predict",
+      "type": "predict",
+      "question": "If __init__ said health = health instead of self.health = health, what would nova.health do?",
+      "options": [
+        "Give 10",
+        "Stop with an AttributeError",
+        "Give None"
+      ],
+      "answer": 1,
+      "why": "Without self., health is only a local name inside __init__. The object never gets a health attribute, so asking for one is an AttributeError."
+    },
+    {
+      "id": "py.classes.guided",
+      "type": "guided",
+      "prompt": "Predict, then run: take self. off the health line and read the error. Then give Hero a third attribute, level, that always starts at 1."
+    },
+    {
+      "id": "py.classes.challenge",
+      "type": "challenge",
+      "prompt": "Ask how many heroes are in the party (always at least 1), then each hero's name and health, as a whole number. Make a Hero object for each, with a name, a health, and a level that always starts at 1, and keep them in a list. Print one line per hero, in order, like Nova: 10 health, level 1. On the last line, print the name of the hero with the most health; if heroes tie, the first of them.",
+      "starter": "# Define class Hero, then build the party\n",
+      "hints": [
+        "__init__ takes self, the name and the health, and stores each on self. The level isn't a parameter at all: it is always 1.",
+        "Make each hero with Hero(name, health) and append it to a list. Then loop over the list for the lines, and keep the healthiest hero so far, replacing it only when one has more.",
+        "With other names: class Pet: with def __init__(self, kind): and self.kind = kind inside, then pets.append(Pet(\"cat\"))."
+      ],
+      "error_hints": [
+        {
+          "tags": [
+            "AttributeError"
+          ],
+          "text": "An attribute is missing. Inside __init__, store each value with self., such as self.health = health."
+        },
+        {
+          "tags": [
+            "TypeError"
+          ],
+          "text": "Check that __init__ has self first, then the name and the health, and that Hero() is called with two values."
+        },
+        {
+          "tags": [
+            "NameError"
+          ],
+          "text": "Inside __init__, use the parameter names from its def line. Outside it, read attributes through an object, like hero.name."
+        },
+        {
+          "tags": [
+            "py.classes.case.two"
+          ],
+          "text": "With Nova at 10 and Kai at 12, the lines are Nova: 10 health, level 1, then Kai: 12 health, level 1, and Kai."
+        },
+        {
+          "tags": [
+            "py.classes.case.one"
+          ],
+          "text": "A party of one: that hero is also the healthiest."
+        },
+        {
+          "tags": [
+            "py.classes.case.tie"
+          ],
+          "text": "When heroes tie for the most health, the first of them is named: replace the best only when a hero has more."
+        },
+        {
+          "tags": [
+            "py.classes.case.bigger"
+          ],
+          "text": "Check a bigger party."
+        },
+        {
+          "tags": [
+            "py.classes.case.zero"
+          ],
+          "text": "Check heroes with no health left at all."
+        }
+      ],
+      "similar_example": {
+        "code": "class Pet:\n    def __init__(self, kind):\n        self.kind = kind\n        self.fed = False\n\npets = []\npets.append(Pet(\"cat\"))\npets.append(Pet(\"owl\"))\nfor pet in pets:\n    print(pet.kind, pet.fed)",
+        "note": "A small class with one attribute from its argument and one that always starts the same. Your heroes also get compared."
+      },
+      "other_ways": [
+        {
+          "code": "class Hero:\n    def __init__(self, name, health, level=1):\n        self.name = name\n        self.health = health\n        self.level = level\n\n    def line(self):\n        return f\"{self.name}: {self.health} health, level {self.level}\"\n\nparty = [Hero(input(), int(input())) for n in range(int(input()))]\nfor hero in party:\n    print(hero.line())\nprint(max(party, key=lambda hero: hero.health).name)",
+          "note": "A method, line(), describes a hero. max() with a key finds the healthiest, and keeps the first when heroes tie. Next lesson is all about methods."
+        },
+        {
+          "code": "class Hero:\n    def __init__(self, name, health):\n        self.name = name\n        self.health = health\n        self.level = 1\n\n    def __str__(self):\n        return f\"{self.name}: {self.health} health, level {self.level}\"\n\ncount = int(input())\nparty = []\nwhile len(party) < count:\n    party.append(Hero(input(), int(input())))\nfor hero in party:\n    print(hero)\nmost = max(hero.health for hero in party)\nfor hero in party:\n    if hero.health == most:\n        print(hero.name)\n        break",
+          "note": "__str__ decides what print() shows for a hero. The highest health is found first, then the first hero who has it."
+        }
+      ],
+      "input_labels": [],
+      "check": {
+        "cases": [
+          {
+            "id": "two",
+            "description": "a party of two",
+            "inputs": [
+              "2",
+              "Nova",
+              "10",
+              "Kai",
+              "12"
+            ],
+            "expected": "Nova: 10 health, level 1\nKai: 12 health, level 1\nKai"
+          },
+          {
+            "id": "one",
+            "description": "a party of one",
+            "inputs": [
+              "1",
+              "Ada",
+              "7"
+            ],
+            "expected": "Ada: 7 health, level 1\nAda"
+          },
+          {
+            "id": "tie",
+            "description": "a tie for the most health",
+            "inputs": [
+              "3",
+              "Al",
+              "5",
+              "Bea",
+              "5",
+              "Cy",
+              "4"
+            ],
+            "expected": "Al: 5 health, level 1\nBea: 5 health, level 1\nCy: 4 health, level 1\nAl"
+          },
+          {
+            "id": "bigger",
+            "description": "a bigger party",
+            "inputs": [
+              "4",
+              "Mo",
+              "1",
+              "Jo",
+              "9",
+              "Lu",
+              "9",
+              "Vi",
+              "3"
+            ],
+            "expected": "Mo: 1 health, level 1\nJo: 9 health, level 1\nLu: 9 health, level 1\nVi: 3 health, level 1\nJo",
+            "visibility": "hidden"
+          },
+          {
+            "id": "zero",
+            "description": "heroes with no health left",
+            "inputs": [
+              "2",
+              "Zed",
+              "0",
+              "Ivy",
+              "0"
+            ],
+            "expected": "Zed: 0 health, level 1\nIvy: 0 health, level 1\nZed",
+            "visibility": "hidden"
+          }
+        ],
+        "time_limit_ms": 3000
+      },
+      "validator": {
+        "id": "browser-tests",
+        "version": 1
+      },
+      "version": 1
+    }
+  ]
+}

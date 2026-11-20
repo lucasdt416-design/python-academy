@@ -1,0 +1,193 @@
+{
+  "id": "py.debug-strategy",
+  "version": 1,
+  "course": "py",
+  "unit": "py.u06",
+  "title": "Wrong by one",
+  "concept": "Debugging · find the line that is wrong",
+  "description": "A tally that never crashes but gives the wrong answers. Find its bugs by testing small cases and printing what is going on.",
+  "badge": {
+    "id": "py.badge.bug-hunter",
+    "version": 1,
+    "title": "Bug hunter",
+    "category": "practice"
+  },
+  "tasks": [
+    {
+      "id": "py.debug-strategy.discover",
+      "type": "discover",
+      "title": "When the answer is wrong, not the program",
+      "body": "Some bugs never crash: the program runs and prints the wrong thing. To find one, guess what each name should hold at each step, then check it with a print() inside the code.",
+      "detail": "Change one thing at a time and run again, so you know which change mattered. Try the smallest input that goes wrong, like a single round. Explaining each line out loud, even to a rubber duck, often shows the line that does not do what you meant. Take the extra print() lines out when you are done."
+    },
+    {
+      "id": "py.debug-strategy.example",
+      "type": "example",
+      "code": "# Why does the countdown miss numbers?\nfor n in range(5, 0, -2):\n    print(\"n is\", n)\nprint(\"done\")",
+      "output": "n is 5\nn is 3\nn is 1\ndone",
+      "note": "Printing n at every turn shows the loop goes 5, 3, 1: the step of -2 skips the numbers in between. A label like \"n is\" makes the extra lines easy to spot and remove later.",
+      "inputs": []
+    },
+    {
+      "id": "py.debug-strategy.predict",
+      "type": "predict",
+      "question": "With rounds = 3, how many times does the body of for r in range(1, rounds): run?",
+      "options": [
+        "2",
+        "3",
+        "4"
+      ],
+      "answer": 0,
+      "why": "range(1, 3) gives 1 and 2, then stops before 3: one turn fewer than there are rounds."
+    },
+    {
+      "id": "py.debug-strategy.guided",
+      "type": "guided",
+      "prompt": "Predict, then run: change the step to -1 and read the printed values. Then add a second print inside the loop that shows n * 2."
+    },
+    {
+      "id": "py.debug-strategy.challenge",
+      "type": "challenge",
+      "prompt": "The tally in your editor should ask how many rounds were played (always at least 1), then the points from each round, which can be negative. It should print two lines: the best score of any round, and how many rounds were wins, where a win scores 10 or more. It runs, but its answers are wrong. Find and fix its three bugs.",
+      "starter": "# The tally gives wrong answers, but never crashes. Find out why.\nrounds = int(input(\"Rounds? \"))\nbest = 0\nwins = 0\nfor r in range(1, rounds):\n    points = int(input(\"Points? \"))\n    if points > best:\n        best = points\n    if points > 10:\n        wins = wins + 1\nprint(best)\nprint(wins)\n",
+      "hints": [
+        "Run it with one round of 15 points. One round should give 15 and 1; what do you get instead? That small case shows the first bug.",
+        "Put print(\"round\", r, \"points\", points) inside the loop to watch each turn. Check three things: how many rounds are read, what counts as a win, and where best starts.",
+        "With other names: when the first value must count even if it is negative, start lowest = None and check if lowest is None or temp < lowest: before storing lowest = temp."
+      ],
+      "error_hints": [
+        {
+          "tags": [
+            "NameError"
+          ],
+          "text": "A name was used that has no value yet: check its spelling against the line where it was made."
+        },
+        {
+          "tags": [
+            "TypeError"
+          ],
+          "text": "If best starts as None, check for None before comparing: None > 5 is an error."
+        },
+        {
+          "tags": [
+            "EOFError"
+          ],
+          "text": "Your loop asked for more points than there were rounds. range(rounds) runs exactly once per round."
+        },
+        {
+          "tags": [
+            "py.debug-strategy.case.three"
+          ],
+          "text": "With 4, 12 and 10 points, the best is 12 and there are 2 wins: 10 counts as a win."
+        },
+        {
+          "tags": [
+            "py.debug-strategy.case.single"
+          ],
+          "text": "With one round of 15, the answers are 15 and 1. If you got 0 and 0, the loop never ran: count how many numbers range(1, 1) gives."
+        },
+        {
+          "tags": [
+            "py.debug-strategy.case.lost"
+          ],
+          "text": "With -3 and -1, the best score is -1. A best that starts at 0 is already higher than every score here."
+        },
+        {
+          "tags": [
+            "py.debug-strategy.case.long"
+          ],
+          "text": "Check a longer game, counting every round that scores 10 or more."
+        },
+        {
+          "tags": [
+            "py.debug-strategy.case.boundary"
+          ],
+          "text": "Check scores just below, at and above 10."
+        }
+      ],
+      "similar_example": {
+        "code": "temps = [3, -2, 5]\nlowest = None\nfor temp in temps:\n    print(\"checking\", temp, \"lowest so far\", lowest)\n    if lowest is None or temp < lowest:\n        lowest = temp\nprint(lowest)",
+        "note": "A debugging print shows each step, and lowest starts as None so even the first value counts. Your tally looks for the highest score instead."
+      },
+      "other_ways": [
+        {
+          "code": "rounds = int(input(\"Rounds? \"))\nbest = None\nwins = 0\nfor r in range(rounds):\n    points = int(input(\"Points? \"))\n    if best is None or points > best:\n        best = points\n    if points >= 10:\n        wins += 1\nprint(best)\nprint(wins)",
+          "note": "best starts as None, meaning nothing yet, so the first round always counts."
+        },
+        {
+          "code": "rounds = int(input(\"Rounds? \"))\nscores = []\nfor r in range(rounds):\n    scores.append(int(input(\"Points? \")))\nprint(max(scores))\nwins = 0\nfor points in scores:\n    if points >= 10:\n        wins += 1\nprint(wins)",
+          "note": "Keeping every score in a list lets max() find the best, so there is no starting value to get wrong."
+        }
+      ],
+      "input_labels": [],
+      "check": {
+        "cases": [
+          {
+            "id": "three",
+            "description": "three rounds",
+            "inputs": [
+              "3",
+              "4",
+              "12",
+              "10"
+            ],
+            "expected": "12\n2"
+          },
+          {
+            "id": "single",
+            "description": "a single round",
+            "inputs": [
+              "1",
+              "15"
+            ],
+            "expected": "15\n1"
+          },
+          {
+            "id": "lost",
+            "description": "every round below zero",
+            "inputs": [
+              "2",
+              "-3",
+              "-1"
+            ],
+            "expected": "-1\n0"
+          },
+          {
+            "id": "long",
+            "description": "a longer game",
+            "inputs": [
+              "6",
+              "10",
+              "3",
+              "10",
+              "22",
+              "0",
+              "9"
+            ],
+            "expected": "22\n3",
+            "visibility": "hidden"
+          },
+          {
+            "id": "boundary",
+            "description": "scores around ten",
+            "inputs": [
+              "4",
+              "9",
+              "10",
+              "11",
+              "8"
+            ],
+            "expected": "11\n2",
+            "visibility": "hidden"
+          }
+        ],
+        "time_limit_ms": 3000
+      },
+      "validator": {
+        "id": "browser-tests",
+        "version": 1
+      },
+      "version": 1
+    }
+  ]
+}

@@ -124,11 +124,10 @@ def test_ordinary_plans_are_unchanged():
     assert all('reference' not in c and 'test_should' not in c for c in client.get('/api/checks/py.for-range').json()['cases'])
 
 
-def test_no_real_lesson_uses_references_yet():
+def test_only_the_unit_8_test_writing_lessons_use_references():
     _, lessons = content.load()
-    for found in lessons.values():
-        check = found.task('challenge').check
-        assert not (check and any(c.reference for c in check.cases)), found.id
+    using = {found.id for found in lessons.values() if (check := found.task('challenge').check) and any(c.reference for c in check.cases)}
+    assert using == {'py.assert-tests', 'py.test-cases', 'py.boundaries'}
 
 
 # Content validation

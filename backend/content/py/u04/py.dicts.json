@@ -1,0 +1,208 @@
+{
+  "id": "py.dicts",
+  "version": 1,
+  "course": "py",
+  "unit": "py.u04",
+  "title": "Rooms of the keep",
+  "concept": "Dictionaries · keys, values and get()",
+  "description": "Remember what is in every room of the keep, look a room up by its name, and cope with a room that is not there.",
+  "badge": {
+    "id": "py.badge.keeper-of-keys",
+    "version": 1,
+    "title": "Keeper of keys",
+    "category": "practice"
+  },
+  "tasks": [
+    {
+      "id": "py.dicts.discover",
+      "type": "discover",
+      "title": "Look things up by name",
+      "body": "A dictionary pairs each key with a value: rooms = {\"hall\": \"lamp\", \"cellar\": \"rope\"}. rooms[\"hall\"] gives \"lamp\". Keys must match exactly, so \"Hall\" is a different key.",
+      "detail": "rooms[\"tower\"] = \"key\" adds a pair, or replaces the value if that key is already there. rooms[\"attic\"], for a key that is not there, stops with a KeyError; rooms.get(\"attic\", \"nothing\") gives \"nothing\" instead. for room, item in rooms.items(): visits each pair, in the order the keys were first added."
+    },
+    {
+      "id": "py.dicts.example",
+      "type": "example",
+      "code": "# What is in each room?\nrooms = {\"hall\": \"lamp\", \"cellar\": \"rope\"}\nrooms[\"tower\"] = \"key\"\nrooms[\"hall\"] = \"map\"\nprint(rooms[\"cellar\"])\nprint(rooms.get(\"attic\", \"nothing\"))\nfor room, item in rooms.items():\n    print(room, item)",
+      "output": "rope\nnothing\nhall map\ncellar rope\ntower key",
+      "note": "hall already had a value, so it changed to map without moving. get() gives its second value for a key that is missing. items() goes through the pairs in the order the keys were first added.",
+      "inputs": []
+    },
+    {
+      "id": "py.dicts.predict",
+      "type": "predict",
+      "question": "What would print(rooms[\"attic\"]) do here?",
+      "options": [
+        "Print nothing",
+        "Stop with a KeyError",
+        "Print None"
+      ],
+      "answer": 1,
+      "why": "Square brackets need the key to be there. get() is the gentle way to ask about a key that may be missing."
+    },
+    {
+      "id": "py.dicts.guided",
+      "type": "guided",
+      "prompt": "Predict, then run: print len(rooms), add a fourth room, and print it again. Then look up \"Hall\", with a capital, using get(), and see what comes back."
+    },
+    {
+      "id": "py.dicts.challenge",
+      "type": "challenge",
+      "prompt": "Each room of the keep holds one thing. Ask how many rooms there are, then for each room ask for its name and then what it holds. A room named twice is one room, holding the thing given last. Then ask for a room to search. Print three lines: what the searched room holds, or empty if there is no such room; how many rooms there are; and the whole dictionary, with print(). Print just those three lines.",
+      "starter": "# Read each room and what it holds, then the room to search\n",
+      "hints": [
+        "Make an empty dictionary, {}, before the loop. Each time round, read a name and a thing, and pair them, with the name as the key.",
+        "Assigning to a key that is already there replaces its value, which is just what a room named twice needs. get() with a second value answers for a room that is not there.",
+        "With other names: prices = {} before the loop, then prices[fruit] = cost inside it. prices.get(fruit, 0) gives 0 for a fruit with no price."
+      ],
+      "error_hints": [
+        {
+          "tags": [
+            "KeyError"
+          ],
+          "text": "That room is not a key in the dictionary. get() with a second value answers without stopping the program."
+        },
+        {
+          "tags": [
+            "TypeError"
+          ],
+          "text": "range() needs a whole number: use int(...) on the number of rooms."
+        },
+        {
+          "tags": [
+            "EOFError"
+          ],
+          "text": "Your program asked for more replies than it gets. Each room has two replies, its name and then its thing, and the room to search comes after the loop."
+        },
+        {
+          "tags": [
+            "NameError"
+          ],
+          "text": "Make the dictionary before the loop uses it, and spell its name the same way every time."
+        },
+        {
+          "tags": [
+            "py.dicts.case.three"
+          ],
+          "text": "With hall, cellar and tower, searching cellar gives rope. Check which reply is the key and which is the value: the name is the key."
+        },
+        {
+          "tags": [
+            "py.dicts.case.missing"
+          ],
+          "text": "A room that is not there gives the word empty, not None and not an error."
+        },
+        {
+          "tags": [
+            "py.dicts.case.twice"
+          ],
+          "text": "A room named twice keeps the thing given last. Assigning to the same key again replaces its value."
+        },
+        {
+          "tags": [
+            "py.dicts.case.no-rooms"
+          ],
+          "text": "Check a keep with no rooms: the count is 0 and print() shows an empty dictionary as {}."
+        },
+        {
+          "tags": [
+            "py.dicts.case.capitals"
+          ],
+          "text": "Check names that differ only in capital letters: keys must match exactly, so they are different rooms."
+        }
+      ],
+      "similar_example": {
+        "code": "ages = {\"Ada\": 15, \"Ben\": 14}\nages[\"Cy\"] = 16\nages[\"Ada\"] = 16\nprint(ages.get(\"Dee\", \"unknown\"))\nprint(ages)",
+        "note": "Names and ages instead of rooms and things: a new key adds a pair, an old key gets a new value, and get() answers for a missing one."
+      },
+      "other_ways": [
+        {
+          "code": "count = int(input(\"Rooms? \"))\nrooms = {}\nfor n in range(count):\n    name = input(\"Room? \")\n    rooms[name] = input(\"Holds? \")\nsearch = input(\"Search? \")\nif search in rooms:\n    print(rooms[search])\nelse:\n    print(\"empty\")\nprint(len(rooms))\nprint(rooms)",
+          "note": "in works on a dictionary too: it checks the keys. Once you know the key is there, square brackets are safe."
+        },
+        {
+          "code": "count = int(input(\"Rooms? \"))\nrooms = {}\nwhile count > 0:\n    name = input(\"Room? \")\n    thing = input(\"Holds? \")\n    rooms.update({name: thing})\n    count -= 1\nprint(rooms.get(input(\"Search? \"), \"empty\"))\nprint(len(rooms))\nprint(rooms)",
+          "note": "update() adds every pair of another dictionary, replacing values for keys already there. The search reply can go straight into get()."
+        }
+      ],
+      "input_labels": [],
+      "check": {
+        "cases": [
+          {
+            "id": "three",
+            "description": "three rooms, one of them searched",
+            "inputs": [
+              "3",
+              "hall",
+              "lamp",
+              "cellar",
+              "rope",
+              "tower",
+              "key",
+              "cellar"
+            ],
+            "expected": "rope\n3\n{'hall': 'lamp', 'cellar': 'rope', 'tower': 'key'}"
+          },
+          {
+            "id": "missing",
+            "description": "searching a room that is not there",
+            "inputs": [
+              "2",
+              "hall",
+              "lamp",
+              "cellar",
+              "rope",
+              "attic"
+            ],
+            "expected": "empty\n2\n{'hall': 'lamp', 'cellar': 'rope'}"
+          },
+          {
+            "id": "twice",
+            "description": "a room named twice",
+            "inputs": [
+              "3",
+              "hall",
+              "lamp",
+              "cellar",
+              "rope",
+              "hall",
+              "map",
+              "hall"
+            ],
+            "expected": "map\n2\n{'hall': 'map', 'cellar': 'rope'}"
+          },
+          {
+            "id": "no-rooms",
+            "description": "a keep with no rooms",
+            "inputs": [
+              "0",
+              "hall"
+            ],
+            "expected": "empty\n0\n{}",
+            "visibility": "hidden"
+          },
+          {
+            "id": "capitals",
+            "description": "names that differ only in capitals",
+            "inputs": [
+              "2",
+              "Hall",
+              "gem",
+              "hall",
+              "coin",
+              "Hall"
+            ],
+            "expected": "gem\n2\n{'Hall': 'gem', 'hall': 'coin'}",
+            "visibility": "hidden"
+          }
+        ],
+        "time_limit_ms": 3000
+      },
+      "validator": {
+        "id": "browser-tests",
+        "version": 1
+      },
+      "version": 1
+    }
+  ]
+}

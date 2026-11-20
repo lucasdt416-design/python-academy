@@ -329,7 +329,8 @@ def test_catalog_is_public_and_frozen_for_the_interface():
     # complete: a new field only (EDU-04 part 2); unit 1's other fields are as before.
     assert [u['complete'] for u in py['units'][:3]] == [True, True, True]
     assert [l['id'] for l in py['units'][2]['lessons']] == ['py.while-loops', 'py.loop-termination', 'py.for-range', 'py.accumulate', 'py.nested-loops']
-    assert all(u['lessons'] == [] for u in py['units'][3:])
+    assert [u['complete'] for u in py['units'][3:11]] == [True, True, True, False, True, False, True, False]
+    assert all(u['lessons'] == [] for u in py['units'][11:])
 
 def test_awards_are_private_to_the_student_and_in_catalog_order():
     assert client.get('/api/awards').status_code == 401

@@ -63,6 +63,7 @@ import json as __academy_json
 import random as __academy_random
 import re as __academy_re
 import sys as __academy_sys
+import types as __academy_types
 # Decision 30. Every allowed module is loaded now, from Python's own library, and the program's folder
 # goes after that library on the import path, so a file named random.py or datetime.py, given or
 # written by the program, can never stand in for the real one.
@@ -167,20 +168,93 @@ self.onmessage = async ({data}) => {
  try {
   // Python reports the stop as "OSError: [Errno 29] I/O error", so the flag says why it happened.
   const py = await startPyodide({stdout:s=>{output+=s+'\n';if(output.length>20000){capped=true;throw Error('Output exceeded 20,000 characters.');}}});
+  pyodide = py;
   noNetwork();
   await guardImports(py);
+  // Defines the scene snapshot only: it imports nothing, so the guard is already on.
+  await py.runPythonAsync(SNAPSHOT, {filename: '<academy>'});
   freshFiles(py, {...data.files, ...data.modules});
   await ownFiles(py, data.modules);
   py.globals.set('__academy_input_json', JSON.stringify(data.inputs || []));
   // Its own file name, so an error inside it is not reported as a line of the learner's code.
   await py.runPythonAsync(REPLIES, {filename: '<academy>'});
   await py.runPythonAsync(data.code);
-  self.postMessage({output});
+  self.postMessage({output, vars: snapshot(py)});
  } catch(e) {
   // The page explains the error (app/feedback.ts); the output printed before it stays visible.
-  self.postMessage({error:String(e), errorType:e.type || null, output, outputLimit:capped});
+  self.postMessage({error:String(e), errorType:e.type || null, output, outputLimit:capped, vars: capped ? null : snapshot(pyodide)});
  }
 };
+let pyodide = null;
+// Lesson scenes (app/lesson-scenes.tsx). After a "Try it" run, the names the program made and a plain
+// copy of their values, so the page can draw them: a hero with the name in hero, a pack holding the
+// items in a list. It stays in this browser, like the output, and is never sent to the API. Only
+// Python's own types are copied; for anything else only its type's name. At most 40 names and 300
+// values, so a huge list can't slow the page.
+const SNAPSHOT = `
+def __academy_make_snapshot(b, types, json):
+    # Python's own names, bound now: a program may well call a variable list, len or type.
+    type_, len_, str_, repr_, object_ = b.type, b.len, b.str, b.repr, b.object
+    bool_, int_, float_, list_, tuple_, set_, frozenset_, dict_ = b.bool, b.int, b.float, b.list, b.tuple, b.set, b.frozenset, b.dict
+    function, module = types.FunctionType, types.ModuleType
+    def snapshot(scope):
+        count = [0]
+        def node(v, depth):
+            count[0] += 1
+            if count[0] > 300 or depth > 4:
+                return {'t': 'more'}
+            t = type_(v)
+            if v is None:
+                return {'t': 'none'}
+            if t is bool_:
+                return {'t': 'bool', 'v': v}
+            if t is int_:
+                return {'t': 'int', 'v': str_(v) if v.bit_length() < 200 else 'a very big number'}
+            if t is float_:
+                return {'t': 'float', 'v': repr_(v)}
+            if t is str_:
+                return {'t': 'str', 'v': v[:200]}
+            if t is list_ or t is tuple_:
+                return {'t': t.__name__, 'n': len_(v), 'items': [node(x, depth + 1) for x in v[:24]]}
+            if t is set_ or t is frozenset_:
+                items = list_(v)[:24]
+                try:
+                    items.sort()
+                except b.Exception:
+                    pass
+                return {'t': 'set', 'n': len_(v), 'items': [node(x, depth + 1) for x in items]}
+            if t is dict_:
+                return {'t': 'dict', 'n': len_(v), 'entries': [[node(k, depth + 1), node(x, depth + 1)] for k, x in list_(v.items())[:24]]}
+            if t is function:
+                code = v.__code__
+                return {'t': 'function', 'name': v.__name__, 'params': list_(code.co_varnames[:code.co_argcount + code.co_kwonlyargcount])}
+            if t is module:
+                return {'t': 'module', 'name': v.__name__}
+            if t is type_ and v.__module__ == '__main__':
+                return {'t': 'class', 'name': v.__name__}
+            if t.__module__ == '__main__':
+                try:
+                    fields = object_.__getattribute__(v, '__dict__')
+                except b.Exception:
+                    fields = {}
+                if type_(fields) is not dict_:
+                    fields = {}
+                return {'t': 'object', 'cls': t.__name__, 'fields': {k: node(x, depth + 1) for k, x in list_(fields.items())[:12] if type_(k) is str_ and not k.startswith('_')}}
+            return {'t': 'other', 'type': t.__name__}
+        names = [k for k in scope if type_(k) is str_ and not k.startswith('_')][:40]
+        return json.dumps({k: node(scope[k], 0) for k in names})
+    return snapshot
+
+__academy_snapshot = __academy_make_snapshot(__academy_builtins, __academy_types, __academy_json)
+`;
+function snapshot(py) {
+ try {
+  if (!py) return null;
+  return JSON.parse(py.runPython('__academy_snapshot(__academy_builtins.globals())', {filename: '<academy>'}));
+ } catch {
+  return null;
+ }
+}
 
 // Browser behaviour checks (ENG-03, docs/plan/browser-checks.md). Runs the code once per check case
 // with that case's replies, in a fresh namespace, and reports what it printed or how it stopped.

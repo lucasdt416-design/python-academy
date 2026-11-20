@@ -1,4 +1,6 @@
 import {test, expect, Page} from '@playwright/test';
+import fs from 'fs';
+import path from 'path';
 import {HINT_BUTTONS,HINT_LEVELS,HINT_TEXT,OTHER,STOPS,TRANSLATIONS,checkLine,closestName,definedNames,explain,parseError,pythonMessage} from '../app/feedback';
 // Real error text from the Pyodide worker; the last test below checks it still matches.
 import errors from './fixtures/pyodide-errors.json';
@@ -50,6 +52,13 @@ const EXPECTED: [string, number, {id: string; title: string; line: number | null
  ['zero', 2, {id: 'zero', title: 'Division by zero', line: 2, where: 'Line 2'}],
  // The input() call in the learner's code, not the line inside our input() replacement.
  ['replies', 1, {id: 'replies', title: 'Not enough player replies', line: 2, where: 'Line 2'}],
+ // Units 4 to 8 (handoff 55): lists and dictionaries, methods, functions' own names, tests.
+ ['index', 4, {id: 'index', title: 'There is no item at that position', line: 2, where: 'Line 2'}],
+ ['key', 4, {id: 'key', title: 'That key is not in the dictionary', line: 2, where: 'Line 2'}],
+ ['none-method', 4, {id: 'none-method', title: 'This value is None', line: 3, where: 'Line 3'}],
+ ['attribute', 4, {id: 'attribute', title: 'This kind of value cannot do that', line: 2, where: 'Line 2'}],
+ ['unbound', 5, {id: 'unbound', title: 'A name inside a function was used before it was set', line: 4, where: 'Line 4'}],
+ ['assert', 8, {id: 'assert', title: 'A test failed', line: 1, where: 'Line 1'}],
  ['output-limit', 1, {id: 'output-limit', title: 'Too much output', line: null, where: null}],
  ['other', 1, {id: 'other', title: 'Python stopped on line 2', line: 2, where: 'Line 2'}],
 ];
@@ -64,10 +73,10 @@ test('translation: the endless-loop stop needs no Python message', () => {
   text: 'It did not finish within 15 seconds, usually because a loop never ends. Check that something inside the loop changes, so that the loop can stop.', line: null, where: null});
 });
 
-test('every translation in the specification is tested with a real error, 20 in all', () => {
+test('every translation in the specification is tested with a real error, 26 in all', () => {
  const tested = new Set([...EXPECTED.map(([, , want]) => want.id), 'timeout']);
  const all = [...TRANSLATIONS.map(t => t.id), ...Object.values(STOPS).map(s => s.id), OTHER.id];
- expect(all).toHaveLength(20);
+ expect(all).toHaveLength(26);
  expect([...tested].sort()).toEqual([...all].sort());
 });
 
@@ -138,7 +147,9 @@ test('translation templates and hint panel wording match the reviewed snapshot, 
  // A changed or new message must be updated here too, so every change is visible in review (section 8).
  const now = [...TRANSLATIONS.map(({id, unit, title, text}) => ({id, unit, title, text})), ...Object.values(STOPS).map(({id, title, text}) => ({id, title, text})), {id: OTHER.id, title: OTHER.title, text: OTHER.text}];
  const panel = {id: 'hint-panel', levels: [...HINT_LEVELS], buttons: [...HINT_BUTTONS], ...HINT_TEXT};
- expect([...now, panel]).toEqual(snapshot);
+ // After a reviewed wording change: WRITE_TRANSLATIONS_SNAPSHOT=1 npx playwright test tests/feedback.spec.ts
+ if (process.env.WRITE_TRANSLATIONS_SNAPSHOT === '1') fs.writeFileSync(path.join(__dirname, 'fixtures', 'translations.snapshot.json'), JSON.stringify([...now, panel], null, 1) + '\n');
+ else expect([...now, panel]).toEqual(snapshot);
  for (const {text, title} of now) for (const part of [text, title]) {
   expect(part).not.toContain('\n');
   for (const code of part.split('`').filter((_, i) => i % 2)) expect(code.length, code).toBeLessThanOrEqual(24);

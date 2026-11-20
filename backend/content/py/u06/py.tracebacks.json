@@ -1,0 +1,191 @@
+{
+  "id": "py.tracebacks",
+  "version": 1,
+  "course": "py",
+  "unit": "py.u06",
+  "title": "Read the crash report",
+  "concept": "Errors · reading a traceback",
+  "description": "The shop's ledger crashes. Read each crash report from the bottom up, and fix the line it points to.",
+  "badge": {
+    "id": "py.badge.crash-reader",
+    "version": 1,
+    "title": "Crash reader",
+    "category": "practice"
+  },
+  "tasks": [
+    {
+      "id": "py.tracebacks.discover",
+      "type": "discover",
+      "title": "Read it from the bottom up",
+      "body": "When Python stops, it prints a traceback. Its last line names the kind of error and says what went wrong. The line just above that says where: the line number, and the line itself.",
+      "detail": "Lines higher up show how the program got there, such as the line that called the function that failed. Start with the last line, go to the line it names, and only then read further up. This page explains an error in plain words first, and Show Python's message has the whole traceback, where your program is called \"<exec>\"."
+    },
+    {
+      "id": "py.tracebacks.example",
+      "type": "example",
+      "code": "# Fixed: each price was text, so total + price failed\nprices = [\"5\", \"12\"]\ntotal = 0\nfor price in prices:\n    total = total + int(price)\nprint(total)",
+      "output": "17",
+      "note": "Before the fix, the last line of the traceback was TypeError: unsupported operand type(s) for +: 'int' and 'str', and the line above it showed total = total + price. Turning each price into a number fixed it.",
+      "inputs": []
+    },
+    {
+      "id": "py.tracebacks.predict",
+      "type": "predict",
+      "question": "A traceback ends with File \"<exec>\", line 7, in <module> and then NameError: name 'totl' is not defined. Where do you look first?",
+      "options": [
+        "Line 7",
+        "Line 1",
+        "The last line of the program"
+      ],
+      "answer": 0,
+      "why": "The line above the error names the place. Line 7 uses a name that was never given a value, probably a typo for total."
+    },
+    {
+      "id": "py.tracebacks.guided",
+      "type": "guided",
+      "prompt": "Predict, then run: take int() out again and read the error. Open Show Python's message and find the line number. Then misspell total on the print line, and compare the two messages."
+    },
+    {
+      "id": "py.tracebacks.challenge",
+      "type": "challenge",
+      "prompt": "The shop's ledger in your editor asks how many items there are (always at least 1) and each item's price, then prints the total and the most expensive price, as Total: 25 and Most expensive: 12. It crashes. Run it, read each traceback from the bottom up, fix what it points to, and run again until it works. There are three bugs.",
+      "starter": "# The shop's ledger crashes. Fix it one traceback at a time.\ndef total_cost(prices):\n    total = 0\n    for i in range(len(prices) + 1):\n        total = total + prices[i]\n    return total\n\ncount = int(input(\"How many items? \"))\nprices = []\nfor n in range(count):\n    prices.append(input(\"Price? \"))\nprint(\"Total: \" + total_cost(prices))\nprint(\"Most expensive: \" + str(max(prices)))\n",
+      "hints": [
+        "Run the program and read the last line of the error first: it names the kind of error. The line number above it says where.",
+        "There are three separate bugs. Fix only what the error points to, run again, and read the next error. A program can fail inside a function because of the values the caller handed it.",
+        "With other names: when ages = [\"14\", \"15\"] holds text, sum = sum + int(age) fixes the adding, and str(sum) turns a number into text that can be joined."
+      ],
+      "error_hints": [
+        {
+          "tags": [
+            "TypeError"
+          ],
+          "text": "Python cannot add text and a number. A reply from input() is text until int() turns it into a number, and a number must be turned into text with str() before + joins it to words."
+        },
+        {
+          "tags": [
+            "IndexError"
+          ],
+          "text": "A position is past the end of the list. range(len(prices)) already gives every position; one more is one too many."
+        },
+        {
+          "tags": [
+            "NameError"
+          ],
+          "text": "A name is used that has no value: check its spelling against the line where it was made."
+        },
+        {
+          "tags": [
+            "py.tracebacks.case.three"
+          ],
+          "text": "With prices 5, 9 and 8, the lines are Total: 22 and Most expensive: 9."
+        },
+        {
+          "tags": [
+            "py.tracebacks.case.one"
+          ],
+          "text": "With one price of 7, the total and the most expensive price are both 7."
+        },
+        {
+          "tags": [
+            "py.tracebacks.case.digits"
+          ],
+          "text": "With prices 9 and 10 the most expensive is 10. If you got 9, the prices were compared as text, where \"9\" comes after \"10\"."
+        },
+        {
+          "tags": [
+            "py.tracebacks.case.longer"
+          ],
+          "text": "Check a longer list: every price is added, the first and the last too."
+        },
+        {
+          "tags": [
+            "py.tracebacks.case.same"
+          ],
+          "text": "Check prices that are all the same."
+        }
+      ],
+      "similar_example": {
+        "code": "ages = [\"14\", \"15\", \"13\"]\noldest = 0\nfor age in ages:\n    if int(age) > oldest:\n        oldest = int(age)\nprint(\"Oldest: \" + str(oldest))",
+        "note": "Text turned into numbers before comparing, and a number turned back into text to be joined. Your ledger needs both kinds of fix."
+      },
+      "other_ways": [
+        {
+          "code": "count = int(input(\"How many items? \"))\nprices = []\nfor n in range(count):\n    prices.append(int(input(\"Price? \")))\nprint(\"Total: \" + str(sum(prices)))\nprint(\"Most expensive: \" + str(max(prices)))",
+          "note": "sum() replaces the whole total_cost() function. Fixing a bug can also mean finding a simpler way."
+        },
+        {
+          "code": "def total_cost(prices):\n    total = 0\n    for price in prices:\n        total = total + price\n    return total\n\ncount = int(input(\"How many items? \"))\nprices = []\nfor n in range(count):\n    prices.append(int(input(\"Price? \")))\nprint(f\"Total: {total_cost(prices)}\")\nprint(f\"Most expensive: {max(prices)}\")",
+          "note": "Looping over the prices instead of their positions removes the off-by-one bug for good, and f-strings turn numbers into text for you."
+        }
+      ],
+      "input_labels": [],
+      "check": {
+        "cases": [
+          {
+            "id": "three",
+            "description": "three prices",
+            "inputs": [
+              "3",
+              "5",
+              "9",
+              "8"
+            ],
+            "expected": "Total: 22\nMost expensive: 9"
+          },
+          {
+            "id": "one",
+            "description": "one price",
+            "inputs": [
+              "1",
+              "7"
+            ],
+            "expected": "Total: 7\nMost expensive: 7"
+          },
+          {
+            "id": "digits",
+            "description": "prices with one and two digits",
+            "inputs": [
+              "2",
+              "9",
+              "10"
+            ],
+            "expected": "Total: 19\nMost expensive: 10"
+          },
+          {
+            "id": "longer",
+            "description": "a longer list",
+            "inputs": [
+              "5",
+              "1",
+              "2",
+              "3",
+              "4",
+              "50"
+            ],
+            "expected": "Total: 60\nMost expensive: 50",
+            "visibility": "hidden"
+          },
+          {
+            "id": "same",
+            "description": "every price the same",
+            "inputs": [
+              "3",
+              "4",
+              "4",
+              "4"
+            ],
+            "expected": "Total: 12\nMost expensive: 4",
+            "visibility": "hidden"
+          }
+        ],
+        "time_limit_ms": 3000
+      },
+      "validator": {
+        "id": "browser-tests",
+        "version": 1
+      },
+      "version": 1
+    }
+  ]
+}

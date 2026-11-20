@@ -1,0 +1,207 @@
+{
+  "id": "py.refactor",
+  "version": 1,
+  "course": "py",
+  "unit": "py.u08",
+  "title": "Tidy without breaking",
+  "concept": "Refactoring · same behaviour, clearer code",
+  "description": "The shop's till works but repeats itself. Tidy it into a price list and one function, without changing a single line it prints.",
+  "badge": {
+    "id": "py.badge.tidy-coder",
+    "version": 1,
+    "title": "Tidy coder",
+    "category": "practice"
+  },
+  "tasks": [
+    {
+      "id": "py.refactor.discover",
+      "type": "discover",
+      "title": "Change the shape, keep the behaviour",
+      "body": "Refactoring means rewriting code so it is easier to read and change, while it does exactly what it did before. Repeated lines become one function, and values scattered through the code become one dictionary.",
+      "detail": "Work in small steps, and run the program after each one, comparing its output with what it printed before. Tests are a safety net: if they pass before and after, the behaviour has not changed. Leave new features for later, because mixing them in makes a mistake hard to find."
+    },
+    {
+      "id": "py.refactor.example",
+      "type": "example",
+      "code": "# Before: the same rule written three times\n# print(4 * 3 + 2)\n# print(7 * 3 + 2)\n# print(9 * 3 + 2)\n\n# After: one function, used three times\ndef stamps(pages):\n    return pages * 3 + 2\n\nfor pages in [4, 7, 9]:\n    print(stamps(pages))",
+      "output": "14\n23\n29",
+      "note": "The commented lines show the program before: one rule, written three times. After, the rule lives in stamps(), and the output is exactly the same.",
+      "inputs": []
+    },
+    {
+      "id": "py.refactor.predict",
+      "type": "predict",
+      "question": "If the rule changed to 4 stamps a page, how many places would change in the After version?",
+      "options": [
+        "One",
+        "Three",
+        "None"
+      ],
+      "answer": 0,
+      "why": "The rule is written once, inside stamps(). That is the point of the refactor."
+    },
+    {
+      "id": "py.refactor.guided",
+      "type": "guided",
+      "prompt": "Predict, then run: change the 3 to 4. Then add assert stamps(1) == 5 above the loop, so the rule is tested, and run it again."
+    },
+    {
+      "id": "py.refactor.challenge",
+      "type": "challenge",
+      "prompt": "The till in your editor works, but each price is written three times. Tidy it: keep the prices in one dictionary, write a function cost(item, amount) that returns the cost of one order (0 for anything the shop does not sell), and use cost() in the loop. Your program must print exactly what it prints now. The check runs it with orders, and calls cost() on its own.",
+      "starter": "# Works, but repeats itself. Tidy it without changing what it prints.\norders = int(input(\"How many orders? \"))\ntotal = 0\nfor n in range(orders):\n    item = input(\"Item? \")\n    amount = int(input(\"Amount? \"))\n    if item == \"bread\":\n        print(item, amount * 3)\n        total = total + amount * 3\n    elif item == \"milk\":\n        print(item, amount * 2)\n        total = total + amount * 2\n    elif item == \"apple\":\n        print(item, amount * 1)\n        total = total + amount * 1\n    else:\n        print(item, 0)\nprint(\"total\", total)\n",
+      "hints": [
+        "Start with the prices: one dictionary from each item to its price. Run the program: nothing should change yet.",
+        "cost() looks the item up with get() and a default of 0, and multiplies by the amount. Then the loop calls cost() once per order, prints, and adds to the total.",
+        "With other names: rates = {\"walk\": 1, \"ride\": 4} and def fee(kind, hours): returns rates.get(kind, 0) * hours."
+      ],
+      "error_hints": [
+        {
+          "tags": [
+            "NameError"
+          ],
+          "text": "Define the dictionary and cost() above the loop that uses them, and spell each name the same way every time."
+        },
+        {
+          "tags": [
+            "KeyError"
+          ],
+          "text": "An item the shop does not sell is not a key in the dictionary. get(item, 0) gives 0 instead of an error."
+        },
+        {
+          "tags": [
+            "TypeError"
+          ],
+          "text": "cost() takes the item and then the amount, and the amount must be a number: keep its int()."
+        },
+        {
+          "tags": [
+            "py.refactor.case.orders"
+          ],
+          "text": "With bread 2, milk 1 and apple 5, the lines are bread 6, milk 2, apple 5 and total 13, exactly as before."
+        },
+        {
+          "tags": [
+            "py.refactor.case.unknown"
+          ],
+          "text": "Something the shop does not sell costs 0, and its line still prints: fish 0."
+        },
+        {
+          "tags": [
+            "py.refactor.case.cost"
+          ],
+          "text": "cost(\"milk\", 4) should return 8. If it returned None, it printed instead of returning."
+        },
+        {
+          "tags": [
+            "py.refactor.case.none"
+          ],
+          "text": "Check a day with no orders: only the total line, total 0."
+        },
+        {
+          "tags": [
+            "py.refactor.case.cost-unknown"
+          ],
+          "text": "Check cost() for something the shop does not sell."
+        }
+      ],
+      "similar_example": {
+        "code": "rates = {\"walk\": 1, \"ride\": 4}\n\ndef fee(kind, hours):\n    return rates.get(kind, 0) * hours\n\nprint(fee(\"ride\", 2))\nprint(fee(\"swim\", 3))",
+        "note": "A price list and one function that uses it, with 0 for anything not on the list. Your till also loops over the orders and keeps a total."
+      },
+      "other_ways": [
+        {
+          "code": "PRICES = {\"bread\": 3, \"milk\": 2, \"apple\": 1}\n\ndef cost(item, amount):\n    if item in PRICES:\n        return PRICES[item] * amount\n    return 0\n\ndef till():\n    total = 0\n    for n in range(int(input(\"How many orders? \"))):\n        item = input(\"Item? \")\n        price = cost(item, int(input(\"Amount? \")))\n        print(item, price)\n        total += price\n    print(\"total\", total)\n\ntill()",
+          "note": "The whole till moved into a function too, so the program is one call at the bottom."
+        },
+        {
+          "code": "def cost(item, amount):\n    return {\"bread\": 3, \"milk\": 2, \"apple\": 1}.get(item, 0) * amount\n\nlines = []\nfor n in range(int(input(\"How many orders? \"))):\n    item = input(\"Item? \")\n    lines.append((item, cost(item, int(input(\"Amount? \")))))\nfor item, price in lines:\n    print(item, price)\nprint(\"total\", sum(price for item, price in lines))",
+          "note": "The orders kept as pairs in a list, then printed and added up afterwards. The prices live inside cost(), the one place that uses them."
+        }
+      ],
+      "input_labels": [],
+      "check": {
+        "cases": [
+          {
+            "id": "orders",
+            "description": "three orders",
+            "inputs": [
+              "3",
+              "bread",
+              "2",
+              "milk",
+              "1",
+              "apple",
+              "5"
+            ],
+            "expected": "bread 6\nmilk 2\napple 5\ntotal 13"
+          },
+          {
+            "id": "unknown",
+            "description": "an item the shop does not sell",
+            "inputs": [
+              "2",
+              "fish",
+              "3",
+              "bread",
+              "1"
+            ],
+            "expected": "fish 0\nbread 3\ntotal 3"
+          },
+          {
+            "id": "cost",
+            "description": "cost(\"milk\", 4)",
+            "inputs": [
+              "0"
+            ],
+            "call": {
+              "function": "cost",
+              "args": [
+                "milk",
+                4
+              ],
+              "kwargs": {}
+            },
+            "returns": {
+              "value": 8
+            }
+          },
+          {
+            "id": "none",
+            "description": "a day with no orders",
+            "inputs": [
+              "0"
+            ],
+            "expected": "total 0",
+            "visibility": "hidden"
+          },
+          {
+            "id": "cost-unknown",
+            "description": "the cost of something not sold",
+            "inputs": [
+              "0"
+            ],
+            "visibility": "hidden",
+            "call": {
+              "function": "cost",
+              "args": [
+                "rope",
+                2
+              ],
+              "kwargs": {}
+            },
+            "returns": {
+              "value": 0
+            }
+          }
+        ],
+        "time_limit_ms": 3000
+      },
+      "validator": {
+        "id": "browser-tests",
+        "version": 1
+      },
+      "version": 1
+    }
+  ]
+}

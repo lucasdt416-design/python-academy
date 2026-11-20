@@ -1,0 +1,224 @@
+{
+  "id": "py.type-hints",
+  "version": 1,
+  "course": "py",
+  "unit": "py.u08",
+  "title": "Labels for values",
+  "concept": "Type hints · saying what a function takes and gives",
+  "description": "Label what goes into the coin-sharing function and what comes out, so anyone reading it knows how to use it.",
+  "badge": {
+    "id": "py.badge.label-maker",
+    "version": 1,
+    "title": "Label maker",
+    "category": "practice"
+  },
+  "tasks": [
+    {
+      "id": "py.type-hints.discover",
+      "type": "discover",
+      "title": "Say what kind of value goes where",
+      "body": "def tip(bill: float, percent: int) -> float: tells a reader that bill is a decimal number, percent a whole number, and that the function gives back a decimal. These hints are for people and tools: Python does not check them when the program runs.",
+      "detail": "Common hints are int, float, str, bool, list[int] for a list of whole numbers, and dict[str, int]. A name can have one too: lives: int = 3. Because Python ignores hints while running, a call such as twice(\"ha\") is not stopped by them. A function's hints are kept in its __annotations__, which you can print."
+    },
+    {
+      "id": "py.type-hints.example",
+      "type": "example",
+      "code": "def tip(bill: float, percent: int) -> float:\n    return bill * percent / 100\n\ndef twice(word: int) -> int:\n    return word * 2\n\nprint(tip(40.0, 15))\nprint(twice(\"ha\"))",
+      "output": "6.0\nhaha",
+      "note": "tip() is used as its hints say. twice() says it takes a whole number, but Python runs it with text anyway, because hints describe and do not check.",
+      "inputs": []
+    },
+    {
+      "id": "py.type-hints.predict",
+      "type": "predict",
+      "question": "What does twice(\"ha\") do?",
+      "options": [
+        "Stops with a TypeError",
+        "Returns haha",
+        "Returns None"
+      ],
+      "answer": 1,
+      "why": "The hint says int, but nothing checks it: \"ha\" * 2 is \"haha\", so that is what comes back."
+    },
+    {
+      "id": "py.type-hints.guided",
+      "type": "guided",
+      "prompt": "Predict, then run: call twice(3). Then give twice() honest hints for text, word: str and -> str, and run it again."
+    },
+    {
+      "id": "py.type-hints.challenge",
+      "type": "challenge",
+      "prompt": "Write shares(coins: int, friends: int) -> list[int], with exactly those hints, which returns a list of how many coins each friend gets, shared as evenly as possible: everyone gets coins // friends, and the first coins % friends friends get one more. At the end of your program, print(shares.__annotations__) so the check can read your hints. Do not ask for input.",
+      "starter": "# Define shares() with type hints, then print its __annotations__\n",
+      "hints": [
+        "The def line carries the hints: a colon and a type after each parameter, then -> and the return type before the final colon.",
+        "Every friend gets coins // friends, and the first coins % friends of them get one more. Build the list with a loop over range(friends).",
+        "With other names: def split(total: int, parts: int) -> list[int]: starts a function, and base = total // parts is everyone's share before the extras."
+      ],
+      "error_hints": [
+        {
+          "tags": [
+            "NameError"
+          ],
+          "text": "Hints use the type names int and list, spelled in lowercase, and the function must be called shares."
+        },
+        {
+          "tags": [
+            "ZeroDivisionError"
+          ],
+          "text": "Every call in the check has at least one friend, so check the order of the two parameters: coins first, then friends."
+        },
+        {
+          "tags": [
+            "TypeError"
+          ],
+          "text": "Check that shares() takes two whole numbers and returns a list."
+        },
+        {
+          "tags": [
+            "py.type-hints.case.hints"
+          ],
+          "text": "Your program's last line should print shares.__annotations__, showing int for both parameters and list[int] for what it returns."
+        },
+        {
+          "tags": [
+            "py.type-hints.case.even"
+          ],
+          "text": "shares(12, 3) should return [4, 4, 4]."
+        },
+        {
+          "tags": [
+            "py.type-hints.case.extra"
+          ],
+          "text": "shares(14, 4) should return [4, 4, 3, 3]: two coins are left over, so the first two friends get one more."
+        },
+        {
+          "tags": [
+            "py.type-hints.case.fewer"
+          ],
+          "text": "Check fewer coins than friends: some friends get 0."
+        },
+        {
+          "tags": [
+            "py.type-hints.case.one"
+          ],
+          "text": "Check a single friend, who gets every coin."
+        }
+      ],
+      "similar_example": {
+        "code": "def label(name: str, age: int) -> str:\n    return name + \" (\" + str(age) + \")\"\n\nprint(label(\"Ada\", 15))\nprint(label.__annotations__)",
+        "note": "Hints on a function that joins text, and its __annotations__ printed. Your shares() takes two whole numbers and returns a list."
+      },
+      "other_ways": [
+        {
+          "code": "def shares(coins: int, friends: int) -> list[int]:\n    base, extra = divmod(coins, friends)\n    return [base + 1 if n < extra else base for n in range(friends)]\n\nprint(shares.__annotations__)",
+          "note": "divmod() gives // and % together, and the list is built in one line."
+        },
+        {
+          "code": "def shares(coins: int, friends: int) -> list[int]:\n    result: list[int] = [0] * friends\n    for n in range(coins):\n        result[n % friends] += 1\n    return result\n\nprint(shares.__annotations__)",
+          "note": "Dealing the coins out one at a time, like cards, gives the same shares. The list name carries a hint too."
+        }
+      ],
+      "input_labels": [],
+      "check": {
+        "cases": [
+          {
+            "id": "hints",
+            "description": "the program on its own",
+            "inputs": [],
+            "expected": "{'coins': <class 'int'>, 'friends': <class 'int'>, 'return': list[int]}"
+          },
+          {
+            "id": "even",
+            "description": "shares(12, 3)",
+            "inputs": [],
+            "call": {
+              "function": "shares",
+              "args": [
+                12,
+                3
+              ],
+              "kwargs": {}
+            },
+            "returns": {
+              "value": [
+                4,
+                4,
+                4
+              ]
+            }
+          },
+          {
+            "id": "extra",
+            "description": "shares(14, 4)",
+            "inputs": [],
+            "call": {
+              "function": "shares",
+              "args": [
+                14,
+                4
+              ],
+              "kwargs": {}
+            },
+            "returns": {
+              "value": [
+                4,
+                4,
+                3,
+                3
+              ]
+            }
+          },
+          {
+            "id": "fewer",
+            "description": "fewer coins than friends",
+            "inputs": [],
+            "visibility": "hidden",
+            "call": {
+              "function": "shares",
+              "args": [
+                2,
+                5
+              ],
+              "kwargs": {}
+            },
+            "returns": {
+              "value": [
+                1,
+                1,
+                0,
+                0,
+                0
+              ]
+            }
+          },
+          {
+            "id": "one",
+            "description": "a single friend",
+            "inputs": [],
+            "visibility": "hidden",
+            "call": {
+              "function": "shares",
+              "args": [
+                9,
+                1
+              ],
+              "kwargs": {}
+            },
+            "returns": {
+              "value": [
+                9
+              ]
+            }
+          }
+        ],
+        "time_limit_ms": 3000
+      },
+      "validator": {
+        "id": "browser-tests",
+        "version": 1
+      },
+      "version": 1
+    }
+  ]
+}

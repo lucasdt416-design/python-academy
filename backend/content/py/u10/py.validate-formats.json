@@ -1,0 +1,271 @@
+{
+  "id": "py.validate-formats",
+  "version": 1,
+  "course": "py",
+  "unit": "py.u10",
+  "title": "Check the form",
+  "concept": "re · checking a shape, and its limits",
+  "description": "Check usernames and times on the sign-up form: the right shape first, then values that make sense.",
+  "badge": {
+    "id": "py.badge.form-checker",
+    "version": 1,
+    "title": "Form checker",
+    "category": "practice"
+  },
+  "tasks": [
+    {
+      "id": "py.validate-formats.discover",
+      "type": "discover",
+      "title": "Check the shape, not the truth",
+      "body": "re.fullmatch() checks that a whole reply has the right shape: r\"\\d{4}-\\d{2}-\\d{2}\" for a date like 2026-03-01. But the right shape is not the same as a real value: 2026-13-45 has the shape, and is no date at all.",
+      "detail": "So check the shape with a pattern, then check the meaning with code: turn the parts into numbers and test their ranges, or let a library such as datetime decide. Real email addresses are too varied for a short pattern. One @ with text on both sides is a fair first check, and the only real test is sending a message."
+    },
+    {
+      "id": "py.validate-formats.example",
+      "type": "example",
+      "code": "import re\nfrom datetime import date\n\ndef is_date(text):\n    m = re.fullmatch(r\"(\\d{4})-(\\d{2})-(\\d{2})\", text)\n    if not m:\n        return False\n    try:\n        date(int(m.group(1)), int(m.group(2)), int(m.group(3)))\n    except ValueError:\n        return False\n    return True\n\nfor text in [\"2026-03-01\", \"2026-13-45\", \"26-3-1\"]:\n    print(text, is_date(text))",
+      "output": "2026-03-01 True\n2026-13-45 False\n26-3-1 False",
+      "note": "2026-13-45 has the right shape, so the pattern lets it through, but date() refuses month 13. 26-3-1 does not even have the shape.",
+      "inputs": []
+    },
+    {
+      "id": "py.validate-formats.predict",
+      "type": "predict",
+      "question": "Does re.fullmatch(r\"\\d{4}-\\d{2}-\\d{2}\", \"2026-02-30\") match?",
+      "options": [
+        "Yes: the shape is right",
+        "No: there is no 30 February",
+        "It stops with an error"
+      ],
+      "answer": 0,
+      "why": "A pattern only sees digits and dashes. Knowing February has no 30th takes code that understands dates."
+    },
+    {
+      "id": "py.validate-formats.guided",
+      "type": "guided",
+      "prompt": "Predict, then run: add \"2028-02-29\" and \"2026-02-29\" to the list. Then make is_date() also refuse dates before the year 2000."
+    },
+    {
+      "id": "py.validate-formats.challenge",
+      "type": "challenge",
+      "prompt": "Write valid_username(name), which returns True when the name is 3 to 12 characters long, starts with a letter, and holds only letters, digits and underscores, and False otherwise. Then write valid_time(text), which returns True for a 24-hour time written as two digits, a colon and two digits, with hours from 00 to 23 and minutes from 00 to 59, and False otherwise. Do not ask for input: the check calls your functions.",
+      "starter": "# Import re, then define valid_username(name) and valid_time(text)\n",
+      "hints": [
+        "For a username, [A-Za-z] is one letter and \\w is a letter, digit or underscore. {2,11} means from 2 to 11 of what comes before it.",
+        "For a time, fullmatch() with two groups checks the shape. Then turn each group into a number and check its range, and return the answer as True or False.",
+        "With other names: re.fullmatch(r\"[A-Z]{2}\\d{2}\", plate) checks a shape, and m.group(1) can then be turned into a number with int()."
+      ],
+      "error_hints": [
+        {
+          "tags": [
+            "NameError"
+          ],
+          "text": "re is a name only after import re at the top."
+        },
+        {
+          "tags": [
+            "AttributeError"
+          ],
+          "text": "fullmatch() gives None when the shape is wrong, and None has no group(). Return False before using it."
+        },
+        {
+          "tags": [
+            "py.validate-formats.case.good-name"
+          ],
+          "text": "nova_7 is 6 characters, starts with a letter, and holds only letters, a digit and an underscore: True."
+        },
+        {
+          "tags": [
+            "py.validate-formats.case.digit-first"
+          ],
+          "text": "A name must start with a letter, so 7nova is refused."
+        },
+        {
+          "tags": [
+            "py.validate-formats.case.good-time"
+          ],
+          "text": "23:59 is the last minute of the day: True."
+        },
+        {
+          "tags": [
+            "py.validate-formats.case.hour-24"
+          ],
+          "text": "24:00 has the right shape, but there is no hour 24: check the hours are from 00 to 23."
+        },
+        {
+          "tags": [
+            "py.validate-formats.case.short-name"
+          ],
+          "text": "Check a name that is too short: at least 3 characters."
+        },
+        {
+          "tags": [
+            "py.validate-formats.case.long-name"
+          ],
+          "text": "Check a name that is too long: at most 12 characters."
+        },
+        {
+          "tags": [
+            "py.validate-formats.case.one-digit"
+          ],
+          "text": "Check a time with a one-digit hour: the hour must be two digits."
+        },
+        {
+          "tags": [
+            "py.validate-formats.case.minute-60"
+          ],
+          "text": "Check the minutes: they go from 00 to 59."
+        }
+      ],
+      "similar_example": {
+        "code": "import re\n\ndef valid_plate(plate):\n    m = re.fullmatch(r\"([A-Z]{2})(\\d{2})\", plate)\n    if not m:\n        return False\n    return int(m.group(2)) >= 10\n\nprint(valid_plate(\"AB12\"), valid_plate(\"AB07\"), valid_plate(\"ab12\"))",
+        "note": "A shape check, then a value check on a group. Your form has two fields with different rules."
+      },
+      "other_ways": [
+        {
+          "code": "import re\n\ndef valid_username(name):\n    return re.fullmatch(r\"[A-Za-z]\\w{2,11}\", name) is not None and name.isascii()\n\ndef valid_time(text):\n    return re.fullmatch(r\"([01]\\d|2[0-3]):[0-5]\\d\", text) is not None",
+          "note": "The ranges can live in the pattern itself: [01]\\d or 2[0-3] for the hours, [0-5]\\d for the minutes. isascii() keeps out letters such as é, which \\w also accepts."
+        },
+        {
+          "code": "def valid_username(name):\n    allowed = \"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_\"\n    return 3 <= len(name) <= 12 and name[0].isalpha() and name[0].isascii() and all(c in allowed for c in name)\n\ndef valid_time(text):\n    if len(text) != 5 or text[2] != \":\" or not (text[:2] + text[3:]).isdigit():\n        return False\n    return int(text[:2]) <= 23 and int(text[3:]) <= 59",
+          "note": "The same checks without re, letter by letter. Longer, but some people find it easier to read."
+        }
+      ],
+      "input_labels": [],
+      "check": {
+        "cases": [
+          {
+            "id": "good-name",
+            "description": "valid_username(\"nova_7\")",
+            "inputs": [],
+            "call": {
+              "function": "valid_username",
+              "args": [
+                "nova_7"
+              ],
+              "kwargs": {}
+            },
+            "returns": {
+              "value": true
+            }
+          },
+          {
+            "id": "digit-first",
+            "description": "valid_username(\"7nova\")",
+            "inputs": [],
+            "call": {
+              "function": "valid_username",
+              "args": [
+                "7nova"
+              ],
+              "kwargs": {}
+            },
+            "returns": {
+              "value": false
+            }
+          },
+          {
+            "id": "good-time",
+            "description": "valid_time(\"23:59\")",
+            "inputs": [],
+            "call": {
+              "function": "valid_time",
+              "args": [
+                "23:59"
+              ],
+              "kwargs": {}
+            },
+            "returns": {
+              "value": true
+            }
+          },
+          {
+            "id": "hour-24",
+            "description": "valid_time(\"24:00\")",
+            "inputs": [],
+            "call": {
+              "function": "valid_time",
+              "args": [
+                "24:00"
+              ],
+              "kwargs": {}
+            },
+            "returns": {
+              "value": false
+            }
+          },
+          {
+            "id": "short-name",
+            "description": "a name that is too short",
+            "inputs": [],
+            "visibility": "hidden",
+            "call": {
+              "function": "valid_username",
+              "args": [
+                "ab"
+              ],
+              "kwargs": {}
+            },
+            "returns": {
+              "value": false
+            }
+          },
+          {
+            "id": "long-name",
+            "description": "a name that is too long",
+            "inputs": [],
+            "visibility": "hidden",
+            "call": {
+              "function": "valid_username",
+              "args": [
+                "a_very_long_name"
+              ],
+              "kwargs": {}
+            },
+            "returns": {
+              "value": false
+            }
+          },
+          {
+            "id": "one-digit",
+            "description": "a time with a one-digit hour",
+            "inputs": [],
+            "visibility": "hidden",
+            "call": {
+              "function": "valid_time",
+              "args": [
+                "9:30"
+              ],
+              "kwargs": {}
+            },
+            "returns": {
+              "value": false
+            }
+          },
+          {
+            "id": "minute-60",
+            "description": "a time with too many minutes",
+            "inputs": [],
+            "visibility": "hidden",
+            "call": {
+              "function": "valid_time",
+              "args": [
+                "12:60"
+              ],
+              "kwargs": {}
+            },
+            "returns": {
+              "value": false
+            }
+          }
+        ],
+        "time_limit_ms": 3000
+      },
+      "validator": {
+        "id": "browser-tests",
+        "version": 1
+      },
+      "version": 1
+    }
+  ]
+}

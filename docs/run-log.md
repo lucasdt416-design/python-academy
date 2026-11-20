@@ -60,12 +60,17 @@ The plan is [`docs/plan/master-run.md`](plan/master-run.md). A new session reads
 | Visual redesign (owner request) | `ui/visual-redesign` | `main` | #60 | 52 | done | 2026-11-09 | 12 new browser tests; full suite 374 locally; CI green; 3 deliberate breaks caught |
 | Run 2, A1: history scan | `sec/history-scan` | `main` | #61 | 53 | done | 2026-11-09 | gitleaks 8.21.2 on all refs: 1 finding, not a secret; pattern search; nothing to rotate |
 | Run 2, A2: docs sync 6 | `docs/backlog-sync-6` | `main` | #62 | 54 | done | 2026-11-09 | Docs checks |
+| Run 3: S06 to S09, WWD1, WD3, WD6 to WD9 (units 4 to 11, 36 lessons) and lesson scenes (owner request) | `content/py-lessons-interactive` | `main` | #63 | 55 | done | 2026-11-20 | Backend 1,794 passed; scenes spec 104 and unit 1 snapshot pass; full browser suite 478, all pass after updates (5 timing failures under load pass alone); 6 deliberate breaks caught |
 
 Owner merged #32 to #39, #41 and #42 on 2026-11-02. The run stopped at the cap of 5 open PRs. Not reached: WE6, the rest of WE7, WE8 and later.
 
 Owner raised the cap to 7 on 2026-11-02, then lifted it on 2026-11-09. Merged since: #43 to #60, all by 2026-11-09. The repository was made public before run 2. Open after run 2: #61 and #62, documentation only, in any order. Every Part 2 box is still empty.
 
 **Keeping this file mergeable:** every open run branch carries an identical copy of this file, so they merge in any order. If one conflicts after a merge, keep the copy with the most rows.
+
+## Run 3: interactive lessons and units 4 to 11, 2026-11-20
+
+Lucas asked on 2026-11-20 for everything in one pull request, as many lessons as possible, and interactive elements for every lesson ("when we named a hero using variables maybe a hero pops up on screen with the name we entered over it"). Every Part 2 box is still empty. Handoff 55 lists the rules this request overrode (one PR instead of one per stage; units released in parts, as box B-R2 would allow) as assumptions to confirm. Units 7, 9 and 11 each wait for one lesson that needs ENG-09. Not reached: everything gated on a box, and the ENG-09 lessons.
 
 ## S00: state check, 2026-11-02
 

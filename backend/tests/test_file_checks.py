@@ -135,9 +135,10 @@ def test_a_lesson_with_no_files_keeps_the_view_it_always_had():
         assert 'exampleFiles' not in view and 'challengeFiles' not in view
 
 
-def test_no_real_lesson_has_files_yet():
+def test_only_the_unit_9_file_lessons_have_files():
     catalog, lessons = content.load()
-    assert not any(lesson.task('example').files or any(c.files for c in (lesson.task('challenge').check.cases if lesson.task('challenge').check else [])) for lesson in lessons.values())
+    with_files = {i for i, lesson in lessons.items() if lesson.task('example').files or any(c.files for c in (lesson.task('challenge').check.cases if lesson.task('challenge').check else []))}
+    assert with_files == {'py.text-files', 'py.json', 'py.csv', 'py.missing-data'}
 
 
 # The test runner plays the worker's part, with a folder of its own per case

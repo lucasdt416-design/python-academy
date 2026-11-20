@@ -1,0 +1,209 @@
+{
+  "id": "py.composition",
+  "version": 1,
+  "course": "py",
+  "unit": "py.u11",
+  "title": "A hero with a pack",
+  "concept": "Classes · objects that hold objects",
+  "description": "Build the hero from smaller parts: a pack with a weight limit, holding items, each class doing one job.",
+  "badge": {
+    "id": "py.badge.outfitter",
+    "version": 1,
+    "title": "Outfitter",
+    "category": "practice"
+  },
+  "tasks": [
+    {
+      "id": "py.composition.discover",
+      "type": "discover",
+      "title": "Build objects from other objects",
+      "body": "A hero can have a pack, and a pack can hold items. Give Hero an attribute self.pack = Pack(), and the hero can ask the pack to do its part: hero.pack.add(rope). This is composition: each class does one job, and together they make something bigger.",
+      "detail": "Reach for composition before inheritance, class Wizard(Hero):, which is for an \"is a kind of\" link. A hero is not a kind of pack; a hero has a pack. Make each pack inside __init__, so that every hero gets a pack of their own."
+    },
+    {
+      "id": "py.composition.example",
+      "type": "example",
+      "code": "class Pack:\n    def __init__(self, limit):\n        self.limit = limit\n        self.items = []\n\n    def add(self, item):\n        if len(self.items) >= self.limit:\n            return False\n        self.items.append(item)\n        return True\n\nclass Hero:\n    def __init__(self, name):\n        self.name = name\n        self.pack = Pack(2)\n\nnova = Hero(\"Nova\")\nfor thing in [\"rope\", \"map\", \"lamp\"]:\n    print(thing, nova.pack.add(thing))\nprint(nova.name, nova.pack.items)",
+      "output": "rope True\nmap True\nlamp False\nNova ['rope', 'map']",
+      "note": "The hero's pack is its own object, with its own limit and list. The third item doesn't fit, so add() says False and leaves the pack as it was.",
+      "inputs": []
+    },
+    {
+      "id": "py.composition.predict",
+      "type": "predict",
+      "question": "If pack = Pack(2) were written in the class body instead of in __init__, what would two heroes share?",
+      "options": [
+        "Nothing",
+        "The same pack",
+        "Their names"
+      ],
+      "answer": 1,
+      "why": "A value in the class body is made once, for the whole class, so every hero would point at that one pack."
+    },
+    {
+      "id": "py.composition.guided",
+      "type": "guided",
+      "prompt": "Predict, then run: make a second hero, add an item to their pack, and check that Nova's pack is unchanged. Then give Pack a method count() that returns how many items it holds."
+    },
+    {
+      "id": "py.composition.challenge",
+      "type": "challenge",
+      "prompt": "Write three classes. Item has a name and a weight. Pack has a weight limit, a list of items, a method weight() that returns the total weight of its items, and a method add(item) that adds the item and returns True only if the total stays within the limit, and otherwise returns False and changes nothing. Hero has a name and a pack whose limit is the hero's strength. Ask for the hero's name and strength, then how many items there are, then each item's name and weight, all weights being whole numbers. Try to add each item to the hero's pack, and print its name and added, or its name and too heavy. Then print the hero's name, carries, and the pack's weight, like Nova carries 5, and on the last line the names of the items in the pack, joined with a comma and a space, or nothing if it is empty.",
+      "starter": "# Define Item, Pack and Hero, then pack the hero's bag\n",
+      "hints": [
+        "Write Item first, then Pack, then Hero, and test each alone. Hero's __init__ makes a Pack with the strength as its limit.",
+        "add() works out what the weight would be with the new item, before adding it. The program never checks weights itself: it asks the hero's pack.",
+        "With other names: class Shelf: holds self.books = [], and a Room can have self.shelf = Shelf() made in its __init__."
+      ],
+      "error_hints": [
+        {
+          "tags": [
+            "AttributeError"
+          ],
+          "text": "An object is missing an attribute or method. Check that each is set in __init__ with self., and that you ask the right object: hero.pack.add(item), not hero.add(item)."
+        },
+        {
+          "tags": [
+            "TypeError"
+          ],
+          "text": "Check each class is made with the right values, and that weights are whole numbers, turned with int()."
+        },
+        {
+          "tags": [
+            "NameError"
+          ],
+          "text": "Define each class before the line that first makes an object from it."
+        },
+        {
+          "tags": [
+            "py.composition.case.mixed"
+          ],
+          "text": "With strength 10: rope (4) and map (1) fit, the anvil (9) would make 14, so it is too heavy. Nova carries 5: rope, map."
+        },
+        {
+          "tags": [
+            "py.composition.case.exactly"
+          ],
+          "text": "An item that brings the weight exactly up to the limit still fits."
+        },
+        {
+          "tags": [
+            "py.composition.case.empty"
+          ],
+          "text": "When nothing fits, the pack weighs 0, and the last line is nothing."
+        },
+        {
+          "tags": [
+            "py.composition.case.all-fit"
+          ],
+          "text": "Check a pack where everything fits."
+        },
+        {
+          "tags": [
+            "py.composition.case.skip-heavy"
+          ],
+          "text": "Check that an item that is too heavy does not stop a lighter one later."
+        }
+      ],
+      "similar_example": {
+        "code": "class Shelf:\n    def __init__(self):\n        self.books = []\n\nclass Room:\n    def __init__(self, name):\n        self.name = name\n        self.shelf = Shelf()\n\nlibrary = Room(\"library\")\nlibrary.shelf.books.append(\"atlas\")\nhall = Room(\"hall\")\nprint(library.shelf.books, hall.shelf.books)",
+        "note": "Each room makes its own shelf in __init__, so the hall's shelf stays empty. Your pack also checks a weight limit."
+      },
+      "other_ways": [
+        {
+          "code": "class Item:\n    def __init__(self, name, weight):\n        self.name, self.weight = name, weight\n\nclass Pack:\n    def __init__(self, limit):\n        self.limit = limit\n        self.items = []\n        self.total = 0\n\n    def weight(self):\n        return self.total\n\n    def add(self, item):\n        if self.total + item.weight <= self.limit:\n            self.items.append(item)\n            self.total += item.weight\n            return True\n        return False\n\nclass Hero:\n    def __init__(self, name, strength):\n        self.name = name\n        self.pack = Pack(strength)\n\nname = input()\nhero = Hero(name, int(input()))\nfor n in range(int(input())):\n    thing = Item(input(), int(input()))\n    print(thing.name, \"added\" if hero.pack.add(thing) else \"too heavy\")\nprint(f\"{hero.name} carries {hero.pack.weight()}\")\nprint(\", \".join(i.name for i in hero.pack.items) or \"nothing\")",
+          "note": "The pack keeps a running total instead of adding up its items each time. Either way, only Pack knows how its weight works."
+        },
+        {
+          "code": "class Item:\n    def __init__(self, name, weight):\n        self.name = name\n        self.weight = weight\n\nclass Pack:\n    def __init__(self, limit):\n        self.limit = limit\n        self.items = []\n\n    def weight(self):\n        total = 0\n        for item in self.items:\n            total += item.weight\n        return total\n\n    def add(self, item):\n        fits = self.weight() + item.weight <= self.limit\n        if fits:\n            self.items.append(item)\n        return fits\n\nclass Hero:\n    def __init__(self, name, strength):\n        self.name = name\n        self.pack = Pack(strength)\n\n    def take(self, item):\n        return self.pack.add(item)\n\n    def report(self):\n        names = [item.name for item in self.pack.items]\n        return f\"{self.name} carries {self.pack.weight()}\\n\" + (\", \".join(names) or \"nothing\")\n\nhero = Hero(input(), int(input()))\nfor n in range(int(input())):\n    item = Item(input(), int(input()))\n    print(item.name, \"added\" if hero.take(item) else \"too heavy\")\nprint(hero.report())",
+          "note": "Hero.take() passes the job on to its pack, so the rest of the program only ever talks to the hero."
+        }
+      ],
+      "input_labels": [],
+      "check": {
+        "cases": [
+          {
+            "id": "mixed",
+            "description": "two items that fit and one too heavy",
+            "inputs": [
+              "Nova",
+              "10",
+              "3",
+              "rope",
+              "4",
+              "map",
+              "1",
+              "anvil",
+              "9"
+            ],
+            "expected": "rope added\nmap added\nanvil too heavy\nNova carries 5\nrope, map"
+          },
+          {
+            "id": "exactly",
+            "description": "an item that fills the pack exactly",
+            "inputs": [
+              "Kai",
+              "5",
+              "2",
+              "stone",
+              "5",
+              "feather",
+              "1"
+            ],
+            "expected": "stone added\nfeather too heavy\nKai carries 5\nstone"
+          },
+          {
+            "id": "empty",
+            "description": "nothing fits",
+            "inputs": [
+              "Ada",
+              "3",
+              "1",
+              "boulder",
+              "8"
+            ],
+            "expected": "boulder too heavy\nAda carries 0\nnothing"
+          },
+          {
+            "id": "all-fit",
+            "description": "everything fits",
+            "inputs": [
+              "Bo",
+              "6",
+              "3",
+              "cup",
+              "2",
+              "bowl",
+              "2",
+              "jug",
+              "2"
+            ],
+            "expected": "cup added\nbowl added\njug added\nBo carries 6\ncup, bowl, jug",
+            "visibility": "hidden"
+          },
+          {
+            "id": "skip-heavy",
+            "description": "a heavy item, then a lighter one",
+            "inputs": [
+              "Lin",
+              "4",
+              "2",
+              "big",
+              "5",
+              "small",
+              "4"
+            ],
+            "expected": "big too heavy\nsmall added\nLin carries 4\nsmall",
+            "visibility": "hidden"
+          }
+        ],
+        "time_limit_ms": 3000
+      },
+      "validator": {
+        "id": "browser-tests",
+        "version": 1
+      },
+      "version": 1
+    }
+  ]
+}

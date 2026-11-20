@@ -1,0 +1,203 @@
+{
+  "id": "py.indexing",
+  "version": 1,
+  "course": "py",
+  "unit": "py.u04",
+  "title": "First and last",
+  "concept": "Lists · positions, -1 and slices",
+  "description": "Pick supplies out of the quartermaster's list by their position, and slice off the middle.",
+  "badge": {
+    "id": "py.badge.quartermaster",
+    "version": 1,
+    "title": "Quartermaster",
+    "category": "practice"
+  },
+  "tasks": [
+    {
+      "id": "py.indexing.discover",
+      "type": "discover",
+      "title": "Every item has a position",
+      "body": "Positions in a list start at 0. In pack = [\"rope\", \"map\", \"lamp\"], pack[0] is \"rope\" and pack[2] is \"lamp\". A negative position counts from the end, so pack[-1] is the last item.",
+      "detail": "pack[1] = \"key\" puts a new value at position 1, replacing what was there. A slice such as pack[0:2] is a new list of the items from position 0 up to, but not including, position 2. Asking for a position past the end, like pack[3] here, stops the program with an IndexError."
+    },
+    {
+      "id": "py.indexing.example",
+      "type": "example",
+      "code": "# Pick tools from the pack by position\npack = [\"rope\", \"map\", \"lamp\", \"key\"]\nprint(pack[0])\nprint(pack[-1])\nprint(pack[1:3])\npack[0] = \"ladder\"\nprint(pack)",
+      "output": "rope\nkey\n['map', 'lamp']\n['ladder', 'map', 'lamp', 'key']",
+      "note": "pack[0] is the first item and pack[-1] the last. The slice 1:3 starts at position 1 and stops before 3, so it holds two items. Assigning to pack[0] replaces rope, and the list keeps its length.",
+      "inputs": []
+    },
+    {
+      "id": "py.indexing.predict",
+      "type": "predict",
+      "question": "With the same four items, what does print(pack[len(pack) - 1]) show?",
+      "options": [
+        "key",
+        "lamp",
+        "It stops with an IndexError"
+      ],
+      "answer": 0,
+      "why": "len(pack) is 4, so len(pack) - 1 is 3, the last position. pack[len(pack)] would be the IndexError: a list of 4 has no position 4."
+    },
+    {
+      "id": "py.indexing.guided",
+      "type": "guided",
+      "prompt": "Predict, then run: add print(pack[4]) and read the error. Then change it to show the last item, in two different ways."
+    },
+    {
+      "id": "py.indexing.challenge",
+      "type": "challenge",
+      "prompt": "The quartermaster lists the party's supplies. Ask how many supplies there are (always at least 1), then ask for each one, in order. Then ask for a position, counting from 1 the way people do. Print four lines: the first supply, the last supply, the supply at the position asked for, and a list of every supply except the first and the last. Print just those four lines.",
+      "starter": "# Ask for the supplies, then a position\n",
+      "hints": [
+        "Collect the supplies in a list first. Positions start at 0, so the first supply is at 0, and a person who says position 1 means Python position 0.",
+        "A negative position counts from the end. A slice gives a list: it starts at its first number and stops just before its second, and either number can be negative.",
+        "With other names: name = songs[0] is the first song, name = songs[-1] the last, and the song a person calls number is one position earlier than number."
+      ],
+      "error_hints": [
+        {
+          "tags": [
+            "IndexError"
+          ],
+          "text": "A position is past the end of the list. The last item of a list of 4 is at 3, which is also -1, and a person's position 1 is Python's 0."
+        },
+        {
+          "tags": [
+            "TypeError"
+          ],
+          "text": "Positions and range() need whole numbers: turn the number replies into them with int(...)."
+        },
+        {
+          "tags": [
+            "EOFError"
+          ],
+          "text": "Your program asked for more replies than it gets. Read the supplies with a loop that runs once per supply, then read the position."
+        },
+        {
+          "tags": [
+            "NameError"
+          ],
+          "text": "Make the list before the loop uses it, and spell each name the same way every time."
+        },
+        {
+          "tags": [
+            "py.indexing.case.four"
+          ],
+          "text": "With bread, rope, tent and lamp, and position 2, the lines are bread, lamp, rope and ['rope', 'tent']. If you got tent, the position needs turning into Python's, which starts at 0."
+        },
+        {
+          "tags": [
+            "py.indexing.case.two"
+          ],
+          "text": "With two supplies there is nothing between the first and the last, so the slice is an empty list, []."
+        },
+        {
+          "tags": [
+            "py.indexing.case.single"
+          ],
+          "text": "With one supply, it is the first, the last and position 1 all at once."
+        },
+        {
+          "tags": [
+            "py.indexing.case.five"
+          ],
+          "text": "Check a longer list: the middle slice should keep every supply between the first and the last."
+        },
+        {
+          "tags": [
+            "py.indexing.case.first-asked"
+          ],
+          "text": "Check position 1: it is the first supply, at Python position 0."
+        }
+      ],
+      "similar_example": {
+        "code": "days = [\"mon\", \"tue\", \"wed\", \"thu\", \"fri\"]\nprint(days[2])\nprint(days[-2])\nprint(days[:2])",
+        "note": "The same positions in a week: the middle day, the day before last, and a slice from the start, because a slice with no first number starts at 0."
+      },
+      "other_ways": [
+        {
+          "code": "count = int(input(\"How many supplies? \"))\nsupplies = []\nfor n in range(count):\n    supplies.append(input(\"Supply? \"))\nposition = int(input(\"Position? \"))\nprint(supplies[0])\nprint(supplies[len(supplies) - 1])\nprint(supplies[position - 1])\nprint(supplies[1:len(supplies) - 1])",
+          "note": "len() - 1 is the last position too. -1 is shorter, and works for a list of any length."
+        },
+        {
+          "code": "count = int(input(\"How many supplies? \"))\nsupplies = []\nfor n in range(count):\n    supplies.append(input(\"Supply? \"))\nposition = int(input(\"Position? \"))\nprint(supplies[0])\nprint(supplies[-1])\nplace = 1\nfor item in supplies:\n    if place == position:\n        print(item)\n    place = place + 1\nprint(supplies[1:-1])",
+          "note": "Counting along the list the way a person would finds the same supply. Indexing goes straight to it."
+        }
+      ],
+      "input_labels": [],
+      "check": {
+        "cases": [
+          {
+            "id": "four",
+            "description": "four supplies, the second one asked for",
+            "inputs": [
+              "4",
+              "bread",
+              "rope",
+              "tent",
+              "lamp",
+              "2"
+            ],
+            "expected": "bread\nlamp\nrope\n['rope', 'tent']"
+          },
+          {
+            "id": "two",
+            "description": "two supplies, the last one asked for",
+            "inputs": [
+              "2",
+              "map",
+              "key",
+              "2"
+            ],
+            "expected": "map\nkey\nkey\n[]"
+          },
+          {
+            "id": "single",
+            "description": "a single supply",
+            "inputs": [
+              "1",
+              "torch",
+              "1"
+            ],
+            "expected": "torch\ntorch\ntorch\n[]"
+          },
+          {
+            "id": "five",
+            "description": "five supplies, one from the middle",
+            "inputs": [
+              "5",
+              "oats",
+              "salt",
+              "rope",
+              "cloak",
+              "flint",
+              "3"
+            ],
+            "expected": "oats\nflint\nrope\n['salt', 'rope', 'cloak']",
+            "visibility": "hidden"
+          },
+          {
+            "id": "first-asked",
+            "description": "the first supply asked for",
+            "inputs": [
+              "3",
+              "axe",
+              "net",
+              "pot",
+              "1"
+            ],
+            "expected": "axe\npot\naxe\n['net']",
+            "visibility": "hidden"
+          }
+        ],
+        "time_limit_ms": 3000
+      },
+      "validator": {
+        "id": "browser-tests",
+        "version": 1
+      },
+      "version": 1
+    }
+  ]
+}

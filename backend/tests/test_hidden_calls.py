@@ -80,11 +80,10 @@ def test_the_answer_is_in_no_response(lesson):
         assert ANSWER not in client.get(path).text
 
 
-def test_no_real_lesson_uses_a_hidden_call_yet():
+def test_hidden_calls_are_used_only_by_the_function_lessons():
     _, lessons = content.load()
-    for found in lessons.values():
-        check = found.task('challenge').check
-        assert not (check and any(c.call and c.visibility == 'hidden' for c in check.cases)), found.id
+    using = {found.id for found in lessons.values() if (check := found.task('challenge').check) and any(c.call and c.visibility == 'hidden' for c in check.cases)}
+    assert using == {'py.functions', 'py.parameters', 'py.return-values', 'py.scope', 'py.decompose', 'py.type-hints', 'py.refactor', 'py.validate-formats'}
 
 
 def test_the_recorded_answers_are_the_real_apis(lesson):

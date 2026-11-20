@@ -1,0 +1,244 @@
+{
+  "id": "py.decompose",
+  "version": 1,
+  "course": "py",
+  "unit": "py.u05",
+  "title": "Break the battle into parts",
+  "concept": "Functions · one job per function",
+  "description": "Adventure v2: split a fight into small functions that each do one job, and build the whole from them.",
+  "badge": {
+    "id": "py.badge.architect",
+    "version": 1,
+    "title": "Architect",
+    "category": "practice"
+  },
+  "tasks": [
+    {
+      "id": "py.decompose.discover",
+      "type": "discover",
+      "title": "One job per function",
+      "body": "Big programs are easier to read and fix when each function does one small job and has a name that says what it is. A function that works something out returns its answer, and another function can use it.",
+      "detail": "A good test of a function: can you call it on its own, with made-up values, and check its answer? If one function reads input(), prints and changes outside names all at once, split it. Then the main part of the program just calls the parts in order."
+    },
+    {
+      "id": "py.decompose.example",
+      "type": "example",
+      "code": "# A shop, split into small jobs\ndef price_with_tax(price):\n    return price + price // 10\n\ndef can_afford(coins, price):\n    return coins >= price_with_tax(price)\n\ndef receipt(item, price):\n    return item + \": \" + str(price_with_tax(price)) + \" coins\"\n\nprint(receipt(\"rope\", 20))\nprint(can_afford(21, 20))\nprint(can_afford(25, 20))",
+      "output": "rope: 22 coins\nFalse\nTrue",
+      "note": "price_with_tax() is written once and used by both other functions, so a change to the tax happens in one place. Each function can be checked on its own.",
+      "inputs": []
+    },
+    {
+      "id": "py.decompose.predict",
+      "type": "predict",
+      "question": "If the tax changed to price // 5, how many functions would need editing?",
+      "options": [
+        "One",
+        "Two",
+        "Three"
+      ],
+      "answer": 0,
+      "why": "Only price_with_tax() works out the tax. The others call it, so they change with it."
+    },
+    {
+      "id": "py.decompose.guided",
+      "type": "guided",
+      "prompt": "Predict, then run: change the tax to price // 5 and check all three answers. Then write total_cost(prices), which adds up price_with_tax() of every price in a list."
+    },
+    {
+      "id": "py.decompose.challenge",
+      "type": "challenge",
+      "prompt": "Write three functions for the adventure's battles. damage(attack, armour) returns the attack minus the armour, but never less than 0. fight(hero_hp, attack, armour) returns the hero's health after one hit, using damage(), and never less than 0. survives(hero_hp, attacks, armour) takes a list of attack values, applies them in order with fight(), and returns True if the hero has more than 0 health at the end, or False. Your program should not ask for input: the check calls your functions with its own values.",
+      "starter": "# Define damage(), fight() and survives()\n",
+      "hints": [
+        "Write damage() first and check it alone: max() of two numbers picks the bigger one, which is a short way to say never less than 0.",
+        "fight() takes the damage away from the health and keeps the result from going below 0. survives() loops over the attacks list, storing what fight() returns each time.",
+        "The same layering with other names: def heal(hp, potion): returns the bigger health, and def rest(hp, potions): loops over potions, storing hp = heal(hp, p) each time."
+      ],
+      "error_hints": [
+        {
+          "tags": [
+            "NameError"
+          ],
+          "text": "A function can call another one defined anywhere in the file, as long as the name is spelled the same way."
+        },
+        {
+          "tags": [
+            "TypeError"
+          ],
+          "text": "Check the order of the parameters in each def line, and that every function returns a value in every case."
+        },
+        {
+          "tags": [
+            "py.decompose.case.damage"
+          ],
+          "text": "damage(7, 3) should return 4: the attack minus the armour."
+        },
+        {
+          "tags": [
+            "py.decompose.case.armour"
+          ],
+          "text": "damage(2, 5) should return 0: armour stronger than the attack stops it completely, and damage is never negative."
+        },
+        {
+          "tags": [
+            "py.decompose.case.fight"
+          ],
+          "text": "fight(10, 6, 2) should return 6: the damage is 6 - 2, which is 4, taken off 10."
+        },
+        {
+          "tags": [
+            "py.decompose.case.survives"
+          ],
+          "text": "survives(10, [4, 4, 4], 1) should return True: each hit does 3, leaving 1 health."
+        },
+        {
+          "tags": [
+            "py.decompose.case.falls"
+          ],
+          "text": "Check a fight the hero loses: health that reaches 0 means the hero did not survive."
+        },
+        {
+          "tags": [
+            "py.decompose.case.heavy"
+          ],
+          "text": "Check one very heavy hit: health stops at 0, it never goes below."
+        }
+      ],
+      "similar_example": {
+        "code": "def heal(hp, potion):\n    return min(hp + potion, 20)\n\ndef rest(hp, potions):\n    for p in potions:\n        hp = heal(hp, p)\n    return hp\n\nprint(rest(5, [6, 6, 6]))",
+        "note": "Two layers: heal() does one potion and never goes past 20, and rest() applies a list of them with it. Your fight goes the other way, down to 0."
+      },
+      "other_ways": [
+        {
+          "code": "def damage(attack, armour):\n    if attack > armour:\n        return attack - armour\n    return 0\n\ndef fight(hero_hp, attack, armour):\n    hp = hero_hp - damage(attack, armour)\n    if hp < 0:\n        return 0\n    return hp\n\ndef survives(hero_hp, attacks, armour):\n    for attack in attacks:\n        hero_hp = fight(hero_hp, attack, armour)\n    return hero_hp > 0",
+          "note": "if statements instead of max(), and survives() returns the comparison itself, which is already True or False."
+        },
+        {
+          "code": "def damage(attack, armour):\n    return max(0, attack - armour)\n\ndef fight(hero_hp, attack, armour):\n    return max(0, hero_hp - damage(attack, armour))\n\ndef survives(hero_hp, attacks, armour):\n    for attack in attacks:\n        hero_hp = fight(hero_hp, attack, armour)\n        if hero_hp == 0:\n            return False\n    return True",
+          "note": "survives() can stop as soon as the health reaches 0, because nothing after that can bring it back."
+        }
+      ],
+      "input_labels": [],
+      "check": {
+        "cases": [
+          {
+            "id": "damage",
+            "description": "damage(7, 3)",
+            "inputs": [],
+            "call": {
+              "function": "damage",
+              "args": [
+                7,
+                3
+              ],
+              "kwargs": {}
+            },
+            "returns": {
+              "value": 4
+            }
+          },
+          {
+            "id": "armour",
+            "description": "damage(2, 5)",
+            "inputs": [],
+            "call": {
+              "function": "damage",
+              "args": [
+                2,
+                5
+              ],
+              "kwargs": {}
+            },
+            "returns": {
+              "value": 0
+            }
+          },
+          {
+            "id": "fight",
+            "description": "fight(10, 6, 2)",
+            "inputs": [],
+            "call": {
+              "function": "fight",
+              "args": [
+                10,
+                6,
+                2
+              ],
+              "kwargs": {}
+            },
+            "returns": {
+              "value": 6
+            }
+          },
+          {
+            "id": "survives",
+            "description": "survives(10, [4, 4, 4], 1)",
+            "inputs": [],
+            "call": {
+              "function": "survives",
+              "args": [
+                10,
+                [
+                  4,
+                  4,
+                  4
+                ],
+                1
+              ],
+              "kwargs": {}
+            },
+            "returns": {
+              "value": true
+            }
+          },
+          {
+            "id": "falls",
+            "description": "a battle the hero loses",
+            "inputs": [],
+            "visibility": "hidden",
+            "call": {
+              "function": "survives",
+              "args": [
+                5,
+                [
+                  9,
+                  1
+                ],
+                0
+              ],
+              "kwargs": {}
+            },
+            "returns": {
+              "value": false
+            }
+          },
+          {
+            "id": "heavy",
+            "description": "one very heavy hit",
+            "inputs": [],
+            "visibility": "hidden",
+            "call": {
+              "function": "fight",
+              "args": [
+                3,
+                50,
+                1
+              ],
+              "kwargs": {}
+            },
+            "returns": {
+              "value": 0
+            }
+          }
+        ],
+        "time_limit_ms": 3000
+      },
+      "validator": {
+        "id": "browser-tests",
+        "version": 1
+      },
+      "version": 1
+    }
+  ]
+}

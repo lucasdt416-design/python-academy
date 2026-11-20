@@ -143,7 +143,7 @@ def test_a_rule_id_must_belong_to_its_lesson(tree):
     assert_invalid(tree, 'variables.challenge has duplicate rule ID variables.uses-variables')
 
 
-@pytest.mark.parametrize('tag', ['KeyError', 'nameerror', 'variables.uses-variables', 'hello.passed', 'hello.missing'])
+@pytest.mark.parametrize('tag', ['MemoryError', 'nameerror', 'variables.uses-variables', 'hello.passed', 'hello.missing'])
 def test_a_hint_tag_must_be_a_python_error_or_one_of_its_rules(tree, tag):
     edit_challenge(tree, 'hello', lambda c: c['error_hints'].append({'tags': [tag], 'text': 'A hint.'}))
     assert_invalid(tree, f'hello.challenge hint tag {tag} is not a Python error')

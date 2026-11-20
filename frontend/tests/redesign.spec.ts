@@ -41,20 +41,22 @@ test.beforeEach(async ({page}) => {
 });
 test.afterEach(async ({page}) => { expect(violations.get(page)).toEqual([]); });
 
-test('each of the 16 lessons shows its own picture, on the course page and its lesson page', async ({page}) => {
+test('each of the first 16 lessons shows its own picture, and later lessons the plain one, on the course page and its lesson page', async ({page}) => {
  await mockApi(page);
  await page.goto('/courses/py');
  const rows = page.locator('a.row');
- await expect(rows).toHaveCount(16);
+ await expect(rows).toHaveCount(52);
  const seen: Record<string, string | null> = {};
  for (const row of await rows.all()) {
   const id = new URL(await row.getAttribute('href') ?? '', 'http://x').searchParams.get('lesson')!;
   const art = row.locator('svg.art');
   seen[id] = await art.getAttribute('data-art');
-  // A real drawing, not an empty frame.
-  expect(await art.locator('path, rect, circle, ellipse, text').count(), id).toBeGreaterThan(5);
+  // A real drawing, not an empty frame. Lessons from unit 4 on use the plain picture until the visual
+  // track draws theirs (handoff 55); their scenes are what make each one different.
+  if (id in PICTURES) expect(await art.locator('path, rect, circle, ellipse, text').count(), id).toBeGreaterThan(5);
  }
- expect(seen).toEqual(PICTURES);
+ expect(Object.fromEntries(Object.entries(seen).filter(([id]) => id in PICTURES))).toEqual(PICTURES);
+ expect(new Set(Object.entries(seen).filter(([id]) => !(id in PICTURES)).map(([, art]) => art))).toEqual(new Set(['fallback']));
  for (const [id, art] of [['hello', 'art-hello'], ['py.compare', 'art-compare'], ['py.nested-loops', 'art-nested']]) {
   await page.goto(`/preview?lesson=${id}`);
   const picture = page.locator('.lhead svg.art');

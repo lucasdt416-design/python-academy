@@ -1,0 +1,166 @@
+{
+  "id": "py.boundaries",
+  "version": 1,
+  "course": "py",
+  "unit": "py.u08",
+  "title": "Edges of the rule",
+  "concept": "Testing · boundary values",
+  "description": "The ferry charges by age. Test right at the edges of each price, where off-by-one bugs hide.",
+  "badge": {
+    "id": "py.badge.edge-walker",
+    "version": 1,
+    "title": "Edge walker",
+    "category": "practice"
+  },
+  "tasks": [
+    {
+      "id": "py.boundaries.discover",
+      "type": "discover",
+      "title": "Bugs live at the edges",
+      "body": "A rule like \"children from 5 to 12 pay 5\" has edges: 4 and 5, then 12 and 13. Off-by-one bugs, such as < where <= was meant, change the answer only right at an edge.",
+      "detail": "For every edge, test the value on each side of it. Testing 8 and 30 says little about whether 12 counts as a child. 0 and 1, an empty list and a one-item list, and the first and last positions are edges too."
+    },
+    {
+      "id": "py.boundaries.example",
+      "type": "example",
+      "code": "def can_ride(height):\n    return height >= 120\n\nassert can_ride(119) == False\nassert can_ride(120) == True\nassert can_ride(121) == True\nprint(\"both sides of 120 tested\")",
+      "output": "both sides of 120 tested",
+      "note": "119 and 120 sit either side of the edge, and 121 is just past it. A bug in >= would show up in one of the first two.",
+      "inputs": []
+    },
+    {
+      "id": "py.boundaries.predict",
+      "type": "predict",
+      "question": "If can_ride() said height > 120, which assert would fail?",
+      "options": [
+        "can_ride(119) == False",
+        "can_ride(120) == True",
+        "can_ride(121) == True"
+      ],
+      "answer": 1,
+      "why": "Only exactly 120 is treated differently by > and >=, so only the test right on the edge notices."
+    },
+    {
+      "id": "py.boundaries.guided",
+      "type": "guided",
+      "prompt": "Predict, then run: change >= to > and check. Then add a second rule, height <= 200, and test both sides of 200."
+    },
+    {
+      "id": "py.boundaries.challenge",
+      "type": "challenge",
+      "prompt": "The ferry has a function ticket_price(age) in the check: under 5 travel free, ages 5 to 12 pay 5, ages 13 to 64 pay 10, and 65 and over pay 6. Write asserts that test it, especially at the edges. The check runs your tests on the correct ticket_price(), where they must all pass, and on broken versions, where at least one must fail for each. Do not write ticket_price() yourself.",
+      "starter": "# Write asserts that test ticket_price(age)\n",
+      "hints": [
+        "List the edges first: where does each price start and stop? Each edge needs a test on both sides of it.",
+        "The rule has three edges, at 5, at 13 and at 65. A test on the last age of one price and the first age of the next catches a bug at that edge.",
+        "With other names: for a rule that 120 and over may ride, assert can_ride(119) == False and assert can_ride(120) == True test both sides of its edge."
+      ],
+      "error_hints": [
+        {
+          "tags": [
+            "py.boundaries.case.correct"
+          ],
+          "text": "A test failed on the correct ticket_price(). Read the rule again: from 5 to 12 includes both 5 and 12."
+        },
+        {
+          "tags": [
+            "TypeError"
+          ],
+          "text": "ticket_price() takes one whole number, the age."
+        },
+        {
+          "tags": [
+            "NameError"
+          ],
+          "text": "The check provides ticket_price(): spell it exactly that way."
+        },
+        {
+          "tags": [
+            "py.boundaries.case.five"
+          ],
+          "text": "Your tests passed on a ticket_price() that lets 5-year-olds travel free. Test age 5."
+        },
+        {
+          "tags": [
+            "py.boundaries.case.twelve"
+          ],
+          "text": "Your tests passed on a ticket_price() that charges 12-year-olds the full price. Test age 12."
+        },
+        {
+          "tags": [
+            "py.boundaries.case.senior"
+          ],
+          "text": "Your tests passed on a ticket_price() with a broken edge. Test the ages on both sides of every edge."
+        },
+        {
+          "tags": [
+            "py.boundaries.case.teen"
+          ],
+          "text": "Your tests passed on a ticket_price() with a broken edge. Check the edge between children and the full price from both sides."
+        }
+      ],
+      "similar_example": {
+        "code": "def can_ride(height):\n    return height >= 120\n\nassert can_ride(119) == False\nassert can_ride(120) == True\nprint(\"edge tested\")",
+        "note": "One edge, tested on both sides. Your ticket rule has three edges."
+      },
+      "other_ways": [
+        {
+          "code": "edges = {4: 0, 5: 5, 12: 5, 13: 10, 64: 10, 65: 6}\nfor age, price in edges.items():\n    assert ticket_price(age) == price, age",
+          "note": "A dictionary of edge ages and their prices, checked in a loop."
+        },
+        {
+          "code": "for age in range(0, 100):\n    if age < 5:\n        expected = 0\n    elif age <= 12:\n        expected = 5\n    elif age < 65:\n        expected = 10\n    else:\n        expected = 6\n    assert ticket_price(age) == expected, age",
+          "note": "Testing every age from 0 to 99 against the rule written out again. Thorough, but if you copy the same bug into both, the test cannot see it."
+        }
+      ],
+      "input_labels": [],
+      "check": {
+        "cases": [
+          {
+            "id": "correct",
+            "description": "the correct ticket_price()",
+            "inputs": [],
+            "reference": "def ticket_price(age):\n    if age < 5:\n        return 0\n    if age <= 12:\n        return 5\n    if age < 65:\n        return 10\n    return 6\n",
+            "test_should": "pass"
+          },
+          {
+            "id": "five",
+            "description": "a ticket_price() that lets 5-year-olds go free",
+            "inputs": [],
+            "reference": "def ticket_price(age):\n    if age <= 5:\n        return 0\n    if age <= 12:\n        return 5\n    if age < 65:\n        return 10\n    return 6\n",
+            "test_should": "fail"
+          },
+          {
+            "id": "twelve",
+            "description": "a ticket_price() that charges 12-year-olds full price",
+            "inputs": [],
+            "reference": "def ticket_price(age):\n    if age < 5:\n        return 0\n    if age < 12:\n        return 5\n    if age < 65:\n        return 10\n    return 6\n",
+            "test_should": "fail"
+          },
+          {
+            "id": "senior",
+            "description": "a ticket_price() with a broken edge",
+            "inputs": [],
+            "visibility": "hidden",
+            "reference": "def ticket_price(age):\n    if age < 5:\n        return 0\n    if age <= 12:\n        return 5\n    if age <= 65:\n        return 10\n    return 6\n",
+            "test_should": "fail"
+          },
+          {
+            "id": "teen",
+            "description": "a ticket_price() with another broken edge",
+            "inputs": [],
+            "visibility": "hidden",
+            "reference": "def ticket_price(age):\n    if age < 5:\n        return 0\n    if age <= 13:\n        return 5\n    if age < 65:\n        return 10\n    return 6\n",
+            "test_should": "fail"
+          }
+        ],
+        "time_limit_ms": 3000
+      },
+      "validator": {
+        "id": "browser-tests",
+        "version": 1
+      },
+      "version": 1
+    }
+  ]
+}

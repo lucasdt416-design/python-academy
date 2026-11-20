@@ -1,0 +1,166 @@
+{
+  "id": "py.test-cases",
+  "version": 1,
+  "course": "py",
+  "unit": "py.u08",
+  "title": "Choose good cases",
+  "concept": "Testing · typical, edge and unusual cases",
+  "description": "Pick the test cases a careless average() would trip on: empty lists, decimals, and the last score.",
+  "badge": {
+    "id": "py.badge.case-finder",
+    "version": 1,
+    "title": "Case finder",
+    "category": "practice"
+  },
+  "tasks": [
+    {
+      "id": "py.test-cases.discover",
+      "type": "discover",
+      "title": "Pick the cases a bug would trip on",
+      "body": "One test with an easy value catches few bugs. Good tests mix a typical case, the edges, such as an empty list, a single item or a zero, and unusual values, such as negative numbers.",
+      "detail": "Work out the right answer for each case by hand before running anything. Ask what a careless version might get wrong, such as dividing with //, skipping the last item, or crashing on an empty list, and pick a case that would show it. For decimals, pick numbers whose answer is exact, such as 7 / 2 = 3.5."
+    },
+    {
+      "id": "py.test-cases.example",
+      "type": "example",
+      "code": "def biggest(numbers):\n    best = numbers[0]\n    for n in numbers:\n        if n > best:\n            best = n\n    return best\n\nassert biggest([3, 9, 4]) == 9\nassert biggest([-5, -2]) == -2\nassert biggest([7]) == 7\nprint(\"typical, negative and single cases pass\")",
+      "output": "typical, negative and single cases pass",
+      "note": "Three kinds of case: a typical list, all negative numbers, and a single item. Each one could catch a different bug.",
+      "inputs": []
+    },
+    {
+      "id": "py.test-cases.predict",
+      "type": "predict",
+      "question": "Which case would show the bug if best started at 0 instead of numbers[0]?",
+      "options": [
+        "[3, 9, 4]",
+        "[-5, -2]",
+        "[7]"
+      ],
+      "answer": 1,
+      "why": "With all negative numbers, none is bigger than 0, so a best that starts at 0 would wrongly return 0."
+    },
+    {
+      "id": "py.test-cases.guided",
+      "type": "guided",
+      "prompt": "Predict, then run: change best = numbers[0] to best = 0 and see which assert fails. Then add a test for biggest([]) and read the error: what should an empty list give?"
+    },
+    {
+      "id": "py.test-cases.challenge",
+      "type": "challenge",
+      "prompt": "The check has a function average(scores) that returns the average of a list of numbers, or 0 for an empty list. Write asserts that test it well. The check runs them on a correct average(), where they must all pass, and on several broken ones, where at least one must fail for each. Do not write average() yourself.",
+      "starter": "# Write asserts that test average(scores)\n",
+      "hints": [
+        "Start with a typical list whose average you can work out by hand, such as [2, 4], then add the edges.",
+        "Which lists would a careless average() get wrong? An empty one, one whose average is not a whole number, and one where the last score makes a difference.",
+        "With other names: for total(prices), assert total([]) == 0 tests the empty edge, and assert total([1, 2]) == 3 a typical case."
+      ],
+      "error_hints": [
+        {
+          "tags": [
+            "py.test-cases.case.correct"
+          ],
+          "text": "A test failed on the correct average(). Work the answer out again by hand, as a decimal: the average of 3 and 4 is 3.5."
+        },
+        {
+          "tags": [
+            "TypeError"
+          ],
+          "text": "average() takes one list: average([2, 4]), with square brackets."
+        },
+        {
+          "tags": [
+            "NameError"
+          ],
+          "text": "The check provides average(): spell it exactly that way, and do not define it yourself."
+        },
+        {
+          "tags": [
+            "py.test-cases.case.empty"
+          ],
+          "text": "Your tests passed on an average() that crashes on an empty list. Test the empty list, []."
+        },
+        {
+          "tags": [
+            "py.test-cases.case.whole"
+          ],
+          "text": "Your tests passed on an average() that divides with //. Test a list whose average is not a whole number."
+        },
+        {
+          "tags": [
+            "py.test-cases.case.last"
+          ],
+          "text": "Your tests passed on a broken average(). Check that a change to the last score changes your answer."
+        },
+        {
+          "tags": [
+            "py.test-cases.case.first"
+          ],
+          "text": "Your tests passed on a broken average(). Test lists with more than one score."
+        }
+      ],
+      "similar_example": {
+        "code": "def total(prices):\n    result = 0\n    for p in prices:\n        result = result + p\n    return result\n\nassert total([]) == 0\nassert total([1, 2]) == 3\nassert total([5]) == 5\nprint(\"total() passed\")",
+        "note": "The empty, typical and single cases for a total. Your tests are for average(), which can go wrong in more ways."
+      },
+      "other_ways": [
+        {
+          "code": "import math\nassert average([]) == 0\nassert average([2, 4]) == 3\nassert average([3, 4]) == 3.5\nassert math.isclose(average([1, 2, 2]), 5 / 3)\nassert average([10, 0, 5]) == 5",
+          "note": "math.isclose() compares decimals that cannot be written exactly, such as five thirds."
+        },
+        {
+          "code": "table = {(): 0, (6,): 6, (1, 2): 1.5, (2, 2, 8): 4, (-1, -3): -2}\nfor scores, expected in table.items():\n    assert average(list(scores)) == expected, scores",
+          "note": "A dictionary of cases, each list written as a tuple so it can be a key."
+        }
+      ],
+      "input_labels": [],
+      "check": {
+        "cases": [
+          {
+            "id": "correct",
+            "description": "the correct average()",
+            "inputs": [],
+            "reference": "def average(scores):\n    if not scores:\n        return 0\n    return sum(scores) / len(scores)\n",
+            "test_should": "pass"
+          },
+          {
+            "id": "empty",
+            "description": "an average() that crashes on an empty list",
+            "inputs": [],
+            "reference": "def average(scores):\n    return sum(scores) / len(scores)\n",
+            "test_should": "fail"
+          },
+          {
+            "id": "whole",
+            "description": "an average() that divides with //",
+            "inputs": [],
+            "reference": "def average(scores):\n    if not scores:\n        return 0\n    return sum(scores) // len(scores)\n",
+            "test_should": "fail"
+          },
+          {
+            "id": "last",
+            "description": "an average() with a bug at the end",
+            "inputs": [],
+            "visibility": "hidden",
+            "reference": "def average(scores):\n    if not scores:\n        return 0\n    return sum(scores[:-1]) / len(scores)\n",
+            "test_should": "fail"
+          },
+          {
+            "id": "first",
+            "description": "an average() with a bug at the start",
+            "inputs": [],
+            "visibility": "hidden",
+            "reference": "def average(scores):\n    if not scores:\n        return 0\n    return scores[0]\n",
+            "test_should": "fail"
+          }
+        ],
+        "time_limit_ms": 3000
+      },
+      "validator": {
+        "id": "browser-tests",
+        "version": 1
+      },
+      "version": 1
+    }
+  ]
+}

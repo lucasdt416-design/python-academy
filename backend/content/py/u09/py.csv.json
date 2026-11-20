@@ -1,0 +1,197 @@
+{
+  "id": "py.csv",
+  "version": 1,
+  "course": "py",
+  "unit": "py.u09",
+  "title": "The score table",
+  "concept": "csv · tables in a text file",
+  "description": "Read the tournament's results table, add up each team's points, and find the top player.",
+  "badge": {
+    "id": "py.badge.table-keeper",
+    "version": 1,
+    "title": "Table keeper",
+    "category": "practice"
+  },
+  "tasks": [
+    {
+      "id": "py.csv.discover",
+      "type": "discover",
+      "title": "Rows and columns in a text file",
+      "body": "A CSV file holds a table: one row per line, values separated by commas, usually with a header row of column names first. csv.DictReader(f) reads each row as a dictionary keyed by those names.",
+      "detail": "Every value comes back as text, so turn numbers into numbers with int() or float(). A value that contains a comma is written in quotes, \"like, this\", and the csv module handles it for you, which splitting on commas by hand gets wrong. csv.writer(f).writerow([...]) writes a row. Open CSV files with newline=\"\", as the csv module asks."
+    },
+    {
+      "id": "py.csv.example",
+      "type": "example",
+      "code": "import csv\nwith open(\"scores.csv\", newline=\"\") as f:\n    for row in csv.DictReader(f):\n        print(row[\"name\"], int(row[\"score\"]) * 2)\nwith open(\"scores.csv\") as f:\n    print(f.readlines()[2].split(\",\"))",
+      "output": "Nova 80\nKai, the brave 110\n['\"Kai', ' the brave\"', '55\\n']",
+      "note": "DictReader skips the header and reads Kai's name whole, comma and all. Splitting the raw line on commas cuts that name in two, quotes and all.",
+      "inputs": [],
+      "files": {
+        "scores.csv": "name,score\nNova,40\n\"Kai, the brave\",55\n"
+      }
+    },
+    {
+      "id": "py.csv.predict",
+      "type": "predict",
+      "question": "What does int(row[\"score\"]) do that row[\"score\"] does not?",
+      "options": [
+        "Turns the text \"40\" into the number 40",
+        "Rounds the score",
+        "Nothing"
+      ],
+      "answer": 0,
+      "why": "Every value from a CSV file is text. int() makes it a number, so it can be doubled or added."
+    },
+    {
+      "id": "py.csv.guided",
+      "type": "guided",
+      "prompt": "Predict, then run: take int() away from the score and see what * 2 does to text. Then add a third player to the file, with a comma in their name."
+    },
+    {
+      "id": "py.csv.challenge",
+      "type": "challenge",
+      "prompt": "The tournament's results are in results.csv, with the columns name, team and points. For each team, in alphabetical order, print the team and its total points with a comma between them and no spaces, like Owls,25. On the last line, print the name of the player with the most points; if players tie, the one who comes first in the file.",
+      "starter": "# Read results.csv and total the points for each team\n",
+      "hints": [
+        "csv.DictReader gives each row as a dictionary, so row[\"team\"] and row[\"points\"] are there by name. The points are text until int().",
+        "Add up the points for each team in a dictionary, then go through sorted() of it to print them. For the top player, remember the most points so far, and only replace it when a row has more.",
+        "With other names: totals[house] = totals.get(house, 0) + int(row[\"stars\"]) adds a row's stars to its house."
+      ],
+      "error_hints": [
+        {
+          "tags": [
+            "FileNotFoundError"
+          ],
+          "text": "The file is results.csv, all in lowercase."
+        },
+        {
+          "tags": [
+            "KeyError"
+          ],
+          "text": "The column names are name, team and points, exactly as in the header row."
+        },
+        {
+          "tags": [
+            "ValueError"
+          ],
+          "text": "int() could not read a value. Read the file with csv.DictReader, which skips the header row and handles quotes."
+        },
+        {
+          "tags": [
+            "TypeError"
+          ],
+          "text": "Points from the file are text: use int() before adding them."
+        },
+        {
+          "tags": [
+            "NameError"
+          ],
+          "text": "csv is a name only after import csv at the top."
+        },
+        {
+          "tags": [
+            "py.csv.case.two-teams"
+          ],
+          "text": "With two teams, Foxes comes before Owls, and Owls has 10 + 15 = 25. Ada has the most points."
+        },
+        {
+          "tags": [
+            "py.csv.case.comma-name"
+          ],
+          "text": "A name with a comma in it is in quotes in the file. csv.DictReader reads it whole; splitting on commas does not."
+        },
+        {
+          "tags": [
+            "py.csv.case.tie"
+          ],
+          "text": "When two players tie, the first one in the file stays the top player: replace it only when a row has more points, not the same."
+        },
+        {
+          "tags": [
+            "py.csv.case.more"
+          ],
+          "text": "Check a bigger table, with every team in alphabetical order."
+        },
+        {
+          "tags": [
+            "py.csv.case.one"
+          ],
+          "text": "Check a table with a single player."
+        }
+      ],
+      "similar_example": {
+        "code": "import csv\nwith open(\"stars.csv\", \"w\", newline=\"\") as f:\n    writer = csv.writer(f)\n    writer.writerow([\"house\", \"stars\"])\n    writer.writerow([\"Oak\", \"3\"])\n    writer.writerow([\"Elm\", \"5\"])\n    writer.writerow([\"Oak\", \"4\"])\ntotals = {}\nwith open(\"stars.csv\", newline=\"\") as f:\n    for row in csv.DictReader(f):\n        totals[row[\"house\"]] = totals.get(row[\"house\"], 0) + int(row[\"stars\"])\nprint(totals)",
+        "note": "Writing a small table, then adding up each house's stars. Your results also need sorting, and a top player."
+      },
+      "other_ways": [
+        {
+          "code": "import csv\nwith open(\"results.csv\", newline=\"\") as f:\n    rows = list(csv.DictReader(f))\nteams = sorted({row[\"team\"] for row in rows})\nfor team in teams:\n    total = sum(int(row[\"points\"]) for row in rows if row[\"team\"] == team)\n    print(f\"{team},{total}\")\ntop = max(rows, key=lambda row: int(row[\"points\"]))\nprint(top[\"name\"])",
+          "note": "Read every row into a list first. max() with a key finds the top player, and keeps the first one when players tie."
+        },
+        {
+          "code": "import csv\ntotals = {}\nbest = (\"\", -1)\nwith open(\"results.csv\", newline=\"\") as f:\n    reader = csv.reader(f)\n    next(reader)\n    for name, team, points in reader:\n        totals[team] = totals.get(team, 0) + int(points)\n        if int(points) > best[1]:\n            best = (name, int(points))\nfor team in sorted(totals):\n    print(team, totals[team], sep=\",\")\nprint(best[0])",
+          "note": "csv.reader gives each row as a list instead, and next() skips the header row. A pair holds the best name and its points together."
+        }
+      ],
+      "input_labels": [],
+      "check": {
+        "cases": [
+          {
+            "id": "two-teams",
+            "description": "two teams",
+            "inputs": [],
+            "expected": "Foxes,7\nOwls,25\nAda",
+            "files": {
+              "results.csv": "name,team,points\nNova,Owls,10\nKai,Foxes,7\nAda,Owls,15\n"
+            }
+          },
+          {
+            "id": "comma-name",
+            "description": "a name with a comma in it",
+            "inputs": [],
+            "expected": "Bears,13\nBo, the bold",
+            "files": {
+              "results.csv": "name,team,points\n\"Bo, the bold\",Bears,9\nLin,Bears,4\n"
+            }
+          },
+          {
+            "id": "tie",
+            "description": "a tie for the most points",
+            "inputs": [],
+            "expected": "Cats,5\nDogs,5\nAl",
+            "files": {
+              "results.csv": "name,team,points\nAl,Cats,5\nBea,Dogs,5\n"
+            }
+          },
+          {
+            "id": "more",
+            "description": "a bigger table",
+            "inputs": [],
+            "expected": "Ants,10\nBees,10\nWolves,15\nJo",
+            "visibility": "hidden",
+            "files": {
+              "results.csv": "name,team,points\nMo,Wolves,3\nIvy,Ants,8\nJo,Wolves,12\nRay,Bees,1\nSam,Ants,2\nTia,Bees,9\n"
+            }
+          },
+          {
+            "id": "one",
+            "description": "a single player",
+            "inputs": [],
+            "expected": "Yaks,0\nZed",
+            "visibility": "hidden",
+            "files": {
+              "results.csv": "name,team,points\nZed,Yaks,0\n"
+            }
+          }
+        ],
+        "time_limit_ms": 3000
+      },
+      "validator": {
+        "id": "browser-tests",
+        "version": 1
+      },
+      "version": 1
+    }
+  ]
+}

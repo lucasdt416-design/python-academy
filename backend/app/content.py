@@ -188,7 +188,8 @@ class BrowserCheck(Strict):
 
 # Python errors a hint can be tagged with (docs/plan/lesson-feedback.md section 7). A hint can also
 # be tagged with one of its own challenge's check rules.
-ERROR_TAGS = {'SyntaxError', 'IndentationError', 'TabError', 'NameError', 'TypeError', 'ValueError', 'ZeroDivisionError', 'EOFError', 'FileNotFoundError'}
+ERROR_TAGS = {'SyntaxError', 'IndentationError', 'TabError', 'NameError', 'TypeError', 'ValueError', 'ZeroDivisionError', 'EOFError', 'FileNotFoundError',
+              'IndexError', 'KeyError', 'AttributeError', 'UnboundLocalError', 'AssertionError'}
 
 
 class CheckMessage(Strict):

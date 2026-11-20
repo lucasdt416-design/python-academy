@@ -1,0 +1,203 @@
+{
+  "id": "py.iterate-lists",
+  "version": 1,
+  "course": "py",
+  "unit": "py.u04",
+  "title": "Market day",
+  "concept": "Lists · looping over the items",
+  "description": "Go through every treasure in the list: add them up, keep the valuable ones, and find the biggest.",
+  "badge": {
+    "id": "py.badge.bargain-hunter",
+    "version": 1,
+    "title": "Bargain hunter",
+    "category": "practice"
+  },
+  "tasks": [
+    {
+      "id": "py.iterate-lists.discover",
+      "type": "discover",
+      "title": "Visit every item in turn",
+      "body": "for price in prices: runs its block once for each item in the list, in order, with price holding that item. Nothing needs counting: the loop stops after the last item.",
+      "detail": "Inside the loop you can add up, remember the biggest so far, or keep some items: start an empty list and append only the ones an if lets through. Build a new list rather than adding to or removing from the list you are looping over. sum() and max() do two of these jobs for you, but max() of an empty list is an error."
+    },
+    {
+      "id": "py.iterate-lists.example",
+      "type": "example",
+      "code": "# Prices at the market stall\nprices = [4, 12, 7, 3]\ntotal = 0\ncheap = []\nfor price in prices:\n    total = total + price\n    if price < 5:\n        cheap.append(price)\nprint(total)\nprint(cheap)\nprint(max(prices))",
+      "output": "26\n[4, 3]\n12",
+      "note": "The loop visits 4, 12, 7 and 3. Every price adds to total, and only prices under 5 go into cheap. max() finds the biggest without a loop.",
+      "inputs": []
+    },
+    {
+      "id": "py.iterate-lists.predict",
+      "type": "predict",
+      "question": "What would print(cheap) show if the if line said price > 5 instead?",
+      "options": [
+        "[12, 7]",
+        "[4, 3]",
+        "[12]"
+      ],
+      "answer": 0,
+      "why": "Only 12 and 7 are more than 5, and they go in in the order the loop meets them."
+    },
+    {
+      "id": "py.iterate-lists.guided",
+      "type": "guided",
+      "prompt": "Predict, then run: change the 5 to 10 and check which prices go into cheap. Then add a counter that counts the prices over 5."
+    },
+    {
+      "id": "py.iterate-lists.challenge",
+      "type": "challenge",
+      "prompt": "Treasure hunt: ask how many treasures were found (it can be 0), then ask for the value of each one, as a whole number. Then ask for the hero's limit. Print three lines: the total value, a list of the values that are more than the limit, in the order they were found, and the biggest value, or 0 if nothing was found. Print just those three lines.",
+      "starter": "# Read the treasure values, then the limit\n",
+      "hints": [
+        "Keep the values in a list as you read them, because the limit only comes after them.",
+        "One loop over the list can do the rest: add each value to a total, keep the ones over the limit in a new list, and remember the biggest so far. All three start before that loop.",
+        "With other names: for score in scores: visits each score, and if score > best: followed by best = score keeps the best one."
+      ],
+      "error_hints": [
+        {
+          "tags": [
+            "ValueError"
+          ],
+          "text": "max() of an empty list is an error. When nothing was found the biggest is 0: start a biggest-so-far at 0, or check that the list has something in it first."
+        },
+        {
+          "tags": [
+            "TypeError"
+          ],
+          "text": "Turn each reply into a number with int(...) before you add it up or compare it."
+        },
+        {
+          "tags": [
+            "EOFError"
+          ],
+          "text": "Your program asked for more replies than it gets. Read one value per treasure, then the limit."
+        },
+        {
+          "tags": [
+            "NameError"
+          ],
+          "text": "Give the total, the list and the biggest a value before the loop uses them."
+        },
+        {
+          "tags": [
+            "py.iterate-lists.case.four"
+          ],
+          "text": "With values 5, 20, 10 and 40 and a limit of 10, the lines are 75, [20, 40] and 40. 10 is not more than 10, so it stays out."
+        },
+        {
+          "tags": [
+            "py.iterate-lists.case.none-over"
+          ],
+          "text": "When no value is more than the limit, the list of big ones is empty: []."
+        },
+        {
+          "tags": [
+            "py.iterate-lists.case.no-treasures"
+          ],
+          "text": "With no treasures the total is 0, the list is [], and the biggest is 0."
+        },
+        {
+          "tags": [
+            "py.iterate-lists.case.all-over"
+          ],
+          "text": "Check a hunt where every value beats the limit: every one belongs in the list."
+        },
+        {
+          "tags": [
+            "py.iterate-lists.case.biggest-last"
+          ],
+          "text": "Check a hunt where the biggest value is found last: look at every value, to the end."
+        }
+      ],
+      "similar_example": {
+        "code": "temps = [12, 18, 9, 21]\nwarm = []\nfor t in temps:\n    if t > 15:\n        warm.append(t)\nprint(warm)\nprint(len(warm))",
+        "note": "Keeping only some items: the warm days. Your challenge also adds up every value and finds the biggest."
+      },
+      "other_ways": [
+        {
+          "code": "count = int(input(\"Treasures? \"))\nvalues = []\nfor n in range(count):\n    values.append(int(input(\"Value? \")))\nlimit = int(input(\"Limit? \"))\nover = []\nfor value in values:\n    if value > limit:\n        over.append(value)\nprint(sum(values))\nprint(over)\nif values:\n    print(max(values))\nelse:\n    print(0)",
+          "note": "sum() and max() do the adding and the finding. An empty list counts as False in an if, so max() is only asked when there is something to look at."
+        },
+        {
+          "code": "count = int(input(\"Treasures? \"))\nvalues = []\ntotal = 0\nbiggest = 0\nfor n in range(count):\n    value = int(input(\"Value? \"))\n    values.append(value)\n    total += value\n    biggest = max(biggest, value)\nlimit = int(input(\"Limit? \"))\nover = []\nfor value in values:\n    if value > limit:\n        over.append(value)\nprint(total)\nprint(over)\nprint(biggest)",
+          "note": "The total and the biggest can grow while the values are read. The list is still needed for the limit, which comes last."
+        }
+      ],
+      "input_labels": [],
+      "check": {
+        "cases": [
+          {
+            "id": "four",
+            "description": "four treasures and a limit of 10",
+            "inputs": [
+              "4",
+              "5",
+              "20",
+              "10",
+              "40",
+              "10"
+            ],
+            "expected": "75\n[20, 40]\n40"
+          },
+          {
+            "id": "none-over",
+            "description": "nothing over the limit",
+            "inputs": [
+              "3",
+              "1",
+              "2",
+              "3",
+              "5"
+            ],
+            "expected": "6\n[]\n3"
+          },
+          {
+            "id": "no-treasures",
+            "description": "no treasures at all",
+            "inputs": [
+              "0",
+              "10"
+            ],
+            "expected": "0\n[]\n0"
+          },
+          {
+            "id": "all-over",
+            "description": "every treasure over the limit",
+            "inputs": [
+              "3",
+              "50",
+              "60",
+              "55",
+              "40"
+            ],
+            "expected": "165\n[50, 60, 55]\n60",
+            "visibility": "hidden"
+          },
+          {
+            "id": "biggest-last",
+            "description": "a longer hunt",
+            "inputs": [
+              "5",
+              "3",
+              "9",
+              "1",
+              "2",
+              "30",
+              "4"
+            ],
+            "expected": "45\n[9, 30]\n30",
+            "visibility": "hidden"
+          }
+        ],
+        "time_limit_ms": 3000
+      },
+      "validator": {
+        "id": "browser-tests",
+        "version": 1
+      },
+      "version": 1
+    }
+  ]
+}

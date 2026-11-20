@@ -110,16 +110,16 @@ def test_unit_3_is_complete_with_five_lessons_in_order():
     unit = next(u for u in py.units if u.id == 'py.u03')
     assert (unit.status, unit.lessons, unit.more_lessons_coming) == ('released', UNIT_3, False)
     assert 'come next' not in unit.summary and 'running totals' in unit.summary
-    assert [u.id for u in py.units if u.status == 'released'] == ['py.u01', 'py.u02', 'py.u03']
-    # No unit is still being written.
-    assert [u.id for c in helpers.CATALOG.courses for u in c.units if u.more_lessons_coming] == []
+    assert [u.id for u in py.units if u.status == 'released'][:3] == ['py.u01', 'py.u02', 'py.u03']
+    # The units still being written are the later ones whose last lesson needs a new task type.
+    assert [u.id for c in helpers.CATALOG.courses for u in c.units if u.more_lessons_coming] == ['py.u07', 'py.u09', 'py.u11']
 
 
 def test_the_catalog_says_unit_3_is_complete():
     units = {u['id']: u for c in TestClient(app).get('/api/catalog').json()['courses'] for u in c['units']}
     assert units['py.u03']['complete'] is True
     assert [l['id'] for l in units['py.u03']['lessons']] == UNIT_3
-    assert units['py.u04']['complete'] is False and units['py.u04']['lessons'] == []
+    assert units['py.u12']['complete'] is False and units['py.u12']['lessons'] == []
 
 
 def test_the_recommendation_rules_did_not_change():
@@ -387,11 +387,11 @@ def test_each_lesson_awards_100_xp_and_its_badge_once():
 ALL_RELEASED = [l for c in helpers.CATALOG.courses for u in c.units if u.status == 'released' for l in u.lessons]
 
 
-def test_the_home_recommendation_after_unit_3_says_unit_4_is_not_written_yet():
-    r = part1.recommendation_after(ALL_RELEASED)
-    assert r['kind'] == 'caught_up' and r['lesson'] is None
-    assert r['notes'][0] == 'Python Foundations unit 4, Keep track of a world, is next on your path. Its lessons are not written yet.'
-    assert 'more lessons on the way' not in json.dumps(r)
+def test_the_home_recommendation_after_unit_3_moves_on_to_unit_4():
+    # Unit 4 was released later (the interactive lessons run), so finishing unit 3 now leads into it.
+    up_to_3 = [l for l in ALL_RELEASED if LESSONS[l].unit in ('py.u01', 'py.u02', 'py.u03')]
+    r = part1.recommendation_after(up_to_3)
+    assert (r['kind'], r['unit'], r['lesson']) == ('continue', 'py.u04', 'py.lists')
     # Partway through unit 3: continue it.
     r = part1.recommendation_after([l for l in ALL_RELEASED if l != 'py.nested-loops'])
     assert (r['kind'], r['unit'], r['lesson']) == ('continue', 'py.u03', 'py.nested-loops')

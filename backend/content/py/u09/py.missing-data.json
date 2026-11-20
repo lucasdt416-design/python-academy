@@ -1,0 +1,189 @@
+{
+  "id": "py.missing-data",
+  "version": 1,
+  "course": "py",
+  "unit": "py.u09",
+  "title": "The damaged save",
+  "concept": "Files · coping with missing and bad data",
+  "description": "Load the game's settings even when the file is missing or damaged, and say what was skipped.",
+  "badge": {
+    "id": "py.badge.data-medic",
+    "version": 1,
+    "title": "Data medic",
+    "category": "practice"
+  },
+  "tasks": [
+    {
+      "id": "py.missing-data.discover",
+      "type": "discover",
+      "title": "Expect the file to be wrong",
+      "body": "Real files go missing and get damaged. Opening a file that does not exist raises a FileNotFoundError, and a line that int() cannot read raises a ValueError. Catch each one where it happens, and decide what the program should do instead.",
+      "detail": "A missing save might mean \"start a new game\" with default values. A bad line might be skipped and counted, so the player can be told. Do not hide every problem with one bare except: name the errors you expect, so a real bug still shows."
+    },
+    {
+      "id": "py.missing-data.example",
+      "type": "example",
+      "code": "def load_numbers(name):\n    numbers = []\n    skipped = 0\n    try:\n        with open(name) as f:\n            for line in f:\n                try:\n                    numbers.append(int(line))\n                except ValueError:\n                    skipped = skipped + 1\n    except FileNotFoundError:\n        print(\"no\", name, \"yet\")\n    return numbers, skipped\n\nprint(load_numbers(\"stats.txt\"))\nprint(load_numbers(\"other.txt\"))",
+      "output": "([12, 30], 1)\nno other.txt yet\n([], 0)",
+      "note": "seven cannot be read as a number, so it is skipped and counted. other.txt does not exist, so the outer except prints a message, and the function still returns an empty list.",
+      "inputs": [],
+      "files": {
+        "stats.txt": "12\nseven\n30\n"
+      }
+    },
+    {
+      "id": "py.missing-data.predict",
+      "type": "predict",
+      "question": "What would load_numbers(\"stats.txt\") give if the file held 5, then an empty line, then 6?",
+      "options": [
+        "([5, 6], 1)",
+        "([5, 6], 0)",
+        "It stops with a ValueError"
+      ],
+      "answer": 0,
+      "why": "An empty line is just \"\\n\", which int() cannot read, so it is caught and counted as skipped."
+    },
+    {
+      "id": "py.missing-data.guided",
+      "type": "guided",
+      "prompt": "Predict, then run: make the second call load \"stats.txt\" too, and compare the two lines. Then change load_numbers() so it skips blank lines without counting them."
+    },
+    {
+      "id": "py.missing-data.challenge",
+      "type": "challenge",
+      "prompt": "The game's settings are in settings.txt, one per line, written like lives=3. Start from these defaults: lives 3, speed 5, level 1. Each line with a name, an = and a whole number sets that setting, ignoring spaces around the name and the number. If settings.txt does not exist, print new game first and use the defaults. Blank lines are ignored. Any other line without an =, or whose value is not a whole number, is skipped. Print the three settings in the order lives, speed, level, written like lives=3, then skipped and the number of lines skipped, like skipped 1.",
+      "starter": "# Read settings.txt, coping with a missing file and bad lines\n",
+      "hints": [
+        "Start from a dictionary of the defaults. Each good line replaces one of them, so a missing setting keeps its default.",
+        "Put the open() inside try, with except FileNotFoundError: for the new game. Split each line once at the =, strip the name, and try int() on the value, counting the lines that fail.",
+        "With other names: key, sep, value = row.partition(\":\") splits a row once, and sep is empty when the row had no colon."
+      ],
+      "error_hints": [
+        {
+          "tags": [
+            "FileNotFoundError"
+          ],
+          "text": "A missing settings.txt is expected here: catch FileNotFoundError around the open(), and print new game."
+        },
+        {
+          "tags": [
+            "NameError"
+          ],
+          "text": "Give the settings and the skipped count their values before the file is read, and spell them the same way every time."
+        },
+        {
+          "tags": [
+            "ValueError"
+          ],
+          "text": "int() could not read a value. Catch ValueError around it, and count the line as skipped."
+        },
+        {
+          "tags": [
+            "KeyError"
+          ],
+          "text": "Start from a dictionary that already holds lives, speed and level, so every setting has a value to print."
+        },
+        {
+          "tags": [
+            "py.missing-data.case.complete"
+          ],
+          "text": "With every setting in the file, the defaults are all replaced: lives=5, speed=2, level=4, skipped 0."
+        },
+        {
+          "tags": [
+            "py.missing-data.case.missing-file"
+          ],
+          "text": "With no file, print new game, then the three defaults, then skipped 0."
+        },
+        {
+          "tags": [
+            "py.missing-data.case.damaged"
+          ],
+          "text": "lives=two cannot be read, so lives keeps its default of 3 and the line counts as skipped. level=9 still works."
+        },
+        {
+          "tags": [
+            "py.missing-data.case.no-equals"
+          ],
+          "text": "Check a line with no = in it: it is skipped and counted. A blank line is ignored and not counted."
+        },
+        {
+          "tags": [
+            "py.missing-data.case.spaces"
+          ],
+          "text": "Check spaces around a name, and a setting the game does not use: neither should stop the others."
+        }
+      ],
+      "similar_example": {
+        "code": "rows = [\"size: 4\", \"colour red\", \"depth: x\"]\nfound = {}\nfor row in rows:\n    key, sep, value = row.partition(\":\")\n    if not sep:\n        continue\n    try:\n        found[key.strip()] = int(value)\n    except ValueError:\n        pass\nprint(found)",
+        "note": "Rows checked one at a time: one without a colon, and one that is not a number. Your settings come from a file, may be missing entirely, and are counted when skipped."
+      },
+      "other_ways": [
+        {
+          "code": "def read_settings(name):\n    settings = {\"lives\": 3, \"speed\": 5, \"level\": 1}\n    skipped = 0\n    try:\n        f = open(name)\n    except FileNotFoundError:\n        print(\"new game\")\n        return settings, 0\n    with f:\n        for line in f:\n            if \"=\" not in line:\n                skipped += line.strip() != \"\"\n                continue\n            key, value = line.split(\"=\", 1)\n            if value.strip().lstrip(\"-\").isdigit():\n                settings[key.strip()] = int(value)\n            else:\n                skipped += 1\n    return settings, skipped\n\nsettings, skipped = read_settings(\"settings.txt\")\nfor key in (\"lives\", \"speed\", \"level\"):\n    print(f\"{key}={settings[key]}\")\nprint(\"skipped\", skipped)",
+          "note": "The reading lives in a function that returns the settings and the count. The value is checked before int(), so only the file needs a try."
+        },
+        {
+          "code": "settings = {\"lives\": 3, \"speed\": 5, \"level\": 1}\nskipped = 0\ntry:\n    lines = open(\"settings.txt\").read().splitlines()\nexcept FileNotFoundError:\n    print(\"new game\")\n    lines = []\nfor line in lines:\n    if line.strip() == \"\":\n        continue\n    if line.count(\"=\") == 0:\n        skipped += 1\n        continue\n    name, value = line.split(\"=\", 1)\n    try:\n        settings[name.strip()] = int(value)\n    except ValueError:\n        skipped += 1\nprint(\"lives=\" + str(settings[\"lives\"]))\nprint(\"speed=\" + str(settings[\"speed\"]))\nprint(\"level=\" + str(settings[\"level\"]))\nprint(\"skipped\", skipped)",
+          "note": "Reading all the lines first keeps the try around the file short. split(\"=\", 1) splits at the first = only."
+        }
+      ],
+      "input_labels": [],
+      "check": {
+        "cases": [
+          {
+            "id": "complete",
+            "description": "a complete settings file",
+            "inputs": [],
+            "expected": "lives=5\nspeed=2\nlevel=4\nskipped 0",
+            "files": {
+              "settings.txt": "lives=5\nspeed=2\nlevel=4\n"
+            }
+          },
+          {
+            "id": "missing-file",
+            "description": "no settings file at all",
+            "inputs": [],
+            "expected": "new game\nlives=3\nspeed=5\nlevel=1\nskipped 0",
+            "files": {}
+          },
+          {
+            "id": "damaged",
+            "description": "a damaged line",
+            "inputs": [],
+            "expected": "lives=3\nspeed=5\nlevel=9\nskipped 1",
+            "files": {
+              "settings.txt": "lives=two\nlevel=9\n"
+            }
+          },
+          {
+            "id": "no-equals",
+            "description": "a line with no equals sign",
+            "inputs": [],
+            "expected": "lives=1\nspeed=5\nlevel=1\nskipped 1",
+            "visibility": "hidden",
+            "files": {
+              "settings.txt": "speed 4\nlives=1\n\n"
+            }
+          },
+          {
+            "id": "spaces",
+            "description": "spaces, and a setting the game does not use",
+            "inputs": [],
+            "expected": "lives=3\nspeed=8\nlevel=1\nskipped 0",
+            "visibility": "hidden",
+            "files": {
+              "settings.txt": "colour=7\n speed = 8\n"
+            }
+          }
+        ],
+        "time_limit_ms": 3000
+      },
+      "validator": {
+        "id": "browser-tests",
+        "version": 1
+      },
+      "version": 1
+    }
+  ]
+}

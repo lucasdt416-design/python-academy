@@ -1,0 +1,205 @@
+{
+  "id": "py.parameters",
+  "version": 1,
+  "course": "py",
+  "unit": "py.u05",
+  "title": "Any hero, any place",
+  "concept": "Functions · parameters, defaults and named arguments",
+  "description": "Write one scene that works for every hero and place, with a mood that has a sensible default.",
+  "badge": {
+    "id": "py.badge.storyteller",
+    "version": 1,
+    "title": "Storyteller",
+    "category": "practice"
+  },
+  "tasks": [
+    {
+      "id": "py.parameters.discover",
+      "type": "discover",
+      "title": "Hand a function the details",
+      "body": "def greet(name): gives the function a parameter: a name for a value it is handed. greet(\"Nova\") calls it with the argument \"Nova\", so inside the function, name holds \"Nova\".",
+      "detail": "A function can take several parameters, matched in order: def trade(item, price):. A default, as in def trade(item, price=5):, is used when a call leaves that value out. A call can also name them, trade(price=2, item=\"rope\"), and then their order does not matter."
+    },
+    {
+      "id": "py.parameters.example",
+      "type": "example",
+      "code": "# One scene, many heroes\ndef arrive(hero, place=\"the harbour\"):\n    print(hero + \" arrives at \" + place + \".\")\n\narrive(\"Nova\")\narrive(\"Kai\", \"the tower\")\narrive(place=\"the mill\", hero=\"Ada\")",
+      "output": "Nova arrives at the harbour.\nKai arrives at the tower.\nAda arrives at the mill.",
+      "note": "The first call leaves place out, so it uses the default. The second matches its arguments in order. The third names them, so they can come in any order.",
+      "inputs": []
+    },
+    {
+      "id": "py.parameters.predict",
+      "type": "predict",
+      "question": "What would arrive(\"the tower\", \"Kai\") print?",
+      "options": [
+        "Kai arrives at the tower.",
+        "the tower arrives at Kai.",
+        "It stops with an error"
+      ],
+      "answer": 1,
+      "why": "Arguments without names are matched in order: the first one becomes hero, whatever it says."
+    },
+    {
+      "id": "py.parameters.guided",
+      "type": "guided",
+      "prompt": "Predict, then run: swap the two arguments in the second call. Then give hero a default too, and call arrive() with no arguments at all."
+    },
+    {
+      "id": "py.parameters.challenge",
+      "type": "challenge",
+      "prompt": "Write a function called scene(hero, place, mood=\"calm\") that prints one line: the hero, the words is in, the place, a comma, the word feeling, and the mood, ending with a full stop. For example, scene(\"Nova\", \"the cave\") prints Nova is in the cave, feeling calm. Your program should not ask for input: the check calls your functions with its own values.",
+      "starter": "# Define scene(hero, place, mood=\"calm\")\n",
+      "hints": [
+        "The def line lists three parameters, and the last one has a default: mood=\"calm\".",
+        "Inside, build the line from the parameters, not from any one hero's name, so that every call gets its own hero and place.",
+        "The same idea with other names: def order(dish, drink=\"water\"): can print dish + \" with \" + drink + \".\" for any dish."
+      ],
+      "error_hints": [
+        {
+          "tags": [
+            "TypeError"
+          ],
+          "text": "Check the def line: scene() takes the hero, the place and then the mood, and the mood has a default so calls may leave it out."
+        },
+        {
+          "tags": [
+            "NameError"
+          ],
+          "text": "Inside the function, use the parameter names from the def line, spelled the same way."
+        },
+        {
+          "tags": [
+            "py.parameters.case.default"
+          ],
+          "text": "With scene(\"Nova\", \"the cave\") the line is Nova is in the cave, feeling calm. Check the spaces, the comma and the full stop."
+        },
+        {
+          "tags": [
+            "py.parameters.case.mood"
+          ],
+          "text": "A mood given in the call replaces the default: scene(\"Kai\", \"the market\", \"brave\") feels brave."
+        },
+        {
+          "tags": [
+            "py.parameters.case.named"
+          ],
+          "text": "A call can name the mood, mood=\"sleepy\". The parameter must be called mood for that to work."
+        },
+        {
+          "tags": [
+            "py.parameters.case.other"
+          ],
+          "text": "Check another hero and place: the line must come from the parameters, never from a name written into the function."
+        },
+        {
+          "tags": [
+            "py.parameters.case.named-all"
+          ],
+          "text": "Check a call that names every argument: the parameters must be called hero, place and mood."
+        }
+      ],
+      "similar_example": {
+        "code": "def order(dish, drink=\"water\"):\n    print(dish + \" with \" + drink + \".\")\n\norder(\"soup\")\norder(\"pie\", \"milk\")",
+        "note": "A meal order with a default drink. Your scene() has two parameters before its default, and different words around them."
+      },
+      "other_ways": [
+        {
+          "code": "def scene(hero, place, mood=\"calm\"):\n    print(f\"{hero} is in {place}, feeling {mood}.\")",
+          "note": "An f-string puts each value straight into the sentence, with no + signs."
+        },
+        {
+          "code": "def scene(hero, place, mood=\"calm\"):\n    words = [hero, \"is in\", place + \",\", \"feeling\", mood + \".\"]\n    print(\" \".join(words))",
+          "note": "join() puts a space between the pieces of a list. Useful when a sentence is built from many parts."
+        }
+      ],
+      "input_labels": [],
+      "check": {
+        "cases": [
+          {
+            "id": "default",
+            "description": "scene(\"Nova\", \"the cave\")",
+            "inputs": [],
+            "expected": "Nova is in the cave, feeling calm.",
+            "call": {
+              "function": "scene",
+              "args": [
+                "Nova",
+                "the cave"
+              ],
+              "kwargs": {}
+            }
+          },
+          {
+            "id": "mood",
+            "description": "scene(\"Kai\", \"the market\", \"brave\")",
+            "inputs": [],
+            "expected": "Kai is in the market, feeling brave.",
+            "call": {
+              "function": "scene",
+              "args": [
+                "Kai",
+                "the market",
+                "brave"
+              ],
+              "kwargs": {}
+            }
+          },
+          {
+            "id": "named",
+            "description": "scene(\"Ada\", \"the mill\", mood=\"sleepy\")",
+            "inputs": [],
+            "expected": "Ada is in the mill, feeling sleepy.",
+            "call": {
+              "function": "scene",
+              "args": [
+                "Ada",
+                "the mill"
+              ],
+              "kwargs": {
+                "mood": "sleepy"
+              }
+            }
+          },
+          {
+            "id": "other",
+            "description": "another hero and place",
+            "inputs": [],
+            "expected": "Bo is in a boat, feeling calm.",
+            "visibility": "hidden",
+            "call": {
+              "function": "scene",
+              "args": [
+                "Bo",
+                "a boat"
+              ],
+              "kwargs": {}
+            }
+          },
+          {
+            "id": "named-all",
+            "description": "every argument named",
+            "inputs": [],
+            "expected": "Lin is in the woods, feeling lost.",
+            "visibility": "hidden",
+            "call": {
+              "function": "scene",
+              "args": [],
+              "kwargs": {
+                "place": "the woods",
+                "hero": "Lin",
+                "mood": "lost"
+              }
+            }
+          }
+        ],
+        "time_limit_ms": 3000
+      },
+      "validator": {
+        "id": "browser-tests",
+        "version": 1
+      },
+      "version": 1
+    }
+  ]
+}
