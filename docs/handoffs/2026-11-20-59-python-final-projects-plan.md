@@ -2,7 +2,7 @@
 
 Date: 2026-11-20 (America/Toronto)  
 Written by: Claude Code (implementer), in a separate git worktree  
-Status: **in_review**: one pull request ({{PR}}), **based on #66**. A plan, three reference projects and their tests. No app code, migration or dependency changes.
+Status: **in_review**: one pull request (#67), **based on #66**. A plan, three reference projects and their tests. No app code, migration or dependency changes.
 
 ## Starter prompt for the chat assistant
 
