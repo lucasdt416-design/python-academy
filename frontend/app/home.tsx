@@ -1,7 +1,7 @@
 'use client';
 import {useState} from 'react';
 import {type Awards,type Catalog,type Course,type Recommendation,lessonHref,locate,nextLesson,prerequisiteText,unitNumber,useCatalog} from './catalog-data';
-import LessonArt,{CARD_TYPES,Icon} from './lesson-art';
+import LessonArt,{CARD_TYPES,Icon,hasArt} from './lesson-art';
 
 
 /** Each released unit's picture: the lesson that best shows the whole unit. */
@@ -80,7 +80,7 @@ export function Landing(){
 
   <section className="band topo" aria-labelledby="trail-h"><div className="wrap">
    <div className="sec-head"><h2 id="trail-h">Python Foundations: {word(released.length)} units open, {word(planned)} on the way.</h2><p>Each unit takes the same adventure a little further.</p></div>
-   <ul className="trail">{released.map(unit=>{const art=UNIT_ART[unit.id]??unit.lessons[0]?.id??'';return <li key={unit.id}><article className="stop" aria-labelledby={'stop-'+unit.id}><LessonArt lesson={art}/><div className="meta"><span>UNIT {unitNumber(unit)}</span><span>{unit.lessons.length} lessons</span></div><h3 id={'stop-'+unit.id}>{unit.title}</h3><p>{UNIT_BLURB[unit.id]??unit.summary}</p></article></li>;})}</ul>
+   <ul className="trail">{released.map(unit=>{const art=UNIT_ART[unit.id]??unit.lessons[0]?.id??'';return <li key={unit.id}><article className="stop" aria-labelledby={'stop-'+unit.id}>{hasArt(art)&&<LessonArt lesson={art}/>}<div className="meta"><span>UNIT {unitNumber(unit)}</span><span>{unit.lessons.length} lessons</span></div><h3 id={'stop-'+unit.id}>{unit.title}</h3><p>{UNIT_BLURB[unit.id]??unit.summary}</p></article></li>;})}</ul>
    <ul className="planned" aria-label="Planned units">{PLANNED.filter(p=>python?.units.some(u=>p.units.includes(u.id)&&u.status!=='released')).map(p=><li key={p.title}><b>{p.title}</b>{p.text}</li>)}</ul>
    <p className="later">After Python: Hackathon Ready, Git and GitHub, web, JavaScript and SQL, all marked <em>coming soon</em>.</p>
   </div></section>
@@ -124,7 +124,7 @@ function NextStep({catalog,recommendation,done,awards,goal,onChangeGoal}:{catalo
     {goal!==undefined&&<div>Goal: <span className="goal-name">{goal??'Learn to code from scratch'}</span>{onChangeGoal&&<> · <button type="button" className="link-button" onClick={onChangeGoal}>change<span className="visually-hidden"> goal</span></button></>}</div>}
    </div>
   </div>
-  {place&&<div className="artcol"><LessonArt lesson={place.lesson.id}/></div>}
+  {place&&hasArt(place.lesson.id)&&<div className="artcol"><LessonArt lesson={place.lesson.id}/></div>}
  </section>;
 }
 
@@ -132,7 +132,7 @@ function NextStep({catalog,recommendation,done,awards,goal,onChangeGoal}:{catalo
 function UnitStrip({unit,done,next,course}:{unit:Course['units'][number];done:string[];next:string|null;course:string}){
  const finished=unit.lessons.filter(l=>done.includes(l.id)).length,current=unit.lessons.some(l=>l.id===next);
  return <li className={'ustrip'+(current?' cur':'')}>
-  <LessonArt lesson={UNIT_ART[unit.id]??unit.lessons[0]?.id??''} label={false}/>
+  {hasArt(UNIT_ART[unit.id]??unit.lessons[0]?.id??'')&&<LessonArt lesson={UNIT_ART[unit.id]??unit.lessons[0]?.id??''} label={false}/>}
   <div><h3>{unitNumber(unit)} · {unit.title}</h3><small>{finished} of {unit.lessons.length} lessons done</small>
    <div className="dots" aria-hidden="true">{unit.lessons.map(l=><i key={l.id} className={'dot'+(done.includes(l.id)?' done':l.id===next?' now':'')}/>)}</div></div>
   {current&&next?<a className="btn small primary" href={lessonHref(next,true)}>Continue<span className="visually-hidden"> unit {unitNumber(unit)}</span></a>

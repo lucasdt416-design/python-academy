@@ -41,7 +41,7 @@ test.beforeEach(async ({page}) => {
 });
 test.afterEach(async ({page}) => { expect(violations.get(page)).toEqual([]); });
 
-test('each of the first 16 lessons shows its own picture, and later lessons the plain one, on the course page and its lesson page', async ({page}) => {
+test('each of the first 16 lessons shows its own picture, and later lessons none, on the course page and its lesson page', async ({page}) => {
  await mockApi(page);
  await page.goto('/courses/py');
  const rows = page.locator('a.row');
@@ -50,13 +50,13 @@ test('each of the first 16 lessons shows its own picture, and later lessons the 
  for (const row of await rows.all()) {
   const id = new URL(await row.getAttribute('href') ?? '', 'http://x').searchParams.get('lesson')!;
   const art = row.locator('svg.art');
-  seen[id] = await art.getAttribute('data-art');
-  // A real drawing, not an empty frame. Lessons from unit 4 on use the plain picture until the visual
-  // track draws theirs (handoff 55); their scenes are what make each one different.
+  seen[id] = await art.count() ? await art.getAttribute('data-art') : null;
+  // A real drawing, not an empty frame. Lessons without a drawing of their own show none (lesson page
+  // rule L4): their scenes are what make each one different.
   if (id in PICTURES) expect(await art.locator('path, rect, circle, ellipse, text').count(), id).toBeGreaterThan(5);
  }
  expect(Object.fromEntries(Object.entries(seen).filter(([id]) => id in PICTURES))).toEqual(PICTURES);
- expect(new Set(Object.entries(seen).filter(([id]) => !(id in PICTURES)).map(([, art]) => art))).toEqual(new Set(['fallback']));
+ expect(new Set(Object.entries(seen).filter(([id]) => !(id in PICTURES)).map(([, art]) => art))).toEqual(new Set([null]));
  for (const [id, art] of [['hello', 'art-hello'], ['py.compare', 'art-compare'], ['py.nested-loops', 'art-nested']]) {
   await page.goto(`/preview?lesson=${id}`);
   const picture = page.locator('.lhead svg.art');
@@ -66,14 +66,13 @@ test('each of the first 16 lessons shows its own picture, and later lessons the 
  }
 });
 
-test('a lesson without a picture of its own gets the plain one', async ({page}) => {
+test('a lesson without a picture of its own shows none, and its header closes up', async ({page}) => {
  await mockApi(page, {'/api/catalog': u1.catalog});
  await page.goto('/preview?lesson=fixture.double');
  await expect(page.getByRole('heading', {level: 1, name: 'Double a number'})).toBeVisible();
- const picture = page.locator('.lhead svg.art');
- await expect(picture).toHaveAttribute('data-art', 'fallback');
- await expect(picture).toHaveAttribute('aria-label', 'Green hills under a small py sign');
- await expect(page.locator('.unit-lesson svg.art')).toHaveAttribute('data-art', 'fallback');
+ await expect(page.locator('.lhead svg.art')).toHaveCount(0);
+ await expect(page.locator('.lhead')).toHaveClass(/no-art/);
+ await expect(page.locator('.unit-lesson svg.art')).toHaveCount(0);
  await expect(page.locator('.story-world')).toHaveCount(0);
 });
 

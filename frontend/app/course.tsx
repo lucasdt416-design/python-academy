@@ -1,7 +1,7 @@
 'use client';
 import {Meter} from './catalog';
 import {type Awards,type Unit,availableLessons,lessonHref,nextLesson,prerequisiteText,unitNumber,useCatalog} from './catalog-data';
-import LessonArt,{Icon} from './lesson-art';
+import LessonArt,{Icon,hasArt} from './lesson-art';
 
 /** One unit, with a row per lesson: its picture, title, concept and state. Copy: docs/design/prototype/index.html, #course. */
 function UnitCard({unit,done,next,student}:{unit:Unit;done:string[];next:string|undefined;student:boolean}){
@@ -12,8 +12,8 @@ function UnitCard({unit,done,next,student}:{unit:Unit;done:string[];next:string|
   {!soon&&<ol className="rows">{unit.lessons.map(lesson=>{
    const state=done.includes(lesson.id)?'done':lesson.id===next?'next':'todo';
    const label=!student?'Try it':state==='done'?'Done':state==='next'?'Up next':'Not started';
-   return <li key={lesson.id}><a href={lessonHref(lesson.id,student)} className={'row '+state}>
-    <LessonArt lesson={lesson.id} label={false}/>
+   return <li key={lesson.id}><a href={lessonHref(lesson.id,student)} className={'row '+state+(hasArt(lesson.id)?'':' no-art')}>
+    {hasArt(lesson.id)&&<LessonArt lesson={lesson.id} label={false}/>}
     <span><b>{lesson.title}</b><code>{lesson.concept}</code>{lesson.badge&&<small>{lesson.badge} badge</small>}</span>
     <span className="st">{student&&state==='done'&&<Icon name="check"/>}{label}</span></a></li>;})}</ol>}
  </article></li>;

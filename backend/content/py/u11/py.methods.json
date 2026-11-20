@@ -51,7 +51,7 @@
       "prompt": "Write a class Hero with a name, health that starts at 10, and potions that start at 2, and three methods. hit(damage) takes the damage off the health, never below 0. drink() uses a potion, if there is one left, to add 5 health, never above 10; with no potions it does nothing. status() returns text like Nova 10/10 potions: 2. Then ask for the hero's name and read commands until the command end: hit, followed by the damage on the next line, or drink. After each command, print the hero's status.",
       "starter": "# Define class Hero with hit(), drink() and status()\n",
       "hints": [
-        "Each method changes or reads only self's attributes. max() and min() keep the health between 0 and 10.",
+        "Each method changes or reads only self's attributes. min(a, b) gives the smaller of two numbers and max(a, b) the bigger, so min(health, 10) is never more than 10 and max(health, 0) never less than 0.",
         "status() returns the text instead of printing it, and the loop prints it. The loop reads a command, acts on it, prints, and reads the next one, until end.",
         "With other names: def recharge(self): with if self.cells > 0: inside, and self.cells = self.cells - 1 uses up one cell."
       ],

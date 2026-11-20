@@ -48,7 +48,7 @@
     {
       "id": "py.import.challenge",
       "type": "challenge",
-      "prompt": "Ask for the radius of a round tower, as a whole number. Print three lines: the distance around it, which is 2 times pi times the radius, rounded to 1 decimal place; the area inside it, pi times the radius times the radius, rounded to 1 decimal place; and how many steps of length 1 it takes to walk all the way round, rounded up to a whole step. Use pi and ceil() from the math module.",
+      "prompt": "Ask for the radius of a round tower, as a whole number. Print three lines: the distance around it, which is 2 times pi times the radius, rounded to 1 decimal place (round(x, 1) does that); the area inside it, pi times the radius times the radius, rounded to 1 decimal place; and how many steps of length 1 it takes to walk all the way round, rounded up to a whole step. Use pi and ceil() from the math module: ceil() rounds a number up to the next whole number, so ceil(4.1) is 5.",
       "starter": "# Import what you need, then measure the tower\n",
       "hints": [
         "The math module has pi, to many more decimal places than 3.14, and a tool that rounds a number up.",
