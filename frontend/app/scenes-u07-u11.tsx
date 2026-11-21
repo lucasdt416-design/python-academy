@@ -1,6 +1,6 @@
 // Lesson scenes for Python units 7 to 11. The kit is scene-kit.tsx; how scenes work is lesson-scenes.tsx.
 import type {SceneDef} from './lesson-scenes';
-import {type SceneRun,Ground,Hero,Item,Lamp,Note,Tag,bools,clamp,d,fit,isNum,listItems,numOf,ofKind,outLines,parseRepr,pick,plural,show,strOf,toNum,wrap} from './scene-kit';
+import {type PyNode,type SceneRun,Ground,Hero,Item,Lamp,Note,Tag,bools,clamp,d,fit,isNum,listItems,numOf,ofKind,outLines,parseRepr,pick,plural,show,strOf,toNum,wrap} from './scene-kit';
 import {functionsIn} from './scenes-u04-u06';
 
 const IDLE='Run the code to fill this scene.';
@@ -384,3 +384,39 @@ const compositionScene:SceneDef={title:'The hero and the pack',draw:r=>{
  </>};
 }};
 Object.assign(UNIT_7_TO_11,{'py.string-methods':stringMethods,'py.regex-basics':regexBasics,'py.regex-groups':regexGroups,'py.validate-formats':validateFormats,'py.classes':classesScene,'py.methods':methodsScene,'py.composition':compositionScene});
+
+// ---------- Choosing a shape, and the final project's brief ----------
+const entriesOf=(n:PyNode|undefined):[string,PyNode][]=>n&&n.t==='dict'?n.entries.map(([k,v])=>[show(k),v] as [string,PyNode]):[];
+const whenNotOop:SceneDef={title:'Three shapes',draw:r=>{
+ const obj=objectsOf(r)[0],dict=ofKind(r?.vars,['dict'])[0],fn=ofKind(r?.vars,['function'])[0],last=outLines(r).at(-1);
+ const d1=dict?entriesOf(dict[1]):[],f=fn?.[1].t==='function'?fn[1]:null;
+ return {say:r?[obj?`${obj.name} is an object of class ${obj.cls}, holding ${obj.fields.map(([k,v])=>`${k} ${v}`).join(', ')}`:'',dict?`${dict[0]} is a dictionary holding ${d1.map(([k,v])=>`${k} ${show(v,true)}`).join(', ')}`:'',f?`${f.name}() is a plain function of ${f.params.join(' and ')||'nothing'}${last&&isNum(last)?`, and it gave ${last}`:''}`:''].filter(Boolean).join('; ')+'.':'The same facts in three shapes: a class, a dictionary and a function.',svg:<>
+  <Ground tone="sand"/>
+  {['class','dictionary','function'].map((t,i)=><text key={t} className="mono f-ink" x={58+i*102} y="22" fontSize="11" textAnchor="middle">{t}</text>)}
+  <g className="pop">{obj?<ObjectCard x={10} y={32} o={obj}/>:<rect className="f-white s-ink-s scene-dashed" x="10" y="32" width="96" height="60" rx="6"/>}</g>
+  <g className={'pop '+d(2)}><rect className="f-cream s-ink" x="112" y="32" width="96" height={Math.max(40,d1.length*16+20)} rx="6"/>
+   {d1.slice(0,5).map(([k,v],i)=><text key={k} className="mono f-ink" x="120" y={50+i*16} fontSize="9">{fit(k,7)}: <tspan className="f-clay">{fit(show(v,true),7)}</tspan></text>)}</g>
+  <g className={'pop '+d(4)}><rect className="f-white s-ink" x="214" y="32" width="96" height="40" rx="6"/>
+   {f&&<><text className="mono f-plum" x="222" y="50" fontSize="10">def {fit(f.name,7)}()</text><text className="mono f-ink" x="222" y="64" fontSize="9">{fit(f.params.join(', '),14)}</text></>}
+   {f&&last&&isNum(last)&&<Tag x={262} y={96} text={`gave ${fit(last,6)}`} tone="moss"/>}</g>
+  {[['data + actions,','many copies'],['just data,','no actions'],['just an action,','in and out']].map(([a,b],i)=><g key={i} className={'type '+d(6+i)}><text className="mono f-moss" x={58+i*102} y="128" fontSize="10" textAnchor="middle">{a}</text><text className="mono f-moss" x={58+i*102} y="142" fontSize="10" textAnchor="middle">{b}</text></g>)}
+  {!r&&<Note text={IDLE}/>}
+ </>};
+}};
+
+const finalBrief:SceneDef={title:'The brief board',draw:r=>{
+ const brief=ofKind(r?.vars,['dict'])[0],e=Object.fromEntries(entriesOf(brief?.[1])),items=(k:string)=>listItems(e[k]).map(x=>show(x));
+ const project=e.project?show(e.project):'',who=e.for?show(e.for):'',must=items('must'),later=items('not yet'),steps=items('milestones');
+ return {say:brief?`${project||'A project'}${who?` for ${who}`:''}. Must: ${must.join(', ')||'nothing yet'}. Not yet: ${later.join(', ')||'nothing'}.${steps.length?` Milestones: ${steps.join(', ')}.`:''}`:r?'No brief stored yet.':'A board for the brief: what it must do, and what waits.',svg:<>
+  <Ground tone="sand"/>
+  <rect className="f-cream s-ink" x="12" y="10" width="296" height="146" rx="8"/>
+  {project&&<Tag x={160} y={28} text={fit(project,20)} tone="clay" className="drop"/>}
+  {who&&<text className={'mono f-ink type '+d(1)} x="160" y="56" fontSize="10" textAnchor="middle">for {fit(who,36)}</text>}
+  <text className="mono f-moss" x="24" y="76" fontSize="10">must</text>
+  {must.slice(0,4).map((m,i)=><text key={i} className={'mono f-ink slide '+d(2+i)} x="22" y={94+i*16} fontSize="9">✓ {fit(m,30)}</text>)}
+  <text className="mono f-clay" x="214" y="76" fontSize="10">{steps.length?'milestones':'not yet'}</text>
+  {(steps.length?steps:later).slice(0,4).map((m,i)=><text key={i} className={'mono f-ink slide '+d(4+i)} x="214" y={94+i*16} fontSize="9">{steps.length?`${i+1}.`:'·'} {fit(m,14)}</text>)}
+  {!r&&<Note text={IDLE}/>}
+ </>};
+}};
+Object.assign(UNIT_7_TO_11,{'py.when-not-oop':whenNotOop,'py.final-brief':finalBrief});

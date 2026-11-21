@@ -24,6 +24,7 @@ const LOOKS: Record<string, {body: string; tone: string; extra: string}> = {
  'py.u09': {body: 'M-36 20q-2-16 12-20q12-4 12-18q0-12 12-12t12 12q0 14 12 18q14 4 12 20z', tone: 'outfit-plum', extra: ''},
  'py.u10': {body: 'M-26 22q-6-34 26-42q32 8 26 42z', tone: 'outfit-clay', extra: 'M-14 -16l-8-18 16 8M14 -16l8-18-16 8'},
  'py.u11': {body: 'M-32 22q-6-30 6-42q12-12 26-12q30 0 30 28v26z', tone: 'outfit-slate', extra: 'M-6 -32l4-10 4 10M8 -30l4-10 4 10'},
+ 'py.u12': {body: 'M-30 24l6-46h48l6 46z', tone: 'outfit-slate', extra: 'M-38 24h76M-24 -22l-8-10M24 -22l8-10'},
  'cs.u01': {body: 'M-10 22q-4-30 10-44q14 14 10 44z', tone: 'outfit-plum', extra: 'M-10 0q-34-30-40 6q10 18 40 4M10 0q34-30 40 6q-10 18-40 4M-4 -22l-6-12M4 -22l6-12'},
  'cs.u03': {body: 'M-28 24q-8-44 28-50q36 6 28 50z', tone: 'outfit-moss', extra: 'M-22 -22l-6-14 14 8M22 -22l6-14-14 8M-6 6l6 6 6-6'},
 };

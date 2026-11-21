@@ -89,7 +89,7 @@
    }
   ],
   "completed": 7,
-  "released": 59,
+  "released": 61,
   "units": [
    {
     "id": "py.u01",
@@ -165,7 +165,14 @@
     "id": "py.u11",
     "title": "Model a larger program",
     "done": 0,
-    "total": 3,
+    "total": 4,
+    "more_coming": false
+   },
+   {
+    "id": "py.u12",
+    "title": "Final project",
+    "done": 0,
+    "total": 1,
     "more_coming": true
    },
    {

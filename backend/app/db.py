@@ -133,6 +133,20 @@ class Profile(Base):
     updated: Mapped[str] = mapped_column(String(40), default=now, onupdate=now)
 
 
+class SelfReviewRecord(Base):
+    """ENG-09: a finished self review, in the learner's own words. Self-reported evidence: kept so the
+    learner (and their parent) can read it back, never checked by anyone."""
+    __tablename__ = 'self_reviews'
+    id: Mapped[int] = mapped_column(primary_key=True)
+    user_id: Mapped[int] = mapped_column(ForeignKey('users.id'), index=True)
+    lesson_id: Mapped[str] = mapped_column(String(80))
+    task_id: Mapped[str] = mapped_column(String(160))
+    task_version: Mapped[int] = mapped_column(Integer)
+    # JSON: {criterion id: what the learner wrote}. Only finished reviews are kept; drafts never leave the page.
+    answers: Mapped[str] = mapped_column(Text)
+    created: Mapped[str] = mapped_column(String(40), default=now)
+
+
 class ReviewState(Base):
     """Spaced review (teaching-design.md section 5): where each review card is in its schedule, per learner.
     Practice evidence only: it never changes XP, badges or progress."""

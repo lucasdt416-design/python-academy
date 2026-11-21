@@ -95,8 +95,8 @@ def test_partway_through_unit_3_continues_it():
 
 
 def test_a_unit_with_no_lessons_written_is_named_as_such():
-    # The note for a planned unit with no lessons (rules version 2).
-    finished = [u.model_copy(update={'more_lessons_coming': False}) for u in CATALOG.courses[0].units]
+    # The note for a planned unit with no lessons (rules version 2): unit 12 as it was before its first lesson.
+    finished = [u.model_copy(update={'more_lessons_coming': False, **({'status': 'coming_soon', 'lessons': []} if u.id == 'py.u12' else {})}) for u in CATALOG.courses[0].units]
     catalog = CATALOG.model_copy(update={'courses': [CATALOG.courses[0].model_copy(update={'units': finished}), *CATALOG.courses[1:]]})
     r = recommend('scratch', catalog, EVERYTHING)
     assert r.notes[0] == 'Python Foundations unit 12, Final project, is next on your path. Its lessons are not written yet.'

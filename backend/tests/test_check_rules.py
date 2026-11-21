@@ -163,6 +163,8 @@ def test_every_unit_1_challenge_has_a_three_step_ladder_and_tagged_hints():
     for lesson in LESSONS.values():
         challenge = lesson.task('challenge')
         assert len(challenge.hints) == 3, lesson.id
+        if challenge.self_review:
+            continue  # ENG-09: no code to run, so no error hints and no similar program
         assert any('NameError' in h.tags or 'IndentationError' in h.tags for h in challenge.error_hints), lesson.id
         assert challenge.similar_example is not None, lesson.id
     # The spelling hint: a NameError in "Create your hero" offers it first.

@@ -111,15 +111,15 @@ def test_unit_3_is_complete_with_five_lessons_in_order():
     assert (unit.status, unit.lessons, unit.more_lessons_coming) == ('released', UNIT_3, False)
     assert 'come next' not in unit.summary and 'running totals' in unit.summary
     assert [u.id for u in py.units if u.status == 'released'][:3] == ['py.u01', 'py.u02', 'py.u03']
-    # The units still being written are the later ones whose last lesson needs a new task type.
-    assert [u.id for c in helpers.CATALOG.courses for u in c.units if u.more_lessons_coming] == ['py.u07', 'py.u09', 'py.u11']
+    # The units still being written: 7 and 9 wait for local-setup lessons, 12 for its build and review lessons.
+    assert [u.id for c in helpers.CATALOG.courses for u in c.units if u.more_lessons_coming] == ['py.u07', 'py.u09', 'py.u12']
 
 
 def test_the_catalog_says_unit_3_is_complete():
     units = {u['id']: u for c in TestClient(app).get('/api/catalog').json()['courses'] for u in c['units']}
     assert units['py.u03']['complete'] is True
     assert [l['id'] for l in units['py.u03']['lessons']] == UNIT_3
-    assert units['py.u12']['complete'] is False and units['py.u12']['lessons'] == []
+    assert units['py.u12']['complete'] is False and [l['id'] for l in units['py.u12']['lessons']] == ['py.final-brief']
 
 
 def test_the_recommendation_rules_did_not_change():

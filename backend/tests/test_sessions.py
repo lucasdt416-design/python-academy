@@ -264,6 +264,7 @@ PUBLIC = {
     ('GET', '/health'), ('GET', '/auth/google'), ('GET', '/auth/google/callback'),
     ('POST', '/api/logout'), ('GET', '/api/lessons'), ('GET', '/api/units/{unit_id}/lessons'), ('GET', '/api/catalog'),
     ('GET', '/api/goals'), ('POST', '/api/check'), ('GET', '/api/checks/{lesson_id}'), ('POST', '/api/insights'),
+    ('POST', '/api/self-review/preview'),
 }
 ATTEMPT = {'lesson_id': 'hello', 'code': 'print("A forest.")\nprint("A dragon!")', 'output': 'A forest.\nA dragon!\n'}
 # (role that may use it, a valid request body)
@@ -278,6 +279,7 @@ AUTHENTICATED = {
     ('GET', '/api/profile'): ('student', None),
     ('GET', '/api/review'): ('student', None),
     ('POST', '/api/review/answer'): ('student', {'card_id': 'hello.review.predict', 'choice': 0}),
+    ('POST', '/api/self-review'): ('student', {'lesson_id': 'py.final-brief', 'answers': {}}),
     ('PUT', '/api/profile'): ('student', {'nickname': '', 'avatar': {'skin': 'sand', 'hair': 'none', 'hair_colour': 'grey', 'outfit': 'moss', 'item': 'none'}}),
     ('GET', '/api/recommendation'): ('student', None),
     ('GET', '/api/awards'): ('student', None),

@@ -447,9 +447,9 @@
         {
           "id": "py.u11",
           "title": "Model a larger program",
-          "summary": "Classes and attributes, methods that change an object, and objects built from other objects. A lesson on when not to use classes comes later.",
+          "summary": "Classes and attributes, methods that change an object, objects built from other objects, and when a dictionary or a function does the job better.",
           "status": "released",
-          "complete": false,
+          "complete": true,
           "lessons": [
             {
               "id": "py.classes",
@@ -471,16 +471,31 @@
               "concept": "Classes · objects that hold objects",
               "description": "Build the hero from smaller parts: a pack with a weight limit, holding items, each class doing one job.",
               "badge": "Outfitter"
+            },
+            {
+              "id": "py.when-not-oop",
+              "title": "Not everything needs a class",
+              "concept": "Design · class, dictionary or function?",
+              "description": "Classes are a tool, not a rule. Learn to tell when a dictionary or a plain function does the job more simply.",
+              "badge": "Design judge"
             }
           ]
         },
         {
           "id": "py.u12",
           "title": "Final project",
-          "summary": "Plan, build, test, and explain a project of your own.",
-          "status": "coming_soon",
+          "summary": "Plan, build, test, and explain a project of your own. Choosing and planning it opens first; building and reviewing it come next.",
+          "status": "released",
           "complete": false,
-          "lessons": []
+          "lessons": [
+            {
+              "id": "py.final-brief",
+              "title": "Choose your project",
+              "concept": "Planning · a brief before the build",
+              "description": "Pick your final project, from a word game to a full app, and plan it: who it is for, what it must do, and what waits.",
+              "badge": "Project planner"
+            }
+          ]
         }
       ]
     },
