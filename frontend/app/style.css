@@ -73,7 +73,8 @@ button:disabled{opacity:.6;cursor:not-allowed}
 /* ---------- Pictures (lesson-art.tsx; docs/design/art-style.md) ---------- */
 .art{display:block;width:100%;height:auto;border-radius:var(--radius)}
 .bg1{fill:#dcebe2}.bg2{fill:#f1e6c8}.bg3{fill:#d3e3e6}
-.s-ink,.s-moss,.s-ink-s,.s-moss-s,.s-ink-w,.s-moss-w,.s-cream-w,.s-clay-w,.s-slate-d{fill:none;stroke-linecap:round;stroke-linejoin:round}
+.s-ink,.s-moss,.s-ink-s,.s-moss-s,.s-ink-w,.s-moss-w,.s-cream-w,.s-clay-w,.s-slate-d,.s-plum-s{fill:none;stroke-linecap:round;stroke-linejoin:round}
+.s-plum-s{stroke:#82668e;stroke-width:2}
 .s-ink{stroke:#263f38;stroke-width:2.5}.s-moss{stroke:#396c58;stroke-width:2.5}.s-ink-s{stroke:#263f38;stroke-width:1.6}.s-moss-s{stroke:#396c58;stroke-width:1.6}
 .s-ink-w{stroke:#263f38;stroke-width:6}.s-moss-w{stroke:#396c58;stroke-width:6}.s-cream-w{stroke:#f5ead2;stroke-width:16}.s-clay-w{stroke:#b5432f;stroke-width:4}.s-slate-d{stroke:#3b6f8a;stroke-width:2;stroke-dasharray:3 4}
 /* Fills come after strokes on purpose: a shape with both classes keeps its fill. */
@@ -237,6 +238,7 @@ button:disabled{opacity:.6;cursor:not-allowed}
 .unit-card h2{font-size:26px;margin:2px 0 4px}
 .unit-card-head p{margin:0}
 .rows{list-style:none;margin:16px 0 0;padding:0;display:grid;gap:8px}
+.row.no-art{grid-template-columns:minmax(0,1fr) auto;padding-left:16px}
 .row{display:grid;grid-template-columns:96px minmax(0,1fr) auto;gap:14px;align-items:center;border:1px solid var(--line-soft);border-radius:12px;padding:8px 14px 8px 8px;text-decoration:none}
 .row:hover{background:#f3f7f2;border-color:#b8cbb5}
 .row.next{border:2px solid var(--moss2);background:var(--mint);padding:7px 13px 7px 7px}
@@ -262,6 +264,7 @@ button:disabled{opacity:.6;cursor:not-allowed}
 .unit-lessons{list-style:none;padding:0;margin:0;display:grid;gap:4px}
 .unit-lesson{display:grid;grid-template-columns:52px 1fr;gap:10px;align-items:center;min-height:52px;padding:6px 8px;border-radius:10px;border:1px solid transparent;text-decoration:none;font-size:14px;line-height:1.25}
 .unit-lesson:hover{background:#f3f7f2}
+.unit-lesson.no-art{grid-template-columns:1fr;min-height:44px}
 .unit-lesson .art{border-radius:6px}
 .unit-lesson small{font-size:12px;margin-top:2px}
 .unit-lesson.current{background:var(--mint);border-color:var(--moss2);font-weight:700}
@@ -270,6 +273,7 @@ button:disabled{opacity:.6;cursor:not-allowed}
 .unit-nav-course{display:flex;align-items:center;min-height:44px;margin-top:10px;padding:0 8px;font-size:13px;color:var(--forest)}
 /* Lesson heading: title, concept, XP, and the lesson's picture. */
 .lhead{display:grid;grid-template-columns:minmax(0,1fr) 280px;gap:24px;align-items:center;margin-bottom:18px}
+.lhead.no-art{grid-template-columns:minmax(0,1fr)}
 .lhead h1{font-size:clamp(30px,3.6vw,46px);margin:4px 0 10px}
 .lhead .kicker{margin-bottom:4px}
 .lmeta{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;margin:0}
@@ -306,7 +310,12 @@ button:disabled{opacity:.6;cursor:not-allowed}
 .teaching-panel h2:focus{outline:none}
 .teaching-panel h3{font-family:var(--sans);font-size:16px;margin:18px 0 6px}
 .teaching-panel .lead{font-size:18px;line-height:1.75;margin-bottom:14px}
-.teaching-panel p{margin:0 0 14px}
+.teaching-panel p{margin:0 0 14px;max-width:40em}
+.teaching-panel p code,.note-callout code{overflow-wrap:anywhere;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+/* See it work: the code and what it printed, beside the picture of the run. */
+.see-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,400px);gap:24px;align-items:start;margin-top:18px}
+.see-scene .scene{margin:0;position:sticky;top:16px}
+.see-code h3:first-child{margin-top:0}
 .example-code{position:relative;background:var(--forest);color:#f1f8ed;border-radius:14px;padding:16px 20px;font-size:15px;line-height:1.95;white-space:pre-wrap;overflow-wrap:anywhere;margin:0 0 12px}
 .output{min-height:60px;background:var(--night);color:#eaf3ec;border-radius:14px;padding:12px 16px;font-family:var(--mono);font-size:15px;line-height:1.8;white-space:pre-wrap;overflow-wrap:anywhere;margin:0 0 12px}
 /* Worked-example markers: the same number beside a print() line and the output line it makes.
@@ -328,12 +337,12 @@ button:disabled{opacity:.6;cursor:not-allowed}
 .ticket{position:relative;background:var(--error-bg);border:2px dashed var(--error-line);border-radius:var(--radius);padding:16px 22px 14px;margin:6px 0 16px}
 .ticket h3{font-family:var(--sans);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--clay);margin:0 0 8px}
 .cases{list-style:none;margin:0;padding:0;display:grid;gap:8px}
-.cases li{display:grid;grid-template-columns:26px minmax(0,1fr) auto;gap:4px 10px;align-items:start;font-size:15px}
+.cases li{display:grid;grid-template-columns:26px minmax(0,1fr);gap:4px 10px;align-items:start;font-size:15px}
 .cases .box{width:22px;height:22px;border-radius:6px;border:2px solid #b98476;background:var(--white);display:grid;place-items:center;color:var(--white);margin-top:2px;font-weight:700;line-height:1}
 .cases li.ok .box{background:var(--moss2);border-color:var(--moss2)}
 .cases li.bad .box{background:var(--clay);border-color:var(--clay)}
 .cases li.locked .box{color:var(--muted)}
-.cases .expect{font-size:13.5px;color:var(--moss);white-space:pre-wrap;overflow-wrap:anywhere;text-align:right}
+.cases .expect{grid-column:2;font-size:13.5px;color:var(--moss);white-space:pre-wrap;overflow-wrap:anywhere;text-align:left}
 .cases .hid{color:var(--muted)}
 /* Editor side. */
 .editor-panel{background:#f5f7f2;border-left:1px solid #d8e1d5;padding:24px;min-width:0}
@@ -441,6 +450,8 @@ button:disabled{opacity:.6;cursor:not-allowed}
  .hero-grid,.errdemo,.parents,.course-top,.lhead{grid-template-columns:1fr}
  .lhead .art{max-width:360px}
  .card-body.with-editor{grid-template-columns:1fr}
+ .see-grid{grid-template-columns:1fr}
+ .see-scene .scene{position:static}
  .editor-panel{border-left:0;border-top:1px solid #d8e1d5}
  .flow{grid-template-columns:repeat(2,minmax(0,1fr))}
  .trail,.planned{grid-template-columns:1fr}

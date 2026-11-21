@@ -79,7 +79,7 @@ const adventure:SceneDef={title:'Your storyboard',draw:r=>{
    {i===0&&<><path className="f-moss-l s-ink-s" d="M22 132q20-30 38-6t36-8v18H22z"/><circle className="f-amber" cx="84" cy="96" r="8"/></>}
    {i===1&&<><Hero x={159} y={140} className={name?'pop '+d(4):undefined}/>{name&&<Tag x={159} y={68} text={fit(name,10)} tone="clay" className={'drop '+d(5)}/>}</>}
    {i===2&&<><path className={choice==='left'?'s-cream-w path-lit':'s-cream-w path-dim'} d="M261 144v-24l-26-22"/><path className={choice==='right'?'s-cream-w path-lit':'s-cream-w path-dim'} d="M261 144v-24l26-22"/></>}
-   {wrap(panels[i],15,3).map((l,j)=><text key={j} className="mono f-ink" x={20+i*102} y={32+j*13} fontSize="10">{l}</text>)}
+   {wrap(panels[i],13,3).map((l,j)=><text key={j} className="mono f-ink" x={19+i*102} y={32+j*13} fontSize="10">{l}</text>)}
   </g>)}
   {!r&&<Note text={IDLE}/>}
  </>};
@@ -257,11 +257,11 @@ const nestedLoops:SceneDef={title:'Rooms on the map',draw:r=>{
  if(nums.length>2&&nums.slice(0,-1).reduce((a,b)=>a+b,0)===nums.at(-1)){total=nums.at(-1);cells=nums.slice(0,-1);}
  let cols=toNum(r?.inputs[1])??numOf(pick(r?.vars,['columns','cols','seats']));
  if(!cols){const tens=cells.map(n=>Math.floor(n/10));const k=tens.findIndex(t=>t!==tens[0]);cols=k>0&&cells.every(n=>n>=10)?k:Math.ceil(Math.sqrt(cells.length))||1;}
- cols=clamp(cols,1,8);const shown=cells.slice(0,cols*5),rows=Math.ceil(shown.length/cols)||1,w=Math.min(36,220/cols),h=Math.min(28,130/rows);
+ cols=clamp(cols,1,8);const shown=cells.slice(0,cols*5),rows=Math.ceil(shown.length/cols)||1,w=Math.min(52,(total!==undefined?200:280)/cols),h=Math.min(40,130/rows),x0=(total!==undefined?130:160)-cols*(w+4)/2,y0=Math.max(14,80-rows*(h+4)/2);
  return {say:cells.length?`${plural(cells.length,'room')} light up row by row: ${cells.slice(0,12).join(', ')}${total!==undefined?`; total ${total}`:''}.`:'An empty grid of rooms.',svg:<>
   <Ground tone="sand"/>
   {shown.length===0&&Array.from({length:6},(_,i)=><rect key={i} className="f-white s-ink-s" x={30+(i%3)*40} y={30+Math.floor(i/3)*34} width="36" height="30" rx="4"/>)}
-  {shown.map((v,i)=><g key={i} className={'pop '+d(i*.7)}><rect className="f-cream s-ink-s" x={20+(i%cols)*(w+4)} y={18+Math.floor(i/cols)*(h+4)} width={w} height={h} rx="4"/><text className="mono f-ink" x={20+(i%cols)*(w+4)+w/2} y={18+Math.floor(i/cols)*(h+4)+h/2+4} fontSize="11" textAnchor="middle">{v}</text></g>)}
+  {shown.map((v,i)=><g key={i} className={'pop '+d(i*.7)}><rect className="f-cream s-ink-s" x={x0+(i%cols)*(w+4)} y={y0+Math.floor(i/cols)*(h+4)} width={w} height={h} rx="5"/><text className="mono f-ink" x={x0+(i%cols)*(w+4)+w/2} y={y0+Math.floor(i/cols)*(h+4)+h/2+5} fontSize="14" textAnchor="middle">{v}</text></g>)}
   {total!==undefined&&<g className={'pop '+d(15)}><circle className="f-amber s-ink" cx="270" cy="80" r="30"/><text className="mono f-ink" x="270" y="85" fontSize="15" textAnchor="middle">{total}</text><text className="mono f-ink" x="270" y="128" fontSize="10" textAnchor="middle">total</text></g>}
   {!r&&<Note text={IDLE}/>}
  </>};

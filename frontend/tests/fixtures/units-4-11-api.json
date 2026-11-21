@@ -3014,7 +3014,7 @@
     "starter": "# Define score(secret, guess) and verdict(secret, guess)\n",
     "challenge": "Write score(secret, guess), which returns 10 if the guess is right, 5 if it is no more than 2 away, 1 if it is no more than 10 away, and 0 otherwise. Then write verdict(secret, guess), which returns two values: the score, and True if the guess is too high or False if it is not. Return the answers; do not print them. Your program should not ask for input: the check calls your functions with its own values.",
     "hints": [
-     "Work out how far apart the two numbers are first, ignoring which is bigger: abs() does that. Then check the closest band first, and return as soon as one matches.",
+     "Work out how far apart the two numbers are first, ignoring which is bigger: abs() gives a number without its minus sign, so abs(3 - 7) is 4. Then check the closest band first, and return as soon as one matches.",
      "verdict() can call score() instead of repeating its rules, then return the score and a comparison together, separated by a comma.",
      "The same shape with other names: def grade(mark): with if mark >= 90: return \"A\" first, then the lower bands, and a last return for everything else."
     ],
@@ -3804,7 +3804,7 @@
     "why": "import math brings in the module, not each of its tools by itself: the tool is math.sqrt. from math import sqrt would make sqrt work on its own.",
     "guided": "Predict, then run: try print(sqrt(49)) with only import math. Then add import os and read the message.",
     "starter": "# Import what you need, then measure the tower\n",
-    "challenge": "Ask for the radius of a round tower, as a whole number. Print three lines: the distance around it, which is 2 times pi times the radius, rounded to 1 decimal place; the area inside it, pi times the radius times the radius, rounded to 1 decimal place; and how many steps of length 1 it takes to walk all the way round, rounded up to a whole step. Use pi and ceil() from the math module.",
+    "challenge": "Ask for the radius of a round tower, as a whole number. Print three lines: the distance around it, which is 2 times pi times the radius, rounded to 1 decimal place (round(x, 1) does that); the area inside it, pi times the radius times the radius, rounded to 1 decimal place; and how many steps of length 1 it takes to walk all the way round, rounded up to a whole step. Use pi and ceil() from the math module: ceil() rounds a number up to the next whole number, so ceil(4.1) is 5.",
     "hints": [
      "The math module has pi, to many more decimal places than 3.14, and a tool that rounds a number up.",
      "round(x, 1) keeps one decimal place. The steps are the distance around rounded up, so even a little extra is one more step.",
@@ -5197,7 +5197,7 @@
     "description": "Check the riddle keeper's answers fairly, whatever capitals and spaces the player types, and tidy them for display.",
     "learnTitle": "Tools that come with every piece of text",
     "learn": "Text has methods of its own: \" Nova \".strip() is \"Nova\", \"nova\".upper() is \"NOVA\", and \"a,b\".split(\",\") is [\"a\", \"b\"]. A method never changes the text itself, because text cannot be changed: store what it gives back.",
-    "detail": "More of them: lower(), title(), capitalize(), replace(\"old\", \"new\"), startswith(\"x\"), find(\"x\"), which gives a position or -1, and \" \".join(words), which joins a list of words with spaces. split() with nothing in the brackets splits on any run of spaces. An f-string puts values into text: f\"{name} has {coins} coins\", and f\"{price:.2f}\" shows two decimal places.",
+    "detail": "\"a b\".replace(\" \", \"\") is \"ab\": replace() swaps every copy of one piece of text for another. \"nOVA\".capitalize() is \"Nova\", a capital first letter and the rest lowercase; title() does that to every word. split() with nothing in the brackets splits on any run of spaces, and \" \".join(words) joins a list of words back with single spaces. f\"{price:.2f}\" shows a number with two decimal places.",
     "example": "answer = \"  The Moon \"\nclean = answer.strip().lower()\nprint(clean)\nprint(clean == \"the moon\")\nprint(\"map,rope,lamp\".split(\",\"))\nprint(\" + \".join([\"rope\", \"map\"]))\nprint(f\"{clean.title()} costs {2.5:.2f} coins\")",
     "exampleOutput": "the moon\nTrue\n['map', 'rope', 'lamp']\nrope + map\nThe Moon costs 2.50 coins",
     "exampleNote": "strip() and lower() tidy the reply before comparing it. split() makes a list, join() makes text again, and :.2f in the f-string writes 2.5 as 2.50.",
@@ -5722,7 +5722,7 @@
     "starter": "# Define class Hero with hit(), drink() and status()\n",
     "challenge": "Write a class Hero with a name, health that starts at 10, and potions that start at 2, and three methods. hit(damage) takes the damage off the health, never below 0. drink() uses a potion, if there is one left, to add 5 health, never above 10; with no potions it does nothing. status() returns text like Nova 10/10 potions: 2. Then ask for the hero's name and read commands until the command end: hit, followed by the damage on the next line, or drink. After each command, print the hero's status.",
     "hints": [
-     "Each method changes or reads only self's attributes. max() and min() keep the health between 0 and 10.",
+     "Each method changes or reads only self's attributes. min(a, b) gives the smaller of two numbers and max(a, b) the bigger, so min(health, 10) is never more than 10 and max(health, 0) never less than 0.",
      "status() returns the text instead of printing it, and the loop prints it. The loop reads a command, acts on it, prints, and reads the next one, until end.",
      "With other names: def recharge(self): with if self.cells > 0: inside, and self.cells = self.cells - 1 uses up one cell."
     ],
