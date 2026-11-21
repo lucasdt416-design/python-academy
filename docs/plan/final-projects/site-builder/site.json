@@ -1,0 +1,9 @@
+{
+ "title": "Tide Pool Finds",
+ "about": "Things I found on the beach this summer, & what they are.",
+ "items": [
+  {"name": "Sea Glass", "text": "Old bottles, worn smooth by sand.\n\nGreen and brown are common; blue is rare.", "tags": ["glass", "common"]},
+  {"name": "Hermit Crab", "text": "Lives in a borrowed shell and moves house when it grows.", "tags": ["animal"]},
+  {"name": "<Mystery> Shell", "text": "Nobody knows what made the <b> marks on it.", "tags": ["shell", "unknown"]}
+ ]
+}
