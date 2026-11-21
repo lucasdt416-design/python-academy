@@ -2,7 +2,7 @@
 
 Date: 2026-11-21 (America/Toronto)  
 Written by: Claude Code (implementer), in a separate git worktree  
-Status: **in_review**: one pull request ({{PR}}), **based on #68**. One additive migration (**0013**). No new dependency, no CSP change; code challenges are judged exactly as before.
+Status: **in_review**: one pull request (#69), **based on #68**. One additive migration (**0013**). No new dependency, no CSP change; code challenges are judged exactly as before.
 
 ## Starter prompt for the chat assistant
 
