@@ -1,0 +1,119 @@
+{
+ "good": {
+  "choice": "Lockpick, because I finished unit nine and want something I can actually finish this month.",
+  "user": "My younger cousin, who likes guessing games on long car rides and wants quick rounds.",
+  "must": "Show the word as underscores, take one letter at a time, explain bad guesses, stop after six misses, offer another round.",
+  "not-yet": "Hints that cost a try, and a two player mode.",
+  "milestones": "First the word prints as underscores, then one guess updates it, then the whole round ends with a win or a loss."
+ },
+ "short": {
+  "choice": {
+   "done": true,
+   "evidence": "Lockpick, because I finished unit nine and want something I can actually finish this month."
+  },
+  "user": {
+   "done": true,
+   "evidence": "my cousin"
+  }
+ },
+ "calls": [
+  {
+   "path": "/api/self-review/preview",
+   "request": {
+    "lesson_id": "py.final-brief",
+    "answers": {
+     "choice": {
+      "done": true,
+      "evidence": "Lockpick, because I finished unit nine and want something I can actually finish this month."
+     },
+     "user": {
+      "done": true,
+      "evidence": "my cousin"
+     }
+    }
+   },
+   "response": {
+    "recorded": false,
+    "result": "needs_work",
+    "problems": {
+     "user": "Say a little more, in your own words: at least 8 words (2 so far).",
+     "must": "Tick this when you have done it.",
+     "not-yet": "Tick this when you have done it.",
+     "milestones": "Tick this when you have done it."
+    },
+    "evidence": "self_reported",
+    "feedback": "Not recorded yet. Each note below says what to change."
+   }
+  },
+  {
+   "path": "/api/self-review/preview",
+   "request": {
+    "lesson_id": "py.final-brief",
+    "answers": {
+     "choice": {
+      "done": true,
+      "evidence": "Lockpick, because I finished unit nine and want something I can actually finish this month."
+     },
+     "user": {
+      "done": true,
+      "evidence": "My younger cousin, who likes guessing games on long car rides and wants quick rounds."
+     },
+     "must": {
+      "done": true,
+      "evidence": "Show the word as underscores, take one letter at a time, explain bad guesses, stop after six misses, offer another round."
+     },
+     "not-yet": {
+      "done": true,
+      "evidence": "Hints that cost a try, and a two player mode."
+     },
+     "milestones": {
+      "done": true,
+      "evidence": "First the word prints as underscores, then one guess updates it, then the whole round ends with a win or a loss."
+     }
+    }
+   },
+   "response": {
+    "recorded": false,
+    "result": "ready",
+    "problems": {},
+    "evidence": "self_reported",
+    "feedback": "Every part is ready to record. In a preview nothing is saved."
+   }
+  },
+  {
+   "path": "/api/self-review",
+   "request": {
+    "lesson_id": "py.final-brief",
+    "answers": {
+     "choice": {
+      "done": true,
+      "evidence": "Lockpick, because I finished unit nine and want something I can actually finish this month."
+     },
+     "user": {
+      "done": true,
+      "evidence": "My younger cousin, who likes guessing games on long car rides and wants quick rounds."
+     },
+     "must": {
+      "done": true,
+      "evidence": "Show the word as underscores, take one letter at a time, explain bad guesses, stop after six misses, offer another round."
+     },
+     "not-yet": {
+      "done": true,
+      "evidence": "Hints that cost a try, and a two player mode."
+     },
+     "milestones": {
+      "done": true,
+      "evidence": "First the word prints as underscores, then one guess updates it, then the whole round ends with a win or a loss."
+     }
+    }
+   },
+   "response": {
+    "recorded": true,
+    "result": "recorded",
+    "problems": {},
+    "evidence": "self_reported",
+    "feedback": "Recorded as your own review. Nothing checked the work itself, so it is kept as self-reported, in your words."
+   }
+  }
+ ]
+}

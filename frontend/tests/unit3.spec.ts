@@ -287,11 +287,11 @@ test('after the third lesson of a unit still being written, the page says the re
 test('the catalog and course page show unit 3 as open, with its five lessons', async ({page}) => {
  await mockApi(page);
  await page.goto('/courses');
- await expect(page.getByText('11 of 12 units open')).toBeVisible();
+ await expect(page.getByText('12 of 12 units open')).toBeVisible();
  await page.goto('/courses/py');
  const unit = page.getByRole('article', {name: 'Repeat and explore'});
  await expect(unit.getByRole('link')).toHaveText([/Keep guessing.*Try it/, /Three tries.*Try it/, /Step by step.*Try it/, /Keep the score.*Try it/, /Rooms on the map.*Try it/]);
- await expect(page.getByRole('article', {name: 'Final project'}).getByText('Coming soon')).toBeVisible();
+ await expect(page.getByRole('article', {name: 'Final project'}).getByText('Coming soon')).toHaveCount(0);
 });
 
 test('unit 3 fits a phone, with no sideways scrolling, and nothing moves with reduced motion', async ({page}) => {

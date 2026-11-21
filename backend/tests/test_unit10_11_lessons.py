@@ -205,5 +205,7 @@ globals().update({f'{k}_u11': v for k, v in make_tests('py.u11', {'py.classes': 
                                                          ['Hero maker', 'Spellcaster', 'Outfitter']).items()})
 
 
-def test_unit_11_says_more_lessons_are_coming_until_the_reflection_lesson_exists():
-    assert released_unit('py.u11').more_lessons_coming is True and 'py.when-not-oop' not in LESSONS
+def test_unit_11_is_complete_with_the_reflection_lesson_last():
+    # py.when-not-oop is self-reviewed (ENG-09); tests/test_self_review.py covers it.
+    unit = released_unit('py.u11')
+    assert unit.more_lessons_coming is False and unit.lessons[-1] == 'py.when-not-oop'

@@ -45,7 +45,7 @@ test('each of the first 16 lessons shows its own picture, and later lessons none
  await mockApi(page);
  await page.goto('/courses/py');
  const rows = page.locator('a.row');
- await expect(rows).toHaveCount(52);
+ await expect(rows).toHaveCount(54);
  const seen: Record<string, string | null> = {};
  for (const row of await rows.all()) {
   const id = new URL(await row.getAttribute('href') ?? '', 'http://x').searchParams.get('lesson')!;

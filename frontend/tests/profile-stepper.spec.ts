@@ -136,7 +136,7 @@ test('a student sees their level, progress and badges, builds an avatar and save
  await expect(page).toHaveURL('/profile');
  await expect(page.getByText('Level 2 · Pathfinder')).toBeVisible();
  await expect(page.getByText('300 XP to level 3.')).toBeVisible();
- await expect(page.getByText('of 59 lessons done')).toBeVisible();
+ await expect(page.getByText('of 61 lessons done')).toBeVisible();
  await expect(page.getByRole('list').filter({hasText: 'Pack keeper'})).toBeVisible();
  await expect(page.getByText('You earned XP on 2 days in the last twelve weeks.')).toBeVisible();
  const save = page.getByRole('button', {name: 'Save my profile'});

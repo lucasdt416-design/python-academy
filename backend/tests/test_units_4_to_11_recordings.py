@@ -36,7 +36,7 @@ SPECS = {
     'py.string-methods': u10.STRINGS, 'py.regex-basics': u10.REGEX, 'py.regex-groups': u10.GROUPS, 'py.validate-formats': u10.VALIDATE,
     'py.classes': u10.CLASSES, 'py.methods': u10.METHODS, 'py.composition': u10.COMPOSITION,
 }
-UNITS = [f'py.u{n:02d}' for n in range(1, 12)]  # every released unit, so the spec can open any lesson
+UNITS = [f'py.u{n:02d}' for n in range(1, 13)]  # every released unit, so the spec can open any lesson
 
 
 def request_for(lesson_id, code, modules):
@@ -64,4 +64,5 @@ def test_the_recorded_answers_are_the_real_apis():
         RECORDED_FILE.write_text(json.dumps(recorded, indent=1, ensure_ascii=False) + '\n')
     assert json.loads(RECORDED_FILE.read_text()) == recorded
     assert all(entry['response']['result'] == 'passed' for entry in recorded['lessons'].values())
-    assert set(recorded['lessons']) == {x['id'] for u in UNITS[3:] for x in recorded['units'][u]}
+    # Self-reviewed lessons (ENG-09) have no program to record; tests/test_self_review.py covers them.
+    assert set(recorded['lessons']) == {x['id'] for u in UNITS[3:] for x in recorded['units'][u] if x['check'] != 'self-review'}

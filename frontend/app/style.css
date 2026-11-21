@@ -382,6 +382,18 @@ button:disabled{opacity:.6;cursor:not-allowed}
 .file-tabs button[aria-selected="true"]{background:#20463c;border-color:#20463c;color:var(--white)}
 .file-tabs button:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
 /* Results, with the state in words as well as colour. */
+.self-review h3{margin-top:0}
+.review-parts{list-style:none;margin:12px 0;padding:0;display:grid;gap:16px}
+.review-parts li{border:1px solid var(--line);border-radius:12px;padding:12px 14px;background:var(--white)}
+.review-parts li.needs{border-color:var(--needs-line);background:var(--needs-bg)}
+.review-parts li.ok{border-color:var(--pass-line)}
+.review-tick{display:flex;gap:10px;align-items:flex-start;font-weight:600;min-height:24px}
+.review-tick input{width:20px;height:20px;margin-top:2px;flex:none}
+.review-ask{display:block;margin:10px 0 4px;font-size:14px}
+.review-parts textarea{width:100%;font:inherit;font-size:15px;border:1px solid var(--line);border-radius:8px;padding:8px 10px;resize:vertical}
+.review-count{font-size:13px;color:var(--muted);margin:4px 0 0}
+.review-note{font-size:14px;color:var(--ink);margin:6px 0 0;font-weight:600}
+.result:empty{display:none}
 .result{margin-top:14px;padding:14px 16px;border:1px solid var(--neutral-line);border-radius:12px;background:var(--white)}
 .result:empty{margin:0;padding:0;border:0}
 .result p{margin:4px 0}

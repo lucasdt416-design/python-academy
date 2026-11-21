@@ -39,6 +39,7 @@ CREATURES = {
     'py.u09': ('Scrollworm', 'a worm that nests in saved files'),
     'py.u10': ('Patternfox', 'a fox that hunts in text'),
     'py.u11': ('Classaur', 'a dinosaur built from smaller parts'),
+    'py.u12': ('Keystone', 'the stone that holds a whole arch together'),
     'cs.u01': ('Bitmoth', 'a moth whose wing spots flick on and off like bits'),
     'cs.u03': ('Seekowl', 'an owl that finds things by halving the dark'),
 }

@@ -44,7 +44,7 @@ sa.Table('attempts', LEGACY,
 HELLO = ('print("A forest.")\nprint("A dragon!")', 'A forest.\nA dragon!\n')
 VARIABLES = ('hero="Kai"\ntool="rope"\nprint(f"{hero} carries {tool}")', 'Kai carries rope\n')
 ARITHMETIC = ('stars=7\nprint(stars*3)', '21\n')  # legacy exercise under the variables ID
-HEAD = '0012'
+HEAD = '0013'
 
 
 @pytest.fixture(params=['sqlite', 'postgresql'])
@@ -318,5 +318,21 @@ def test_0012_adds_the_review_schedule_and_removes_it_on_downgrade(engine):
         conn.execute(sa.text("INSERT INTO review_state (user_id, card_id, box, due, seen, correct, updated) VALUES (1, 'hello.review.predict', 1, '2026-11-21', 1, 1, 'x')"))
     migrate.downgrade(engine, '0011')
     assert 'review_state' not in sa.inspect(engine).get_table_names()
+    migrate.upgrade(engine)
+    assert migrate.current(engine) == HEAD
+
+
+def test_0013_adds_self_reviews_and_removes_them_on_downgrade(engine):
+    migrate.upgrade(engine, '0012')
+    with engine.begin() as conn:
+        conn.execute(sa.text("INSERT INTO users (id, subject, email, role, tester) VALUES (1, 's', 's@example.com', 'student', false)"))
+    migrate.upgrade(engine, '0013')
+    assert {c['name'] for c in sa.inspect(engine).get_columns('self_reviews')} == {'id', 'user_id', 'lesson_id', 'task_id', 'task_version', 'answers', 'created'}
+    with engine.begin() as conn:
+        conn.execute(sa.text("INSERT INTO self_reviews (user_id, lesson_id, task_id, task_version, answers, created) VALUES (1, 'py.final-brief', 'py.final-brief.challenge', 1, '{}', 'x')"))
+        # The XP ledger is untouched by the new table.
+        assert conn.execute(sa.text('SELECT count(*) FROM xp_awards')).scalar() == 0
+    migrate.downgrade(engine, '0012')
+    assert 'self_reviews' not in sa.inspect(engine).get_table_names()
     migrate.upgrade(engine)
     assert migrate.current(engine) == HEAD

@@ -4,13 +4,15 @@ from . import admin
 from . import profiles
 from . import review
 from . import insights
+from . import self_review
 from . import feedback as tester_feedback
 from .awards import award_challenge
-from .db import Attempt, Base, Event, Invitation, LearnerGoal, User, engine
+from .db import Attempt, Base, Event, Invitation, LearnerGoal, SelfReviewRecord, User, engine
 from .lesson_checks import check_story, judge, rule_errors
 from .limits import limit
 from .recommend import DEFAULT_GOAL, GOALS, recommend
 import hashlib
+import json
 import logging
 import os
 import secrets
@@ -313,6 +315,53 @@ def review_answer(data: ReviewAnswer, request: Request):
         result = review.answer(db, u.id, card, data.choice, data.lines, today_utc())
         db.commit()
         return result
+
+
+class SelfReviewAnswer(BaseModel):
+    done: bool = False
+    evidence: str = Field(default='', max_length=self_review.MAX_CHARS)
+
+
+class SelfReviewSubmission(BaseModel):
+    lesson_id: str = Field(max_length=80)
+    answers: dict[str, SelfReviewAnswer] = Field(default={}, max_length=8)
+
+
+def self_reviewed(lesson_id):
+    lesson = CONTENT.get(lesson_id)
+    if lesson is None or lesson.task('challenge').self_review is None:
+        raise HTTPException(404, 'That lesson has no self review')
+    return lesson
+
+
+def review_problems(lesson, data):
+    return self_review.judge(lesson.task('challenge').self_review, {k: v.model_dump() for k, v in data.answers.items()})
+
+
+@app.post('/api/self-review/preview', dependencies=[Depends(limit('self_review'))])
+def self_review_preview(data: SelfReviewSubmission):
+    """ENG-09 in a preview: the same notes on the writing, and nothing saved."""
+    problems = review_problems(self_reviewed(data.lesson_id), data)
+    return {'recorded': False, 'result': 'needs_work' if problems else 'ready', 'problems': problems, 'evidence': 'self_reported',
+            'feedback': self_review.NEEDS_WORK if problems else 'Every part is ready to record. In a preview nothing is saved.'}
+
+
+@app.post('/api/self-review', dependencies=[Depends(limit('self_review'))])
+def self_review_submit(data: SelfReviewSubmission, request: Request):
+    """ENG-09: keep a finished self review and award the lesson, labelled self-reported. A review with
+    anything left to change is not kept: drafts stay on the page."""
+    with Session(engine) as db:
+        u = current(request, db, 'student')
+        lesson = self_reviewed(data.lesson_id)
+        if (problems := review_problems(lesson, data)):
+            return {'recorded': False, 'result': 'needs_work', 'problems': problems, 'evidence': 'self_reported', 'feedback': self_review.NEEDS_WORK}
+        challenge = lesson.task('challenge')
+        written = {c.id: data.answers[c.id].evidence.strip() for c in challenge.self_review.criteria}
+        db.add(SelfReviewRecord(user_id=u.id, lesson_id=lesson.id, task_id=challenge.id, task_version=challenge.version, answers=json.dumps(written)))
+        award_challenge(db, u.id, lesson, None, source='self_reported')
+        audit(db, u, 'self_review_saved', lesson.id)
+        db.commit()
+        return {'recorded': True, 'result': 'recorded', 'problems': {}, 'evidence': 'self_reported', 'feedback': self_review.RECORDED}
 
 
 @app.get('/api/recommendation')
