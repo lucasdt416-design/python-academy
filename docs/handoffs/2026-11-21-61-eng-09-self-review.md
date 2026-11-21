@@ -46,7 +46,13 @@ Both follow the lesson page rules (handoff 60): their scenes are checked by `les
 
 | Command | Result |
 | --- | --- |
-{{RESULTS}}
+| Backend, SQLite | **2,127 passed** (including the migration test for 0013) |
+| `tests/test_self_review.py` (new) | **9 passed**: the writing checks, personal details refused, bad content refused, preview saves nothing, who may record, a finished review kept as self-reported and awarded once, and the recorded answers the browser test uses |
+| `tests/self-review.spec.ts` (new) | **5 passed**: notes beside each part with the text kept; a finished preview; a student records a review labelled self-reported; axe at desktop and phone |
+| `tests/lesson-layout.spec.ts` | both new lessons pass the lesson page rules |
+| Full browser suite (2 workers) | **587 passed, 9 failed**, all because Python now has 54 lessons and unit 12 is open (counts such as "52 lessons", "11 of 12 units open", and "Final project: Coming soon"). Updated, and the 9 pass |
+
+Deliberate breaks, each undone: the question copied back accepted (**1 failed**); the XP labelled as checked practice (**1 failed**); an unfinished review kept and awarded (**1 failed**).
 
 ## 4. Questions (each recommended, not yet confirmed)
 

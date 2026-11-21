@@ -66,6 +66,7 @@ The plan is [`docs/plan/master-run.md`](plan/master-run.md). A new session reads
 | Run 3, owner request: Computer Science Foundations units 1 and 3 | `content/cs-foundations` | `feat/arena-and-insights` (#65) | #66 | 58 | done | 2026-11-20 | Backend 2,100; new spec 21; full browser suite 521 of 526 under load, 2 updated for CS, 3 start-up timeouts, all pass alone; 3 deliberate breaks caught |
 | Run 3, owner request: Python final projects planned and built first | `plan/py-final-project` | `content/cs-foundations` (#66) | #67 | 59 | done | 2026-11-20 | New test file 9 passed; 3 deliberate breaks caught. Plan and reference projects only |
 | Run 3, owner request: every lesson reviewed, page reshaped, lesson page rules | `ux/lesson-layout` | `plan/py-final-project` (#67) | #68 | 60 | done | 2026-11-20 | Backend 2,113; new layout spec 61 and clarity tests 4; full browser suite 585, 2 updated for intended changes; 3 deliberate breaks caught |
+| Run 3, owner request: ENG-09 self review; `py.when-not-oop`, `py.final-brief` | `feat/eng-09-self-review` | `ux/lesson-layout` (#68) | {{PR}} | 61 | done | 2026-11-21 | Backend 2,127; new specs 9 + 5; full browser suite 587, 9 count updates for the two new lessons; 3 deliberate breaks caught. Migration 0013 |
 
 Owner merged #32 to #39, #41 and #42 on 2026-11-02. The run stopped at the cap of 5 open PRs. Not reached: WE6, the rest of WE7, WE8 and later.
 
