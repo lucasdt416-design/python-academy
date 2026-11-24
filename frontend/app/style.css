@@ -675,3 +675,14 @@ button:disabled{opacity:.6;cursor:not-allowed}
 @keyframes creature-hit{0%{transform:translateX(0)}25%{transform:translateX(-6px) rotate(-4deg)}50%{transform:translateX(6px) rotate(4deg)}100%{transform:translateX(0)}}
 @keyframes creature-tame{from{transform:scale(.9)}60%{transform:scale(1.06)}to{transform:scale(1)}}
 @keyframes card-arrive{from{opacity:.5;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+/* Live play (app/live-play.tsx): divided from the editor by a rule, the screen as the output is. */
+.live-play{margin:14px 0;padding-top:14px;border-top:1px solid var(--line)}
+.live-how{font-size:14px;margin:6px 0 10px}
+.live-screen{min-height:96px;max-height:360px;overflow:auto;margin:0}
+.live-reply{margin-top:12px}
+.live-reply label{display:block;font-weight:600;margin-bottom:6px}
+.live-prompt{font-family:var(--mono);font-weight:500}
+.live-row{display:flex;gap:8px}
+.live-row input{flex:1 1 auto;min-width:0;max-width:none}
+.live-end{font-weight:600;margin:10px 0 0}
+.live-row input,.live-row button{height:48px;padding-top:0;padding-bottom:0;margin:0}
