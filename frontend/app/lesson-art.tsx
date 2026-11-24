@@ -299,6 +299,8 @@ const PICTURES: Record<string, ReactNode> = {
    <path className="f-amber" d="M262 34l3 8 8 3-8 3-3 8-3-8-8-3 8-3z"/>
  </>,
 };
+/** Whether a lesson has a picture of its own. Lessons without one show none: a repeated placeholder says nothing. */
+export const hasArt = (lesson: string): boolean => lesson in LESSON_ART;
 export const FALLBACK_LABEL = 'Green hills under a small py sign';
 
 /** The picture for a lesson, keyed by lesson id, with a plain fallback for any lesson without one.

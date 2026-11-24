@@ -1,6 +1,6 @@
 // Lesson scenes for Python units 7 to 11. The kit is scene-kit.tsx; how scenes work is lesson-scenes.tsx.
 import type {SceneDef} from './lesson-scenes';
-import {type SceneRun,Ground,Hero,Item,Lamp,Note,Tag,bools,clamp,d,fit,isNum,listItems,numOf,ofKind,outLines,parseRepr,pick,plural,show,strOf,toNum,wrap} from './scene-kit';
+import {type PyNode,type SceneRun,Ground,Hero,Item,Lamp,Note,Tag,bools,clamp,d,fit,isNum,listItems,numOf,ofKind,outLines,parseRepr,pick,plural,show,strOf,toNum,wrap} from './scene-kit';
 import {functionsIn} from './scenes-u04-u06';
 
 const IDLE='Run the code to fill this scene.';
@@ -21,14 +21,12 @@ const importScene:SceneDef={title:'The toolbox',draw:r=>{
  const imports=importsIn(r?.code).slice(0,4),lines=outLines(r).slice(0,4);
  return {say:r?`${imports.length?`Tools borrowed: ${imports.map(i=>i.names.length?`${i.module} (${i.names.join(', ')})`:i.module).join('; ')}. `:'Nothing imported. '}${lines.length?`Printed: ${lines.join(', ')}.`:''}`:'A pegboard of tools, waiting to be borrowed with import.',svg:<>
   <Ground tone="sand"/>
-  <rect className="f-cream s-ink" x="12" y="12" width="190" height="138" rx="8"/>
-  {Array.from({length:24},(_,i)=><circle key={i} className="f-ink" cx={26+(i%8)*23} cy={24+Math.floor(i/8)*46} r="1.6"/>)}
+  <rect className="f-cream s-ink" x="12" y="12" width="296" height="138" rx="8"/>
+  {Array.from({length:24},(_,i)=><circle key={i} className="f-ink" cx={26+(i%12)*24} cy={i<12?22:140} r="1.6"/>)}
   {imports.map((imp,i)=><g key={imp.module+i} className={'drop '+d(i*2)}>
-   <rect className="f-slate s-ink-s" x={22+(i%2)*90} y={34+Math.floor(i/2)*58} width="80" height="24" rx="5"/><text className="mono f-white" x={62+(i%2)*90} y={50+Math.floor(i/2)*58} fontSize="11" textAnchor="middle">{fit(imp.module,10)}</text>
-   {imp.names.slice(0,2).map((n,j)=><text key={n} className="mono f-ink" x={62+(i%2)*90} y={70+Math.floor(i/2)*58+j*11} fontSize="9" textAnchor="middle">{fit(n,12)}</text>)}
+   <rect className="f-slate s-ink-s" x={24+(i%2)*144} y={34+Math.floor(i/2)*62} width="128" height="30" rx="6"/><text className="mono f-white" x={88+(i%2)*144} y={54+Math.floor(i/2)*62} fontSize="14" textAnchor="middle">{fit(imp.module,14)}</text>
+   {imp.names.slice(0,2).map((n,j)=><text key={n} className="mono f-ink" x={88+(i%2)*144} y={78+Math.floor(i/2)*62+j*13} fontSize="11" textAnchor="middle">{fit(n,18)}</text>)}
   </g>)}
-  <rect className="f-ink" x="214" y="12" width="96" height="138" rx="6"/>
-  {lines.map((l,i)=><text key={i} className={'mono f-amber-l type '+d(imports.length*2+i)} x="222" y={34+i*20} fontSize="11">{fit(l,11)}</text>)}
   {!r&&<Note text={IDLE}/>}
  </>};
 }};
@@ -43,25 +41,32 @@ const randomScene:SceneDef={title:"The riddle keeper's dice",draw:r=>{
  const lines=outLines(r),nums=lines.filter(isNum),rolls=nums.length>1?nums.slice(0,-1):nums,total=nums.length>1?nums.at(-1):undefined,others=lines.filter(l=>!isNum(l)).slice(0,3);
  return {say:r?`${rolls.length?`Rolled ${rolls.join(', ')}`:'No rolls'}${total!==undefined?`, total ${total}`:''}.${others.length?` Also printed: ${others.join(' / ')}.`:''}`:'Dice, waiting to be rolled.',svg:<>
   <Ground tone="slate"/>
-  <path className="f-moss s-ink" d="M14 120h292v34H14z"/>
-  {rolls.slice(0,8).map((v,i)=><Die key={i} x={36+i*36} y={92} value={v} className={'drop '+d(i)}/>)}
+  <path className="f-moss s-ink" d="M60 132h200v22H60z"/>
+  {rolls.slice(0,5).map((v,i,a)=><g key={i} transform={`translate(${160-(a.length-1)*24+i*48} 76) scale(1.4)`}><Die x={0} y={0} value={v} className={'drop '+d(i)}/></g>)}
   {total!==undefined&&<Tag x={270} y={30} text={`total ${fit(total,6)}`} tone="clay" className={'pop '+d(rolls.length+1)}/>}
-  {others.map((l,i)=><text key={i} className={'mono f-ink type '+d(i)} x="20" y={28+i*16} fontSize="10">{fit(l,30)}</text>)}
+  {(()=>{const list=others.map(l=>parseRepr(l)).find(v=>v?.t==='list'),pickd=others.find(l=>!l.startsWith('['));return <>
+   {pickd&&<g className={'pop '+d(rolls.length+1)}><path className="s-ink" d="M44 120V38"/><path className="f-cream s-ink" d="M44 30h56l10 10-10 10H44z"/><text className="mono f-ink" x="72" y="44" fontSize="11" textAnchor="middle">{fit(pickd,7)}</text></g>}
+   {list&&listItems(list).slice(0,4).map((c,i)=><g key={i} className={'slide '+d(rolls.length+2+i)}><rect className="f-white s-ink-s" x={196+i*28} y={22+i*3} width="40" height="54" rx="5"/><text className="mono f-ink" x={216+i*28} y={52+i*3} fontSize="10" textAnchor="middle">{fit(show(c),5)}</text></g>)}
+   {list&&<text className="mono f-ink" x="246" y="104" fontSize="10" textAnchor="middle">shuffled</text>}
+  </>;})()}
   {!r&&<Note text={IDLE}/>}
  </>};
 }};
 
 const mathScene:SceneDef={title:'As the crow flies',draw:r=>{
- const e=toNum(r?.inputs[0])??numOf(pick(r?.vars,['east','a','x'])),n=toNum(r?.inputs[1])??numOf(pick(r?.vars,['north','b','y'])),lines=outLines(r).slice(0,5);
+ const call=/hypot\(\s*(-?\d+(?:\.\d+)?)\s*,\s*(-?\d+(?:\.\d+)?)\s*\)/.exec(r?.code??'');
+ const e=toNum(r?.inputs[0])??numOf(pick(r?.vars,['east','a','x']))??(call?Number(call[1]):null),n=toNum(r?.inputs[1])??numOf(pick(r?.vars,['north','b','y']))??(call?Number(call[2]):null),lines=outLines(r).slice(0,5);
  const has=e!==null&&n!==null,size=has?Math.max(e!,n!,1):1,u=Math.min(24,120/size),ox=24,oy=150;
- return {say:r?has?`${e} east and ${n} north. The straight line is shorter than the walk along the grid. Printed: ${lines.join(', ')}.`:`Printed: ${lines.join(', ')||'nothing'}.`:'A map grid, with a straight path and a grid path to the treasure.',svg:<>
+ return {say:r?has?`${e} east and ${n} north: ${+Math.hypot(e!,n!).toFixed(2)} as the crow flies, ${Math.abs(e!)+Math.abs(n!)} along the grid.`:`Printed: ${lines.join(', ')||'nothing'}.`:'A map grid, with a straight path and a grid path to the treasure.',svg:<>
   <Ground tone="sand"/>
   {has&&<>{Array.from({length:Math.min(size,12)+1},(_,i)=><g key={i}><path className="s-ink-s scene-grid" d={`M${ox+i*u} ${oy}V${oy-Math.min(size,12)*u}`}/><path className="s-ink-s scene-grid" d={`M${ox} ${oy-i*u}H${ox+Math.min(size,12)*u}`}/></g>)}
    <path className={'s-clay-w drop '+d(1)} d={`M${ox} ${oy}h${e!*u}v${-n!*u}`}/><path className={'s-moss-w drop '+d(3)} d={`M${ox} ${oy}L${ox+e!*u} ${oy-n!*u}`}/>
    <Item x={ox+e!*u} y={oy-n!*u+6} name="treasure" className={'pop '+d(4)}/><Hero x={ox} y={oy} className="hero-small"/></>}
-  <rect className="f-white s-ink" x="196" y="16" width="112" height={Math.max(30,lines.length*20+12)} rx="6"/>
-  {lines.map((l,i)=><text key={i} className={'mono f-ink type '+d(5+i)} x="206" y={36+i*20} fontSize="11">{fit(l,14)}</text>)}
-  {has&&<><text className="mono f-moss" x="200" y="150" fontSize="9">straight line</text><text className="mono f-clay" x="200" y="164" fontSize="9">along the grid</text></>}
+  {!has&&<><rect className="f-white s-ink" x="196" y="16" width="112" height={Math.max(30,lines.length*20+12)} rx="6"/>
+  {lines.map((l,i)=><text key={i} className={'mono f-ink type '+d(5+i)} x="206" y={36+i*20} fontSize="11">{fit(l,14)}</text>)}</>}
+  {has&&<g className={'pop '+d(5)}><text className="mono f-moss" x="196" y="40" fontSize="12">straight line</text><text className="mono f-moss" x="196" y="58" fontSize="16">{+Math.hypot(e!,n!).toFixed(2)}</text>
+   <text className="mono f-clay" x="196" y="92" fontSize="12">along the grid</text><text className="mono f-clay" x="196" y="110" fontSize="16">{Math.abs(e!)+Math.abs(n!)}</text>
+   <text className="mono f-ink" x="196" y="140" fontSize="10">{e} east, {n} north</text></g>}
   {!r&&<Note text={IDLE}/>}
  </>};
 }};
@@ -72,15 +77,18 @@ const datetimeScene:SceneDef={title:'The calendar',draw:r=>{
  const first=dates[0],month=first?new Date(Date.UTC(first.getUTCFullYear(),first.getUTCMonth(),1)):null;
  const days=month?new Date(Date.UTC(month.getUTCFullYear(),month.getUTCMonth()+1,0)).getUTCDate():0,offset=month?(month.getUTCDay()+6)%7:0;
  const marked=new Set(dates.filter(x=>month&&x.getUTCMonth()===month.getUTCMonth()&&x.getUTCFullYear()===month.getUTCFullYear()).map(x=>x.getUTCDate()));
+ const inCode=[...(r?.code??'').matchAll(/date\((\d{4}),\s*(\d{1,2}),\s*(\d{1,2})\)/g)].map(m=>({y:+m[1],m:+m[2]-1,d:+m[3]}));
+ const ringed=new Set(inCode.filter(x=>month&&x.m===month.getUTCMonth()&&x.y===month.getUTCFullYear()).map(x=>x.d));
  const later=dates.length-marked.size,name=month?month.toLocaleString('en',{month:'long',year:'numeric',timeZone:'UTC'}):'';
- return {say:dates.length?`${name}: ${plural(marked.size,'date')} marked${later?`, and ${later} in a later month`:''}. Weekend columns are shaded.`:r?`Printed: ${lines.slice(0,4).join(', ')||'nothing'}.`:'A calendar page, waiting for dates.',svg:<>
+ return {say:dates.length?`${name}: ${plural(marked.size,'date')} printed${ringed.size?`, ${plural(ringed.size,'date')} from the code ringed`:''}${later?`, and ${later} in a later month`:''}. Weekend columns are shaded.`:r?`Printed: ${lines.slice(0,4).join(', ')||'nothing'}.`:'A calendar page, waiting for dates.',svg:<>
   <Ground/>
   <rect className="f-white s-ink" x="16" y="10" width="218" height="150" rx="8"/>
   <text className="serif f-ink" x="26" y="28" fontSize="12">{name||'calendar'}</text>
   <rect className="f-amber-l" x={26+5*29} y="34" width="58" height="122" rx="4"/>
   {['M','T','W','T','F','S','S'].map((x,i)=><text key={i} className="mono f-ink" x={40+i*29} y="46" fontSize="9" textAnchor="middle">{x}</text>)}
-  {Array.from({length:days},(_,i)=>{const k=i+offset,x=40+(k%7)*29,y=64+Math.floor(k/7)*18,on=marked.has(i+1);return <g key={i}>{on&&<circle className={'f-clay pop '+d(i/3)} cx={x} cy={y-4} r="8"/>}<text className={'mono '+(on?'f-white':'f-ink')} x={x} y={y} fontSize="9" textAnchor="middle">{i+1}</text></g>;})}
-  {lines.filter(l=>!DATE.test(l)).slice(0,3).map((l,i)=><text key={i} className={'mono f-ink type '+d(8+i)} x="244" y={40+i*18} fontSize="10">{fit(l,9)}</text>)}
+  {Array.from({length:days},(_,i)=>{const k=i+offset,x=40+(k%7)*29,y=64+Math.floor(k/7)*18,on=marked.has(i+1);return <g key={i}>{ringed.has(i+1)&&!on&&<circle className="s-plum-s" cx={x} cy={y-4} r="8"/>}{on&&<circle className={'f-clay pop '+d(i/3)} cx={x} cy={y-4} r="8"/>}<text className={'mono '+(on?'f-white':'f-ink')} x={x} y={y} fontSize="9" textAnchor="middle">{i+1}</text></g>;})}
+  {month&&<g className={'pop '+d(10)}><circle className="f-clay" cx="248" cy="40" r="6"/><text className="mono f-ink" x="258" y="44" fontSize="10">printed</text>
+   {ringed.size>0&&<><circle className="s-plum-s" cx="248" cy="62" r="6"/><text className="mono f-ink" x="258" y="66" fontSize="10">in code</text></>}</g>}
   {later>0&&<text className="mono f-ink" x="244" y="150" fontSize="9">+{later} later</text>}
   {!r&&<Note text={IDLE}/>}
  </>};
@@ -125,7 +133,7 @@ const assertTests:SceneDef={title:'The test report',draw:r=>{
  const failed=v.indexOf('failed');
  return {say:r?asserts.length?`${v.filter(x=>x==='passed').length} of ${asserts.length} tests passed${failed>=0?`; the test on line ${asserts[failed].line} failed, so the ones after it did not run`:''}.${lines.length?` Printed: ${lines.join(', ')}.`:''}`:'No assert lines yet.':'A report card that ticks off each assert.',svg:<>
   <Ground tone="sand"/>
-  <rect className="f-white s-ink" x="14" y="10" width="292" height="150" rx="8"/>
+  <rect className="f-white s-ink" x="14" y="10" width="292" height={Math.min(150,Math.max(44,asserts.length*19+22))} rx="8"/>
   {asserts.map((a,i)=><g key={i} className={'slide '+d(i)}>
    <text className={'mono '+(v[i]==='failed'?'f-clay':v[i]==='passed'?'f-moss':'f-ink scene-faint')} x="26" y={32+i*19} fontSize="13" fontWeight="700">{MARK[v[i]]}</text>
    <text className={'mono '+(v[i]==='not run'?'f-ink scene-faint':'f-ink')} x="44" y={32+i*19} fontSize="10">{fit(a.text,38)}</text>
@@ -190,7 +198,6 @@ const typeHints:SceneDef={title:'Labelled parcels',draw:r=>{
    <rect className="f-plum s-ink" x="166" y="40" width="70" height="80" rx="8"/><text className="mono f-white" x="201" y="84" fontSize="10" textAnchor="middle">{fit(sig.name,9)}</text>
    <path className="s-ink" d="M236 80h20"/>{sig.returns?<Tag x={282} y={80} text={fit(sig.returns,8)} tone="clay" className={'pop '+d(4)}/>:<text className="mono f-clay" x="262" y="84" fontSize="9">no label</text>}
   </>}
-  {lines.map((l,i)=><text key={i} className={'mono f-ink type '+d(5+i)} x="14" y={150+i*12} fontSize="9">{fit(l,52)}</text>)}
   {!r&&<Note text={IDLE}/>}
  </>};
 }};
@@ -199,15 +206,14 @@ const refactor:SceneDef={title:'Tidiness meter',draw:r=>{
  const code=(r?.code??'').split('\n').map(l=>l.trim()).filter(l=>l&&!l.startsWith('#')),counts=new Map<string,number>();
  code.forEach(l=>counts.set(l,(counts.get(l)??0)+1));
  const repeated=[...counts].filter(([l,n])=>n>1&&l.length>6).reduce((a,[,n])=>a+n,0),fns=signatures(r?.code).length,lines=outLines(r).slice(0,5);
- const bar=(v:number,max:number)=>clamp(v/max*120,2,120);
+ const bar=(v:number,max:number)=>clamp(v/max*180,2,180);
  return {say:r?`${code.length} lines of code, ${repeated} of them repeats, ${plural(fns,'function')}. Printed: ${lines.join(' / ')||'nothing'}.`:'Meters for the length of the code and how much of it repeats.',svg:<>
   <Ground/>
   {[['lines',code.length,60,'f-slate'],['repeats',repeated,20,'f-clay'],['functions',fns,5,'f-moss']].map(([label,v,max,tone],i)=><g key={label as string}>
-   <text className="mono f-ink" x="16" y={34+i*36} fontSize="10">{label as string}</text>
-   <rect className="f-white s-ink-s" x="86" y={22+i*36} width="122" height="16" rx="4"/><rect className={(tone as string)+' grow '+d(i)} x="87" y={23+i*36} width={bar(v as number,max as number)} height="14" rx="3"/>
-   <text className="mono f-ink" x="216" y={34+i*36} fontSize="10">{v as number}</text></g>)}
-  <rect className="f-ink" x="236" y="14" width="74" height="110" rx="6"/>
-  {lines.map((l,i)=><text key={i} className={'mono f-amber-l type '+d(3+i)} x="242" y={32+i*18} fontSize="9">{fit(l,11)}</text>)}
+   <text className="mono f-ink" x="16" y={38+i*40} fontSize="12">{label as string}</text>
+   <rect className="f-white s-ink-s" x="96" y={24+i*40} width="182" height="20" rx="5"/><rect className={(tone as string)+' grow '+d(i)} x="97" y={25+i*40} width={bar(v as number,max as number)} height="18" rx="4"/>
+   <text className="mono f-ink" x="286" y={39+i*40} fontSize="12">{v as number}</text></g>)}
+
   {!r&&<Note text={IDLE}/>}
  </>};
 }};
@@ -253,10 +259,10 @@ function csvRows(text:string):string[][]{
 }
 const csvScene:SceneDef={title:'The score table',draw:r=>{
  const file=firstFile(r),rows=file?csvRows(file[1]).slice(0,7):[],out=outLines(r),totals=out.map(l=>/^([^,]+),(-?\d+)$/.exec(l)).filter(Boolean).map(m=>[m![1],Number(m![2])] as [string,number]),top=out.at(-1);
- const cols=rows[0]?.length??0,w=cols?Math.min(70,190/cols):60,max=Math.max(1,...totals.map(t=>t[1]));
+ const cols=rows[0]?.length??0,wide=!totals.length,w=cols?Math.min(wide?100:70,(wide?280:190)/cols):60,rh=wide?26:20,fs=wide?12:9,x0=wide?160-cols*w/2:10,max=Math.max(1,...totals.map(t=>t[1]));
  return {say:rows.length?`A table of ${plural(rows.length-1,'row')}${totals.length?`; totals ${totals.map(([t,n])=>`${t} ${n}`).join(', ')}`:''}${top&&!/,/.test(top)?`; top player ${top}`:''}.`:r?`Printed: ${out.slice(0,3).join(' / ')||'nothing'}.`:'A table read from a CSV file, and the totals worked out from it.',svg:<>
   <Ground/>
-  {rows.map((row,i)=><g key={i} className={'type '+d(i)}>{row.slice(0,4).map((v,j)=><g key={j}><rect className={(i===0?'f-cream':row.includes(top??'\u0000')?'f-amber-l':'f-white')+' s-ink-s'} x={10+j*w} y={10+i*20} width={w} height="20"/><text className="mono f-ink" x={14+j*w} y={24+i*20} fontSize="9" fontWeight={i===0?700:400}>{fit(v,Math.floor(w/6))}</text></g>)}</g>)}
+  {rows.map((row,i)=><g key={i} className={'type '+d(i)}>{row.slice(0,4).map((v,j)=><g key={j}><rect className={(i===0?'f-cream':row.includes(top??'\u0000')?'f-amber-l':'f-white')+' s-ink-s'} x={x0+j*w} y={12+i*rh} width={w} height={rh}/><text className="mono f-ink" x={x0+5+j*w} y={12+i*rh+rh/2+fs/3} fontSize={fs} fontWeight={i===0?700:400}>{fit(v,Math.floor(w/(fs*0.62)))}</text></g>)}</g>)}
   {totals.slice(0,5).map(([t,n],i)=><g key={t}><text className="mono f-ink" x="214" y={24+i*24} fontSize="9">{fit(t,8)}</text><rect className={'f-moss grow '+d(rows.length+i)} x="214" y={28+i*24} width={Math.max(3,n/max*90)} height="8" rx="2"/><text className="mono f-ink" x={218+Math.max(3,n/max*90)} y={36+i*24} fontSize="8">{n}</text></g>)}
   {!r&&<Note text={IDLE}/>}
  </>};
@@ -270,8 +276,9 @@ const missingData:SceneDef={title:'The repair kit',draw:r=>{
   {file?<><rect className="f-white s-ink" x="12" y="10" width="170" height={Math.max(40,lines.length*19+26)} rx="6"/><text className="mono f-ink" x="22" y="26" fontSize="10">{fit(file[0],22)}</text>
    {lines.map((l,i)=>{const k=kind(l);return <g key={i} className={'slide '+d(i)}><text className={'mono '+(k==='good'?'f-moss':k==='bad'?'f-clay':'f-ink scene-faint')} x="22" y={46+i*19} fontSize="12" fontWeight="700">{k==='good'?'✓':k==='bad'?'✗':'·'}</text><text className="mono f-ink" x="38" y={46+i*19} fontSize="10">{l.trim()?fit(l,18):'(blank)'}</text></g>;})}</>
    :r&&<g className="pop"><path className="f-white s-ink scene-dashed" d="M30 20h100l20 20v100H30z"/><text className="mono f-clay" x="90" y="90" fontSize="11" textAnchor="middle">missing</text></g>}
-  <rect className="f-ink" x="194" y="10" width="114" height="150" rx="6"/>
-  {out.slice(0,7).map((l,i)=><text key={i} className={'mono f-amber-l type '+d(lines.length+i)} x="202" y={28+i*18} fontSize="10">{fit(l,15)}</text>)}
+  {r&&(()=>{const good=lines.filter(l=>kind(l)==='good').length,bad=lines.filter(l=>kind(l)==='bad').length;return <g className={'pop '+d(lines.length+1)}>
+   {file&&<Tag x={250} y={40} text={`${good} usable`} tone="moss"/>}{file&&bad>0&&<Tag x={250} y={76} text={`${bad} damaged`} tone="clay"/>}
+   {newGame&&<Tag x={250} y={file?112:60} text="started fresh" tone="white"/>}</g>;})()}
   {!r&&<Note text={IDLE}/>}
  </>};
 }};
@@ -298,7 +305,7 @@ const regexBasics:SceneDef={title:'The highlighter',draw:r=>{
  return {say:r?`${pattern?`The pattern ${pattern} is highlighted wherever it matches. `:''}${lines.map(l=>JSON.stringify(l)).join(', ')||'No text.'}`:'Lines of text, with every match of the pattern highlighted.',svg:<>
   <Ground/>
   {pattern&&<Tag x={160} y={20} text={fit(pattern,34)} tone="moss" className="drop"/>}
-  {lines.map((l,i)=><text key={i} className={'mono f-ink type '+d(i+1)} x="18" y={52+i*20} fontSize="11" xmlSpace="preserve">{marks(fit(l,38)).map((p,j)=>p.hit?<tspan key={j} className="f-clay scene-hit" fontWeight="700">{p.t}</tspan>:<tspan key={j}>{p.t}</tspan>)}</text>)}
+  {lines.slice(0,4).map((l,i)=><text key={i} className={'mono f-ink type '+d(i+1)} x="18" y={62+i*26} fontSize="14" xmlSpace="preserve">{marks(fit(l,32)).map((p,j)=>p.hit?<tspan key={j} className="f-clay scene-hit" fontWeight="700">{p.t}</tspan>:<tspan key={j}>{p.t}</tspan>)}</text>)}
   {!r&&<Note text={IDLE}/>}
  </>};
 }};
@@ -309,8 +316,7 @@ const regexGroups:SceneDef={title:'Sorting into bins',draw:r=>{
   <Ground tone="slate"/>
   <path className="f-cream s-ink" d="M14 30h130v86H14z"/><path className="f-amber-l s-ink" d="M176 30h130v86H176z"/>
   <text className="mono f-ink" x="79" y="24" fontSize="9" textAnchor="middle">group: name</text><text className="mono f-ink" x="241" y="24" fontSize="9" textAnchor="middle">group: number or time</text>
-  {pairs.map((p,i)=><g key={i} className={'drop '+d(i)}><text className="mono f-ink" x="24" y={48+i*13} fontSize="10">{fit(p![1],16)}</text><text className="mono f-ink" x="186" y={48+i*13} fontSize="10">{fit(p![2],16)}</text></g>)}
-  {rest.map((l,i)=><text key={i} className={'mono f-ink type '+d(pairs.length+i)} x="16" y={132+i*12} fontSize="9">{fit(l,46)}</text>)}
+  {pairs.map((p,i)=><g key={i} className={'drop '+d(i)}><text className="mono f-ink" x="24" y={52+i*16} fontSize="12">{fit(p![1],14)}</text><text className="mono f-ink" x="186" y={52+i*16} fontSize="12">{fit(p![2],14)}</text></g>)}
   {!r&&<Note text={IDLE}/>}
  </>};
 }};
@@ -319,7 +325,7 @@ const validateFormats:SceneDef={title:'The form checker',draw:r=>{
  const out=outLines(r),rows=out.map(l=>/^(.*)\s(True|False)$/.exec(l)).filter(Boolean).slice(0,6) as RegExpExecArray[],fns=functionsIn(r?.code).map(f=>f.name);
  return {say:r?rows.length?rows.map(m=>`${m[1]}: ${m[2]==='True'?'accepted':'refused'}`).join('; ')+'.':r.returned!==undefined?`The checked call returned ${r.returned}.`:`Functions: ${fns.join(', ')||'none yet'}.`:'A form whose fields are stamped accepted or refused.',svg:<>
   <Ground tone="sand"/>
-  <rect className="f-white s-ink" x="30" y="10" width="260" height="150" rx="8"/>
+  <rect className="f-white s-ink" x="30" y="10" width="260" height={Math.min(150,Math.max(44,rows.length*22+24))} rx="8"/>
   {rows.map((m,i)=><g key={i} className={'slide '+d(i)}><rect className="f-cream s-ink-s" x="44" y={22+i*22} width="150" height="18" rx="3"/><text className="mono f-ink" x="50" y={35+i*22} fontSize="10">{fit(m[1],22)}</text>
    <g className={'pop '+d(i+2)}><rect className={(m[2]==='True'?'f-moss':'f-clay')+' s-ink-s'} x="204" y={22+i*22} width="72" height="18" rx="9"/><text className="mono f-white" x="240" y={35+i*22} fontSize="9" textAnchor="middle">{m[2]==='True'?'accepted':'refused'}</text></g></g>)}
   {!rows.length&&r&&<>{fns.map((f,i)=><text key={f} className="mono f-plum" x="46" y={36+i*20} fontSize="11">def {f}()</text>)}{r.returned!==undefined&&<Tag x={160} y={130} text={`returned ${fit(r.returned,10)}`} tone={r.returned==='True'?'moss':'clay'} className="pop"/>}</>}
@@ -345,7 +351,8 @@ const classesScene:SceneDef={title:'The hero cards',draw:r=>{
  const objs=objectsOf(r).slice(0,6),classes=ofKind(r?.vars,['class']).map(([k])=>k),out=outLines(r).slice(0,4);
  return {say:objs.length?`${plural(objs.length,'object')} made: ${objs.map(o=>`${o.name} (${o.fields.map(([f,v])=>`${f} ${v}`).join(', ')})`).join('; ')}.`:r?`${classes.length?`Class ${classes.join(', ')} defined. `:''}Printed: ${out.join(' / ')||'nothing'}.`:'A card for each object your program makes, with its attributes.',svg:<>
   <Ground/>
-  {objs.map((o,i)=><ObjectCard key={o.name} x={10+(i%3)*102} y={10+Math.floor(i/3)*84} o={o} className={'pop '+d(i*2)}/>)}
+  {objs.length<=3?<g transform={`translate(${160-objs.length*102*0.7} 14) scale(1.4)`}>{objs.map((o,i)=><ObjectCard key={o.name} x={i*102} y={0} o={o} className={'pop '+d(i*2)}/>)}</g>
+   :objs.map((o,i)=><ObjectCard key={o.name} x={10+(i%3)*102} y={10+Math.floor(i/3)*84} o={o} className={'pop '+d(i*2)}/>)}
   {!objs.length&&r&&out.map((l,i)=><text key={i} className={'mono f-ink type '+d(i)} x="18" y={34+i*20} fontSize="10">{fit(l,44)}</text>)}
   {!r&&<Note text={IDLE}/>}
  </>};
@@ -359,7 +366,7 @@ const methodsScene:SceneDef={title:'Health and potions',draw:r=>{
    <rect className="f-white s-ink-s" x={18+i*36} y="40" width="24" height="100" rx="4"/><rect className={h>3?'f-moss':'f-clay'} x={20+i*36} y={138-h/max*96} width="20" height={h/max*96} rx="3"/>
    <text className="mono f-ink" x={30+i*36} y="156" fontSize="9" textAnchor="middle">{h}</text>{p!==undefined&&<text className="mono f-plum" x={30+i*36} y="32" fontSize="9" textAnchor="middle">{'●'.repeat(Number(p))||'○'}</text>}
   </g>;})}
-  {!states.length&&objs.map((o,i)=><ObjectCard key={o.name} x={14+i*102} y={20} o={o} className={'pop '+d(i)}/>)}
+  {!states.length&&<g transform={`translate(${160-objs.length*102*0.7} 20) scale(1.4)`}>{objs.map((o,i)=><ObjectCard key={o.name} x={i*102} y={0} o={o} className={'pop '+d(i)}/>)}</g>}
   {!r&&<Note text={IDLE}/>}
  </>};
 }};
@@ -371,9 +378,45 @@ const compositionScene:SceneDef={title:'The hero and the pack',draw:r=>{
   <Ground tone="sand"/>
   <Hero x={50} y={150}/>{carries&&<Tag x={50} y={70} text={fit(carries.split(' carries')[0],10)} tone="clay"/>}
   <path className="f-clay s-ink" d="M100 70q0-20 24-20h80q24 0 24 20v84H100z"/><text className="mono f-white" x="164" y="66" fontSize="9" textAnchor="middle">pack{carries?` · ${carries.split(' carries ')[1]}`:''}</text>
-  {packItems.map((n,i)=><g key={i} className={'drop '+d(i)}><Item x={124+(i%3)*36} y={104+Math.floor(i/3)*34} name={n} size={.9}/><text className="mono f-white" x={124+(i%3)*36} y={116+Math.floor(i/3)*34} fontSize="7" textAnchor="middle">{fit(n,6)}</text></g>)}
+  {packItems.map((n,i)=><g key={i} className={'drop '+d(i)}><Item x={124+(i%3)*36} y={104+Math.floor(i/3)*34} name={n} size={.9}/><text className="mono f-white" x={124+(i%3)*36} y={116+Math.floor(i/3)*34} fontSize="8.5" textAnchor="middle">{fit(n,6)}</text></g>)}
   {tried.filter(m=>!ok(m)).map((m,i)=><g key={i} className={'slide '+d(tried.length+i)}><Item x={268} y={60+i*36} name={m[1]}/><text className="mono f-clay" x="268" y={72+i*36} fontSize="8" textAnchor="middle">{fit(m[1],8)}: too heavy</text></g>)}
   {!r&&<Note text={IDLE}/>}
  </>};
 }};
 Object.assign(UNIT_7_TO_11,{'py.string-methods':stringMethods,'py.regex-basics':regexBasics,'py.regex-groups':regexGroups,'py.validate-formats':validateFormats,'py.classes':classesScene,'py.methods':methodsScene,'py.composition':compositionScene});
+
+// ---------- Choosing a shape, and the final project's brief ----------
+const entriesOf=(n:PyNode|undefined):[string,PyNode][]=>n&&n.t==='dict'?n.entries.map(([k,v])=>[show(k),v] as [string,PyNode]):[];
+const whenNotOop:SceneDef={title:'Three shapes',draw:r=>{
+ const obj=objectsOf(r)[0],dict=ofKind(r?.vars,['dict'])[0],fn=ofKind(r?.vars,['function'])[0],last=outLines(r).at(-1);
+ const d1=dict?entriesOf(dict[1]):[],f=fn?.[1].t==='function'?fn[1]:null;
+ return {say:r?[obj?`${obj.name} is an object of class ${obj.cls}, holding ${obj.fields.map(([k,v])=>`${k} ${v}`).join(', ')}`:'',dict?`${dict[0]} is a dictionary holding ${d1.map(([k,v])=>`${k} ${show(v,true)}`).join(', ')}`:'',f?`${f.name}() is a plain function of ${f.params.join(' and ')||'nothing'}${last&&isNum(last)?`, and it gave ${last}`:''}`:''].filter(Boolean).join('; ')+'.':'The same facts in three shapes: a class, a dictionary and a function.',svg:<>
+  <Ground tone="sand"/>
+  {['class','dictionary','function'].map((t,i)=><text key={t} className="mono f-ink" x={58+i*102} y="22" fontSize="11" textAnchor="middle">{t}</text>)}
+  <g className="pop">{obj?<ObjectCard x={10} y={32} o={obj}/>:<rect className="f-white s-ink-s scene-dashed" x="10" y="32" width="96" height="60" rx="6"/>}</g>
+  <g className={'pop '+d(2)}><rect className="f-cream s-ink" x="112" y="32" width="96" height={Math.max(40,d1.length*16+20)} rx="6"/>
+   {d1.slice(0,5).map(([k,v],i)=><text key={k} className="mono f-ink" x="120" y={50+i*16} fontSize="9">{fit(k,7)}: <tspan className="f-clay">{fit(show(v,true),7)}</tspan></text>)}</g>
+  <g className={'pop '+d(4)}><rect className="f-white s-ink" x="214" y="32" width="96" height="40" rx="6"/>
+   {f&&<><text className="mono f-plum" x="222" y="50" fontSize="10">def {fit(f.name,7)}()</text><text className="mono f-ink" x="222" y="64" fontSize="9">{fit(f.params.join(', '),14)}</text></>}
+   {f&&last&&isNum(last)&&<Tag x={262} y={96} text={`gave ${fit(last,6)}`} tone="moss"/>}</g>
+  {[['data + actions,','many copies'],['just data,','no actions'],['just an action,','in and out']].map(([a,b],i)=><g key={i} className={'type '+d(6+i)}><text className="mono f-moss" x={58+i*102} y="128" fontSize="10" textAnchor="middle">{a}</text><text className="mono f-moss" x={58+i*102} y="142" fontSize="10" textAnchor="middle">{b}</text></g>)}
+  {!r&&<Note text={IDLE}/>}
+ </>};
+}};
+
+const finalBrief:SceneDef={title:'The brief board',draw:r=>{
+ const brief=ofKind(r?.vars,['dict'])[0],e=Object.fromEntries(entriesOf(brief?.[1])),items=(k:string)=>listItems(e[k]).map(x=>show(x));
+ const project=e.project?show(e.project):'',who=e.for?show(e.for):'',must=items('must'),later=items('not yet'),steps=items('milestones');
+ return {say:brief?`${project||'A project'}${who?` for ${who}`:''}. Must: ${must.join(', ')||'nothing yet'}. Not yet: ${later.join(', ')||'nothing'}.${steps.length?` Milestones: ${steps.join(', ')}.`:''}`:r?'No brief stored yet.':'A board for the brief: what it must do, and what waits.',svg:<>
+  <Ground tone="sand"/>
+  <rect className="f-cream s-ink" x="12" y="10" width="296" height="146" rx="8"/>
+  {project&&<Tag x={160} y={28} text={fit(project,20)} tone="clay" className="drop"/>}
+  {who&&<text className={'mono f-ink type '+d(1)} x="160" y="56" fontSize="10" textAnchor="middle">for {fit(who,36)}</text>}
+  <text className="mono f-moss" x="24" y="76" fontSize="10">must</text>
+  {must.slice(0,4).map((m,i)=><text key={i} className={'mono f-ink slide '+d(2+i)} x="22" y={94+i*16} fontSize="9">✓ {fit(m,30)}</text>)}
+  <text className="mono f-clay" x="214" y="76" fontSize="10">{steps.length?'milestones':'not yet'}</text>
+  {(steps.length?steps:later).slice(0,4).map((m,i)=><text key={i} className={'mono f-ink slide '+d(4+i)} x="214" y={94+i*16} fontSize="9">{steps.length?`${i+1}.`:'·'} {fit(m,14)}</text>)}
+  {!r&&<Note text={IDLE}/>}
+ </>};
+}};
+Object.assign(UNIT_7_TO_11,{'py.when-not-oop':whenNotOop,'py.final-brief':finalBrief});

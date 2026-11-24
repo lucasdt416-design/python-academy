@@ -255,12 +255,12 @@ test('the student home after everything released says unit 7 has more lessons on
 test('the catalog and course page show unit 3 as whole, with its true summary and five lessons', async ({page}) => {
  await mockApi(page);
  await page.goto('/courses');
- await expect(page.getByText('11 of 12 units open')).toBeVisible();
+ await expect(page.getByText('12 of 12 units open')).toBeVisible();
  await page.goto('/courses/py');
  const unit = page.getByRole('article', {name: 'Repeat and explore'});
  await expect(unit.getByText('while and for loops that always finish, running totals, and loops inside loops.')).toBeVisible();
  await expect(unit.getByRole('link')).toHaveCount(5);
- await expect(page.getByRole('article', {name: 'Final project'}).getByText('Coming soon')).toBeVisible();
+ await expect(page.getByRole('article', {name: 'Final project'}).getByText('Coming soon')).toHaveCount(0);
 });
 
 test('the nested loops challenge fits a phone, with no sideways scrolling, and nothing moves with reduced motion', async ({page}) => {

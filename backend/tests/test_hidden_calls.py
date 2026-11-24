@@ -83,7 +83,8 @@ def test_the_answer_is_in_no_response(lesson):
 def test_hidden_calls_are_used_only_by_the_function_lessons():
     _, lessons = content.load()
     using = {found.id for found in lessons.values() if (check := found.task('challenge').check) and any(c.call and c.visibility == 'hidden' for c in check.cases)}
-    assert using == {'py.functions', 'py.parameters', 'py.return-values', 'py.scope', 'py.decompose', 'py.type-hints', 'py.refactor', 'py.validate-formats'}
+    assert using == {'py.functions', 'py.parameters', 'py.return-values', 'py.scope', 'py.decompose', 'py.type-hints', 'py.refactor', 'py.validate-formats',
+                     'cs.binary', 'cs.hexadecimal', 'cs.text-encoding', 'cs.float-limits', 'cs.linear-search', 'cs.binary-search', 'cs.counting-steps'}
 
 
 def test_the_recorded_answers_are_the_real_apis(lesson):

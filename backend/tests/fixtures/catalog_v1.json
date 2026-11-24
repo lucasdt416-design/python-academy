@@ -447,9 +447,9 @@
         {
           "id": "py.u11",
           "title": "Model a larger program",
-          "summary": "Classes and attributes, methods that change an object, and objects built from other objects. A lesson on when not to use classes comes later.",
+          "summary": "Classes and attributes, methods that change an object, objects built from other objects, and when a dictionary or a function does the job better.",
           "status": "released",
-          "complete": false,
+          "complete": true,
           "lessons": [
             {
               "id": "py.classes",
@@ -471,16 +471,31 @@
               "concept": "Classes · objects that hold objects",
               "description": "Build the hero from smaller parts: a pack with a weight limit, holding items, each class doing one job.",
               "badge": "Outfitter"
+            },
+            {
+              "id": "py.when-not-oop",
+              "title": "Not everything needs a class",
+              "concept": "Design · class, dictionary or function?",
+              "description": "Classes are a tool, not a rule. Learn to tell when a dictionary or a plain function does the job more simply.",
+              "badge": "Design judge"
             }
           ]
         },
         {
           "id": "py.u12",
           "title": "Final project",
-          "summary": "Plan, build, test, and explain a project of your own.",
-          "status": "coming_soon",
+          "summary": "Plan, build, test, and explain a project of your own. Choosing and planning it opens first; building and reviewing it come next.",
+          "status": "released",
           "complete": false,
-          "lessons": []
+          "lessons": [
+            {
+              "id": "py.final-brief",
+              "title": "Choose your project",
+              "concept": "Planning · a brief before the build",
+              "description": "Pick your final project, from a word game to a full app, and plan it: who it is for, what it must do, and what waits.",
+              "badge": "Project planner"
+            }
+          ]
         }
       ]
     },
@@ -661,7 +676,7 @@
       "id": "cs",
       "title": "Computer Science Foundations",
       "summary": "Representation, searching, sorting, complexity, and recursion.",
-      "status": "coming_soon",
+      "status": "released",
       "prerequisites": {
         "required": [
           "py.u01",
@@ -676,7 +691,115 @@
           "py.u08"
         ]
       },
-      "units": []
+      "units": [
+        {
+          "id": "cs.u01",
+          "title": "How data is stored",
+          "summary": "Binary, hexadecimal colours, characters and bytes, and why decimals drift.",
+          "status": "released",
+          "complete": true,
+          "lessons": [
+            {
+              "id": "cs.binary",
+              "title": "Lamps on the tower",
+              "concept": "Binary · numbers as 0s and 1s",
+              "description": "The signal tower shows numbers with a row of lamps. Read them, and set them, in binary.",
+              "badge": "Lamplighter"
+            },
+            {
+              "id": "cs.hexadecimal",
+              "title": "Colours on the flags",
+              "concept": "Hexadecimal · base 16 and colours",
+              "description": "The tower signals with coloured flags, written as six hex digits. Turn them into amounts of red, green and blue, and back.",
+              "badge": "Flag painter"
+            },
+            {
+              "id": "cs.text-encoding",
+              "title": "Coded messages",
+              "concept": "Text · characters as numbers, and bytes",
+              "description": "Messages leave the tower as numbers. Shift letters to make a simple code, and count the bytes a message really takes.",
+              "badge": "Cipher clerk"
+            },
+            {
+              "id": "cs.float-limits",
+              "title": "The ledger that would not balance",
+              "concept": "Floats · why 0.1 + 0.2 is not 0.3",
+              "description": "The tower ledger adds up prices. Find out why decimals drift, and keep money exact by counting cents.",
+              "badge": "Honest ledger"
+            }
+          ]
+        },
+        {
+          "id": "cs.u02",
+          "title": "Thinking in steps",
+          "summary": "Pseudocode, tracing a program by hand, and what stays true in a loop.",
+          "status": "coming_soon",
+          "complete": false,
+          "lessons": []
+        },
+        {
+          "id": "cs.u03",
+          "title": "Searching",
+          "summary": "Linear search, binary search, and counting steps as lists grow.",
+          "status": "released",
+          "complete": true,
+          "lessons": [
+            {
+              "id": "cs.linear-search",
+              "title": "Search the shelf",
+              "concept": "Searching · one item at a time",
+              "description": "The archive keeps records on long shelves. Search them one by one, and count how many you had to look at.",
+              "badge": "Archivist"
+            },
+            {
+              "id": "cs.binary-search",
+              "title": "Halve the shelf",
+              "concept": "Searching · binary search on a sorted list",
+              "description": "When the archive is sorted, you can skip half of it with every look. Find records in a handful of steps.",
+              "badge": "Halver"
+            },
+            {
+              "id": "cs.counting-steps",
+              "title": "How the work grows",
+              "concept": "Searching · counting steps as lists grow",
+              "description": "Compare the two searches by counting, not timing: how many looks does each need as the archive grows?",
+              "badge": "Step counter"
+            }
+          ]
+        },
+        {
+          "id": "cs.u04",
+          "title": "Sorting",
+          "summary": "Selection sort, merge sort, and comparing them on real inputs.",
+          "status": "coming_soon",
+          "complete": false,
+          "lessons": []
+        },
+        {
+          "id": "cs.u05",
+          "title": "Recursion",
+          "summary": "Functions that call themselves, base cases, and when a loop is better.",
+          "status": "coming_soon",
+          "complete": false,
+          "lessons": []
+        },
+        {
+          "id": "cs.u06",
+          "title": "Data structures",
+          "summary": "Stacks and queues, hash tables, trees and graphs.",
+          "status": "coming_soon",
+          "complete": false,
+          "lessons": []
+        },
+        {
+          "id": "cs.u07",
+          "title": "Your comparison",
+          "summary": "Design an experiment comparing algorithms, and write it up.",
+          "status": "coming_soon",
+          "complete": false,
+          "lessons": []
+        }
+      ]
     },
     {
       "id": "node",

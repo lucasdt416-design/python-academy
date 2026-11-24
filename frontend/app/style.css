@@ -73,7 +73,8 @@ button:disabled{opacity:.6;cursor:not-allowed}
 /* ---------- Pictures (lesson-art.tsx; docs/design/art-style.md) ---------- */
 .art{display:block;width:100%;height:auto;border-radius:var(--radius)}
 .bg1{fill:#dcebe2}.bg2{fill:#f1e6c8}.bg3{fill:#d3e3e6}
-.s-ink,.s-moss,.s-ink-s,.s-moss-s,.s-ink-w,.s-moss-w,.s-cream-w,.s-clay-w,.s-slate-d{fill:none;stroke-linecap:round;stroke-linejoin:round}
+.s-ink,.s-moss,.s-ink-s,.s-moss-s,.s-ink-w,.s-moss-w,.s-cream-w,.s-clay-w,.s-slate-d,.s-plum-s{fill:none;stroke-linecap:round;stroke-linejoin:round}
+.s-plum-s{stroke:#82668e;stroke-width:2}
 .s-ink{stroke:#263f38;stroke-width:2.5}.s-moss{stroke:#396c58;stroke-width:2.5}.s-ink-s{stroke:#263f38;stroke-width:1.6}.s-moss-s{stroke:#396c58;stroke-width:1.6}
 .s-ink-w{stroke:#263f38;stroke-width:6}.s-moss-w{stroke:#396c58;stroke-width:6}.s-cream-w{stroke:#f5ead2;stroke-width:16}.s-clay-w{stroke:#b5432f;stroke-width:4}.s-slate-d{stroke:#3b6f8a;stroke-width:2;stroke-dasharray:3 4}
 /* Fills come after strokes on purpose: a shape with both classes keeps its fill. */
@@ -237,6 +238,7 @@ button:disabled{opacity:.6;cursor:not-allowed}
 .unit-card h2{font-size:26px;margin:2px 0 4px}
 .unit-card-head p{margin:0}
 .rows{list-style:none;margin:16px 0 0;padding:0;display:grid;gap:8px}
+.row.no-art{grid-template-columns:minmax(0,1fr) auto;padding-left:16px}
 .row{display:grid;grid-template-columns:96px minmax(0,1fr) auto;gap:14px;align-items:center;border:1px solid var(--line-soft);border-radius:12px;padding:8px 14px 8px 8px;text-decoration:none}
 .row:hover{background:#f3f7f2;border-color:#b8cbb5}
 .row.next{border:2px solid var(--moss2);background:var(--mint);padding:7px 13px 7px 7px}
@@ -262,6 +264,7 @@ button:disabled{opacity:.6;cursor:not-allowed}
 .unit-lessons{list-style:none;padding:0;margin:0;display:grid;gap:4px}
 .unit-lesson{display:grid;grid-template-columns:52px 1fr;gap:10px;align-items:center;min-height:52px;padding:6px 8px;border-radius:10px;border:1px solid transparent;text-decoration:none;font-size:14px;line-height:1.25}
 .unit-lesson:hover{background:#f3f7f2}
+.unit-lesson.no-art{grid-template-columns:1fr;min-height:44px}
 .unit-lesson .art{border-radius:6px}
 .unit-lesson small{font-size:12px;margin-top:2px}
 .unit-lesson.current{background:var(--mint);border-color:var(--moss2);font-weight:700}
@@ -270,6 +273,7 @@ button:disabled{opacity:.6;cursor:not-allowed}
 .unit-nav-course{display:flex;align-items:center;min-height:44px;margin-top:10px;padding:0 8px;font-size:13px;color:var(--forest)}
 /* Lesson heading: title, concept, XP, and the lesson's picture. */
 .lhead{display:grid;grid-template-columns:minmax(0,1fr) 280px;gap:24px;align-items:center;margin-bottom:18px}
+.lhead.no-art{grid-template-columns:minmax(0,1fr)}
 .lhead h1{font-size:clamp(30px,3.6vw,46px);margin:4px 0 10px}
 .lhead .kicker{margin-bottom:4px}
 .lmeta{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;margin:0}
@@ -306,7 +310,12 @@ button:disabled{opacity:.6;cursor:not-allowed}
 .teaching-panel h2:focus{outline:none}
 .teaching-panel h3{font-family:var(--sans);font-size:16px;margin:18px 0 6px}
 .teaching-panel .lead{font-size:18px;line-height:1.75;margin-bottom:14px}
-.teaching-panel p{margin:0 0 14px}
+.teaching-panel p{margin:0 0 14px;max-width:40em}
+.teaching-panel p code,.note-callout code{overflow-wrap:anywhere;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+/* See it work: the code and what it printed, beside the picture of the run. */
+.see-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,400px);gap:24px;align-items:start;margin-top:18px}
+.see-scene .scene{margin:0;position:sticky;top:16px}
+.see-code h3:first-child{margin-top:0}
 .example-code{position:relative;background:var(--forest);color:#f1f8ed;border-radius:14px;padding:16px 20px;font-size:15px;line-height:1.95;white-space:pre-wrap;overflow-wrap:anywhere;margin:0 0 12px}
 .output{min-height:60px;background:var(--night);color:#eaf3ec;border-radius:14px;padding:12px 16px;font-family:var(--mono);font-size:15px;line-height:1.8;white-space:pre-wrap;overflow-wrap:anywhere;margin:0 0 12px}
 /* Worked-example markers: the same number beside a print() line and the output line it makes.
@@ -328,12 +337,12 @@ button:disabled{opacity:.6;cursor:not-allowed}
 .ticket{position:relative;background:var(--error-bg);border:2px dashed var(--error-line);border-radius:var(--radius);padding:16px 22px 14px;margin:6px 0 16px}
 .ticket h3{font-family:var(--sans);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--clay);margin:0 0 8px}
 .cases{list-style:none;margin:0;padding:0;display:grid;gap:8px}
-.cases li{display:grid;grid-template-columns:26px minmax(0,1fr) auto;gap:4px 10px;align-items:start;font-size:15px}
+.cases li{display:grid;grid-template-columns:26px minmax(0,1fr);gap:4px 10px;align-items:start;font-size:15px}
 .cases .box{width:22px;height:22px;border-radius:6px;border:2px solid #b98476;background:var(--white);display:grid;place-items:center;color:var(--white);margin-top:2px;font-weight:700;line-height:1}
 .cases li.ok .box{background:var(--moss2);border-color:var(--moss2)}
 .cases li.bad .box{background:var(--clay);border-color:var(--clay)}
 .cases li.locked .box{color:var(--muted)}
-.cases .expect{font-size:13.5px;color:var(--moss);white-space:pre-wrap;overflow-wrap:anywhere;text-align:right}
+.cases .expect{grid-column:2;font-size:13.5px;color:var(--moss);white-space:pre-wrap;overflow-wrap:anywhere;text-align:left}
 .cases .hid{color:var(--muted)}
 /* Editor side. */
 .editor-panel{background:#f5f7f2;border-left:1px solid #d8e1d5;padding:24px;min-width:0}
@@ -373,6 +382,18 @@ button:disabled{opacity:.6;cursor:not-allowed}
 .file-tabs button[aria-selected="true"]{background:#20463c;border-color:#20463c;color:var(--white)}
 .file-tabs button:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
 /* Results, with the state in words as well as colour. */
+.self-review h3{margin-top:0}
+.review-parts{list-style:none;margin:12px 0;padding:0;display:grid;gap:16px}
+.review-parts li{border:1px solid var(--line);border-radius:12px;padding:12px 14px;background:var(--white)}
+.review-parts li.needs{border-color:var(--needs-line);background:var(--needs-bg)}
+.review-parts li.ok{border-color:var(--pass-line)}
+.review-tick{display:flex;gap:10px;align-items:flex-start;font-weight:600;min-height:24px}
+.review-tick input{width:20px;height:20px;margin-top:2px;flex:none}
+.review-ask{display:block;margin:10px 0 4px;font-size:14px}
+.review-parts textarea{width:100%;font:inherit;font-size:15px;border:1px solid var(--line);border-radius:8px;padding:8px 10px;resize:vertical}
+.review-count{font-size:13px;color:var(--muted);margin:4px 0 0}
+.review-note{font-size:14px;color:var(--ink);margin:6px 0 0;font-weight:600}
+.result:empty{display:none}
 .result{margin-top:14px;padding:14px 16px;border:1px solid var(--neutral-line);border-radius:12px;background:var(--white)}
 .result:empty{margin:0;padding:0;border:0}
 .result p{margin:4px 0}
@@ -441,6 +462,8 @@ button:disabled{opacity:.6;cursor:not-allowed}
  .hero-grid,.errdemo,.parents,.course-top,.lhead{grid-template-columns:1fr}
  .lhead .art{max-width:360px}
  .card-body.with-editor{grid-template-columns:1fr}
+ .see-grid{grid-template-columns:1fr}
+ .see-scene .scene{position:static}
  .editor-panel{border-left:0;border-top:1px solid #d8e1d5}
  .flow{grid-template-columns:repeat(2,minmax(0,1fr))}
  .trail,.planned{grid-template-columns:1fr}
@@ -508,12 +531,113 @@ button:disabled{opacity:.6;cursor:not-allowed}
 .scene-art .flame.out{opacity:.1}
 .scene-art .door-open{transform:scaleX(.18);transform-box:fill-box;transform-origin:left center}
 
+/* ---------- Profile (profile.tsx, avatar.tsx) ---------- */
+.profile{max-width:880px}
+.profile h2{margin-top:36px}
+.profile-head{display:grid;grid-template-columns:150px 1fr;gap:28px;align-items:center}
+.profile-head h1{margin-bottom:8px}
+.profile-level{display:flex;gap:12px;align-items:baseline;margin:0 0 8px;font-size:18px}
+.profile-level span{color:var(--muted)}
+.avatar{display:block}.avatar-large{width:150px;height:150px}
+.avatar-bg{fill:var(--mint2)}
+.skin-sand{fill:#f3d9b5}.skin-peach{fill:#f6c9a8}.skin-honey{fill:#d9a46f}.skin-bronze{fill:#a96f45}.skin-umber{fill:#6f4a2f}
+.hair-black{fill:#24211f}.hair-brown{fill:#6b4428}.hair-auburn{fill:#9a3f22}.hair-blond{fill:#e3c27a}.hair-grey{fill:#a7aaa5}.hair-teal{fill:#2f7f7a}
+.outfit-plum{fill:#82668e}.outfit-moss{fill:#5f8f7e}.outfit-slate{fill:#4b686d}.outfit-clay{fill:#b5432f}.outfit-amber{fill:#e0a940}
+.profile-stats{display:flex;flex-wrap:wrap;gap:8px 32px;margin:28px 0 0;padding:16px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.profile-stats p{margin:0;color:var(--muted)}
+.profile-stats strong{font-family:var(--serif);font-size:26px;color:var(--forest);margin-right:6px}
+.avatar-builder{max-width:none;margin-top:12px}
+.choice-row{border:0;padding:0;margin:14px 0;display:flex;flex-wrap:wrap;gap:8px}
+.choice-row legend{font-weight:700;font-size:15px;margin-bottom:6px;padding:0}
+.choice{display:inline-flex;align-items:center;gap:8px;text-transform:capitalize}
+.choice[aria-pressed="true"]{border-color:var(--moss);background:var(--mint);box-shadow:inset 0 0 0 1px var(--moss)}
+.swatch{width:16px;height:16px;border-radius:50%;border:1px solid var(--border);display:none}
+.swatch-skin,.swatch-hair_colour,.swatch-outfit{display:inline-block}
+.swatch.skin-sand{background:#f3d9b5}.swatch.skin-peach{background:#f6c9a8}.swatch.skin-honey{background:#d9a46f}.swatch.skin-bronze{background:#a96f45}.swatch.skin-umber{background:#6f4a2f}
+.swatch.hair_colour-black{background:#24211f}.swatch.hair_colour-brown{background:#6b4428}.swatch.hair_colour-auburn{background:#9a3f22}.swatch.hair_colour-blond{background:#e3c27a}.swatch.hair_colour-grey{background:#a7aaa5}.swatch.hair_colour-teal{background:#2f7f7a}
+.swatch.outfit-plum{background:#82668e}.swatch.outfit-moss{background:#5f8f7e}.swatch.outfit-slate{background:#4b686d}.swatch.outfit-clay{background:#b5432f}.swatch.outfit-amber{background:#e0a940}
+.unit-progress{list-style:none;padding:0;margin:0;display:grid;gap:10px}
+.unit-progress li{display:grid;grid-template-columns:minmax(0,220px) 1fr 70px;gap:14px;align-items:center}
+.unit-progress .meter{width:100%}
+.activity{margin:0}.activity-grid{width:100%;max-width:420px;height:auto;display:block}
+.day-on{fill:var(--moss)}.day-off{fill:var(--line-soft)}
+.activity figcaption{font-size:14px;color:var(--muted);margin-top:8px}
+.badge-list{list-style:none;padding:0;display:flex;flex-wrap:wrap;gap:8px}
+.badge-list{gap:10px 24px}.badge-list li{display:inline-flex;gap:8px;align-items:center}
+.badge-mark{color:var(--amber-d)}
+@media(max-width:560px){.profile-head{grid-template-columns:1fr}.unit-progress li{grid-template-columns:1fr 70px}.unit-progress .unit-progress-name{grid-column:1/-1}}
+
+/* ---------- Watch it run (stepper.tsx) ---------- */
+.watch{margin-top:10px}
+.stepper{margin:14px 0;border:1px solid var(--line);border-radius:14px;background:var(--white);padding:14px}
+.stepper-head{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.stepper-head h3{margin:0;flex:1 1 auto}
+.stepper-head h3:focus{outline:none}
+.stepper-controls{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:12px 0}
+.stepper-slider{flex:1 1 160px;margin:0}
+.stepper-slider input{width:100%;margin:0;min-height:44px;padding:0;border:0;max-width:none}
+.stepper-say{margin:0 0 12px;padding:10px 12px;border-left:4px solid var(--slate);background:var(--predict-bg);border-radius:6px;font-size:15px}
+.stepper-body{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:14px}
+.stepper-code{margin:0;background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:8px 0;font-size:14px;line-height:1.7;overflow-x:auto}
+.stepper-line{display:block;padding:0 10px 0 0;white-space:pre}
+.stepper-line.next{background:#fff3c4}
+.stepper-line.ran{background:var(--mint)}
+.stepper-gutter{display:inline-block;width:22px;text-align:center;color:var(--clay)}
+.stepper-line.ran .stepper-gutter{color:var(--moss)}
+.stepper-no{display:inline-block;width:28px;color:var(--muted);text-align:right;margin-right:10px}
+.stepper-side h4{font-family:var(--sans);font-size:14px;margin:0 0 6px}
+.stepper-side h4+*{margin-top:0}
+.stepper-vars{border-collapse:collapse;width:100%;font-size:14px;margin-bottom:12px}
+.stepper-vars th,.stepper-vars td{border-bottom:1px solid var(--line-soft);padding:4px 6px;text-align:left;vertical-align:top;overflow-wrap:anywhere}
+.stepper-vars th{font-family:var(--mono);font-weight:600;color:var(--forest);width:35%}
+.stepper-vars tr.changed{background:#fff3c4}
+.stepper-vars .was{color:var(--muted);font-size:13px}
+.stepper-return{margin:0 0 12px}
+.stepper-output{min-height:40px;font-size:13px}
+@media(max-width:760px){.stepper-body{grid-template-columns:1fr}}
+
+/* ---------- A likely cause (insights) ---------- */
+.likely-cause{margin:12px 0;padding:12px 14px;border-left:4px solid var(--slate);background:var(--predict-bg);border-radius:8px}
+.likely-cause h3{margin:0 0 2px}
+.likely-cause ul{list-style:none;padding:0;margin:8px 0 0;display:grid;gap:10px}
+.likely-cause li p{margin:0 0 6px}
+
+/* ---------- Practice arena (arena.tsx) ---------- */
+.arena{max-width:860px}
+.arena-head{display:grid;grid-template-columns:1fr 200px;gap:24px;align-items:center}
+.arena-creature .meter{width:100%}
+.creature{display:block;width:100%;height:auto}
+.creature-shadow{fill:var(--line)}
+.creature-unknown{display:flex;align-items:center;justify-content:center;width:64px;height:54px;font-family:var(--serif);font-size:28px;color:var(--muted)}
+.arena-card{margin:20px 0;padding:20px 0;border-top:1px solid var(--line)}
+.arena-card h2{font-size:22px}
+.arena-feedback{margin-top:14px}
+.arena .tile:disabled{opacity:1;cursor:default}
+.arena-feedback.right{border-left:4px solid var(--moss);padding-left:12px}
+.arena-feedback.wrong{border-left:4px solid var(--amber);padding-left:12px}
+.arena-expected{min-height:0}
+.order-lines{list-style:none;padding:0;margin:12px 0;display:grid;gap:6px}
+.order-lines li{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:6px 10px;border:1px solid var(--line);border-radius:8px;background:var(--white)}
+.order-lines li code{white-space:pre;background:none;padding:0}
+.order-lines li.ok{border-color:var(--pass-line);background:var(--pass-bg)}
+.order-lines li.off{border-color:var(--needs-line);background:var(--needs-bg)}
+.order-buttons{display:flex;gap:4px}
+.order-buttons .btn{min-width:44px;padding:4px 8px}
+.collection ul{list-style:none;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:16px}
+.collection li{display:flex;flex-direction:column;align-items:center;text-align:center;gap:4px}
+.collection li .creature{width:84px}
+.collection li.missing{color:var(--muted)}
+.arena-end{padding:16px 0}
+@media(max-width:620px){.arena-head{grid-template-columns:1fr}.arena-creature{max-width:200px}}
+
 /* ---------- Motion: only for people who have not asked for less ---------- */
 @media(prefers-reduced-motion:no-preference){
  html{scroll-behavior:smooth}
  .quest-card{animation:card-arrive .25s ease-out}
  .badge-earned{animation:card-arrive .4s ease-out}
  .tile,.btn,.row,.course-card{transition:border-color .15s,background-color .15s,box-shadow .15s}
+ .creature-hit{animation:creature-hit .5s ease-out;transform-box:fill-box;transform-origin:center}
+ .creature.tamed{animation:creature-tame .8s ease-out}
  .scene-art.live .pop,.scene-art.live .drop,.scene-art.live .slide,.scene-art.live .type,.scene-art.live .grow,.scene-art.live .dart{animation:.45s ease-out both;transform-box:fill-box}
  .scene-art.live .pop{animation-name:scene-pop;transform-origin:center bottom}
  .scene-art.live .drop{animation-name:scene-drop}
@@ -549,4 +673,6 @@ button:disabled{opacity:.6;cursor:not-allowed}
 @keyframes scene-out{0%{opacity:1}60%{opacity:1;transform:scale(1.15)}100%{opacity:.08;transform:scale(.3)}}
 @keyframes scene-open{from{transform:scaleX(1)}to{transform:scaleX(.18)}}
 @keyframes scene-flash{50%{fill:#fff3c4}}
+@keyframes creature-hit{0%{transform:translateX(0)}25%{transform:translateX(-6px) rotate(-4deg)}50%{transform:translateX(6px) rotate(4deg)}100%{transform:translateX(0)}}
+@keyframes creature-tame{from{transform:scale(.9)}60%{transform:scale(1.06)}to{transform:scale(1)}}
 @keyframes card-arrive{from{opacity:.5;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}

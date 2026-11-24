@@ -18,7 +18,7 @@
       "type": "discover",
       "title": "Tools that come with every piece of text",
       "body": "Text has methods of its own: \" Nova \".strip() is \"Nova\", \"nova\".upper() is \"NOVA\", and \"a,b\".split(\",\") is [\"a\", \"b\"]. A method never changes the text itself, because text cannot be changed: store what it gives back.",
-      "detail": "More of them: lower(), title(), capitalize(), replace(\"old\", \"new\"), startswith(\"x\"), find(\"x\"), which gives a position or -1, and \" \".join(words), which joins a list of words with spaces. split() with nothing in the brackets splits on any run of spaces. An f-string puts values into text: f\"{name} has {coins} coins\", and f\"{price:.2f}\" shows two decimal places."
+      "detail": "\"a b\".replace(\" \", \"\") is \"ab\": replace() swaps every copy of one piece of text for another. \"nOVA\".capitalize() is \"Nova\", a capital first letter and the rest lowercase; title() does that to every word. split() with nothing in the brackets splits on any run of spaces, and \" \".join(words) joins a list of words back with single spaces. f\"{price:.2f}\" shows a number with two decimal places."
     },
     {
       "id": "py.string-methods.example",

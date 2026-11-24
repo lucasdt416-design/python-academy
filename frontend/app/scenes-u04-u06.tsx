@@ -17,11 +17,11 @@ const lists:SceneDef={title:'The pack',draw:r=>{
  return {say:r?`The pack holds ${plural(pack&&'n' in pack?pack.n:items.length,'item')}${items.length?': '+items.slice(0,8).join(', '):''}${answers.length?`. The search lamps show ${answers.map(b=>b?'True':'False').join(', ')}`:''}.`:'An empty pack, waiting to be filled.',svg:<>
   <Ground/>
   <path className="f-clay s-ink" d="M40 60q0-26 30-26h70q30 0 30 26v86H40z"/><path className="f-cream s-ink" d="M58 34q0-16 16-16h62q16 0 16 16"/><path className="s-ink" d="M40 82h130"/>
-  {shown.map((name,i)=><g key={i} className={'drop '+d(i)}><Item x={62+(i%4)*30} y={112+Math.floor(i/4)*30} name={name} size={.9}/><text className="mono f-white" x={62+(i%4)*30} y={124+Math.floor(i/4)*30} fontSize="7" textAnchor="middle">{fit(name,6)}</text></g>)}
+  {shown.map((name,i)=><g key={i} className={'drop '+d(i)}><Item x={62+(i%4)*30} y={112+Math.floor(i/4)*30} name={name} size={.9}/><text className="mono f-white" x={62+(i%4)*30} y={125+Math.floor(i/4)*30} fontSize="9" textAnchor="middle">{fit(name,5)}</text></g>)}
   {items.length>8&&<text className="mono f-white" x="105" y="72" fontSize="10" textAnchor="middle">+{items.length-8} more</text>}
-  <g className={'pop '+d(shown.length+1)}><circle className="f-white s-ink" cx="170" cy="40" r="17"/><text className="mono f-ink" x="170" y="45" fontSize="14" textAnchor="middle">{r?(pack&&'n' in pack?pack.n:items.length):0}</text><text className="mono f-ink" x="170" y="68" fontSize="9" textAnchor="middle">len()</text></g>
-  {answers.slice(0,2).map((b,i)=><Lamp key={i} x={232+i*48} y={50} on={b} label={b?'True':'False'} className={'pop '+d(shown.length+2+i)}/>)}
-  {answers.length>0&&<text className="mono f-ink" x="256" y="22" fontSize="10" textAnchor="middle">in</text>}
+  <g className={'pop '+d(shown.length+1)}><circle className="f-white s-ink" cx="204" cy="60" r="17"/><text className="mono f-ink" x="204" y="65" fontSize="14" textAnchor="middle">{r?(pack&&'n' in pack?pack.n:items.length):0}</text><text className="mono f-ink" x="204" y="94" fontSize="10" textAnchor="middle">len()</text></g>
+  {answers.slice(0,2).map((b,i)=><Lamp key={i} x={252+i*44} y={50} on={b} label={b?'True':'False'} className={'pop '+d(shown.length+2+i)}/>)}
+  {answers.length>0&&<text className="mono f-ink" x="274" y="22" fontSize="10" textAnchor="middle">in</text>}
   {!r&&<Note text={IDLE}/>}
  </>};
 }};
@@ -169,10 +169,10 @@ const returnValues:SceneDef={title:'Print or return?',draw:r=>{
   <text className="mono f-white" x="160" y="52" fontSize="11" textAnchor="middle">{fit(fns[0]?.name??'function',13)}</text>
   {fns[0]&&<text className="mono f-white" x="160" y="70" fontSize="9" textAnchor="middle">{fns[0].returns?'returns':'only prints'}</text>}
   <path className="s-ink" d="M160 92v18"/><path className="f-cream s-ink" d="M120 110h80l-8 24h-64z"/>
-  <text className="mono f-ink" x="160" y="150" fontSize="9" textAnchor="middle">return tray</text>
+  <text className="mono f-ink" x="160" y="150" fontSize="10" textAnchor="middle">return tray</text>
   {r?.returned!==undefined&&<Tag x={160} y={122} text={fit(r.returned,14)} tone="moss" className={'drop '+d(2)}/>}
   {r?.returned===undefined&&stored[0]&&<Tag x={160} y={122} text={`${fit(stored[0][0],6)} = ${fit(show(stored[0][1],true),8)}`} tone="moss" className={'drop '+d(2)}/>}
-  <rect className="f-ink" x="226" y="22" width="84" height="80" rx="6"/><text className="mono f-white" x="268" y="116" fontSize="9" textAnchor="middle">screen</text>
+  <rect className="f-ink" x="226" y="22" width="84" height="80" rx="6"/><text className="mono f-ink" x="268" y="116" fontSize="10" textAnchor="middle">screen</text>
   {lines.map((l,i)=><text key={i} className={'mono f-amber-l type '+d(3+i)} x="234" y={42+i*16} fontSize="11">{fit(l,10)}</text>)}
   <path className="s-moss" d="M210 56h14"/>
   {stored.slice(1).map(([k,v],i)=><text key={k} className={'mono f-ink type '+d(5+i)} x="16" y={40+i*18} fontSize="10">{fit(k,8)} = {fit(show(v,true),10)}</text>)}
@@ -219,7 +219,7 @@ const tracebacks:SceneDef={title:'The crash report',draw:r=>{
    <g className={'drop '+d(2)}><rect className="f-cream s-ink" x="22" y="54" width="276" height="40" rx="6"/><text className="mono f-moss" x="32" y="70" fontSize="10">line {at??'?'}</text><text className="mono f-ink" x="32" y="86" fontSize="11">{fit(shownLine,36)}</text></g>
    <g className={'drop '+d(4)}><rect className="f-clay s-ink" x="14" y="102" width="292" height="40" rx="6"/><text className="mono f-white" x="26" y="120" fontSize="11" fontWeight="700">{fit(r.error,30)}</text><text className="mono f-white" x="26" y="135" fontSize="9">{fit((r.message??'').replace(/^\w+Error:\s*/,''),46)}</text></g>
    <text className={'mono f-ink type '+d(6)} x="160" y="160" fontSize="10" textAnchor="middle">read from the bottom up</text>
-  </>:r?<g className="pop"><rect className="f-white s-ink" x="70" y="18" width="180" height="130" rx="6"/><path className="s-ink-s" d="M70 40h180"/><text className="mono f-moss" x="160" y="33" fontSize="10" textAnchor="middle">ran to the end</text>
+  </>:r?<g className="pop"><rect className="f-white s-ink" x="70" y="18" width="180" height={Math.max(64,lines.length*20+44)} rx="6"/><path className="s-ink-s" d="M70 40h180"/><text className="mono f-moss" x="160" y="33" fontSize="10" textAnchor="middle">ran to the end</text>
    {lines.map((l,i)=><text key={i} className={'mono f-ink type '+d(i+1)} x="82" y={60+i*20} fontSize="11">{fit(l,22)}</text>)}</g>:null}
   {!r&&<Note text={IDLE}/>}
  </>};

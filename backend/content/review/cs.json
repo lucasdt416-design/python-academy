@@ -1,0 +1,418 @@
+{
+ "cards": [
+  {
+   "id": "cs.binary.review.predict",
+   "lesson": "cs.binary",
+   "kind": "predict",
+   "prompt": "What is the binary 10010 as an ordinary number?",
+   "code": "# The tower shows numbers with lamps: on is 1, off is 0\nlamps = \"1101\"\nvalue = 0\nfor lamp in lamps:\n    value = value * 2 + int(lamp)\nprint(value)\nprint(bin(13))\nprint(int(\"1101\", 2))",
+   "options": [
+    "18",
+    "10",
+    "20"
+   ],
+   "answer": 0,
+   "why": "One 16 and one 2: 16 + 2 is 18."
+  },
+  {
+   "id": "cs.hexadecimal.review.predict",
+   "lesson": "cs.hexadecimal",
+   "kind": "predict",
+   "prompt": "What colour is #00ff00?",
+   "code": "# A flag colour: red, green and blue, each from 0 to 255\nred = 255\ngreen = 136\nblue = 0\nprint(hex(green))\nprint(f\"#{red:02x}{green:02x}{blue:02x}\")\nprint(int(\"88\", 16))",
+   "options": [
+    "Pure green",
+    "Pure red",
+    "Black"
+   ],
+   "answer": 0,
+   "why": "No red, the most green (ff is 255), and no blue."
+  },
+  {
+   "id": "cs.text-encoding.review.predict",
+   "lesson": "cs.text-encoding",
+   "kind": "predict",
+   "prompt": "What does chr(ord(\"y\") + 2) give?",
+   "code": "# Every character is stored as a number\nprint(ord(\"A\"), ord(\"a\"))\nprint(chr(98))\nprint(len(\"café\"))\nprint(len(\"café\".encode(\"utf-8\")))",
+   "options": [
+    "{",
+    "a",
+    "z"
+   ],
+   "answer": 0,
+   "why": "y is 121, and 123 is the character {. To wrap around to a, the code has to come back to the start of the alphabet, which % 26 does."
+  },
+  {
+   "id": "cs.float-limits.review.predict",
+   "lesson": "cs.float-limits",
+   "kind": "predict",
+   "prompt": "Which of these is stored exactly as a float?",
+   "code": "# Decimals are stored in binary, and most are not exact\nprint(0.1 + 0.2)\nprint(0.1 + 0.2 == 0.3)\nprint(round(0.1 + 0.2, 2))\ncents = 10 + 20\nprint(cents / 100)",
+   "options": [
+    "0.5",
+    "0.1",
+    "0.3"
+   ],
+   "answer": 0,
+   "why": "0.5 is one half, a power of two. 0.1 and 0.3 need bits that never end."
+  },
+  {
+   "id": "cs.linear-search.review.predict",
+   "lesson": "cs.linear-search",
+   "kind": "predict",
+   "prompt": "If the shelf held 1,000 boxes and the one wanted was not there, how many looks would it take?",
+   "code": "# Look along the shelf, one box at a time\nshelf = [\"rope\", \"map\", \"lamp\", \"key\"]\nlooks = 0\nfound_at = -1\nfor i in range(len(shelf)):\n    looks = looks + 1\n    if shelf[i] == \"lamp\":\n        found_at = i\n        break\nprint(found_at, looks)",
+   "options": [
+    "1,000",
+    "1",
+    "500"
+   ],
+   "answer": 0,
+   "why": "To be sure something is missing, a linear search has to look at every item."
+  },
+  {
+   "id": "cs.binary-search.review.predict",
+   "lesson": "cs.binary-search",
+   "kind": "predict",
+   "prompt": "About how many looks does a binary search need for a sorted list of 1,000 items, at most?",
+   "code": "# Guess the middle of a sorted shelf, and throw away half each time\nshelf = [3, 8, 15, 21, 30, 42, 57]\nlow, high = 0, len(shelf) - 1\nwhile low <= high:\n    middle = (low + high) // 2\n    print(\"look at\", shelf[middle])\n    if shelf[middle] == 42:\n        break\n    if shelf[middle] < 42:\n        low = middle + 1\n    else:\n        high = middle - 1",
+   "options": [
+    "10",
+    "500",
+    "1,000"
+   ],
+   "answer": 0,
+   "why": "Halving 1,000 ten times gets below one: 500, 250, 125, 63, 32, 16, 8, 4, 2, 1."
+  },
+  {
+   "id": "cs.counting-steps.review.predict",
+   "lesson": "cs.counting-steps",
+   "kind": "predict",
+   "prompt": "A list grows from 1,000 items to 2,000. How many more looks can a binary search need, at most?",
+   "code": "# How many halvings until nothing is left?\nfor size in [1, 2, 7, 8, 1000]:\n    n = size\n    halvings = 0\n    while n > 0:\n        n = n // 2\n        halvings = halvings + 1\n    print(size, halvings)",
+   "options": [
+    "1",
+    "1,000",
+    "10"
+   ],
+   "answer": 0,
+   "why": "Doubling the list adds one halving."
+  },
+  {
+   "id": "cs.binary.review.trace1",
+   "lesson": "cs.binary",
+   "kind": "trace",
+   "prompt": "What does value hold at the end?",
+   "code": "value = 0\nfor bit in \"1011\":\n    value = value * 2 + int(bit)",
+   "options": [
+    "11",
+    "13",
+    "1011"
+   ],
+   "answer": 0,
+   "why": "Double, then add each bit from the left: 1, 2, 5, 11. 1011 is one 8, one 2 and one 1.",
+   "probe": "value"
+  },
+  {
+   "id": "cs.binary.review.trace2",
+   "lesson": "cs.binary",
+   "kind": "trace",
+   "prompt": "What does bits hold at the end?",
+   "code": "n = 6\nbits = \"\"\nwhile n > 0:\n    bits = str(n % 2) + bits\n    n = n // 2",
+   "options": [
+    "110",
+    "011",
+    "6"
+   ],
+   "answer": 0,
+   "why": "The last bit comes first: 6 % 2 is 0, then 3 % 2 is 1, then 1 % 2 is 1. Each goes in front, giving 110.",
+   "probe": "bits"
+  },
+  {
+   "id": "cs.binary.review.bug1",
+   "lesson": "cs.binary",
+   "kind": "bug",
+   "prompt": "This should print 110, the binary of 6. Which line has the bug?",
+   "code": "n = 6\nbits = \"\"\nwhile n > 0:\n    bits = bits + str(n % 2)\n    n = n // 2\nprint(bits)",
+   "fixed": "n = 6\nbits = \"\"\nwhile n > 0:\n    bits = str(n % 2) + bits\n    n = n // 2\nprint(bits)",
+   "options": [
+    "Line 1: n = 6",
+    "Line 2: bits = \"\"",
+    "Line 3: while n > 0:",
+    "Line 4: bits = bits + str(n % 2)",
+    "Line 5: n = n // 2",
+    "Line 6: print(bits)"
+   ],
+   "answer": 3,
+   "why": "n % 2 is the last bit, so each new bit must go in front. Adding it at the end writes the bits backwards, 011."
+  },
+  {
+   "id": "cs.hexadecimal.review.trace1",
+   "lesson": "cs.hexadecimal",
+   "kind": "trace",
+   "prompt": "What does value hold at the end?",
+   "code": "DIGITS = \"0123456789abcdef\"\ntext = \"c8\"\nvalue = DIGITS.index(text[0]) * 16 + DIGITS.index(text[1])",
+   "options": [
+    "200",
+    "128",
+    "20"
+   ],
+   "answer": 0,
+   "why": "c is 12, so 12 sixteens is 192, plus 8 is 200.",
+   "probe": "value"
+  },
+  {
+   "id": "cs.hexadecimal.review.trace2",
+   "lesson": "cs.hexadecimal",
+   "kind": "trace",
+   "prompt": "What does code hold at the end?",
+   "code": "red, green, blue = 10, 0, 255\ncode = f\"#{red:02x}{green:02x}{blue:02x}\"",
+   "options": [
+    "#0a00ff",
+    "#a0ff",
+    "#10000255"
+   ],
+   "answer": 0,
+   "why": ":02x always writes two hex digits, so 10 is 0a and 0 is 00.",
+   "probe": "code"
+  },
+  {
+   "id": "cs.hexadecimal.review.order1",
+   "lesson": "cs.hexadecimal",
+   "kind": "order",
+   "prompt": "Put these lines in order so the program prints what is shown.",
+   "lines": [
+    "n = 171",
+    "high = n // 16",
+    "low = n - high * 16",
+    "code = \"0123456789abcdef\"[high] + \"0123456789abcdef\"[low]",
+    "print(code)"
+   ],
+   "inputs": [],
+   "expected": "ab",
+   "why": "Each line uses what the line before it made: the high digit first, then what is left for the low digit."
+  },
+  {
+   "id": "cs.text-encoding.review.trace1",
+   "lesson": "cs.text-encoding",
+   "kind": "trace",
+   "prompt": "What does out hold at the end?",
+   "code": "out = \"\"\nfor ch in \"zap\":\n    out = out + chr((ord(ch) - ord(\"a\") + 1) % 26 + ord(\"a\"))",
+   "options": [
+    "abq",
+    "{bq",
+    "zap"
+   ],
+   "answer": 0,
+   "why": "Each letter moves one along, and % 26 wraps z round to a.",
+   "probe": "out"
+  },
+  {
+   "id": "cs.text-encoding.review.trace2",
+   "lesson": "cs.text-encoding",
+   "kind": "trace",
+   "prompt": "What does size hold at the end?",
+   "code": "size = len(\"né\".encode(\"utf-8\"))",
+   "options": [
+    "3",
+    "2",
+    "4"
+   ],
+   "answer": 0,
+   "why": "n takes one byte and é takes two in UTF-8.",
+   "probe": "size"
+  },
+  {
+   "id": "cs.text-encoding.review.bug1",
+   "lesson": "cs.text-encoding",
+   "kind": "bug",
+   "prompt": "This should shift each letter one place back, so \"b\" becomes \"a\". Which line has the bug?",
+   "code": "word = \"bcd\"\nout = \"\"\nfor ch in word:\n    out = out + chr(ord(ch) + 1)\nprint(out)",
+   "fixed": "word = \"bcd\"\nout = \"\"\nfor ch in word:\n    out = out + chr(ord(ch) - 1)\nprint(out)",
+   "options": [
+    "Line 1: word = \"bcd\"",
+    "Line 2: out = \"\"",
+    "Line 3: for ch in word:",
+    "Line 4: out = out + chr(ord(ch) + 1)",
+    "Line 5: print(out)"
+   ],
+   "answer": 3,
+   "why": "One place back means taking 1 away from the code, not adding it."
+  },
+  {
+   "id": "cs.float-limits.review.trace1",
+   "lesson": "cs.float-limits",
+   "kind": "trace",
+   "prompt": "What does total hold at the end?",
+   "code": "total = 0\nfor cents in [10, 20, 5]:\n    total = total + cents\ntotal = total / 100",
+   "options": [
+    "0.35",
+    "0.35000000000000003",
+    "35"
+   ],
+   "answer": 0,
+   "why": "The cents add up exactly to 35, a whole number. Dividing once at the end gives 0.35 with no drift.",
+   "probe": "total"
+  },
+  {
+   "id": "cs.float-limits.review.trace2",
+   "lesson": "cs.float-limits",
+   "kind": "trace",
+   "prompt": "What does same hold at the end?",
+   "code": "same = 0.1 + 0.2 == 0.3",
+   "options": [
+    "False",
+    "True"
+   ],
+   "answer": 0,
+   "why": "0.1 and 0.2 are not stored exactly, so their sum is 0.30000000000000004, not 0.3.",
+   "probe": "same"
+  },
+  {
+   "id": "cs.float-limits.review.bug1",
+   "lesson": "cs.float-limits",
+   "kind": "bug",
+   "prompt": "This should print True: three coins of 10 cents make 30 cents. Which line has the bug?",
+   "code": "total = 0\nfor coin in range(3):\n    total = total + 0.1\nprint(round(total * 100) == 30 and total * 100 == 30)",
+   "fixed": "total = 0\nfor coin in range(3):\n    total = total + 0.1\nprint(round(total * 100) == 30)",
+   "options": [
+    "Line 1: total = 0",
+    "Line 2: for coin in range(3):",
+    "Line 3: total = total + 0.1",
+    "Line 4: print(round(total * 100) == 30 and total * 100 == 30)"
+   ],
+   "answer": 3,
+   "why": "total * 100 is 30.000000000000004, so comparing it with == fails. Round floats before comparing, or count in whole cents."
+  },
+  {
+   "id": "cs.linear-search.review.trace1",
+   "lesson": "cs.linear-search",
+   "kind": "trace",
+   "prompt": "What does looks hold at the end?",
+   "code": "shelf = [\"ash\", \"oak\", \"elm\", \"fir\"]\nlooks = 0\nfor item in shelf:\n    looks = looks + 1\n    if item == \"elm\":\n        break",
+   "options": [
+    "3",
+    "2",
+    "4"
+   ],
+   "answer": 0,
+   "why": "ash, oak, elm: three looks, then break stops the loop.",
+   "probe": "looks"
+  },
+  {
+   "id": "cs.linear-search.review.bug1",
+   "lesson": "cs.linear-search",
+   "kind": "bug",
+   "prompt": "This should print 2, the position of \"c\". Which line has the bug?",
+   "code": "items = [\"a\", \"b\", \"c\"]\nfor i in range(len(items)):\n    if items[i] == \"c\":\n        print(items[i])",
+   "fixed": "items = [\"a\", \"b\", \"c\"]\nfor i in range(len(items)):\n    if items[i] == \"c\":\n        print(i)",
+   "options": [
+    "Line 1: items = [\"a\", \"b\", \"c\"]",
+    "Line 2: for i in range(len(items)):",
+    "Line 3: if items[i] == \"c\":",
+    "Line 4: print(items[i])"
+   ],
+   "answer": 3,
+   "why": "items[i] is the item itself; the position is i."
+  },
+  {
+   "id": "cs.linear-search.review.order1",
+   "lesson": "cs.linear-search",
+   "kind": "order",
+   "prompt": "Put these lines in order so the program prints what is shown.",
+   "lines": [
+    "shelf = [\"rope\", \"map\", \"key\"]",
+    "at = shelf.index(\"map\")",
+    "for item in shelf[at:]:",
+    "    print(item)",
+    "print(\"searched from\", at)"
+   ],
+   "inputs": [],
+   "expected": "map\nkey\nsearched from 1",
+   "why": "The position has to be found before the loop can start from it, and the last print runs once, after the loop."
+  },
+  {
+   "id": "cs.binary-search.review.trace1",
+   "lesson": "cs.binary-search",
+   "kind": "trace",
+   "prompt": "What does middle hold after the first look?",
+   "code": "items = [2, 4, 6, 8, 10, 12]\nlow, high = 0, len(items) - 1\nmiddle = (low + high) // 2",
+   "options": [
+    "2",
+    "3",
+    "6"
+   ],
+   "answer": 0,
+   "why": "(0 + 5) // 2 is 2: // rounds down, so the middle of six items is the left one of the two middles.",
+   "probe": "middle"
+  },
+  {
+   "id": "cs.binary-search.review.trace2",
+   "lesson": "cs.binary-search",
+   "kind": "trace",
+   "prompt": "How many looks does it take to find 13?",
+   "code": "items = [1, 3, 5, 7, 9, 11, 13]\nlow, high, looks = 0, 6, 0\nwhile low <= high:\n    middle = (low + high) // 2\n    looks = looks + 1\n    if items[middle] == 13:\n        break\n    if items[middle] < 13:\n        low = middle + 1\n    else:\n        high = middle - 1",
+   "options": [
+    "3",
+    "7",
+    "1"
+   ],
+   "answer": 0,
+   "why": "7 is too small, then 11 is too small, then 13 is found: three looks for seven items.",
+   "probe": "looks"
+  },
+  {
+   "id": "cs.binary-search.review.bug1",
+   "lesson": "cs.binary-search",
+   "kind": "bug",
+   "prompt": "This should print 5, the position of 30. Which line has the bug?",
+   "code": "items = [3, 8, 15, 21, 25, 30]\nlow, high = 0, len(items) - 1\nwhile low <= high:\n    middle = (low + high) // 2\n    if items[middle] == 30:\n        break\n    if items[middle] > 30:\n        low = middle + 1\n    else:\n        high = middle - 1\nprint(middle)",
+   "fixed": "items = [3, 8, 15, 21, 25, 30]\nlow, high = 0, len(items) - 1\nwhile low <= high:\n    middle = (low + high) // 2\n    if items[middle] == 30:\n        break\n    if items[middle] < 30:\n        low = middle + 1\n    else:\n        high = middle - 1\nprint(middle)",
+   "options": [
+    "Line 1: items = [3, 8, 15, 21, 25, 30]",
+    "Line 2: low, high = 0, len(items) - 1",
+    "Line 3: while low <= high:",
+    "Line 4: middle = (low + high) // 2",
+    "Line 5: if items[middle] == 30:",
+    "Line 6: break",
+    "Line 7: if items[middle] > 30:",
+    "Line 8: low = middle + 1",
+    "Line 9: else:",
+    "Line 10: high = middle - 1",
+    "Line 11: print(middle)"
+   ],
+   "answer": 6,
+   "why": "When the middle item is smaller than 30, 30 can only be to its right, so the test must be <. With > the search throws away the half that holds 30."
+  },
+  {
+   "id": "cs.counting-steps.review.trace1",
+   "lesson": "cs.counting-steps",
+   "kind": "trace",
+   "prompt": "What does steps hold at the end?",
+   "code": "n = 16\nsteps = 0\nwhile n > 0:\n    n = n // 2\n    steps = steps + 1",
+   "options": [
+    "5",
+    "4",
+    "16"
+   ],
+   "answer": 0,
+   "why": "16, 8, 4, 2, 1, then 0: five halvings.",
+   "probe": "steps"
+  },
+  {
+   "id": "cs.counting-steps.review.trace2",
+   "lesson": "cs.counting-steps",
+   "kind": "trace",
+   "prompt": "A list grows from 100 items to 200. By how much does extra grow?",
+   "code": "def halvings(n):\n    count = 0\n    while n > 0:\n        n = n // 2\n        count = count + 1\n    return count\nextra = halvings(200) - halvings(100)",
+   "options": [
+    "1",
+    "100",
+    "2"
+   ],
+   "answer": 0,
+   "why": "Doubling the list adds one halving, so a binary search needs at most one more look.",
+   "probe": "extra"
+  }
+ ]
+}

@@ -1,17 +1,23 @@
 from . import browser_checks, content, migrate, sessions
 from . import awards
 from . import admin
+from . import profiles
+from . import review
+from . import insights
+from . import self_review
 from . import feedback as tester_feedback
 from .awards import award_challenge
-from .db import Attempt, Base, Event, Invitation, LearnerGoal, User, engine
+from .db import Attempt, Base, Event, Invitation, LearnerGoal, SelfReviewRecord, User, engine
 from .lesson_checks import check_story, judge, rule_errors
 from .limits import limit
 from .recommend import DEFAULT_GOAL, GOALS, recommend
 import hashlib
+import json
 import logging
 import os
 import secrets
 from datetime import date, datetime, timedelta, timezone
+from pathlib import Path
 
 from authlib.integrations.starlette_client import OAuth, OAuthError
 from fastapi import Depends, FastAPI, HTTPException, Request
@@ -241,6 +247,123 @@ def set_goal(data: GoalChoice, request: Request):
         db.commit()
         return goal_state(db, u.id)
 
+class ProfileChoice(BaseModel):
+    nickname: str = Field(default='', max_length=60)
+    avatar: dict[str, str] = Field(default_factory=dict, max_length=10)
+
+
+def profile_user(request, db):
+    """Profiles are for enrolled students and parents; an account still being set up has none."""
+    u = current(request, db)
+    if u.role not in ('student', 'parent'):
+        raise HTTPException(403, 'This action is unavailable for this account')
+    return u
+
+
+@app.get('/api/profile')
+def my_profile(request: Request):
+    with Session(engine) as db:
+        return profiles.view(db, profile_user(request, db), CATALOG, CONTENT, LESSON_ORDER)
+
+
+@app.put('/api/profile', dependencies=[Depends(limit('profile'))])
+def save_profile(data: ProfileChoice, request: Request):
+    with Session(engine) as db:
+        u = profile_user(request, db)
+        try:
+            nickname, avatar = profiles.clean_nickname(data.nickname), profiles.clean_avatar(data.avatar)
+        except ValueError as error:
+            raise HTTPException(422, str(error))
+        profiles.save(db, u, nickname, avatar)
+        # No detail: the nickname is never copied into the account history.
+        audit(db, u, 'profile_saved')
+        db.commit()
+        return profiles.view(db, u, CATALOG, CONTENT, LESSON_ORDER)
+
+
+REVIEW_CARDS = review.load(Path(__file__).resolve().parent.parent / 'content' / 'review', CONTENT)
+
+
+class ReviewAnswer(BaseModel):
+    card_id: str = Field(max_length=160)
+    choice: int | None = Field(default=None, ge=0, le=20)
+    lines: list[str] | None = Field(default=None, max_length=30)
+
+
+def today_utc():
+    return datetime.now(timezone.utc).date()
+
+
+@app.get('/api/review')
+def review_session(request: Request):
+    with Session(engine) as db:
+        u = current(request, db, 'student')
+        done = set(awards.completed_lessons(db, u.id, CONTENT, LESSON_ORDER))
+        return review.session(db, u.id, REVIEW_CARDS, CATALOG, done, today_utc())
+
+
+@app.post('/api/review/answer', dependencies=[Depends(limit('review'))])
+def review_answer(data: ReviewAnswer, request: Request):
+    with Session(engine) as db:
+        u = current(request, db, 'student')
+        card = REVIEW_CARDS.get(data.card_id)
+        done = set(awards.completed_lessons(db, u.id, CONTENT, LESSON_ORDER))
+        if card is None or card.lesson not in done:
+            raise HTTPException(404, 'That review card is not open to you yet')
+        if (card.kind == 'order') != (data.lines is not None) or (card.kind != 'order' and data.choice is None):
+            raise HTTPException(422, 'Answer with a choice, or with the lines in order')
+        result = review.answer(db, u.id, card, data.choice, data.lines, today_utc())
+        db.commit()
+        return result
+
+
+class SelfReviewAnswer(BaseModel):
+    done: bool = False
+    evidence: str = Field(default='', max_length=self_review.MAX_CHARS)
+
+
+class SelfReviewSubmission(BaseModel):
+    lesson_id: str = Field(max_length=80)
+    answers: dict[str, SelfReviewAnswer] = Field(default={}, max_length=8)
+
+
+def self_reviewed(lesson_id):
+    lesson = CONTENT.get(lesson_id)
+    if lesson is None or lesson.task('challenge').self_review is None:
+        raise HTTPException(404, 'That lesson has no self review')
+    return lesson
+
+
+def review_problems(lesson, data):
+    return self_review.judge(lesson.task('challenge').self_review, {k: v.model_dump() for k, v in data.answers.items()})
+
+
+@app.post('/api/self-review/preview', dependencies=[Depends(limit('self_review'))])
+def self_review_preview(data: SelfReviewSubmission):
+    """ENG-09 in a preview: the same notes on the writing, and nothing saved."""
+    problems = review_problems(self_reviewed(data.lesson_id), data)
+    return {'recorded': False, 'result': 'needs_work' if problems else 'ready', 'problems': problems, 'evidence': 'self_reported',
+            'feedback': self_review.NEEDS_WORK if problems else 'Every part is ready to record. In a preview nothing is saved.'}
+
+
+@app.post('/api/self-review', dependencies=[Depends(limit('self_review'))])
+def self_review_submit(data: SelfReviewSubmission, request: Request):
+    """ENG-09: keep a finished self review and award the lesson, labelled self-reported. A review with
+    anything left to change is not kept: drafts stay on the page."""
+    with Session(engine) as db:
+        u = current(request, db, 'student')
+        lesson = self_reviewed(data.lesson_id)
+        if (problems := review_problems(lesson, data)):
+            return {'recorded': False, 'result': 'needs_work', 'problems': problems, 'evidence': 'self_reported', 'feedback': self_review.NEEDS_WORK}
+        challenge = lesson.task('challenge')
+        written = {c.id: data.answers[c.id].evidence.strip() for c in challenge.self_review.criteria}
+        db.add(SelfReviewRecord(user_id=u.id, lesson_id=lesson.id, task_id=challenge.id, task_version=challenge.version, answers=json.dumps(written)))
+        award_challenge(db, u.id, lesson, None, source='self_reported')
+        audit(db, u, 'self_review_saved', lesson.id)
+        db.commit()
+        return {'recorded': True, 'result': 'recorded', 'problems': {}, 'evidence': 'self_reported', 'feedback': self_review.RECORDED}
+
+
 @app.get('/api/recommendation')
 def next_recommendation(request: Request):
     with Session(engine) as db:
@@ -315,6 +438,18 @@ def check_preview(data: Submission):
     result, feedback, rule = judge(data.lesson_id, data.code, data.output, data.inputs)
     # rule: the named check rule that decided the result, so the page can offer the hint tagged for it.
     return {'passed': result == 'passed', 'result': result, 'feedback': feedback, 'rule': rule, 'assessment': 'browser_practice'}
+
+class InsightRequest(BaseModel):
+    lesson_id: str = Field(max_length=80)
+    code: str = Field(max_length=20000)
+
+
+@app.post('/api/insights', dependencies=[Depends(limit('insights'))])
+def likely_causes(data: InsightRequest):
+    """Likely causes for a program that did not pass: read from its syntax tree, never run, never stored."""
+    if data.lesson_id not in CONTENT:
+        raise HTTPException(404, 'Unknown lesson')
+    return {'insights': insights.find(data.code)}
 
 @app.get('/api/progress')
 def progress(request: Request):

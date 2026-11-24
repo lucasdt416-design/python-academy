@@ -1,0 +1,278 @@
+{
+ "session": {
+  "cards": [
+   {
+    "id": "py.dicts.review.predict",
+    "lesson": "py.dicts",
+    "kind": "predict",
+    "prompt": "What would print(rooms[\"attic\"]) do here?",
+    "code": "# What is in each room?\nrooms = {\"hall\": \"lamp\", \"cellar\": \"rope\"}\nrooms[\"tower\"] = \"key\"\nrooms[\"hall\"] = \"map\"\nprint(rooms[\"cellar\"])\nprint(rooms.get(\"attic\", \"nothing\"))\nfor room, item in rooms.items():\n    print(room, item)",
+    "options": [
+     "Print nothing",
+     "Stop with a KeyError",
+     "Print None"
+    ]
+   },
+   {
+    "id": "py.dicts.review.trace",
+    "lesson": "py.dicts",
+    "kind": "trace",
+    "prompt": "What is stock[\"rope\"] at the end?",
+    "code": "stock = {\"rope\": 2}\nstock[\"map\"] = 1\nstock[\"rope\"] = stock[\"rope\"] + 3\nprint(stock[\"rope\"])",
+    "options": [
+     "5",
+     "3",
+     "2"
+    ]
+   },
+   {
+    "id": "py.indexing.review.trace",
+    "lesson": "py.indexing",
+    "kind": "trace",
+    "prompt": "What does middle hold?",
+    "code": "days = [\"mon\", \"tue\", \"wed\", \"thu\"]\nmiddle = days[1:-1]\nprint(middle)",
+    "options": [
+     "['tue', 'wed']",
+     "['mon', 'tue', 'wed']",
+     "['tue', 'wed', 'thu']"
+    ]
+   },
+   {
+    "id": "py.lists.review.trace",
+    "lesson": "py.lists",
+    "kind": "trace",
+    "prompt": "What is len(pack) at the end?",
+    "code": "pack = [\"rope\"]\npack.append(\"map\")\npack.append(\"rope\")\nprint(len(pack))",
+    "options": [
+     "3",
+     "2",
+     "1"
+    ]
+   },
+   {
+    "id": "py.lists.review.bug",
+    "lesson": "py.lists",
+    "kind": "bug",
+    "prompt": "This prints None. Which line has the bug?",
+    "code": "pack = [\"rope\"]\npack = pack.append(\"map\")\nprint(pack)",
+    "options": [
+     "Line 1: pack = [\"rope\"]",
+     "Line 2: pack = pack.append(\"map\")",
+     "Line 3: print(pack)"
+    ]
+   }
+  ],
+  "due": 0,
+  "ahead": false,
+  "unlocked": true,
+  "creature": {
+   "unit": "py.u04",
+   "name": "Packrat",
+   "about": "a hoarder of lists, sets and dictionaries"
+  },
+  "tamed": [],
+  "creatures": [
+   {
+    "unit": "py.u01",
+    "name": "Inkling",
+    "about": "a story sprite that lives in print() calls"
+   },
+   {
+    "unit": "py.u02",
+    "name": "Sumbat",
+    "about": "a bat that hangs from equals signs"
+   },
+   {
+    "unit": "py.u03",
+    "name": "Loop lynx",
+    "about": "a cat that runs in circles until told to stop"
+   },
+   {
+    "unit": "py.u04",
+    "name": "Packrat",
+    "about": "a hoarder of lists, sets and dictionaries"
+   },
+   {
+    "unit": "py.u05",
+    "name": "Callwing",
+    "about": "a bird that only sings when called"
+   },
+   {
+    "unit": "py.u06",
+    "name": "Bugbear",
+    "about": "a bear that hides in tracebacks"
+   },
+   {
+    "unit": "py.u07",
+    "name": "Toolhound",
+    "about": "a dog that fetches modules"
+   },
+   {
+    "unit": "py.u08",
+    "name": "Testudo",
+    "about": "a tortoise that checks everything twice"
+   },
+   {
+    "unit": "py.u09",
+    "name": "Scrollworm",
+    "about": "a worm that nests in saved files"
+   },
+   {
+    "unit": "py.u10",
+    "name": "Patternfox",
+    "about": "a fox that hunts in text"
+   },
+   {
+    "unit": "py.u11",
+    "name": "Classaur",
+    "about": "a dinosaur built from smaller parts"
+   },
+   {
+    "unit": "py.u12",
+    "name": "Keystone",
+    "about": "the stone that holds a whole arch together"
+   },
+   {
+    "unit": "cs.u01",
+    "name": "Bitmoth",
+    "about": "a moth whose wing spots flick on and off like bits"
+   },
+   {
+    "unit": "cs.u03",
+    "name": "Seekowl",
+    "about": "an owl that finds things by halving the dark"
+   }
+  ]
+ },
+ "order_card": {
+  "id": "cs.hexadecimal.review.order1",
+  "lesson": "cs.hexadecimal",
+  "kind": "order",
+  "prompt": "Put these lines in order so the program prints what is shown.",
+  "lines": [
+   "print(code)",
+   "n = 171",
+   "code = \"0123456789abcdef\"[high] + \"0123456789abcdef\"[low]",
+   "high = n // 16",
+   "low = n - high * 16"
+  ],
+  "expected": "ab",
+  "inputs": []
+ },
+ "results": {
+  "py.dicts.review.predict": {
+   "right": {
+    "correct": true,
+    "why": "Square brackets need the key to be there. get() is the gentle way to ask about a key that may be missing.",
+    "back_in_days": 1,
+    "answer": 1
+   },
+   "wrong": {
+    "correct": false,
+    "why": "Square brackets need the key to be there. get() is the gentle way to ask about a key that may be missing.",
+    "back_in_days": 1,
+    "answer": 1
+   },
+   "answer": 1,
+   "lines": null
+  },
+  "py.dicts.review.trace": {
+   "right": {
+    "correct": true,
+    "why": "rope starts at 2, and 2 + 3 is 5. Adding map does not change it.",
+    "back_in_days": 1,
+    "answer": 0
+   },
+   "wrong": {
+    "correct": false,
+    "why": "rope starts at 2, and 2 + 3 is 5. Adding map does not change it.",
+    "back_in_days": 1,
+    "answer": 0
+   },
+   "answer": 0,
+   "lines": null
+  },
+  "py.indexing.review.trace": {
+   "right": {
+    "correct": true,
+    "why": "The slice starts at position 1 and stops before the last item.",
+    "back_in_days": 1,
+    "answer": 0
+   },
+   "wrong": {
+    "correct": false,
+    "why": "The slice starts at position 1 and stops before the last item.",
+    "back_in_days": 1,
+    "answer": 0
+   },
+   "answer": 0,
+   "lines": null
+  },
+  "py.lists.review.trace": {
+   "right": {
+    "correct": true,
+    "why": "A list keeps repeats: rope, map, rope.",
+    "back_in_days": 1,
+    "answer": 0
+   },
+   "wrong": {
+    "correct": false,
+    "why": "A list keeps repeats: rope, map, rope.",
+    "back_in_days": 1,
+    "answer": 0
+   },
+   "answer": 0,
+   "lines": null
+  },
+  "py.lists.review.bug": {
+   "right": {
+    "correct": true,
+    "why": "append() changes the list and gives back None, which was stored in pack.",
+    "back_in_days": 1,
+    "answer": 1
+   },
+   "wrong": {
+    "correct": false,
+    "why": "append() changes the list and gives back None, which was stored in pack.",
+    "back_in_days": 1,
+    "answer": 1
+   },
+   "answer": 1,
+   "lines": null
+  },
+  "cs.hexadecimal.review.order1": {
+   "right": {
+    "correct": true,
+    "why": "Each line uses what the line before it made: the high digit first, then what is left for the low digit.",
+    "back_in_days": 1,
+    "lines": [
+     "n = 171",
+     "high = n // 16",
+     "low = n - high * 16",
+     "code = \"0123456789abcdef\"[high] + \"0123456789abcdef\"[low]",
+     "print(code)"
+    ]
+   },
+   "wrong": {
+    "correct": false,
+    "why": "Each line uses what the line before it made: the high digit first, then what is left for the low digit.",
+    "back_in_days": 1,
+    "lines": [
+     "n = 171",
+     "high = n // 16",
+     "low = n - high * 16",
+     "code = \"0123456789abcdef\"[high] + \"0123456789abcdef\"[low]",
+     "print(code)"
+    ]
+   },
+   "answer": null,
+   "lines": [
+    "n = 171",
+    "high = n // 16",
+    "low = n - high * 16",
+    "code = \"0123456789abcdef\"[high] + \"0123456789abcdef\"[low]",
+    "print(code)"
+   ]
+  }
+ }
+}

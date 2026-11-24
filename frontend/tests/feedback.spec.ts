@@ -315,12 +315,14 @@ test('a behaviour-check result (ENG-03) highlights a Python error line, but not 
  await expect(highlighted(page)).toHaveCount(0);
 });
 
-test('hints appear beside the code one level at a time, in order, with no solution button', async ({page}) => {
+test('hints appear with the task one level at a time, in order, with no solution button', async ({page}) => {
  await mockApi(page);
  await page.goto('/preview?lesson=input&card=5');
  const hints = page.getByRole('region', {name: 'Hints'});
- // Beside the code: in the editor panel, after the result.
- await expect(page.getByRole('region', {name: 'Python playground'}).getByRole('region', {name: 'Hints'})).toHaveCount(1);
+ // With the task they help with, not in the editor column (lesson page rule L5).
+ await expect(hints).toHaveCount(1);
+ await expect(page.getByRole('region', {name: 'Python playground'}).getByRole('region', {name: 'Hints'})).toHaveCount(0);
+ await expect(page.locator('.teaching-panel').getByRole('region', {name: 'Hints'})).toHaveCount(1);
  await expect(hints.getByRole('listitem')).toHaveCount(0);
  const lesson = lessons.find(l => l.id === 'input')!;
  for (let level = 0; level < 3; level++) {

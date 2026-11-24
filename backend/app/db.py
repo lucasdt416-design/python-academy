@@ -122,6 +122,44 @@ class LearnerGoal(Base):
     updated: Mapped[str] = mapped_column(String(40), default=now, onupdate=now)
 
 
+class Profile(Base):
+    """What a learner or parent chose for their profile page: an avatar built from fixed options, and an
+    optional nickname. Kept only on their own account; nothing here is shown to anyone else."""
+    __tablename__ = 'profiles'
+    user_id: Mapped[int] = mapped_column(ForeignKey('users.id'), primary_key=True)
+    nickname: Mapped[str] = mapped_column(String(24), default='')
+    # JSON of the avatar choices, each from a fixed list in app/profiles.py.
+    avatar: Mapped[str] = mapped_column(String(300), default='{}')
+    updated: Mapped[str] = mapped_column(String(40), default=now, onupdate=now)
+
+
+class SelfReviewRecord(Base):
+    """ENG-09: a finished self review, in the learner's own words. Self-reported evidence: kept so the
+    learner (and their parent) can read it back, never checked by anyone."""
+    __tablename__ = 'self_reviews'
+    id: Mapped[int] = mapped_column(primary_key=True)
+    user_id: Mapped[int] = mapped_column(ForeignKey('users.id'), index=True)
+    lesson_id: Mapped[str] = mapped_column(String(80))
+    task_id: Mapped[str] = mapped_column(String(160))
+    task_version: Mapped[int] = mapped_column(Integer)
+    # JSON: {criterion id: what the learner wrote}. Only finished reviews are kept; drafts never leave the page.
+    answers: Mapped[str] = mapped_column(Text)
+    created: Mapped[str] = mapped_column(String(40), default=now)
+
+
+class ReviewState(Base):
+    """Spaced review (teaching-design.md section 5): where each review card is in its schedule, per learner.
+    Practice evidence only: it never changes XP, badges or progress."""
+    __tablename__ = 'review_state'
+    user_id: Mapped[int] = mapped_column(ForeignKey('users.id'), primary_key=True)
+    card_id: Mapped[str] = mapped_column(String(160), primary_key=True)
+    box: Mapped[int] = mapped_column(Integer, default=0)
+    due: Mapped[str] = mapped_column(String(10))
+    seen: Mapped[int] = mapped_column(Integer, default=0)
+    correct: Mapped[int] = mapped_column(Integer, default=0)
+    updated: Mapped[str] = mapped_column(String(40), default=now, onupdate=now)
+
+
 class UserSession(Base):
     """One signed-in browser (backlog SEC-03). The cookie holds only a random session ID.
 

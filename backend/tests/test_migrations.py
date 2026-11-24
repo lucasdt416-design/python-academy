@@ -44,7 +44,7 @@ sa.Table('attempts', LEGACY,
 HELLO = ('print("A forest.")\nprint("A dragon!")', 'A forest.\nA dragon!\n')
 VARIABLES = ('hero="Kai"\ntool="rope"\nprint(f"{hero} carries {tool}")', 'Kai carries rope\n')
 ARITHMETIC = ('stars=7\nprint(stars*3)', '21\n')  # legacy exercise under the variables ID
-HEAD = '0010'
+HEAD = '0013'
 
 
 @pytest.fixture(params=['sqlite', 'postgresql'])
@@ -288,3 +288,51 @@ def test_rate_limit_counting_works_on_this_database_and_is_shared_between_instan
     assert later.hit('check', 'ip:x', windows) == 0
     # The minute window started again, but the hour one is now full (5 of 5), so the wait is the hour's.
     assert later.hit('check', 'ip:x', windows) == 3539
+
+
+def test_0011_adds_profiles_and_removes_them_on_downgrade_without_touching_progress(engine):
+    migrate.upgrade(engine, '0010')
+    with engine.begin() as conn:
+        conn.execute(sa.text("INSERT INTO users (id, subject, email, role, tester) VALUES (1, 's', 's@example.com', 'student', false)"))
+        conn.execute(sa.text("INSERT INTO xp_awards (user_id, task_id, task_version, xp, source, created) VALUES (1, 'hello.challenge', 1, 100, 'practice', '2026-11-20T10:00:00+00:00')"))
+    migrate.upgrade(engine, '0011')
+    columns = {c['name'] for c in sa.inspect(engine).get_columns('profiles')}
+    assert columns == {'user_id', 'nickname', 'avatar', 'updated'}
+    with engine.begin() as conn:
+        conn.execute(sa.text("INSERT INTO profiles (user_id, nickname, avatar, updated) VALUES (1, 'Nova', '{}', '2026-11-20')"))
+    migrate.downgrade(engine, '0010')
+    assert 'profiles' not in sa.inspect(engine).get_table_names()
+    with engine.connect() as conn:
+        assert conn.execute(sa.text('SELECT count(*) FROM xp_awards')).scalar() == 1
+    migrate.upgrade(engine)
+    assert migrate.current(engine) == HEAD
+
+
+def test_0012_adds_the_review_schedule_and_removes_it_on_downgrade(engine):
+    migrate.upgrade(engine, '0011')
+    with engine.begin() as conn:
+        conn.execute(sa.text("INSERT INTO users (id, subject, email, role, tester) VALUES (1, 's', 's@example.com', 'student', false)"))
+    migrate.upgrade(engine, '0012')
+    assert {c['name'] for c in sa.inspect(engine).get_columns('review_state')} == {'user_id', 'card_id', 'box', 'due', 'seen', 'correct', 'updated'}
+    with engine.begin() as conn:
+        conn.execute(sa.text("INSERT INTO review_state (user_id, card_id, box, due, seen, correct, updated) VALUES (1, 'hello.review.predict', 1, '2026-11-21', 1, 1, 'x')"))
+    migrate.downgrade(engine, '0011')
+    assert 'review_state' not in sa.inspect(engine).get_table_names()
+    migrate.upgrade(engine)
+    assert migrate.current(engine) == HEAD
+
+
+def test_0013_adds_self_reviews_and_removes_them_on_downgrade(engine):
+    migrate.upgrade(engine, '0012')
+    with engine.begin() as conn:
+        conn.execute(sa.text("INSERT INTO users (id, subject, email, role, tester) VALUES (1, 's', 's@example.com', 'student', false)"))
+    migrate.upgrade(engine, '0013')
+    assert {c['name'] for c in sa.inspect(engine).get_columns('self_reviews')} == {'id', 'user_id', 'lesson_id', 'task_id', 'task_version', 'answers', 'created'}
+    with engine.begin() as conn:
+        conn.execute(sa.text("INSERT INTO self_reviews (user_id, lesson_id, task_id, task_version, answers, created) VALUES (1, 'py.final-brief', 'py.final-brief.challenge', 1, '{}', 'x')"))
+        # The XP ledger is untouched by the new table.
+        assert conn.execute(sa.text('SELECT count(*) FROM xp_awards')).scalar() == 0
+    migrate.downgrade(engine, '0012')
+    assert 'self_reviews' not in sa.inspect(engine).get_table_names()
+    migrate.upgrade(engine)
+    assert migrate.current(engine) == HEAD

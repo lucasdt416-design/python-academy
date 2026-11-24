@@ -1,0 +1,92 @@
+{
+  "id": "py.when-not-oop",
+  "version": 1,
+  "course": "py",
+  "unit": "py.u11",
+  "title": "Not everything needs a class",
+  "concept": "Design · class, dictionary or function?",
+  "description": "Classes are a tool, not a rule. Learn to tell when a dictionary or a plain function does the job more simply.",
+  "badge": {
+    "id": "py.badge.design-judge",
+    "version": 1,
+    "title": "Design judge",
+    "category": "skill"
+  },
+  "tasks": [
+    {
+      "id": "py.when-not-oop.discover",
+      "type": "discover",
+      "title": "Choose the simplest shape that fits",
+      "body": "A class earns its place when its data and its actions belong together, and several objects of that kind exist and change. When there is only data, a dictionary is enough. When there is only an action, a plain function is enough.",
+      "detail": "Ask three questions. Does it hold data that changes? Are there several of them at once? Do actions belong to that data? If the answers are no, a dictionary or a function is easier to read and to test. Start simple: you can turn a dictionary into a class later, when it needs one."
+    },
+    {
+      "id": "py.when-not-oop.example",
+      "type": "example",
+      "code": "# The same hero, twice: as a class, and as a dictionary\nclass Hero:\n    def __init__(self, name, health):\n        self.name = name\n        self.health = health\n\nnova = Hero(\"Nova\", 10)\nkai = {\"name\": \"Kai\", \"health\": 9}\n\ndef heal(health, amount):\n    return min(health + amount, 10)\n\nprint(nova.name, nova.health)\nprint(kai[\"name\"], kai[\"health\"])\nprint(heal(kai[\"health\"], 3))",
+      "output": "Nova 10\nKai 9\n10",
+      "note": "Both heroes hold the same two facts, but the class adds nothing yet: it has no methods. A dictionary says the same thing with less code. heal() is a plain function: a number goes in and a number comes out, so it can be tested on its own. min() keeps the health from going over 10.",
+      "inputs": []
+    },
+    {
+      "id": "py.when-not-oop.predict",
+      "type": "predict",
+      "question": "A program reads one settings record when it starts, and never changes it. Which fits best?",
+      "options": [
+        "A dictionary",
+        "A class with methods",
+        "A list of classes"
+      ],
+      "answer": 0,
+      "why": "One record, no actions, no copies: a dictionary holds it with no extra code. A class would add a shape with nothing to do."
+    },
+    {
+      "id": "py.when-not-oop.guided",
+      "type": "guided",
+      "prompt": "Predict, then run: give Hero a method heal(self, amount) that adds to self.health, and call nova.heal(3). Then compare it with the heal() function: which reads more clearly to you, and why?"
+    },
+    {
+      "id": "py.when-not-oop.challenge",
+      "type": "challenge",
+      "prompt": "Look back at programs you wrote in units 10 and 11, or at the example. For each part below, say which shape you would use, a class, a dictionary or a function, and why, with details from a real program. There is no single right answer: what counts is your reason. This is reviewed by you, and recorded as your own review.",
+      "starter": "",
+      "hints": [
+        "Look for data that never changes and has no actions: a settings record, one line read from a file, a single score. Those are dictionary-sized.",
+        "A class earns its place when several objects exist at once and each changes over time, like heroes that take hits and drink potions.",
+        "An action that only needs its inputs, like working out a price with tax, is a function. If you can test it with one assert and no object, it is a function."
+      ],
+      "error_hints": [],
+      "similar_example": null,
+      "other_ways": [],
+      "input_labels": [],
+      "validator": {
+        "id": "self-review",
+        "version": 1
+      },
+      "version": 1,
+      "self_review": {
+        "kind": "reflection",
+        "criteria": [
+          {
+            "id": "data-only",
+            "text": "I found data that does not need a class.",
+            "ask": "What was it, and what would you keep it in instead?",
+            "min_words": 10
+          },
+          {
+            "id": "class-earns",
+            "text": "I found a case where a class earns its place.",
+            "ask": "Which data and which actions belong together there?",
+            "min_words": 10
+          },
+          {
+            "id": "plain-function",
+            "text": "I found an action that works best as a plain function.",
+            "ask": "Which action, and how would you test it on its own?",
+            "min_words": 10
+          }
+        ]
+      }
+    }
+  ]
+}

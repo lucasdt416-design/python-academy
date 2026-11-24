@@ -448,9 +448,9 @@
      {
       "id": "py.u11",
       "title": "Model a larger program",
-      "summary": "Classes and attributes, methods that change an object, and objects built from other objects. A lesson on when not to use classes comes later.",
+      "summary": "Classes and attributes, methods that change an object, objects built from other objects, and when a dictionary or a function does the job better.",
       "status": "released",
-      "complete": false,
+      "complete": true,
       "lessons": [
        {
         "id": "py.classes",
@@ -472,16 +472,31 @@
         "concept": "Classes · objects that hold objects",
         "description": "Build the hero from smaller parts: a pack with a weight limit, holding items, each class doing one job.",
         "badge": "Outfitter"
+       },
+       {
+        "id": "py.when-not-oop",
+        "title": "Not everything needs a class",
+        "concept": "Design · class, dictionary or function?",
+        "description": "Classes are a tool, not a rule. Learn to tell when a dictionary or a plain function does the job more simply.",
+        "badge": "Design judge"
        }
       ]
      },
      {
       "id": "py.u12",
       "title": "Final project",
-      "summary": "Plan, build, test, and explain a project of your own.",
-      "status": "coming_soon",
+      "summary": "Plan, build, test, and explain a project of your own. Choosing and planning it opens first; building and reviewing it come next.",
+      "status": "released",
       "complete": false,
-      "lessons": []
+      "lessons": [
+       {
+        "id": "py.final-brief",
+        "title": "Choose your project",
+        "concept": "Planning · a brief before the build",
+        "description": "Pick your final project, from a word game to a full app, and plan it: who it is for, what it must do, and what waits.",
+        "badge": "Project planner"
+       }
+      ]
      }
     ]
    },
@@ -662,7 +677,7 @@
     "id": "cs",
     "title": "Computer Science Foundations",
     "summary": "Representation, searching, sorting, complexity, and recursion.",
-    "status": "coming_soon",
+    "status": "released",
     "prerequisites": {
      "required": [
       "py.u01",
@@ -677,7 +692,115 @@
       "py.u08"
      ]
     },
-    "units": []
+    "units": [
+     {
+      "id": "cs.u01",
+      "title": "How data is stored",
+      "summary": "Binary, hexadecimal colours, characters and bytes, and why decimals drift.",
+      "status": "released",
+      "complete": true,
+      "lessons": [
+       {
+        "id": "cs.binary",
+        "title": "Lamps on the tower",
+        "concept": "Binary · numbers as 0s and 1s",
+        "description": "The signal tower shows numbers with a row of lamps. Read them, and set them, in binary.",
+        "badge": "Lamplighter"
+       },
+       {
+        "id": "cs.hexadecimal",
+        "title": "Colours on the flags",
+        "concept": "Hexadecimal · base 16 and colours",
+        "description": "The tower signals with coloured flags, written as six hex digits. Turn them into amounts of red, green and blue, and back.",
+        "badge": "Flag painter"
+       },
+       {
+        "id": "cs.text-encoding",
+        "title": "Coded messages",
+        "concept": "Text · characters as numbers, and bytes",
+        "description": "Messages leave the tower as numbers. Shift letters to make a simple code, and count the bytes a message really takes.",
+        "badge": "Cipher clerk"
+       },
+       {
+        "id": "cs.float-limits",
+        "title": "The ledger that would not balance",
+        "concept": "Floats · why 0.1 + 0.2 is not 0.3",
+        "description": "The tower ledger adds up prices. Find out why decimals drift, and keep money exact by counting cents.",
+        "badge": "Honest ledger"
+       }
+      ]
+     },
+     {
+      "id": "cs.u02",
+      "title": "Thinking in steps",
+      "summary": "Pseudocode, tracing a program by hand, and what stays true in a loop.",
+      "status": "coming_soon",
+      "complete": false,
+      "lessons": []
+     },
+     {
+      "id": "cs.u03",
+      "title": "Searching",
+      "summary": "Linear search, binary search, and counting steps as lists grow.",
+      "status": "released",
+      "complete": true,
+      "lessons": [
+       {
+        "id": "cs.linear-search",
+        "title": "Search the shelf",
+        "concept": "Searching · one item at a time",
+        "description": "The archive keeps records on long shelves. Search them one by one, and count how many you had to look at.",
+        "badge": "Archivist"
+       },
+       {
+        "id": "cs.binary-search",
+        "title": "Halve the shelf",
+        "concept": "Searching · binary search on a sorted list",
+        "description": "When the archive is sorted, you can skip half of it with every look. Find records in a handful of steps.",
+        "badge": "Halver"
+       },
+       {
+        "id": "cs.counting-steps",
+        "title": "How the work grows",
+        "concept": "Searching · counting steps as lists grow",
+        "description": "Compare the two searches by counting, not timing: how many looks does each need as the archive grows?",
+        "badge": "Step counter"
+       }
+      ]
+     },
+     {
+      "id": "cs.u04",
+      "title": "Sorting",
+      "summary": "Selection sort, merge sort, and comparing them on real inputs.",
+      "status": "coming_soon",
+      "complete": false,
+      "lessons": []
+     },
+     {
+      "id": "cs.u05",
+      "title": "Recursion",
+      "summary": "Functions that call themselves, base cases, and when a loop is better.",
+      "status": "coming_soon",
+      "complete": false,
+      "lessons": []
+     },
+     {
+      "id": "cs.u06",
+      "title": "Data structures",
+      "summary": "Stacks and queues, hash tables, trees and graphs.",
+      "status": "coming_soon",
+      "complete": false,
+      "lessons": []
+     },
+     {
+      "id": "cs.u07",
+      "title": "Your comparison",
+      "summary": "Design an experiment comparing algorithms, and write it up.",
+      "status": "coming_soon",
+      "complete": false,
+      "lessons": []
+     }
+    ]
    },
    {
     "id": "node",
@@ -2906,7 +3029,7 @@
     "starter": "# Define score(secret, guess) and verdict(secret, guess)\n",
     "challenge": "Write score(secret, guess), which returns 10 if the guess is right, 5 if it is no more than 2 away, 1 if it is no more than 10 away, and 0 otherwise. Then write verdict(secret, guess), which returns two values: the score, and True if the guess is too high or False if it is not. Return the answers; do not print them. Your program should not ask for input: the check calls your functions with its own values.",
     "hints": [
-     "Work out how far apart the two numbers are first, ignoring which is bigger: abs() does that. Then check the closest band first, and return as soon as one matches.",
+     "Work out how far apart the two numbers are first, ignoring which is bigger: abs() gives a number without its minus sign, so abs(3 - 7) is 4. Then check the closest band first, and return as soon as one matches.",
      "verdict() can call score() instead of repeating its rules, then return the score and a comparison together, separated by a comma.",
      "The same shape with other names: def grade(mark): with if mark >= 90: return \"A\" first, then the lower bands, and a last return for everything else."
     ],
@@ -3696,7 +3819,7 @@
     "why": "import math brings in the module, not each of its tools by itself: the tool is math.sqrt. from math import sqrt would make sqrt work on its own.",
     "guided": "Predict, then run: try print(sqrt(49)) with only import math. Then add import os and read the message.",
     "starter": "# Import what you need, then measure the tower\n",
-    "challenge": "Ask for the radius of a round tower, as a whole number. Print three lines: the distance around it, which is 2 times pi times the radius, rounded to 1 decimal place; the area inside it, pi times the radius times the radius, rounded to 1 decimal place; and how many steps of length 1 it takes to walk all the way round, rounded up to a whole step. Use pi and ceil() from the math module.",
+    "challenge": "Ask for the radius of a round tower, as a whole number. Print three lines: the distance around it, which is 2 times pi times the radius, rounded to 1 decimal place (round(x, 1) does that); the area inside it, pi times the radius times the radius, rounded to 1 decimal place; and how many steps of length 1 it takes to walk all the way round, rounded up to a whole step. Use pi and ceil() from the math module: ceil() rounds a number up to the next whole number, so ceil(4.1) is 5.",
     "hints": [
      "The math module has pi, to many more decimal places than 3.14, and a tool that rounds a number up.",
      "round(x, 1) keeps one decimal place. The steps are the distance around rounded up, so even a little extra is one more step.",
@@ -5089,7 +5212,7 @@
     "description": "Check the riddle keeper's answers fairly, whatever capitals and spaces the player types, and tidy them for display.",
     "learnTitle": "Tools that come with every piece of text",
     "learn": "Text has methods of its own: \" Nova \".strip() is \"Nova\", \"nova\".upper() is \"NOVA\", and \"a,b\".split(\",\") is [\"a\", \"b\"]. A method never changes the text itself, because text cannot be changed: store what it gives back.",
-    "detail": "More of them: lower(), title(), capitalize(), replace(\"old\", \"new\"), startswith(\"x\"), find(\"x\"), which gives a position or -1, and \" \".join(words), which joins a list of words with spaces. split() with nothing in the brackets splits on any run of spaces. An f-string puts values into text: f\"{name} has {coins} coins\", and f\"{price:.2f}\" shows two decimal places.",
+    "detail": "\"a b\".replace(\" \", \"\") is \"ab\": replace() swaps every copy of one piece of text for another. \"nOVA\".capitalize() is \"Nova\", a capital first letter and the rest lowercase; title() does that to every word. split() with nothing in the brackets splits on any run of spaces, and \" \".join(words) joins a list of words back with single spaces. f\"{price:.2f}\" shows a number with two decimal places.",
     "example": "answer = \"  The Moon \"\nclean = answer.strip().lower()\nprint(clean)\nprint(clean == \"the moon\")\nprint(\"map,rope,lamp\".split(\",\"))\nprint(\" + \".join([\"rope\", \"map\"]))\nprint(f\"{clean.title()} costs {2.5:.2f} coins\")",
     "exampleOutput": "the moon\nTrue\n['map', 'rope', 'lamp']\nrope + map\nThe Moon costs 2.50 coins",
     "exampleNote": "strip() and lower() tidy the reply before comparing it. split() makes a list, join() makes text again, and :.2f in the f-string writes 2.5 as 2.50.",
@@ -5614,7 +5737,7 @@
     "starter": "# Define class Hero with hit(), drink() and status()\n",
     "challenge": "Write a class Hero with a name, health that starts at 10, and potions that start at 2, and three methods. hit(damage) takes the damage off the health, never below 0. drink() uses a potion, if there is one left, to add 5 health, never above 10; with no potions it does nothing. status() returns text like Nova 10/10 potions: 2. Then ask for the hero's name and read commands until the command end: hit, followed by the damage on the next line, or drink. After each command, print the hero's status.",
     "hints": [
-     "Each method changes or reads only self's attributes. max() and min() keep the health between 0 and 10.",
+     "Each method changes or reads only self's attributes. min(a, b) gives the smaller of two numbers and max(a, b) the bigger, so min(health, 10) is never more than 10 and max(health, 0) never less than 0.",
      "status() returns the text instead of printing it, and the loop prints it. The loop reads a command, acts on it, prints, and reads the next one, until end.",
      "With other names: def recharge(self): with if self.cells > 0: inside, and self.cells = self.cells - 1 uses up one cell."
     ],
@@ -5793,6 +5916,142 @@
     "course": "py",
     "unit": "py.u11",
     "check": "browser-tests"
+   },
+   {
+    "id": "py.when-not-oop",
+    "title": "Not everything needs a class",
+    "concept": "Design · class, dictionary or function?",
+    "badge": "Design judge",
+    "description": "Classes are a tool, not a rule. Learn to tell when a dictionary or a plain function does the job more simply.",
+    "learnTitle": "Choose the simplest shape that fits",
+    "learn": "A class earns its place when its data and its actions belong together, and several objects of that kind exist and change. When there is only data, a dictionary is enough. When there is only an action, a plain function is enough.",
+    "detail": "Ask three questions. Does it hold data that changes? Are there several of them at once? Do actions belong to that data? If the answers are no, a dictionary or a function is easier to read and to test. Start simple: you can turn a dictionary into a class later, when it needs one.",
+    "example": "# The same hero, twice: as a class, and as a dictionary\nclass Hero:\n    def __init__(self, name, health):\n        self.name = name\n        self.health = health\n\nnova = Hero(\"Nova\", 10)\nkai = {\"name\": \"Kai\", \"health\": 9}\n\ndef heal(health, amount):\n    return min(health + amount, 10)\n\nprint(nova.name, nova.health)\nprint(kai[\"name\"], kai[\"health\"])\nprint(heal(kai[\"health\"], 3))",
+    "exampleOutput": "Nova 10\nKai 9\n10",
+    "exampleNote": "Both heroes hold the same two facts, but the class adds nothing yet: it has no methods. A dictionary says the same thing with less code. heal() is a plain function: a number goes in and a number comes out, so it can be tested on its own. min() keeps the health from going over 10.",
+    "question": "A program reads one settings record when it starts, and never changes it. Which fits best?",
+    "options": [
+     "A dictionary",
+     "A class with methods",
+     "A list of classes"
+    ],
+    "answer": 0,
+    "why": "One record, no actions, no copies: a dictionary holds it with no extra code. A class would add a shape with nothing to do.",
+    "guided": "Predict, then run: give Hero a method heal(self, amount) that adds to self.health, and call nova.heal(3). Then compare it with the heal() function: which reads more clearly to you, and why?",
+    "starter": "",
+    "challenge": "Look back at programs you wrote in units 10 and 11, or at the example. For each part below, say which shape you would use, a class, a dictionary or a function, and why, with details from a real program. There is no single right answer: what counts is your reason. This is reviewed by you, and recorded as your own review.",
+    "hints": [
+     "Look for data that never changes and has no actions: a settings record, one line read from a file, a single score. Those are dictionary-sized.",
+     "A class earns its place when several objects exist at once and each changes over time, like heroes that take hits and drink potions.",
+     "An action that only needs its inputs, like working out a price with tax, is a function. If you can test it with one assert and no object, it is a function."
+    ],
+    "inputs": [],
+    "exampleInputs": [],
+    "expected": null,
+    "errorHints": [],
+    "similarExample": null,
+    "otherWays": [],
+    "selfReview": {
+     "kind": "reflection",
+     "criteria": [
+      {
+       "id": "data-only",
+       "text": "I found data that does not need a class.",
+       "ask": "What was it, and what would you keep it in instead?",
+       "min_words": 10
+      },
+      {
+       "id": "class-earns",
+       "text": "I found a case where a class earns its place.",
+       "ask": "Which data and which actions belong together there?",
+       "min_words": 10
+      },
+      {
+       "id": "plain-function",
+       "text": "I found an action that works best as a plain function.",
+       "ask": "Which action, and how would you test it on its own?",
+       "min_words": 10
+      }
+     ]
+    },
+    "course": "py",
+    "unit": "py.u11",
+    "check": "self-review"
+   }
+  ],
+  "py.u12": [
+   {
+    "id": "py.final-brief",
+    "title": "Choose your project",
+    "concept": "Planning · a brief before the build",
+    "badge": "Project planner",
+    "description": "Pick your final project, from a word game to a full app, and plan it: who it is for, what it must do, and what waits.",
+    "learnTitle": "Plan it before you build it",
+    "learn": "Your final project is a program you plan and build yourself. There are three, from smaller to larger: Lockpick, a word-guessing game; Site Builder, which turns a data file into a small website; and Planner, a to-do app that keeps your plan. Pick the one that stretches you without stopping you.",
+    "detail": "A brief says what you will build before you build it: who it is for, what it must do, and what it will not do yet. The not-yet list matters most, because it keeps the project small enough to finish. Milestones split the work into pieces you can run and show.",
+    "example": "# A brief, kept as Python data\nbrief = {\n    \"project\": \"Lockpick\",\n    \"for\": \"my brother, who likes word games\",\n    \"must\": [\n        \"guess one letter at a time\",\n        \"six misses and the lock jams\",\n        \"play again\",\n    ],\n    \"not yet\": [\"hints\", \"two players\"],\n}\nprint(brief[\"project\"], \"for\", brief[\"for\"])\nfor feature in brief[\"must\"]:\n    print(\"-\", feature)\nprint(\"Not yet:\", \", \".join(brief[\"not yet\"]))",
+    "exampleOutput": "Lockpick for my brother, who likes word games\n- guess one letter at a time\n- six misses and the lock jams\n- play again\nNot yet: hints, two players",
+    "exampleNote": "The brief is a dictionary, with one key for each part of the plan. The not-yet list is printed last, so it is clear what the first version leaves out.",
+    "question": "Which belongs on the not-yet list for a first version of Lockpick?",
+    "options": [
+     "A hint that costs a try",
+     "Showing the word as _ a _ _ t",
+     "Stopping after six misses"
+    ],
+    "answer": 0,
+    "why": "The other two are what make it Lockpick at all. A hint is an extra: good to have, but the game works without it.",
+    "guided": "Predict, then run: add a third item to \"not yet\", and change \"for\" to someone you might show your project to. Then add a \"milestones\" list with three steps, and print each one on its own line.",
+    "starter": "",
+    "challenge": "Choose Lockpick, Site Builder or Planner, and write its brief. Lockpick suits a first big program; Site Builder needs unit 10; Planner needs every unit. Each part below is reviewed by you, in your own words, and your brief is kept so you can read it back while you build.",
+    "hints": [
+     "Choose by what you finished, not by what sounds biggest: a small project that works beats a large one that does not.",
+     "A milestone is something you can run and show, like \"the word shows as underscores\" or \"one page is written\". \"Finish the code\" is not a milestone.",
+     "For the not-yet list, think of the first extra you would add after it works. That is the one to leave out for now."
+    ],
+    "inputs": [],
+    "exampleInputs": [],
+    "expected": null,
+    "errorHints": [],
+    "similarExample": null,
+    "otherWays": [],
+    "selfReview": {
+     "kind": "rubric",
+     "criteria": [
+      {
+       "id": "choice",
+       "text": "I chose one of the three projects.",
+       "ask": "Which one, and why does it suit you right now?",
+       "min_words": 8
+      },
+      {
+       "id": "user",
+       "text": "I named who it is for.",
+       "ask": "Who will use it, and what do they want from it?",
+       "min_words": 8
+      },
+      {
+       "id": "must",
+       "text": "I listed what it must do.",
+       "ask": "List three to five things it must do.",
+       "min_words": 12
+      },
+      {
+       "id": "not-yet",
+       "text": "I listed what it will not do yet.",
+       "ask": "What are you leaving out of the first version?",
+       "min_words": 6
+      },
+      {
+       "id": "milestones",
+       "text": "I split it into milestones I can run.",
+       "ask": "What are your first three milestones, each something you can run and show?",
+       "min_words": 12
+      }
+     ]
+    },
+    "course": "py",
+    "unit": "py.u12",
+    "check": "self-review"
    }
   ]
  },

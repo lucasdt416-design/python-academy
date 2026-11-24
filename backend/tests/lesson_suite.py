@@ -123,8 +123,8 @@ def renamed(text, names):
 
 
 def released_unit(unit_id):
-    py = next(c for c in CATALOG.courses if c.id == 'py')
-    return next(u for u in py.units if u.id == unit_id)
+    course = next(c for c in CATALOG.courses if c.id == unit_id.split('.')[0])
+    return next(u for u in course.units if u.id == unit_id)
 
 
 def make_tests(unit_id, specs, badges):
@@ -139,7 +139,7 @@ def make_tests(unit_id, specs, badges):
     @pytest.mark.parametrize('lesson_id', ids)
     def test_each_lesson_is_a_browser_check_with_visible_and_hidden_cases(lesson_id):
         lesson, task = LESSONS[lesson_id], challenge(lesson_id)
-        assert (lesson.course, lesson.unit) == ('py', unit_id)
+        assert (lesson.course, lesson.unit) == (unit_id.split('.')[0], unit_id)
         assert (task.validator.id, task.validator.version) == ('browser-tests', 1)
         visible = [c for c in task.check.cases if c.visibility == 'visible']
         hidden = [c for c in task.check.cases if c.visibility == 'hidden']

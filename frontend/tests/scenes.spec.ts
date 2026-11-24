@@ -61,9 +61,9 @@ test('every released lesson has its own scene title', async ({page}) => {
   await expect(page.locator('.unit-lesson.current')).toHaveAttribute('href', `/preview?lesson=${lesson.id}`);
   titles.set(lesson.id, (await scene(page).locator('.scene-title').textContent()) ?? '');
  }
- expect(titles.size).toBe(52);
+ expect(titles.size).toBe(54);
  // No two lessons share a scene: the same drawing thirty times is what this work replaces.
- expect(new Set(titles.values()).size).toBe(52);
+ expect(new Set(titles.values()).size).toBe(54);
 });
 
 for (const lesson of ALL) {

@@ -54,9 +54,12 @@ def test_the_browser_test_tries_every_blocked_module_and_every_allowed_one():
 
 
 def test_the_guard_is_on_before_any_learner_code_in_both_modes():
-    assert WORKER.count('await guardImports(py') == 2
+    assert WORKER.count('await guardImports(py') == 3
     for start, code in (("noNetwork();\n  await guardImports(py);", 'await py.runPythonAsync(data.code)'), ("await guardImports(py, cases.some", 'await py.runPythonAsync(code, {globals: namespace})')):
         assert start in WORKER and WORKER.index(start) < WORKER.index(code)
+    # Watch it run (trace mode): the guard is on before the tracer is defined and the program runs.
+    trace = WORKER.index('async function runTrace')
+    assert WORKER.index('noNetwork();\n  await guardImports(py);', trace) < WORKER.index('runPythonAsync(SNAPSHOT + TRACER', trace) < WORKER.index('__academy_trace(__academy_code', trace)
 
 
 def test_the_worker_imports_nothing_after_the_guard_is_on():
