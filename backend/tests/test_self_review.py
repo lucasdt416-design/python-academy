@@ -11,7 +11,7 @@ from sqlalchemy.orm import Session
 
 import test_unit2_lessons as helpers
 from app import content, self_review
-from app.db import SelfReviewRecord, XpAward
+from app.db import SelfReviewRecord, User, XpAward
 from app.main import CONTENT, engine
 from test_profiles import sign_in
 from test_unit2_lessons import client  # noqa: F401
@@ -120,6 +120,27 @@ def test_a_finished_review_is_kept_labelled_self_reported_and_awarded_once(clien
         assert len(kept) == 2 and json.loads(kept[0].answers) == GOOD['py.final-brief']
 
 
+
+def test_a_recorded_review_can_be_read_back_by_its_learner_only(client):
+    """The lesson says the brief is kept so it can be read back while you build: this is that."""
+    assert client.get('/api/self-review/py.final-brief').status_code == 401
+    uid = sign_in(client)
+    assert client.get('/api/self-review/py.final-brief').json() == {'answers': None, 'recorded': None}
+    assert client.get('/api/self-review/py.lists').status_code == 404
+    client.post('/api/self-review', json={'lesson_id': 'py.final-brief', 'answers': answers('py.final-brief')}, headers=helpers.HEADERS)
+    later = answers('py.final-brief', user={'done': True, 'evidence': 'My friends at the coding club, who want a short game between lessons.'})
+    client.post('/api/self-review', json={'lesson_id': 'py.final-brief', 'answers': later}, headers=helpers.HEADERS)
+    got = client.get('/api/self-review/py.final-brief').json()
+    assert got['answers'] == {k: v['evidence'] for k, v in later.items()} and got['recorded']
+    with Session(engine) as db:  # the same reviews, now someone else's: this learner no longer sees them
+        other = User(subject='other', email='other@example.com', role='student')
+        db.add(other)
+        db.flush()
+        for row in db.scalars(select(SelfReviewRecord).where(SelfReviewRecord.user_id == uid)):
+            row.user_id = other.id
+        db.commit()
+    assert client.get('/api/self-review/py.final-brief').json()['answers'] is None
+
 # The answers frontend/tests/self-review.spec.ts mocks: real requests and the real API's replies.
 RECORDED_FILE = __import__('pathlib').Path(__file__).resolve().parents[2] / 'frontend/tests/fixtures/self-review-api.json'
 SHORT = {'choice': {'done': True, 'evidence': GOOD['py.final-brief']['choice']}, 'user': {'done': True, 'evidence': 'my cousin'}}
@@ -138,8 +159,12 @@ def build_recordings():
              ('/api/self-review/preview', {'lesson_id': 'py.final-brief', 'answers': full})]
     recorded = {'good': GOOD['py.final-brief'], 'short': SHORT, 'calls': [{'path': p, 'request': b, 'response': client.post(p, json=b, headers=helpers.HEADERS).json()} for p, b in calls]}
     sign_in(client)
+    before = client.get('/api/self-review/py.final-brief').json()
     body = {'lesson_id': 'py.final-brief', 'answers': full}
     recorded['calls'].append({'path': '/api/self-review', 'request': body, 'response': client.post('/api/self-review', json=body, headers=helpers.HEADERS).json()})
+    after = client.get('/api/self-review/py.final-brief').json()
+    after['recorded'] = after['recorded'] and '2026-11-23T10:00:00+00:00'  # when it was saved varies; the rest is as sent
+    recorded['reads'] = {'before': before, 'after': after}
     if os.environ.get('WRITE_SELF_REVIEW_RECORDINGS') == '1':
         RECORDED_FILE.write_text(json.dumps(recorded, indent=1, ensure_ascii=False) + '\n')
     return recorded

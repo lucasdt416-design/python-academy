@@ -101,7 +101,7 @@ button:disabled{opacity:.6;cursor:not-allowed}
 .hero{padding:60px 0 54px}
 .hero-grid{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:48px;align-items:center}
 .hero h1 em{font-style:normal;color:var(--moss2);background:linear-gradient(transparent 62%,var(--amber-light) 62%)}
-.playground{background:var(--forest);color:#eaf3ec;border-radius:20px;padding:22px 22px 18px;box-shadow:0 18px 40px #263f3826;min-width:0}
+.playground{background:var(--forest);color:#eaf3ec;border-radius:16px;padding:22px 22px 18px;min-width:0}
 .pg-top{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:center;font-family:var(--mono);font-size:12px;color:#a9c4b6;margin-bottom:12px}
 .pg-top h2{font:inherit;color:inherit;margin:0;letter-spacing:0}
 .pg-preview{display:inline-block;background:var(--amber-light);color:var(--night);border-radius:999px;padding:1px 9px;font-weight:700;margin-right:6px}
@@ -118,12 +118,13 @@ button:disabled{opacity:.6;cursor:not-allowed}
 .sec-head{max-width:46em;margin-bottom:32px}
 .sec-head p{color:var(--body);font-size:18px;margin:0}
 .flow{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:14px}
-.flow li{background:var(--white);border:1px solid var(--line);border-radius:var(--radius);padding:18px 16px}
-.flow .tag{display:flex;align-items:center;gap:8px;font-weight:700;font-size:15px;margin-bottom:8px}
+.flow{gap:24px}
+/* The five steps as a plain numbered row: a coloured rule (the stepper's colours) instead of boxes and icons. */
+.flow li{border-top:3px solid var(--line);padding:14px 0 0}
+.flow li.t-discover{border-top-color:var(--discover)}.flow li.t-example{border-top-color:var(--example)}.flow li.t-predict{border-top-color:var(--predict)}.flow li.t-try{border-top-color:var(--try)}.flow li.t-challenge{border-top-color:var(--challenge)}
+.flow .tag{display:flex;align-items:baseline;gap:8px;font-weight:700;font-size:16px;margin-bottom:6px;color:var(--forest)}
+.flow .tag .n{font-family:var(--mono);font-size:13px;font-weight:500;color:var(--muted)}
 .flow p{margin:0;font-size:15px;color:var(--body);line-height:1.5}
-/* The card-type badge: a coloured square with the type's icon. */
-.ib{display:grid;place-items:center;width:34px;height:34px;border-radius:10px;color:var(--white);flex:none}
-.t-discover .ib{background:var(--discover);color:#3b2d08}.t-example .ib{background:var(--example)}.t-predict .ib{background:var(--predict)}.t-try .ib{background:var(--try)}.t-challenge .ib{background:var(--challenge)}
 .errdemo{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:28px;align-items:start}
 .demo-editor{background:var(--white);border:1px solid var(--field);border-radius:12px;overflow:hidden;font-family:var(--mono);font-size:15px}
 .demo-editor .bar{display:flex;justify-content:space-between;padding:8px 14px;background:#eef3eb;color:var(--muted);font-size:12px;border-bottom:1px solid #d9e0d5}
@@ -148,9 +149,9 @@ button:disabled{opacity:.6;cursor:not-allowed}
 .planned b{display:block;color:var(--forest);font-family:var(--serif);font-size:16px}
 .later{margin-top:18px;font-size:15px;color:var(--muted)}
 .parents{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:40px;align-items:center}
-.facts{list-style:none;margin:0;padding:0;display:grid;gap:10px}
-.facts li{display:grid;grid-template-columns:28px 1fr;gap:12px;align-items:start;background:var(--white);border:1px solid var(--line);border-radius:12px;padding:12px 14px;font-size:16px}
-.facts .ico{color:var(--moss)}
+.facts{list-style:none;margin:0;padding:0}
+.facts li{padding:14px 0;border-top:1px solid #c9d8cc;font-size:16px;color:var(--ink)}
+.facts li:last-child{border-bottom:1px solid #c9d8cc}
 
 /* ---------- Home, student ---------- */
 .home-title{font-size:clamp(28px,3.4vw,40px);margin:0 0 18px}
@@ -295,15 +296,9 @@ button:disabled{opacity:.6;cursor:not-allowed}
 .path li.cur .pi{border-color:var(--amber);box-shadow:0 0 0 4px var(--amber-light);color:var(--forest)}
 .path li.cur .stop-label{color:var(--forest);font-weight:800}
 /* The card, with its type tab. */
-.quest-card{background:var(--white);border:1px solid var(--line);border-radius:22px;box-shadow:0 10px 30px #274c3712;overflow:hidden}
-.ib .ico{width:20px;height:20px}
-.card-tab{display:flex;align-items:center;gap:12px;padding:12px 26px;font-weight:700;font-size:15px;border-bottom:1px solid var(--line);color:var(--forest)}
+.quest-card{background:var(--white);border:1px solid var(--line);border-radius:16px;overflow:hidden}
+.card-tab{display:flex;align-items:center;gap:12px;padding:12px 30px;font-weight:700;font-size:14px;border-bottom:1px solid var(--line);color:var(--forest)}
 .card-tab .of{margin-left:auto;font-weight:600;font-size:13px;color:var(--muted)}
-.ct-discover{background:var(--discover-bg)}.ct-discover .ib{background:var(--discover);color:#3b2d08}
-.ct-example{background:var(--example-bg)}.ct-example .ib{background:var(--example)}
-.ct-predict{background:var(--predict-bg)}.ct-predict .ib{background:var(--predict)}
-.ct-try{background:var(--try-bg)}.ct-try .ib{background:var(--try)}
-.ct-challenge{background:var(--challenge-bg)}.ct-challenge .ib{background:var(--challenge)}
 .card-body.with-editor{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
 .teaching-panel{padding:28px 30px;min-width:0}
 .teaching-panel h2{font-size:30px;margin:0 0 16px}
@@ -383,10 +378,12 @@ button:disabled{opacity:.6;cursor:not-allowed}
 .file-tabs button:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
 /* Results, with the state in words as well as colour. */
 .self-review h3{margin-top:0}
-.review-parts{list-style:none;margin:12px 0;padding:0;display:grid;gap:16px}
-.review-parts li{border:1px solid var(--line);border-radius:12px;padding:12px 14px;background:var(--white)}
-.review-parts li.needs{border-color:var(--needs-line);background:var(--needs-bg)}
-.review-parts li.ok{border-color:var(--pass-line)}
+.review-parts{list-style:none;margin:16px 0;padding:0}
+/* One part after another, divided by a rule: no box inside the panel's box. */
+.review-parts li{padding:16px 0;border-top:1px solid var(--line)}
+.review-parts li:last-child{border-bottom:1px solid var(--line)}
+.review-parts li.needs textarea{border-color:var(--needs-line);background:var(--needs-bg)}
+.review-kept{font-size:14px;border-left:3px solid var(--pass-line);padding:2px 0 2px 10px;margin:10px 0 0}
 .review-tick{display:flex;gap:10px;align-items:flex-start;font-weight:600;min-height:24px}
 .review-tick input{width:20px;height:20px;margin-top:2px;flex:none}
 .review-ask{display:block;margin:10px 0 4px;font-size:14px}
@@ -604,6 +601,8 @@ button:disabled{opacity:.6;cursor:not-allowed}
 
 /* ---------- Practice arena (arena.tsx) ---------- */
 .arena{max-width:860px}
+.arena-out,.profile-out{padding-top:36px}
+.arena-out .arena-creature{margin:0;text-align:center;font-size:14px;color:var(--muted)}
 .arena-head{display:grid;grid-template-columns:1fr 200px;gap:24px;align-items:center}
 .arena-creature .meter{width:100%}
 .creature{display:block;width:100%;height:auto}

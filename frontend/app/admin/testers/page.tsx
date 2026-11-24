@@ -58,6 +58,6 @@ export default function TestersPage(){
      </tr>)}</tbody>
     </table>}
    </section>}
-  <footer>Built for curious minds. Designed for room to grow.</footer>
+  <footer>Python Academy. Code you write here runs in your browser, never on our servers.</footer>
  </main></>;
 }

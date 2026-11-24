@@ -115,5 +115,21 @@
     "feedback": "Recorded as your own review. Nothing checked the work itself, so it is kept as self-reported, in your words."
    }
   }
- ]
+ ],
+ "reads": {
+  "before": {
+   "answers": null,
+   "recorded": null
+  },
+  "after": {
+   "answers": {
+    "choice": "Lockpick, because I finished unit nine and want something I can actually finish this month.",
+    "user": "My younger cousin, who likes guessing games on long car rides and wants quick rounds.",
+    "must": "Show the word as underscores, take one letter at a time, explain bad guesses, stop after six misses, offer another round.",
+    "not-yet": "Hints that cost a try, and a two player mode.",
+    "milestones": "First the word prints as underscores, then one guess updates it, then the whole round ends with a win or a loss."
+   },
+   "recorded": "2026-11-23T10:00:00+00:00"
+  }
+ }
 }
