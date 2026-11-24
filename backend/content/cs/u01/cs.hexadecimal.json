@@ -18,7 +18,7 @@
       "type": "discover",
       "title": "Sixteen digits, and why colours use them",
       "body": "Hexadecimal, or hex, has sixteen digits: 0 to 9, then a to f for ten to fifteen. Each place is worth sixteen times the one to its right, so ff is 15 × 16 + 15, which is 255.",
-      "detail": "One hex digit is exactly four bits, so two of them hold a byte, any number from 0 to 255. That is why screen colours are written #ff8800: two hex digits each for red, green and blue. int(text, 16) reads hex, and f\"{n:02x}\" writes a number as two hex digits."
+      "detail": "One hex digit is exactly four bits, so two of them hold a byte, any number from 0 to 255.\n\nThat is why screen colours are written #ff8800: two hex digits each for red, green and blue. int(text, 16) reads hex, and f\"{n:02x}\" writes a number as two hex digits."
     },
     {
       "id": "cs.hexadecimal.example",
@@ -48,7 +48,7 @@
     {
       "id": "cs.hexadecimal.challenge",
       "type": "challenge",
-      "prompt": "Write hex_to_rgb(colour), which takes a colour such as \"#ff8800\" (capitals allowed) and returns a list of its red, green and blue amounts, [255, 136, 0]. Then write rgb_to_hex(red, green, blue), which returns the colour code, always with # and six lowercase hex digits, such as \"#0a0b0c\". Do not ask for input: the check calls your functions with its own values.",
+      "prompt": "Write two functions that turn colour codes into amounts and back.\n\n1. hex_to_rgb(colour) takes a colour such as \"#ff8800\" (capitals allowed) and returns a list of its red, green and blue amounts, [255, 136, 0].\n2. rgb_to_hex(red, green, blue) returns the colour code, always with # and six lowercase hex digits, such as \"#0a0b0c\".\n\nDo not ask for input: the check calls your functions with its own values.",
       "starter": "# Define hex_to_rgb(colour) and rgb_to_hex(red, green, blue)\n",
       "hints": [
         "Each amount is two hex digits. Their value is the first digit times 16, plus the second. The text \"0123456789abcdef\".index(d) turns a digit into its value.",
@@ -222,7 +222,7 @@
         "id": "browser-tests",
         "version": 1
       },
-      "version": 1
+      "version": 2
     }
   ]
 }

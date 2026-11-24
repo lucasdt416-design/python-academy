@@ -1205,7 +1205,7 @@
     "description": "Give your adventure a score, and share out a chest of coins.",
     "learnTitle": "Python can do the maths",
     "learn": "Numbers in Python have no quotes around them. + adds, - takes away, * multiplies and / divides. print(3 + 4) shows 7, and a variable can hold a number, like score = 10.",
-    "detail": "Two more operators help when you share things out. // divides and keeps only the whole part: 17 // 5 is 3. % gives what is left over: 17 % 5 is 2. As in maths class, Python works out * and / before + and -. Use parentheses to choose a different order.",
+    "detail": "Two more operators help when you share things out. // divides and keeps only the whole part: 17 // 5 is 3. % gives what is left over: 17 % 5 is 2.\n\nAs in maths class, Python works out * and / before + and -. Use parentheses to choose a different order.",
     "example": "# Work out the hero's score\ngems = 4\ncoins = 13\nscore = gems * 10 + coins\nprint(score)\n# Share the coins between 5 friends\nprint(coins // 5)\nprint(coins % 5)",
     "exampleOutput": "53\n2\n3",
     "exampleNote": "Python works out gems * 10 first, so the score is 40 + 13. Then // gives each friend's whole coins, and % gives the coins left over.",
@@ -1219,7 +1219,7 @@
     "why": "Five friends take 2 coins each, which uses 10 of the 14. % shows what is left over, so it prints 4. 14 // 5 would show 2, and 14 / 5 would show 2.8.",
     "guided": "Give gems and coins new values. Before you run, predict all three lines, then run and compare. Try a number of coins that shares out exactly between 5, like 15: what does % show then?",
     "starter": "# These two lines ask for whole numbers (lesson 3 explains how)\ncoins = int(input(\"How many coins? \"))\nfriends = int(input(\"How many friends? \"))\n# Print each friend's whole share, then the coins left over\n",
-    "challenge": "The party opens a chest of coins to share. The starter asks for the number of coins and the number of friends. Print two lines: how many whole coins each friend gets, then how many coins are left over. Print just the two numbers. The check runs your program with several chests, including some you can't see.",
+    "challenge": "The party opens a chest of coins to share. The starter asks for the number of coins and the number of friends.\n\n1. Print how many whole coins each friend gets.\n2. Print how many coins are left over.\n\nPrint just the two numbers. The check runs your program with several chests, including some you can't see.",
     "hints": [
      "You need two results from the same two numbers: the whole coins each friend gets, and the coins left over.",
      "Look at the comment line. One operator divides and keeps only the whole part; another gives what is left over. Each result goes in its own print().",
@@ -1286,7 +1286,7 @@
     "description": "Find the average of two riddle scores, decimals and all.",
     "learnTitle": "Two kinds of numbers",
     "learn": "Python has two kinds of numbers. An int is a whole number, like 7 or -3. A float has a decimal point, like 2.5 or 7.0. Dividing with / always gives a float, even when the answer is whole: 6 / 3 is 2.0.",
-    "detail": "When a calculation mixes an int and a float, the answer is a float: 2 + 0.5 is 2.5. int() cuts off the decimal part without rounding, so int(3.9) is 3 and int(-2.5) is -2. A few decimals print oddly, like 0.1 + 0.2 showing 0.30000000000000004. That comes from how computers store decimals, not from a mistake in your code.",
+    "detail": "When a calculation mixes an int and a float, the answer is a float: 2 + 0.5 is 2.5. int() cuts off the decimal part without rounding, so int(3.9) is 3 and int(-2.5) is -2.\n\nA few decimals print oddly, like 0.1 + 0.2 showing 0.30000000000000004. That comes from how computers store decimals, not from a mistake in your code.",
     "example": "# How long the walk to the market takes\ndistance = 9\nspeed = 2\nhours = distance / speed\nprint(hours)\n# The whole hours, with the decimal part cut off\nprint(int(hours))\n# / gives a float even when the answer is whole\nprint(8 / 2)",
     "exampleOutput": "4.5\n4\n4.0",
     "exampleNote": "hours holds the float 4.5. int() cuts off the .5 and gives the int 4. The last line shows 4.0, not 4, because / always gives a float.",
@@ -1300,7 +1300,7 @@
     "why": "int() cuts off everything after the decimal point; it does not round up. So int(7.9) is 7, even though 7.9 is close to 8.",
     "guided": "Change distance to 10. Before you run, predict the first line: will it still have a decimal point? Then change the last line to print(8 // 2), predict again, and compare the two answers.",
     "starter": "# These two lines ask for whole-number scores (lesson 3 explains how)\nfirst = int(input(\"First score? \"))\nsecond = int(input(\"Second score? \"))\n# Work out the average, then print it and its whole part\n",
-    "challenge": "After two riddles, the hero has two scores. A wrong answer can make a score negative. The starter asks for both scores. Print two lines: first the average of the two scores, then the same average with its decimal part cut off by int(). Print just the two numbers.",
+    "challenge": "After two riddles, the hero has two scores. A wrong answer can make a score negative. The starter asks for both scores.\n\n1. Print the average of the two scores.\n2. Print the same average with its decimal part cut off by int().\n\nPrint just the two numbers.",
     "hints": [
      "The average of two scores is their total divided by 2. You print it twice: once as it is, and once with its decimal part cut off.",
      "Look at the order Python works in: it divides before it adds. Check that your whole total gets divided, not only the second score.",
@@ -1367,7 +1367,7 @@
     "description": "Turn the player's replies into numbers, and keep score when a riddle is solved or missed.",
     "learnTitle": "Replies are always text",
     "learn": "input() always gives back text, even when the player types digits. So \"5\" + \"5\" joins into \"55\" instead of adding up to 10. int(...) turns text like \"12\" into the whole number 12, and float(...) turns \"2.5\" into the decimal 2.5.",
-    "detail": "Wrap the reply in int(), like points = int(input(\"Points? \")). If the reply is not a whole number, such as ten or an empty reply, int() stops with a ValueError. When a reply might be empty, compare it with \"\" before you convert it, as the example on the next card does.",
+    "detail": "Wrap the reply in int(), like points = int(input(\"Points? \")). If the reply is not a whole number, such as ten or an empty reply, int() stops with a ValueError.\n\nWhen a reply might be empty, compare it with \"\" before you convert it, as the example on the next card does.",
     "example": "# Ask for the gold in your pocket, as a whole number\ngold = int(input(\"Gold in your pocket? \"))\n# Ask for the bridge toll; an empty reply means no toll\ntoll = input(\"Toll? \")\nif toll == \"\":\n    toll = \"0\"\n# Turn the toll into a number, then pay it\nprint(gold - int(toll))",
     "exampleOutput": "15",
     "exampleNote": "With 20 and 5 as replies, it prints 15. An empty toll becomes the text \"0\" first, so int() has a digit to read. Without int(), Python could not take text away from a number.",
@@ -1379,9 +1379,9 @@
     ],
     "answer": 1,
     "why": "int() only understands digits, like \"10\". The letters ten are not a whole number, so Python stops with a ValueError on line 2. You can try it on the next card.",
-    "guided": "Run the example with 20 and 5. Then predict, and run, each of these: an empty toll, and the letters ten as the gold. Last, delete int( and its ) from the gold line, run it, and read the explanation. Reset code puts the example back.",
+    "guided": "1. Run the example with 20 and 5.\n2. Predict, then run, each of these: an empty toll, and the letters ten as the gold.\n3. Delete int( and its ) from the gold line, run it, and read the explanation.\n\nReset code puts the example back.",
     "starter": "# Ask for the score and turn the reply into a whole number\n# Ask for the riddle's points; an empty reply means 0\n# Print the score if solved, then the score if missed\n",
-    "challenge": "The riddle keeper says how many points a riddle is worth. Ask for the hero's score, then for the riddle's points, and turn both replies into whole numbers yourself. Print two lines: the score if the riddle is solved (the points are added), then the score if it is missed (the points are taken away). An empty points reply means a practice riddle worth 0. Print just the two numbers.",
+    "challenge": "The riddle keeper says how many points a riddle is worth. Ask for the hero's score, then for the riddle's points, and turn both replies into whole numbers yourself.\n\n1. Print the score if the riddle is solved (the points are added).\n2. Print the score if it is missed (the points are taken away).\n\nAn empty points reply means a practice riddle worth 0. Print just the two numbers.",
     "hints": [
      "Three steps: get the score as a number, get the points as a number (or 0 when the reply is empty), then print the two results.",
      "Look at the second comment. Keep the points reply as text until you have checked whether it is \"\", and only then turn it into a number.",
@@ -1478,7 +1478,7 @@
     "description": "Compare the player's guess with the riddle keeper's secret number.",
     "learnTitle": "Compare two numbers",
     "learn": "A comparison asks Python a yes-or-no question about two values. 7 > 5 is True, and 7 < 5 is False. True and False are values too, so print(7 > 5) shows True.",
-    "detail": "There are six comparisons: < (less than), > (greater than), <= (less than or equal to), >= (greater than or equal to), == (equal to) and != (not equal to). Two equals signs compare; one equals sign stores a value. 5 <= 5 is True, but 5 < 5 is False.",
+    "detail": "There are six comparisons: < (less than), > (greater than), <= (less than or equal to), >= (greater than or equal to), == (equal to) and != (not equal to).\n\nTwo equals signs compare; one equals sign stores a value. 5 <= 5 is True, but 5 < 5 is False.",
     "example": "# The lantern needs at least 3 drops of oil\noil = 5\nprint(oil >= 3)\n# Is the tank completely full at 10?\nprint(oil == 10)\n# Is it empty?\nprint(oil < 1)",
     "exampleOutput": "True\nFalse\nFalse",
     "exampleNote": "oil is 5, so oil >= 3 is True. It is not 10, and it is not less than 1, so the other two lines show False.",
@@ -1491,7 +1491,7 @@
     "why": ">= means greater than or equal to. 3 is equal to 3, so the answer is True. print(oil > 3) would show False.",
     "guided": "Set oil to 3, then to 0. Before each run, predict all three lines, then run and compare. Then change >= to > and see which line changes.",
     "starter": "# These two lines ask for the secret number and the guess\nsecret = int(input(\"Secret number? \"))\nguess = int(input(\"Your guess? \"))\n# Print True or False: too high, then too low, then exactly right\n",
-    "challenge": "The riddle keeper has a secret number, and the player makes a guess. The starter asks for both. Print three lines, each True or False: is the guess too high, is it too low, and is it exactly right? Print just the three answers. The check tries several guesses, including some you can't see.",
+    "challenge": "The riddle keeper has a secret number, and the player makes a guess. The starter asks for both. Print three lines, each True or False:\n\n1. Is the guess too high?\n2. Is it too low?\n3. Is it exactly right?\n\nPrint just the three answers. The check tries several guesses, including some you can't see.",
     "hints": [
      "Each line is one comparison between guess and secret. print() of a comparison shows True or False.",
      "Look at the comment. Too high means the guess is bigger than the secret, too low means it is smaller, and right means they are equal. Comparing for equal uses two equals signs.",
@@ -1570,7 +1570,7 @@
     "description": "Decide whether a guess is close or out of range by joining comparisons together.",
     "learnTitle": "Join two questions into one",
     "learn": "and, or and not combine True and False. A and B is True only when both are True. A or B is True when at least one of them is True. not flips True to False, and False to True.",
-    "detail": "Each side of and or or is a whole comparison: write x > 0 and x < 10, not x > 0 and < 10. Python works out the comparisons first, then not, then and, then or. Use parentheses when you want to be sure of the order.",
+    "detail": "Each side of and or or is a whole comparison: write x > 0 and x < 10, not x > 0 and < 10.\n\nPython works out the comparisons first, then not, then and, then or. Use parentheses when you want to be sure of the order.",
     "example": "# The bridge is safe for 2 to 6 travellers\ntravellers = 7\nprint(travellers >= 2 and travellers <= 6)\n# Too few or too many?\nprint(travellers < 2 or travellers > 6)\n# Flip the first answer with not\nprint(not (travellers >= 2 and travellers <= 6))",
     "exampleOutput": "False\nTrue\nTrue",
     "exampleNote": "7 is at least 2 but more than 6, so the and line is False. The or line needs only one side to be True, and 7 > 6 is. not flips the first answer from False to True.",
@@ -1583,7 +1583,7 @@
     "why": "2 >= 2 is True and 2 <= 6 is True. With and, both sides are True, so the whole line is True.",
     "guided": "Try travellers = 2, then 6, then 0, and predict the three lines before each run. Then change and to or in the first print(). Find a number of travellers where the answer changes, and explain why.",
     "starter": "# Ask for the secret number, then the guess, as whole numbers\n# Print True or False: close, out of range, not close\n",
-    "challenge": "The riddle keeper's secret number is always from 1 to 100. Ask for the secret and the guess, as whole numbers. Print three lines, each True or False: is the guess close (no more than 2 away from the secret, on either side); is the guess out of range (below 1 or above 100); and is the guess not close? Print just the three answers.",
+    "challenge": "The riddle keeper's secret number is always from 1 to 100. Ask for the secret and the guess, as whole numbers, then print three lines, each True or False:\n\n1. Is the guess close (no more than 2 away from the secret, on either side)?\n2. Is the guess out of range (below 1 or above 100)?\n3. Is the guess not close?\n\nPrint just the three answers.",
     "hints": [
      "Three lines, three joined questions. Close needs two comparisons joined with and. Out of range needs two joined with or. The last line flips the first one with not.",
      "Close means the guess is at least secret - 2 and at most secret + 2. Out of range means below 1 or above 100. Check whether each limit should use < or <=.",
@@ -1676,7 +1676,7 @@
     "why": "Python runs only the first block whose condition is True. 30 >= 25 is True, so light cloak prints, and the elif and else are skipped.",
     "guided": "Predict the cloak for 25, 10 and 9, then run each one. Next, change elif to if, run with 30 and compare: why do two lines print now? Reset code puts the example back.",
     "starter": "# Ask for the secret number and the guess\n# Print 10, 5, 1 or 0: check the closest case first\n",
-    "challenge": "The riddle keeper gives points for a guess: 10 if it is exactly right, 5 if it is close (no more than 2 away), 1 if it is no more than 10 away, and 0 otherwise. Ask for the secret number and the guess, then print the points. Print just the number.",
+    "challenge": "The riddle keeper gives points for a guess. Ask for the secret number and the guess, then print the points:\n\n- 10 if it is exactly right\n- 5 if it is close (no more than 2 away)\n- 1 if it is no more than 10 away\n- 0 otherwise\n\nPrint just the number.",
     "hints": [
      "One guess gets one score. Work out how close the guess is to the secret, then print exactly one of 10, 5, 1 or 0.",
      "Look at the order of your checks. A guess that is exactly right is also close, so ask about exactly right first, then close, then within 10, and let else give 0.",
@@ -1775,7 +1775,7 @@
     "description": "Let the player keep guessing the secret number until they get it right.",
     "learnTitle": "Repeat while something is true",
     "learn": "A while loop repeats a block of code for as long as its condition is True. Python checks the condition, runs the indented block, then checks again. When the condition becomes False, the loop ends and the program carries on below it.",
-    "detail": "Something inside the loop must change, or the condition stays True forever. To keep asking the player, call input() once before the loop and again at the end of the block. If the condition is False the very first time, the block never runs at all.",
+    "detail": "Something inside the loop must change, or the condition stays True forever. To keep asking the player, call input() once before the loop and again at the end of the block.\n\nIf the condition is False the very first time, the block never runs at all.",
     "example": "# Keep asking until the password is moon\nword = input(\"Password? \")\nwhile word != \"moon\":\n    print(\"The door stays shut.\")\n    word = input(\"Password? \")\nprint(\"The door opens.\")",
     "exampleOutput": "The door stays shut.\nThe door stays shut.\nThe door opens.",
     "exampleNote": "The condition is checked before each repeat. star and sun are not moon, so the block runs twice. When word becomes moon, the condition is False, the loop ends, and the last line runs.",
@@ -1789,7 +1789,7 @@
     "why": "word != \"moon\" is False straight away, so the block never runs. Python goes on to the last line and prints The door opens.",
     "guided": "Run it, then change the replies so that moon comes first, then last. Predict how many times The door stays shut. appears before each run. Then try three wrong replies and read what happens when the replies run out.",
     "starter": "# These two lines ask for the secret number and the first guess\nsecret = int(input(\"Secret number? \"))\nguess = int(input(\"Your guess? \"))\n# While the guess is wrong: print whether it is too high, then ask again\n",
-    "challenge": "The riddle keeper lets the player keep guessing. The starter asks for the secret number and the first guess. While the guess is wrong, print True if it is too high or False if it is too low, then ask for another guess. When the guess is right, the loop ends. Print just the True and False lines. The check tries several runs of guesses, including some you can't see.",
+    "challenge": "The riddle keeper lets the player keep guessing. The starter asks for the secret number and the first guess.\n\n1. While the guess is wrong, print True if it is too high or False if it is too low, then ask for another guess.\n2. When the guess is right, the loop ends.\n\nPrint just the True and False lines. The check tries several runs of guesses, including some you can't see.",
     "hints": [
      "You need a loop that repeats while the guess is not the secret. Inside it, two things happen: a print() and a new guess.",
      "Look at the comment. The loop's condition compares guess with secret using !=. The last line inside the loop asks for the next guess, the same way the starter asked for the first one.",
@@ -1888,7 +1888,7 @@
     "description": "Give the player three tries, and make sure the loop always ends.",
     "learnTitle": "Every loop needs a way out",
     "learn": "A loop ends only when its condition becomes False. Something inside the loop has to move it there: a counter that goes up or down, or a new reply. If nothing changes, the loop runs forever.",
-    "detail": "A counter often decides how many times a loop runs. Starting it at 0 or at 1, and choosing < or <=, changes the count by one. To stop for either of two reasons, join the conditions with and: keep going while the guess is wrong and tries are left. Here, a program that never ends is stopped for you after a few seconds.",
+    "detail": "A counter often decides how many times a loop runs. Starting it at 0 or at 1, and choosing < or <=, changes the count by one.\n\nTo stop for either of two reasons, join the conditions with and: keep going while the guess is wrong and tries are left. Here, a program that never ends is stopped for you after a few seconds.",
     "example": "# Count down to the gate opening\ncount = 3\nwhile count > 0:\n    print(count)\n    count = count - 1\nprint(\"open\")",
     "exampleOutput": "3\n2\n1\nopen",
     "exampleNote": "count goes 3, 2, 1. After 1 is printed it becomes 0, so count > 0 is False and the loop ends. The last line runs once, after the loop.",
@@ -1900,9 +1900,9 @@
     ],
     "answer": 1,
     "why": "count would stay 3, so count > 0 would always be True and the loop would never end. Because it prints each time, the academy stops it as soon as the output gets too long. You can try it on the next card.",
-    "guided": "Predict, then run: change count = 3 to count = 5. Next, delete the line count = count - 1 and run it; the academy stops the program and explains why. Put the line back with Reset code. Last, change > to >= and count how many numbers print.",
+    "guided": "1. Predict, then run: change count = 3 to count = 5.\n2. Delete the line count = count - 1 and run it; the academy stops the program and explains why.\n3. Put the line back with Reset code.\n4. Change > to >= and count how many numbers print.",
     "starter": "# Ask for the secret number and the first guess\n# Keep asking while the guess is wrong and tries are left\n# Then print the number of guesses, and whether the last one was right\n",
-    "challenge": "The riddle keeper allows three tries. Ask for the secret number, then ask for guesses until the guess is right or three guesses have been made. After the loop, print two lines: how many guesses were made, then True if the last guess was right or False if it was not. Print just the two answers.",
+    "challenge": "The riddle keeper allows three tries.\n\n1. Ask for the secret number.\n2. Ask for guesses until the guess is right or three guesses have been made.\n3. After the loop, print how many guesses were made.\n4. Then print True if the last guess was right or False if it was not.\n\nPrint just the two answers.",
     "hints": [
      "Count the guesses as you go. The loop needs two reasons to keep going, joined with and: the guess is wrong, and fewer than three guesses have been made.",
      "Check your counter: after the first guess it should be 1. Each time the loop asks again, add 1. With three tries, the loop can ask at most two more times.",
@@ -1987,7 +1987,7 @@
     "description": "Count the steps of a staircase with a for loop and range(), two at a time.",
     "learnTitle": "Count with for and range()",
     "learn": "A for loop runs its block once for each value it is given. range(1, 4) gives 1, 2 and 3: it starts at the first number and stops before the second. So for n in range(1, 4): with print(n) inside prints 1, 2 and 3.",
-    "detail": "range(4) on its own gives 0, 1, 2 and 3. A third number sets the step: range(2, 9, 2) gives 2, 4, 6 and 8, and a step of -1 counts down. To include a number at the end, make the stop one bigger. A for loop moves its own variable on each time, so it always ends.",
+    "detail": "range(4) on its own gives 0, 1, 2 and 3. A third number sets the step: range(2, 9, 2) gives 2, 4, 6 and 8, and a step of -1 counts down.\n\nTo include a number at the end, make the stop one bigger. A for loop moves its own variable on each time, so it always ends.",
     "example": "# The bridge has 5 planks: number each one\nfor plank in range(1, 6):\n    print(plank)\n# Then count down from 3 to 1\nfor n in range(3, 0, -1):\n    print(n)",
     "exampleOutput": "1\n2\n3\n4\n5\n3\n2\n1",
     "exampleNote": "range(1, 6) stops before 6, so the planks are 1 to 5. A step of -1 counts down: range(3, 0, -1) gives 3, 2 and 1, and stops before 0.",
@@ -2001,7 +2001,7 @@
     "why": "It starts at 2 and adds 2 each time: 2, 4, 6. The next number would be 8, but range stops before 7, so 8 is never reached.",
     "guided": "Predict, then run: change range(1, 6) to range(1, 11). Then make the countdown start at 10. Last, change the countdown's step to -2 and predict the numbers before you run.",
     "starter": "# Ask for the top step, then print every step the hero lands on\n",
-    "challenge": "The hero climbs the riddle keeper's staircase two steps at a time, starting on step 2. Ask for the number of the top step, then print every step the hero lands on, up to and including the top step if they land on it. Print just the step numbers, one per line.",
+    "challenge": "The hero climbs the riddle keeper's staircase two steps at a time, starting on step 2.\n\n1. Ask for the number of the top step.\n2. Print every step the hero lands on, up to and including the top step if they land on it.\n\nPrint just the step numbers, one per line.",
     "hints": [
      "The hero lands on 2, 4, 6 and so on. A for loop over a range() with a step of 2 gives exactly those numbers.",
      "range() stops before its second number. For a top step of 8, the stop has to be bigger than 8, or step 8 is missed.",
@@ -2086,7 +2086,7 @@
     "description": "Add up the points from every round of the riddle keeper's game, count the empty rounds, and find the average.",
     "learnTitle": "Build up an answer, one turn at a time",
     "learn": "A running total starts at 0 before the loop. Inside the loop, total = total + coins adds this turn's number to what is already there. When the loop ends, total holds the sum of them all.",
-    "detail": "A counter works the same way, but adds 1 each time something happens, often inside an if. The start line goes above the loop, so it runs once: inside the loop it would wipe the total every turn. For an average, divide the total by how many numbers there were, after the loop.",
+    "detail": "A counter works the same way, but adds 1 each time something happens, often inside an if.\n\nThe start line goes above the loop, so it runs once: inside the loop it would wipe the total every turn. For an average, divide the total by how many numbers there were, after the loop.",
     "example": "# Three chests: add up the coins, then find the average\nchests = 3\ntotal = 0\nfor chest in range(chests):\n    coins = int(input(\"Coins in this chest? \"))\n    total = total + coins\nprint(total)\nprint(total / chests)",
     "exampleOutput": "12\n4.0",
     "exampleNote": "total starts at 0 and grows: 4, then 4 again, then 12. The two print lines are below the loop, not indented, so they run once, after the last chest. Dividing with / always gives a float, so the average shows as 4.0.",
@@ -2098,9 +2098,9 @@
     ],
     "answer": 0,
     "why": "total goes back to 0 at the start of every turn, so each chest forgets the ones before it. Only the last chest's 8 is left when the loop ends.",
-    "guided": "Predict, then run: move total = 0 inside the loop, as the first line of its block, and check your prediction. Put it back above the loop. Then add a counter for empty chests: start it above the loop, add 1 inside an if, and print it at the end.",
+    "guided": "1. Predict, then run: move total = 0 inside the loop, as the first line of its block, and check your prediction.\n2. Put it back above the loop.\n3. Add a counter for empty chests: start it above the loop, add 1 inside an if, and print it at the end.",
     "starter": "# Ask for the rounds, then the points from each round\n",
-    "challenge": "The riddle keeper's game now has rounds. Ask how many rounds were played (always at least 1), then ask for the points from each round. Print three lines: the total points, how many rounds scored 0, and the average points per round, using /. Print just the numbers.",
+    "challenge": "The riddle keeper's game now has rounds. Ask how many rounds were played (always at least 1), then ask for the points from each round. Print three lines:\n\n1. The total points.\n2. How many rounds scored 0.\n3. The average points per round, using /.\n\nPrint just the numbers.",
     "hints": [
      "You need two things that build up as the loop runs, and both start at 0 above the loop: one for the points, and one for the rounds that scored 0.",
      "A for loop over range() runs once per round. Ask for that round's points inside it. The three print lines go after the loop, with no indent.",
@@ -2205,7 +2205,7 @@
     "description": "Walk the riddle keeper's map row by row, count the coins in each room, and add them all up.",
     "learnTitle": "Put a loop inside a loop",
     "learn": "A loop's block can hold another loop. The inner loop runs all the way through, every time the outer loop goes round once. So an outer loop of 2 turns and an inner loop of 3 turns runs the inner block 6 times.",
-    "detail": "The outer loop's line starts at the left, the inner loop's line has four spaces, and the inner block has eight. for and range() start the inner loop again by themselves. With while, the inner counter has to be set back to its start inside the outer loop, or the inner loop only runs the first time.",
+    "detail": "The outer loop's line starts at the left, the inner loop's line has four spaces, and the inner block has eight. for and range() start the inner loop again by themselves.\n\nWith while, the inner counter has to be set back to its start inside the outer loop, or the inner loop only runs the first time.",
     "example": "# Number the seats: two rows of three\nfor row in range(1, 3):\n    for seat in range(1, 4):\n        print(row * 10 + seat)",
     "exampleOutput": "11\n12\n13\n21\n22\n23",
     "exampleNote": "row starts at 1, and seat runs through 1, 2 and 3. Then row becomes 2, and seat starts again from 1. Multiplying by 10 is just a way to show both numbers at once: 23 is row 2, seat 3.",
@@ -2219,7 +2219,7 @@
     "why": "The inner loop finishes first. seat stays at 1 while row runs through 1 and 2, giving 11 and 21. Then seat becomes 2 and row starts again, giving 12.",
     "guided": "Predict, then run: swap the two for lines, with row and seat keeping their ranges. Put them back. Then change range(1, 3) to range(1, 4) and predict how many lines print before you run.",
     "starter": "# Ask for the rows and the columns, then walk the map\n",
-    "challenge": "The riddle keeper's map is a grid of rooms. Rows and columns are counted from 1, and a room holds its row number times its column number in coins, so row 2, column 3 holds 6. Ask for the number of rows, then the number of columns. Going through the rows in order, and left to right along each row, print the coins in every room, one per line. On the last line, print the total coins. Print just the numbers.",
+    "challenge": "The riddle keeper's map is a grid of rooms. Rows and columns are counted from 1, and a room holds its row number times its column number in coins, so row 2, column 3 holds 6.\n\n1. Ask for the number of rows, then the number of columns.\n2. Going through the rows in order, and left to right along each row, print the coins in every room, one per line.\n3. On the last line, print the total coins.\n\nPrint just the numbers.",
     "hints": [
      "One for loop goes through the rows. Inside its block, another for loop goes through the columns of that row.",
      "Rows and columns count from 1, and range() stops before its second number. The total starts at 0 above both loops, and prints below both of them.",
@@ -2312,7 +2312,7 @@
     "description": "Pack the hero's bag one item at a time, count what is in it, and check whether something was packed.",
     "learnTitle": "Keep many things under one name",
     "learn": "A list holds several values in order, inside square brackets: pack = [\"rope\", \"map\"]. pack.append(\"lamp\") adds one more to the end, and len(pack) says how many there are.",
-    "detail": "item in pack is True when the item is somewhere in the list, and False when it is not. append() changes the list itself and gives back nothing, so it goes on a line of its own: pack.append(\"lamp\"). An empty list, [], has a length of 0.",
+    "detail": "item in pack is True when the item is somewhere in the list, and False when it is not. append() changes the list itself and gives back nothing, so it goes on a line of its own: pack.append(\"lamp\").\n\nAn empty list, [], has a length of 0.",
     "example": "# Pack for the journey\npack = [\"rope\", \"map\"]\npack.append(\"lantern\")\nprint(len(pack))\nprint(\"map\" in pack)\nprint(\"sword\" in pack)\nprint(pack)",
     "exampleOutput": "3\nTrue\nFalse\n['rope', 'map', 'lantern']",
     "exampleNote": "append() put lantern at the end, so the pack holds three things. in looks through the whole list for an exact match. print(pack) shows the list the way Python writes one, with brackets and quotes.",
@@ -2326,7 +2326,7 @@
     "why": "append() changes the list and gives back None. Storing that None in pack replaces the whole list with it.",
     "guided": "Predict, then run: add one more item with append() and check that len() goes up by one. Then make the first line pack = [] and see what len(pack) and print(pack) show for a pack that starts empty.",
     "starter": "# Ask how many items, then pack them one at a time\n",
-    "challenge": "Pack the hero's bag. Ask how many items to pack (it can be 0), then ask for each item and add it to a list. Then ask for one more item to look for. Print three lines: how many items are in the pack, True or False for whether the item you looked for is in it, and the pack itself, with print(). Print just those three lines.",
+    "challenge": "Pack the hero's bag.\n\n1. Ask how many items to pack (it can be 0), then ask for each item and add it to a list.\n2. Ask for one more item to look for.\n3. Print how many items are in the pack.\n4. Print True or False for whether the item you looked for is in it.\n5. Print the pack itself, with print().\n\nPrint just those three lines.",
     "hints": [
      "You need a list that starts empty, above the loop, and grows by one item each time round the loop.",
      "A for loop over range() asks once per item. After the loop, one more input() gives the item to look for, and in tells you whether it is there.",
@@ -2417,7 +2417,7 @@
     "description": "Pick supplies out of the quartermaster's list by their position, and slice off the middle.",
     "learnTitle": "Every item has a position",
     "learn": "Positions in a list start at 0. In pack = [\"rope\", \"map\", \"lamp\"], pack[0] is \"rope\" and pack[2] is \"lamp\". A negative position counts from the end, so pack[-1] is the last item.",
-    "detail": "pack[1] = \"key\" puts a new value at position 1, replacing what was there. A slice such as pack[0:2] is a new list of the items from position 0 up to, but not including, position 2. Asking for a position past the end, like pack[3] here, stops the program with an IndexError.",
+    "detail": "pack[1] = \"key\" puts a new value at position 1, replacing what was there. A slice such as pack[0:2] is a new list of the items from position 0 up to, but not including, position 2.\n\nAsking for a position past the end, like pack[3] here, stops the program with an IndexError.",
     "example": "# Pick tools from the pack by position\npack = [\"rope\", \"map\", \"lamp\", \"key\"]\nprint(pack[0])\nprint(pack[-1])\nprint(pack[1:3])\npack[0] = \"ladder\"\nprint(pack)",
     "exampleOutput": "rope\nkey\n['map', 'lamp']\n['ladder', 'map', 'lamp', 'key']",
     "exampleNote": "pack[0] is the first item and pack[-1] the last. The slice 1:3 starts at position 1 and stops before 3, so it holds two items. Assigning to pack[0] replaces rope, and the list keeps its length.",
@@ -2431,7 +2431,7 @@
     "why": "len(pack) is 4, so len(pack) - 1 is 3, the last position. pack[len(pack)] would be the IndexError: a list of 4 has no position 4.",
     "guided": "Predict, then run: add print(pack[4]) and read the error. Then change it to show the last item, in two different ways.",
     "starter": "# Ask for the supplies, then a position\n",
-    "challenge": "The quartermaster lists the party's supplies. Ask how many supplies there are (always at least 1), then ask for each one, in order. Then ask for a position, counting from 1 the way people do. Print four lines: the first supply, the last supply, the supply at the position asked for, and a list of every supply except the first and the last. Print just those four lines.",
+    "challenge": "The quartermaster lists the party's supplies.\n\n1. Ask how many supplies there are (always at least 1), then ask for each one, in order.\n2. Ask for a position, counting from 1 the way people do.\n3. Print four lines: the first supply, the last supply, the supply at the position asked for, and a list of every supply except the first and the last.\n\nPrint just those four lines.",
     "hints": [
      "Collect the supplies in a list first. Positions start at 0, so the first supply is at 0, and a person who says position 1 means Python position 0.",
      "A negative position counts from the end. A slice gives a list: it starts at its first number and stops just before its second, and either number can be negative.",
@@ -2522,7 +2522,7 @@
     "description": "Go through every treasure in the list: add them up, keep the valuable ones, and find the biggest.",
     "learnTitle": "Visit every item in turn",
     "learn": "for price in prices: runs its block once for each item in the list, in order, with price holding that item. Nothing needs counting: the loop stops after the last item.",
-    "detail": "Inside the loop you can add up, remember the biggest so far, or keep some items: start an empty list and append only the ones an if lets through. Build a new list rather than adding to or removing from the list you are looping over. sum() and max() do two of these jobs for you, but max() of an empty list is an error.",
+    "detail": "Inside the loop you can add up, remember the biggest so far, or keep some items: start an empty list and append only the ones an if lets through.\n\nBuild a new list rather than adding to or removing from the list you are looping over. sum() and max() do two of these jobs for you, but max() of an empty list is an error.",
     "example": "# Prices at the market stall\nprices = [4, 12, 7, 3]\ntotal = 0\ncheap = []\nfor price in prices:\n    total = total + price\n    if price < 5:\n        cheap.append(price)\nprint(total)\nprint(cheap)\nprint(max(prices))",
     "exampleOutput": "26\n[4, 3]\n12",
     "exampleNote": "The loop visits 4, 12, 7 and 3. Every price adds to total, and only prices under 5 go into cheap. max() finds the biggest without a loop.",
@@ -2536,7 +2536,7 @@
     "why": "Only 12 and 7 are more than 5, and they go in in the order the loop meets them.",
     "guided": "Predict, then run: change the 5 to 10 and check which prices go into cheap. Then add a counter that counts the prices over 5.",
     "starter": "# Read the treasure values, then the limit\n",
-    "challenge": "Treasure hunt: ask how many treasures were found (it can be 0), then ask for the value of each one, as a whole number. Then ask for the hero's limit. Print three lines: the total value, a list of the values that are more than the limit, in the order they were found, and the biggest value, or 0 if nothing was found. Print just those three lines.",
+    "challenge": "Treasure hunt.\n\n1. Ask how many treasures were found (it can be 0), then ask for the value of each one, as a whole number.\n2. Ask for the hero's limit.\n3. Print the total value.\n4. Print a list of the values that are more than the limit, in the order they were found.\n5. Print the biggest value, or 0 if nothing was found.\n\nPrint just those three lines.",
     "hints": [
      "Keep the values in a list as you read them, because the limit only comes after them.",
      "One loop over the list can do the rest: add each value to a total, keep the ones over the limit in a new list, and remember the biggest so far. All three start before that loop.",
@@ -2627,7 +2627,7 @@
     "description": "Remember what is in every room of the keep, look a room up by its name, and cope with a room that is not there.",
     "learnTitle": "Look things up by name",
     "learn": "A dictionary pairs each key with a value: rooms = {\"hall\": \"lamp\", \"cellar\": \"rope\"}. rooms[\"hall\"] gives \"lamp\". Keys must match exactly, so \"Hall\" is a different key.",
-    "detail": "rooms[\"tower\"] = \"key\" adds a pair, or replaces the value if that key is already there. rooms[\"attic\"], for a key that is not there, stops with a KeyError; rooms.get(\"attic\", \"nothing\") gives \"nothing\" instead. for room, item in rooms.items(): visits each pair, in the order the keys were first added.",
+    "detail": "rooms[\"tower\"] = \"key\" adds a pair, or replaces the value if that key is already there.\n\nrooms[\"attic\"], for a key that is not there, stops with a KeyError; rooms.get(\"attic\", \"nothing\") gives \"nothing\" instead. for room, item in rooms.items(): visits each pair, in the order the keys were first added.",
     "example": "# What is in each room?\nrooms = {\"hall\": \"lamp\", \"cellar\": \"rope\"}\nrooms[\"tower\"] = \"key\"\nrooms[\"hall\"] = \"map\"\nprint(rooms[\"cellar\"])\nprint(rooms.get(\"attic\", \"nothing\"))\nfor room, item in rooms.items():\n    print(room, item)",
     "exampleOutput": "rope\nnothing\nhall map\ncellar rope\ntower key",
     "exampleNote": "hall already had a value, so it changed to map without moving. get() gives its second value for a key that is missing. items() goes through the pairs in the order the keys were first added.",
@@ -2641,7 +2641,7 @@
     "why": "Square brackets need the key to be there. get() is the gentle way to ask about a key that may be missing.",
     "guided": "Predict, then run: print len(rooms), add a fourth room, and print it again. Then look up \"Hall\", with a capital, using get(), and see what comes back.",
     "starter": "# Read each room and what it holds, then the room to search\n",
-    "challenge": "Each room of the keep holds one thing. Ask how many rooms there are, then for each room ask for its name and then what it holds. A room named twice is one room, holding the thing given last. Then ask for a room to search. Print three lines: what the searched room holds, or empty if there is no such room; how many rooms there are; and the whole dictionary, with print(). Print just those three lines.",
+    "challenge": "Each room of the keep holds one thing.\n\n1. Ask how many rooms there are, then for each room ask for its name and then what it holds. A room named twice is one room, holding the thing given last.\n2. Ask for a room to search.\n3. Print what the searched room holds, or empty if there is no such room.\n4. Print how many rooms there are.\n5. Print the whole dictionary, with print().\n\nPrint just those three lines.",
     "hints": [
      "Make an empty dictionary, {}, before the loop. Each time round, read a name and a thing, and pair them, with the name as the key.",
      "Assigning to a key that is already there replaces its value, which is just what a room named twice needs. get() with a second value answers for a room that is not there.",
@@ -2732,7 +2732,7 @@
     "description": "Keep track of the rooms two explorers have seen, with no repeats, and compare where they have been.",
     "learnTitle": "Keep each thing once",
     "learn": "A set holds values with no repeats: visited = {\"hall\", \"cellar\"}. visited.add(\"hall\") changes nothing, because hall is already in it, and len(visited) counts each value once.",
-    "detail": "An empty set is written set(), because {} is an empty dictionary. A set has no positions and no fixed order, so to print one dependably use sorted(visited), which gives a sorted list. a | b holds everything in either set, a & b only what is in both, and a - b what is in a but not in b.",
+    "detail": "An empty set is written set(), because {} is an empty dictionary.\n\nA set has no positions and no fixed order, so to print one dependably use sorted(visited), which gives a sorted list.\n\na | b holds everything in either set, a & b only what is in both, and a - b what is in a but not in b.",
     "example": "# Where have the two explorers been?\nkai = {\"hall\", \"cellar\", \"tower\"}\nnova = {\"tower\", \"garden\"}\nkai.add(\"hall\")\nprint(len(kai))\nprint(sorted(kai | nova))\nprint(sorted(kai & nova))\nprint(\"garden\" in kai)",
     "exampleOutput": "3\n['cellar', 'garden', 'hall', 'tower']\n['tower']\nFalse",
     "exampleNote": "Adding hall again leaves three rooms. | joins the two sets with no repeats, & keeps the one room both have visited, and sorted() lists them in alphabetical order.",
@@ -2746,7 +2746,7 @@
     "why": "There are five names in the two sets, but tower is in both and is counted once.",
     "guided": "Predict, then run: add \"garden\" to kai and print sorted(kai & nova) again. Then try visited = {} followed by visited.add(\"hall\"), and read the error.",
     "starter": "# Read each explorer's rooms\n",
-    "challenge": "Two explorers walk the keep. Ask how many rooms the first explorer visited, then each room's name, then do the same for the second explorer. A room can be named more than once. Print four lines: how many different rooms the first explorer saw; a sorted list of every room either of them saw; a sorted list of the rooms both of them saw; and a sorted list of the rooms only the first explorer saw. Print just those four lines.",
+    "challenge": "Two explorers walk the keep.\n\n1. Ask how many rooms the first explorer visited, then each room's name. A room can be named more than once.\n2. Do the same for the second explorer.\n3. Print how many different rooms the first explorer saw.\n4. Print a sorted list of every room either of them saw.\n5. Print a sorted list of the rooms both of them saw.\n6. Print a sorted list of the rooms only the first explorer saw.\n\nPrint just those four lines.",
     "hints": [
      "Collect each explorer's rooms in a set, so a room named twice counts once. An empty set is made with set().",
      "| gives every room in either set, & the rooms in both, and - the rooms in the first but not the second. sorted() turns each answer into a list in alphabetical order.",
@@ -2853,7 +2853,7 @@
     "why": "Without a call, the function's steps never run. Defining a function prints nothing.",
     "guided": "Predict, then run: take the brackets off one campfire() call and see what changes. Then write a second function, sunrise(), and call it once at the end.",
     "starter": "# Define crossing() and journey(), then call journey()\n",
-    "challenge": "Write a function called crossing() that prints three lines: Step on the stones. then The water rushes past. then You reach the far bank. Then write a function called journey() that prints Day begins., uses crossing() twice, and prints Night falls. At the end of your program, call journey() once. The check runs your program, and also calls your functions on their own.",
+    "challenge": "Write two functions, then call one.\n\n1. Write a function called crossing() that prints three lines: Step on the stones. then The water rushes past. then You reach the far bank.\n2. Write a function called journey() that prints Day begins., uses crossing() twice, and prints Night falls.\n3. At the end of your program, call journey() once.\n\nThe check runs your program, and also calls your functions on their own.",
     "hints": [
      "Each function starts with def, its name, empty brackets and a colon. The lines that belong to it are indented by four spaces.",
      "journey() can call crossing() inside its own block, so the three river lines are written only once. The last line of the program, not indented, calls journey().",
@@ -2934,7 +2934,7 @@
     "why": "Arguments without names are matched in order: the first one becomes hero, whatever it says.",
     "guided": "Predict, then run: swap the two arguments in the second call. Then give hero a default too, and call arrive() with no arguments at all.",
     "starter": "# Define scene(hero, place, mood=\"calm\")\n",
-    "challenge": "Write a function called scene(hero, place, mood=\"calm\") that prints one line: the hero, the words is in, the place, a comma, the word feeling, and the mood, ending with a full stop. For example, scene(\"Nova\", \"the cave\") prints Nova is in the cave, feeling calm. Your program should not ask for input: the check calls your functions with its own values.",
+    "challenge": "Write a function called scene(hero, place, mood=\"calm\") that prints one line: the hero, the words is in, the place, a comma, the word feeling, and the mood, ending with a full stop.\n\nFor example, scene(\"Nova\", \"the cave\") prints Nova is in the cave, feeling calm.\n\nYour program should not ask for input: the check calls your functions with its own values.",
     "hints": [
      "The def line lists three parameters, and the last one has a default: mood=\"calm\".",
      "Inside, build the line from the parameters, not from any one hero's name, so that every call gets its own hero and place.",
@@ -3027,7 +3027,7 @@
     "why": "A function that only prints gives back None, and None + None is a TypeError. print() shows a number; return hands it back to be used.",
     "guided": "Predict, then run: add print(points(5)) and work out the answer before you run it. Then change points() so that 5 or more tries scores 0, with one more if and return.",
     "starter": "# Define score(secret, guess) and verdict(secret, guess)\n",
-    "challenge": "Write score(secret, guess), which returns 10 if the guess is right, 5 if it is no more than 2 away, 1 if it is no more than 10 away, and 0 otherwise. Then write verdict(secret, guess), which returns two values: the score, and True if the guess is too high or False if it is not. Return the answers; do not print them. Your program should not ask for input: the check calls your functions with its own values.",
+    "challenge": "Write two functions that return answers instead of printing them.\n\n1. score(secret, guess) returns 10 if the guess is right, 5 if it is no more than 2 away, 1 if it is no more than 10 away, and 0 otherwise.\n2. verdict(secret, guess) returns two values: the score, and True if the guess is too high or False if it is not.\n\nReturn the answers; do not print them. Your program should not ask for input: the check calls your functions with its own values.",
     "hints": [
      "Work out how far apart the two numbers are first, ignoring which is bigger: abs() gives a number without its minus sign, so abs(3 - 7) is 4. Then check the closest band first, and return as soon as one matches.",
      "verdict() can call score() instead of repeating its rules, then return the score and a comparison together, separated by a comma.",
@@ -3105,8 +3105,8 @@
     "badge": "Name keeper",
     "description": "Keep the hero's coins right by handing values in and back, instead of reaching outside a function.",
     "learnTitle": "Names inside a function stay inside",
-    "learn": "A name given a value inside a function is local: it exists only while that call runs, and a name outside with the same spelling is a different name. A function can read a name from outside, but assigning to it inside makes a new local name.",
-    "detail": "So score = score + 1 inside a function stops with an UnboundLocalError: the function's own score has no value yet. The clean fix is to hand the value in and return the new one: score = add_point(score). A global line would work too, but it makes a function harder to test and reuse.",
+    "learn": "A name given a value inside a function is local: it exists only while that call runs, and a name outside with the same spelling is a different name.\n\nA function can read a name from outside, but assigning to it inside makes a new local name.",
+    "detail": "So score = score + 1 inside a function stops with an UnboundLocalError: the function's own score has no value yet.\n\nThe clean fix is to hand the value in and return the new one: score = add_point(score). A global line would work too, but it makes a function harder to test and reuse.",
     "example": "# Who changes the score?\nscore = 0\n\ndef bonus():\n    score = 50\n    print(score)\n\ndef add_point(points):\n    return points + 1\n\nbonus()\nprint(score)\nscore = add_point(score)\nprint(score)",
     "exampleOutput": "50\n0\n1",
     "exampleNote": "bonus() makes its own local score, which disappears when the call ends, so the outer score is still 0. add_point() is handed the score and gives back a new value, which the caller stores.",
@@ -3120,7 +3120,7 @@
     "why": "Because bonus() assigns to score, every score inside it is local, and the local one has no value yet when score + 50 is worked out.",
     "guided": "Predict, then run: inside bonus(), add print(score) above the assignment, and read the error. Then call add_point() three times in a row, storing the result each time.",
     "starter": "# Define collect(coins, found) and spend(coins, price)\n",
-    "challenge": "Write collect(coins, found), which returns the hero's new number of coins after finding some more. Then write spend(coins, price), which returns two values: the coins left and True if there were enough to pay, or the coins unchanged and False if there were not. Neither function may change or depend on a name outside itself: hand the values in and return the answers. Your program should not ask for input: the check calls your functions with its own values.",
+    "challenge": "Write two functions for the hero's coins.\n\n1. collect(coins, found) returns the hero's new number of coins after finding some more.\n2. spend(coins, price) returns two values: the coins left and True if there were enough to pay, or the coins unchanged and False if there were not.\n\nNeither function may change or depend on a name outside itself: hand the values in and return the answers. Your program should not ask for input: the check calls your functions with its own values.",
     "hints": [
      "Everything each function needs arrives as a parameter, and everything it works out leaves by return. No name outside the functions is needed at all.",
      "spend() has two outcomes: an if decides whether the coins cover the price, and each branch returns two values separated by a comma.",
@@ -3199,7 +3199,7 @@
     "description": "Adventure v2: split a fight into small functions that each do one job, and build the whole from them.",
     "learnTitle": "One job per function",
     "learn": "Big programs are easier to read and fix when each function does one small job and has a name that says what it is. A function that works something out returns its answer, and another function can use it.",
-    "detail": "A good test of a function: can you call it on its own, with made-up values, and check its answer? If one function reads input(), prints and changes outside names all at once, split it. Then the main part of the program just calls the parts in order.",
+    "detail": "A good test of a function: can you call it on its own, with made-up values, and check its answer?\n\nIf one function reads input(), prints and changes outside names all at once, split it. Then the main part of the program just calls the parts in order.",
     "example": "# A shop, split into small jobs\ndef price_with_tax(price):\n    return price + price // 10\n\ndef can_afford(coins, price):\n    return coins >= price_with_tax(price)\n\ndef receipt(item, price):\n    return item + \": \" + str(price_with_tax(price)) + \" coins\"\n\nprint(receipt(\"rope\", 20))\nprint(can_afford(21, 20))\nprint(can_afford(25, 20))",
     "exampleOutput": "rope: 22 coins\nFalse\nTrue",
     "exampleNote": "price_with_tax() is written once and used by both other functions, so a change to the tax happens in one place. Each function can be checked on its own.",
@@ -3213,7 +3213,7 @@
     "why": "Only price_with_tax() works out the tax. The others call it, so they change with it.",
     "guided": "Predict, then run: change the tax to price // 5 and check all three answers. Then write total_cost(prices), which adds up price_with_tax() of every price in a list.",
     "starter": "# Define damage(), fight() and survives()\n",
-    "challenge": "Write three functions for the adventure's battles. damage(attack, armour) returns the attack minus the armour, but never less than 0. fight(hero_hp, attack, armour) returns the hero's health after one hit, using damage(), and never less than 0. survives(hero_hp, attacks, armour) takes a list of attack values, applies them in order with fight(), and returns True if the hero has more than 0 health at the end, or False. Your program should not ask for input: the check calls your functions with its own values.",
+    "challenge": "Write three functions for the adventure's battles, each using the one before.\n\n1. damage(attack, armour) returns the attack minus the armour, but never less than 0.\n2. fight(hero_hp, attack, armour) returns the hero's health after one hit, using damage(), and never less than 0.\n3. survives(hero_hp, attacks, armour) takes a list of attack values, applies them in order with fight(), and returns True if the hero has more than 0 health at the end, or False.\n\nYour program should not ask for input: the check calls your functions with its own values.",
     "hints": [
      "Write damage() first and check it alone: max() of two numbers picks the bigger one, which is a short way to say never less than 0.",
      "fight() takes the damage away from the health and keeps the result from going below 0. survives() loops over the attacks list, storing what fight() returns each time.",
@@ -3300,7 +3300,7 @@
     "description": "The shop's ledger crashes. Read each crash report from the bottom up, and fix the line it points to.",
     "learnTitle": "Read it from the bottom up",
     "learn": "When Python stops, it prints a traceback. Its last line names the kind of error and says what went wrong. The line just above that says where: the line number, and the line itself.",
-    "detail": "Lines higher up show how the program got there, such as the line that called the function that failed. Start with the last line, go to the line it names, and only then read further up. This page explains an error in plain words first, and Show Python's message has the whole traceback, where your program is called \"<exec>\".",
+    "detail": "Lines higher up show how the program got there, such as the line that called the function that failed. Start with the last line, go to the line it names, and only then read further up.\n\nThis page explains an error in plain words first, and Show Python's message has the whole traceback, where your program is called \"<exec>\".",
     "example": "# Fixed: each price was text, so total + price failed\nprices = [\"5\", \"12\"]\ntotal = 0\nfor price in prices:\n    total = total + int(price)\nprint(total)",
     "exampleOutput": "17",
     "exampleNote": "Before the fix, the last line of the traceback was TypeError: unsupported operand type(s) for +: 'int' and 'str', and the line above it showed total = total + price. Turning each price into a number fixed it.",
@@ -3314,7 +3314,7 @@
     "why": "The line above the error names the place. Line 7 uses a name that was never given a value, probably a typo for total.",
     "guided": "Predict, then run: take int() out again and read the error. Open Show Python's message and find the line number. Then misspell total on the print line, and compare the two messages.",
     "starter": "# The shop's ledger crashes. Fix it one traceback at a time.\ndef total_cost(prices):\n    total = 0\n    for i in range(len(prices) + 1):\n        total = total + prices[i]\n    return total\n\ncount = int(input(\"How many items? \"))\nprices = []\nfor n in range(count):\n    prices.append(input(\"Price? \"))\nprint(\"Total: \" + total_cost(prices))\nprint(\"Most expensive: \" + str(max(prices)))\n",
-    "challenge": "The shop's ledger in your editor asks how many items there are (always at least 1) and each item's price, then prints the total and the most expensive price, as Total: 25 and Most expensive: 12. It crashes. Run it, read each traceback from the bottom up, fix what it points to, and run again until it works. There are three bugs.",
+    "challenge": "The shop's ledger in your editor asks how many items there are (always at least 1) and each item's price, then prints the total and the most expensive price, as Total: 25 and Most expensive: 12. It crashes, and there are three bugs.\n\n1. Run it.\n2. Read each traceback from the bottom up, and fix what it points to.\n3. Run again, until it works.",
     "hints": [
      "Run the program and read the last line of the error first: it names the kind of error. The line number above it says where.",
      "There are three separate bugs. Fix only what the error points to, run again, and read the next error. A program can fail inside a function because of the values the caller handed it.",
@@ -3399,7 +3399,7 @@
     "description": "A tally that never crashes but gives the wrong answers. Find its bugs by testing small cases and printing what is going on.",
     "learnTitle": "When the answer is wrong, not the program",
     "learn": "Some bugs never crash: the program runs and prints the wrong thing. To find one, guess what each name should hold at each step, then check it with a print() inside the code.",
-    "detail": "Change one thing at a time and run again, so you know which change mattered. Try the smallest input that goes wrong, like a single round. Explaining each line out loud, even to a rubber duck, often shows the line that does not do what you meant. Take the extra print() lines out when you are done.",
+    "detail": "Change one thing at a time and run again, so you know which change mattered. Try the smallest input that goes wrong, like a single round.\n\nExplaining each line out loud, even to a rubber duck, often shows the line that does not do what you meant. Take the extra print() lines out when you are done.",
     "example": "# Why does the countdown miss numbers?\nfor n in range(5, 0, -2):\n    print(\"n is\", n)\nprint(\"done\")",
     "exampleOutput": "n is 5\nn is 3\nn is 1\ndone",
     "exampleNote": "Printing n at every turn shows the loop goes 5, 3, 1: the step of -2 skips the numbers in between. A label like \"n is\" makes the extra lines easy to spot and remove later.",
@@ -3413,7 +3413,7 @@
     "why": "range(1, 3) gives 1 and 2, then stops before 3: one turn fewer than there are rounds.",
     "guided": "Predict, then run: change the step to -1 and read the printed values. Then add a second print inside the loop that shows n * 2.",
     "starter": "# The tally gives wrong answers, but never crashes. Find out why.\nrounds = int(input(\"Rounds? \"))\nbest = 0\nwins = 0\nfor r in range(1, rounds):\n    points = int(input(\"Points? \"))\n    if points > best:\n        best = points\n    if points > 10:\n        wins = wins + 1\nprint(best)\nprint(wins)\n",
-    "challenge": "The tally in your editor should ask how many rounds were played (always at least 1), then the points from each round, which can be negative. It should print two lines: the best score of any round, and how many rounds were wins, where a win scores 10 or more. It runs, but its answers are wrong. Find and fix its three bugs.",
+    "challenge": "The tally in your editor runs, but its answers are wrong. Find and fix its three bugs. It should:\n\n1. Ask how many rounds were played (always at least 1), then the points from each round, which can be negative.\n2. Print the best score of any round.\n3. Print how many rounds were wins, where a win scores 10 or more.",
     "hints": [
      "Run it with one round of 15 points. One round should give 15 and 1; what do you get instead? That small case shows the first bug.",
      "Put print(\"round\", r, \"points\", points) inside the loop to watch each turn. Check three things: how many rounds are read, what counts as a win, and where best starts.",
@@ -3512,7 +3512,7 @@
     "why": "int() only reads whole numbers, so \"4.5\" raises a ValueError, which the first except catches.",
     "guided": "Predict, then run: add \"4.5\" and \"-3\" to the replies. Then take out the ZeroDivisionError block and see what happens to the 0.",
     "starter": "# Read both replies, and share the coins safely\n",
-    "challenge": "Ask how many coins there are, then how many friends share them. Print each friend's share, using //, and then the coins left over, using %. If either reply is not a whole number, print just not a number instead. If there are 0 friends, print just nobody to share with instead.",
+    "challenge": "Share coins between friends, without crashing.\n\n1. Ask how many coins there are, then how many friends share them.\n2. Print each friend's share, using //, and then the coins left over, using %.\n3. If either reply is not a whole number, print just not a number instead.\n4. If there are 0 friends, print just nobody to share with instead.",
     "hints": [
      "Put the lines that can fail, the two int() calls and the sharing, inside one try: block.",
      "Add one except block for each kind of error you expect: a reply that is not a whole number, and a share among 0 friends. Each one prints its own message.",
@@ -3597,7 +3597,7 @@
     "description": "Make a function refuse a value that breaks the rules, with a message that says why.",
     "learnTitle": "Refuse a value that breaks the rules",
     "learn": "raise ValueError(\"guess must be from 1 to 100\") stops a function with that error and message, just as int(\"x\") stops with one of its own. The code that called it can catch it with try and except, and read the message.",
-    "detail": "Raise an error that fits: ValueError for a value of the right kind but a bad amount, TypeError for the wrong kind of value. except ValueError as error: gives the caught error a name, and printing it shows its message. Raising early, at the top of a function, keeps the rest of it simple.",
+    "detail": "Raise an error that fits: ValueError for a value of the right kind but a bad amount, TypeError for the wrong kind of value. except ValueError as error: gives the caught error a name, and printing it shows its message.\n\nRaising early, at the top of a function, keeps the rest of it simple.",
     "example": "# A guess must be from 1 to 100\ndef check_guess(guess):\n    if guess < 1 or guess > 100:\n        raise ValueError(\"guess must be from 1 to 100\")\n    return guess\n\nfor g in [50, 200]:\n    try:\n        print(check_guess(g))\n    except ValueError as error:\n        print(\"Refused:\", error)",
     "exampleOutput": "50\nRefused: guess must be from 1 to 100",
     "exampleNote": "50 passes the check and comes back. 200 makes check_guess() raise, so the print never happens, and the except prints the message instead.",
@@ -3611,7 +3611,7 @@
     "why": "Nothing catches it, so the error stops the program, just like any other ValueError.",
     "guided": "Predict, then run: add 0 and 100 to the list. Then make check_guess() also refuse odd numbers, with a message of your own.",
     "starter": "# Define set_lives(lives), then use it with the reply\n",
-    "challenge": "Write a function set_lives(lives) that returns lives if it is from 1 to 9, and otherwise raises a ValueError with the message lives must be from 1 to 9. Then ask the player for a number of lives, as a whole number, and pass it to set_lives() inside a try: print the lives it returns, or, if a ValueError is raised, print Refused: followed by a space and the message.",
+    "challenge": "Write a function, then use it safely.\n\n1. Write set_lives(lives), which returns lives if it is from 1 to 9, and otherwise raises a ValueError with the message lives must be from 1 to 9.\n2. Ask the player for a number of lives, as a whole number, and pass it to set_lives() inside a try.\n3. Print the lives it returns, or, if a ValueError is raised, print Refused: followed by a space and the message.",
     "hints": [
      "In set_lives(), check the rule first, and raise the error when it is broken. If the function gets past that check, the lives are fine to return.",
      "Call set_lives() inside try:. except ValueError as error: catches the error you raised, and error holds its message.",
@@ -3696,7 +3696,7 @@
     "description": "The bridge keeper keeps asking until the reply makes sense, and says what was wrong each time.",
     "learnTitle": "Keep asking until the reply makes sense",
     "learn": "A while True: loop can ask again and again. Inside it, try to turn the reply into a number; when that works and the number is in range, break leaves the loop. Otherwise, say what was wrong, and the loop asks again.",
-    "detail": "Every path through the loop must either break or ask again, or the loop never ends. An empty reply is text too: int(\"\") raises a ValueError. continue jumps straight back to the top of the loop. On this page, if the replies run out, input() raises an EOFError, which means the program asked more times than it was answered.",
+    "detail": "Every path through the loop must either break or ask again, or the loop never ends. An empty reply is text too: int(\"\") raises a ValueError. continue jumps straight back to the top of the loop.\n\nOn this page, if the replies run out, input() raises an EOFError, which means the program asked more times than it was answered.",
     "example": "# Ask for a door from 1 to 3\nwhile True:\n    reply = input(\"Door? \")\n    try:\n        door = int(reply)\n    except ValueError:\n        print(\"Type a number.\")\n        continue\n    if 1 <= door <= 3:\n        break\n    print(\"There are only 3 doors.\")\nprint(\"You open door\", door)",
     "exampleOutput": "Type a number.\nThere are only 3 doors.\nYou open door 2",
     "exampleNote": "continue goes straight back to the top to ask again, and break leaves the loop for good. The loop ends only on a reply that passes both checks.",
@@ -3710,7 +3710,7 @@
     "why": "An empty reply is still text, and int(\"\") raises a ValueError.",
     "guided": "Predict, then run: make the replies an empty one and then 3. Then change the range to 1 to 5, and try 5.",
     "starter": "# Keep asking until the reply is a whole number from 1 to 8\n",
-    "challenge": "The bridge keeper asks how many travellers are crossing, from 1 to 8. Keep asking until the reply is a whole number from 1 to 8. For a reply that is not a whole number, print not a number. For a whole number outside 1 to 8, print from 1 to 8 only. Once a reply is valid, print how many replies it took, counting the good one, and then the number of travellers.",
+    "challenge": "The bridge keeper asks how many travellers are crossing, from 1 to 8. Keep asking until the reply is a whole number from 1 to 8.\n\n1. For a reply that is not a whole number, print not a number.\n2. For a whole number outside 1 to 8, print from 1 to 8 only.\n3. Once a reply is valid, print how many replies it took, counting the good one, and then the number of travellers.",
     "hints": [
      "A while True: loop asks once per turn. Count the turns with a number that starts at 0 above the loop.",
      "Inside the loop, try int() on the reply. A ValueError means not a number; a number outside the range gets the other message; anything else is good, and break leaves the loop.",
@@ -3805,7 +3805,7 @@
     "description": "Borrow ready-made tools from Python's math module to measure the round tower.",
     "learnTitle": "Borrow tools that are already made",
     "learn": "import math loads Python's math module, and math.sqrt(16) uses one of its tools: the module's name, a dot, then the tool. from math import sqrt brings in just that tool, so you can write sqrt(16).",
-    "detail": "import math as m gives the module a shorter name. Once imported, a module stays loaded for the rest of the program. On this page only some modules can be imported: math, random, datetime, json, csv and re. Asking for any other, such as os, stops with a ModuleNotFoundError that says it is not available here.",
+    "detail": "import math as m gives the module a shorter name. Once imported, a module stays loaded for the rest of the program.\n\nOn this page only some modules can be imported: math, random, datetime, json, csv and re. Asking for any other, such as os, stops with a ModuleNotFoundError that says it is not available here.",
     "example": "# Three ways to reach a tool\nimport math\nfrom math import floor\nimport math as m\n\nprint(math.sqrt(49))\nprint(floor(7.9))\nprint(m.pi > 3)",
     "exampleOutput": "7.0\n7\nTrue",
     "exampleNote": "math.sqrt() names the module each time. floor came in on its own, so it needs no math. in front. m is just another name for the same module.",
@@ -3819,7 +3819,7 @@
     "why": "import math brings in the module, not each of its tools by itself: the tool is math.sqrt. from math import sqrt would make sqrt work on its own.",
     "guided": "Predict, then run: try print(sqrt(49)) with only import math. Then add import os and read the message.",
     "starter": "# Import what you need, then measure the tower\n",
-    "challenge": "Ask for the radius of a round tower, as a whole number. Print three lines: the distance around it, which is 2 times pi times the radius, rounded to 1 decimal place (round(x, 1) does that); the area inside it, pi times the radius times the radius, rounded to 1 decimal place; and how many steps of length 1 it takes to walk all the way round, rounded up to a whole step. Use pi and ceil() from the math module: ceil() rounds a number up to the next whole number, so ceil(4.1) is 5.",
+    "challenge": "Ask for the radius of a round tower, as a whole number, then print three lines:\n\n1. The distance around it, which is 2 times pi times the radius, rounded to 1 decimal place (round(x, 1) does that).\n2. The area inside it, pi times the radius times the radius, rounded to 1 decimal place.\n3. How many steps of length 1 it takes to walk all the way round, rounded up to a whole step.\n\nUse pi and ceil() from the math module: ceil() rounds a number up to the next whole number, so ceil(4.1) is 5.",
     "hints": [
      "The math module has pi, to many more decimal places than 3.14, and a tool that rounds a number up.",
      "round(x, 1) keeps one decimal place. The steps are the distance around rounded up, so even a little extra is one more step.",
@@ -3898,7 +3898,7 @@
     "description": "Roll the riddle keeper's dice, and learn why a seed makes chance repeatable.",
     "learnTitle": "Numbers you cannot guess",
     "learn": "import random gives a program chance. random.randint(1, 6) picks a whole number from 1 to 6, both included. random.choice(paths) picks one item from a list, and random.shuffle(cards) mixes a list in place.",
-    "detail": "The numbers only look random: they are worked out from a starting number called a seed. random.seed(7) at the start makes every run give the same numbers, which is how games are tested and how this page checks your program. Without a seed, each run differs.",
+    "detail": "The numbers only look random: they are worked out from a starting number called a seed. random.seed(7) at the start makes every run give the same numbers, which is how games are tested and how this page checks your program.\n\nWithout a seed, each run differs.",
     "example": "# The same seed gives the same \"random\" story every time\nimport random\nrandom.seed(7)\nprint(random.randint(1, 6))\nprint(random.choice([\"left\", \"right\", \"up\"]))\ncards = [\"sun\", \"moon\", \"star\"]\nrandom.shuffle(cards)\nprint(cards)",
     "exampleOutput": "3\nleft\n['star', 'sun', 'moon']",
     "exampleNote": "With the seed set to 7, these three lines come out the same on every run, on any computer with the same Python.",
@@ -3912,7 +3912,7 @@
     "why": "A seed fixes where the numbers start, so the same seed gives the same numbers in the same order.",
     "guided": "Predict, then run it twice: the same lines both times. Then take out random.seed(7) and run it a few times.",
     "starter": "# Import random, then roll each die\n",
-    "challenge": "The riddle keeper rolls dice. Ask for the number of dice and the number of sides each one has. Roll every die with random.randint(), from 1 to the number of sides, and print each roll on its own line, then the total of all the rolls on the last line. Do not call random.seed() yourself: the check sets the seed, so its numbers match yours.",
+    "challenge": "The riddle keeper rolls dice.\n\n1. Ask for the number of dice and the number of sides each one has.\n2. Roll every die with random.randint(), from 1 to the number of sides, and print each roll on its own line.\n3. On the last line, print the total of all the rolls.\n\nDo not call random.seed() yourself: the check sets the seed, so its numbers match yours.",
     "hints": [
      "Import random at the top. A for loop over range() rolls once per die.",
      "Each roll is random.randint(1, sides): store it, print it, and add it to a total that starts at 0 before the loop.",
@@ -4005,7 +4005,7 @@
     "why": "== compares exactly, and 0.1 + 0.2 is stored as 0.30000000000000004. isclose() is the honest test for decimals.",
     "guided": "Predict, then run: try round(0.5) and round(1.5). Then print math.sqrt(2), and round it to 3 places.",
     "starter": "# Import math, then measure the way to the treasure\n",
-    "challenge": "The treasure lies on the map grid. Ask how many squares east it is, then how many north, as whole numbers (either can be 0). Print three lines: the straight-line distance to it, rounded to 2 decimal places; how many squares the hero walks if they can only move along the grid, east plus north; and the straight-line distance rounded up to a whole number.",
+    "challenge": "The treasure lies on the map grid. Ask how many squares east it is, then how many north, as whole numbers (either can be 0). Print three lines:\n\n1. The straight-line distance to it, rounded to 2 decimal places.\n2. How many squares the hero walks if they can only move along the grid, east plus north.\n3. The straight-line distance rounded up to a whole number.",
     "hints": [
      "The straight-line distance is the square root of east squared plus north squared, or math.hypot(east, north) in one step.",
      "round(x, 2) keeps two decimal places, and math.ceil() rounds up. The grid walk needs no square roots at all.",
@@ -4084,7 +4084,7 @@
     "description": "Plan study sessions on real calendar dates, across month ends and leap days, and spot the weekends.",
     "learnTitle": "Work with dates, not just numbers",
     "learn": "from datetime import date gives a tool for calendar dates: date(2026, 3, 1) is the first of March 2026. Taking one date from another gives a timedelta, and its .days says how many days apart they are.",
-    "detail": "Adding timedelta(days=10) to a date moves it 10 days on, across month and year ends, and through 29 February in a leap year. .weekday() gives 0 for Monday up to 6 for Sunday, and .isoformat() writes a date as 2026-03-01, which is also how print() shows it. Checks here never read today's date, because it changes: they use fixed dates.",
+    "detail": "Adding timedelta(days=10) to a date moves it 10 days on, across month and year ends, and through 29 February in a leap year.\n\n.weekday() gives 0 for Monday up to 6 for Sunday, and .isoformat() writes a date as 2026-03-01, which is also how print() shows it.\n\nChecks here never read today's date, because it changes: they use fixed dates.",
     "example": "from datetime import date, timedelta\nstart = date(2026, 2, 20)\nexam = date(2026, 3, 6)\nprint((exam - start).days)\nprint(start + timedelta(days=10))\nprint(exam.weekday())",
     "exampleOutput": "14\n2026-03-02\n4",
     "exampleNote": "2026 is not a leap year, so February has 28 days. Adding 10 days to 20 February lands in March, and weekday() 4 means Friday.",
@@ -4098,7 +4098,7 @@
     "why": "2028 is a leap year, so February has a 29th day, one more than in 2026.",
     "guided": "Predict, then run: change both years to 2028. Then print the weekday of your own birthday this year.",
     "starter": "# Read the start date, then list the sessions\n",
-    "challenge": "Plan study sessions. Ask for a start date as three whole numbers, the year, the month and the day, then how many sessions there are and how many days apart they are. Print the date of every session, starting with the start date, one per line, in the form 2026-03-02. On the last line, print how many of the sessions fall on a Saturday or a Sunday.",
+    "challenge": "Plan study sessions.\n\n1. Ask for a start date as three whole numbers: the year, the month and the day.\n2. Ask how many sessions there are and how many days apart they are.\n3. Print the date of every session, starting with the start date, one per line, in the form 2026-03-02.\n4. On the last line, print how many of the sessions fall on a Saturday or a Sunday.",
     "hints": [
      "Make the start date with date(year, month, day), after turning the replies into whole numbers.",
      "Each session is the start plus a timedelta of days: the session number times the gap. weekday() gives 5 for Saturday and 6 for Sunday.",
@@ -4183,7 +4183,7 @@
     "description": "Quiz tool v1: keep the grading rules in a file of their own, and use them from the main program.",
     "learnTitle": "Split a program into files",
     "learn": "A file of your own, such as helpers.py, is a module too. import helpers runs it once and lets the program use what it defines, as helpers.greet(\"Nova\"). from helpers import greet brings in one name.",
-    "detail": "Keep the tools in the helper file and the story in main.py. A module's top-level lines run when it is imported, so a helper file should mostly hold definitions. On this page a file can't take the name of one of Python's own modules, such as random.py, and files are not saved between runs.",
+    "detail": "Keep the tools in the helper file and the story in main.py. A module's top-level lines run when it is imported, so a helper file should mostly hold definitions.\n\nOn this page a file can't take the name of one of Python's own modules, such as random.py, and files are not saved between runs.",
     "example": "# main.py uses the tools in shop.py\nimport shop\nfrom shop import price_with_tax\n\nprint(shop.receipt(\"rope\", 20))\nprint(price_with_tax(50))",
     "exampleOutput": "rope: 22 coins\n55",
     "exampleNote": "main.py reaches receipt() through the module name, and price_with_tax() by itself, because from brought it in by name. The tools are written once, in shop.py.",
@@ -4197,7 +4197,7 @@
     "why": "A module's top-level lines run once, the first time it is imported. Calling its functions later runs only the functions.",
     "guided": "Predict, then run: add print(\"shop ready\") to shop.py, then import shop twice in main.py and count the lines it prints.",
     "starter": "# Use grade() from grader.py\n",
-    "challenge": "Quiz tool v1. In grader.py, write grade(score, total), which returns the letter A for 90 percent or more, B for 70 or more, C for 50 or more, and F otherwise. In main.py, use it: ask how many quizzes there were, then each quiz's score and total, as whole numbers. Print each quiz's letter, and on the last line how many quizzes got an A. The check runs main.py with your grader.py.",
+    "challenge": "Quiz tool v1, in two files.\n\n1. In grader.py, write grade(score, total), which returns the letter A for 90 percent or more, B for 70 or more, C for 50 or more, and F otherwise.\n2. In main.py, ask how many quizzes there were, then each quiz's score and total, as whole numbers.\n3. Print each quiz's letter, using grade().\n4. On the last line, print how many quizzes got an A.\n\nThe check runs main.py with your grader.py.",
     "hints": [
      "In grader.py, write grade() so it returns a letter. In main.py, from grader import grade at the top brings it in.",
      "The percentage is score * 100 / total. Compare it with 90, 70 and 50, highest first. main.py loops once per quiz and counts the A grades.",
@@ -4284,7 +4284,7 @@
     "description": "Write tests that prove the streak bonus works, and that catch it when it doesn't.",
     "learnTitle": "Write down what should be true",
     "learn": "assert total == 15 does nothing when it is true. When it is false, it stops the program with an AssertionError. A list of asserts is a test: it checks that code gives the answers you expect.",
-    "detail": "Test a function by calling it with values you have worked out by hand: assert add_points(2, 3) == 5. A test that can never fail, such as assert True, checks nothing. A message after a comma explains a failure: assert lives > 0, \"out of lives\".",
+    "detail": "Test a function by calling it with values you have worked out by hand: assert add_points(2, 3) == 5.\n\nA test that can never fail, such as assert True, checks nothing. A message after a comma explains a failure: assert lives > 0, \"out of lives\".",
     "example": "# Tests for a tiny scorer\ndef points(guess, secret):\n    if guess == secret:\n        return 10\n    return 0\n\nassert points(4, 4) == 10\nassert points(3, 4) == 0\nprint(\"all tests passed\")",
     "exampleOutput": "all tests passed",
     "exampleNote": "Both asserts are true, so the program reaches the print. If points() had a bug, an assert would stop the program, and the print would never run.",
@@ -4298,7 +4298,7 @@
     "why": "points(4, 4) is 10, so the assert is false and stops the program. The test itself was wrong here, not points(): a failing test can mean either.",
     "guided": "Predict, then run: change the 10 to 5 in the first assert and read the error. Then break points() itself, by making it return 1, and see which assert notices.",
     "starter": "# Write asserts that test bonus(points, streak)\n",
-    "challenge": "The check has a function bonus(points, streak) that doubles the points when the streak is 3 or more, and otherwise returns the points unchanged. Write asserts that test bonus(). The check runs your tests on a correct bonus(), where they must all pass, and on broken versions, where at least one must fail. Do not write bonus() yourself: the check provides it.",
+    "challenge": "The check has a function bonus(points, streak) that doubles the points when the streak is 3 or more, and otherwise returns the points unchanged. Write asserts that test bonus().\n\nThe check runs your tests on a correct bonus(), where they must all pass, and on broken versions, where at least one must fail. Do not write bonus() yourself: the check provides it.",
     "hints": [
      "Each test calls bonus() with values you choose, and compares the answer with one you worked out by hand: assert, the call, ==, and the answer.",
      "Test both sides of the rule: a streak below 3, a streak of exactly 3, and one above it. Use more than one number of points too.",
@@ -4377,7 +4377,7 @@
     "description": "Pick the test cases a careless average() would trip on: empty lists, decimals, and the last score.",
     "learnTitle": "Pick the cases a bug would trip on",
     "learn": "One test with an easy value catches few bugs. Good tests mix a typical case, the edges, such as an empty list, a single item or a zero, and unusual values, such as negative numbers.",
-    "detail": "Work out the right answer for each case by hand before running anything. Ask what a careless version might get wrong, such as dividing with //, skipping the last item, or crashing on an empty list, and pick a case that would show it. For decimals, pick numbers whose answer is exact, such as 7 / 2 = 3.5.",
+    "detail": "Work out the right answer for each case by hand before running anything. Ask what a careless version might get wrong, such as dividing with //, skipping the last item, or crashing on an empty list, and pick a case that would show it.\n\nFor decimals, pick numbers whose answer is exact, such as 7 / 2 = 3.5.",
     "example": "def biggest(numbers):\n    best = numbers[0]\n    for n in numbers:\n        if n > best:\n            best = n\n    return best\n\nassert biggest([3, 9, 4]) == 9\nassert biggest([-5, -2]) == -2\nassert biggest([7]) == 7\nprint(\"typical, negative and single cases pass\")",
     "exampleOutput": "typical, negative and single cases pass",
     "exampleNote": "Three kinds of case: a typical list, all negative numbers, and a single item. Each one could catch a different bug.",
@@ -4391,7 +4391,7 @@
     "why": "With all negative numbers, none is bigger than 0, so a best that starts at 0 would wrongly return 0.",
     "guided": "Predict, then run: change best = numbers[0] to best = 0 and see which assert fails. Then add a test for biggest([]) and read the error: what should an empty list give?",
     "starter": "# Write asserts that test average(scores)\n",
-    "challenge": "The check has a function average(scores) that returns the average of a list of numbers, or 0 for an empty list. Write asserts that test it well. The check runs them on a correct average(), where they must all pass, and on several broken ones, where at least one must fail for each. Do not write average() yourself.",
+    "challenge": "The check has a function average(scores) that returns the average of a list of numbers, or 0 for an empty list. Write asserts that test it well.\n\nThe check runs them on a correct average(), where they must all pass, and on several broken ones, where at least one must fail for each. Do not write average() yourself.",
     "hints": [
      "Start with a typical list whose average you can work out by hand, such as [2, 4], then add the edges.",
      "Which lists would a careless average() get wrong? An empty one, one whose average is not a whole number, and one where the last score makes a difference.",
@@ -4484,7 +4484,7 @@
     "why": "Only exactly 120 is treated differently by > and >=, so only the test right on the edge notices.",
     "guided": "Predict, then run: change >= to > and check. Then add a second rule, height <= 200, and test both sides of 200.",
     "starter": "# Write asserts that test ticket_price(age)\n",
-    "challenge": "The ferry has a function ticket_price(age) in the check: under 5 travel free, ages 5 to 12 pay 5, ages 13 to 64 pay 10, and 65 and over pay 6. Write asserts that test it, especially at the edges. The check runs your tests on the correct ticket_price(), where they must all pass, and on broken versions, where at least one must fail for each. Do not write ticket_price() yourself.",
+    "challenge": "The ferry has a function ticket_price(age) in the check:\n\n- under 5 travel free\n- ages 5 to 12 pay 5\n- ages 13 to 64 pay 10\n- 65 and over pay 6\n\nWrite asserts that test it, especially at the edges. The check runs your tests on the correct ticket_price(), where they must all pass, and on broken versions, where at least one must fail for each. Do not write ticket_price() yourself.",
     "hints": [
      "List the edges first: where does each price start and stop? Each edge needs a test on both sides of it.",
      "The rule has three edges, at 5, at 13 and at 65. A test on the last age of one price and the first age of the next catches a bug at that edge.",
@@ -4563,7 +4563,7 @@
     "description": "Label what goes into the coin-sharing function and what comes out, so anyone reading it knows how to use it.",
     "learnTitle": "Say what kind of value goes where",
     "learn": "def tip(bill: float, percent: int) -> float: tells a reader that bill is a decimal number, percent a whole number, and that the function gives back a decimal. These hints are for people and tools: Python does not check them when the program runs.",
-    "detail": "Common hints are int, float, str, bool, list[int] for a list of whole numbers, and dict[str, int]. A name can have one too: lives: int = 3. Because Python ignores hints while running, a call such as twice(\"ha\") is not stopped by them. A function's hints are kept in its __annotations__, which you can print.",
+    "detail": "Common hints are int, float, str, bool, list[int] for a list of whole numbers, and dict[str, int]. A name can have one too: lives: int = 3.\n\nBecause Python ignores hints while running, a call such as twice(\"ha\") is not stopped by them. A function's hints are kept in its __annotations__, which you can print.",
     "example": "def tip(bill: float, percent: int) -> float:\n    return bill * percent / 100\n\ndef twice(word: int) -> int:\n    return word * 2\n\nprint(tip(40.0, 15))\nprint(twice(\"ha\"))",
     "exampleOutput": "6.0\nhaha",
     "exampleNote": "tip() is used as its hints say. twice() says it takes a whole number, but Python runs it with text anyway, because hints describe and do not check.",
@@ -4577,7 +4577,7 @@
     "why": "The hint says int, but nothing checks it: \"ha\" * 2 is \"haha\", so that is what comes back.",
     "guided": "Predict, then run: call twice(3). Then give twice() honest hints for text, word: str and -> str, and run it again.",
     "starter": "# Define shares() with type hints, then print its __annotations__\n",
-    "challenge": "Write shares(coins: int, friends: int) -> list[int], with exactly those hints, which returns a list of how many coins each friend gets, shared as evenly as possible: everyone gets coins // friends, and the first coins % friends friends get one more. At the end of your program, print(shares.__annotations__) so the check can read your hints. Do not ask for input.",
+    "challenge": "Write shares(coins: int, friends: int) -> list[int], with exactly those hints.\n\n1. It returns a list of how many coins each friend gets, shared as evenly as possible.\n2. Everyone gets coins // friends, and the first coins % friends friends get one more.\n3. At the end of your program, print(shares.__annotations__) so the check can read your hints.\n\nDo not ask for input.",
     "hints": [
      "The def line carries the hints: a colon and a type after each parameter, then -> and the return type before the final colon.",
      "Every friend gets coins // friends, and the first coins % friends of them get one more. Build the list with a loop over range(friends).",
@@ -4662,7 +4662,7 @@
     "description": "The shop's till works but repeats itself. Tidy it into a price list and one function, without changing a single line it prints.",
     "learnTitle": "Change the shape, keep the behaviour",
     "learn": "Refactoring means rewriting code so it is easier to read and change, while it does exactly what it did before. Repeated lines become one function, and values scattered through the code become one dictionary.",
-    "detail": "Work in small steps, and run the program after each one, comparing its output with what it printed before. Tests are a safety net: if they pass before and after, the behaviour has not changed. Leave new features for later, because mixing them in makes a mistake hard to find.",
+    "detail": "Work in small steps, and run the program after each one, comparing its output with what it printed before.\n\nTests are a safety net: if they pass before and after, the behaviour has not changed. Leave new features for later, because mixing them in makes a mistake hard to find.",
     "example": "# Before: the same rule written three times\n# print(4 * 3 + 2)\n# print(7 * 3 + 2)\n# print(9 * 3 + 2)\n\n# After: one function, used three times\ndef stamps(pages):\n    return pages * 3 + 2\n\nfor pages in [4, 7, 9]:\n    print(stamps(pages))",
     "exampleOutput": "14\n23\n29",
     "exampleNote": "The commented lines show the program before: one rule, written three times. After, the rule lives in stamps(), and the output is exactly the same.",
@@ -4676,7 +4676,7 @@
     "why": "The rule is written once, inside stamps(). That is the point of the refactor.",
     "guided": "Predict, then run: change the 3 to 4. Then add assert stamps(1) == 5 above the loop, so the rule is tested, and run it again.",
     "starter": "# Works, but repeats itself. Tidy it without changing what it prints.\norders = int(input(\"How many orders? \"))\ntotal = 0\nfor n in range(orders):\n    item = input(\"Item? \")\n    amount = int(input(\"Amount? \"))\n    if item == \"bread\":\n        print(item, amount * 3)\n        total = total + amount * 3\n    elif item == \"milk\":\n        print(item, amount * 2)\n        total = total + amount * 2\n    elif item == \"apple\":\n        print(item, amount * 1)\n        total = total + amount * 1\n    else:\n        print(item, 0)\nprint(\"total\", total)\n",
-    "challenge": "The till in your editor works, but each price is written three times. Tidy it: keep the prices in one dictionary, write a function cost(item, amount) that returns the cost of one order (0 for anything the shop does not sell), and use cost() in the loop. Your program must print exactly what it prints now. The check runs it with orders, and calls cost() on its own.",
+    "challenge": "The till in your editor works, but each price is written three times. Tidy it:\n\n1. Keep the prices in one dictionary.\n2. Write a function cost(item, amount) that returns the cost of one order (0 for anything the shop does not sell).\n3. Use cost() in the loop.\n\nYour program must print exactly what it prints now. The check runs it with orders, and calls cost() on its own.",
     "hints": [
      "Start with the prices: one dictionary from each item to its price. Run the program: nothing should change yet.",
      "cost() looks the item up with get() and a default of 0, and multiplies by the amount. Then the loop calls cost() once per order, prints, and adds to the total.",
@@ -4763,7 +4763,7 @@
     "description": "Read the scores the game saved, line by line, and write a summary file of your own.",
     "learnTitle": "Read and write a file",
     "learn": "with open(\"notes.txt\") as f: opens a file and closes it again when the block ends. f.read() gives all its text, and for line in f: goes through it a line at a time, each line still ending in its newline.",
-    "detail": "open(\"log.txt\", \"w\") opens a file for writing and wipes what was there; \"a\" adds to the end instead. f.write(\"text\\n\") writes text, and the newline is yours to add. line.strip() removes the newline and any spaces at each end. Files here are temporary: they exist only while your program runs.",
+    "detail": "open(\"log.txt\", \"w\") opens a file for writing and wipes what was there; \"a\" adds to the end instead. f.write(\"text\\n\") writes text, and the newline is yours to add. line.strip() removes the newline and any spaces at each end.\n\nFiles here are temporary: they exist only while your program runs.",
     "example": "# Read the quest log, then add to it\nwith open(\"quests.txt\") as f:\n    for line in f:\n        print(\"-\", line.strip())\n\nwith open(\"quests.txt\", \"a\") as f:\n    f.write(\"Rest at the inn\\n\")\n\nwith open(\"quests.txt\") as f:\n    print(len(f.readlines()), \"quests now\")",
     "exampleOutput": "- Find the key\n- Cross the river\n- Open the gate\n4 quests now",
     "exampleNote": "strip() takes the newline off each line before printing. \"a\" added a fourth quest at the end, and reading the file again counts it.",
@@ -4777,7 +4777,7 @@
     "why": "\"w\" wipes the file before writing, so only the new quest is left in it.",
     "guided": "Predict, then run: change \"a\" to \"w\". Then print each line without strip(), and look at the gaps that appear.",
     "starter": "# Read scores.txt, then write summary.txt\n",
-    "challenge": "The game saves its scores in scores.txt, one whole number per line, and some lines may be blank or hold only spaces. Read the file and print three lines: how many scores there are, the highest score, and the total. Then write the total, on a line of its own, into a new file called summary.txt, and print what summary.txt holds, read back from the file.",
+    "challenge": "The game saves its scores in scores.txt, one whole number per line, and some lines may be blank or hold only spaces.\n\n1. Read the file and print three lines: how many scores there are, the highest score, and the total.\n2. Write the total, on a line of its own, into a new file called summary.txt.\n3. Print what summary.txt holds, read back from the file.",
     "hints": [
      "Open scores.txt inside a with block, and go through it a line at a time. strip() each line, and skip it if nothing is left.",
      "Keep the scores in a list as whole numbers, then len(), max() and sum() do the rest. Open summary.txt with \"w\", write the total and a newline, then read it back in a second with block.",
@@ -4874,7 +4874,7 @@
     "description": "Load the hero's saved game, add what they found, and save it again, ready for next time.",
     "learnTitle": "Save lists and dictionaries as text",
     "learn": "json.dumps(state) turns a dictionary or a list into text, and json.loads(text) turns that text back. json.dump(state, f) and json.load(f) do the same, straight into and out of a file.",
-    "detail": "JSON holds dictionaries with text keys, lists, text, numbers, True, False and None. A set or a date cannot be saved as it is: turn it into a list or text first. JSON writes True as true and None as null, and every key comes back as text, even one that was a number.",
+    "detail": "JSON holds dictionaries with text keys, lists, text, numbers, True, False and None. A set or a date cannot be saved as it is: turn it into a list or text first.\n\nJSON writes True as true and None as null, and every key comes back as text, even one that was a number.",
     "example": "import json\nstate = {\"hero\": \"Nova\", \"level\": 3, \"pack\": [\"rope\", \"map\"], \"boss_beaten\": False}\ntext = json.dumps(state)\nprint(text)\nloaded = json.loads(text)\nprint(loaded[\"pack\"][1])\nprint(json.dumps({1: \"one\"}))",
     "exampleOutput": "{\"hero\": \"Nova\", \"level\": 3, \"pack\": [\"rope\", \"map\"], \"boss_beaten\": false}\nmap\n{\"1\": \"one\"}",
     "exampleNote": "The text looks almost like Python, but False is written false. Loading it gives a dictionary again, so loaded[\"pack\"][1] is map. The key 1 became the text \"1\".",
@@ -4888,7 +4888,7 @@
     "why": "JSON spells it true, in lowercase, without quotes. json.loads() turns it back into Python's True.",
     "guided": "Predict, then run: add \"seen\": {\"hall\"} to the state and read the error. Then save it as a sorted list instead.",
     "starter": "# Load save.json, update it, and save it again\n",
-    "challenge": "A saved game is in save.json: a dictionary with the hero's name, their gold (a whole number) and a list of items. Load it. Then ask for an item the hero found, and how much gold they found with it. Add the item to the end of the list, unless it is already there, and add the gold. Save the new state back to save.json with json.dump(), then print the file's text, read back from save.json.",
+    "challenge": "A saved game is in save.json: a dictionary with the hero's name, their gold (a whole number) and a list of items.\n\n1. Load it.\n2. Ask for an item the hero found, and how much gold they found with it.\n3. Add the item to the end of the list, unless it is already there, and add the gold.\n4. Save the new state back to save.json with json.dump().\n5. Print the file's text, read back from save.json.",
     "hints": [
      "Load the save with json.load() inside a with block. It gives back a dictionary, so state[\"items\"] is the list and state[\"gold\"] the gold.",
      "Change the dictionary, then open save.json with \"w\" and json.dump() it back. A second with block reads the file's text so you can print it.",
@@ -4982,7 +4982,7 @@
     "description": "Read the tournament's results table, add up each team's points, and find the top player.",
     "learnTitle": "Rows and columns in a text file",
     "learn": "A CSV file holds a table: one row per line, values separated by commas, usually with a header row of column names first. csv.DictReader(f) reads each row as a dictionary keyed by those names.",
-    "detail": "Every value comes back as text, so turn numbers into numbers with int() or float(). A value that contains a comma is written in quotes, \"like, this\", and the csv module handles it for you, which splitting on commas by hand gets wrong. csv.writer(f).writerow([...]) writes a row. Open CSV files with newline=\"\", as the csv module asks.",
+    "detail": "Every value comes back as text, so turn numbers into numbers with int() or float().\n\nA value that contains a comma is written in quotes, \"like, this\", and the csv module handles it for you, which splitting on commas by hand gets wrong. csv.writer(f).writerow([...]) writes a row. Open CSV files with newline=\"\", as the csv module asks.",
     "example": "import csv\nwith open(\"scores.csv\", newline=\"\") as f:\n    for row in csv.DictReader(f):\n        print(row[\"name\"], int(row[\"score\"]) * 2)\nwith open(\"scores.csv\") as f:\n    print(f.readlines()[2].split(\",\"))",
     "exampleOutput": "Nova 80\nKai, the brave 110\n['\"Kai', ' the brave\"', '55\\n']",
     "exampleNote": "DictReader skips the header and reads Kai's name whole, comma and all. Splitting the raw line on commas cuts that name in two, quotes and all.",
@@ -4996,7 +4996,7 @@
     "why": "Every value from a CSV file is text. int() makes it a number, so it can be doubled or added.",
     "guided": "Predict, then run: take int() away from the score and see what * 2 does to text. Then add a third player to the file, with a comma in their name.",
     "starter": "# Read results.csv and total the points for each team\n",
-    "challenge": "The tournament's results are in results.csv, with the columns name, team and points. For each team, in alphabetical order, print the team and its total points with a comma between them and no spaces, like Owls,25. On the last line, print the name of the player with the most points; if players tie, the one who comes first in the file.",
+    "challenge": "The tournament's results are in results.csv, with the columns name, team and points.\n\n1. For each team, in alphabetical order, print the team and its total points with a comma between them and no spaces, like Owls,25.\n2. On the last line, print the name of the player with the most points; if players tie, the one who comes first in the file.",
     "hints": [
      "csv.DictReader gives each row as a dictionary, so row[\"team\"] and row[\"points\"] are there by name. The points are text until int().",
      "Add up the points for each team in a dictionary, then go through sorted() of it to print them. For the top player, remember the most points so far, and only replace it when a row has more.",
@@ -5099,7 +5099,7 @@
     "description": "Load the game's settings even when the file is missing or damaged, and say what was skipped.",
     "learnTitle": "Expect the file to be wrong",
     "learn": "Real files go missing and get damaged. Opening a file that does not exist raises a FileNotFoundError, and a line that int() cannot read raises a ValueError. Catch each one where it happens, and decide what the program should do instead.",
-    "detail": "A missing save might mean \"start a new game\" with default values. A bad line might be skipped and counted, so the player can be told. Do not hide every problem with one bare except: name the errors you expect, so a real bug still shows.",
+    "detail": "A missing save might mean \"start a new game\" with default values. A bad line might be skipped and counted, so the player can be told.\n\nDo not hide every problem with one bare except: name the errors you expect, so a real bug still shows.",
     "example": "def load_numbers(name):\n    numbers = []\n    skipped = 0\n    try:\n        with open(name) as f:\n            for line in f:\n                try:\n                    numbers.append(int(line))\n                except ValueError:\n                    skipped = skipped + 1\n    except FileNotFoundError:\n        print(\"no\", name, \"yet\")\n    return numbers, skipped\n\nprint(load_numbers(\"stats.txt\"))\nprint(load_numbers(\"other.txt\"))",
     "exampleOutput": "([12, 30], 1)\nno other.txt yet\n([], 0)",
     "exampleNote": "seven cannot be read as a number, so it is skipped and counted. other.txt does not exist, so the outer except prints a message, and the function still returns an empty list.",
@@ -5113,7 +5113,7 @@
     "why": "An empty line is just \"\\n\", which int() cannot read, so it is caught and counted as skipped.",
     "guided": "Predict, then run: make the second call load \"stats.txt\" too, and compare the two lines. Then change load_numbers() so it skips blank lines without counting them.",
     "starter": "# Read settings.txt, coping with a missing file and bad lines\n",
-    "challenge": "The game's settings are in settings.txt, one per line, written like lives=3. Start from these defaults: lives 3, speed 5, level 1. Each line with a name, an = and a whole number sets that setting, ignoring spaces around the name and the number. If settings.txt does not exist, print new game first and use the defaults. Blank lines are ignored. Any other line without an =, or whose value is not a whole number, is skipped. Print the three settings in the order lives, speed, level, written like lives=3, then skipped and the number of lines skipped, like skipped 1.",
+    "challenge": "The game's settings are in settings.txt, one per line, written like lives=3. Start from these defaults: lives 3, speed 5, level 1.\n\n1. If settings.txt does not exist, print new game first and use the defaults.\n2. Each line with a name, an = and a whole number sets that setting, ignoring spaces around the name and the number.\n3. Blank lines are ignored.\n4. Any other line without an =, or whose value is not a whole number, is skipped.\n5. Print the three settings in the order lives, speed, level, written like lives=3.\n6. Print skipped and the number of lines skipped, like skipped 1.",
     "hints": [
      "Start from a dictionary of the defaults. Each good line replaces one of them, so a missing setting keeps its default.",
      "Put the open() inside try, with except FileNotFoundError: for the new game. Split each line once at the =, strip the name, and try int() on the value, counting the lines that fail.",
@@ -5212,7 +5212,7 @@
     "description": "Check the riddle keeper's answers fairly, whatever capitals and spaces the player types, and tidy them for display.",
     "learnTitle": "Tools that come with every piece of text",
     "learn": "Text has methods of its own: \" Nova \".strip() is \"Nova\", \"nova\".upper() is \"NOVA\", and \"a,b\".split(\",\") is [\"a\", \"b\"]. A method never changes the text itself, because text cannot be changed: store what it gives back.",
-    "detail": "\"a b\".replace(\" \", \"\") is \"ab\": replace() swaps every copy of one piece of text for another. \"nOVA\".capitalize() is \"Nova\", a capital first letter and the rest lowercase; title() does that to every word. split() with nothing in the brackets splits on any run of spaces, and \" \".join(words) joins a list of words back with single spaces. f\"{price:.2f}\" shows a number with two decimal places.",
+    "detail": "\"a b\".replace(\" \", \"\") is \"ab\": replace() swaps every copy of one piece of text for another.\n\n\"nOVA\".capitalize() is \"Nova\", a capital first letter and the rest lowercase; title() does that to every word.\n\nsplit() with nothing in the brackets splits on any run of spaces, and \" \".join(words) joins a list of words back with single spaces. f\"{price:.2f}\" shows a number with two decimal places.",
     "example": "answer = \"  The Moon \"\nclean = answer.strip().lower()\nprint(clean)\nprint(clean == \"the moon\")\nprint(\"map,rope,lamp\".split(\",\"))\nprint(\" + \".join([\"rope\", \"map\"]))\nprint(f\"{clean.title()} costs {2.5:.2f} coins\")",
     "exampleOutput": "the moon\nTrue\n['map', 'rope', 'lamp']\nrope + map\nThe Moon costs 2.50 coins",
     "exampleNote": "strip() and lower() tidy the reply before comparing it. split() makes a list, join() makes text again, and :.2f in the f-string writes 2.5 as 2.50.",
@@ -5226,7 +5226,7 @@
     "why": "upper() gives back a new piece of text, which nothing stored. name still holds \"nova\".",
     "guided": "Predict, then run: try \" \".join(clean.split()) on \"  lots   of   space \". Then change :.2f to :.1f.",
     "starter": "# Read the right answer and the reply, then compare and tidy\n",
-    "challenge": "Ask for the right answer to a riddle, then the player's answer. They match if they are the same once capital letters and every space are ignored. Print correct or wrong. Then print the player's answer tidied: no spaces at either end, single spaces between words, and each word starting with a capital letter with the rest in lowercase.",
+    "challenge": "Ask for the right answer to a riddle, then the player's answer.\n\n1. They match if they are the same once capital letters and every space are ignored. Print correct or wrong.\n2. Print the player's answer tidied: no spaces at either end, single spaces between words, and each word starting with a capital letter with the rest in lowercase.",
     "hints": [
      "To compare fairly, make both answers lowercase and take every space out with replace(), then use ==.",
      "For the tidy version, split() the reply into words, which also drops extra spaces, capitalise each word, and join them back with single spaces.",
@@ -5310,8 +5310,8 @@
     "badge": "Pattern spotter",
     "description": "Recognise ticket codes in the messages that come in, whether a whole message is one or it hides inside other text.",
     "learnTitle": "Describe the shape of text",
-    "learn": "import re, then re.search(r\"\\d+\", text) finds the first run of digits in text, or gives None if there is none. A pattern describes a shape: \\d is a digit, \\w a letter, digit or _, \\s a space, [A-Z] a capital letter, and . any character.",
-    "detail": "+ means one or more, * zero or more, ? zero or one, and {3} exactly three. re.fullmatch() checks that the whole text has the shape, re.search() looks for it anywhere, and re.match() only at the start. Write patterns as r\"...\" so Python leaves the backslashes for re. .group() gives the text that matched.",
+    "learn": "import re, then re.search(r\"\\d+\", text) finds the first run of digits in text, or gives None if there is none.\n\nA pattern describes a shape: \\d is a digit, \\w a letter, digit or _, \\s a space, [A-Z] a capital letter, and . any character.",
+    "detail": "+ means one or more, * zero or more, ? zero or one, and {3} exactly three. re.fullmatch() checks that the whole text has the shape, re.search() looks for it anywhere, and re.match() only at the start.\n\nWrite patterns as r\"...\" so Python leaves the backslashes for re. .group() gives the text that matched.",
     "example": "import re\nnote = \"Gate 12 opens at 7 for room B42\"\nprint(re.search(r\"\\d+\", note).group())\nprint(re.findall(r\"\\d+\", note))\nprint(re.fullmatch(r\"[A-Z]\\d+\", \"B42\") is not None)\nprint(re.search(r\"x\", note))",
     "exampleOutput": "12\n['12', '7', '42']\nTrue\nNone",
     "exampleNote": "\\d+ takes as many digits as it can, so it finds 12, not 1. findall() gives every match. fullmatch() says B42 is a capital letter and digits, and a search that finds nothing gives None.",
@@ -5325,7 +5325,7 @@
     "why": "+ means one or more, and it takes as many as it can: all three digits.",
     "guided": "Predict, then run: try re.fullmatch on \"B42!\" and on \"b42\". Then change the pattern to [A-Za-z] and try \"b42\" again.",
     "starter": "# Import re, then check each line\n",
-    "challenge": "A ticket code is two capital letters, a dash, and three digits, like AB-123. Ask how many lines of text there are, then read each line. For each line, print yes if the whole line is a ticket code, or no if not. On the last line, print how many of the lines had a ticket code somewhere in them, even with other text around it.",
+    "challenge": "A ticket code is two capital letters, a dash, and three digits, like AB-123.\n\n1. Ask how many lines of text there are, then read each line.\n2. For each line, print yes if the whole line is a ticket code, or no if not.\n3. On the last line, print how many of the lines had a ticket code somewhere in them, even with other text around it.",
     "hints": [
      "The shape of a code is [A-Z]{2}, a dash, then \\d{3}. fullmatch() asks whether the whole line is that shape.",
      "search() looks for the shape anywhere in the line, which is what the count needs. match() is not enough for either job: it only looks at the start.",
@@ -5424,7 +5424,7 @@
     "why": "The second pair of brackets caught mail. group(1) would be ada, and group(0) the whole match.",
     "guided": "Predict, then run: print m.group(1). Then change the sub() so that only the last digit is hidden, using $ at the end of the pattern.",
     "starter": "# Import re, read the log, then pull out the speakers\n",
-    "challenge": "A message log has lines like 12:05 Nova: hello there. Ask how many lines there are, then read them all. A message line starts with a time, written as two digits, a colon and two digits, then a space, a one-word name, a colon and a space. For each message line, in order, print the name, at, and the time, like Nova at 12:05. Then print every line of the log again, in order, with every time in it, written as two digits, a colon and two digits, replaced by ??:??.",
+    "challenge": "A message log has lines like 12:05 Nova: hello there. A message line starts with a time, written as two digits, a colon and two digits, then a space, a one-word name, a colon and a space.\n\n1. Ask how many lines there are, then read them all.\n2. For each message line, in order, print the name, at, and the time, like Nova at 12:05.\n3. Print every line of the log again, in order, with every time in it, written as two digits, a colon and two digits, replaced by ??:??.",
     "hints": [
      "Read all the lines into a list first, because the log is printed twice. The time pattern is \\d\\d:\\d\\d.",
      "Put brackets round the time and round the name, and use re.match() so the shape must be at the start. group(1) and group(2) are then the time and the name. re.sub() hides the times for the second part.",
@@ -5509,7 +5509,7 @@
     "description": "Check usernames and times on the sign-up form: the right shape first, then values that make sense.",
     "learnTitle": "Check the shape, not the truth",
     "learn": "re.fullmatch() checks that a whole reply has the right shape: r\"\\d{4}-\\d{2}-\\d{2}\" for a date like 2026-03-01. But the right shape is not the same as a real value: 2026-13-45 has the shape, and is no date at all.",
-    "detail": "So check the shape with a pattern, then check the meaning with code: turn the parts into numbers and test their ranges, or let a library such as datetime decide. Real email addresses are too varied for a short pattern. One @ with text on both sides is a fair first check, and the only real test is sending a message.",
+    "detail": "So check the shape with a pattern, then check the meaning with code: turn the parts into numbers and test their ranges, or let a library such as datetime decide.\n\nReal email addresses are too varied for a short pattern. One @ with text on both sides is a fair first check, and the only real test is sending a message.",
     "example": "import re\nfrom datetime import date\n\ndef is_date(text):\n    m = re.fullmatch(r\"(\\d{4})-(\\d{2})-(\\d{2})\", text)\n    if not m:\n        return False\n    try:\n        date(int(m.group(1)), int(m.group(2)), int(m.group(3)))\n    except ValueError:\n        return False\n    return True\n\nfor text in [\"2026-03-01\", \"2026-13-45\", \"26-3-1\"]:\n    print(text, is_date(text))",
     "exampleOutput": "2026-03-01 True\n2026-13-45 False\n26-3-1 False",
     "exampleNote": "2026-13-45 has the right shape, so the pattern lets it through, but date() refuses month 13. 26-3-1 does not even have the shape.",
@@ -5523,7 +5523,7 @@
     "why": "A pattern only sees digits and dashes. Knowing February has no 30th takes code that understands dates.",
     "guided": "Predict, then run: add \"2028-02-29\" and \"2026-02-29\" to the list. Then make is_date() also refuse dates before the year 2000.",
     "starter": "# Import re, then define valid_username(name) and valid_time(text)\n",
-    "challenge": "Write valid_username(name), which returns True when the name is 3 to 12 characters long, starts with a letter, and holds only letters, digits and underscores, and False otherwise. Then write valid_time(text), which returns True for a 24-hour time written as two digits, a colon and two digits, with hours from 00 to 23 and minutes from 00 to 59, and False otherwise. Do not ask for input: the check calls your functions.",
+    "challenge": "Write two functions that check text.\n\n1. valid_username(name) returns True when the name is 3 to 12 characters long, starts with a letter, and holds only letters, digits and underscores, and False otherwise.\n2. valid_time(text) returns True for a 24-hour time written as two digits, a colon and two digits, with hours from 00 to 23 and minutes from 00 to 59, and False otherwise.\n\nDo not ask for input: the check calls your functions.",
     "hints": [
      "For a username, [A-Za-z] is one letter and \\w is a letter, digit or underscore. {2,11} means from 2 to 11 of what comes before it.",
      "For a time, fullmatch() with two groups checks the shape. Then turn each group into a number and check its range, and return the answer as True or False.",
@@ -5636,7 +5636,7 @@
     "why": "Without self., health is only a local name inside __init__. The object never gets a health attribute, so asking for one is an AttributeError.",
     "guided": "Predict, then run: take self. off the health line and read the error. Then give Hero a third attribute, level, that always starts at 1.",
     "starter": "# Define class Hero, then build the party\n",
-    "challenge": "Ask how many heroes are in the party (always at least 1), then each hero's name and health, as a whole number. Make a Hero object for each, with a name, a health, and a level that always starts at 1, and keep them in a list. Print one line per hero, in order, like Nova: 10 health, level 1. On the last line, print the name of the hero with the most health; if heroes tie, the first of them.",
+    "challenge": "Make a Hero object for each hero in the party.\n\n1. Ask how many heroes are in the party (always at least 1), then each hero's name and health, as a whole number.\n2. Make a Hero for each, with a name, a health, and a level that always starts at 1, and keep them in a list.\n3. Print one line per hero, in order, like Nova: 10 health, level 1.\n4. On the last line, print the name of the hero with the most health; if heroes tie, the first of them.",
     "hints": [
      "__init__ takes self, the name and the health, and stores each on self. The level isn't a parameter at all: it is always 1.",
      "Make each hero with Hero(name, health) and append it to a list. Then loop over the list for the lines, and keep the healthiest hero so far, replacing it only when one has more.",
@@ -5721,7 +5721,7 @@
     "description": "Give the hero actions of their own, and keep the rules for health and potions inside the class.",
     "learnTitle": "Give objects things they can do",
     "learn": "A method is a function inside a class. def heal(self, amount): with self.health = self.health + amount inside changes that hero's own health. nova.heal(3) calls it, and Python passes nova in as self.",
-    "detail": "Methods keep the rules in one place: take_hit() can make sure health never goes below 0, wherever a hit comes from. Each object keeps its own state, so healing Nova leaves Kai alone. A method can also answer a question by returning a value, like is_alive().",
+    "detail": "Methods keep the rules in one place: take_hit() can make sure health never goes below 0, wherever a hit comes from.\n\nEach object keeps its own state, so healing Nova leaves Kai alone. A method can also answer a question by returning a value, like is_alive().",
     "example": "class Hero:\n    def __init__(self, name):\n        self.name = name\n        self.health = 10\n\n    def take_hit(self, damage):\n        self.health = max(0, self.health - damage)\n\n    def is_alive(self):\n        return self.health > 0\n\nnova = Hero(\"Nova\")\nkai = Hero(\"Kai\")\nnova.take_hit(4)\nkai.take_hit(15)\nprint(nova.health, nova.is_alive())\nprint(kai.health, kai.is_alive())",
     "exampleOutput": "6 True\n0 False",
     "exampleNote": "Both heroes run the same take_hit(), but each changes only its own health. Kai's 15 damage stops at 0, because the rule lives in the method.",
@@ -5735,7 +5735,7 @@
     "why": "Nova and Kai are separate objects with their own health. Hitting Nova changes nothing about Kai.",
     "guided": "Predict, then run: add a heal(amount) method that never goes above 10, and heal Nova by 7. Then check kai.is_alive() after healing Nova.",
     "starter": "# Define class Hero with hit(), drink() and status()\n",
-    "challenge": "Write a class Hero with a name, health that starts at 10, and potions that start at 2, and three methods. hit(damage) takes the damage off the health, never below 0. drink() uses a potion, if there is one left, to add 5 health, never above 10; with no potions it does nothing. status() returns text like Nova 10/10 potions: 2. Then ask for the hero's name and read commands until the command end: hit, followed by the damage on the next line, or drink. After each command, print the hero's status.",
+    "challenge": "Write a class Hero with a name, health that starts at 10, and potions that start at 2, and three methods:\n\n- hit(damage) takes the damage off the health, never below 0.\n- drink() uses a potion, if there is one left, to add 5 health, never above 10; with no potions it does nothing.\n- status() returns text like Nova 10/10 potions: 2.\n\nThen ask for the hero's name and read commands until the command end: hit, followed by the damage on the next line, or drink. After each command, print the hero's status.",
     "hints": [
      "Each method changes or reads only self's attributes. min(a, b) gives the smaller of two numbers and max(a, b) the bigger, so min(health, 10) is never more than 10 and max(health, 0) never less than 0.",
      "status() returns the text instead of printing it, and the loop prints it. The loop reads a command, acts on it, prints, and reads the next one, until end.",
@@ -5840,7 +5840,7 @@
     "why": "A value in the class body is made once, for the whole class, so every hero would point at that one pack.",
     "guided": "Predict, then run: make a second hero, add an item to their pack, and check that Nova's pack is unchanged. Then give Pack a method count() that returns how many items it holds.",
     "starter": "# Define Item, Pack and Hero, then pack the hero's bag\n",
-    "challenge": "Write three classes. Item has a name and a weight. Pack has a weight limit, a list of items, a method weight() that returns the total weight of its items, and a method add(item) that adds the item and returns True only if the total stays within the limit, and otherwise returns False and changes nothing. Hero has a name and a pack whose limit is the hero's strength. Ask for the hero's name and strength, then how many items there are, then each item's name and weight, all weights being whole numbers. Try to add each item to the hero's pack, and print its name and added, or its name and too heavy. Then print the hero's name, carries, and the pack's weight, like Nova carries 5, and on the last line the names of the items in the pack, joined with a comma and a space, or nothing if it is empty.",
+    "challenge": "Write three classes, then pack the hero's bag.\n\n1. Item has a name and a weight.\n2. Pack has a weight limit, a list of items, and a method weight() that returns the total weight of its items.\n3. Pack's method add(item) adds the item and returns True only if the total stays within the limit, and otherwise returns False and changes nothing.\n4. Hero has a name and a pack whose limit is the hero's strength.\n5. Ask for the hero's name and strength, then how many items there are, then each item's name and weight, all weights being whole numbers.\n6. Try to add each item to the hero's pack, and print its name and added, or its name and too heavy.\n7. Print the hero's name, carries, and the pack's weight, like Nova carries 5.\n8. On the last line, print the names of the items in the pack, joined with a comma and a space, or nothing if it is empty.",
     "hints": [
      "Write Item first, then Pack, then Hero, and test each alone. Hero's __init__ makes a Pack with the strength as its limit.",
      "add() works out what the weight would be with the new item, before adding it. The program never checks weights itself: it asks the hero's pack.",
@@ -5925,7 +5925,7 @@
     "description": "Classes are a tool, not a rule. Learn to tell when a dictionary or a plain function does the job more simply.",
     "learnTitle": "Choose the simplest shape that fits",
     "learn": "A class earns its place when its data and its actions belong together, and several objects of that kind exist and change. When there is only data, a dictionary is enough. When there is only an action, a plain function is enough.",
-    "detail": "Ask three questions. Does it hold data that changes? Are there several of them at once? Do actions belong to that data? If the answers are no, a dictionary or a function is easier to read and to test. Start simple: you can turn a dictionary into a class later, when it needs one.",
+    "detail": "Ask three questions. Does it hold data that changes? Are there several of them at once? Do actions belong to that data?\n\nIf the answers are no, a dictionary or a function is easier to read and to test. Start simple: you can turn a dictionary into a class later, when it needs one.",
     "example": "# The same hero, twice: as a class, and as a dictionary\nclass Hero:\n    def __init__(self, name, health):\n        self.name = name\n        self.health = health\n\nnova = Hero(\"Nova\", 10)\nkai = {\"name\": \"Kai\", \"health\": 9}\n\ndef heal(health, amount):\n    return min(health + amount, 10)\n\nprint(nova.name, nova.health)\nprint(kai[\"name\"], kai[\"health\"])\nprint(heal(kai[\"health\"], 3))",
     "exampleOutput": "Nova 10\nKai 9\n10",
     "exampleNote": "Both heroes hold the same two facts, but the class adds nothing yet: it has no methods. A dictionary says the same thing with less code. heal() is a plain function: a number goes in and a number comes out, so it can be tested on its own. min() keeps the health from going over 10.",
@@ -5939,7 +5939,7 @@
     "why": "One record, no actions, no copies: a dictionary holds it with no extra code. A class would add a shape with nothing to do.",
     "guided": "Predict, then run: give Hero a method heal(self, amount) that adds to self.health, and call nova.heal(3). Then compare it with the heal() function: which reads more clearly to you, and why?",
     "starter": "",
-    "challenge": "Look back at programs you wrote in units 10 and 11, or at the example. For each part below, say which shape you would use, a class, a dictionary or a function, and why, with details from a real program. There is no single right answer: what counts is your reason. This is reviewed by you, and recorded as your own review.",
+    "challenge": "Look back at programs you wrote in units 10 and 11, or at the example. For each part below, say which shape you would use, a class, a dictionary or a function, and why, with details from a real program.\n\nThere is no single right answer: what counts is your reason. This is reviewed by you, and recorded as your own review.",
     "hints": [
      "Look for data that never changes and has no actions: a settings record, one line read from a file, a single score. Those are dictionary-sized.",
      "A class earns its place when several objects exist at once and each changes over time, like heroes that take hits and drink potions.",
@@ -5987,8 +5987,8 @@
     "badge": "Project planner",
     "description": "Pick your final project, from a word game to a full app, and plan it: who it is for, what it must do, and what waits.",
     "learnTitle": "Plan it before you build it",
-    "learn": "Your final project is a program you plan and build yourself. There are three, from smaller to larger: Lockpick, a word-guessing game; Site Builder, which turns a data file into a small website; and Planner, a to-do app that keeps your plan. Pick the one that stretches you without stopping you.",
-    "detail": "A brief says what you will build before you build it: who it is for, what it must do, and what it will not do yet. The not-yet list matters most, because it keeps the project small enough to finish. Milestones split the work into pieces you can run and show.",
+    "learn": "Your final project is a program you plan and build yourself.\n\nThere are three, from smaller to larger: Lockpick, a word-guessing game; Site Builder, which turns a data file into a small website; and Planner, a to-do app that keeps your plan. Pick the one that stretches you without stopping you.",
+    "detail": "A brief says what you will build before you build it: who it is for, what it must do, and what it will not do yet.\n\nThe not-yet list matters most, because it keeps the project small enough to finish. Milestones split the work into pieces you can run and show.",
     "example": "# A brief, kept as Python data\nbrief = {\n    \"project\": \"Lockpick\",\n    \"for\": \"my brother, who likes word games\",\n    \"must\": [\n        \"guess one letter at a time\",\n        \"six misses and the lock jams\",\n        \"play again\",\n    ],\n    \"not yet\": [\"hints\", \"two players\"],\n}\nprint(brief[\"project\"], \"for\", brief[\"for\"])\nfor feature in brief[\"must\"]:\n    print(\"-\", feature)\nprint(\"Not yet:\", \", \".join(brief[\"not yet\"]))",
     "exampleOutput": "Lockpick for my brother, who likes word games\n- guess one letter at a time\n- six misses and the lock jams\n- play again\nNot yet: hints, two players",
     "exampleNote": "The brief is a dictionary, with one key for each part of the plan. The not-yet list is printed last, so it is clear what the first version leaves out.",
@@ -6002,7 +6002,7 @@
     "why": "The other two are what make it Lockpick at all. A hint is an extra: good to have, but the game works without it.",
     "guided": "Predict, then run: add a third item to \"not yet\", and change \"for\" to someone you might show your project to. Then add a \"milestones\" list with three steps, and print each one on its own line.",
     "starter": "",
-    "challenge": "Choose one project and write its brief. Lockpick: a word game where six wrong letters jam the lock (one file, 6 to 8 hours, a good first big program). Site Builder: turns a data file into a small website (10 to 15 hours, after unit 10). Planner: a to-do app that remembers your plan (several files, 20 to 30 hours, after every unit). Signed in, your recorded brief comes back here each time you open this lesson.",
+    "challenge": "Choose one project and write its brief.\n\n- Lockpick: a word game where six wrong letters jam the lock (one file, 6 to 8 hours, a good first big program).\n- Site Builder: turns a data file into a small website (10 to 15 hours, after unit 10).\n- Planner: a to-do app that remembers your plan (several files, 20 to 30 hours, after every unit).\n\nSigned in, your recorded brief comes back here each time you open this lesson.",
     "hints": [
      "Choose by what you finished, not by what sounds biggest: a small project that works beats a large one that does not.",
      "A milestone is something you can run and show, like \"the word shows as underscores\" or \"one page is written\". \"Finish the code\" is not a milestone.",
@@ -6059,7 +6059,7 @@
   "py.lists": {
    "lesson_id": "py.lists",
    "task_id": "py.lists.challenge",
-   "version": 1,
+   "version": 2,
    "time_limit_ms": 3000,
    "output_limit": 10000,
    "cases": [
@@ -6131,7 +6131,7 @@
   "py.indexing": {
    "lesson_id": "py.indexing",
    "task_id": "py.indexing.challenge",
-   "version": 1,
+   "version": 2,
    "time_limit_ms": 3000,
    "output_limit": 10000,
    "cases": [
@@ -6203,7 +6203,7 @@
   "py.iterate-lists": {
    "lesson_id": "py.iterate-lists",
    "task_id": "py.iterate-lists.challenge",
-   "version": 1,
+   "version": 2,
    "time_limit_ms": 3000,
    "output_limit": 10000,
    "cases": [
@@ -6275,7 +6275,7 @@
   "py.dicts": {
    "lesson_id": "py.dicts",
    "task_id": "py.dicts.challenge",
-   "version": 1,
+   "version": 2,
    "time_limit_ms": 3000,
    "output_limit": 10000,
    "cases": [
@@ -6352,7 +6352,7 @@
   "py.sets": {
    "lesson_id": "py.sets",
    "task_id": "py.sets.challenge",
-   "version": 1,
+   "version": 2,
    "time_limit_ms": 3000,
    "output_limit": 10000,
    "cases": [
@@ -6430,7 +6430,7 @@
   "py.functions": {
    "lesson_id": "py.functions",
    "task_id": "py.functions.challenge",
-   "version": 1,
+   "version": 2,
    "time_limit_ms": 3000,
    "output_limit": 10000,
    "cases": [
@@ -6469,7 +6469,7 @@
   "py.parameters": {
    "lesson_id": "py.parameters",
    "task_id": "py.parameters.challenge",
-   "version": 1,
+   "version": 2,
    "time_limit_ms": 3000,
    "output_limit": 10000,
    "cases": [
@@ -6555,7 +6555,7 @@
   "py.return-values": {
    "lesson_id": "py.return-values",
    "task_id": "py.return-values.challenge",
-   "version": 1,
+   "version": 2,
    "time_limit_ms": 3000,
    "output_limit": 10000,
    "cases": [
@@ -6649,7 +6649,7 @@
   "py.scope": {
    "lesson_id": "py.scope",
    "task_id": "py.scope.challenge",
-   "version": 1,
+   "version": 2,
    "time_limit_ms": 3000,
    "output_limit": 10000,
    "cases": [
@@ -6746,7 +6746,7 @@
   "py.decompose": {
    "lesson_id": "py.decompose",
    "task_id": "py.decompose.challenge",
-   "version": 1,
+   "version": 2,
    "time_limit_ms": 3000,
    "output_limit": 10000,
    "cases": [
@@ -6866,7 +6866,7 @@
   "py.tracebacks": {
    "lesson_id": "py.tracebacks",
    "task_id": "py.tracebacks.challenge",
-   "version": 1,
+   "version": 2,
    "time_limit_ms": 3000,
    "output_limit": 10000,
    "cases": [
@@ -6932,7 +6932,7 @@
   "py.debug-strategy": {
    "lesson_id": "py.debug-strategy",
    "task_id": "py.debug-strategy.challenge",
-   "version": 1,
+   "version": 2,
    "time_limit_ms": 3000,
    "output_limit": 10000,
    "cases": [
@@ -7000,7 +7000,7 @@
   "py.try-except": {
    "lesson_id": "py.try-except",
    "task_id": "py.try-except.challenge",
-   "version": 1,
+   "version": 2,
    "time_limit_ms": 3000,
    "output_limit": 10000,
    "cases": [
@@ -7057,7 +7057,7 @@
   "py.raise": {
    "lesson_id": "py.raise",
    "task_id": "py.raise.challenge",
-   "version": 1,
+   "version": 2,
    "time_limit_ms": 3000,
    "output_limit": 10000,
    "cases": [
@@ -7127,7 +7127,7 @@
   "py.validate-input": {
    "lesson_id": "py.validate-input",
    "task_id": "py.validate-input.challenge",
-   "version": 1,
+   "version": 2,
    "time_limit_ms": 3000,
    "output_limit": 10000,
    "cases": [
@@ -7185,7 +7185,7 @@
   "py.import": {
    "lesson_id": "py.import",
    "task_id": "py.import.challenge",
-   "version": 1,
+   "version": 2,
    "time_limit_ms": 3000,
    "output_limit": 10000,
    "cases": [
@@ -7237,7 +7237,7 @@
   "py.random": {
    "lesson_id": "py.random",
    "task_id": "py.random.challenge",
-   "version": 1,
+   "version": 2,
    "time_limit_ms": 3000,
    "output_limit": 10000,
    "cases": [
@@ -7299,7 +7299,7 @@
   "py.math-module": {
    "lesson_id": "py.math-module",
    "task_id": "py.math-module.challenge",
-   "version": 1,
+   "version": 2,
    "time_limit_ms": 3000,
    "output_limit": 10000,
    "cases": [
@@ -7356,7 +7356,7 @@
   "py.datetime": {
    "lesson_id": "py.datetime",
    "task_id": "py.datetime.challenge",
-   "version": 1,
+   "version": 2,
    "time_limit_ms": 3000,
    "output_limit": 10000,
    "cases": [
@@ -7428,7 +7428,7 @@
   "py.own-modules": {
    "lesson_id": "py.own-modules",
    "task_id": "py.own-modules.challenge",
-   "version": 1,
+   "version": 2,
    "time_limit_ms": 3000,
    "output_limit": 10000,
    "cases": [
@@ -7498,7 +7498,7 @@
   "py.assert-tests": {
    "lesson_id": "py.assert-tests",
    "task_id": "py.assert-tests.challenge",
-   "version": 1,
+   "version": 2,
    "time_limit_ms": 3000,
    "output_limit": 10000,
    "cases": [
@@ -7545,7 +7545,7 @@
   "py.test-cases": {
    "lesson_id": "py.test-cases",
    "task_id": "py.test-cases.challenge",
-   "version": 1,
+   "version": 2,
    "time_limit_ms": 3000,
    "output_limit": 10000,
    "cases": [
@@ -7592,7 +7592,7 @@
   "py.boundaries": {
    "lesson_id": "py.boundaries",
    "task_id": "py.boundaries.challenge",
-   "version": 1,
+   "version": 2,
    "time_limit_ms": 3000,
    "output_limit": 10000,
    "cases": [
@@ -7639,7 +7639,7 @@
   "py.type-hints": {
    "lesson_id": "py.type-hints",
    "task_id": "py.type-hints.challenge",
-   "version": 1,
+   "version": 2,
    "time_limit_ms": 3000,
    "output_limit": 10000,
    "cases": [
@@ -7728,7 +7728,7 @@
   "py.refactor": {
    "lesson_id": "py.refactor",
    "task_id": "py.refactor.challenge",
-   "version": 1,
+   "version": 2,
    "time_limit_ms": 3000,
    "output_limit": 10000,
    "cases": [
@@ -7809,7 +7809,7 @@
   "py.text-files": {
    "lesson_id": "py.text-files",
    "task_id": "py.text-files.challenge",
-   "version": 1,
+   "version": 2,
    "time_limit_ms": 3000,
    "output_limit": 10000,
    "cases": [
@@ -7866,7 +7866,7 @@
   "py.json": {
    "lesson_id": "py.json",
    "task_id": "py.json.challenge",
-   "version": 1,
+   "version": 2,
    "time_limit_ms": 3000,
    "output_limit": 10000,
    "cases": [
@@ -7938,7 +7938,7 @@
   "py.csv": {
    "lesson_id": "py.csv",
    "task_id": "py.csv.challenge",
-   "version": 1,
+   "version": 2,
    "time_limit_ms": 3000,
    "output_limit": 10000,
    "cases": [
@@ -7995,7 +7995,7 @@
   "py.missing-data": {
    "lesson_id": "py.missing-data",
    "task_id": "py.missing-data.challenge",
-   "version": 1,
+   "version": 2,
    "time_limit_ms": 3000,
    "output_limit": 10000,
    "cases": [
@@ -8049,7 +8049,7 @@
   "py.string-methods": {
    "lesson_id": "py.string-methods",
    "task_id": "py.string-methods.challenge",
-   "version": 1,
+   "version": 2,
    "time_limit_ms": 3000,
    "output_limit": 10000,
    "cases": [
@@ -8106,7 +8106,7 @@
   "py.regex-basics": {
    "lesson_id": "py.regex-basics",
    "task_id": "py.regex-basics.challenge",
-   "version": 1,
+   "version": 2,
    "time_limit_ms": 3000,
    "output_limit": 10000,
    "cases": [
@@ -8169,7 +8169,7 @@
   "py.regex-groups": {
    "lesson_id": "py.regex-groups",
    "task_id": "py.regex-groups.challenge",
-   "version": 1,
+   "version": 2,
    "time_limit_ms": 3000,
    "output_limit": 10000,
    "cases": [
@@ -8229,7 +8229,7 @@
   "py.validate-formats": {
    "lesson_id": "py.validate-formats",
    "task_id": "py.validate-formats.challenge",
-   "version": 1,
+   "version": 2,
    "time_limit_ms": 3000,
    "output_limit": 10000,
    "cases": [
@@ -8358,7 +8358,7 @@
   "py.classes": {
    "lesson_id": "py.classes",
    "task_id": "py.classes.challenge",
-   "version": 1,
+   "version": 2,
    "time_limit_ms": 3000,
    "output_limit": 10000,
    "cases": [
@@ -8434,7 +8434,7 @@
   "py.methods": {
    "lesson_id": "py.methods",
    "task_id": "py.methods.challenge",
-   "version": 1,
+   "version": 2,
    "time_limit_ms": 3000,
    "output_limit": 10000,
    "cases": [
@@ -8507,7 +8507,7 @@
   "py.composition": {
    "lesson_id": "py.composition",
    "task_id": "py.composition.challenge",
-   "version": 1,
+   "version": 2,
    "time_limit_ms": 3000,
    "output_limit": 10000,
    "cases": [

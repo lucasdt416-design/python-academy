@@ -18,7 +18,7 @@
       "type": "discover",
       "title": "Tools that come with every piece of text",
       "body": "Text has methods of its own: \" Nova \".strip() is \"Nova\", \"nova\".upper() is \"NOVA\", and \"a,b\".split(\",\") is [\"a\", \"b\"]. A method never changes the text itself, because text cannot be changed: store what it gives back.",
-      "detail": "\"a b\".replace(\" \", \"\") is \"ab\": replace() swaps every copy of one piece of text for another. \"nOVA\".capitalize() is \"Nova\", a capital first letter and the rest lowercase; title() does that to every word. split() with nothing in the brackets splits on any run of spaces, and \" \".join(words) joins a list of words back with single spaces. f\"{price:.2f}\" shows a number with two decimal places."
+      "detail": "\"a b\".replace(\" \", \"\") is \"ab\": replace() swaps every copy of one piece of text for another.\n\n\"nOVA\".capitalize() is \"Nova\", a capital first letter and the rest lowercase; title() does that to every word.\n\nsplit() with nothing in the brackets splits on any run of spaces, and \" \".join(words) joins a list of words back with single spaces. f\"{price:.2f}\" shows a number with two decimal places."
     },
     {
       "id": "py.string-methods.example",
@@ -48,7 +48,7 @@
     {
       "id": "py.string-methods.challenge",
       "type": "challenge",
-      "prompt": "Ask for the right answer to a riddle, then the player's answer. They match if they are the same once capital letters and every space are ignored. Print correct or wrong. Then print the player's answer tidied: no spaces at either end, single spaces between words, and each word starting with a capital letter with the rest in lowercase.",
+      "prompt": "Ask for the right answer to a riddle, then the player's answer.\n\n1. They match if they are the same once capital letters and every space are ignored. Print correct or wrong.\n2. Print the player's answer tidied: no spaces at either end, single spaces between words, and each word starting with a capital letter with the rest in lowercase.",
       "starter": "# Read the right answer and the reply, then compare and tidy\n",
       "hints": [
         "To compare fairly, make both answers lowercase and take every space out with replace(), then use ==.",
@@ -176,7 +176,7 @@
         "id": "browser-tests",
         "version": 1
       },
-      "version": 1
+      "version": 2
     }
   ]
 }

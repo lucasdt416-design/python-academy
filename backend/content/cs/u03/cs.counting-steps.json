@@ -17,7 +17,7 @@
       "id": "cs.counting-steps.discover",
       "type": "discover",
       "title": "Count the steps, not the seconds",
-      "body": "How long a program takes depends on the computer, so computer scientists count steps instead. The question is how the steps grow as the input grows: a linear search of n items needs up to n looks, a binary search only as many as the times n can be halved.",
+      "body": "How long a program takes depends on the computer, so computer scientists count steps instead.\n\nThe question is how the steps grow as the input grows: a linear search of n items needs up to n looks, a binary search only as many as the times n can be halved.",
       "detail": "Halving: 8 items halve to 4, 2, 1, 0, which is four halvings, so a binary search of 8 needs at most 4 looks. Doubling the list adds only one more look. That gap is why sorted data is worth the effort of sorting."
     },
     {
@@ -48,7 +48,7 @@
     {
       "id": "cs.counting-steps.challenge",
       "type": "challenge",
-      "prompt": "Write linear_worst(n), the most looks a linear search needs for a list of n items, and binary_worst(n), the most looks a binary search needs, which is how many times n can be halved with // 2 before it reaches 0 (0 for an empty list). Then write compare(sizes), which takes a list of sizes and returns a list of [size, linear, binary] lists, one per size, in the same order. Do not ask for input: the check calls your functions with its own values.",
+      "prompt": "Write three functions that count the looks a search needs.\n\n1. linear_worst(n) returns the most looks a linear search needs for a list of n items.\n2. binary_worst(n) returns the most looks a binary search needs, which is how many times n can be halved with // 2 before it reaches 0 (0 for an empty list).\n3. compare(sizes) takes a list of sizes and returns a list of [size, linear, binary] lists, one per size, in the same order.\n\nDo not ask for input: the check calls your functions with its own values.",
       "starter": "# Define linear_worst(n), binary_worst(n) and compare(sizes)\n",
       "hints": [
         "The linear worst case is simply every item. For the binary one, count halvings in a loop: n = n // 2, adding one each time, while n is more than 0.",
@@ -222,7 +222,7 @@
         "id": "browser-tests",
         "version": 1
       },
-      "version": 1
+      "version": 2
     }
   ]
 }

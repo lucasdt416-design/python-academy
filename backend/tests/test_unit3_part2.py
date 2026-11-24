@@ -132,7 +132,7 @@ def test_each_lesson_is_a_browser_check_with_visible_and_hidden_cases(lesson_id)
     lesson = LESSONS[lesson_id]
     task = challenge(lesson_id)
     assert (lesson.course, lesson.unit, lesson.version) == ('py', 'py.u03', 1)
-    assert (task.validator.id, task.validator.version, task.version) == ('browser-tests', 1, 1)
+    assert (task.validator.id, task.validator.version, task.version) == ('browser-tests', 1, helpers.challenge_version(lesson_id))
     assert task.check.time_limit_ms == 3000
     visible = [c for c in task.check.cases if c.visibility == 'visible']
     hidden = [c for c in task.check.cases if c.visibility == 'hidden']
@@ -378,7 +378,7 @@ def test_each_lesson_awards_100_xp_and_its_badge_once():
     assert awards['xp'] == 200 and awards['completed'] == PART_2
     assert [b['title'] for b in awards['badges']] == ['Tally keeper', 'Map reader']
     with Session(engine) as db:
-        assert sorted((a.task_id, a.task_version, a.xp) for a in db.scalars(select(XpAward))) == sorted((f'{i}.challenge', 1, 100) for i in PART_2)
+        assert sorted((a.task_id, a.task_version, a.xp) for a in db.scalars(select(XpAward))) == sorted((f'{i}.challenge', helpers.challenge_version(i), 100) for i in PART_2)
         assert db.scalar(select(func.count()).select_from(BadgeAward)) == 2
 
 

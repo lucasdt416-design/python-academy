@@ -306,7 +306,12 @@ button:disabled{opacity:.6;cursor:not-allowed}
 .teaching-panel h3{font-family:var(--sans);font-size:16px;margin:18px 0 6px}
 .teaching-panel .lead{font-size:18px;line-height:1.75;margin-bottom:14px}
 .teaching-panel p{margin:0 0 14px;max-width:40em}
-.teaching-panel p code,.note-callout code{overflow-wrap:anywhere;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+/* Lesson text in paragraphs and steps (prose.tsx): a task reads as a goal, then one step a line. */
+.prose-blocks ol,.prose-blocks ul{margin:0 0 14px;padding-left:1.5em;max-width:40em}
+.prose-blocks li{margin:0 0 8px;padding-left:4px}
+.prose-blocks ol>li::marker{font-weight:700;color:var(--forest)}
+.teaching-panel .lead.prose-blocks{margin-bottom:14px}
+.teaching-panel li code,.teaching-panel p code,.note-callout code{overflow-wrap:anywhere;box-decoration-break:clone;-webkit-box-decoration-break:clone}
 /* See it work: the code and what it printed, beside the picture of the run. */
 .see-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,400px);gap:24px;align-items:start;margin-top:18px}
 .see-scene .scene{margin:0;position:sticky;top:16px}

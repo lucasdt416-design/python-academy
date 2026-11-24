@@ -18,7 +18,7 @@
       "type": "discover",
       "title": "Visit every item in turn",
       "body": "for price in prices: runs its block once for each item in the list, in order, with price holding that item. Nothing needs counting: the loop stops after the last item.",
-      "detail": "Inside the loop you can add up, remember the biggest so far, or keep some items: start an empty list and append only the ones an if lets through. Build a new list rather than adding to or removing from the list you are looping over. sum() and max() do two of these jobs for you, but max() of an empty list is an error."
+      "detail": "Inside the loop you can add up, remember the biggest so far, or keep some items: start an empty list and append only the ones an if lets through.\n\nBuild a new list rather than adding to or removing from the list you are looping over. sum() and max() do two of these jobs for you, but max() of an empty list is an error."
     },
     {
       "id": "py.iterate-lists.example",
@@ -48,7 +48,7 @@
     {
       "id": "py.iterate-lists.challenge",
       "type": "challenge",
-      "prompt": "Treasure hunt: ask how many treasures were found (it can be 0), then ask for the value of each one, as a whole number. Then ask for the hero's limit. Print three lines: the total value, a list of the values that are more than the limit, in the order they were found, and the biggest value, or 0 if nothing was found. Print just those three lines.",
+      "prompt": "Treasure hunt.\n\n1. Ask how many treasures were found (it can be 0), then ask for the value of each one, as a whole number.\n2. Ask for the hero's limit.\n3. Print the total value.\n4. Print a list of the values that are more than the limit, in the order they were found.\n5. Print the biggest value, or 0 if nothing was found.\n\nPrint just those three lines.",
       "starter": "# Read the treasure values, then the limit\n",
       "hints": [
         "Keep the values in a list as you read them, because the limit only comes after them.",
@@ -197,7 +197,7 @@
         "id": "browser-tests",
         "version": 1
       },
-      "version": 1
+      "version": 2
     }
   ]
 }

@@ -17,8 +17,8 @@
       "id": "py.scope.discover",
       "type": "discover",
       "title": "Names inside a function stay inside",
-      "body": "A name given a value inside a function is local: it exists only while that call runs, and a name outside with the same spelling is a different name. A function can read a name from outside, but assigning to it inside makes a new local name.",
-      "detail": "So score = score + 1 inside a function stops with an UnboundLocalError: the function's own score has no value yet. The clean fix is to hand the value in and return the new one: score = add_point(score). A global line would work too, but it makes a function harder to test and reuse."
+      "body": "A name given a value inside a function is local: it exists only while that call runs, and a name outside with the same spelling is a different name.\n\nA function can read a name from outside, but assigning to it inside makes a new local name.",
+      "detail": "So score = score + 1 inside a function stops with an UnboundLocalError: the function's own score has no value yet.\n\nThe clean fix is to hand the value in and return the new one: score = add_point(score). A global line would work too, but it makes a function harder to test and reuse."
     },
     {
       "id": "py.scope.example",
@@ -48,7 +48,7 @@
     {
       "id": "py.scope.challenge",
       "type": "challenge",
-      "prompt": "Write collect(coins, found), which returns the hero's new number of coins after finding some more. Then write spend(coins, price), which returns two values: the coins left and True if there were enough to pay, or the coins unchanged and False if there were not. Neither function may change or depend on a name outside itself: hand the values in and return the answers. Your program should not ask for input: the check calls your functions with its own values.",
+      "prompt": "Write two functions for the hero's coins.\n\n1. collect(coins, found) returns the hero's new number of coins after finding some more.\n2. spend(coins, price) returns two values: the coins left and True if there were enough to pay, or the coins unchanged and False if there were not.\n\nNeither function may change or depend on a name outside itself: hand the values in and return the answers. Your program should not ask for input: the check calls your functions with its own values.",
       "starter": "# Define collect(coins, found) and spend(coins, price)\n",
       "hints": [
         "Everything each function needs arrives as a parameter, and everything it works out leaves by return. No name outside the functions is needed at all.",
@@ -214,7 +214,7 @@
         "id": "browser-tests",
         "version": 1
       },
-      "version": 1
+      "version": 2
     }
   ]
 }

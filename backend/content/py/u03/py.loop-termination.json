@@ -18,7 +18,7 @@
       "type": "discover",
       "title": "Every loop needs a way out",
       "body": "A loop ends only when its condition becomes False. Something inside the loop has to move it there: a counter that goes up or down, or a new reply. If nothing changes, the loop runs forever.",
-      "detail": "A counter often decides how many times a loop runs. Starting it at 0 or at 1, and choosing < or <=, changes the count by one. To stop for either of two reasons, join the conditions with and: keep going while the guess is wrong and tries are left. Here, a program that never ends is stopped for you after a few seconds."
+      "detail": "A counter often decides how many times a loop runs. Starting it at 0 or at 1, and choosing < or <=, changes the count by one.\n\nTo stop for either of two reasons, join the conditions with and: keep going while the guess is wrong and tries are left. Here, a program that never ends is stopped for you after a few seconds."
     },
     {
       "id": "py.loop-termination.example",
@@ -43,12 +43,12 @@
     {
       "id": "py.loop-termination.guided",
       "type": "guided",
-      "prompt": "Predict, then run: change count = 3 to count = 5. Next, delete the line count = count - 1 and run it; the academy stops the program and explains why. Put the line back with Reset code. Last, change > to >= and count how many numbers print."
+      "prompt": "1. Predict, then run: change count = 3 to count = 5.\n2. Delete the line count = count - 1 and run it; the academy stops the program and explains why.\n3. Put the line back with Reset code.\n4. Change > to >= and count how many numbers print."
     },
     {
       "id": "py.loop-termination.challenge",
       "type": "challenge",
-      "prompt": "The riddle keeper allows three tries. Ask for the secret number, then ask for guesses until the guess is right or three guesses have been made. After the loop, print two lines: how many guesses were made, then True if the last guess was right or False if it was not. Print just the two answers.",
+      "prompt": "The riddle keeper allows three tries.\n\n1. Ask for the secret number.\n2. Ask for guesses until the guess is right or three guesses have been made.\n3. After the loop, print how many guesses were made.\n4. Then print True if the last guess was right or False if it was not.\n\nPrint just the two answers.",
       "starter": "# Ask for the secret number and the first guess\n# Keep asking while the guess is wrong and tries are left\n# Then print the number of guesses, and whether the last one was right\n",
       "hints": [
         "Count the guesses as you go. The loop needs two reasons to keep going, joined with and: the guess is wrong, and fewer than three guesses have been made.",
@@ -195,7 +195,7 @@
         "id": "browser-tests",
         "version": 1
       },
-      "version": 1
+      "version": 2
     }
   ]
 }

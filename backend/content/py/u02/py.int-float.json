@@ -18,7 +18,7 @@
       "type": "discover",
       "title": "Two kinds of numbers",
       "body": "Python has two kinds of numbers. An int is a whole number, like 7 or -3. A float has a decimal point, like 2.5 or 7.0. Dividing with / always gives a float, even when the answer is whole: 6 / 3 is 2.0.",
-      "detail": "When a calculation mixes an int and a float, the answer is a float: 2 + 0.5 is 2.5. int() cuts off the decimal part without rounding, so int(3.9) is 3 and int(-2.5) is -2. A few decimals print oddly, like 0.1 + 0.2 showing 0.30000000000000004. That comes from how computers store decimals, not from a mistake in your code."
+      "detail": "When a calculation mixes an int and a float, the answer is a float: 2 + 0.5 is 2.5. int() cuts off the decimal part without rounding, so int(3.9) is 3 and int(-2.5) is -2.\n\nA few decimals print oddly, like 0.1 + 0.2 showing 0.30000000000000004. That comes from how computers store decimals, not from a mistake in your code."
     },
     {
       "id": "py.int-float.example",
@@ -48,7 +48,7 @@
     {
       "id": "py.int-float.challenge",
       "type": "challenge",
-      "prompt": "After two riddles, the hero has two scores. A wrong answer can make a score negative. The starter asks for both scores. Print two lines: first the average of the two scores, then the same average with its decimal part cut off by int(). Print just the two numbers.",
+      "prompt": "After two riddles, the hero has two scores. A wrong answer can make a score negative. The starter asks for both scores.\n\n1. Print the average of the two scores.\n2. Print the same average with its decimal part cut off by int().\n\nPrint just the two numbers.",
       "starter": "# These two lines ask for whole-number scores (lesson 3 explains how)\nfirst = int(input(\"First score? \"))\nsecond = int(input(\"Second score? \"))\n# Work out the average, then print it and its whole part\n",
       "hints": [
         "The average of two scores is their total divided by 2. You print it twice: once as it is, and once with its decimal part cut off.",
@@ -158,7 +158,7 @@
         "id": "browser-tests",
         "version": 1
       },
-      "version": 1
+      "version": 2
     }
   ]
 }

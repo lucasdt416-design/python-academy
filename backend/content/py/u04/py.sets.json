@@ -18,7 +18,7 @@
       "type": "discover",
       "title": "Keep each thing once",
       "body": "A set holds values with no repeats: visited = {\"hall\", \"cellar\"}. visited.add(\"hall\") changes nothing, because hall is already in it, and len(visited) counts each value once.",
-      "detail": "An empty set is written set(), because {} is an empty dictionary. A set has no positions and no fixed order, so to print one dependably use sorted(visited), which gives a sorted list. a | b holds everything in either set, a & b only what is in both, and a - b what is in a but not in b."
+      "detail": "An empty set is written set(), because {} is an empty dictionary.\n\nA set has no positions and no fixed order, so to print one dependably use sorted(visited), which gives a sorted list.\n\na | b holds everything in either set, a & b only what is in both, and a - b what is in a but not in b."
     },
     {
       "id": "py.sets.example",
@@ -48,7 +48,7 @@
     {
       "id": "py.sets.challenge",
       "type": "challenge",
-      "prompt": "Two explorers walk the keep. Ask how many rooms the first explorer visited, then each room's name, then do the same for the second explorer. A room can be named more than once. Print four lines: how many different rooms the first explorer saw; a sorted list of every room either of them saw; a sorted list of the rooms both of them saw; and a sorted list of the rooms only the first explorer saw. Print just those four lines.",
+      "prompt": "Two explorers walk the keep.\n\n1. Ask how many rooms the first explorer visited, then each room's name. A room can be named more than once.\n2. Do the same for the second explorer.\n3. Print how many different rooms the first explorer saw.\n4. Print a sorted list of every room either of them saw.\n5. Print a sorted list of the rooms both of them saw.\n6. Print a sorted list of the rooms only the first explorer saw.\n\nPrint just those four lines.",
       "starter": "# Read each explorer's rooms\n",
       "hints": [
         "Collect each explorer's rooms in a set, so a room named twice counts once. An empty set is made with set().",
@@ -203,7 +203,7 @@
         "id": "browser-tests",
         "version": 1
       },
-      "version": 1
+      "version": 2
     }
   ]
 }

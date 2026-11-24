@@ -18,7 +18,7 @@
       "type": "discover",
       "title": "Compare two numbers",
       "body": "A comparison asks Python a yes-or-no question about two values. 7 > 5 is True, and 7 < 5 is False. True and False are values too, so print(7 > 5) shows True.",
-      "detail": "There are six comparisons: < (less than), > (greater than), <= (less than or equal to), >= (greater than or equal to), == (equal to) and != (not equal to). Two equals signs compare; one equals sign stores a value. 5 <= 5 is True, but 5 < 5 is False."
+      "detail": "There are six comparisons: < (less than), > (greater than), <= (less than or equal to), >= (greater than or equal to), == (equal to) and != (not equal to).\n\nTwo equals signs compare; one equals sign stores a value. 5 <= 5 is True, but 5 < 5 is False."
     },
     {
       "id": "py.compare.example",
@@ -47,7 +47,7 @@
     {
       "id": "py.compare.challenge",
       "type": "challenge",
-      "prompt": "The riddle keeper has a secret number, and the player makes a guess. The starter asks for both. Print three lines, each True or False: is the guess too high, is it too low, and is it exactly right? Print just the three answers. The check tries several guesses, including some you can't see.",
+      "prompt": "The riddle keeper has a secret number, and the player makes a guess. The starter asks for both. Print three lines, each True or False:\n\n1. Is the guess too high?\n2. Is it too low?\n3. Is it exactly right?\n\nPrint just the three answers. The check tries several guesses, including some you can't see.",
       "starter": "# These two lines ask for the secret number and the guess\nsecret = int(input(\"Secret number? \"))\nguess = int(input(\"Your guess? \"))\n# Print True or False: too high, then too low, then exactly right\n",
       "hints": [
         "Each line is one comparison between guess and secret. print() of a comparison shows True or False.",
@@ -178,7 +178,7 @@
         "id": "browser-tests",
         "version": 1
       },
-      "version": 1
+      "version": 2
     }
   ]
 }

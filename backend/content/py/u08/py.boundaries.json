@@ -48,7 +48,7 @@
     {
       "id": "py.boundaries.challenge",
       "type": "challenge",
-      "prompt": "The ferry has a function ticket_price(age) in the check: under 5 travel free, ages 5 to 12 pay 5, ages 13 to 64 pay 10, and 65 and over pay 6. Write asserts that test it, especially at the edges. The check runs your tests on the correct ticket_price(), where they must all pass, and on broken versions, where at least one must fail for each. Do not write ticket_price() yourself.",
+      "prompt": "The ferry has a function ticket_price(age) in the check:\n\n- under 5 travel free\n- ages 5 to 12 pay 5\n- ages 13 to 64 pay 10\n- 65 and over pay 6\n\nWrite asserts that test it, especially at the edges. The check runs your tests on the correct ticket_price(), where they must all pass, and on broken versions, where at least one must fail for each. Do not write ticket_price() yourself.",
       "starter": "# Write asserts that test ticket_price(age)\n",
       "hints": [
         "List the edges first: where does each price start and stop? Each edge needs a test on both sides of it.",
@@ -160,7 +160,7 @@
         "id": "browser-tests",
         "version": 1
       },
-      "version": 1
+      "version": 2
     }
   ]
 }

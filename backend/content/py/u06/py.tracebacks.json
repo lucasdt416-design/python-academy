@@ -18,7 +18,7 @@
       "type": "discover",
       "title": "Read it from the bottom up",
       "body": "When Python stops, it prints a traceback. Its last line names the kind of error and says what went wrong. The line just above that says where: the line number, and the line itself.",
-      "detail": "Lines higher up show how the program got there, such as the line that called the function that failed. Start with the last line, go to the line it names, and only then read further up. This page explains an error in plain words first, and Show Python's message has the whole traceback, where your program is called \"<exec>\"."
+      "detail": "Lines higher up show how the program got there, such as the line that called the function that failed. Start with the last line, go to the line it names, and only then read further up.\n\nThis page explains an error in plain words first, and Show Python's message has the whole traceback, where your program is called \"<exec>\"."
     },
     {
       "id": "py.tracebacks.example",
@@ -48,7 +48,7 @@
     {
       "id": "py.tracebacks.challenge",
       "type": "challenge",
-      "prompt": "The shop's ledger in your editor asks how many items there are (always at least 1) and each item's price, then prints the total and the most expensive price, as Total: 25 and Most expensive: 12. It crashes. Run it, read each traceback from the bottom up, fix what it points to, and run again until it works. There are three bugs.",
+      "prompt": "The shop's ledger in your editor asks how many items there are (always at least 1) and each item's price, then prints the total and the most expensive price, as Total: 25 and Most expensive: 12. It crashes, and there are three bugs.\n\n1. Run it.\n2. Read each traceback from the bottom up, and fix what it points to.\n3. Run again, until it works.",
       "starter": "# The shop's ledger crashes. Fix it one traceback at a time.\ndef total_cost(prices):\n    total = 0\n    for i in range(len(prices) + 1):\n        total = total + prices[i]\n    return total\n\ncount = int(input(\"How many items? \"))\nprices = []\nfor n in range(count):\n    prices.append(input(\"Price? \"))\nprint(\"Total: \" + total_cost(prices))\nprint(\"Most expensive: \" + str(max(prices)))\n",
       "hints": [
         "Run the program and read the last line of the error first: it names the kind of error. The line number above it says where.",
@@ -185,7 +185,7 @@
         "id": "browser-tests",
         "version": 1
       },
-      "version": 1
+      "version": 2
     }
   ]
 }

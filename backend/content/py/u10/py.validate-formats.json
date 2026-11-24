@@ -18,7 +18,7 @@
       "type": "discover",
       "title": "Check the shape, not the truth",
       "body": "re.fullmatch() checks that a whole reply has the right shape: r\"\\d{4}-\\d{2}-\\d{2}\" for a date like 2026-03-01. But the right shape is not the same as a real value: 2026-13-45 has the shape, and is no date at all.",
-      "detail": "So check the shape with a pattern, then check the meaning with code: turn the parts into numbers and test their ranges, or let a library such as datetime decide. Real email addresses are too varied for a short pattern. One @ with text on both sides is a fair first check, and the only real test is sending a message."
+      "detail": "So check the shape with a pattern, then check the meaning with code: turn the parts into numbers and test their ranges, or let a library such as datetime decide.\n\nReal email addresses are too varied for a short pattern. One @ with text on both sides is a fair first check, and the only real test is sending a message."
     },
     {
       "id": "py.validate-formats.example",
@@ -48,7 +48,7 @@
     {
       "id": "py.validate-formats.challenge",
       "type": "challenge",
-      "prompt": "Write valid_username(name), which returns True when the name is 3 to 12 characters long, starts with a letter, and holds only letters, digits and underscores, and False otherwise. Then write valid_time(text), which returns True for a 24-hour time written as two digits, a colon and two digits, with hours from 00 to 23 and minutes from 00 to 59, and False otherwise. Do not ask for input: the check calls your functions.",
+      "prompt": "Write two functions that check text.\n\n1. valid_username(name) returns True when the name is 3 to 12 characters long, starts with a letter, and holds only letters, digits and underscores, and False otherwise.\n2. valid_time(text) returns True for a 24-hour time written as two digits, a colon and two digits, with hours from 00 to 23 and minutes from 00 to 59, and False otherwise.\n\nDo not ask for input: the check calls your functions.",
       "starter": "# Import re, then define valid_username(name) and valid_time(text)\n",
       "hints": [
         "For a username, [A-Za-z] is one letter and \\w is a letter, digit or underscore. {2,11} means from 2 to 11 of what comes before it.",
@@ -265,7 +265,7 @@
         "id": "browser-tests",
         "version": 1
       },
-      "version": 1
+      "version": 2
     }
   ]
 }

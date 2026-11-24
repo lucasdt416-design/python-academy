@@ -70,6 +70,7 @@ The plan is [`docs/plan/master-run.md`](plan/master-run.md). A new session reads
 | Run 3: bring #64 to #69 into main | `ux/lesson-layout` | `main` | #70 | 62 | in_review | 2026-11-23 | Merges cleanly; CI on the combined result |
 | Run 3, owner request: site questioned for AI slop (D1 to D6); brief read-back | `ux/site-look` | `main` (after #70) | #71 | 62 | in_review | 2026-11-23 | Backend 2,130; browser 591; 1 new route, additive |
 | Run 3, E2: live play | `feat/live-play` | `main` (after #71) | #72 | 62 | in_review | 2026-11-23 | 6 new browser tests with real Python; full suite 603 |
+| Run 3, owner request: big paragraphs hard to read, levels too quick | `ux/readable-lessons` | `main` (after #72) | #73 | 63 | in_review | 2026-11-24 | 59 tasks as steps, 50 explanations split (rule C4); levels grow by 300 XP, reached levels kept |
 
 Owner merged #32 to #39, #41 and #42 on 2026-11-02. The run stopped at the cap of 5 open PRs. Not reached: WE6, the rest of WE7, WE8 and later.
 

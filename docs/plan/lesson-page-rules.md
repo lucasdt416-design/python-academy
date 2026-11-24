@@ -28,6 +28,7 @@ Status: **in force** from 2026-11-20 (handoff 60). The owner asked for every les
 | **C1** | A function or method the challenge, Try it or a hint names must already be known: used in this lesson's Discover, example or note, or an earlier lesson, or written by the learner, or **explained in the same sentence** ("`abs()` gives a number without its minus sign"). |
 | **C2** | A Discover card brings in **at most six** new functions or methods, so each gets its own example. |
 | **C3** | A Discover card is **at most 130 words**. Longer means two lessons. |
+| **C4** | No paragraph, and no step of a list, in a Discover card, Try it or challenge is **over 45 words**. A longer task is a one-line goal, then numbered steps (`1. `), then what the check does. A blank line starts a paragraph; `- ` starts a list item (`frontend/app/prose.tsx`). (2026-11-24, handoff 63) |
 
 Code in lesson text is shown as code automatically (`frontend/app/prose-runs.ts`): authors keep writing plain sentences, and unit 1's text stays frozen.
 

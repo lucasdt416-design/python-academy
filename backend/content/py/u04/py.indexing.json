@@ -18,7 +18,7 @@
       "type": "discover",
       "title": "Every item has a position",
       "body": "Positions in a list start at 0. In pack = [\"rope\", \"map\", \"lamp\"], pack[0] is \"rope\" and pack[2] is \"lamp\". A negative position counts from the end, so pack[-1] is the last item.",
-      "detail": "pack[1] = \"key\" puts a new value at position 1, replacing what was there. A slice such as pack[0:2] is a new list of the items from position 0 up to, but not including, position 2. Asking for a position past the end, like pack[3] here, stops the program with an IndexError."
+      "detail": "pack[1] = \"key\" puts a new value at position 1, replacing what was there. A slice such as pack[0:2] is a new list of the items from position 0 up to, but not including, position 2.\n\nAsking for a position past the end, like pack[3] here, stops the program with an IndexError."
     },
     {
       "id": "py.indexing.example",
@@ -48,7 +48,7 @@
     {
       "id": "py.indexing.challenge",
       "type": "challenge",
-      "prompt": "The quartermaster lists the party's supplies. Ask how many supplies there are (always at least 1), then ask for each one, in order. Then ask for a position, counting from 1 the way people do. Print four lines: the first supply, the last supply, the supply at the position asked for, and a list of every supply except the first and the last. Print just those four lines.",
+      "prompt": "The quartermaster lists the party's supplies.\n\n1. Ask how many supplies there are (always at least 1), then ask for each one, in order.\n2. Ask for a position, counting from 1 the way people do.\n3. Print four lines: the first supply, the last supply, the supply at the position asked for, and a list of every supply except the first and the last.\n\nPrint just those four lines.",
       "starter": "# Ask for the supplies, then a position\n",
       "hints": [
         "Collect the supplies in a list first. Positions start at 0, so the first supply is at 0, and a person who says position 1 means Python position 0.",
@@ -197,7 +197,7 @@
         "id": "browser-tests",
         "version": 1
       },
-      "version": 1
+      "version": 2
     }
   ]
 }

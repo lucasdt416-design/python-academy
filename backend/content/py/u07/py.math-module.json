@@ -48,7 +48,7 @@
     {
       "id": "py.math-module.challenge",
       "type": "challenge",
-      "prompt": "The treasure lies on the map grid. Ask how many squares east it is, then how many north, as whole numbers (either can be 0). Print three lines: the straight-line distance to it, rounded to 2 decimal places; how many squares the hero walks if they can only move along the grid, east plus north; and the straight-line distance rounded up to a whole number.",
+      "prompt": "The treasure lies on the map grid. Ask how many squares east it is, then how many north, as whole numbers (either can be 0). Print three lines:\n\n1. The straight-line distance to it, rounded to 2 decimal places.\n2. How many squares the hero walks if they can only move along the grid, east plus north.\n3. The straight-line distance rounded up to a whole number.",
       "starter": "# Import math, then measure the way to the treasure\n",
       "hints": [
         "The straight-line distance is the square root of east squared plus north squared, or math.hypot(east, north) in one step.",
@@ -170,7 +170,7 @@
         "id": "browser-tests",
         "version": 1
       },
-      "version": 1
+      "version": 2
     }
   ]
 }

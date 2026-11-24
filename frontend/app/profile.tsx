@@ -60,7 +60,7 @@ export default function ProfileView() {
     <h1 id="profile-title">{name}</h1>
     {student && profile.level && <p className="profile-level"><strong>Level {profile.level.number} · {profile.level.title}</strong> <span>{profile.xp} XP</span></p>}
     {student && profile.level && <><progress className="meter" value={profile.level.xp_into_level} max={profile.level.xp_for_next} aria-label={`Progress to level ${profile.level.number + 1}`}/>
-     <p className="muted">{profile.level.xp_for_next - profile.level.xp_into_level} XP to level {profile.level.number + 1}. Levels are a count of XP, not a grade.</p></>}
+     <p className="muted">{profile.level.xp_for_next - profile.level.xp_into_level} XP to level {profile.level.number + 1}. Each level takes 300 XP more than the one before. Levels are a count of XP, not a grade.</p></>}
     <p className="muted">Saved with the Google account {profile.email}{profile.member_since ? `, here since ${profile.member_since}` : ''}. Only you see this page.</p>
    </div>
   </div>

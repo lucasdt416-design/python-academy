@@ -18,7 +18,7 @@
       "type": "discover",
       "title": "Python can do the maths",
       "body": "Numbers in Python have no quotes around them. + adds, - takes away, * multiplies and / divides. print(3 + 4) shows 7, and a variable can hold a number, like score = 10.",
-      "detail": "Two more operators help when you share things out. // divides and keeps only the whole part: 17 // 5 is 3. % gives what is left over: 17 % 5 is 2. As in maths class, Python works out * and / before + and -. Use parentheses to choose a different order."
+      "detail": "Two more operators help when you share things out. // divides and keeps only the whole part: 17 // 5 is 3. % gives what is left over: 17 % 5 is 2.\n\nAs in maths class, Python works out * and / before + and -. Use parentheses to choose a different order."
     },
     {
       "id": "py.arithmetic.example",
@@ -48,7 +48,7 @@
     {
       "id": "py.arithmetic.challenge",
       "type": "challenge",
-      "prompt": "The party opens a chest of coins to share. The starter asks for the number of coins and the number of friends. Print two lines: how many whole coins each friend gets, then how many coins are left over. Print just the two numbers. The check runs your program with several chests, including some you can't see.",
+      "prompt": "The party opens a chest of coins to share. The starter asks for the number of coins and the number of friends.\n\n1. Print how many whole coins each friend gets.\n2. Print how many coins are left over.\n\nPrint just the two numbers. The check runs your program with several chests, including some you can't see.",
       "starter": "# These two lines ask for whole numbers (lesson 3 explains how)\ncoins = int(input(\"How many coins? \"))\nfriends = int(input(\"How many friends? \"))\n# Print each friend's whole share, then the coins left over\n",
       "hints": [
         "You need two results from the same two numbers: the whole coins each friend gets, and the coins left over.",
@@ -158,7 +158,7 @@
         "id": "browser-tests",
         "version": 1
       },
-      "version": 1
+      "version": 2
     }
   ]
 }

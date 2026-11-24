@@ -18,7 +18,7 @@
       "type": "discover",
       "title": "Expect the file to be wrong",
       "body": "Real files go missing and get damaged. Opening a file that does not exist raises a FileNotFoundError, and a line that int() cannot read raises a ValueError. Catch each one where it happens, and decide what the program should do instead.",
-      "detail": "A missing save might mean \"start a new game\" with default values. A bad line might be skipped and counted, so the player can be told. Do not hide every problem with one bare except: name the errors you expect, so a real bug still shows."
+      "detail": "A missing save might mean \"start a new game\" with default values. A bad line might be skipped and counted, so the player can be told.\n\nDo not hide every problem with one bare except: name the errors you expect, so a real bug still shows."
     },
     {
       "id": "py.missing-data.example",
@@ -51,7 +51,7 @@
     {
       "id": "py.missing-data.challenge",
       "type": "challenge",
-      "prompt": "The game's settings are in settings.txt, one per line, written like lives=3. Start from these defaults: lives 3, speed 5, level 1. Each line with a name, an = and a whole number sets that setting, ignoring spaces around the name and the number. If settings.txt does not exist, print new game first and use the defaults. Blank lines are ignored. Any other line without an =, or whose value is not a whole number, is skipped. Print the three settings in the order lives, speed, level, written like lives=3, then skipped and the number of lines skipped, like skipped 1.",
+      "prompt": "The game's settings are in settings.txt, one per line, written like lives=3. Start from these defaults: lives 3, speed 5, level 1.\n\n1. If settings.txt does not exist, print new game first and use the defaults.\n2. Each line with a name, an = and a whole number sets that setting, ignoring spaces around the name and the number.\n3. Blank lines are ignored.\n4. Any other line without an =, or whose value is not a whole number, is skipped.\n5. Print the three settings in the order lives, speed, level, written like lives=3.\n6. Print skipped and the number of lines skipped, like skipped 1.",
       "starter": "# Read settings.txt, coping with a missing file and bad lines\n",
       "hints": [
         "Start from a dictionary of the defaults. Each good line replaces one of them, so a missing setting keeps its default.",
@@ -183,7 +183,7 @@
         "id": "browser-tests",
         "version": 1
       },
-      "version": 1
+      "version": 2
     }
   ]
 }

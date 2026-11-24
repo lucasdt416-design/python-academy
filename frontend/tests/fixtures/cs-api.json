@@ -859,8 +859,8 @@
     "badge": "Lamplighter",
     "description": "The signal tower shows numbers with a row of lamps. Read them, and set them, in binary.",
     "learnTitle": "Every number can be written with just 0 and 1",
-    "learn": "In binary each place is worth twice the place to its right: 1, 2, 4, 8, 16 and so on. 1101 means one 8, one 4, no 2 and one 1, which is 13. A computer stores every number this way, as a row of bits, each one on or off.",
-    "detail": "To read binary from the left, start at 0 and, for each bit, double what you have and add the bit. To write a number in binary, take n % 2 for the last bit, then n // 2, and repeat until nothing is left. Python can do both with bin() and int(text, 2), but working it out by hand is what this lesson is about.",
+    "learn": "In binary each place is worth twice the place to its right: 1, 2, 4, 8, 16 and so on. 1101 means one 8, one 4, no 2 and one 1, which is 13.\n\nA computer stores every number this way, as a row of bits, each one on or off.",
+    "detail": "To read binary from the left, start at 0 and, for each bit, double what you have and add the bit.\n\nTo write a number in binary, take n % 2 for the last bit, then n // 2, and repeat until nothing is left. Python can do both with bin() and int(text, 2), but working it out by hand is what this lesson is about.",
     "example": "# The tower shows numbers with lamps: on is 1, off is 0\nlamps = \"1101\"\nvalue = 0\nfor lamp in lamps:\n    value = value * 2 + int(lamp)\nprint(value)\nprint(bin(13))\nprint(int(\"1101\", 2))",
     "exampleOutput": "13\n0b1101\n13",
     "exampleNote": "Reading 1101 from the left: 0 doubled plus 1 is 1, then 3, then 6, then 13. bin() writes 13 with a 0b in front to say it is binary, and int(..., 2) reads binary text back.",
@@ -874,7 +874,7 @@
     "why": "One 16 and one 2: 16 + 2 is 18.",
     "guided": "Predict, then run: change the lamps to \"11111111\" and work out the value first. Then print bin(255) and compare.",
     "starter": "# Define to_binary(n) and from_binary(bits)\n",
-    "challenge": "Write to_binary(n), which returns the binary of a whole number n (0 or more) as text, like \"1101\" for 13 and \"0\" for 0, without a 0b in front. Then write from_binary(bits), which takes text such as \"1101\" and returns the number, 13. Try it with // and % before reaching for bin(). Do not ask for input: the check calls your functions with its own values.",
+    "challenge": "Write two functions that turn numbers into binary and back.\n\n1. to_binary(n) returns the binary of a whole number n (0 or more) as text, like \"1101\" for 13 and \"0\" for 0, without a 0b in front.\n2. from_binary(bits) takes text such as \"1101\" and returns the number, 13.\n\nTry it with // and % before reaching for bin(). Do not ask for input: the check calls your functions with its own values.",
     "hints": [
      "For to_binary(), the last bit is n % 2. Then n // 2 shifts everything one place right. Repeat while n is more than 0, putting each new bit in front of the ones you have.",
      "For from_binary(), go through the text from the left: double the value so far, then add the bit, int(bit). 0 needs its own answer in to_binary(), because the loop never runs for it.",
@@ -953,7 +953,7 @@
     "description": "The tower signals with coloured flags, written as six hex digits. Turn them into amounts of red, green and blue, and back.",
     "learnTitle": "Sixteen digits, and why colours use them",
     "learn": "Hexadecimal, or hex, has sixteen digits: 0 to 9, then a to f for ten to fifteen. Each place is worth sixteen times the one to its right, so ff is 15 × 16 + 15, which is 255.",
-    "detail": "One hex digit is exactly four bits, so two of them hold a byte, any number from 0 to 255. That is why screen colours are written #ff8800: two hex digits each for red, green and blue. int(text, 16) reads hex, and f\"{n:02x}\" writes a number as two hex digits.",
+    "detail": "One hex digit is exactly four bits, so two of them hold a byte, any number from 0 to 255.\n\nThat is why screen colours are written #ff8800: two hex digits each for red, green and blue. int(text, 16) reads hex, and f\"{n:02x}\" writes a number as two hex digits.",
     "example": "# A flag colour: red, green and blue, each from 0 to 255\nred = 255\ngreen = 136\nblue = 0\nprint(hex(green))\nprint(f\"#{red:02x}{green:02x}{blue:02x}\")\nprint(int(\"88\", 16))",
     "exampleOutput": "0x88\n#ff8800\n136",
     "exampleNote": "136 is eight 16s and eight 1s, so it is 88 in hex. :02x writes each amount as two hex digits, and int(\"88\", 16) reads them back.",
@@ -967,7 +967,7 @@
     "why": "No red, the most green (ff is 255), and no blue.",
     "guided": "Predict, then run: make the flag purple, with lots of red and blue and no green, and print its code. Then try 300 for red and see what happens to the code.",
     "starter": "# Define hex_to_rgb(colour) and rgb_to_hex(red, green, blue)\n",
-    "challenge": "Write hex_to_rgb(colour), which takes a colour such as \"#ff8800\" (capitals allowed) and returns a list of its red, green and blue amounts, [255, 136, 0]. Then write rgb_to_hex(red, green, blue), which returns the colour code, always with # and six lowercase hex digits, such as \"#0a0b0c\". Do not ask for input: the check calls your functions with its own values.",
+    "challenge": "Write two functions that turn colour codes into amounts and back.\n\n1. hex_to_rgb(colour) takes a colour such as \"#ff8800\" (capitals allowed) and returns a list of its red, green and blue amounts, [255, 136, 0].\n2. rgb_to_hex(red, green, blue) returns the colour code, always with # and six lowercase hex digits, such as \"#0a0b0c\".\n\nDo not ask for input: the check calls your functions with its own values.",
     "hints": [
      "Each amount is two hex digits. Their value is the first digit times 16, plus the second. The text \"0123456789abcdef\".index(d) turns a digit into its value.",
      "For rgb_to_hex(), the two digits of an amount are value // 16 and value % 16, looked up the other way. Small amounts still need two digits: 10 is 0a.",
@@ -1052,7 +1052,7 @@
     "description": "Messages leave the tower as numbers. Shift letters to make a simple code, and count the bytes a message really takes.",
     "learnTitle": "Letters are numbers too",
     "learn": "A computer stores each character as a number called its code point: ord(\"a\") is 97 and chr(97) is \"a\". The letters a to z have codes one after another, so moving a letter along the alphabet is adding to its code.",
-    "detail": "To send text, its code points are written as bytes using an encoding. UTF-8, the most common one, uses one byte for each plain English letter and more for others: é takes two bytes and many emoji four. So len(text) counts characters, while len(text.encode(\"utf-8\")) counts bytes.",
+    "detail": "To send text, its code points are written as bytes using an encoding.\n\nUTF-8, the most common one, uses one byte for each plain English letter and more for others: é takes two bytes and many emoji four. So len(text) counts characters, while len(text.encode(\"utf-8\")) counts bytes.",
     "example": "# Every character is stored as a number\nprint(ord(\"A\"), ord(\"a\"))\nprint(chr(98))\nprint(len(\"café\"))\nprint(len(\"café\".encode(\"utf-8\")))",
     "exampleOutput": "65 97\nb\n4\n5",
     "exampleNote": "Capital A and small a have different codes. \"café\" has four characters but five bytes, because é takes two in UTF-8.",
@@ -1066,7 +1066,7 @@
     "why": "y is 121, and 123 is the character {. To wrap around to a, the code has to come back to the start of the alphabet, which % 26 does.",
     "guided": "Predict, then run: print ord(\"z\") and chr(ord(\"z\") + 1). Then measure len(\"🙂\".encode(\"utf-8\")).",
     "starter": "# Define shift(message, steps) and byte_count(text)\n",
-    "challenge": "Write shift(message, steps), which moves every small letter a to z that many places along the alphabet, wrapping round from z to a, and leaves every other character as it is: shift(\"abc xyz\", 2) returns \"cde zab\". steps can be negative or bigger than 26. Then write byte_count(text), which returns how many bytes text takes in UTF-8. Do not ask for input: the check calls your functions with its own values.",
+    "challenge": "Write two functions about text.\n\n1. shift(message, steps) moves every small letter a to z that many places along the alphabet, wrapping round from z to a, and leaves every other character as it is: shift(\"abc xyz\", 2) returns \"cde zab\". steps can be negative or bigger than 26.\n2. byte_count(text) returns how many bytes text takes in UTF-8.\n\nDo not ask for input: the check calls your functions with its own values.",
     "hints": [
      "For each character, check whether it is a small letter. If it is, work out its place in the alphabet, 0 for a to 25 for z, with ord(ch) - ord(\"a\").",
      "Add steps to the place, and % 26 keeps it from 0 to 25, even for negative steps. chr() of the place plus ord(\"a\") gives the new letter. encode(\"utf-8\") turns text into bytes for byte_count().",
@@ -1144,7 +1144,7 @@
     "badge": "Honest ledger",
     "description": "The tower ledger adds up prices. Find out why decimals drift, and keep money exact by counting cents.",
     "learnTitle": "Some decimals cannot be stored exactly",
-    "learn": "A float stores a number in binary, like a fraction with a power of two underneath. 0.5 is ½, so it is exact, but 0.1 needs a pattern of bits that goes on for ever, so Python keeps the closest float it can. Add two of these tiny errors and they show: 0.1 + 0.2 is 0.30000000000000004.",
+    "learn": "A float stores a number in binary, like a fraction with a power of two underneath. 0.5 is ½, so it is exact, but 0.1 needs a pattern of bits that goes on for ever, so Python keeps the closest float it can.\n\nAdd two of these tiny errors and they show: 0.1 + 0.2 is 0.30000000000000004.",
     "detail": "Whole numbers in Python are always exact. So money is usually counted in whole cents, and turned into dollars only for showing. Never compare floats with ==; round them, or use math.isclose(), which unit 7 met.",
     "example": "# Decimals are stored in binary, and most are not exact\nprint(0.1 + 0.2)\nprint(0.1 + 0.2 == 0.3)\nprint(round(0.1 + 0.2, 2))\ncents = 10 + 20\nprint(cents / 100)",
     "exampleOutput": "0.30000000000000004\nFalse\n0.3\n0.3",
@@ -1159,7 +1159,7 @@
     "why": "0.5 is one half, a power of two. 0.1 and 0.3 need bits that never end.",
     "guided": "Predict, then run: add 0.1 ten times in a loop and print the total. Then do the same with 10 cents, and divide by 100 at the end.",
     "starter": "# Define to_cents(price) and add_prices(prices)\n",
-    "challenge": "Prices arrive as text such as \"4.35\", \"12\" or \"0.5\" (which means 50 cents). Write to_cents(price), which returns the whole number of cents, 435, 1200 or 50, without using float(). Then write add_prices(prices), which takes a list of such prices and returns the total as text with exactly two decimal places, such as \"0.30\". Do not ask for input: the check calls your functions with its own values.",
+    "challenge": "Prices arrive as text such as \"4.35\", \"12\" or \"0.5\" (which means 50 cents). Add them up without float().\n\n1. Write to_cents(price), which returns the whole number of cents: 435, 1200 or 50.\n2. Write add_prices(prices), which takes a list of such prices and returns the total as text with exactly two decimal places, such as \"0.30\".\n\nDo not ask for input: the check calls your functions with its own values.",
     "hints": [
      "Split the text at the point: the part before it is dollars, the part after it is cents, but \"5\" after the point means 50 cents, not 5.",
      "Pad the cents part to two digits on the right before turning it into a number. add_prices() adds up cents, then splits the total into dollars and cents with // and %.",
@@ -1260,7 +1260,7 @@
     "why": "To be sure something is missing, a linear search has to look at every item.",
     "guided": "Predict, then run: search for \"key\", then for \"sword\", which is not there, and compare the counts.",
     "starter": "# Define find(items, target)\n",
-    "challenge": "Write find(items, target), which looks through the list items from the start and returns a list of two numbers: the position of the first item equal to target, and how many items it looked at to get there. If target is not there, return -1 and the number of items it looked at, which is all of them. Do not ask for input: the check calls your functions with its own values.",
+    "challenge": "Write find(items, target), which looks through the list items from the start.\n\n1. Return a list of two numbers: the position of the first item equal to target, and how many items it looked at to get there.\n2. If target is not there, return -1 and the number of items it looked at, which is all of them.\n\nDo not ask for input: the check calls your functions with its own values.",
     "hints": [
      "Keep a count of looks that starts at 0, and go through the positions in order, adding one each time you look at an item.",
      "As soon as an item matches, return its position and the count, together. If the loop ends, nothing matched: return -1 and the count after the loop.",
@@ -1338,8 +1338,8 @@
     "badge": "Halver",
     "description": "When the archive is sorted, you can skip half of it with every look. Find records in a handful of steps.",
     "learnTitle": "Throw away half with every look",
-    "learn": "In a sorted list, look at the middle item. If it is the one you want, you are done. If it is too small, what you want can only be to its right; too big, only to its left. Either way, half the list is gone after one look.",
-    "detail": "Keep two positions, low and high, for the part still worth searching, and look at middle = (low + high) // 2. Stop when they cross. A thousand items take at most ten looks, a million about twenty. It only works if the list is sorted.",
+    "learn": "In a sorted list, look at the middle item. If it is the one you want, you are done.\n\nIf it is too small, what you want can only be to its right; too big, only to its left. Either way, half the list is gone after one look.",
+    "detail": "Keep two positions, low and high, for the part still worth searching, and look at middle = (low + high) // 2.\n\nStop when they cross. A thousand items take at most ten looks, a million about twenty. It only works if the list is sorted.",
     "example": "# Guess the middle of a sorted shelf, and throw away half each time\nshelf = [3, 8, 15, 21, 30, 42, 57]\nlow, high = 0, len(shelf) - 1\nwhile low <= high:\n    middle = (low + high) // 2\n    print(\"look at\", shelf[middle])\n    if shelf[middle] == 42:\n        break\n    if shelf[middle] < 42:\n        low = middle + 1\n    else:\n        high = middle - 1",
     "exampleOutput": "look at 21\nlook at 42",
     "exampleNote": "21 is too small, so the left half goes; then 42 is found on the second look. A linear search would have needed six.",
@@ -1353,7 +1353,7 @@
     "why": "Halving 1,000 ten times gets below one: 500, 250, 125, 63, 32, 16, 8, 4, 2, 1.",
     "guided": "Predict, then run: search for 3, the first item, and for 50, which is not there, and count the looks each time.",
     "starter": "# Define binary_find(items, target)\n",
-    "challenge": "Write binary_find(items, target) for a list items sorted from smallest to largest. Search it as the lesson does: keep low and high, look at middle = (low + high) // 2 each time, and move low or high past it. Return a list: the position of target and how many middles you looked at, or -1 and the number of looks if it is not there. Do not ask for input: the check calls your functions with its own values.",
+    "challenge": "Write binary_find(items, target) for a list items sorted from smallest to largest.\n\n1. Search it as the lesson does: keep low and high, look at middle = (low + high) // 2 each time, and move low or high past it.\n2. Return a list: the position of target and how many middles you looked at.\n3. If target is not there, return -1 and the number of looks.\n\nDo not ask for input: the check calls your functions with its own values.",
     "hints": [
      "Start with low at the first position and high at the last. Keep going while low is no more than high, and count one look each time round.",
      "If the middle item is smaller than target, the target can only be to its right: low becomes middle + 1. If it is bigger, high becomes middle - 1. Without the + 1 and - 1 the loop can get stuck.",
@@ -1425,7 +1425,7 @@
     "badge": "Step counter",
     "description": "Compare the two searches by counting, not timing: how many looks does each need as the archive grows?",
     "learnTitle": "Count the steps, not the seconds",
-    "learn": "How long a program takes depends on the computer, so computer scientists count steps instead. The question is how the steps grow as the input grows: a linear search of n items needs up to n looks, a binary search only as many as the times n can be halved.",
+    "learn": "How long a program takes depends on the computer, so computer scientists count steps instead.\n\nThe question is how the steps grow as the input grows: a linear search of n items needs up to n looks, a binary search only as many as the times n can be halved.",
     "detail": "Halving: 8 items halve to 4, 2, 1, 0, which is four halvings, so a binary search of 8 needs at most 4 looks. Doubling the list adds only one more look. That gap is why sorted data is worth the effort of sorting.",
     "example": "# How many halvings until nothing is left?\nfor size in [1, 2, 7, 8, 1000]:\n    n = size\n    halvings = 0\n    while n > 0:\n        n = n // 2\n        halvings = halvings + 1\n    print(size, halvings)",
     "exampleOutput": "1 1\n2 2\n7 3\n8 4\n1000 10",
@@ -1440,7 +1440,7 @@
     "why": "Doubling the list adds one halving.",
     "guided": "Predict, then run: add 1,000,000 to the sizes and guess its halvings first. Then add a column with the linear worst case, the size itself.",
     "starter": "# Define linear_worst(n), binary_worst(n) and compare(sizes)\n",
-    "challenge": "Write linear_worst(n), the most looks a linear search needs for a list of n items, and binary_worst(n), the most looks a binary search needs, which is how many times n can be halved with // 2 before it reaches 0 (0 for an empty list). Then write compare(sizes), which takes a list of sizes and returns a list of [size, linear, binary] lists, one per size, in the same order. Do not ask for input: the check calls your functions with its own values.",
+    "challenge": "Write three functions that count the looks a search needs.\n\n1. linear_worst(n) returns the most looks a linear search needs for a list of n items.\n2. binary_worst(n) returns the most looks a binary search needs, which is how many times n can be halved with // 2 before it reaches 0 (0 for an empty list).\n3. compare(sizes) takes a list of sizes and returns a list of [size, linear, binary] lists, one per size, in the same order.\n\nDo not ask for input: the check calls your functions with its own values.",
     "hints": [
      "The linear worst case is simply every item. For the binary one, count halvings in a loop: n = n // 2, adding one each time, while n is more than 0.",
      "compare() builds a list: for each size, a list of the size and the two counts, worked out by calling the other two functions.",
@@ -1517,7 +1517,7 @@
   "cs.binary": {
    "lesson_id": "cs.binary",
    "task_id": "cs.binary.challenge",
-   "version": 1,
+   "version": 2,
    "time_limit_ms": 3000,
    "output_limit": 10000,
    "cases": [
@@ -1603,7 +1603,7 @@
   "cs.hexadecimal": {
    "lesson_id": "cs.hexadecimal",
    "task_id": "cs.hexadecimal.challenge",
-   "version": 1,
+   "version": 2,
    "time_limit_ms": 3000,
    "output_limit": 10000,
    "cases": [
@@ -1701,7 +1701,7 @@
   "cs.text-encoding": {
    "lesson_id": "cs.text-encoding",
    "task_id": "cs.text-encoding.challenge",
-   "version": 1,
+   "version": 2,
    "time_limit_ms": 3000,
    "output_limit": 10000,
    "cases": [
@@ -1791,7 +1791,7 @@
   "cs.float-limits": {
    "lesson_id": "cs.float-limits",
    "task_id": "cs.float-limits.challenge",
-   "version": 1,
+   "version": 2,
    "time_limit_ms": 3000,
    "output_limit": 10000,
    "cases": [
@@ -1885,7 +1885,7 @@
   "cs.linear-search": {
    "lesson_id": "cs.linear-search",
    "task_id": "cs.linear-search.challenge",
-   "version": 1,
+   "version": 2,
    "time_limit_ms": 3000,
    "output_limit": 10000,
    "cases": [
@@ -2002,7 +2002,7 @@
   "cs.binary-search": {
    "lesson_id": "cs.binary-search",
    "task_id": "cs.binary-search.challenge",
-   "version": 1,
+   "version": 2,
    "time_limit_ms": 3000,
    "output_limit": 10000,
    "cases": [
@@ -2329,7 +2329,7 @@
   "cs.counting-steps": {
    "lesson_id": "cs.counting-steps",
    "task_id": "cs.counting-steps.challenge",
-   "version": 1,
+   "version": 2,
    "time_limit_ms": 3000,
    "output_limit": 10000,
    "cases": [

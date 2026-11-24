@@ -18,7 +18,7 @@
       "type": "discover",
       "title": "Repeat while something is true",
       "body": "A while loop repeats a block of code for as long as its condition is True. Python checks the condition, runs the indented block, then checks again. When the condition becomes False, the loop ends and the program carries on below it.",
-      "detail": "Something inside the loop must change, or the condition stays True forever. To keep asking the player, call input() once before the loop and again at the end of the block. If the condition is False the very first time, the block never runs at all."
+      "detail": "Something inside the loop must change, or the condition stays True forever. To keep asking the player, call input() once before the loop and again at the end of the block.\n\nIf the condition is False the very first time, the block never runs at all."
     },
     {
       "id": "py.while-loops.example",
@@ -52,7 +52,7 @@
     {
       "id": "py.while-loops.challenge",
       "type": "challenge",
-      "prompt": "The riddle keeper lets the player keep guessing. The starter asks for the secret number and the first guess. While the guess is wrong, print True if it is too high or False if it is too low, then ask for another guess. When the guess is right, the loop ends. Print just the True and False lines. The check tries several runs of guesses, including some you can't see.",
+      "prompt": "The riddle keeper lets the player keep guessing. The starter asks for the secret number and the first guess.\n\n1. While the guess is wrong, print True if it is too high or False if it is too low, then ask for another guess.\n2. When the guess is right, the loop ends.\n\nPrint just the True and False lines. The check tries several runs of guesses, including some you can't see.",
       "starter": "# These two lines ask for the secret number and the first guess\nsecret = int(input(\"Secret number? \"))\nguess = int(input(\"Your guess? \"))\n# While the guess is wrong: print whether it is too high, then ask again\n",
       "hints": [
         "You need a loop that repeats while the guess is not the secret. Inside it, two things happen: a print() and a new guess.",
@@ -202,7 +202,7 @@
         "id": "browser-tests",
         "version": 1
       },
-      "version": 1
+      "version": 2
     }
   ]
 }

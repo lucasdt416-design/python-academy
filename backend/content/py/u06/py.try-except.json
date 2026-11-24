@@ -48,7 +48,7 @@
     {
       "id": "py.try-except.challenge",
       "type": "challenge",
-      "prompt": "Ask how many coins there are, then how many friends share them. Print each friend's share, using //, and then the coins left over, using %. If either reply is not a whole number, print just not a number instead. If there are 0 friends, print just nobody to share with instead.",
+      "prompt": "Share coins between friends, without crashing.\n\n1. Ask how many coins there are, then how many friends share them.\n2. Print each friend's share, using //, and then the coins left over, using %.\n3. If either reply is not a whole number, print just not a number instead.\n4. If there are 0 friends, print just nobody to share with instead.",
       "starter": "# Read both replies, and share the coins safely\n",
       "hints": [
         "Put the lines that can fail, the two int() calls and the sharing, inside one try: block.",
@@ -176,7 +176,7 @@
         "id": "browser-tests",
         "version": 1
       },
-      "version": 1
+      "version": 2
     }
   ]
 }

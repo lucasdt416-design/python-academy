@@ -48,7 +48,7 @@
     {
       "id": "cs.linear-search.challenge",
       "type": "challenge",
-      "prompt": "Write find(items, target), which looks through the list items from the start and returns a list of two numbers: the position of the first item equal to target, and how many items it looked at to get there. If target is not there, return -1 and the number of items it looked at, which is all of them. Do not ask for input: the check calls your functions with its own values.",
+      "prompt": "Write find(items, target), which looks through the list items from the start.\n\n1. Return a list of two numbers: the position of the first item equal to target, and how many items it looked at to get there.\n2. If target is not there, return -1 and the number of items it looked at, which is all of them.\n\nDo not ask for input: the check calls your functions with its own values.",
       "starter": "# Define find(items, target)\n",
       "hints": [
         "Keep a count of looks that starts at 0, and go through the positions in order, adding one each time you look at an item.",
@@ -237,7 +237,7 @@
         "id": "browser-tests",
         "version": 1
       },
-      "version": 1
+      "version": 2
     }
   ]
 }

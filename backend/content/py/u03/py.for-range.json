@@ -18,7 +18,7 @@
       "type": "discover",
       "title": "Count with for and range()",
       "body": "A for loop runs its block once for each value it is given. range(1, 4) gives 1, 2 and 3: it starts at the first number and stops before the second. So for n in range(1, 4): with print(n) inside prints 1, 2 and 3.",
-      "detail": "range(4) on its own gives 0, 1, 2 and 3. A third number sets the step: range(2, 9, 2) gives 2, 4, 6 and 8, and a step of -1 counts down. To include a number at the end, make the stop one bigger. A for loop moves its own variable on each time, so it always ends."
+      "detail": "range(4) on its own gives 0, 1, 2 and 3. A third number sets the step: range(2, 9, 2) gives 2, 4, 6 and 8, and a step of -1 counts down.\n\nTo include a number at the end, make the stop one bigger. A for loop moves its own variable on each time, so it always ends."
     },
     {
       "id": "py.for-range.example",
@@ -48,7 +48,7 @@
     {
       "id": "py.for-range.challenge",
       "type": "challenge",
-      "prompt": "The hero climbs the riddle keeper's staircase two steps at a time, starting on step 2. Ask for the number of the top step, then print every step the hero lands on, up to and including the top step if they land on it. Print just the step numbers, one per line.",
+      "prompt": "The hero climbs the riddle keeper's staircase two steps at a time, starting on step 2.\n\n1. Ask for the number of the top step.\n2. Print every step the hero lands on, up to and including the top step if they land on it.\n\nPrint just the step numbers, one per line.",
       "starter": "# Ask for the top step, then print every step the hero lands on\n",
       "hints": [
         "The hero lands on 2, 4, 6 and so on. A for loop over a range() with a step of 2 gives exactly those numbers.",
@@ -171,7 +171,7 @@
         "id": "browser-tests",
         "version": 1
       },
-      "version": 1
+      "version": 2
     }
   ]
 }

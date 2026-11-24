@@ -48,7 +48,7 @@
     {
       "id": "py.functions.challenge",
       "type": "challenge",
-      "prompt": "Write a function called crossing() that prints three lines: Step on the stones. then The water rushes past. then You reach the far bank. Then write a function called journey() that prints Day begins., uses crossing() twice, and prints Night falls. At the end of your program, call journey() once. The check runs your program, and also calls your functions on their own.",
+      "prompt": "Write two functions, then call one.\n\n1. Write a function called crossing() that prints three lines: Step on the stones. then The water rushes past. then You reach the far bank.\n2. Write a function called journey() that prints Day begins., uses crossing() twice, and prints Night falls.\n3. At the end of your program, call journey() once.\n\nThe check runs your program, and also calls your functions on their own.",
       "starter": "# Define crossing() and journey(), then call journey()\n",
       "hints": [
         "Each function starts with def, its name, empty brackets and a colon. The lines that belong to it are indented by four spaces.",
@@ -140,7 +140,7 @@
         "id": "browser-tests",
         "version": 1
       },
-      "version": 1
+      "version": 2
     }
   ]
 }

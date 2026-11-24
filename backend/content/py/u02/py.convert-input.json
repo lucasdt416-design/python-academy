@@ -18,7 +18,7 @@
       "type": "discover",
       "title": "Replies are always text",
       "body": "input() always gives back text, even when the player types digits. So \"5\" + \"5\" joins into \"55\" instead of adding up to 10. int(...) turns text like \"12\" into the whole number 12, and float(...) turns \"2.5\" into the decimal 2.5.",
-      "detail": "Wrap the reply in int(), like points = int(input(\"Points? \")). If the reply is not a whole number, such as ten or an empty reply, int() stops with a ValueError. When a reply might be empty, compare it with \"\" before you convert it, as the example on the next card does."
+      "detail": "Wrap the reply in int(), like points = int(input(\"Points? \")). If the reply is not a whole number, such as ten or an empty reply, int() stops with a ValueError.\n\nWhen a reply might be empty, compare it with \"\" before you convert it, as the example on the next card does."
     },
     {
       "id": "py.convert-input.example",
@@ -46,12 +46,12 @@
     {
       "id": "py.convert-input.guided",
       "type": "guided",
-      "prompt": "Run the example with 20 and 5. Then predict, and run, each of these: an empty toll, and the letters ten as the gold. Last, delete int( and its ) from the gold line, run it, and read the explanation. Reset code puts the example back."
+      "prompt": "1. Run the example with 20 and 5.\n2. Predict, then run, each of these: an empty toll, and the letters ten as the gold.\n3. Delete int( and its ) from the gold line, run it, and read the explanation.\n\nReset code puts the example back."
     },
     {
       "id": "py.convert-input.challenge",
       "type": "challenge",
-      "prompt": "The riddle keeper says how many points a riddle is worth. Ask for the hero's score, then for the riddle's points, and turn both replies into whole numbers yourself. Print two lines: the score if the riddle is solved (the points are added), then the score if it is missed (the points are taken away). An empty points reply means a practice riddle worth 0. Print just the two numbers.",
+      "prompt": "The riddle keeper says how many points a riddle is worth. Ask for the hero's score, then for the riddle's points, and turn both replies into whole numbers yourself.\n\n1. Print the score if the riddle is solved (the points are added).\n2. Print the score if it is missed (the points are taken away).\n\nAn empty points reply means a practice riddle worth 0. Print just the two numbers.",
       "starter": "# Ask for the score and turn the reply into a whole number\n# Ask for the riddle's points; an empty reply means 0\n# Print the score if solved, then the score if missed\n",
       "hints": [
         "Three steps: get the score as a number, get the points as a number (or 0 when the reply is empty), then print the two results.",
@@ -188,7 +188,7 @@
         "id": "browser-tests",
         "version": 1
       },
-      "version": 1
+      "version": 2
     }
   ]
 }

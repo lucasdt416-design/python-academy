@@ -18,7 +18,7 @@
       "type": "discover",
       "title": "One job per function",
       "body": "Big programs are easier to read and fix when each function does one small job and has a name that says what it is. A function that works something out returns its answer, and another function can use it.",
-      "detail": "A good test of a function: can you call it on its own, with made-up values, and check its answer? If one function reads input(), prints and changes outside names all at once, split it. Then the main part of the program just calls the parts in order."
+      "detail": "A good test of a function: can you call it on its own, with made-up values, and check its answer?\n\nIf one function reads input(), prints and changes outside names all at once, split it. Then the main part of the program just calls the parts in order."
     },
     {
       "id": "py.decompose.example",
@@ -48,7 +48,7 @@
     {
       "id": "py.decompose.challenge",
       "type": "challenge",
-      "prompt": "Write three functions for the adventure's battles. damage(attack, armour) returns the attack minus the armour, but never less than 0. fight(hero_hp, attack, armour) returns the hero's health after one hit, using damage(), and never less than 0. survives(hero_hp, attacks, armour) takes a list of attack values, applies them in order with fight(), and returns True if the hero has more than 0 health at the end, or False. Your program should not ask for input: the check calls your functions with its own values.",
+      "prompt": "Write three functions for the adventure's battles, each using the one before.\n\n1. damage(attack, armour) returns the attack minus the armour, but never less than 0.\n2. fight(hero_hp, attack, armour) returns the hero's health after one hit, using damage(), and never less than 0.\n3. survives(hero_hp, attacks, armour) takes a list of attack values, applies them in order with fight(), and returns True if the hero has more than 0 health at the end, or False.\n\nYour program should not ask for input: the check calls your functions with its own values.",
       "starter": "# Define damage(), fight() and survives()\n",
       "hints": [
         "Write damage() first and check it alone: max() of two numbers picks the bigger one, which is a short way to say never less than 0.",
@@ -238,7 +238,7 @@
         "id": "browser-tests",
         "version": 1
       },
-      "version": 1
+      "version": 2
     }
   ]
 }

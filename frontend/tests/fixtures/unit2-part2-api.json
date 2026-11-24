@@ -860,7 +860,7 @@
     "description": "Give your adventure a score, and share out a chest of coins.",
     "learnTitle": "Python can do the maths",
     "learn": "Numbers in Python have no quotes around them. + adds, - takes away, * multiplies and / divides. print(3 + 4) shows 7, and a variable can hold a number, like score = 10.",
-    "detail": "Two more operators help when you share things out. // divides and keeps only the whole part: 17 // 5 is 3. % gives what is left over: 17 % 5 is 2. As in maths class, Python works out * and / before + and -. Use parentheses to choose a different order.",
+    "detail": "Two more operators help when you share things out. // divides and keeps only the whole part: 17 // 5 is 3. % gives what is left over: 17 % 5 is 2.\n\nAs in maths class, Python works out * and / before + and -. Use parentheses to choose a different order.",
     "example": "# Work out the hero's score\ngems = 4\ncoins = 13\nscore = gems * 10 + coins\nprint(score)\n# Share the coins between 5 friends\nprint(coins // 5)\nprint(coins % 5)",
     "exampleOutput": "53\n2\n3",
     "exampleNote": "Python works out gems * 10 first, so the score is 40 + 13. Then // gives each friend's whole coins, and % gives the coins left over.",
@@ -874,7 +874,7 @@
     "why": "Five friends take 2 coins each, which uses 10 of the 14. % shows what is left over, so it prints 4. 14 // 5 would show 2, and 14 / 5 would show 2.8.",
     "guided": "Give gems and coins new values. Before you run, predict all three lines, then run and compare. Try a number of coins that shares out exactly between 5, like 15: what does % show then?",
     "starter": "# These two lines ask for whole numbers (lesson 3 explains how)\ncoins = int(input(\"How many coins? \"))\nfriends = int(input(\"How many friends? \"))\n# Print each friend's whole share, then the coins left over\n",
-    "challenge": "The party opens a chest of coins to share. The starter asks for the number of coins and the number of friends. Print two lines: how many whole coins each friend gets, then how many coins are left over. Print just the two numbers. The check runs your program with several chests, including some you can't see.",
+    "challenge": "The party opens a chest of coins to share. The starter asks for the number of coins and the number of friends.\n\n1. Print how many whole coins each friend gets.\n2. Print how many coins are left over.\n\nPrint just the two numbers. The check runs your program with several chests, including some you can't see.",
     "hints": [
      "You need two results from the same two numbers: the whole coins each friend gets, and the coins left over.",
      "Look at the comment line. One operator divides and keeps only the whole part; another gives what is left over. Each result goes in its own print().",
@@ -941,7 +941,7 @@
     "description": "Find the average of two riddle scores, decimals and all.",
     "learnTitle": "Two kinds of numbers",
     "learn": "Python has two kinds of numbers. An int is a whole number, like 7 or -3. A float has a decimal point, like 2.5 or 7.0. Dividing with / always gives a float, even when the answer is whole: 6 / 3 is 2.0.",
-    "detail": "When a calculation mixes an int and a float, the answer is a float: 2 + 0.5 is 2.5. int() cuts off the decimal part without rounding, so int(3.9) is 3 and int(-2.5) is -2. A few decimals print oddly, like 0.1 + 0.2 showing 0.30000000000000004. That comes from how computers store decimals, not from a mistake in your code.",
+    "detail": "When a calculation mixes an int and a float, the answer is a float: 2 + 0.5 is 2.5. int() cuts off the decimal part without rounding, so int(3.9) is 3 and int(-2.5) is -2.\n\nA few decimals print oddly, like 0.1 + 0.2 showing 0.30000000000000004. That comes from how computers store decimals, not from a mistake in your code.",
     "example": "# How long the walk to the market takes\ndistance = 9\nspeed = 2\nhours = distance / speed\nprint(hours)\n# The whole hours, with the decimal part cut off\nprint(int(hours))\n# / gives a float even when the answer is whole\nprint(8 / 2)",
     "exampleOutput": "4.5\n4\n4.0",
     "exampleNote": "hours holds the float 4.5. int() cuts off the .5 and gives the int 4. The last line shows 4.0, not 4, because / always gives a float.",
@@ -955,7 +955,7 @@
     "why": "int() cuts off everything after the decimal point; it does not round up. So int(7.9) is 7, even though 7.9 is close to 8.",
     "guided": "Change distance to 10. Before you run, predict the first line: will it still have a decimal point? Then change the last line to print(8 // 2), predict again, and compare the two answers.",
     "starter": "# These two lines ask for whole-number scores (lesson 3 explains how)\nfirst = int(input(\"First score? \"))\nsecond = int(input(\"Second score? \"))\n# Work out the average, then print it and its whole part\n",
-    "challenge": "After two riddles, the hero has two scores. A wrong answer can make a score negative. The starter asks for both scores. Print two lines: first the average of the two scores, then the same average with its decimal part cut off by int(). Print just the two numbers.",
+    "challenge": "After two riddles, the hero has two scores. A wrong answer can make a score negative. The starter asks for both scores.\n\n1. Print the average of the two scores.\n2. Print the same average with its decimal part cut off by int().\n\nPrint just the two numbers.",
     "hints": [
      "The average of two scores is their total divided by 2. You print it twice: once as it is, and once with its decimal part cut off.",
      "Look at the order Python works in: it divides before it adds. Check that your whole total gets divided, not only the second score.",
@@ -1022,7 +1022,7 @@
     "description": "Turn the player's replies into numbers, and keep score when a riddle is solved or missed.",
     "learnTitle": "Replies are always text",
     "learn": "input() always gives back text, even when the player types digits. So \"5\" + \"5\" joins into \"55\" instead of adding up to 10. int(...) turns text like \"12\" into the whole number 12, and float(...) turns \"2.5\" into the decimal 2.5.",
-    "detail": "Wrap the reply in int(), like points = int(input(\"Points? \")). If the reply is not a whole number, such as ten or an empty reply, int() stops with a ValueError. When a reply might be empty, compare it with \"\" before you convert it, as the example on the next card does.",
+    "detail": "Wrap the reply in int(), like points = int(input(\"Points? \")). If the reply is not a whole number, such as ten or an empty reply, int() stops with a ValueError.\n\nWhen a reply might be empty, compare it with \"\" before you convert it, as the example on the next card does.",
     "example": "# Ask for the gold in your pocket, as a whole number\ngold = int(input(\"Gold in your pocket? \"))\n# Ask for the bridge toll; an empty reply means no toll\ntoll = input(\"Toll? \")\nif toll == \"\":\n    toll = \"0\"\n# Turn the toll into a number, then pay it\nprint(gold - int(toll))",
     "exampleOutput": "15",
     "exampleNote": "With 20 and 5 as replies, it prints 15. An empty toll becomes the text \"0\" first, so int() has a digit to read. Without int(), Python could not take text away from a number.",
@@ -1034,9 +1034,9 @@
     ],
     "answer": 1,
     "why": "int() only understands digits, like \"10\". The letters ten are not a whole number, so Python stops with a ValueError on line 2. You can try it on the next card.",
-    "guided": "Run the example with 20 and 5. Then predict, and run, each of these: an empty toll, and the letters ten as the gold. Last, delete int( and its ) from the gold line, run it, and read the explanation. Reset code puts the example back.",
+    "guided": "1. Run the example with 20 and 5.\n2. Predict, then run, each of these: an empty toll, and the letters ten as the gold.\n3. Delete int( and its ) from the gold line, run it, and read the explanation.\n\nReset code puts the example back.",
     "starter": "# Ask for the score and turn the reply into a whole number\n# Ask for the riddle's points; an empty reply means 0\n# Print the score if solved, then the score if missed\n",
-    "challenge": "The riddle keeper says how many points a riddle is worth. Ask for the hero's score, then for the riddle's points, and turn both replies into whole numbers yourself. Print two lines: the score if the riddle is solved (the points are added), then the score if it is missed (the points are taken away). An empty points reply means a practice riddle worth 0. Print just the two numbers.",
+    "challenge": "The riddle keeper says how many points a riddle is worth. Ask for the hero's score, then for the riddle's points, and turn both replies into whole numbers yourself.\n\n1. Print the score if the riddle is solved (the points are added).\n2. Print the score if it is missed (the points are taken away).\n\nAn empty points reply means a practice riddle worth 0. Print just the two numbers.",
     "hints": [
      "Three steps: get the score as a number, get the points as a number (or 0 when the reply is empty), then print the two results.",
      "Look at the second comment. Keep the points reply as text until you have checked whether it is \"\", and only then turn it into a number.",
@@ -1133,7 +1133,7 @@
     "description": "Compare the player's guess with the riddle keeper's secret number.",
     "learnTitle": "Compare two numbers",
     "learn": "A comparison asks Python a yes-or-no question about two values. 7 > 5 is True, and 7 < 5 is False. True and False are values too, so print(7 > 5) shows True.",
-    "detail": "There are six comparisons: < (less than), > (greater than), <= (less than or equal to), >= (greater than or equal to), == (equal to) and != (not equal to). Two equals signs compare; one equals sign stores a value. 5 <= 5 is True, but 5 < 5 is False.",
+    "detail": "There are six comparisons: < (less than), > (greater than), <= (less than or equal to), >= (greater than or equal to), == (equal to) and != (not equal to).\n\nTwo equals signs compare; one equals sign stores a value. 5 <= 5 is True, but 5 < 5 is False.",
     "example": "# The lantern needs at least 3 drops of oil\noil = 5\nprint(oil >= 3)\n# Is the tank completely full at 10?\nprint(oil == 10)\n# Is it empty?\nprint(oil < 1)",
     "exampleOutput": "True\nFalse\nFalse",
     "exampleNote": "oil is 5, so oil >= 3 is True. It is not 10, and it is not less than 1, so the other two lines show False.",
@@ -1146,7 +1146,7 @@
     "why": ">= means greater than or equal to. 3 is equal to 3, so the answer is True. print(oil > 3) would show False.",
     "guided": "Set oil to 3, then to 0. Before each run, predict all three lines, then run and compare. Then change >= to > and see which line changes.",
     "starter": "# These two lines ask for the secret number and the guess\nsecret = int(input(\"Secret number? \"))\nguess = int(input(\"Your guess? \"))\n# Print True or False: too high, then too low, then exactly right\n",
-    "challenge": "The riddle keeper has a secret number, and the player makes a guess. The starter asks for both. Print three lines, each True or False: is the guess too high, is it too low, and is it exactly right? Print just the three answers. The check tries several guesses, including some you can't see.",
+    "challenge": "The riddle keeper has a secret number, and the player makes a guess. The starter asks for both. Print three lines, each True or False:\n\n1. Is the guess too high?\n2. Is it too low?\n3. Is it exactly right?\n\nPrint just the three answers. The check tries several guesses, including some you can't see.",
     "hints": [
      "Each line is one comparison between guess and secret. print() of a comparison shows True or False.",
      "Look at the comment. Too high means the guess is bigger than the secret, too low means it is smaller, and right means they are equal. Comparing for equal uses two equals signs.",
@@ -1225,7 +1225,7 @@
     "description": "Decide whether a guess is close or out of range by joining comparisons together.",
     "learnTitle": "Join two questions into one",
     "learn": "and, or and not combine True and False. A and B is True only when both are True. A or B is True when at least one of them is True. not flips True to False, and False to True.",
-    "detail": "Each side of and or or is a whole comparison: write x > 0 and x < 10, not x > 0 and < 10. Python works out the comparisons first, then not, then and, then or. Use parentheses when you want to be sure of the order.",
+    "detail": "Each side of and or or is a whole comparison: write x > 0 and x < 10, not x > 0 and < 10.\n\nPython works out the comparisons first, then not, then and, then or. Use parentheses when you want to be sure of the order.",
     "example": "# The bridge is safe for 2 to 6 travellers\ntravellers = 7\nprint(travellers >= 2 and travellers <= 6)\n# Too few or too many?\nprint(travellers < 2 or travellers > 6)\n# Flip the first answer with not\nprint(not (travellers >= 2 and travellers <= 6))",
     "exampleOutput": "False\nTrue\nTrue",
     "exampleNote": "7 is at least 2 but more than 6, so the and line is False. The or line needs only one side to be True, and 7 > 6 is. not flips the first answer from False to True.",
@@ -1238,7 +1238,7 @@
     "why": "2 >= 2 is True and 2 <= 6 is True. With and, both sides are True, so the whole line is True.",
     "guided": "Try travellers = 2, then 6, then 0, and predict the three lines before each run. Then change and to or in the first print(). Find a number of travellers where the answer changes, and explain why.",
     "starter": "# Ask for the secret number, then the guess, as whole numbers\n# Print True or False: close, out of range, not close\n",
-    "challenge": "The riddle keeper's secret number is always from 1 to 100. Ask for the secret and the guess, as whole numbers. Print three lines, each True or False: is the guess close (no more than 2 away from the secret, on either side); is the guess out of range (below 1 or above 100); and is the guess not close? Print just the three answers.",
+    "challenge": "The riddle keeper's secret number is always from 1 to 100. Ask for the secret and the guess, as whole numbers, then print three lines, each True or False:\n\n1. Is the guess close (no more than 2 away from the secret, on either side)?\n2. Is the guess out of range (below 1 or above 100)?\n3. Is the guess not close?\n\nPrint just the three answers.",
     "hints": [
      "Three lines, three joined questions. Close needs two comparisons joined with and. Out of range needs two joined with or. The last line flips the first one with not.",
      "Close means the guess is at least secret - 2 and at most secret + 2. Out of range means below 1 or above 100. Check whether each limit should use < or <=.",
@@ -1331,7 +1331,7 @@
     "why": "Python runs only the first block whose condition is True. 30 >= 25 is True, so light cloak prints, and the elif and else are skipped.",
     "guided": "Predict the cloak for 25, 10 and 9, then run each one. Next, change elif to if, run with 30 and compare: why do two lines print now? Reset code puts the example back.",
     "starter": "# Ask for the secret number and the guess\n# Print 10, 5, 1 or 0: check the closest case first\n",
-    "challenge": "The riddle keeper gives points for a guess: 10 if it is exactly right, 5 if it is close (no more than 2 away), 1 if it is no more than 10 away, and 0 otherwise. Ask for the secret number and the guess, then print the points. Print just the number.",
+    "challenge": "The riddle keeper gives points for a guess. Ask for the secret number and the guess, then print the points:\n\n- 10 if it is exactly right\n- 5 if it is close (no more than 2 away)\n- 1 if it is no more than 10 away\n- 0 otherwise\n\nPrint just the number.",
     "hints": [
      "One guess gets one score. Work out how close the guess is to the secret, then print exactly one of 10, 5, 1 or 0.",
      "Look at the order of your checks. A guess that is exactly right is also close, so ask about exactly right first, then close, then within 10, and let else give 0.",
@@ -1426,7 +1426,7 @@
   "py.compare": {
    "lesson_id": "py.compare",
    "task_id": "py.compare.challenge",
-   "version": 1,
+   "version": 2,
    "time_limit_ms": 3000,
    "output_limit": 10000,
    "cases": [
@@ -1493,7 +1493,7 @@
   "py.boolean-logic": {
    "lesson_id": "py.boolean-logic",
    "task_id": "py.boolean-logic.challenge",
-   "version": 1,
+   "version": 2,
    "time_limit_ms": 3000,
    "output_limit": 10000,
    "cases": [
@@ -1570,7 +1570,7 @@
   "py.elif": {
    "lesson_id": "py.elif",
    "task_id": "py.elif.challenge",
-   "version": 1,
+   "version": 2,
    "time_limit_ms": 3000,
    "output_limit": 10000,
    "cases": [

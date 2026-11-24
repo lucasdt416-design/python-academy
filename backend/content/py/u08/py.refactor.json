@@ -18,7 +18,7 @@
       "type": "discover",
       "title": "Change the shape, keep the behaviour",
       "body": "Refactoring means rewriting code so it is easier to read and change, while it does exactly what it did before. Repeated lines become one function, and values scattered through the code become one dictionary.",
-      "detail": "Work in small steps, and run the program after each one, comparing its output with what it printed before. Tests are a safety net: if they pass before and after, the behaviour has not changed. Leave new features for later, because mixing them in makes a mistake hard to find."
+      "detail": "Work in small steps, and run the program after each one, comparing its output with what it printed before.\n\nTests are a safety net: if they pass before and after, the behaviour has not changed. Leave new features for later, because mixing them in makes a mistake hard to find."
     },
     {
       "id": "py.refactor.example",
@@ -48,7 +48,7 @@
     {
       "id": "py.refactor.challenge",
       "type": "challenge",
-      "prompt": "The till in your editor works, but each price is written three times. Tidy it: keep the prices in one dictionary, write a function cost(item, amount) that returns the cost of one order (0 for anything the shop does not sell), and use cost() in the loop. Your program must print exactly what it prints now. The check runs it with orders, and calls cost() on its own.",
+      "prompt": "The till in your editor works, but each price is written three times. Tidy it:\n\n1. Keep the prices in one dictionary.\n2. Write a function cost(item, amount) that returns the cost of one order (0 for anything the shop does not sell).\n3. Use cost() in the loop.\n\nYour program must print exactly what it prints now. The check runs it with orders, and calls cost() on its own.",
       "starter": "# Works, but repeats itself. Tidy it without changing what it prints.\norders = int(input(\"How many orders? \"))\ntotal = 0\nfor n in range(orders):\n    item = input(\"Item? \")\n    amount = int(input(\"Amount? \"))\n    if item == \"bread\":\n        print(item, amount * 3)\n        total = total + amount * 3\n    elif item == \"milk\":\n        print(item, amount * 2)\n        total = total + amount * 2\n    elif item == \"apple\":\n        print(item, amount * 1)\n        total = total + amount * 1\n    else:\n        print(item, 0)\nprint(\"total\", total)\n",
       "hints": [
         "Start with the prices: one dictionary from each item to its price. Run the program: nothing should change yet.",
@@ -201,7 +201,7 @@
         "id": "browser-tests",
         "version": 1
       },
-      "version": 1
+      "version": 2
     }
   ]
 }
