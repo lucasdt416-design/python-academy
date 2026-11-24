@@ -4,6 +4,11 @@ import {test, expect, Page} from '@playwright/test';
 // for real in Pyodide here, so each test also proves the browser reports what the recording expects.
 import recorded from './fixtures/unit2-api.json';
 
+// Lesson text can be a goal, then numbered steps, each line shown in its own paragraph or list item.
+async function expectProse(page: Page, text: string) {
+ for (const line of text.split(/\n+/).map(l => l.replace(/^(\d+\.|-)\s+/, '').trim()).filter(Boolean)) await expect(page.locator('.teaching-panel')).toContainText(line);
+}
+
 /* EDU-04 part 1: py.arithmetic, py.int-float and py.convert-input, end to end. */
 
 type Scenario = (typeof recorded.scenarios)[number];
@@ -90,7 +95,7 @@ for (const lesson of LESSONS) {
   const data = recorded.units['py.u02'].find(l => l.id === lesson.id)!;
   await page.goto(`/preview?lesson=${lesson.id}`);
   await expect(page.getByRole('heading', {level: 2, name: data.learnTitle})).toBeVisible();
-  await expect(page.getByText(data.learn)).toBeVisible();
+  await expectProse(page, data.learn);
   await page.getByRole('button', {name: 'Continue →'}).click();
   await expect(page.locator('.teaching-panel .example-code')).toHaveText(data.example);
   await expect(page.locator('.teaching-panel pre.output')).toHaveText(data.exampleOutput);
@@ -103,13 +108,13 @@ for (const lesson of LESSONS) {
   await prediction.getByRole('button', {name: data.options[data.answer], exact: true}).click();
   await expect(page.getByRole('status').filter({hasText: 'That’s it!'})).toBeVisible();
   await page.getByRole('button', {name: 'Continue →'}).click();
-  await expect(page.getByText(data.guided)).toBeVisible();
+  await expectProse(page, data.guided);
   // "Try it" runs the worked example for real, with its replies, and says it is not a check.
   await page.getByRole('button', {name: 'Run Python →'}).click();
   await expect(result(page)).toContainText('Ran · not checked', {timeout: 45000});
   await expect(page.locator('.execution-output')).toHaveText(data.exampleOutput);
   await page.getByRole('button', {name: 'Start my challenge'}).click();
-  await expect(page.getByText(data.challenge)).toBeVisible();
+  await expectProse(page, data.challenge);
   await expect(page.getByText(`Complete the challenge to earn the ${lesson.badge} badge and 100 XP.`)).toBeVisible();
   await expect(page.getByLabel('Your Python code')).toHaveValue(data.starter);
  });

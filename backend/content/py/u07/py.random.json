@@ -18,7 +18,7 @@
       "type": "discover",
       "title": "Numbers you cannot guess",
       "body": "import random gives a program chance. random.randint(1, 6) picks a whole number from 1 to 6, both included. random.choice(paths) picks one item from a list, and random.shuffle(cards) mixes a list in place.",
-      "detail": "The numbers only look random: they are worked out from a starting number called a seed. random.seed(7) at the start makes every run give the same numbers, which is how games are tested and how this page checks your program. Without a seed, each run differs."
+      "detail": "The numbers only look random: they are worked out from a starting number called a seed. random.seed(7) at the start makes every run give the same numbers, which is how games are tested and how this page checks your program.\n\nWithout a seed, each run differs."
     },
     {
       "id": "py.random.example",
@@ -48,7 +48,7 @@
     {
       "id": "py.random.challenge",
       "type": "challenge",
-      "prompt": "The riddle keeper rolls dice. Ask for the number of dice and the number of sides each one has. Roll every die with random.randint(), from 1 to the number of sides, and print each roll on its own line, then the total of all the rolls on the last line. Do not call random.seed() yourself: the check sets the seed, so its numbers match yours.",
+      "prompt": "The riddle keeper rolls dice.\n\n1. Ask for the number of dice and the number of sides each one has.\n2. Roll every die with random.randint(), from 1 to the number of sides, and print each roll on its own line.\n3. On the last line, print the total of all the rolls.\n\nDo not call random.seed() yourself: the check sets the seed, so its numbers match yours.",
       "starter": "# Import random, then roll each die\n",
       "hints": [
         "Import random at the top. A for loop over range() rolls once per die.",
@@ -175,7 +175,7 @@
         "id": "browser-tests",
         "version": 1
       },
-      "version": 1
+      "version": 2
     }
   ]
 }

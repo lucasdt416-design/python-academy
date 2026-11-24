@@ -18,7 +18,7 @@
       "type": "discover",
       "title": "Work with dates, not just numbers",
       "body": "from datetime import date gives a tool for calendar dates: date(2026, 3, 1) is the first of March 2026. Taking one date from another gives a timedelta, and its .days says how many days apart they are.",
-      "detail": "Adding timedelta(days=10) to a date moves it 10 days on, across month and year ends, and through 29 February in a leap year. .weekday() gives 0 for Monday up to 6 for Sunday, and .isoformat() writes a date as 2026-03-01, which is also how print() shows it. Checks here never read today's date, because it changes: they use fixed dates."
+      "detail": "Adding timedelta(days=10) to a date moves it 10 days on, across month and year ends, and through 29 February in a leap year.\n\n.weekday() gives 0 for Monday up to 6 for Sunday, and .isoformat() writes a date as 2026-03-01, which is also how print() shows it.\n\nChecks here never read today's date, because it changes: they use fixed dates."
     },
     {
       "id": "py.datetime.example",
@@ -48,7 +48,7 @@
     {
       "id": "py.datetime.challenge",
       "type": "challenge",
-      "prompt": "Plan study sessions. Ask for a start date as three whole numbers, the year, the month and the day, then how many sessions there are and how many days apart they are. Print the date of every session, starting with the start date, one per line, in the form 2026-03-02. On the last line, print how many of the sessions fall on a Saturday or a Sunday.",
+      "prompt": "Plan study sessions.\n\n1. Ask for a start date as three whole numbers: the year, the month and the day.\n2. Ask how many sessions there are and how many days apart they are.\n3. Print the date of every session, starting with the start date, one per line, in the form 2026-03-02.\n4. On the last line, print how many of the sessions fall on a Saturday or a Sunday.",
       "starter": "# Read the start date, then list the sessions\n",
       "hints": [
         "Make the start date with date(year, month, day), after turning the replies into whole numbers.",
@@ -191,7 +191,7 @@
         "id": "browser-tests",
         "version": 1
       },
-      "version": 1
+      "version": 2
     }
   ]
 }

@@ -18,7 +18,7 @@
       "type": "discover",
       "title": "Keep many things under one name",
       "body": "A list holds several values in order, inside square brackets: pack = [\"rope\", \"map\"]. pack.append(\"lamp\") adds one more to the end, and len(pack) says how many there are.",
-      "detail": "item in pack is True when the item is somewhere in the list, and False when it is not. append() changes the list itself and gives back nothing, so it goes on a line of its own: pack.append(\"lamp\"). An empty list, [], has a length of 0."
+      "detail": "item in pack is True when the item is somewhere in the list, and False when it is not. append() changes the list itself and gives back nothing, so it goes on a line of its own: pack.append(\"lamp\").\n\nAn empty list, [], has a length of 0."
     },
     {
       "id": "py.lists.example",
@@ -48,7 +48,7 @@
     {
       "id": "py.lists.challenge",
       "type": "challenge",
-      "prompt": "Pack the hero's bag. Ask how many items to pack (it can be 0), then ask for each item and add it to a list. Then ask for one more item to look for. Print three lines: how many items are in the pack, True or False for whether the item you looked for is in it, and the pack itself, with print(). Print just those three lines.",
+      "prompt": "Pack the hero's bag.\n\n1. Ask how many items to pack (it can be 0), then ask for each item and add it to a list.\n2. Ask for one more item to look for.\n3. Print how many items are in the pack.\n4. Print True or False for whether the item you looked for is in it.\n5. Print the pack itself, with print().\n\nPrint just those three lines.",
       "starter": "# Ask how many items, then pack them one at a time\n",
       "hints": [
         "You need a list that starts empty, above the loop, and grows by one item each time round the loop.",
@@ -197,7 +197,7 @@
         "id": "browser-tests",
         "version": 1
       },
-      "version": 1
+      "version": 2
     }
   ]
 }

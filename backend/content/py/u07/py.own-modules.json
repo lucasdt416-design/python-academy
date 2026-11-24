@@ -18,7 +18,7 @@
       "type": "discover",
       "title": "Split a program into files",
       "body": "A file of your own, such as helpers.py, is a module too. import helpers runs it once and lets the program use what it defines, as helpers.greet(\"Nova\"). from helpers import greet brings in one name.",
-      "detail": "Keep the tools in the helper file and the story in main.py. A module's top-level lines run when it is imported, so a helper file should mostly hold definitions. On this page a file can't take the name of one of Python's own modules, such as random.py, and files are not saved between runs."
+      "detail": "Keep the tools in the helper file and the story in main.py. A module's top-level lines run when it is imported, so a helper file should mostly hold definitions.\n\nOn this page a file can't take the name of one of Python's own modules, such as random.py, and files are not saved between runs."
     },
     {
       "id": "py.own-modules.example",
@@ -51,7 +51,7 @@
     {
       "id": "py.own-modules.challenge",
       "type": "challenge",
-      "prompt": "Quiz tool v1. In grader.py, write grade(score, total), which returns the letter A for 90 percent or more, B for 70 or more, C for 50 or more, and F otherwise. In main.py, use it: ask how many quizzes there were, then each quiz's score and total, as whole numbers. Print each quiz's letter, and on the last line how many quizzes got an A. The check runs main.py with your grader.py.",
+      "prompt": "Quiz tool v1, in two files.\n\n1. In grader.py, write grade(score, total), which returns the letter A for 90 percent or more, B for 70 or more, C for 50 or more, and F otherwise.\n2. In main.py, ask how many quizzes there were, then each quiz's score and total, as whole numbers.\n3. Print each quiz's letter, using grade().\n4. On the last line, print how many quizzes got an A.\n\nThe check runs main.py with your grader.py.",
       "starter": "# Use grade() from grader.py\n",
       "hints": [
         "In grader.py, write grade() so it returns a letter. In main.py, from grader import grade at the top brings it in.",
@@ -186,7 +186,7 @@
         "id": "browser-tests",
         "version": 1
       },
-      "version": 1,
+      "version": 2,
       "modules": {
         "grader.py": "# Write grade(score, total) here\n"
       }

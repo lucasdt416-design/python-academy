@@ -18,7 +18,7 @@
       "type": "discover",
       "title": "Write down what should be true",
       "body": "assert total == 15 does nothing when it is true. When it is false, it stops the program with an AssertionError. A list of asserts is a test: it checks that code gives the answers you expect.",
-      "detail": "Test a function by calling it with values you have worked out by hand: assert add_points(2, 3) == 5. A test that can never fail, such as assert True, checks nothing. A message after a comma explains a failure: assert lives > 0, \"out of lives\"."
+      "detail": "Test a function by calling it with values you have worked out by hand: assert add_points(2, 3) == 5.\n\nA test that can never fail, such as assert True, checks nothing. A message after a comma explains a failure: assert lives > 0, \"out of lives\"."
     },
     {
       "id": "py.assert-tests.example",
@@ -48,7 +48,7 @@
     {
       "id": "py.assert-tests.challenge",
       "type": "challenge",
-      "prompt": "The check has a function bonus(points, streak) that doubles the points when the streak is 3 or more, and otherwise returns the points unchanged. Write asserts that test bonus(). The check runs your tests on a correct bonus(), where they must all pass, and on broken versions, where at least one must fail. Do not write bonus() yourself: the check provides it.",
+      "prompt": "The check has a function bonus(points, streak) that doubles the points when the streak is 3 or more, and otherwise returns the points unchanged. Write asserts that test bonus().\n\nThe check runs your tests on a correct bonus(), where they must all pass, and on broken versions, where at least one must fail. Do not write bonus() yourself: the check provides it.",
       "starter": "# Write asserts that test bonus(points, streak)\n",
       "hints": [
         "Each test calls bonus() with values you choose, and compares the answer with one you worked out by hand: assert, the call, ==, and the answer.",
@@ -160,7 +160,7 @@
         "id": "browser-tests",
         "version": 1
       },
-      "version": 1
+      "version": 2
     }
   ]
 }

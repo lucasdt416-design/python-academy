@@ -18,7 +18,7 @@
       "type": "discover",
       "title": "Build up an answer, one turn at a time",
       "body": "A running total starts at 0 before the loop. Inside the loop, total = total + coins adds this turn's number to what is already there. When the loop ends, total holds the sum of them all.",
-      "detail": "A counter works the same way, but adds 1 each time something happens, often inside an if. The start line goes above the loop, so it runs once: inside the loop it would wipe the total every turn. For an average, divide the total by how many numbers there were, after the loop."
+      "detail": "A counter works the same way, but adds 1 each time something happens, often inside an if.\n\nThe start line goes above the loop, so it runs once: inside the loop it would wipe the total every turn. For an average, divide the total by how many numbers there were, after the loop."
     },
     {
       "id": "py.accumulate.example",
@@ -47,12 +47,12 @@
     {
       "id": "py.accumulate.guided",
       "type": "guided",
-      "prompt": "Predict, then run: move total = 0 inside the loop, as the first line of its block, and check your prediction. Put it back above the loop. Then add a counter for empty chests: start it above the loop, add 1 inside an if, and print it at the end."
+      "prompt": "1. Predict, then run: move total = 0 inside the loop, as the first line of its block, and check your prediction.\n2. Put it back above the loop.\n3. Add a counter for empty chests: start it above the loop, add 1 inside an if, and print it at the end."
     },
     {
       "id": "py.accumulate.challenge",
       "type": "challenge",
-      "prompt": "The riddle keeper's game now has rounds. Ask how many rounds were played (always at least 1), then ask for the points from each round. Print three lines: the total points, how many rounds scored 0, and the average points per round, using /. Print just the numbers.",
+      "prompt": "The riddle keeper's game now has rounds. Ask how many rounds were played (always at least 1), then ask for the points from each round. Print three lines:\n\n1. The total points.\n2. How many rounds scored 0.\n3. The average points per round, using /.\n\nPrint just the numbers.",
       "starter": "# Ask for the rounds, then the points from each round\n",
       "hints": [
         "You need two things that build up as the loop runs, and both start at 0 above the loop: one for the points, and one for the rounds that scored 0.",
@@ -206,7 +206,7 @@
         "id": "browser-tests",
         "version": 1
       },
-      "version": 1
+      "version": 2
     }
   ]
 }

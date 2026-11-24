@@ -48,7 +48,7 @@
     {
       "id": "py.composition.challenge",
       "type": "challenge",
-      "prompt": "Write three classes. Item has a name and a weight. Pack has a weight limit, a list of items, a method weight() that returns the total weight of its items, and a method add(item) that adds the item and returns True only if the total stays within the limit, and otherwise returns False and changes nothing. Hero has a name and a pack whose limit is the hero's strength. Ask for the hero's name and strength, then how many items there are, then each item's name and weight, all weights being whole numbers. Try to add each item to the hero's pack, and print its name and added, or its name and too heavy. Then print the hero's name, carries, and the pack's weight, like Nova carries 5, and on the last line the names of the items in the pack, joined with a comma and a space, or nothing if it is empty.",
+      "prompt": "Write three classes, then pack the hero's bag.\n\n1. Item has a name and a weight.\n2. Pack has a weight limit, a list of items, and a method weight() that returns the total weight of its items.\n3. Pack's method add(item) adds the item and returns True only if the total stays within the limit, and otherwise returns False and changes nothing.\n4. Hero has a name and a pack whose limit is the hero's strength.\n5. Ask for the hero's name and strength, then how many items there are, then each item's name and weight, all weights being whole numbers.\n6. Try to add each item to the hero's pack, and print its name and added, or its name and too heavy.\n7. Print the hero's name, carries, and the pack's weight, like Nova carries 5.\n8. On the last line, print the names of the items in the pack, joined with a comma and a space, or nothing if it is empty.",
       "starter": "# Define Item, Pack and Hero, then pack the hero's bag\n",
       "hints": [
         "Write Item first, then Pack, then Hero, and test each alone. Hero's __init__ makes a Pack with the strength as its limit.",
@@ -203,7 +203,7 @@
         "id": "browser-tests",
         "version": 1
       },
-      "version": 1
+      "version": 2
     }
   ]
 }

@@ -18,7 +18,7 @@
       "type": "discover",
       "title": "Look things up by name",
       "body": "A dictionary pairs each key with a value: rooms = {\"hall\": \"lamp\", \"cellar\": \"rope\"}. rooms[\"hall\"] gives \"lamp\". Keys must match exactly, so \"Hall\" is a different key.",
-      "detail": "rooms[\"tower\"] = \"key\" adds a pair, or replaces the value if that key is already there. rooms[\"attic\"], for a key that is not there, stops with a KeyError; rooms.get(\"attic\", \"nothing\") gives \"nothing\" instead. for room, item in rooms.items(): visits each pair, in the order the keys were first added."
+      "detail": "rooms[\"tower\"] = \"key\" adds a pair, or replaces the value if that key is already there.\n\nrooms[\"attic\"], for a key that is not there, stops with a KeyError; rooms.get(\"attic\", \"nothing\") gives \"nothing\" instead. for room, item in rooms.items(): visits each pair, in the order the keys were first added."
     },
     {
       "id": "py.dicts.example",
@@ -48,7 +48,7 @@
     {
       "id": "py.dicts.challenge",
       "type": "challenge",
-      "prompt": "Each room of the keep holds one thing. Ask how many rooms there are, then for each room ask for its name and then what it holds. A room named twice is one room, holding the thing given last. Then ask for a room to search. Print three lines: what the searched room holds, or empty if there is no such room; how many rooms there are; and the whole dictionary, with print(). Print just those three lines.",
+      "prompt": "Each room of the keep holds one thing.\n\n1. Ask how many rooms there are, then for each room ask for its name and then what it holds. A room named twice is one room, holding the thing given last.\n2. Ask for a room to search.\n3. Print what the searched room holds, or empty if there is no such room.\n4. Print how many rooms there are.\n5. Print the whole dictionary, with print().\n\nPrint just those three lines.",
       "starter": "# Read each room and what it holds, then the room to search\n",
       "hints": [
         "Make an empty dictionary, {}, before the loop. Each time round, read a name and a thing, and pair them, with the name as the key.",
@@ -202,7 +202,7 @@
         "id": "browser-tests",
         "version": 1
       },
-      "version": 1
+      "version": 2
     }
   ]
 }

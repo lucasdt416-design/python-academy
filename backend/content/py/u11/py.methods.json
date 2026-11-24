@@ -18,7 +18,7 @@
       "type": "discover",
       "title": "Give objects things they can do",
       "body": "A method is a function inside a class. def heal(self, amount): with self.health = self.health + amount inside changes that hero's own health. nova.heal(3) calls it, and Python passes nova in as self.",
-      "detail": "Methods keep the rules in one place: take_hit() can make sure health never goes below 0, wherever a hit comes from. Each object keeps its own state, so healing Nova leaves Kai alone. A method can also answer a question by returning a value, like is_alive()."
+      "detail": "Methods keep the rules in one place: take_hit() can make sure health never goes below 0, wherever a hit comes from.\n\nEach object keeps its own state, so healing Nova leaves Kai alone. A method can also answer a question by returning a value, like is_alive()."
     },
     {
       "id": "py.methods.example",
@@ -48,7 +48,7 @@
     {
       "id": "py.methods.challenge",
       "type": "challenge",
-      "prompt": "Write a class Hero with a name, health that starts at 10, and potions that start at 2, and three methods. hit(damage) takes the damage off the health, never below 0. drink() uses a potion, if there is one left, to add 5 health, never above 10; with no potions it does nothing. status() returns text like Nova 10/10 potions: 2. Then ask for the hero's name and read commands until the command end: hit, followed by the damage on the next line, or drink. After each command, print the hero's status.",
+      "prompt": "Write a class Hero with a name, health that starts at 10, and potions that start at 2, and three methods:\n\n- hit(damage) takes the damage off the health, never below 0.\n- drink() uses a potion, if there is one left, to add 5 health, never above 10; with no potions it does nothing.\n- status() returns text like Nova 10/10 potions: 2.\n\nThen ask for the hero's name and read commands until the command end: hit, followed by the damage on the next line, or drink. After each command, print the hero's status.",
       "starter": "# Define class Hero with hit(), drink() and status()\n",
       "hints": [
         "Each method changes or reads only self's attributes. min(a, b) gives the smaller of two numbers and max(a, b) the bigger, so min(health, 10) is never more than 10 and max(health, 0) never less than 0.",
@@ -198,7 +198,7 @@
         "id": "browser-tests",
         "version": 1
       },
-      "version": 1
+      "version": 2
     }
   ]
 }

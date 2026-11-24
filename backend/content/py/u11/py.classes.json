@@ -48,7 +48,7 @@
     {
       "id": "py.classes.challenge",
       "type": "challenge",
-      "prompt": "Ask how many heroes are in the party (always at least 1), then each hero's name and health, as a whole number. Make a Hero object for each, with a name, a health, and a level that always starts at 1, and keep them in a list. Print one line per hero, in order, like Nova: 10 health, level 1. On the last line, print the name of the hero with the most health; if heroes tie, the first of them.",
+      "prompt": "Make a Hero object for each hero in the party.\n\n1. Ask how many heroes are in the party (always at least 1), then each hero's name and health, as a whole number.\n2. Make a Hero for each, with a name, a health, and a level that always starts at 1, and keep them in a list.\n3. Print one line per hero, in order, like Nova: 10 health, level 1.\n4. On the last line, print the name of the hero with the most health; if heroes tie, the first of them.",
       "starter": "# Define class Hero, then build the party\n",
       "hints": [
         "__init__ takes self, the name and the health, and stores each on self. The level isn't a parameter at all: it is always 1.",
@@ -195,7 +195,7 @@
         "id": "browser-tests",
         "version": 1
       },
-      "version": 1
+      "version": 2
     }
   ]
 }

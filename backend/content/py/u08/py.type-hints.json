@@ -18,7 +18,7 @@
       "type": "discover",
       "title": "Say what kind of value goes where",
       "body": "def tip(bill: float, percent: int) -> float: tells a reader that bill is a decimal number, percent a whole number, and that the function gives back a decimal. These hints are for people and tools: Python does not check them when the program runs.",
-      "detail": "Common hints are int, float, str, bool, list[int] for a list of whole numbers, and dict[str, int]. A name can have one too: lives: int = 3. Because Python ignores hints while running, a call such as twice(\"ha\") is not stopped by them. A function's hints are kept in its __annotations__, which you can print."
+      "detail": "Common hints are int, float, str, bool, list[int] for a list of whole numbers, and dict[str, int]. A name can have one too: lives: int = 3.\n\nBecause Python ignores hints while running, a call such as twice(\"ha\") is not stopped by them. A function's hints are kept in its __annotations__, which you can print."
     },
     {
       "id": "py.type-hints.example",
@@ -48,7 +48,7 @@
     {
       "id": "py.type-hints.challenge",
       "type": "challenge",
-      "prompt": "Write shares(coins: int, friends: int) -> list[int], with exactly those hints, which returns a list of how many coins each friend gets, shared as evenly as possible: everyone gets coins // friends, and the first coins % friends friends get one more. At the end of your program, print(shares.__annotations__) so the check can read your hints. Do not ask for input.",
+      "prompt": "Write shares(coins: int, friends: int) -> list[int], with exactly those hints.\n\n1. It returns a list of how many coins each friend gets, shared as evenly as possible.\n2. Everyone gets coins // friends, and the first coins % friends friends get one more.\n3. At the end of your program, print(shares.__annotations__) so the check can read your hints.\n\nDo not ask for input.",
       "starter": "# Define shares() with type hints, then print its __annotations__\n",
       "hints": [
         "The def line carries the hints: a colon and a type after each parameter, then -> and the return type before the final colon.",
@@ -218,7 +218,7 @@
         "id": "browser-tests",
         "version": 1
       },
-      "version": 1
+      "version": 2
     }
   ]
 }

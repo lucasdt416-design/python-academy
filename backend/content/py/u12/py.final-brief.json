@@ -17,8 +17,8 @@
       "id": "py.final-brief.discover",
       "type": "discover",
       "title": "Plan it before you build it",
-      "body": "Your final project is a program you plan and build yourself. There are three, from smaller to larger: Lockpick, a word-guessing game; Site Builder, which turns a data file into a small website; and Planner, a to-do app that keeps your plan. Pick the one that stretches you without stopping you.",
-      "detail": "A brief says what you will build before you build it: who it is for, what it must do, and what it will not do yet. The not-yet list matters most, because it keeps the project small enough to finish. Milestones split the work into pieces you can run and show."
+      "body": "Your final project is a program you plan and build yourself.\n\nThere are three, from smaller to larger: Lockpick, a word-guessing game; Site Builder, which turns a data file into a small website; and Planner, a to-do app that keeps your plan. Pick the one that stretches you without stopping you.",
+      "detail": "A brief says what you will build before you build it: who it is for, what it must do, and what it will not do yet.\n\nThe not-yet list matters most, because it keeps the project small enough to finish. Milestones split the work into pieces you can run and show."
     },
     {
       "id": "py.final-brief.example",
@@ -48,7 +48,7 @@
     {
       "id": "py.final-brief.challenge",
       "type": "challenge",
-      "prompt": "Choose one project and write its brief. Lockpick: a word game where six wrong letters jam the lock (one file, 6 to 8 hours, a good first big program). Site Builder: turns a data file into a small website (10 to 15 hours, after unit 10). Planner: a to-do app that remembers your plan (several files, 20 to 30 hours, after every unit). Signed in, your recorded brief comes back here each time you open this lesson.",
+      "prompt": "Choose one project and write its brief.\n\n- Lockpick: a word game where six wrong letters jam the lock (one file, 6 to 8 hours, a good first big program).\n- Site Builder: turns a data file into a small website (10 to 15 hours, after unit 10).\n- Planner: a to-do app that remembers your plan (several files, 20 to 30 hours, after every unit).\n\nSigned in, your recorded brief comes back here each time you open this lesson.",
       "starter": "",
       "hints": [
         "Choose by what you finished, not by what sounds biggest: a small project that works beats a large one that does not.",
@@ -63,7 +63,7 @@
         "id": "self-review",
         "version": 1
       },
-      "version": 1,
+      "version": 2,
       "self_review": {
         "kind": "rubric",
         "criteria": [

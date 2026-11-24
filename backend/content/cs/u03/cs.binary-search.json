@@ -17,8 +17,8 @@
       "id": "cs.binary-search.discover",
       "type": "discover",
       "title": "Throw away half with every look",
-      "body": "In a sorted list, look at the middle item. If it is the one you want, you are done. If it is too small, what you want can only be to its right; too big, only to its left. Either way, half the list is gone after one look.",
-      "detail": "Keep two positions, low and high, for the part still worth searching, and look at middle = (low + high) // 2. Stop when they cross. A thousand items take at most ten looks, a million about twenty. It only works if the list is sorted."
+      "body": "In a sorted list, look at the middle item. If it is the one you want, you are done.\n\nIf it is too small, what you want can only be to its right; too big, only to its left. Either way, half the list is gone after one look.",
+      "detail": "Keep two positions, low and high, for the part still worth searching, and look at middle = (low + high) // 2.\n\nStop when they cross. A thousand items take at most ten looks, a million about twenty. It only works if the list is sorted."
     },
     {
       "id": "cs.binary-search.example",
@@ -48,7 +48,7 @@
     {
       "id": "cs.binary-search.challenge",
       "type": "challenge",
-      "prompt": "Write binary_find(items, target) for a list items sorted from smallest to largest. Search it as the lesson does: keep low and high, look at middle = (low + high) // 2 each time, and move low or high past it. Return a list: the position of target and how many middles you looked at, or -1 and the number of looks if it is not there. Do not ask for input: the check calls your functions with its own values.",
+      "prompt": "Write binary_find(items, target) for a list items sorted from smallest to largest.\n\n1. Search it as the lesson does: keep low and high, look at middle = (low + high) // 2 each time, and move low or high past it.\n2. Return a list: the position of target and how many middles you looked at.\n3. If target is not there, return -1 and the number of looks.\n\nDo not ask for input: the check calls your functions with its own values.",
       "starter": "# Define binary_find(items, target)\n",
       "hints": [
         "Start with low at the first position and high at the last. Keep going while low is no more than high, and count one look each time round.",
@@ -441,7 +441,7 @@
         "id": "browser-tests",
         "version": 1
       },
-      "version": 1
+      "version": 2
     }
   ]
 }

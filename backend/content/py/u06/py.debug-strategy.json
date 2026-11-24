@@ -18,7 +18,7 @@
       "type": "discover",
       "title": "When the answer is wrong, not the program",
       "body": "Some bugs never crash: the program runs and prints the wrong thing. To find one, guess what each name should hold at each step, then check it with a print() inside the code.",
-      "detail": "Change one thing at a time and run again, so you know which change mattered. Try the smallest input that goes wrong, like a single round. Explaining each line out loud, even to a rubber duck, often shows the line that does not do what you meant. Take the extra print() lines out when you are done."
+      "detail": "Change one thing at a time and run again, so you know which change mattered. Try the smallest input that goes wrong, like a single round.\n\nExplaining each line out loud, even to a rubber duck, often shows the line that does not do what you meant. Take the extra print() lines out when you are done."
     },
     {
       "id": "py.debug-strategy.example",
@@ -48,7 +48,7 @@
     {
       "id": "py.debug-strategy.challenge",
       "type": "challenge",
-      "prompt": "The tally in your editor should ask how many rounds were played (always at least 1), then the points from each round, which can be negative. It should print two lines: the best score of any round, and how many rounds were wins, where a win scores 10 or more. It runs, but its answers are wrong. Find and fix its three bugs.",
+      "prompt": "The tally in your editor runs, but its answers are wrong. Find and fix its three bugs. It should:\n\n1. Ask how many rounds were played (always at least 1), then the points from each round, which can be negative.\n2. Print the best score of any round.\n3. Print how many rounds were wins, where a win scores 10 or more.",
       "starter": "# The tally gives wrong answers, but never crashes. Find out why.\nrounds = int(input(\"Rounds? \"))\nbest = 0\nwins = 0\nfor r in range(1, rounds):\n    points = int(input(\"Points? \"))\n    if points > best:\n        best = points\n    if points > 10:\n        wins = wins + 1\nprint(best)\nprint(wins)\n",
       "hints": [
         "Run it with one round of 15 points. One round should give 15 and 1; what do you get instead? That small case shows the first bug.",
@@ -187,7 +187,7 @@
         "id": "browser-tests",
         "version": 1
       },
-      "version": 1
+      "version": 2
     }
   ]
 }

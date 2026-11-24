@@ -8,6 +8,9 @@ C1. A function or method that the challenge, the "Try it" task or a hint names m
     names it ("abs() gives a number without its minus sign").
 C2. A Discover card brings in at most six new functions or methods, so each one gets its own example.
 C3. A Discover card is at most 130 words. Longer means two lessons.
+C4. No paragraph, and no step of a list, in a Discover card, "Try it" task or challenge is over 45 words.
+    A longer task is written as a goal, then numbered steps ("1. "), then what the check does, each on
+    its own line; the lesson page shows those as paragraphs and a list (frontend/app/prose.tsx).
 """
 import json
 import re
@@ -17,6 +20,8 @@ CONTENT = Path(__file__).resolve().parents[1] / 'content'
 CALL = re.compile(r'(?:(?<=\.)|(?<![\w.]))([A-Za-z_]\w*)\(')
 EXPLAINS = re.compile(r'\b(gives|is|are|does|turns|splits|keeps|reads|returns|makes|joins|swaps|counts|rounds)\b')
 ALWAYS = {'print'}
+PARAGRAPH_WORDS = 45
+BLOCK = re.compile(r'\n\s*\n|\n(?=\d+\. |- )')
 
 
 def lessons_in_order():
@@ -84,3 +89,14 @@ def test_the_audit_catches_an_unexplained_tool():
     bad = 'Use zfill() on the number.'
     good = 'zfill(3) pads a number with zeros, so "7".zfill(3) is "007".'
     assert not EXPLAINS.search(bad) and EXPLAINS.search(good)
+
+
+def test_c4_no_paragraph_or_step_is_over_45_words():
+    long = {}
+    for lesson in lessons_in_order():
+        for t in lesson['tasks']:
+            for field in ('body', 'detail', 'prompt'):
+                for block in BLOCK.split(t.get(field, '')):
+                    if len(block.split()) > PARAGRAPH_WORDS:
+                        long[f'{lesson["id"]} {t["type"]} {field}'] = len(block.split())
+    assert long == {}

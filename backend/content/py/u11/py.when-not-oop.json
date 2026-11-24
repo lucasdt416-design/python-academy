@@ -18,7 +18,7 @@
       "type": "discover",
       "title": "Choose the simplest shape that fits",
       "body": "A class earns its place when its data and its actions belong together, and several objects of that kind exist and change. When there is only data, a dictionary is enough. When there is only an action, a plain function is enough.",
-      "detail": "Ask three questions. Does it hold data that changes? Are there several of them at once? Do actions belong to that data? If the answers are no, a dictionary or a function is easier to read and to test. Start simple: you can turn a dictionary into a class later, when it needs one."
+      "detail": "Ask three questions. Does it hold data that changes? Are there several of them at once? Do actions belong to that data?\n\nIf the answers are no, a dictionary or a function is easier to read and to test. Start simple: you can turn a dictionary into a class later, when it needs one."
     },
     {
       "id": "py.when-not-oop.example",
@@ -48,7 +48,7 @@
     {
       "id": "py.when-not-oop.challenge",
       "type": "challenge",
-      "prompt": "Look back at programs you wrote in units 10 and 11, or at the example. For each part below, say which shape you would use, a class, a dictionary or a function, and why, with details from a real program. There is no single right answer: what counts is your reason. This is reviewed by you, and recorded as your own review.",
+      "prompt": "Look back at programs you wrote in units 10 and 11, or at the example. For each part below, say which shape you would use, a class, a dictionary or a function, and why, with details from a real program.\n\nThere is no single right answer: what counts is your reason. This is reviewed by you, and recorded as your own review.",
       "starter": "",
       "hints": [
         "Look for data that never changes and has no actions: a settings record, one line read from a file, a single score. Those are dictionary-sized.",
@@ -63,7 +63,7 @@
         "id": "self-review",
         "version": 1
       },
-      "version": 1,
+      "version": 2,
       "self_review": {
         "kind": "reflection",
         "criteria": [

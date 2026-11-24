@@ -18,7 +18,7 @@
       "type": "discover",
       "title": "Save lists and dictionaries as text",
       "body": "json.dumps(state) turns a dictionary or a list into text, and json.loads(text) turns that text back. json.dump(state, f) and json.load(f) do the same, straight into and out of a file.",
-      "detail": "JSON holds dictionaries with text keys, lists, text, numbers, True, False and None. A set or a date cannot be saved as it is: turn it into a list or text first. JSON writes True as true and None as null, and every key comes back as text, even one that was a number."
+      "detail": "JSON holds dictionaries with text keys, lists, text, numbers, True, False and None. A set or a date cannot be saved as it is: turn it into a list or text first.\n\nJSON writes True as true and None as null, and every key comes back as text, even one that was a number."
     },
     {
       "id": "py.json.example",
@@ -48,7 +48,7 @@
     {
       "id": "py.json.challenge",
       "type": "challenge",
-      "prompt": "A saved game is in save.json: a dictionary with the hero's name, their gold (a whole number) and a list of items. Load it. Then ask for an item the hero found, and how much gold they found with it. Add the item to the end of the list, unless it is already there, and add the gold. Save the new state back to save.json with json.dump(), then print the file's text, read back from save.json.",
+      "prompt": "A saved game is in save.json: a dictionary with the hero's name, their gold (a whole number) and a list of items.\n\n1. Load it.\n2. Ask for an item the hero found, and how much gold they found with it.\n3. Add the item to the end of the list, unless it is already there, and add the gold.\n4. Save the new state back to save.json with json.dump().\n5. Print the file's text, read back from save.json.",
       "starter": "# Load save.json, update it, and save it again\n",
       "hints": [
         "Load the save with json.load() inside a with block. It gives back a dictionary, so state[\"items\"] is the list and state[\"gold\"] the gold.",
@@ -197,7 +197,7 @@
         "id": "browser-tests",
         "version": 1
       },
-      "version": 1
+      "version": 2
     }
   ]
 }

@@ -18,7 +18,7 @@
       "type": "discover",
       "title": "Pick the cases a bug would trip on",
       "body": "One test with an easy value catches few bugs. Good tests mix a typical case, the edges, such as an empty list, a single item or a zero, and unusual values, such as negative numbers.",
-      "detail": "Work out the right answer for each case by hand before running anything. Ask what a careless version might get wrong, such as dividing with //, skipping the last item, or crashing on an empty list, and pick a case that would show it. For decimals, pick numbers whose answer is exact, such as 7 / 2 = 3.5."
+      "detail": "Work out the right answer for each case by hand before running anything. Ask what a careless version might get wrong, such as dividing with //, skipping the last item, or crashing on an empty list, and pick a case that would show it.\n\nFor decimals, pick numbers whose answer is exact, such as 7 / 2 = 3.5."
     },
     {
       "id": "py.test-cases.example",
@@ -48,7 +48,7 @@
     {
       "id": "py.test-cases.challenge",
       "type": "challenge",
-      "prompt": "The check has a function average(scores) that returns the average of a list of numbers, or 0 for an empty list. Write asserts that test it well. The check runs them on a correct average(), where they must all pass, and on several broken ones, where at least one must fail for each. Do not write average() yourself.",
+      "prompt": "The check has a function average(scores) that returns the average of a list of numbers, or 0 for an empty list. Write asserts that test it well.\n\nThe check runs them on a correct average(), where they must all pass, and on several broken ones, where at least one must fail for each. Do not write average() yourself.",
       "starter": "# Write asserts that test average(scores)\n",
       "hints": [
         "Start with a typical list whose average you can work out by hand, such as [2, 4], then add the edges.",
@@ -160,7 +160,7 @@
         "id": "browser-tests",
         "version": 1
       },
-      "version": 1
+      "version": 2
     }
   ]
 }

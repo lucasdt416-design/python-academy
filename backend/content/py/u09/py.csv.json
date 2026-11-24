@@ -18,7 +18,7 @@
       "type": "discover",
       "title": "Rows and columns in a text file",
       "body": "A CSV file holds a table: one row per line, values separated by commas, usually with a header row of column names first. csv.DictReader(f) reads each row as a dictionary keyed by those names.",
-      "detail": "Every value comes back as text, so turn numbers into numbers with int() or float(). A value that contains a comma is written in quotes, \"like, this\", and the csv module handles it for you, which splitting on commas by hand gets wrong. csv.writer(f).writerow([...]) writes a row. Open CSV files with newline=\"\", as the csv module asks."
+      "detail": "Every value comes back as text, so turn numbers into numbers with int() or float().\n\nA value that contains a comma is written in quotes, \"like, this\", and the csv module handles it for you, which splitting on commas by hand gets wrong. csv.writer(f).writerow([...]) writes a row. Open CSV files with newline=\"\", as the csv module asks."
     },
     {
       "id": "py.csv.example",
@@ -51,7 +51,7 @@
     {
       "id": "py.csv.challenge",
       "type": "challenge",
-      "prompt": "The tournament's results are in results.csv, with the columns name, team and points. For each team, in alphabetical order, print the team and its total points with a comma between them and no spaces, like Owls,25. On the last line, print the name of the player with the most points; if players tie, the one who comes first in the file.",
+      "prompt": "The tournament's results are in results.csv, with the columns name, team and points.\n\n1. For each team, in alphabetical order, print the team and its total points with a comma between them and no spaces, like Owls,25.\n2. On the last line, print the name of the player with the most points; if players tie, the one who comes first in the file.",
       "starter": "# Read results.csv and total the points for each team\n",
       "hints": [
         "csv.DictReader gives each row as a dictionary, so row[\"team\"] and row[\"points\"] are there by name. The points are text until int().",
@@ -191,7 +191,7 @@
         "id": "browser-tests",
         "version": 1
       },
-      "version": 1
+      "version": 2
     }
   ]
 }

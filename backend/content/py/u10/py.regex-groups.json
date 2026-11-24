@@ -48,7 +48,7 @@
     {
       "id": "py.regex-groups.challenge",
       "type": "challenge",
-      "prompt": "A message log has lines like 12:05 Nova: hello there. Ask how many lines there are, then read them all. A message line starts with a time, written as two digits, a colon and two digits, then a space, a one-word name, a colon and a space. For each message line, in order, print the name, at, and the time, like Nova at 12:05. Then print every line of the log again, in order, with every time in it, written as two digits, a colon and two digits, replaced by ??:??.",
+      "prompt": "A message log has lines like 12:05 Nova: hello there. A message line starts with a time, written as two digits, a colon and two digits, then a space, a one-word name, a colon and a space.\n\n1. Ask how many lines there are, then read them all.\n2. For each message line, in order, print the name, at, and the time, like Nova at 12:05.\n3. Print every line of the log again, in order, with every time in it, written as two digits, a colon and two digits, replaced by ??:??.",
       "starter": "# Import re, read the log, then pull out the speakers\n",
       "hints": [
         "Read all the lines into a list first, because the log is printed twice. The time pattern is \\d\\d:\\d\\d.",
@@ -179,7 +179,7 @@
         "id": "browser-tests",
         "version": 1
       },
-      "version": 1
+      "version": 2
     }
   ]
 }

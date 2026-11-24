@@ -48,7 +48,7 @@
     {
       "id": "py.parameters.challenge",
       "type": "challenge",
-      "prompt": "Write a function called scene(hero, place, mood=\"calm\") that prints one line: the hero, the words is in, the place, a comma, the word feeling, and the mood, ending with a full stop. For example, scene(\"Nova\", \"the cave\") prints Nova is in the cave, feeling calm. Your program should not ask for input: the check calls your functions with its own values.",
+      "prompt": "Write a function called scene(hero, place, mood=\"calm\") that prints one line: the hero, the words is in, the place, a comma, the word feeling, and the mood, ending with a full stop.\n\nFor example, scene(\"Nova\", \"the cave\") prints Nova is in the cave, feeling calm.\n\nYour program should not ask for input: the check calls your functions with its own values.",
       "starter": "# Define scene(hero, place, mood=\"calm\")\n",
       "hints": [
         "The def line lists three parameters, and the last one has a default: mood=\"calm\".",
@@ -199,7 +199,7 @@
         "id": "browser-tests",
         "version": 1
       },
-      "version": 1
+      "version": 2
     }
   ]
 }

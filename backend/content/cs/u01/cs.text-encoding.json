@@ -18,7 +18,7 @@
       "type": "discover",
       "title": "Letters are numbers too",
       "body": "A computer stores each character as a number called its code point: ord(\"a\") is 97 and chr(97) is \"a\". The letters a to z have codes one after another, so moving a letter along the alphabet is adding to its code.",
-      "detail": "To send text, its code points are written as bytes using an encoding. UTF-8, the most common one, uses one byte for each plain English letter and more for others: é takes two bytes and many emoji four. So len(text) counts characters, while len(text.encode(\"utf-8\")) counts bytes."
+      "detail": "To send text, its code points are written as bytes using an encoding.\n\nUTF-8, the most common one, uses one byte for each plain English letter and more for others: é takes two bytes and many emoji four. So len(text) counts characters, while len(text.encode(\"utf-8\")) counts bytes."
     },
     {
       "id": "cs.text-encoding.example",
@@ -48,7 +48,7 @@
     {
       "id": "cs.text-encoding.challenge",
       "type": "challenge",
-      "prompt": "Write shift(message, steps), which moves every small letter a to z that many places along the alphabet, wrapping round from z to a, and leaves every other character as it is: shift(\"abc xyz\", 2) returns \"cde zab\". steps can be negative or bigger than 26. Then write byte_count(text), which returns how many bytes text takes in UTF-8. Do not ask for input: the check calls your functions with its own values.",
+      "prompt": "Write two functions about text.\n\n1. shift(message, steps) moves every small letter a to z that many places along the alphabet, wrapping round from z to a, and leaves every other character as it is: shift(\"abc xyz\", 2) returns \"cde zab\". steps can be negative or bigger than 26.\n2. byte_count(text) returns how many bytes text takes in UTF-8.\n\nDo not ask for input: the check calls your functions with its own values.",
       "starter": "# Define shift(message, steps) and byte_count(text)\n",
       "hints": [
         "For each character, check whether it is a small letter. If it is, work out its place in the alphabet, 0 for a to 25 for z, with ord(ch) - ord(\"a\").",
@@ -204,7 +204,7 @@
         "id": "browser-tests",
         "version": 1
       },
-      "version": 1
+      "version": 2
     }
   ]
 }

@@ -18,7 +18,7 @@
       "type": "discover",
       "title": "Refuse a value that breaks the rules",
       "body": "raise ValueError(\"guess must be from 1 to 100\") stops a function with that error and message, just as int(\"x\") stops with one of its own. The code that called it can catch it with try and except, and read the message.",
-      "detail": "Raise an error that fits: ValueError for a value of the right kind but a bad amount, TypeError for the wrong kind of value. except ValueError as error: gives the caught error a name, and printing it shows its message. Raising early, at the top of a function, keeps the rest of it simple."
+      "detail": "Raise an error that fits: ValueError for a value of the right kind but a bad amount, TypeError for the wrong kind of value. except ValueError as error: gives the caught error a name, and printing it shows its message.\n\nRaising early, at the top of a function, keeps the rest of it simple."
     },
     {
       "id": "py.raise.example",
@@ -48,7 +48,7 @@
     {
       "id": "py.raise.challenge",
       "type": "challenge",
-      "prompt": "Write a function set_lives(lives) that returns lives if it is from 1 to 9, and otherwise raises a ValueError with the message lives must be from 1 to 9. Then ask the player for a number of lives, as a whole number, and pass it to set_lives() inside a try: print the lives it returns, or, if a ValueError is raised, print Refused: followed by a space and the message.",
+      "prompt": "Write a function, then use it safely.\n\n1. Write set_lives(lives), which returns lives if it is from 1 to 9, and otherwise raises a ValueError with the message lives must be from 1 to 9.\n2. Ask the player for a number of lives, as a whole number, and pass it to set_lives() inside a try.\n3. Print the lives it returns, or, if a ValueError is raised, print Refused: followed by a space and the message.",
       "starter": "# Define set_lives(lives), then use it with the reply\n",
       "hints": [
         "In set_lives(), check the rule first, and raise the error when it is broken. If the function gets past that check, the lives are fine to return.",
@@ -189,7 +189,7 @@
         "id": "browser-tests",
         "version": 1
       },
-      "version": 1
+      "version": 2
     }
   ]
 }

@@ -48,7 +48,7 @@
     {
       "id": "py.elif.challenge",
       "type": "challenge",
-      "prompt": "The riddle keeper gives points for a guess: 10 if it is exactly right, 5 if it is close (no more than 2 away), 1 if it is no more than 10 away, and 0 otherwise. Ask for the secret number and the guess, then print the points. Print just the number.",
+      "prompt": "The riddle keeper gives points for a guess. Ask for the secret number and the guess, then print the points:\n\n- 10 if it is exactly right\n- 5 if it is close (no more than 2 away)\n- 1 if it is no more than 10 away\n- 0 otherwise\n\nPrint just the number.",
       "starter": "# Ask for the secret number and the guess\n# Print 10, 5, 1 or 0: check the closest case first\n",
       "hints": [
         "One guess gets one score. Work out how close the guess is to the secret, then print exactly one of 10, 5, 1 or 0.",
@@ -216,7 +216,7 @@
         "id": "browser-tests",
         "version": 1
       },
-      "version": 1
+      "version": 2
     }
   ]
 }

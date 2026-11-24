@@ -135,7 +135,7 @@ test('a student sees their level, progress and badges, builds an avatar and save
  await page.getByRole('navigation', {name: 'Main'}).getByRole('link', {name: 'Profile'}).click();
  await expect(page).toHaveURL('/profile');
  await expect(page.getByText('Level 2 · Pathfinder')).toBeVisible();
- await expect(page.getByText('300 XP to level 3.')).toBeVisible();
+ await expect(page.getByText('800 XP to level 3. Each level takes 300 XP more than the one before.')).toBeVisible();
  await expect(page.getByText('of 61 lessons done')).toBeVisible();
  await expect(page.getByRole('list').filter({hasText: 'Pack keeper'})).toBeVisible();
  await expect(page.getByText('You earned XP on 2 days in the last twelve weeks.')).toBeVisible();

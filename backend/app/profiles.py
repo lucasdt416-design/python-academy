@@ -9,7 +9,7 @@ import json
 import re
 from datetime import datetime, timedelta, timezone
 
-from sqlalchemy import select
+from sqlalchemy import func, select
 
 from . import awards, text_policy
 from .db import Event, Profile, XpAward
@@ -23,7 +23,11 @@ AVATAR_CHOICES = {
 }
 DEFAULT_AVATAR = {'skin': 'peach', 'hair': 'short', 'hair_colour': 'brown', 'outfit': 'plum', 'item': 'lantern'}
 NICKNAME = re.compile(r"[\w .'-]{0,24}")
-XP_PER_LEVEL = 500
+# Each level takes 300 XP more than the one before: 600 XP for level 2, 900 more for level 3, 1,200 more
+# for level 4, and so on, so the 61 lessons released on 2026-11-24 (6,100 XP) reach level 6.
+LEVEL_STEP = 300
+# Until 2026-11-25 every level took 500 XP. A level reached then is kept, never taken back (see level()).
+FLAT_LEVEL_XP, FLAT_LEVELS_UNTIL = 500, '2026-11-25'
 # Level titles are words for a range of XP, nothing more: they are not a measure of skill.
 TITLES = ['Explorer', 'Pathfinder', 'Trailblazer', 'Navigator', 'Cartographer', 'Lorekeeper']
 CALENDAR_DAYS = 84
@@ -50,10 +54,29 @@ def clean_avatar(value):
     return dict(value)
 
 
-def level(xp):
-    number = xp // XP_PER_LEVEL + 1
+def level_start(number):
+    """The XP that reaches a level: the sum of LEVEL_STEP times 2, 3, ... up to it."""
+    return LEVEL_STEP * (number - 1) * (number + 2) // 2
+
+
+def level(xp, kept=1):
+    """The level for this much XP, but never lower than `kept`, a level the learner already reached.
+
+    A kept level above the curve shows the progress bar from 0 up to the next level's start, so the XP
+    still to go is always true."""
+    number = 1
+    while level_start(number + 1) <= xp:
+        number += 1
+    if kept > number:
+        return {'number': kept, 'title': TITLES[min(kept - 1, len(TITLES) - 1)], 'xp_into_level': xp, 'xp_for_next': level_start(kept + 1)}
     return {'number': number, 'title': TITLES[min(number - 1, len(TITLES) - 1)],
-            'xp_into_level': xp % XP_PER_LEVEL, 'xp_for_next': XP_PER_LEVEL}
+            'xp_into_level': xp - level_start(number), 'xp_for_next': level_start(number + 1) - level_start(number)}
+
+
+def flat_level(db, user_id):
+    """The level the learner had reached by FLAT_LEVELS_UNTIL, when every level took 500 XP."""
+    before = db.scalar(select(func.coalesce(func.sum(XpAward.xp), 0)).where(XpAward.user_id == user_id, XpAward.created < FLAT_LEVELS_UNTIL))
+    return before // FLAT_LEVEL_XP + 1
 
 
 def active_days(db, user_id, today):
@@ -91,7 +114,7 @@ def view(db, user, catalog, lessons, order, today=None):
               'more_coming': u.more_lessons_coming}
              for c in catalog.courses for u in c.units if u.status == 'released']
     days, streak = active_days(db, user.id, today)
-    result.update(xp=summary['xp'], level=level(summary['xp']), badges=summary['badges'], completed=len(done),
+    result.update(xp=summary['xp'], level=level(summary['xp'], flat_level(db, user.id)), badges=summary['badges'], completed=len(done),
                   released=sum(u['total'] for u in units), units=units, active_days=days, streak=streak,
                   calendar_start=(today - timedelta(days=CALENDAR_DAYS - 1)).isoformat(), today=today.isoformat())
     return result

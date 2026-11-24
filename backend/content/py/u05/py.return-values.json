@@ -48,7 +48,7 @@
     {
       "id": "py.return-values.challenge",
       "type": "challenge",
-      "prompt": "Write score(secret, guess), which returns 10 if the guess is right, 5 if it is no more than 2 away, 1 if it is no more than 10 away, and 0 otherwise. Then write verdict(secret, guess), which returns two values: the score, and True if the guess is too high or False if it is not. Return the answers; do not print them. Your program should not ask for input: the check calls your functions with its own values.",
+      "prompt": "Write two functions that return answers instead of printing them.\n\n1. score(secret, guess) returns 10 if the guess is right, 5 if it is no more than 2 away, 1 if it is no more than 10 away, and 0 otherwise.\n2. verdict(secret, guess) returns two values: the score, and True if the guess is too high or False if it is not.\n\nReturn the answers; do not print them. Your program should not ask for input: the check calls your functions with its own values.",
       "starter": "# Define score(secret, guess) and verdict(secret, guess)\n",
       "hints": [
         "Work out how far apart the two numbers are first, ignoring which is bigger: abs() gives a number without its minus sign, so abs(3 - 7) is 4. Then check the closest band first, and return as soon as one matches.",
@@ -211,7 +211,7 @@
         "id": "browser-tests",
         "version": 1
       },
-      "version": 1
+      "version": 2
     }
   ]
 }

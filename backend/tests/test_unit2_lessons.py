@@ -148,12 +148,21 @@ def test_part_1_is_the_first_three_lessons_of_unit_2_in_order():
     assert unit.status == 'released' and unit.lessons[:3] == UNIT_2 and unit.lessons[3:] == PART_2
 
 
+# Challenges reworded as a goal and numbered steps (2026-11-24): the same task, so a new version of it.
+STEPPED = {'py.arithmetic', 'py.int-float', 'py.convert-input', 'py.compare', 'py.boolean-logic', 'py.elif',
+           'py.while-loops', 'py.loop-termination', 'py.for-range', 'py.accumulate', 'py.nested-loops'}
+
+
+def challenge_version(lesson_id):
+    return 2 if lesson_id in STEPPED else 1
+
+
 @pytest.mark.parametrize('lesson_id', UNIT_2)
 def test_each_lesson_is_a_browser_check_with_visible_and_hidden_cases(lesson_id):
     lesson = LESSONS[lesson_id]
     task = challenge(lesson_id)
     assert (lesson.course, lesson.unit, lesson.version) == ('py', 'py.u02', 1)
-    assert (task.validator.id, task.validator.version, task.version) == ('browser-tests', 1, 1)
+    assert (task.validator.id, task.validator.version, task.version) == ('browser-tests', 1, challenge_version(lesson_id))
     assert task.check.time_limit_ms == 3000  # the existing 3-second limit
     visible = [c for c in task.check.cases if c.visibility == 'visible']
     hidden = [c for c in task.check.cases if c.visibility == 'hidden']
@@ -528,7 +537,7 @@ def test_each_lesson_awards_100_xp_and_its_badge_once(client):
     assert awards['xp'] == 300 and awards['completed'] == UNIT_2
     assert [b['title'] for b in awards['badges']] == ['Treasure counter', 'Score keeper', 'Riddle scorer']
     with Session(engine) as db:
-        assert sorted((a.task_id, a.task_version, a.xp) for a in db.scalars(select(XpAward))) == sorted((f'{i}.challenge', 1, 100) for i in UNIT_2)
+        assert sorted((a.task_id, a.task_version, a.xp) for a in db.scalars(select(XpAward))) == sorted((f'{i}.challenge', challenge_version(i), 100) for i in UNIT_2)
         assert db.scalar(select(func.count()).select_from(BadgeAward)) == 3
     assert client.get('/api/progress').json() == UNIT_2
 

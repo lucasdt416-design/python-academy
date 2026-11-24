@@ -42,7 +42,7 @@ def test_a_new_student_sees_the_default_avatar_and_their_progress(client):
     sign_in(client)
     p = client.get('/api/profile').json()
     assert (p['saved'], p['nickname'], p['avatar']) == (False, '', profiles.DEFAULT_AVATAR)
-    assert p['xp'] == 0 and p['level'] == {'number': 1, 'title': 'Explorer', 'xp_into_level': 0, 'xp_for_next': 500}
+    assert p['xp'] == 0 and p['level'] == {'number': 1, 'title': 'Explorer', 'xp_into_level': 0, 'xp_for_next': 600}
     assert p['completed'] == 0 and p['released'] == 61 and len(p['units']) == 14
     assert p['units'][0] == {'id': 'py.u01', 'title': 'Build Your Own Adventure', 'done': 0, 'total': 5, 'more_coming': False}
     assert p['choices'] == profiles.AVATAR_CHOICES and p['streak'] == 0 and p['active_days'] == []
@@ -101,9 +101,15 @@ def test_xp_level_units_and_badges_come_from_the_ledgers(client):
 
 
 def test_levels_and_streaks():
-    assert profiles.level(0)['number'] == 1 and profiles.level(499)['number'] == 1
-    assert profiles.level(500) == {'number': 2, 'title': 'Pathfinder', 'xp_into_level': 0, 'xp_for_next': 500}
-    assert profiles.level(100_000)['title'] == 'Lorekeeper'
+    # Each level takes 300 XP more than the one before.
+    assert [profiles.level_start(n) for n in range(1, 7)] == [0, 600, 1500, 2700, 4200, 6000]
+    assert profiles.level(0)['number'] == 1 and profiles.level(599)['number'] == 1
+    assert profiles.level(600) == {'number': 2, 'title': 'Pathfinder', 'xp_into_level': 0, 'xp_for_next': 900}
+    assert profiles.level(2000) == {'number': 3, 'title': 'Trailblazer', 'xp_into_level': 500, 'xp_for_next': 1200}
+    assert profiles.level(6100)['number'] == 6 and profiles.level(100_000)['title'] == 'Lorekeeper'
+    # A level reached when every level took 500 XP is kept, and the XP still to go stays true.
+    assert profiles.level(2000, kept=5) == {'number': 5, 'title': 'Cartographer', 'xp_into_level': 2000, 'xp_for_next': 6000}
+    assert profiles.level(6100, kept=5)['number'] == 6
     with Session(engine) as db:
         from app.db import Base
         Base.metadata.drop_all(engine)
@@ -116,6 +122,12 @@ def test_levels_and_streaks():
         assert profiles.active_days(db, 1, date(2026, 11, 20)) == (['2026-11-17', '2026-11-18', '2026-11-20'], 1)
         assert profiles.active_days(db, 1, date(2026, 11, 19)) == (['2026-11-17', '2026-11-18'], 2)
         assert profiles.active_days(db, 1, date(2026, 11, 22))[1] == 0
+        # 400 XP by 2026-11-25 was level 1 then; 500 was level 2, kept although the curve now needs 600.
+        assert profiles.flat_level(db, 1) == 1
+        db.add(XpAward(user_id=1, task_id='t4', task_version=1, xp=100, source='practice', created='2026-11-24T23:59:00+00:00'))
+        db.add(XpAward(user_id=1, task_id='t5', task_version=1, xp=100, source='practice', created='2026-11-25T00:00:00+00:00'))
+        db.commit()
+        assert profiles.flat_level(db, 1) == 2 and profiles.level(600, profiles.flat_level(db, 1))['number'] == 2
 
 
 def test_a_parent_has_an_avatar_but_no_learning_summary(client):

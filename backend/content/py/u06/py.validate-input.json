@@ -18,7 +18,7 @@
       "type": "discover",
       "title": "Keep asking until the reply makes sense",
       "body": "A while True: loop can ask again and again. Inside it, try to turn the reply into a number; when that works and the number is in range, break leaves the loop. Otherwise, say what was wrong, and the loop asks again.",
-      "detail": "Every path through the loop must either break or ask again, or the loop never ends. An empty reply is text too: int(\"\") raises a ValueError. continue jumps straight back to the top of the loop. On this page, if the replies run out, input() raises an EOFError, which means the program asked more times than it was answered."
+      "detail": "Every path through the loop must either break or ask again, or the loop never ends. An empty reply is text too: int(\"\") raises a ValueError. continue jumps straight back to the top of the loop.\n\nOn this page, if the replies run out, input() raises an EOFError, which means the program asked more times than it was answered."
     },
     {
       "id": "py.validate-input.example",
@@ -52,7 +52,7 @@
     {
       "id": "py.validate-input.challenge",
       "type": "challenge",
-      "prompt": "The bridge keeper asks how many travellers are crossing, from 1 to 8. Keep asking until the reply is a whole number from 1 to 8. For a reply that is not a whole number, print not a number. For a whole number outside 1 to 8, print from 1 to 8 only. Once a reply is valid, print how many replies it took, counting the good one, and then the number of travellers.",
+      "prompt": "The bridge keeper asks how many travellers are crossing, from 1 to 8. Keep asking until the reply is a whole number from 1 to 8.\n\n1. For a reply that is not a whole number, print not a number.\n2. For a whole number outside 1 to 8, print from 1 to 8 only.\n3. Once a reply is valid, print how many replies it took, counting the good one, and then the number of travellers.",
       "starter": "# Keep asking until the reply is a whole number from 1 to 8\n",
       "hints": [
         "A while True: loop asks once per turn. Count the turns with a number that starts at 0 above the loop.",
@@ -185,7 +185,7 @@
         "id": "browser-tests",
         "version": 1
       },
-      "version": 1
+      "version": 2
     }
   ]
 }

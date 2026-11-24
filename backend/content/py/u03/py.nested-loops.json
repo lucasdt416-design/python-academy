@@ -18,7 +18,7 @@
       "type": "discover",
       "title": "Put a loop inside a loop",
       "body": "A loop's block can hold another loop. The inner loop runs all the way through, every time the outer loop goes round once. So an outer loop of 2 turns and an inner loop of 3 turns runs the inner block 6 times.",
-      "detail": "The outer loop's line starts at the left, the inner loop's line has four spaces, and the inner block has eight. for and range() start the inner loop again by themselves. With while, the inner counter has to be set back to its start inside the outer loop, or the inner loop only runs the first time."
+      "detail": "The outer loop's line starts at the left, the inner loop's line has four spaces, and the inner block has eight. for and range() start the inner loop again by themselves.\n\nWith while, the inner counter has to be set back to its start inside the outer loop, or the inner loop only runs the first time."
     },
     {
       "id": "py.nested-loops.example",
@@ -48,7 +48,7 @@
     {
       "id": "py.nested-loops.challenge",
       "type": "challenge",
-      "prompt": "The riddle keeper's map is a grid of rooms. Rows and columns are counted from 1, and a room holds its row number times its column number in coins, so row 2, column 3 holds 6. Ask for the number of rows, then the number of columns. Going through the rows in order, and left to right along each row, print the coins in every room, one per line. On the last line, print the total coins. Print just the numbers.",
+      "prompt": "The riddle keeper's map is a grid of rooms. Rows and columns are counted from 1, and a room holds its row number times its column number in coins, so row 2, column 3 holds 6.\n\n1. Ask for the number of rows, then the number of columns.\n2. Going through the rows in order, and left to right along each row, print the coins in every room, one per line.\n3. On the last line, print the total coins.\n\nPrint just the numbers.",
       "starter": "# Ask for the rows and the columns, then walk the map\n",
       "hints": [
         "One for loop goes through the rows. Inside its block, another for loop goes through the columns of that row.",
@@ -182,7 +182,7 @@
         "id": "browser-tests",
         "version": 1
       },
-      "version": 1
+      "version": 2
     }
   ]
 }

@@ -6,6 +6,11 @@ import recorded from './fixtures/unit3-part2-api.json';
 import part1 from './fixtures/unit3-api.json';
 import goals from '../../backend/tests/fixtures/goals_v1.json';
 
+// Lesson text can be a goal, then numbered steps, each line shown in its own paragraph or list item.
+async function expectProse(page: Page, text: string) {
+ for (const line of text.split(/\n+/).map(l => l.replace(/^(\d+\.|-)\s+/, '').trim()).filter(Boolean)) await expect(page.locator('.teaching-panel')).toContainText(line);
+}
+
 /* EDU-03 part 2: py.accumulate and py.nested-loops end to end, and the unit's ending. */
 
 type Scenario = (typeof recorded.scenarios)[number];
@@ -79,7 +84,7 @@ for (const lesson of LESSONS) {
   const data = UNIT.find(l => l.id === lesson.id)!;
   await page.goto(`/preview?lesson=${lesson.id}`);
   await expect(page.getByRole('heading', {level: 2, name: data.learnTitle})).toBeVisible();
-  await expect(page.getByText(data.learn)).toBeVisible();
+  await expectProse(page, data.learn);
   await page.getByRole('button', {name: 'Continue →'}).click();
   await expect(page.locator('.teaching-panel .example-code')).toHaveText(data.example);
   await expect(page.locator('.teaching-panel pre.output')).toHaveText(data.exampleOutput);
@@ -91,12 +96,12 @@ for (const lesson of LESSONS) {
   await expect(page.getByRole('button', {name: 'Continue →'})).toBeDisabled();
   await prediction.getByRole('button', {name: data.options[data.answer], exact: true}).click();
   await page.getByRole('button', {name: 'Continue →'}).click();
-  await expect(page.getByText(data.guided)).toBeVisible();
+  await expectProse(page, data.guided);
   await page.getByRole('button', {name: 'Run Python →'}).click();
   await expect(result(page)).toContainText('Ran · not checked', {timeout: 45000});
   await expect(page.locator('.execution-output')).toHaveText(data.exampleOutput);
   await page.getByRole('button', {name: 'Start my challenge'}).click();
-  await expect(page.getByText(data.challenge)).toBeVisible();
+  await expectProse(page, data.challenge);
   await expect(page.getByLabel('Your Python code')).toHaveValue(data.starter);
  });
 

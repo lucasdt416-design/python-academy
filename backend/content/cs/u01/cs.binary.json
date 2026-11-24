@@ -17,8 +17,8 @@
       "id": "cs.binary.discover",
       "type": "discover",
       "title": "Every number can be written with just 0 and 1",
-      "body": "In binary each place is worth twice the place to its right: 1, 2, 4, 8, 16 and so on. 1101 means one 8, one 4, no 2 and one 1, which is 13. A computer stores every number this way, as a row of bits, each one on or off.",
-      "detail": "To read binary from the left, start at 0 and, for each bit, double what you have and add the bit. To write a number in binary, take n % 2 for the last bit, then n // 2, and repeat until nothing is left. Python can do both with bin() and int(text, 2), but working it out by hand is what this lesson is about."
+      "body": "In binary each place is worth twice the place to its right: 1, 2, 4, 8, 16 and so on. 1101 means one 8, one 4, no 2 and one 1, which is 13.\n\nA computer stores every number this way, as a row of bits, each one on or off.",
+      "detail": "To read binary from the left, start at 0 and, for each bit, double what you have and add the bit.\n\nTo write a number in binary, take n % 2 for the last bit, then n // 2, and repeat until nothing is left. Python can do both with bin() and int(text, 2), but working it out by hand is what this lesson is about."
     },
     {
       "id": "cs.binary.example",
@@ -48,7 +48,7 @@
     {
       "id": "cs.binary.challenge",
       "type": "challenge",
-      "prompt": "Write to_binary(n), which returns the binary of a whole number n (0 or more) as text, like \"1101\" for 13 and \"0\" for 0, without a 0b in front. Then write from_binary(bits), which takes text such as \"1101\" and returns the number, 13. Try it with // and % before reaching for bin(). Do not ask for input: the check calls your functions with its own values.",
+      "prompt": "Write two functions that turn numbers into binary and back.\n\n1. to_binary(n) returns the binary of a whole number n (0 or more) as text, like \"1101\" for 13 and \"0\" for 0, without a 0b in front.\n2. from_binary(bits) takes text such as \"1101\" and returns the number, 13.\n\nTry it with // and % before reaching for bin(). Do not ask for input: the check calls your functions with its own values.",
       "starter": "# Define to_binary(n) and from_binary(bits)\n",
       "hints": [
         "For to_binary(), the last bit is n % 2. Then n // 2 shifts everything one place right. Repeat while n is more than 0, putting each new bit in front of the ones you have.",
@@ -200,7 +200,7 @@
         "id": "browser-tests",
         "version": 1
       },
-      "version": 1
+      "version": 2
     }
   ]
 }

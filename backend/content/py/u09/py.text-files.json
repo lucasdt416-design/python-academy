@@ -18,7 +18,7 @@
       "type": "discover",
       "title": "Read and write a file",
       "body": "with open(\"notes.txt\") as f: opens a file and closes it again when the block ends. f.read() gives all its text, and for line in f: goes through it a line at a time, each line still ending in its newline.",
-      "detail": "open(\"log.txt\", \"w\") opens a file for writing and wipes what was there; \"a\" adds to the end instead. f.write(\"text\\n\") writes text, and the newline is yours to add. line.strip() removes the newline and any spaces at each end. Files here are temporary: they exist only while your program runs."
+      "detail": "open(\"log.txt\", \"w\") opens a file for writing and wipes what was there; \"a\" adds to the end instead. f.write(\"text\\n\") writes text, and the newline is yours to add. line.strip() removes the newline and any spaces at each end.\n\nFiles here are temporary: they exist only while your program runs."
     },
     {
       "id": "py.text-files.example",
@@ -51,7 +51,7 @@
     {
       "id": "py.text-files.challenge",
       "type": "challenge",
-      "prompt": "The game saves its scores in scores.txt, one whole number per line, and some lines may be blank or hold only spaces. Read the file and print three lines: how many scores there are, the highest score, and the total. Then write the total, on a line of its own, into a new file called summary.txt, and print what summary.txt holds, read back from the file.",
+      "prompt": "The game saves its scores in scores.txt, one whole number per line, and some lines may be blank or hold only spaces.\n\n1. Read the file and print three lines: how many scores there are, the highest score, and the total.\n2. Write the total, on a line of its own, into a new file called summary.txt.\n3. Print what summary.txt holds, read back from the file.",
       "starter": "# Read scores.txt, then write summary.txt\n",
       "hints": [
         "Open scores.txt inside a with block, and go through it a line at a time. strip() each line, and skip it if nothing is left.",
@@ -185,7 +185,7 @@
         "id": "browser-tests",
         "version": 1
       },
-      "version": 1
+      "version": 2
     }
   ]
 }

@@ -55,8 +55,8 @@
   "level": {
    "number": 2,
    "title": "Pathfinder",
-   "xp_into_level": 200,
-   "xp_for_next": 500
+   "xp_into_level": 100,
+   "xp_for_next": 900
   },
   "badges": [
    {

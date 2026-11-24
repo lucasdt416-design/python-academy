@@ -17,8 +17,8 @@
       "id": "py.regex-basics.discover",
       "type": "discover",
       "title": "Describe the shape of text",
-      "body": "import re, then re.search(r\"\\d+\", text) finds the first run of digits in text, or gives None if there is none. A pattern describes a shape: \\d is a digit, \\w a letter, digit or _, \\s a space, [A-Z] a capital letter, and . any character.",
-      "detail": "+ means one or more, * zero or more, ? zero or one, and {3} exactly three. re.fullmatch() checks that the whole text has the shape, re.search() looks for it anywhere, and re.match() only at the start. Write patterns as r\"...\" so Python leaves the backslashes for re. .group() gives the text that matched."
+      "body": "import re, then re.search(r\"\\d+\", text) finds the first run of digits in text, or gives None if there is none.\n\nA pattern describes a shape: \\d is a digit, \\w a letter, digit or _, \\s a space, [A-Z] a capital letter, and . any character.",
+      "detail": "+ means one or more, * zero or more, ? zero or one, and {3} exactly three. re.fullmatch() checks that the whole text has the shape, re.search() looks for it anywhere, and re.match() only at the start.\n\nWrite patterns as r\"...\" so Python leaves the backslashes for re. .group() gives the text that matched."
     },
     {
       "id": "py.regex-basics.example",
@@ -48,7 +48,7 @@
     {
       "id": "py.regex-basics.challenge",
       "type": "challenge",
-      "prompt": "A ticket code is two capital letters, a dash, and three digits, like AB-123. Ask how many lines of text there are, then read each line. For each line, print yes if the whole line is a ticket code, or no if not. On the last line, print how many of the lines had a ticket code somewhere in them, even with other text around it.",
+      "prompt": "A ticket code is two capital letters, a dash, and three digits, like AB-123.\n\n1. Ask how many lines of text there are, then read each line.\n2. For each line, print yes if the whole line is a ticket code, or no if not.\n3. On the last line, print how many of the lines had a ticket code somewhere in them, even with other text around it.",
       "starter": "# Import re, then check each line\n",
       "hints": [
         "The shape of a code is [A-Z]{2}, a dash, then \\d{3}. fullmatch() asks whether the whole line is that shape.",
@@ -182,7 +182,7 @@
         "id": "browser-tests",
         "version": 1
       },
-      "version": 1
+      "version": 2
     }
   ]
 }

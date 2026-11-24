@@ -18,7 +18,7 @@
       "type": "discover",
       "title": "Join two questions into one",
       "body": "and, or and not combine True and False. A and B is True only when both are True. A or B is True when at least one of them is True. not flips True to False, and False to True.",
-      "detail": "Each side of and or or is a whole comparison: write x > 0 and x < 10, not x > 0 and < 10. Python works out the comparisons first, then not, then and, then or. Use parentheses when you want to be sure of the order."
+      "detail": "Each side of and or or is a whole comparison: write x > 0 and x < 10, not x > 0 and < 10.\n\nPython works out the comparisons first, then not, then and, then or. Use parentheses when you want to be sure of the order."
     },
     {
       "id": "py.boolean-logic.example",
@@ -47,7 +47,7 @@
     {
       "id": "py.boolean-logic.challenge",
       "type": "challenge",
-      "prompt": "The riddle keeper's secret number is always from 1 to 100. Ask for the secret and the guess, as whole numbers. Print three lines, each True or False: is the guess close (no more than 2 away from the secret, on either side); is the guess out of range (below 1 or above 100); and is the guess not close? Print just the three answers.",
+      "prompt": "The riddle keeper's secret number is always from 1 to 100. Ask for the secret and the guess, as whole numbers, then print three lines, each True or False:\n\n1. Is the guess close (no more than 2 away from the secret, on either side)?\n2. Is the guess out of range (below 1 or above 100)?\n3. Is the guess not close?\n\nPrint just the three answers.",
       "starter": "# Ask for the secret number, then the guess, as whole numbers\n# Print True or False: close, out of range, not close\n",
       "hints": [
         "Three lines, three joined questions. Close needs two comparisons joined with and. Out of range needs two joined with or. The last line flips the first one with not.",
@@ -187,7 +187,7 @@
         "id": "browser-tests",
         "version": 1
       },
-      "version": 1
+      "version": 2
     }
   ]
 }

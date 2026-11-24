@@ -17,7 +17,7 @@
       "id": "cs.float-limits.discover",
       "type": "discover",
       "title": "Some decimals cannot be stored exactly",
-      "body": "A float stores a number in binary, like a fraction with a power of two underneath. 0.5 is ½, so it is exact, but 0.1 needs a pattern of bits that goes on for ever, so Python keeps the closest float it can. Add two of these tiny errors and they show: 0.1 + 0.2 is 0.30000000000000004.",
+      "body": "A float stores a number in binary, like a fraction with a power of two underneath. 0.5 is ½, so it is exact, but 0.1 needs a pattern of bits that goes on for ever, so Python keeps the closest float it can.\n\nAdd two of these tiny errors and they show: 0.1 + 0.2 is 0.30000000000000004.",
       "detail": "Whole numbers in Python are always exact. So money is usually counted in whole cents, and turned into dollars only for showing. Never compare floats with ==; round them, or use math.isclose(), which unit 7 met."
     },
     {
@@ -48,7 +48,7 @@
     {
       "id": "cs.float-limits.challenge",
       "type": "challenge",
-      "prompt": "Prices arrive as text such as \"4.35\", \"12\" or \"0.5\" (which means 50 cents). Write to_cents(price), which returns the whole number of cents, 435, 1200 or 50, without using float(). Then write add_prices(prices), which takes a list of such prices and returns the total as text with exactly two decimal places, such as \"0.30\". Do not ask for input: the check calls your functions with its own values.",
+      "prompt": "Prices arrive as text such as \"4.35\", \"12\" or \"0.5\" (which means 50 cents). Add them up without float().\n\n1. Write to_cents(price), which returns the whole number of cents: 435, 1200 or 50.\n2. Write add_prices(prices), which takes a list of such prices and returns the total as text with exactly two decimal places, such as \"0.30\".\n\nDo not ask for input: the check calls your functions with its own values.",
       "starter": "# Define to_cents(price) and add_prices(prices)\n",
       "hints": [
         "Split the text at the point: the part before it is dollars, the part after it is cents, but \"5\" after the point means 50 cents, not 5.",
@@ -214,7 +214,7 @@
         "id": "browser-tests",
         "version": 1
       },
-      "version": 1
+      "version": 2
     }
   ]
 }
