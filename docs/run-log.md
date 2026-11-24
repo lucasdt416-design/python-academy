@@ -67,6 +67,9 @@ The plan is [`docs/plan/master-run.md`](plan/master-run.md). A new session reads
 | Run 3, owner request: Python final projects planned and built first | `plan/py-final-project` | `content/cs-foundations` (#66) | #67 | 59 | done | 2026-11-20 | New test file 9 passed; 3 deliberate breaks caught. Plan and reference projects only |
 | Run 3, owner request: every lesson reviewed, page reshaped, lesson page rules | `ux/lesson-layout` | `plan/py-final-project` (#67) | #68 | 60 | done | 2026-11-20 | Backend 2,113; new layout spec 61 and clarity tests 4; full browser suite 585, 2 updated for intended changes; 3 deliberate breaks caught |
 | Run 3, owner request: ENG-09 self review; `py.when-not-oop`, `py.final-brief` | `feat/eng-09-self-review` | `ux/lesson-layout` (#68) | #69 | 61 | done | 2026-11-21 | Backend 2,127; new specs 9 + 5; full browser suite 587, 9 count updates for the two new lessons; 3 deliberate breaks caught. Migration 0013 |
+| Run 3: bring #64 to #69 into main | `ux/lesson-layout` | `main` | #70 | 62 | in_review | 2026-11-23 | Merges cleanly; CI on the combined result |
+| Run 3, owner request: site questioned for AI slop (D1 to D6); brief read-back | `ux/site-look` | `main` (after #70) | #71 | 62 | in_review | 2026-11-23 | Backend 2,130; browser 591; 1 new route, additive |
+| Run 3, E2: live play | `feat/live-play` | `main` (after #71) | #72 | 62 | in_review | 2026-11-23 | 6 new browser tests with real Python; full suite 603 |
 
 Owner merged #32 to #39, #41 and #42 on 2026-11-02. The run stopped at the cap of 5 open PRs. Not reached: WE6, the rest of WE7, WE8 and later.
 

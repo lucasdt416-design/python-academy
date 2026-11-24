@@ -121,14 +121,33 @@ async function guardImports(py, extra = '') {
  await py.runPythonAsync(GUARD, {filename: '<academy>'});
 }
 // Replaces input() with the player replies typed on the page, in order.
+// Live play (E2, app/live-play.tsx): the program is re-run from the start with every reply so far. Each
+// prompt and its reply are printed as one line, as a terminal shows them, and when the replies run out
+// the run stops at that input() and says what it asked. The stop is a BaseException, so a learner's
+// "except Exception" cannot swallow it.
 const REPLIES = `
 __academy_replies = iter(__academy_json.loads(__academy_input_json))
 def __academy_input(prompt=''):
     try:
-        return next(__academy_replies)
+        reply = next(__academy_replies)
     except StopIteration:
-        raise EOFError('Add a player reply for each input() call, in order.')
+        raise __academy_no_reply(prompt)
+    if __academy_live:
+        print(str(prompt) + reply)
+    return reply
 __academy_builtins.input = __academy_input
+`;
+// Kept apart from REPLIES so the lines Python reports for a missing reply stay where they always were.
+const LIVE = `
+class __academy_WaitingForReply(BaseException):
+    pass
+__academy_waiting = None
+def __academy_no_reply(prompt):
+    global __academy_waiting
+    if __academy_live:
+        __academy_waiting = str(prompt)
+        return __academy_WaitingForReply()
+    return EOFError('Add a player reply for each input() call, in order.')
 `;
 // Files (ENG-08, docs/plan/browser-checks.md section 9). A program finds only the files it was given, in
 // Pyodide's in-memory filesystem, and anything it wrote before is gone. Nothing here is ever saved.
@@ -163,13 +182,20 @@ function noNetwork() {
   try { Object.defineProperty(self, name, {value: undefined, configurable: false}); } catch { self[name] = undefined; }
  }
 }
+// Live play keeps a spare worker that loads Python while the player types its reply (mode 'warm').
+// The worker is still used for one run only, so nothing from one run is left for the next.
+let warmed = null;
 self.onmessage = async ({data}) => {
  if (data.mode === 'cases') return runCases(data);
  if (data.mode === 'trace') return runTrace(data);
+ if (data.mode === 'warm') { warmed = startPyodide(); warmed.catch(() => { warmed = null; }); return; }
  let output = '', capped = false;
  try {
   // Python reports the stop as "OSError: [Errno 29] I/O error", so the flag says why it happened.
-  const py = await startPyodide({stdout:s=>{output+=s+'\n';if(output.length>20000){capped=true;throw Error('Output exceeded 20,000 characters.');}}});
+  const out = s=>{output+=s+'\n';if(output.length>20000){capped=true;throw Error('Output exceeded 20,000 characters.');}};
+  const ready = data.live && warmed ? await warmed : null;
+  if (ready) ready.setStdout({batched: out});
+  const py = ready ?? await startPyodide({stdout: out});
   pyodide = py;
   noNetwork();
   await guardImports(py);
@@ -178,11 +204,19 @@ self.onmessage = async ({data}) => {
   freshFiles(py, {...data.files, ...data.modules});
   await ownFiles(py, data.modules);
   py.globals.set('__academy_input_json', JSON.stringify(data.inputs || []));
+  py.globals.set('__academy_live', data.live === true);
   // Its own file name, so an error inside it is not reported as a line of the learner's code.
+  await py.runPythonAsync(LIVE, {filename: '<academy>'});
   await py.runPythonAsync(REPLIES, {filename: '<academy>'});
+  // Live play re-runs the program for every reply, so random must give the same numbers each time.
+  if (data.live) await py.runPythonAsync(`__academy_random.seed(${Number(data.seed) || 0})`, {filename: '<academy>'});
   await py.runPythonAsync(data.code);
-  self.postMessage({output, vars: snapshot(py)});
+  self.postMessage({output, vars: snapshot(py), ...(data.live ? {finished: true} : {})});
  } catch(e) {
+  if (data.live && e.type === '__academy_WaitingForReply') {
+   self.postMessage({output, waiting: String(pyodide.globals.get('__academy_waiting') ?? '')});
+   return;
+  }
   // The page explains the error (app/feedback.ts); the output printed before it stays visible.
   self.postMessage({error:String(e), errorType:e.type || null, output, outputLimit:capped, vars: capped ? null : snapshot(pyodide)});
  }
@@ -265,6 +299,8 @@ async function runTrace(data) {
   freshFiles(py, {...data.files, ...data.modules});
   await ownFiles(py, data.modules);
   py.globals.set('__academy_input_json', JSON.stringify(data.inputs || []));
+  py.globals.set('__academy_live', false);
+  await py.runPythonAsync(LIVE, {filename: '<academy>'});
   await py.runPythonAsync(REPLIES, {filename: '<academy>'});
   py.globals.set('__academy_code', String(data.code));
   self.postMessage({trace: JSON.parse(py.runPython(`__academy_trace(__academy_code, ${STEP_LIMIT}, 20000)`, {filename: '<academy>'}))});
@@ -430,7 +466,9 @@ async function runCases({code, cases, outputLimit, modules}) {
    freshFiles(py, {...given.get(id), ...modules});
    await ownFiles(py, modules);
    py.globals.set('__academy_input_json', JSON.stringify(inputs || []));
+   py.globals.set('__academy_live', false);
    // Its own file name, so errors inside it are not reported as lines of the learner's code.
+   await py.runPythonAsync(LIVE, {filename: '<academy>'});
    await py.runPythonAsync(REPLIES, {filename: '<academy>'});
    // The same random numbers every run, so a check can expect them (0 unless the case sets one).
    await py.runPythonAsync(`__academy_random.seed(${Number(seed) || 0})`, {filename: '<academy>'});
