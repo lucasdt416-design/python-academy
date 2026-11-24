@@ -6002,7 +6002,7 @@
     "why": "The other two are what make it Lockpick at all. A hint is an extra: good to have, but the game works without it.",
     "guided": "Predict, then run: add a third item to \"not yet\", and change \"for\" to someone you might show your project to. Then add a \"milestones\" list with three steps, and print each one on its own line.",
     "starter": "",
-    "challenge": "Choose Lockpick, Site Builder or Planner, and write its brief. Lockpick suits a first big program; Site Builder needs unit 10; Planner needs every unit. Each part below is reviewed by you, in your own words, and your brief is kept so you can read it back while you build.",
+    "challenge": "Choose one project and write its brief. Lockpick: a word game where six wrong letters jam the lock (one file, 6 to 8 hours, a good first big program). Site Builder: turns a data file into a small website (10 to 15 hours, after unit 10). Planner: a to-do app that remembers your plan (several files, 20 to 30 hours, after every unit). Signed in, your recorded brief comes back here each time you open this lesson.",
     "hints": [
      "Choose by what you finished, not by what sounds biggest: a small project that works beats a large one that does not.",
      "A milestone is something you can run and show, like \"the word shows as underscores\" or \"one page is written\". \"Finish the code\" is not a milestone.",

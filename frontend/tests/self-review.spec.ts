@@ -9,7 +9,7 @@ import goals from '../../backend/tests/fixtures/goals_v1.json';
 const UNITS = py.units as unknown as Record<string, unknown>;
 const canon = (v: unknown): string => JSON.stringify(v, (_k, x) => x && typeof x === 'object' && !Array.isArray(x) ? Object.fromEntries(Object.entries(x).sort(([a], [b]) => a.localeCompare(b))) : x);
 
-async function mockApi(page: Page, role: string | null = null) {
+async function mockApi(page: Page, role: string | null = null, kept = false) {
  const posted: {path: string; body: unknown}[] = [];
  await page.route('**/api/**', async route => {
   const where = new URL(route.request().url()).pathname;
@@ -21,6 +21,7 @@ async function mockApi(page: Page, role: string | null = null) {
   else if (where === '/api/goal') json = {goal: 'scratch', chosen: true, asked: true};
   else if (where === '/api/awards') json = {xp: 0, completed: [], badges: []};
   else if (unit) json = UNITS[unit];
+  else if (where === '/api/self-review/py.final-brief' && route.request().method() === 'GET') { posted.push({path: where, body: null}); json = kept ? recorded.reads.after : recorded.reads.before; }
   else if (where.startsWith('/api/self-review')) {
    const body = route.request().postDataJSON(); posted.push({path: where, body});
    const match = recorded.calls.find(c => c.path === where && canon(c.request) === canon(body));
@@ -87,7 +88,24 @@ test('a student records a finished review, and it is labelled self-reported', as
  await form(page).getByRole('button', {name: 'Record my review'}).click();
  await expect(form(page).getByRole('status')).toContainText('kept as self-reported, in your words');
  await expect(page.getByText('Your review is saved, as self-reported.')).toBeVisible();
- expect(posted).toEqual([{path: '/api/self-review', body: expect.objectContaining({lesson_id: 'py.final-brief'})}]);
+ expect(posted).toEqual([{path: '/api/self-review/py.final-brief', body: null}, {path: '/api/self-review', body: expect.objectContaining({lesson_id: 'py.final-brief'})}]);
+});
+
+test('coming back, a student reads the brief they recorded; a preview never asks for one', async ({page}) => {
+ const posted = await mockApi(page, 'student', true);
+ await page.goto('/learn/py.final-brief');
+ for (const _ of [0, 1]) await page.getByRole('button', {name: 'Continue →'}).click();
+ await page.getByRole('button', {name: /Lockpick|hint that costs/}).first().click();
+ await page.getByRole('button', {name: 'Continue →'}).click();
+ await page.getByRole('button', {name: 'Start my challenge'}).click();
+ await expect(page.getByText('This is the review you recorded on')).toBeVisible();
+ for (const [id, text] of Object.entries(recorded.good)) await expect(page.locator(`#review-${id}`)).toHaveValue(text);
+ await expect(form(page).getByRole('checkbox', {checked: true})).toHaveCount(Object.keys(recorded.good).length);
+ expect(posted).toEqual([{path: '/api/self-review/py.final-brief', body: null}]);
+ const previewed = await mockApi(page);
+ await page.goto('/preview?lesson=py.final-brief&card=5');
+ await expect(page.locator('#review-choice')).toHaveValue('');
+ expect(previewed).toEqual([]);
 });
 
 test.describe('axe', () => {

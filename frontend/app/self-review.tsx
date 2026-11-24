@@ -3,18 +3,31 @@
 // rubric is ticked and answered in the learner's own words. The API looks only at the writing (enough
 // words, not the question copied back, nothing the text policy refuses) and, signed in, keeps a finished
 // review as self-reported evidence. Drafts never leave the page.
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 
 export type Criterion = {id: string; text: string; ask: string; min_words: number};
 export type SelfReview = {kind: 'rubric' | 'reflection' | 'local-tutorial'; criteria: Criterion[]};
 type Answer = {done: boolean; evidence: string};
 type Result = {recorded: boolean; result: string; problems: Record<string, string>; feedback: string};
 
+const when = (iso: string) => { const d = new Date(iso); return isNaN(d.getTime()) ? '' : d.toLocaleDateString(undefined, {day: 'numeric', month: 'long', year: 'numeric'}); };
 const count = (text: string) => (text.match(/[A-Za-z0-9']+/g) ?? []).length;
 
 export default function SelfReviewPanel({lessonId, review, preview, onRecorded}: {lessonId: string; review: SelfReview; preview: boolean; onRecorded: () => void}) {
  const [answers, setAnswers] = useState<Record<string, Answer>>({});
  const [result, setResult] = useState<Result | null>(null), [sending, setSending] = useState(false), [error, setError] = useState('');
+ const [kept, setKept] = useState('');
+ // Signed in, the latest recorded review comes back into the form, so a brief can be read while building.
+ useEffect(() => {
+  if (preview) return;
+  let live = true;
+  fetch(`/api/self-review/${encodeURIComponent(lessonId)}`).then(r => r.ok ? r.json() : null).then(body => {
+   if (!live || !body?.answers) return;
+   setAnswers(Object.fromEntries(Object.entries(body.answers as Record<string, string>).map(([id, evidence]) => [id, {done: true, evidence}])));
+   setKept(when(body.recorded ?? '') || 'earlier');
+  }).catch(() => {});
+  return () => { live = false; };
+ }, [lessonId, preview]);
  const set = (id: string, change: Partial<Answer>) => setAnswers(old => ({...old, [id]: {done: false, evidence: '', ...old[id], ...change}}));
  async function send() {
   setSending(true); setError('');
@@ -31,6 +44,7 @@ export default function SelfReviewPanel({lessonId, review, preview, onRecorded}:
  return <section className="self-review" aria-labelledby="self-review-title">
   <h3 id="self-review-title">Your review</h3>
   <p className="muted">Tick each part when it is done, and say what you did in your own words. Nothing checks the work itself, so this is kept as <strong>your own review</strong>{preview ? '; in a preview nothing is saved' : ''}.</p>
+  {kept && <p className="review-kept">This is the review you recorded {kept === 'earlier' ? 'earlier' : `on ${kept}`}. Change any part and record it again; the earlier one is kept too.</p>}
   <ol className="review-parts">{review.criteria.map(c => {
    const a = answers[c.id] ?? {done: false, evidence: ''}, words = count(a.evidence), note = problems[c.id];
    return <li key={c.id} className={note ? 'needs' : result?.recorded ? 'ok' : undefined}>

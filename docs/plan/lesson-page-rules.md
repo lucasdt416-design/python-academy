@@ -30,3 +30,16 @@ Status: **in force** from 2026-11-20 (handoff 60). The owner asked for every les
 | **C3** | A Discover card is **at most 130 words**. Longer means two lessons. |
 
 Code in lesson text is shown as code automatically (`frontend/app/prose-runs.ts`): authors keep writing plain sentences, and unit 1's text stays frozen.
+
+## The whole site (2026-11-23, handoff 62)
+
+The owner asked for every page to be questioned: "is this actually good, or is it AI slop?" These came from looking at the home, course, practice, profile and lesson pages at desktop and phone width.
+
+| Rule | What | Found and fixed |
+| --- | --- | --- |
+| **D1** | **No icon in a coloured square** next to a label that already says it. | The five lesson steps on the home page and the tab of every lesson card repeated the stepper's icon in a coloured box. Now a numbered row with a coloured rule, and a plain tab. |
+| **D2** | **No box inside a box.** Inside a panel, items are divided by a rule, not given cards of their own. | The self-review parts, and the parents' list on the home page. |
+| **D3** | **No drop shadows** on cards and panels; a border is enough. | The lesson card and the home page's code preview. |
+| **D4** | **No slogans.** Every line of text tells the reader something they can use or check. | "Built for curious minds. Designed for room to grow." (every footer), "One idea at a time." and "Your story. Your pace." (every lesson card). The card footer now says why Continue is waiting, when it is. |
+| **D5** | **Every claim is true today**, and counts come from the data. | "Eleven of the twelve units are open" (now twelve), "twelve units open, no on the way", "1 lessons", and "your brief is kept so you can read it back", which had no way to read it back. It now comes back into the form. |
+| **D6** | **A page is never just a heading and a button.** If it is for signed-in learners, it shows what is behind the sign-in. | The signed-out Practice arena now shows a creature and how taming works. |

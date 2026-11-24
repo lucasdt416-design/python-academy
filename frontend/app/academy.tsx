@@ -31,7 +31,7 @@ export default function Academy({preview=false}:{preview?:boolean}){
   return <StudentHome awards={awards} recommendation={recommendation} goal={goal?.goal?(goals.find(g=>g.id===goal.goal)?.label??goal.goal)+(goal.chosen?'':' (default)'):null} onChangeGoal={()=>setEditingGoal(true)}/>;
  }
  return <><SiteHeader user={preview?null:user} signIn={signedOut} onSignOut={()=>act(async()=>{await api('logout',{});setUser(null);setFamily([]);setHistory([]);setAwards(null)})}/><main id="main">
-  {signedOut?<>{message&&<div className="wrap">{status}</div>}<Landing/><SiteFooter>Python Academy is a one-person project, still early. Eleven of the twelve Python units are open, some still gaining lessons, and the other courses are planned. Checks are practice, not a certificate.</SiteFooter></>
+  {signedOut?<>{message&&<div className="wrap">{status}</div>}<Landing/><SiteFooter>Python Academy is a one-person project, still early. All twelve Python units are open and the final project is still gaining lessons; Computer Science Foundations has its first units, and the other courses are planned. Checks are practice, not a certificate.</SiteFooter></>
    :<><div className="wrap pagepad">{status}{body()}{user&&!preview&&<details className="card"><summary>Your account history</summary><ul>{history.map((e,i)=><li key={i}>{e.action.replaceAll('_',' ')} · {new Date(e.created).toLocaleString()}</li>)}</ul></details>}</div><SiteFooter/></>}
  </main></>;
 }

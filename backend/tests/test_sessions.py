@@ -280,6 +280,7 @@ AUTHENTICATED = {
     ('GET', '/api/review'): ('student', None),
     ('POST', '/api/review/answer'): ('student', {'card_id': 'hello.review.predict', 'choice': 0}),
     ('POST', '/api/self-review'): ('student', {'lesson_id': 'py.final-brief', 'answers': {}}),
+    ('GET', '/api/self-review/{lesson_id}'): ('student', None),
     ('PUT', '/api/profile'): ('student', {'nickname': '', 'avatar': {'skin': 'sand', 'hair': 'none', 'hair_colour': 'grey', 'outfit': 'moss', 'item': 'none'}}),
     ('GET', '/api/recommendation'): ('student', None),
     ('GET', '/api/awards'): ('student', None),
@@ -289,7 +290,7 @@ AUTHENTICATED = {
 
 
 def send(method, path, body):
-    return client.request(method, path, json=body, headers=HEADERS)
+    return client.request(method, path.replace('{lesson_id}', 'py.final-brief'), json=body, headers=HEADERS)
 
 
 # Admin routes: tests/test_admin.py proves each one gives 401 signed out and 403 to non-admins.

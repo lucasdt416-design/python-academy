@@ -364,6 +364,18 @@ def self_review_submit(data: SelfReviewSubmission, request: Request):
         return {'recorded': True, 'result': 'recorded', 'problems': {}, 'evidence': 'self_reported', 'feedback': self_review.RECORDED}
 
 
+@app.get('/api/self-review/{lesson_id}')
+def self_review_latest(lesson_id: str, request: Request):
+    """The learner's own latest recorded review of a lesson, so a brief can be read back while they
+    build. Only ever the signed-in learner's own writing."""
+    with Session(engine) as db:
+        u = current(request, db, 'student')
+        self_reviewed(lesson_id)
+        row = db.scalars(select(SelfReviewRecord).where(SelfReviewRecord.user_id == u.id, SelfReviewRecord.lesson_id == lesson_id)
+                         .order_by(SelfReviewRecord.id.desc()).limit(1)).first()
+        return {'answers': json.loads(row.answers), 'recorded': row.created} if row else {'answers': None, 'recorded': None}
+
+
 @app.get('/api/recommendation')
 def next_recommendation(request: Request):
     with Session(engine) as db:

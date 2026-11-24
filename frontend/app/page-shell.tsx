@@ -10,5 +10,5 @@ export default function PageShell({children}:{children:(account:{user:User|null;
 }
 
 export function SiteFooter({children}:{children?:ReactNode}){
- return <footer className="site-footer"><div className="wrap">{children??'Built for curious minds. Designed for room to grow.'}</div></footer>;
+ return <footer className="site-footer"><div className="wrap">{children??'Python Academy. Code you write here runs in your browser, never on our servers.'}</div></footer>;
 }

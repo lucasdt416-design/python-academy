@@ -52,7 +52,7 @@ export function Landing(){
 
   <section className="band" aria-labelledby="flow-h"><div className="wrap">
    <div className="sec-head"><h2 id="flow-h">Every lesson goes in the same order.</h2><p>So you always know what is being asked of you.</p></div>
-   <ol className="flow">{flow.map(([name,text],i)=><li key={name} className={'t-'+CARD_TYPES[i].type}><div className="tag"><span className="ib"><Icon name={CARD_TYPES[i].icon}/></span>{name}</div><p>{text}</p></li>)}</ol>
+   <ol className="flow">{flow.map(([name,text],i)=><li key={name} className={'t-'+CARD_TYPES[i].type}><div className="tag"><span className="n">{i+1}</span>{name}</div><p>{text}</p></li>)}</ol>
   </div></section>
 
   <section className="band alt" aria-labelledby="err-h"><div className="wrap errdemo">
@@ -79,8 +79,8 @@ export function Landing(){
   </div></section>
 
   <section className="band topo" aria-labelledby="trail-h"><div className="wrap">
-   <div className="sec-head"><h2 id="trail-h">Python Foundations: {word(released.length)} units open, {word(planned)} on the way.</h2><p>Each unit takes the same adventure a little further.</p></div>
-   <ul className="trail">{released.map(unit=>{const art=UNIT_ART[unit.id]??unit.lessons[0]?.id??'';return <li key={unit.id}><article className="stop" aria-labelledby={'stop-'+unit.id}>{hasArt(art)&&<LessonArt lesson={art}/>}<div className="meta"><span>UNIT {unitNumber(unit)}</span><span>{unit.lessons.length} lessons</span></div><h3 id={'stop-'+unit.id}>{unit.title}</h3><p>{UNIT_BLURB[unit.id]??unit.summary}</p></article></li>;})}</ul>
+   <div className="sec-head"><h2 id="trail-h">Python Foundations: {planned?<>{word(released.length)} units open, {word(planned)} on the way.</>:<>all {word(released.length)} units open.</>}</h2><p>Each unit takes the same adventure a little further.</p></div>
+   <ul className="trail">{released.map(unit=>{const art=UNIT_ART[unit.id]??unit.lessons[0]?.id??'';return <li key={unit.id}><article className="stop" aria-labelledby={'stop-'+unit.id}>{hasArt(art)&&<LessonArt lesson={art}/>}<div className="meta"><span>UNIT {unitNumber(unit)}</span><span>{unit.lessons.length} {unit.lessons.length===1?'lesson':'lessons'}</span></div><h3 id={'stop-'+unit.id}>{unit.title}</h3><p>{UNIT_BLURB[unit.id]??unit.summary}</p></article></li>;})}</ul>
    <ul className="planned" aria-label="Planned units">{PLANNED.filter(p=>python?.units.some(u=>p.units.includes(u.id)&&u.status!=='released')).map(p=><li key={p.title}><b>{p.title}</b>{p.text}</li>)}</ul>
    <p className="later">After Python: Hackathon Ready, Git and GitHub, web, JavaScript and SQL, all marked <em>coming soon</em>.</p>
   </div></section>
@@ -92,10 +92,10 @@ export function Landing(){
     <a className="btn" href="/preview?lesson=hello">Try a lesson as a parent</a>
    </div>
    <ul className="facts">
-    <li><Icon name="check"/><span>Learner code runs in the browser. It is never run on our servers.</span></li>
-    <li><Icon name="check"/><span>You see their chosen goal, which lessons are finished, and how many of their attempts passed.</span></li>
-    <li><Icon name="check"/><span>Invitations expire after seven days and work only for the invited email.</span></li>
-    <li><Icon name="check"/><span>Sign-in is through Google. We never see a password.</span></li>
+    <li>Learner code runs in the browser. It is never run on our servers.</li>
+    <li>You see their chosen goal, which lessons are finished, and how many of their attempts passed.</li>
+    <li>Invitations expire after seven days and work only for the invited email.</li>
+    <li>Sign-in is through Google. We never see a password.</li>
    </ul>
   </div></section>
  </>;
