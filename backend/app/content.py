@@ -209,6 +209,24 @@ class CodeSample(Strict):
     note: str = Field(min_length=1, max_length=300)
 
 
+# ENG-09: a challenge the learner reviews themselves, against a short rubric, in their own words.
+# What it records is labelled as self-reported everywhere: nobody and nothing checked it.
+SELF_REVIEW = 'self-review'
+
+
+class Criterion(Strict):
+    id: str = Field(pattern=r'^[a-z0-9-]+$', max_length=40)
+    # What the learner ticks when they have done it, and the question their own words answer.
+    text: str = Field(min_length=1, max_length=200)
+    ask: str = Field(min_length=1, max_length=200)
+    min_words: int = Field(default=8, ge=1, le=60)
+
+
+class SelfReview(Strict):
+    kind: Literal['rubric', 'reflection', 'local-tutorial']
+    criteria: list[Criterion] = Field(min_length=1, max_length=8)
+
+
 class Challenge(TaskBase):
     type: Literal['challenge']
     prompt: str
@@ -228,6 +246,7 @@ class Challenge(TaskBase):
     modules: dict[str, Annotated[str, Field(max_length=FILE_LIMIT)]] = {}
     validator: Validator
     check: BrowserCheck | None = None
+    self_review: SelfReview | None = None
 
     def message(self, rule_id):
         return next(m.message for m in self.messages if m.id == rule_id)
@@ -375,7 +394,11 @@ def validate(catalog, lessons):
             errors.append(f'{predict.id} has duplicate options')
         if len(challenge.input_labels) != len(example.inputs):
             errors.append(f'lesson {lesson.id} has {len(challenge.input_labels)} reply labels but {len(example.inputs)} example replies')
-        if challenge.validator.version not in {**VALIDATORS, BROWSER_TESTS: {1}}.get(challenge.validator.id, set()):
+        if (challenge.validator.id == SELF_REVIEW) != (challenge.self_review is not None):
+            errors.append(f'{challenge.id} needs a self review exactly when its validator is {SELF_REVIEW}')
+        if challenge.self_review and len({c.id for c in challenge.self_review.criteria}) != len(challenge.self_review.criteria):
+            errors.append(f'{challenge.id} has two review criteria with the same ID')
+        if challenge.validator.version not in {**VALIDATORS, BROWSER_TESTS: {1}, SELF_REVIEW: {1}}.get(challenge.validator.id, set()):
             errors.append(f'{challenge.id} uses unknown validator {challenge.validator.id} v{challenge.validator.version}')
         errors += check_errors(challenge)
         errors += file_errors(example.id, example.files)
@@ -585,6 +608,8 @@ def lesson_view(lesson):
         # ENG-08b, only for a lesson with the learner's own files: each name and the code it starts with.
         **({'exampleModules': example.modules} if example.modules else {}),
         **({'challengeModules': challenge.modules} if challenge.modules else {}),
+        # ENG-09, only for a self-reviewed challenge: what to tick, and what to write for each.
+        **({'selfReview': challenge.self_review.model_dump()} if challenge.self_review else {}),
     }
 
 

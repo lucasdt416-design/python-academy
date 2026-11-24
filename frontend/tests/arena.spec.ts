@@ -109,7 +109,7 @@ test('before any lesson is finished, the arena says how to unlock it', async ({p
  await page.goto('/practice');
  await expect(page.getByText("Finish a lesson's challenge, and questions about it will appear here")).toBeVisible();
  await expect(page.getByRole('heading', {name: 'Your collection'})).toBeVisible();
- await expect(page.getByText('Not met yet')).toHaveCount(13);
+ await expect(page.getByText('Not met yet')).toHaveCount(14);
 });
 
 test('signed out, the arena asks you to sign in; parents see no Practice link', async ({page}) => {

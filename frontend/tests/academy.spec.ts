@@ -147,7 +147,7 @@ test('mobile classroom fits, collapses the unit menu, and respects reduced motio
 test('catalog shows every course, with coming-soon courses labelled and not startable',async({page})=>{
  await mockApi(page,null);await page.goto('/courses');
  const courses=page.getByRole('list',{name:'Courses'}).getByRole('listitem');await expect(courses).toHaveCount(catalog.courses.length);
- const python=page.getByRole('article',{name:'Python Foundations'});await expect(python.getByText('Available',{exact:true})).toBeVisible();await expect(python.getByText('52 lessons ready to try')).toBeVisible();
+ const python=page.getByRole('article',{name:'Python Foundations'});await expect(python.getByText('Available',{exact:true})).toBeVisible();await expect(python.getByText('54 lessons ready to try')).toBeVisible();
  await expect(page.getByText('Coming soon',{exact:true})).toHaveCount(catalog.courses.length-2);
  const cs=page.getByRole('article',{name:'Computer Science Foundations'});await expect(cs.getByText('Available',{exact:true})).toBeVisible();await expect(cs.getByText('7 lessons ready to try')).toBeVisible();
  await expect(page.getByRole('article',{name:'Hackathon Ready'}).getByText('Builds on Python Foundations units 1–7.')).toBeVisible();
@@ -157,11 +157,11 @@ test('catalog shows every course, with coming-soon courses labelled and not star
 });
 test('course page shows unit progress and continues where the student left off',async({page})=>{
  await mockApi(page,'student',['hello']);await page.goto('/courses/py');
- await expect(page.getByRole('heading',{level:1,name:'Python Foundations'})).toBeVisible();await expect(page.getByText('1 of 52 available lessons complete')).toBeVisible();
+ await expect(page.getByRole('heading',{level:1,name:'Python Foundations'})).toBeVisible();await expect(page.getByText('1 of 54 available lessons complete')).toBeVisible();
  const unit=page.getByRole('article',{name:'Build Your Own Adventure'});
  await expect(unit.getByRole('link',{name:/Open the story.*Done/})).toHaveAttribute('href','/learn/hello');
  await expect(unit.getByRole('link',{name:/Create your hero.*Up next/})).toBeVisible();await expect(unit.getByRole('link',{name:/Choose a path.*Not started/})).toBeVisible();
- await expect(page.getByRole('article',{name:'Final project'}).getByText('Coming soon')).toBeVisible();
+ await expect(page.getByRole('article',{name:'Final project'}).getByText('Coming soon')).toHaveCount(0);
  await page.getByRole('link',{name:/Continue: Create your hero/}).click();await expect(page).toHaveURL('/learn/variables');
  await expect(page.getByRole('heading',{name:'Remember a detail with a variable'})).toBeVisible();
 });
@@ -180,7 +180,7 @@ test('student home offers the next lesson and shows XP',async({page})=>{
  await expect(page.getByRole('heading',{name:'Welcome back. Keep building.'})).toBeVisible();
  const next=page.getByRole('region',{name:'Meet the player'});await expect(next.getByText('200 XP')).toBeVisible();
  await expect(next.getByRole('link',{name:/Continue/})).toHaveAttribute('href','/learn/input');
- await expect(page.getByRole('region',{name:'Your path in Python Foundations'}).getByText('2 of 52 lessons complete')).toBeVisible();
+ await expect(page.getByRole('region',{name:'Your path in Python Foundations'}).getByText('2 of 54 lessons complete')).toBeVisible();
 });
 test('a new student chooses a goal from the keyboard and sees why the next lesson is suggested',async({page})=>{
  await mockApi(page,'student',[],{goal:null,chosen:false,asked:false});await page.goto('/');

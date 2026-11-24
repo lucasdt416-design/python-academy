@@ -19,8 +19,8 @@
         {"id": "py.u08", "title": "Trust your changes", "summary": "Writing tests with assert, choosing test cases and boundary values, type hints, and refactoring safely.", "status": "released", "lessons": ["py.assert-tests", "py.test-cases", "py.boundaries", "py.type-hints", "py.refactor"]},
         {"id": "py.u09", "title": "Save and load", "summary": "Reading and writing text files, saving with JSON, tables in CSV files, and coping with missing or damaged data. A local setup lesson comes later.", "status": "released", "lessons": ["py.text-files", "py.json", "py.csv", "py.missing-data"], "more_lessons_coming": true},
         {"id": "py.u10", "title": "Patterns in text", "summary": "String methods and f-strings, searching with regular expressions, groups and replacing, and checking formats honestly.", "status": "released", "lessons": ["py.string-methods", "py.regex-basics", "py.regex-groups", "py.validate-formats"]},
-        {"id": "py.u11", "title": "Model a larger program", "summary": "Classes and attributes, methods that change an object, and objects built from other objects. A lesson on when not to use classes comes later.", "status": "released", "lessons": ["py.classes", "py.methods", "py.composition"], "more_lessons_coming": true},
-        {"id": "py.u12", "title": "Final project", "summary": "Plan, build, test, and explain a project of your own.", "status": "coming_soon", "lessons": []}
+        {"id": "py.u11", "title": "Model a larger program", "summary": "Classes and attributes, methods that change an object, objects built from other objects, and when a dictionary or a function does the job better.", "status": "released", "lessons": ["py.classes", "py.methods", "py.composition", "py.when-not-oop"]},
+        {"id": "py.u12", "title": "Final project", "summary": "Plan, build, test, and explain a project of your own. Choosing and planning it opens first; building and reviewing it come next.", "status": "released", "lessons": ["py.final-brief"], "more_lessons_coming": true}
       ]
     },
     {

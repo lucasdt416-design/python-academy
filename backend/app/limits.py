@@ -55,6 +55,7 @@ RULES = {
     'profile': Rule('profile changes', user=((20, MINUTE), (100, DAY)), ip=((30, MINUTE),)),
     'insights': Rule('checks', user=((30, MINUTE), (400, HOUR)), ip=((60, MINUTE), (600, HOUR))),
     'review': Rule('review answers', user=((60, MINUTE), (600, DAY)), ip=((120, MINUTE),)),
+    'self_review': Rule('reviews', user=((20, MINUTE), (200, DAY)), ip=((40, MINUTE),), note='What you wrote is still on the page.'),
     'signin': Rule('sign-in attempts', ip=((60, 10 * MINUTE),), per_ip=True),
     'signin_callback': Rule('sign-in attempts', ip=((60, 10 * MINUTE),), per_ip=True),
     # Admin routes refuse signed-out callers before this counts; the limit is a backstop.

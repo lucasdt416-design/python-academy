@@ -27,6 +27,7 @@ Related: [`independent-learners.md`](independent-learners.md) section 5, [`feedb
 | Goals (`learner_goals`) | Linked to the user | One current row, kept for ever. Changes are also history events | Keep while the account exists, and delete with it | Open |
 | Profiles (`profiles`) | **Yes:** an optional nickname the person typed, and avatar choices from fixed lists | One current row, kept while the account exists. Changes are history events with no detail, so the nickname is never copied into the history | Keep while the account exists, and delete with it | Open |
 | Review schedule (`review_state`) | Linked to the user: which review card, its box, next due day, times seen and right | One row per card answered, kept while the account exists | Keep while the account exists, and delete with it | Open |
+| Self reviews (`self_reviews`) | **Yes:** what the learner wrote about their own work, in their own words (ENG-09), after the text policy refused personal details | One row per finished review; drafts are never sent | Keep while the account exists, and delete with it | Open |
 | Placement answers | Would be | **Not built,** so nothing is stored | Decide with EDU-02. Proposed: latest result only, and delete with the account | Open |
 | Learner level (ASSESS-06) | Would be | **Not built** | Keep while the account exists, and delete with it | Open |
 | Support data for unit checks (ASSESS-03) | Would be | **Not built** | Decide with ASSESS-03 | Open |

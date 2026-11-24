@@ -1,0 +1,104 @@
+{
+  "id": "py.final-brief",
+  "version": 1,
+  "course": "py",
+  "unit": "py.u12",
+  "title": "Choose your project",
+  "concept": "Planning · a brief before the build",
+  "description": "Pick your final project, from a word game to a full app, and plan it: who it is for, what it must do, and what waits.",
+  "badge": {
+    "id": "py.badge.project-planner",
+    "version": 1,
+    "title": "Project planner",
+    "category": "project"
+  },
+  "tasks": [
+    {
+      "id": "py.final-brief.discover",
+      "type": "discover",
+      "title": "Plan it before you build it",
+      "body": "Your final project is a program you plan and build yourself. There are three, from smaller to larger: Lockpick, a word-guessing game; Site Builder, which turns a data file into a small website; and Planner, a to-do app that keeps your plan. Pick the one that stretches you without stopping you.",
+      "detail": "A brief says what you will build before you build it: who it is for, what it must do, and what it will not do yet. The not-yet list matters most, because it keeps the project small enough to finish. Milestones split the work into pieces you can run and show."
+    },
+    {
+      "id": "py.final-brief.example",
+      "type": "example",
+      "code": "# A brief, kept as Python data\nbrief = {\n    \"project\": \"Lockpick\",\n    \"for\": \"my brother, who likes word games\",\n    \"must\": [\n        \"guess one letter at a time\",\n        \"six misses and the lock jams\",\n        \"play again\",\n    ],\n    \"not yet\": [\"hints\", \"two players\"],\n}\nprint(brief[\"project\"], \"for\", brief[\"for\"])\nfor feature in brief[\"must\"]:\n    print(\"-\", feature)\nprint(\"Not yet:\", \", \".join(brief[\"not yet\"]))",
+      "output": "Lockpick for my brother, who likes word games\n- guess one letter at a time\n- six misses and the lock jams\n- play again\nNot yet: hints, two players",
+      "note": "The brief is a dictionary, with one key for each part of the plan. The not-yet list is printed last, so it is clear what the first version leaves out.",
+      "inputs": []
+    },
+    {
+      "id": "py.final-brief.predict",
+      "type": "predict",
+      "question": "Which belongs on the not-yet list for a first version of Lockpick?",
+      "options": [
+        "A hint that costs a try",
+        "Showing the word as _ a _ _ t",
+        "Stopping after six misses"
+      ],
+      "answer": 0,
+      "why": "The other two are what make it Lockpick at all. A hint is an extra: good to have, but the game works without it."
+    },
+    {
+      "id": "py.final-brief.guided",
+      "type": "guided",
+      "prompt": "Predict, then run: add a third item to \"not yet\", and change \"for\" to someone you might show your project to. Then add a \"milestones\" list with three steps, and print each one on its own line."
+    },
+    {
+      "id": "py.final-brief.challenge",
+      "type": "challenge",
+      "prompt": "Choose Lockpick, Site Builder or Planner, and write its brief. Lockpick suits a first big program; Site Builder needs unit 10; Planner needs every unit. Each part below is reviewed by you, in your own words, and your brief is kept so you can read it back while you build.",
+      "starter": "",
+      "hints": [
+        "Choose by what you finished, not by what sounds biggest: a small project that works beats a large one that does not.",
+        "A milestone is something you can run and show, like \"the word shows as underscores\" or \"one page is written\". \"Finish the code\" is not a milestone.",
+        "For the not-yet list, think of the first extra you would add after it works. That is the one to leave out for now."
+      ],
+      "error_hints": [],
+      "similar_example": null,
+      "other_ways": [],
+      "input_labels": [],
+      "validator": {
+        "id": "self-review",
+        "version": 1
+      },
+      "version": 1,
+      "self_review": {
+        "kind": "rubric",
+        "criteria": [
+          {
+            "id": "choice",
+            "text": "I chose one of the three projects.",
+            "ask": "Which one, and why does it suit you right now?",
+            "min_words": 8
+          },
+          {
+            "id": "user",
+            "text": "I named who it is for.",
+            "ask": "Who will use it, and what do they want from it?",
+            "min_words": 8
+          },
+          {
+            "id": "must",
+            "text": "I listed what it must do.",
+            "ask": "List three to five things it must do.",
+            "min_words": 12
+          },
+          {
+            "id": "not-yet",
+            "text": "I listed what it will not do yet.",
+            "ask": "What are you leaving out of the first version?",
+            "min_words": 6
+          },
+          {
+            "id": "milestones",
+            "text": "I split it into milestones I can run.",
+            "ask": "What are your first three milestones, each something you can run and show?",
+            "min_words": 12
+          }
+        ]
+      }
+    }
+  ]
+}

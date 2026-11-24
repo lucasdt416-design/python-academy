@@ -1463,6 +1463,64 @@
    ],
    "answer": 2,
    "why": "Without self., the name is only a local name inside __init__, so the hero never gets one."
+  },
+  {
+   "id": "py.when-not-oop.review.predict",
+   "lesson": "py.when-not-oop",
+   "kind": "predict",
+   "prompt": "A program reads one settings record when it starts, and never changes it. Which fits best?",
+   "code": "# The same hero, twice: as a class, and as a dictionary\nclass Hero:\n    def __init__(self, name, health):\n        self.name = name\n        self.health = health\n\nnova = Hero(\"Nova\", 10)\nkai = {\"name\": \"Kai\", \"health\": 9}\n\ndef heal(health, amount):\n    return min(health + amount, 10)\n\nprint(nova.name, nova.health)\nprint(kai[\"name\"], kai[\"health\"])\nprint(heal(kai[\"health\"], 3))",
+   "options": [
+    "A dictionary",
+    "A class with methods",
+    "A list of classes"
+   ],
+   "answer": 0,
+   "why": "One record, no actions, no copies: a dictionary holds it with no extra code. A class would add a shape with nothing to do."
+  },
+  {
+   "id": "py.final-brief.review.predict",
+   "lesson": "py.final-brief",
+   "kind": "predict",
+   "prompt": "Which belongs on the not-yet list for a first version of Lockpick?",
+   "code": "# A brief, kept as Python data\nbrief = {\n    \"project\": \"Lockpick\",\n    \"for\": \"my brother, who likes word games\",\n    \"must\": [\n        \"guess one letter at a time\",\n        \"six misses and the lock jams\",\n        \"play again\",\n    ],\n    \"not yet\": [\"hints\", \"two players\"],\n}\nprint(brief[\"project\"], \"for\", brief[\"for\"])\nfor feature in brief[\"must\"]:\n    print(\"-\", feature)\nprint(\"Not yet:\", \", \".join(brief[\"not yet\"]))",
+   "options": [
+    "A hint that costs a try",
+    "Showing the word as _ a _ _ t",
+    "Stopping after six misses"
+   ],
+   "answer": 0,
+   "why": "The other two are what make it Lockpick at all. A hint is an extra: good to have, but the game works without it."
+  },
+  {
+   "id": "py.when-not-oop.review.trace",
+   "lesson": "py.when-not-oop",
+   "kind": "trace",
+   "prompt": "What does hp hold at the end?",
+   "code": "def heal(health, amount):\n    return min(health + amount, 10)\n\nhp = heal(8, 5)",
+   "options": [
+    "10",
+    "13",
+    "8"
+   ],
+   "answer": 0,
+   "why": "8 + 5 is 13, and min() keeps the smaller of 13 and 10. A plain function like this is easy to test on its own.",
+   "probe": "hp"
+  },
+  {
+   "id": "py.final-brief.review.trace",
+   "lesson": "py.final-brief",
+   "kind": "trace",
+   "prompt": "What does size hold at the end?",
+   "code": "brief = {\"must\": [\"guess\", \"jam\", \"replay\"], \"not yet\": [\"hints\"]}\nsize = len(brief[\"must\"]) + len(brief[\"not yet\"])",
+   "options": [
+    "4",
+    "2",
+    "3"
+   ],
+   "answer": 0,
+   "why": "Three things it must do and one it will not do yet: 3 + 1 is 4.",
+   "probe": "size"
   }
  ]
 }
