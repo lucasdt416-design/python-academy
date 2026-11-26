@@ -1,0 +1,5 @@
+'use client';
+import PageShell from '../page-shell';
+import Projects from '../projects';
+
+export default function ProjectsPage(){return <PageShell>{({user})=>user?.role==='student'?<Projects/>:<section className="projects projects-out"><h1>Projects</h1><p className="lead">{user?'Projects are for learners.':'Sign in to build projects of your own: a game, a website builder, a planner, or anything else, in as many files as it needs.'}</p><ul className="projects-what"><li><strong>Several files.</strong> <code>main.py</code> runs, other <code>.py</code> files can be imported, and data files like <code>words.txt</code> can be opened.</li><li><strong>Saved as you type</strong> to your account, so a project is there next time. Only you can see it.</li><li><strong>Play it as it runs.</strong> When your program asks a question, you type the answer right there.</li><li><strong>Files your program writes</strong>, like a save file, can be kept for the next run if you turn that on.</li></ul>{!user&&<a className="btn primary" href="/auth/google">Sign in with Google</a>}</section>}</PageShell>;}

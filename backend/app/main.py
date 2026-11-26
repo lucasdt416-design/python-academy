@@ -5,9 +5,10 @@ from . import profiles
 from . import review
 from . import insights
 from . import self_review
+from . import projects
 from . import feedback as tester_feedback
 from .awards import award_challenge
-from .db import Attempt, Base, Event, Invitation, LearnerGoal, SelfReviewRecord, User, engine
+from .db import Attempt, Base, Event, Invitation, LearnerGoal, Project, SelfReviewRecord, User, engine, now
 from .lesson_checks import check_story, judge, rule_errors
 from .limits import limit
 from .recommend import DEFAULT_GOAL, GOALS, recommend
@@ -18,6 +19,7 @@ import os
 import secrets
 from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
+from typing import Annotated
 
 from authlib.integrations.starlette_client import OAuth, OAuthError
 from fastapi import Depends, FastAPI, HTTPException, Request
@@ -374,6 +376,104 @@ def self_review_latest(lesson_id: str, request: Request):
         row = db.scalars(select(SelfReviewRecord).where(SelfReviewRecord.user_id == u.id, SelfReviewRecord.lesson_id == lesson_id)
                          .order_by(SelfReviewRecord.id.desc()).limit(1)).first()
         return {'answers': json.loads(row.answers), 'recorded': row.created} if row else {'answers': None, 'recorded': None}
+
+
+class NewProject(BaseModel):
+    starter: str = Field(max_length=20)
+    title: str = Field(default='', max_length=200)
+
+
+class ProjectChange(BaseModel):
+    # The revision the page last loaded or saved; a save from an older copy is refused (409).
+    revision: int
+    title: str | None = Field(default=None, max_length=200)
+    files: dict[Annotated[str, Field(max_length=60)], Annotated[str, Field(max_length=projects.MAX_FILE_CHARS + 1)]] | None = Field(default=None, max_length=projects.MAX_FILES + 5)
+    keep_written: bool | None = None
+
+
+STALE_PROJECT = 'This project was saved from another tab or window since you opened it. Reload to get the newest copy, after copying anything you need from here.'
+
+
+@app.get('/api/project-starters')
+def project_starters():
+    return projects.starters_view()
+
+
+def own_project(db, user, project_id):
+    row = db.get(Project, project_id)
+    # Someone else's project answers exactly like one that does not exist.
+    if row is None or row.user_id != user.id:
+        raise HTTPException(404, 'That project is not in your account')
+    return row
+
+
+@app.get('/api/projects')
+def my_projects(request: Request):
+    with Session(engine) as db:
+        u = current(request, db, 'student')
+        rows = db.scalars(select(Project).where(Project.user_id == u.id).order_by(Project.updated.desc()))
+        return {'projects': [projects.summary(r) for r in rows], 'most': projects.MAX_PROJECTS}
+
+
+@app.post('/api/projects', dependencies=[Depends(limit('projects'))])
+def new_project(data: NewProject, request: Request):
+    with Session(engine) as db:
+        u = current(request, db, 'student')
+        starter = projects.STARTERS.get(data.starter)
+        if starter is None:
+            raise HTTPException(422, 'Choose one of the listed starters')
+        if len(db.scalars(select(Project.id).where(Project.user_id == u.id)).all()) >= projects.MAX_PROJECTS:
+            raise HTTPException(409, f'You have {projects.MAX_PROJECTS} projects, the most an account can keep. Delete one to start another.')
+        try:
+            title = projects.clean_title(data.title or starter.title)
+        except ValueError as error:
+            raise HTTPException(422, str(error))
+        row = Project(user_id=u.id, title=title, starter=starter.id, files=json.dumps(projects.starter_files(starter.id)))
+        db.add(row)
+        db.flush()
+        # No title in the history: it is the learner's own words.
+        audit(db, u, 'project_created', starter.id)
+        db.commit()
+        return projects.view(row)
+
+
+@app.get('/api/projects/{project_id}')
+def open_project(project_id: int, request: Request):
+    with Session(engine) as db:
+        return projects.view(own_project(db, current(request, db, 'student'), project_id))
+
+
+@app.put('/api/projects/{project_id}', dependencies=[Depends(limit('projects'))])
+def save_project(project_id: int, data: ProjectChange, request: Request):
+    with Session(engine) as db:
+        u = current(request, db, 'student')
+        row = own_project(db, u, project_id)
+        if data.revision != row.revision:
+            raise HTTPException(409, STALE_PROJECT)
+        try:
+            title = projects.clean_title(data.title) if data.title is not None else row.title
+            files = json.dumps(projects.clean_files(data.files)) if data.files is not None else row.files
+        except ValueError as error:
+            raise HTTPException(422, str(error))
+        keep = row.keep_written if data.keep_written is None else data.keep_written
+        # Only the row whose revision is still the one read is saved, so two saves never both win.
+        claimed = db.execute(update(Project).where(Project.id == row.id, Project.revision == data.revision)
+                             .values(title=title, files=files, keep_written=keep, revision=data.revision + 1, updated=now()))
+        if claimed.rowcount != 1:
+            raise HTTPException(409, STALE_PROJECT)
+        db.commit()
+        db.refresh(row)
+        return projects.view(row)
+
+
+@app.delete('/api/projects/{project_id}', dependencies=[Depends(limit('projects'))])
+def delete_project(project_id: int, request: Request):
+    with Session(engine) as db:
+        u = current(request, db, 'student')
+        db.delete(own_project(db, u, project_id))
+        audit(db, u, 'project_deleted')
+        db.commit()
+        return {'deleted': True}
 
 
 @app.get('/api/recommendation')

@@ -77,7 +77,7 @@ With these, Lockpick needs only `py.game-loop` and `py.write-your-tests` beyond 
 ## 4. Build order (recommended)
 
 1. **ENG-09** (rubric and self-review), then the three `py.final-*` lessons. This also releases the six lessons waiting on it. *Built in handoff 61: ENG-09, `py.when-not-oop` and `py.final-brief`. `py.final-milestones` and `py.final-review` need the project workspace (step 2).*
-2. **E1 project workspace and E2 live play.** All three projects need them, and live play makes Lockpick feel like a game. *E2 built (#72, handoff 62); E1 next.*
+2. **E1 project workspace and E2 live play.** All three projects need them, and live play makes Lockpick feel like a game. *E2 built (#72, handoff 62); E1 built (handoff 64): `/projects`, saved files, Run with live play, and kept written files.*
 3. `py.game-loop`, `py.write-your-tests`: **Lockpick opens.**
 4. `py.multiline-strings`, `py.html-as-text`, `py.escaping`, then **E3 preview**: **Site Builder opens.**
 5. `py.save-between-runs`, `py.command-loop`, `py.app-structure`, `py.when-not-oop`: **Planner opens**, and unit 12 is complete.
