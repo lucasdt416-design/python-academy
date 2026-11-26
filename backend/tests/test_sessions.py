@@ -264,7 +264,7 @@ PUBLIC = {
     ('GET', '/health'), ('GET', '/auth/google'), ('GET', '/auth/google/callback'),
     ('POST', '/api/logout'), ('GET', '/api/lessons'), ('GET', '/api/units/{unit_id}/lessons'), ('GET', '/api/catalog'),
     ('GET', '/api/goals'), ('POST', '/api/check'), ('GET', '/api/checks/{lesson_id}'), ('POST', '/api/insights'),
-    ('POST', '/api/self-review/preview'),
+    ('POST', '/api/self-review/preview'), ('GET', '/api/project-starters'),
 }
 ATTEMPT = {'lesson_id': 'hello', 'code': 'print("A forest.")\nprint("A dragon!")', 'output': 'A forest.\nA dragon!\n'}
 # (role that may use it, a valid request body)
@@ -286,11 +286,17 @@ AUTHENTICATED = {
     ('GET', '/api/awards'): ('student', None),
     ('POST', '/api/attempts'): ('student', ATTEMPT),
     ('GET', '/api/progress'): ('student', None),
+    ('GET', '/api/projects'): ('student', None),
+    ('POST', '/api/projects'): ('student', {'starter': 'blank'}),
+    # A new account has no project, so these answer 404 with a live session: still not a 401.
+    ('GET', '/api/projects/{project_id}'): ('student', None),
+    ('PUT', '/api/projects/{project_id}'): ('student', {'revision': 1}),
+    ('DELETE', '/api/projects/{project_id}'): ('student', None),
 }
 
 
 def send(method, path, body):
-    return client.request(method, path.replace('{lesson_id}', 'py.final-brief'), json=body, headers=HEADERS)
+    return client.request(method, path.replace('{lesson_id}', 'py.final-brief').replace('{project_id}', '999999'), json=body, headers=HEADERS)
 
 
 # Admin routes: tests/test_admin.py proves each one gives 401 signed out and 403 to non-admins.
@@ -337,7 +343,7 @@ def test_authenticated_routes_still_work_with_a_live_session(route):
     use_cookie(sign_cookie({'sid': real_sid(make_user(role))}))
     response = send(method, path, body)
     # A new account has finished no lesson, so a review answer is refused as not open yet: still not a 401.
-    expected = 404 if route == ('POST', '/api/review/answer') else 200
+    expected = 404 if route == ('POST', '/api/review/answer') or '{project_id}' in path else 200
     assert response.status_code == expected, response.text
 
 

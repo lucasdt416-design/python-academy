@@ -147,6 +147,24 @@ class SelfReviewRecord(Base):
     created: Mapped[str] = mapped_column(String(40), default=now)
 
 
+class Project(Base):
+    """E1: a learner's project, its files kept as text and never run on the server (app/projects.py).
+    Seen only by the learner. revision goes up by one on every save, so a save from an older copy of
+    the page (another tab) is refused instead of overwriting newer work."""
+    __tablename__ = 'projects'
+    id: Mapped[int] = mapped_column(primary_key=True)
+    user_id: Mapped[int] = mapped_column(ForeignKey('users.id'), index=True)
+    title: Mapped[str] = mapped_column(String(60))
+    starter: Mapped[str] = mapped_column(String(20))
+    # JSON: {file name: text}. main.py is always there.
+    files: Mapped[str] = mapped_column(Text)
+    # The learner's choice to keep files their program writes when it runs.
+    keep_written: Mapped[bool] = mapped_column(default=False, server_default=false())
+    revision: Mapped[int] = mapped_column(Integer, default=1)
+    created: Mapped[str] = mapped_column(String(40), default=now)
+    updated: Mapped[str] = mapped_column(String(40), default=now)
+
+
 class ReviewState(Base):
     """Spaced review (teaching-design.md section 5): where each review card is in its schedule, per learner.
     Practice evidence only: it never changes XP, badges or progress."""

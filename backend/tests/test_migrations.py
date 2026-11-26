@@ -44,7 +44,7 @@ sa.Table('attempts', LEGACY,
 HELLO = ('print("A forest.")\nprint("A dragon!")', 'A forest.\nA dragon!\n')
 VARIABLES = ('hero="Kai"\ntool="rope"\nprint(f"{hero} carries {tool}")', 'Kai carries rope\n')
 ARITHMETIC = ('stars=7\nprint(stars*3)', '21\n')  # legacy exercise under the variables ID
-HEAD = '0013'
+HEAD = '0014'
 
 
 @pytest.fixture(params=['sqlite', 'postgresql'])
@@ -334,5 +334,21 @@ def test_0013_adds_self_reviews_and_removes_them_on_downgrade(engine):
         assert conn.execute(sa.text('SELECT count(*) FROM xp_awards')).scalar() == 0
     migrate.downgrade(engine, '0012')
     assert 'self_reviews' not in sa.inspect(engine).get_table_names()
+    migrate.upgrade(engine)
+    assert migrate.current(engine) == HEAD
+
+
+def test_0014_adds_projects_and_removes_them_on_downgrade(engine):
+    migrate.upgrade(engine, '0013')
+    with engine.begin() as conn:
+        conn.execute(sa.text("INSERT INTO users (id, subject, email, role, tester) VALUES (1, 's', 's@example.com', 'student', false)"))
+    migrate.upgrade(engine, '0014')
+    assert {c['name'] for c in sa.inspect(engine).get_columns('projects')} == {'id', 'user_id', 'title', 'starter', 'files', 'keep_written', 'revision', 'created', 'updated'}
+    with engine.begin() as conn:
+        # keep_written defaults to off for a row written without it, as an older app version would.
+        conn.execute(sa.text("""INSERT INTO projects (user_id, title, starter, files, revision, created, updated) VALUES (1, 'Mine', 'blank', '{"main.py": ""}', 1, 'x', 'x')"""))
+        assert conn.execute(sa.text('SELECT keep_written FROM projects')).scalar() in (False, 0)
+    migrate.downgrade(engine, '0013')
+    assert 'projects' not in sa.inspect(engine).get_table_names()
     migrate.upgrade(engine)
     assert migrate.current(engine) == HEAD

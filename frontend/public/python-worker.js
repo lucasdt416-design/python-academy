@@ -169,6 +169,24 @@ function freshFiles({FS}, files) {
   FS.writeFile(`${HOME}/${path}`, text);
  }
 }
+// E1, the project workspace: after a run, the text files the program made or changed, so the page can
+// keep them when the learner has turned that on. Only data files at the top of the program's folder,
+// only ones that differ from what it was given, at most 20 of up to 50,000 characters each; anything
+// else (a folder, a .py file, a file that is not text) is listed by name in skipped instead.
+const KEEPABLE = /^[a-z][a-z0-9_-]{0,30}\.(txt|csv|json|md|html|css)$/;
+function writtenFiles({FS}, given) {
+ const written = {}, skipped = [];
+ for (const name of FS.readdir(HOME)) {
+  if (name === '.' || name === '..' || name === '__pycache__') continue;
+  const path = `${HOME}/${name}`;
+  let text = null;
+  if (!FS.isDir(FS.lstat(path).mode)) { try { text = new TextDecoder('utf-8', {fatal: true}).decode(FS.readFile(path)); } catch { text = null; } }
+  if (text !== null && given[name] === text) continue;
+  if (text === null || !KEEPABLE.test(name) || text.length > 50000 || Object.keys(written).length >= 20) { skipped.push(name); continue; }
+  written[name] = text;
+ }
+ return {written, skipped};
+}
 // The learner's own files (ENG-08b) are written with the given ones; this says which may be imported.
 async function ownFiles(py, modules) {
  py.globals.set('__academy_own_json', JSON.stringify(Object.keys(modules || {})));
@@ -211,7 +229,8 @@ self.onmessage = async ({data}) => {
   // Live play re-runs the program for every reply, so random must give the same numbers each time.
   if (data.live) await py.runPythonAsync(`__academy_random.seed(${Number(data.seed) || 0})`, {filename: '<academy>'});
   await py.runPythonAsync(data.code);
-  self.postMessage({output, vars: snapshot(py), ...(data.live ? {finished: true} : {})});
+  const kept = data.collect ? writtenFiles(py, {...data.files, ...data.modules}) : {};
+  self.postMessage({output, vars: snapshot(py), ...kept, ...(data.live ? {finished: true} : {})});
  } catch(e) {
   if (data.live && e.type === '__academy_WaitingForReply') {
    self.postMessage({output, waiting: String(pyodide.globals.get('__academy_waiting') ?? '')});
